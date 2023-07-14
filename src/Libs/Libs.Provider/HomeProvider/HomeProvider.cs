@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bilibili.App.Show.V1;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.BiliBili;
@@ -12,6 +11,7 @@ using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.Video;
+using Bilibili.App.Show.V1;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
 namespace Bili.Copilot.Libs.Provider;

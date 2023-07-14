@@ -3,13 +3,13 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bilibili.App.Archive.V1;
-using Bilibili.App.View.V1;
-using Bilibili.Main.Community.Reply.V1;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.User;
+using Bilibili.App.Archive.V1;
+using Bilibili.App.View.V1;
+using Bilibili.Main.Community.Reply.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 

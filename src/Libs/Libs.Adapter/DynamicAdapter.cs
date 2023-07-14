@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Linq;
-using Bilibili.App.Dynamic.V2;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
@@ -10,6 +9,7 @@ using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.Dynamic;
 using Bili.Copilot.Models.Data.User;
+using Bilibili.App.Dynamic.V2;
 
 namespace Bili.Copilot.Libs.Adapter;
 

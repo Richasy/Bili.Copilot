@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bilibili.App.Dynamic.V2;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Community;
+using Bilibili.App.Dynamic.V2;
 using Humanizer;
 
 namespace Bili.Copilot.Libs.Adapter;

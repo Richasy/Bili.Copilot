@@ -21,6 +21,11 @@
     <ItemGroup>
         <None Remove="Assets\FluentSystemIcons.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
+        <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
+        <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
+        <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
+        <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
+        <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="NLog.config" />
@@ -64,6 +69,26 @@
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\ImageEx\ImageEx.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\CardPanel\CardPanel.xaml.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\IconTextBlock\IconTextBlock.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\TwoLineButton\TwoLineButton.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
 
     <ItemGroup>
         <Page Update="Pages\SignInPage.xaml">
@@ -99,6 +124,11 @@
         <Page Update="Pages\HomePage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\AccountModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
     <!-- 

@@ -9,6 +9,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/ImageEx/ImageEx.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/CardPanel/CardPanel.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/IconTextBlock/IconTextBlock.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/TwoLineButton/TwoLineButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Bilibili.App.Dynamic.V2;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.BiliBili;
@@ -14,6 +13,7 @@ using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
+using Bilibili.App.Dynamic.V2;
 
 namespace Bili.Copilot.Libs.Adapter;
 

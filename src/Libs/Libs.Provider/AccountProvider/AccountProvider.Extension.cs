@@ -3,13 +3,13 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Bilibili.App.Interfaces.V1;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Community;
+using Bilibili.App.Interfaces.V1;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 

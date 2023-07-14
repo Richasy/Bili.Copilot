@@ -6,7 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     mc:Ignorable="d">
 
-    <Grid />
+    <ScrollViewer Margin="0,12,0,0" Style="{StaticResource PageScrollViewerStyle}">
+        <StackPanel Margin="0,0,0,20">
+            <modules:AccountModule />
+        </StackPanel>
+    </ScrollViewer>
 </Page>

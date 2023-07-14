@@ -2,8 +2,8 @@
 
 using System;
 using System.Linq;
-using Bilibili.Main.Community.Reply.V1;
 using Bili.Copilot.Models.Data.Community;
+using Bilibili.Main.Community.Reply.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 

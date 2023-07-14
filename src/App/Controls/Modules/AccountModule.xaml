@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:AccountModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.AccountModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="StateSeparatorStyle" TargetType="Rectangle">
+            <Setter Property="Fill" Value="{ThemeResource SurfaceStrokeColorDefaultBrush}" />
+            <Setter Property="Width" Value="1" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <labs:Shimmer
+            Height="64"
+            HorizontalAlignment="Stretch"
+            Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
+        <Grid
+            HorizontalAlignment="Stretch"
+            RowSpacing="20"
+            Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <base:ImageEx
+                    Width="48"
+                    Height="48"
+                    VerticalAlignment="Center"
+                    CornerRadius="24"
+                    DecodePixelWidth="96"
+                    Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"
+                    Stretch="UniformToFill" />
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Name, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
+                        <base:ImageEx
+                            Height="10"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind ViewModel.LevelImage, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="IntroduceBlock"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Introduce, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind ViewModel.Introduce, Mode=OneWay}" IsEnabled="{x:Bind IntroduceBlock.IsTextTrimmed, Mode=OneWay}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                </StackPanel>
+                <Button
+                    x:Name="MoreButton"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource IconButtonStyle}">
+                    <base:FluentIcon Symbol="MoreCircle" />
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.OpenPersonalSiteCommand}" Text="{ext:Locale Name=Personal}">
+                                <MenuFlyoutItem.Icon>
+                                    <base:FluentIcon Symbol="Person" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.SignOutCommand}" Text="{ext:Locale Name=SignOut}">
+                                <MenuFlyoutItem.Icon>
+                                    <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="SignOut" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" ColumnSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <base:TwoLineButton
+                    x:Name="DynamicButton"
+                    FirstLineText="{x:Bind ViewModel.DynamicCount, Mode=OneWay}"
+                    SecondLineText="{ext:Locale Name=DynamicCount}" />
+                <Rectangle Grid.Column="1" Style="{StaticResource StateSeparatorStyle}" />
+                <base:TwoLineButton
+                    Grid.Column="2"
+                    FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
+                    SecondLineText="{ext:Locale Name=FollowCount}" />
+                <Rectangle Grid.Column="3" Style="{StaticResource StateSeparatorStyle}" />
+                <base:TwoLineButton
+                    Grid.Column="4"
+                    FirstLineText="{x:Bind ViewModel.FansCount, Mode=OneWay}"
+                    SecondLineText="{ext:Locale Name=FansCount}" />
+                <Rectangle Grid.Column="5" Style="{StaticResource StateSeparatorStyle}" />
+                <base:TwoLineButton
+                    Grid.Column="6"
+                    FirstLineText="{x:Bind ViewModel.MessageCount, Mode=OneWay}"
+                    SecondLineText="{ext:Locale Name=Message}" />
+                <Rectangle Grid.Column="7" Style="{StaticResource StateSeparatorStyle}" />
+                <base:TwoLineButton
+                    Grid.Column="8"
+                    FirstLineText="{x:Bind ViewModel.CoinCount, Mode=OneWay}"
+                    IsEnabled="False"
+                    SecondLineText="{ext:Locale Name=CoinCount}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</local:AccountModuleBase>

@@ -55,7 +55,7 @@ public sealed partial class MainWindow : WindowBase
         element.Visibility = Visibility.Visible;
         await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
         element.Visibility = Visibility.Collapsed;
-        TipContainer.Children.Remove(element);
+        _ = TipContainer.Children.Remove(element);
         if (TipContainer.Children.Count == 0)
         {
             TipContainer.Visibility = Visibility.Collapsed;
@@ -85,7 +85,7 @@ public sealed partial class MainWindow : WindowBase
             _ => throw new NotImplementedException(),
         };
 
-        MainFrame.Navigate(pageType, e.Parameter);
+        _ = MainFrame.Navigate(pageType, e.Parameter);
     }
 
     private void OnAppViewModelRequestShowTip(object sender, AppTipNotificationEventArgs e)
@@ -97,7 +97,7 @@ public sealed partial class MainWindow : WindowBase
         {
             XamlRoot = Content.XamlRoot,
         };
-        await dialog.ShowAsync();
+        _ = await dialog.ShowAsync();
     }
 
     private void OnSettingsButtonClick(object sender, RoutedEventArgs e)

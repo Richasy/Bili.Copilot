@@ -2,11 +2,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Bilibili.App.Dynamic.V2;
-using Bilibili.Main.Community.Reply.V1;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Data.Appearance;
+using Bilibili.App.Dynamic.V2;
+using Bilibili.Main.Community.Reply.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 

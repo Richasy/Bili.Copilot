@@ -3,16 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bilibili.App.Archive.V1;
-using Bilibili.App.Card.V1;
-using Bilibili.App.Dynamic.V2;
-using Bilibili.App.Interfaces.V1;
-using Bilibili.App.Show.V1;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Data.Community;
+using Bilibili.App.Archive.V1;
+using Bilibili.App.Card.V1;
+using Bilibili.App.Dynamic.V2;
+using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Show.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Bilibili.App.Playurl.V1;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
@@ -14,6 +13,7 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Data.Player;
+using Bilibili.App.Playurl.V1;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
