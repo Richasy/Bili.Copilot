@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package bilibili.app.card.v1;
+
+import "bilibili/app/card/v1/single.proto";
+
+// 卡片信息
+message Card {
+    oneof item {
+        // 小封面条目
+        SmallCoverV5 small_cover_v5 = 1;
+        //
+        LargeCoverV1 large_cover_v1 = 2;
+        //
+        ThreeItemAllV2 three_item_all_v2 = 3;
+        //
+        ThreeItemV1 three_item_v1 = 4;
+        //
+        HotTopic hot_topic = 5;
+        //
+        DynamicHot three_item_h_v5 = 6;
+        //
+        MiddleCoverV3 middle_cover_v3 = 7;
+        //
+        LargeCoverV4 large_cover_v4 = 8;
+        // 热门列表顶部按钮
+        PopularTopEntrance popular_top_entrance = 9;
+        //
+        RcmdOneItem rcmd_one_item = 10;
+        //
+        SmallCoverV5Ad small_cover_v5_ad = 11;
+    }
+}

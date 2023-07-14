@@ -1,0 +1,61 @@
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using System;
+using System.Collections.ObjectModel;
+using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Other;
+using Bili.Copilot.Models.Constants.App;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace Bili.Copilot.ViewModels;
+
+/// <summary>
+/// 应用视图模型的属性定义.
+/// </summary>
+public sealed partial class AppViewModel
+{
+    [ObservableProperty]
+    private bool _isBackButtonShown;
+
+    [ObservableProperty]
+    private bool _isNavigationMenuShown;
+
+    [ObservableProperty]
+    private NavigateItem _currentNavigateItem;
+
+    [ObservableProperty]
+    private PageType _currentPage;
+
+    [ObservableProperty]
+    private bool _isSigningIn;
+
+    /// <summary>
+    /// 在请求后退时触发.
+    /// </summary>
+    public event EventHandler BackRequest;
+
+    /// <summary>
+    /// 在有新的导航请求时触发.
+    /// </summary>
+    public event EventHandler<AppNavigationEventArgs> NavigateRequest;
+
+    /// <summary>
+    /// 在有新的提示请求时触发.
+    /// </summary>
+    public event EventHandler<AppTipNotificationEventArgs> RequestShowTip;
+
+    /// <summary>
+    /// 在有新的消息请求时触发.
+    /// </summary>
+    public event EventHandler<string> RequestShowMessage;
+
+    /// <summary>
+    /// 实例.
+    /// </summary>
+    public static AppViewModel Instance { get; } = new();
+
+    /// <summary>
+    /// 导航条目列表.
+    /// </summary>
+    public ObservableCollection<NavigateItem> NavigateItems { get; }
+}

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Bili.Copilot.Models.BiliBili</AssemblyName>
+        <RootNamespace>Bili.Copilot.Models.BiliBili</RootNamespace>
+    </PropertyGroup>
+
+</Project>
