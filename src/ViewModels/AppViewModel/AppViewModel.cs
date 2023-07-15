@@ -112,7 +112,7 @@ public sealed partial class AppViewModel : ViewModelBase
         NavigateItems.Add(new NavigateItem(PageType.Home, ResourceToolkit.GetLocalizedString(StringNames.Home), FluentSymbol.Home));
         NavigateItems.Add(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition), FluentSymbol.Apps));
         NavigateItems.Add(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed), FluentSymbol.DesignIdeas));
-        NavigateItems.Add(new NavigateItem(PageType.Hot, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Fire));
+        NavigateItems.Add(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Rocket));
         NavigateItems.Add(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video));
         NavigateItems.Add(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust));
         NavigateItems.Add(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay));

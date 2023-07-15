@@ -25,12 +25,22 @@
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
+        <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
+        <None Remove="Controls\Base\VideoItem\VideoItem.xaml" />
+        <None Remove="Controls\Base\BannerItem\BannerItem.xaml" />
+        <None Remove="Controls\Base\VerticalRepeaterVIew\VerticalRepeaterView.xaml" />
+        <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\PartitionDetailModule.xaml" />
+        <None Remove="Controls\Modules\PartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
+        <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\HomePage.xaml" />
+        <None Remove="Pages\PartitionPage.xaml" />
+        <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
@@ -40,6 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.0.3" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.0.1" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
@@ -71,6 +82,36 @@
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Page Update="Pages\PopularPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\ErrorPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\OverlayLoadingPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\PartitionDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\PartitionPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\PartitionIndexModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
       <Page Update="Controls\Modules\SearchBoxModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -92,6 +133,26 @@
     </ItemGroup>
     <ItemGroup>
         <Page Update="Controls\Base\TwoLineButton\TwoLineButton.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\PartitionItem\PartitionItem.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\Video\VideoItem.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\BannerItem\BannerItem.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\Base\VerticalRepeaterVIew\VerticalRepeaterView.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
     </ItemGroup>

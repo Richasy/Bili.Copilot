@@ -17,7 +17,7 @@ public partial class HomeProvider
     private readonly Dictionary<string, (int OffsetId, int PageNumber)> _cacheVideoPartitionOffsets;
 
     private long _recommendOffsetId;
-    private long _popularOffsetId;
+    private long _hotOffsetId;
     private int _videoPartitionOffsetId = 0;
     private int _videoPartitionPageNumber = 1;
     private string _currentPartitionId = string.Empty;

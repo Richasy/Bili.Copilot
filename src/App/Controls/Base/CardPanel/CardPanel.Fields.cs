@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Bili.Workspace.Controls;
+namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// 卡片面板的字段.

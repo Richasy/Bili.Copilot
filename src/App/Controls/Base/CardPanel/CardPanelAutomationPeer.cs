@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Bili.Workspace.Controls;
+namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// <see cref="CardPanel"/>的自动化公开属性.

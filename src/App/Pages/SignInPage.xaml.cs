@@ -3,14 +3,13 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
-using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.System;
 
@@ -19,7 +18,7 @@ namespace Bili.Copilot.App.Pages;
 /// <summary>
 /// 欢迎界面（x）登录界面（√）.
 /// </summary>
-public sealed partial class SignInPage : Page
+public sealed partial class SignInPage : PageBase
 {
     private readonly AuthorizeProvider _authorizeProvider;
 
@@ -30,10 +29,10 @@ public sealed partial class SignInPage : Page
     {
         _authorizeProvider = AuthorizeProvider.Instance;
         InitializeComponent();
-        Loaded += OnLoadedAsync;
     }
 
-    private async void OnLoadedAsync(object sender, RoutedEventArgs e)
+    /// <inheritdoc/>
+    protected override async void OnPageLoaded()
     {
         _authorizeProvider.QRCodeStatusChanged += OnQRCodeStatusChangedAsync;
         await LoadQRCodeAsync();
@@ -49,7 +48,7 @@ public sealed partial class SignInPage : Page
                 break;
             case QRCodeStatus.Success:
                 _authorizeProvider.StopQRLoginListener();
-                await AppViewModel.Instance.InitializeAsync();
+                await CoreViewModel.InitializeAsync();
                 break;
             case QRCodeStatus.Failed:
                 ShowQRTip(StringNames.LoginFailed);

@@ -3,7 +3,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
-namespace Bili.Workspace.Controls;
+namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// 卡片面板.

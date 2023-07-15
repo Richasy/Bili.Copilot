@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PartitionIndexModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.PartitionIndexModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:community="using:Bili.Copilot.Models.Data.Community"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <UniformGridLayout
+            x:Key="Layout"
+            ItemsStretch="Fill"
+            MinColumnSpacing="8"
+            MinItemHeight="124"
+            MinItemWidth="120"
+            MinRowSpacing="8"
+            Orientation="Horizontal" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="{StaticResource PageMargin}"
+            HorizontalAlignment="Left"
+            Style="{StaticResource SubtitleTextBlockStyle}"
+            Text="{ext:Locale Name=Partition}" />
+        <ScrollViewer Grid.Row="1" Style="{StaticResource PageScrollViewerStyle}">
+            <Grid>
+                <ItemsRepeater
+                    Margin="0,0,0,20"
+                    ItemsSource="{x:Bind ViewModel.Partitions}"
+                    Layout="{StaticResource Layout}"
+                    Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="community:Partition">
+                            <base:PartitionItem
+                                Click="OnPartitionItemClick"
+                                DataContext="{x:Bind}"
+                                ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+                <ItemsRepeater
+                    ItemsSource="{x:Bind _placeholderPartitions}"
+                    Layout="{StaticResource Layout}"
+                    Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <labs:Shimmer
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="{StaticResource ControlCornerRadius}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</local:PartitionIndexModuleBase>

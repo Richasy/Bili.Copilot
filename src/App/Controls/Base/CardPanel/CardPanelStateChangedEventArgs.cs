@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Bili.Workspace.Controls;
+namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// 卡片面板状态更改事件参数.

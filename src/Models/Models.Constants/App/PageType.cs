@@ -28,9 +28,9 @@ public enum PageType
     Partition,
 
     /// <summary>
-    /// 热门，包括推荐视频、热门视频和综合排行榜.
+    /// 流行视频，包括推荐视频、热门视频和综合排行榜.
     /// </summary>
-    Hot,
+    Popular,
 
     /// <summary>
     /// 直播.

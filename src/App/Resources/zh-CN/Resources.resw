@@ -260,6 +260,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   <data name="Chat" xml:space="preserve">
     <value>聊天互动</value>
   </data>
+  <data name="ChildPartition" xml:space="preserve">
+    <value>子分区</value>
+  </data>
   <data name="ChooseCoinNumber" xml:space="preserve">
     <value>打算投几个币？</value>
   </data>
@@ -725,6 +728,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Home" xml:space="preserve">
     <value>首页</value>
   </data>
+  <data name="Hot" xml:space="preserve">
+    <value>热门</value>
+  </data>
   <data name="HotReply" xml:space="preserve">
     <value>最热评论</value>
   </data>
@@ -1129,7 +1135,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>请登录</value>
   </data>
   <data name="Popular" xml:space="preserve">
-    <value>热门</value>
+    <value>流行视频</value>
   </data>
   <data name="Prefer4K" xml:space="preserve">
     <value>4K优先</value>
@@ -1667,9 +1673,6 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="User" xml:space="preserve">
     <value>用户</value>
-  </data>
-  <data name="UserEmptySign" xml:space="preserve">
-    <value>该用户还没有个性签名</value>
   </data>
   <data name="UserHaveNoVideos" xml:space="preserve">
     <value>用户没有投稿视频</value>

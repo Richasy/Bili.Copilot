@@ -85,4 +85,6 @@ public enum SettingNames
     LaunchType,
     FixedPartitions,
     LastOpenPageType,
+    LastVideoPartitionDetailType,
+    LastPopularType,
 }

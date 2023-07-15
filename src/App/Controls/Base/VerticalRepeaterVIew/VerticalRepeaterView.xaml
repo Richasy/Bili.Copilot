@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base">
+
+    <Style TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="4" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

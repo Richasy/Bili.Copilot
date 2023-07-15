@@ -81,6 +81,8 @@ public sealed partial class MainWindow : WindowBase
         var pageType = e.PageId switch
         {
             PageType.Home => typeof(HomePage),
+            PageType.Partition => typeof(PartitionPage),
+            PageType.Popular => typeof(PopularPage),
             PageType.SignIn => typeof(SignInPage),
             _ => throw new NotImplementedException(),
         };

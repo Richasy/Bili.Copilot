@@ -4,9 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
-    <ResourceDictionary.MergedDictionaries>
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-    </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="PageScrollViewerStyle" TargetType="ScrollViewer">
         <Setter Property="HorizontalScrollMode" Value="Disabled" />
@@ -25,8 +22,8 @@
         x:Key="SmallIconButtonStyle"
         BasedOn="{StaticResource DefaultButtonStyle}"
         TargetType="Button">
-        <Setter Property="Width" Value="28" />
-        <Setter Property="Height" Value="28" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
@@ -49,6 +46,12 @@
 
     <Thickness x:Key="PageMargin">20,20,20,12</Thickness>
 
+    <Style x:Key="TopNavigationViewStyle" TargetType="NavigationView">
+        <Setter Property="IsBackButtonVisible" Value="Collapsed" />
+        <Setter Property="IsPaneToggleButtonVisible" Value="False" />
+        <Setter Property="IsSettingsVisible" Value="False" />
+        <Setter Property="PaneDisplayMode" Value="Top" />
+    </Style>
 
     <Style x:Key="MUX_NavigationViewItemPresenterStyleWhenOnTopPane" TargetType="primitives:NavigationViewItemPresenter">
         <Setter Property="Foreground" Value="{ThemeResource TopNavigationViewItemForeground}" />
@@ -64,7 +67,8 @@
                         <Rectangle
                             x:Name="PointerRectangle"
                             Fill="Transparent"
-                            Visibility="Collapsed" />
+                            RadiusX="2"
+                            RadiusY="2" />
                         <Grid x:Name="ContentGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -154,8 +158,7 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource TopNavigationViewItemBackgroundPointerOver}" />
-                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource NavigationViewItemBackgroundPointerOver}" />
+                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource TopNavigationViewItemBackgroundPointerOver}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundPointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundPointerOver}" />
                                         <Setter Target="Icon.(AnimatedIcon.State)" Value="PointerOver" />
@@ -163,8 +166,7 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource TopNavigationViewItemBackgroundPressed}" />
-                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource NavigationViewItemBackgroundPressed}" />
+                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource TopNavigationViewItemBackgroundPressed}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundPressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundPressed}" />
                                         <Setter Target="Icon.(AnimatedIcon.State)" Value="Pressed" />
@@ -172,16 +174,14 @@
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ListViewItemBackgroundSelected}" />
-                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource NavigationViewItemBackgroundSelected}" />
+                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource ListViewItemBackgroundSelected}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelected}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelected}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="PointerOverSelected">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ListViewItemBackgroundSelectedPointerOver}" />
-                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource NavigationViewItemBackgroundSelectedPointerOver}" />
+                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource ListViewItemBackgroundSelectedPointerOver}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelectedPointerOver}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelectedPointerOver}" />
                                         <Setter Target="Icon.(AnimatedIcon.State)" Value="PointerOver" />
@@ -189,8 +189,7 @@
                                 </VisualState>
                                 <VisualState x:Name="PressedSelected">
                                     <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background" Value="{ThemeResource ListViewItemBackgroundSelectedPressed}" />
-                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource NavigationViewItemBackgroundSelectedPressed}" />
+                                        <Setter Target="PointerRectangle.Fill" Value="{ThemeResource ListViewItemBackgroundSelectedPressed}" />
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelectedPressed}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TopNavigationViewItemForegroundSelectedPressed}" />
                                         <Setter Target="Icon.(AnimatedIcon.State)" Value="Pressed" />
@@ -222,7 +221,9 @@
                                 <VisualState x:Name="ContentOnly">
                                     <VisualState.Setters>
                                         <Setter Target="IconBox.Visibility" Value="Collapsed" />
-                                        <Setter Target="ContentPresenter.Margin" Value="{ThemeResource TopNavigationViewItemContentOnlyContentPresenterMargin}" />
+                                        <Setter Target="PointerRectangle.Visibility" Value="Collapsed" />
+                                        <Setter Target="LayoutRoot.Height" Value="36" />
+                                        <Setter Target="ContentPresenter.Margin" Value="12,-8,12,0" />
                                         <Setter Target="SelectionIndicatorGrid.Margin" Value="12,0,12,4" />
                                         <Setter Target="ExpandCollapseChevron.Margin" Value="{ThemeResource TopNavigationViewItemContentOnlyExpandChevronMargin}" />
                                     </VisualState.Setters>

@@ -26,7 +26,7 @@ public sealed partial class HomeProvider
     /// </summary>
     private HomeProvider()
     {
-        _popularOffsetId = 0;
+        _hotOffsetId = 0;
         _recommendOffsetId = 0;
         _cacheVideoPartitionOffsets = new Dictionary<string, (int OffsetId, int PageNumber)>();
     }
@@ -60,7 +60,7 @@ public sealed partial class HomeProvider
 
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, ApiConstants.Partition.PartitionIndex, clientType: RequestClientType.IOS);
         var response = await HttpProvider.Instance.SendAsync(request);
-        var data = await HttpProvider.ParseAsync<Models.BiliBili.ServerResponse<List<Models.BiliBili.Partition>>>(response);
+        var data = await HttpProvider.ParseAsync<ServerResponse<List<Models.BiliBili.Partition>>>(response);
 
         var items = data.Data.Where(p => !string.IsNullOrEmpty(p.Uri) &&
                                     p.Uri.StartsWith("bilibili") &&
@@ -126,12 +126,12 @@ public sealed partial class HomeProvider
     /// 获取热门详情.
     /// </summary>
     /// <returns>热门视频信息.</returns>
-    public async Task<IEnumerable<VideoInformation>> RequestPopularVideosAsync()
+    public async Task<IEnumerable<VideoInformation>> RequestHotVideosAsync()
     {
         var isLogin = AuthorizeProvider.Instance.State == AuthorizeState.SignedIn;
         var popularReq = new PopularResultReq()
         {
-            Idx = _popularOffsetId,
+            Idx = _hotOffsetId,
             LoginEvent = isLogin ? 2 : 1,
             Qn = 112,
             Fnval = 464,
@@ -151,7 +151,7 @@ public sealed partial class HomeProvider
             .Where(p => p.SmallCoverV5 != null)
             .Where(p => p.SmallCoverV5.Base.CardGoto == Av)
             .Select(p => VideoAdapter.ConvertToVideoInformation(p));
-        _popularOffsetId = data.Items.Where(p => p.SmallCoverV5 != null).Last().SmallCoverV5.Base.Idx;
+        _hotOffsetId = data.Items.Where(p => p.SmallCoverV5 != null).Last().SmallCoverV5.Base.Idx;
         return result;
     }
 
@@ -300,6 +300,6 @@ public sealed partial class HomeProvider
     /// <summary>
     /// 重置热门视频状态，将偏移值归零.
     /// </summary>
-    public void ResetPopularState()
-        => _popularOffsetId = 0;
+    public void ResetHotState()
+        => _hotOffsetId = 0;
 }

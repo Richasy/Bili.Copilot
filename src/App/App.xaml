@@ -7,12 +7,49 @@
     xmlns:local="using:Bili.Copilot.App">
     <Application.Resources>
         <ResourceDictionary>
+
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="AppMaskBrush" Color="#CCFFFFFF" />
+                    <SolidColorBrush
+                        x:Key="AccentMaskBrush"
+                        Opacity="0.8"
+                        Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush
+                        x:Key="AccentBadgeBackground"
+                        Opacity="0.4"
+                        Color="{ThemeResource SystemAccentColorDark1}" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="AppMaskBrush" Color="#CC2b2b2b" />
+                    <SolidColorBrush
+                        x:Key="AccentMaskBrush"
+                        Opacity="0.8"
+                        Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush
+                        x:Key="AccentBadgeBackground"
+                        Opacity="0.4"
+                        Color="{ThemeResource SystemAccentColorLight2}" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="AppMaskBrush" Color="{ThemeResource SystemChromeAltMediumHighColor}" />
+                    <SolidColorBrush x:Key="AccentMaskBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                    <SolidColorBrush x:Key="AccentBadgeBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/ImageEx/ImageEx.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/CardPanel/CardPanel.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/IconTextBlock/IconTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/TwoLineButton/TwoLineButton.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/PartitionItem/PartitionItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/VideoItem/VideoItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BannerItem/BannerItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -23,6 +60,7 @@
             <converters:ObjectToBoolConverter x:Key="ObjectToBoolReverseConverter" IsReverse="True" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
+            <converters:SortTypeTextConverter x:Key="SortTypeConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

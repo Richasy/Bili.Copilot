@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
+<base:PageBase
     x:Class="Bili.Copilot.App.Pages.SignInPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -144,4 +144,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-</Page>
+</base:PageBase>
