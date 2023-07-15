@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Bili.Copilot.App.Controls.Base.DynamicImageItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:apperance="using:Bili.Copilot.Models.Data.Appearance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ItemsRepeater x:Name="ImageRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+        <ItemsRepeater.ItemTemplate>
+            <DataTemplate x:DataType="apperance:Image">
+                <local:ImageEx
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="2"
+                    DataContext="{x:Bind}"
+                    DecodePixelWidth="240"
+                    Source="{x:Bind Uri}"
+                    Stretch="UniformToFill"
+                    Tapped="OnImageTapped" />
+            </DataTemplate>
+        </ItemsRepeater.ItemTemplate>
+        <ItemsRepeater.Layout>
+            <UniformGridLayout
+                ItemsStretch="Fill"
+                MinColumnSpacing="4"
+                MinItemHeight="128"
+                MinItemWidth="128"
+                MinRowSpacing="4" />
+        </ItemsRepeater.Layout>
+    </ItemsRepeater>
+</UserControl>

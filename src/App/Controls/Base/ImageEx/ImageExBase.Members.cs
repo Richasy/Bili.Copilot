@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -46,6 +47,12 @@ public partial class ImageExBase
     /// Identifies the <see cref="LazyLoadingThreshold"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty LazyLoadingThresholdProperty = DependencyProperty.Register(nameof(LazyLoadingThreshold), typeof(double), typeof(ImageExBase), new PropertyMetadata(default(double), LazyLoadingThresholdChanged));
+
+    /// <summary>
+    /// <see cref="Command"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty CommandProperty =
+        DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(ImageExBase), new PropertyMetadata(default));
 
     /// <summary>
     /// Event raised if the image failed loading.
@@ -129,6 +136,15 @@ public partial class ImageExBase
     {
         get => (double)GetValue(LazyLoadingThresholdProperty);
         set => SetValue(LazyLoadingThresholdProperty, value);
+    }
+
+    /// <summary>
+    /// 命令.
+    /// </summary>
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
     }
 
     private static void EnableLazyLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -102,4 +102,8 @@ public sealed partial class UserItemViewModel : ViewModelBase
         Relation = relation;
         IsRelationButtonShown = Relation != UserRelationStatus.Unknown;
     }
+
+    [RelayCommand]
+    private void ShowDetail()
+        => AppViewModel.Instance.ShowUserDetailCommand.Execute(User);
 }

@@ -7,6 +7,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
@@ -92,6 +93,18 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
     }
 
     /// <summary>
+    /// Attach image tapped event handler.
+    /// </summary>
+    /// <param name="handler">Routed Event Handler.</param>
+    protected void AttachImageTapped(TappedEventHandler handler)
+    {
+        if (Image is Image image)
+        {
+            image.Tapped += handler;
+        }
+    }
+
+    /// <summary>
     /// Remove image opened handler.
     /// </summary>
     /// <param name="handler">RoutedEventHandler.</param>
@@ -104,6 +117,18 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
         else if (Image is ImageBrush brush)
         {
             brush.ImageOpened -= handler;
+        }
+    }
+
+    /// <summary>
+    /// Remove image tapped event handler.
+    /// </summary>
+    /// <param name="handler">Routed Event Handler.</param>
+    protected void RemoveImageTapped(TappedEventHandler handler)
+    {
+        if (Image is Image image)
+        {
+            image.Tapped -= handler;
         }
     }
 
@@ -146,6 +171,7 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
     {
         RemoveImageOpened(OnImageOpened);
         RemoveImageFailed(OnImageFailed);
+        RemoveImageTapped(OnImageTapped);
 
         Image = GetTemplateChild(PartImage);
 
@@ -165,9 +191,18 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
 
         AttachImageOpened(OnImageOpened);
         AttachImageFailed(OnImageFailed);
+        AttachImageTapped(OnImageTapped);
 
         base.OnApplyTemplate();
     }
+
+    /// <summary>
+    /// 触发 Command.
+    /// </summary>
+    /// <param name="sender">Image.</param>
+    /// <param name="e">Arguments.</param>
+    protected virtual void OnImageTapped(object sender, TappedRoutedEventArgs e)
+        => Command?.Execute(default);
 
     /// <summary>
     /// Underlying <see cref="Image.ImageOpened"/> event handler.

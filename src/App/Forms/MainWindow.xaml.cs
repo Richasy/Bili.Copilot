@@ -83,6 +83,7 @@ public sealed partial class MainWindow : WindowBase
             PageType.Home => typeof(HomePage),
             PageType.Partition => typeof(PartitionPage),
             PageType.Popular => typeof(PopularPage),
+            PageType.Dynamic => typeof(DynamicPage),
             PageType.SignIn => typeof(SignInPage),
             _ => throw new NotImplementedException(),
         };

@@ -28,8 +28,14 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
     /// <inheritdoc/>
     protected override void BeforeReload()
     {
-        HomeProvider.Instance.ResetRecommendState();
-        HomeProvider.Instance.ResetHotState();
+        if (IsRecommendShown)
+        {
+            HomeProvider.Instance.ResetRecommendState();
+        }
+        else if (IsHotShown)
+        {
+            HomeProvider.Instance.ResetHotState();
+        }
     }
 
     /// <inheritdoc/>
@@ -88,7 +94,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
         else
         {
-            IsEmpty = true;
+            IsEmpty = Items.Count == 0;
         }
     }
 
@@ -131,7 +137,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
         else
         {
-            InitializeCommand.ExecuteAsync(null);
+            InitializeCommand.ExecuteAsync(default);
         }
     }
 }

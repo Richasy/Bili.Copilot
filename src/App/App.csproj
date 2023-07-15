@@ -21,14 +21,21 @@
     <ItemGroup>
         <None Remove="Assets\FluentSystemIcons.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
+        <None Remove="Controls\Base\DynamicImageItem.xaml" />
+        <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
+        <None Remove="Controls\Base\DynamicPresenter.xaml" />
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
+        <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
         <None Remove="Controls\Base\VideoItem\VideoItem.xaml" />
         <None Remove="Controls\Base\BannerItem\BannerItem.xaml" />
+        <None Remove="Controls\Base\ArticleItem\ArticleItem.xaml" />
         <None Remove="Controls\Base\VerticalRepeaterVIew\VerticalRepeaterView.xaml" />
+        <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
+        <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\PartitionDetailModule.xaml" />
@@ -38,6 +45,7 @@
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="NLog.config" />
+        <None Remove="Pages\DynamicPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\PartitionPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
@@ -80,6 +88,11 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\DynamicPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\PopularPage.xaml">
@@ -194,6 +207,35 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Modules\AccountModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\DynamicImageItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\DynamicItem\DynamicItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\DynamicNotSupportItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\DynamicPresenter.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\EpisodeItem\EpisodeItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\ArticleItem\ArticleItem.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

@@ -87,4 +87,5 @@ public enum SettingNames
     LastOpenPageType,
     LastVideoPartitionDetailType,
     LastPopularType,
+    LastDynamicType,
 }

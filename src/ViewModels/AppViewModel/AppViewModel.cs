@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,10 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Appearance;
+using Bili.Copilot.Models.Data.Article;
+using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -94,6 +99,36 @@ public sealed partial class AppViewModel : ViewModelBase
     /// <param name="message">消息内容.</param>
     public void ShowMessage(string message)
         => RequestShowMessage?.Invoke(this, message);
+
+    [RelayCommand]
+    private static void OpenPlayer(PlaySnapshot snapshot)
+    {
+        // TODO: 打开播放器.
+    }
+
+    [RelayCommand]
+    private static void OpenReader(ArticleInformation article)
+    {
+        // TODO: 打开阅读器.
+    }
+
+    [RelayCommand]
+    private static void ShowComments(ShowCommentEventArgs args)
+    {
+        // TODO: 打开评论.
+    }
+
+    [RelayCommand]
+    private static void ShowImages((List<Image> Source, int SelectedIndex) args)
+    {
+        // TODO: 打开图片.
+    }
+
+    [RelayCommand]
+    private static void ShowUserDetail(UserProfile user)
+    {
+        // TODO: 打开用户详情.
+    }
 
     [RelayCommand]
     private void Back()

@@ -208,7 +208,7 @@ public sealed class DynamicAdapter
         }
         else if (dynamic.Type == ModuleDynamicType.MdlDynDraw)
         {
-            return dynamic.DynDraw.Items.Select(p => ImageAdapter.ConvertToImage(p.Src, 100d, 100d)).ToList();
+            return dynamic.DynDraw.Items.Select(p => ImageAdapter.ConvertToImage(p.Src, 240d, 240d)).ToList();
         }
         else if (dynamic.Type == ModuleDynamicType.MdlDynArticle)
         {

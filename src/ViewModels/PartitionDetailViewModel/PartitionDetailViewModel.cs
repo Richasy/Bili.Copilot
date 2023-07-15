@@ -107,7 +107,7 @@ public sealed partial class PartitionDetailViewModel : InformationFlowViewModel<
         }
         else
         {
-            IsEmpty = true;
+            IsEmpty = Items.Count == 0;
         }
     }
 
