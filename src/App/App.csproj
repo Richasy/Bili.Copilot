@@ -26,6 +26,7 @@
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="NLog.config" />
@@ -68,6 +69,11 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\SearchBoxModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Base\ImageEx\ImageEx.xaml">

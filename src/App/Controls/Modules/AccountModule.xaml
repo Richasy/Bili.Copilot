@@ -113,21 +113,25 @@
                 </Grid.ColumnDefinitions>
                 <base:TwoLineButton
                     x:Name="DynamicButton"
+                    Command="{x:Bind ViewModel.OpenDynamicCommand}"
                     FirstLineText="{x:Bind ViewModel.DynamicCount, Mode=OneWay}"
                     SecondLineText="{ext:Locale Name=DynamicCount}" />
                 <Rectangle Grid.Column="1" Style="{StaticResource StateSeparatorStyle}" />
                 <base:TwoLineButton
                     Grid.Column="2"
+                    Command="{x:Bind ViewModel.OpenFollowCommand}"
                     FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
                     SecondLineText="{ext:Locale Name=FollowCount}" />
                 <Rectangle Grid.Column="3" Style="{StaticResource StateSeparatorStyle}" />
                 <base:TwoLineButton
                     Grid.Column="4"
+                    Command="{x:Bind ViewModel.OpenFansCommand}"
                     FirstLineText="{x:Bind ViewModel.FansCount, Mode=OneWay}"
                     SecondLineText="{ext:Locale Name=FansCount}" />
                 <Rectangle Grid.Column="5" Style="{StaticResource StateSeparatorStyle}" />
                 <base:TwoLineButton
                     Grid.Column="6"
+                    Command="{x:Bind ViewModel.OpenMessageCommand}"
                     FirstLineText="{x:Bind ViewModel.MessageCount, Mode=OneWay}"
                     SecondLineText="{ext:Locale Name=Message}" />
                 <Rectangle Grid.Column="7" Style="{StaticResource StateSeparatorStyle}" />

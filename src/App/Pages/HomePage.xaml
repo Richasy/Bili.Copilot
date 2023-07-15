@@ -10,8 +10,9 @@
     mc:Ignorable="d">
 
     <ScrollViewer Margin="0,12,0,0" Style="{StaticResource PageScrollViewerStyle}">
-        <StackPanel Margin="0,0,0,20">
+        <StackPanel Margin="0,0,0,20" Spacing="16">
             <modules:AccountModule />
+            <modules:SearchBoxModule />
         </StackPanel>
     </ScrollViewer>
 </Page>

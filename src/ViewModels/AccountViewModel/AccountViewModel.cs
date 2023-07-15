@@ -21,6 +21,10 @@ public sealed partial class AccountViewModel : ViewModelBase
         AttachExceptionHandlerToAsyncCommand(LogException, InitializeCommand);
     }
 
+    [RelayCommand]
+    private static Task OpenMessageAsync()
+        => Launcher.LaunchUriAsync(new Uri("https://message.bilibili.com")).AsTask();
+
     /// <summary>
     /// 登出.
     /// </summary>
@@ -44,6 +48,22 @@ public sealed partial class AccountViewModel : ViewModelBase
         await InitialCommunityInformationAsync();
         _isInitialized = true;
     }
+
+    [RelayCommand]
+    private Task OpenPersonalSiteAsync()
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}")).AsTask();
+
+    [RelayCommand]
+    private Task OpenDynamicAsync()
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/dynamic")).AsTask();
+
+    [RelayCommand]
+    private Task OpenFollowAsync()
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/fans/follow")).AsTask();
+
+    [RelayCommand]
+    private Task OpenFansAsync()
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/fans/fans")).AsTask();
 
     /// <summary>
     /// 获取我的账户资料.
@@ -78,10 +98,6 @@ public sealed partial class AccountViewModel : ViewModelBase
         var unreadInformation = await AccountProvider.GetUnreadMessageAsync();
         MessageCount = unreadInformation.Total > 99 ? "99+" : unreadInformation.Total.ToString();
     }
-
-    [RelayCommand]
-    private Task OpenPersonalSiteAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}")).AsTask();
 
     private void InitializeAccountInformation()
     {
