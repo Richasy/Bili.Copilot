@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DefaultVideoFavoriteModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.DefaultVideoFavoriteModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:controls="using:Bili.Copilot.App.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Bili.Copilot.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer x:Name="ContentScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
+            <base:VerticalRepeaterView
+                x:Name="VideoView"
+                Margin="0,0,0,12"
+                IncrementalTriggered="OnVideoViewIncrementalTriggered"
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <base:VerticalRepeaterView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
+                        <base:VideoItem ViewModel="{x:Bind}">
+                            <base:VideoItem.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        MinWidth="160"
+                                        Command="{x:Bind RemoveFromFavoriteCommand}"
+                                        Text="{ext:Locale Name=Remove}">
+                                        <MenuFlyoutItem.Icon>
+                                            <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </base:VideoItem.ContextFlyout>
+                        </base:VideoItem>
+                    </DataTemplate>
+                </base:VerticalRepeaterView.ItemTemplate>
+            </base:VerticalRepeaterView>
+        </ScrollViewer>
+
+        <controls:OverlayLoadingPanel
+            Grid.Row="1"
+            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
+            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+        <controls:ErrorPanel
+            x:Name="ErrorPanel"
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            ActionContent="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.ReloadCommand}"
+            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+        <controls:ErrorPanel
+            x:Name="EmptyPanel"
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            ActionContent="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.ReloadCommand}"
+            Text="{ext:Locale Name=NoSpecificData}"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+    </Grid>
+</local:DefaultVideoFavoriteModuleBase>

@@ -26,6 +26,7 @@ public sealed partial class MainWindow : WindowBase
     public MainWindow()
     {
         InitializeComponent();
+        Instance = this;
         CustomTitleBar.AttachedWindow = this;
         Width = 500;
         Height = 800;
@@ -84,6 +85,7 @@ public sealed partial class MainWindow : WindowBase
             PageType.Partition => typeof(PartitionPage),
             PageType.Popular => typeof(PopularPage),
             PageType.Dynamic => typeof(DynamicPage),
+            PageType.Watchlist => typeof(WatchlistPage),
             PageType.SignIn => typeof(SignInPage),
             _ => throw new NotImplementedException(),
         };

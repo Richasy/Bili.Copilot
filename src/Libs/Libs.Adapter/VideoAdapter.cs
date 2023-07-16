@@ -134,7 +134,7 @@ public static class VideoAdapter
         var publisher = UserAdapter.ConvertToRoleProfile(video.Publisher, AvatarSize.Size48);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(video.StatusInfo);
         var identifier = new VideoIdentifier(id, title, duration, cover);
-        var subtitle = $"{publisher.User.Name} · {TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize())}";
+        var subtitle = $"{publisher.User.Name} · {TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN")))}";
         return new VideoInformation(
             identifier,
             publisher,
@@ -161,7 +161,7 @@ public static class VideoAdapter
         var publisher = new RoleProfile(user);
         var cover = ImageAdapter.ConvertToVideoCardCover(rankVideo.Cover);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(rankVideo);
-        var subtitle = $"{user.Name} · {TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize())}";
+        var subtitle = $"{user.Name} · {TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN")))}";
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
         return new VideoInformation(
@@ -281,7 +281,7 @@ public static class VideoAdapter
         var duration = spaceVideo.Duration;
         var cover = ImageAdapter.ConvertToVideoCardCover(spaceVideo.Cover);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(spaceVideo);
-        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(publishDate.DateTime.Humanize());
+        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(publishDate.DateTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN")));
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
         return new VideoInformation(
@@ -337,7 +337,7 @@ public static class VideoAdapter
         var cover = ImageAdapter.ConvertToVideoCardCover(video.Cover);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(video);
         var collectTime = DateTimeOffset.FromUnixTimeSeconds(video.FavoriteTime).ToLocalTime().DateTime;
-        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded($"{collectTime.Humanize()}收藏");
+        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded($"{collectTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN"))}收藏");
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
         return new VideoInformation(identifier, publisher, subtitle: subtitle, communityInformation: communityInfo);
@@ -360,7 +360,7 @@ public static class VideoAdapter
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(archive.Stat);
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(archive.Pubdate).DateTime;
         var description = TextToolkit.ConvertToTraditionalChineseIfNeeded(archive.Desc);
-        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize());
+        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(publishTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN")));
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
         return new VideoInformation(

@@ -88,4 +88,5 @@ public enum SettingNames
     LastVideoPartitionDetailType,
     LastPopularType,
     LastDynamicType,
+    LastWatchlistType,
 }

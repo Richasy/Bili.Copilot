@@ -38,9 +38,12 @@
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\DefaultVideoFavoriteModule.xaml" />
+        <None Remove="Controls\Modules\HistoryModule.xaml" />
         <None Remove="Controls\Modules\PartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\PartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
+        <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
@@ -50,6 +53,7 @@
         <None Remove="Pages\PartitionPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
+        <None Remove="Pages\WatchlistPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
     </ItemGroup>
@@ -88,6 +92,26 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\DefaultVideoFavoriteModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\ViewLaterModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\HistoryModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\WatchlistPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\DynamicPage.xaml">

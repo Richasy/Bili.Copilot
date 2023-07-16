@@ -28,7 +28,7 @@
                             <local:CardPanel.ContextFlyout>
                                 <MenuFlyout x:Name="EpisodeFlyout">
                                     <MenuFlyoutItem
-                                        x:Name="OpenInBrowserItem"
+                                        x:Name="OpenInBroItem"
                                         AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
                                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
                                         Text="{ext:Locale Name=OpenInBrowser}">
@@ -52,7 +52,7 @@
                                     <local:ImageEx
                                         x:Name="CoverImage"
                                         Width="180"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Stretch"
                                         Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                         Stretch="UniformToFill" />
 
@@ -264,10 +264,12 @@
                         <Grid
                             x:Name="CoverContainer"
                             Width="120"
-                            Height="76"
                             VerticalAlignment="Stretch"
                             CornerRadius="{StaticResource ControlCornerRadius}">
-                            <local:ImageEx x:Name="CoverImage" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                            <local:ImageEx
+                                x:Name="CoverImage"
+                                VerticalAlignment="Stretch"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
 
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Ellipse
