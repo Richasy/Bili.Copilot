@@ -52,6 +52,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Base/DynamicItem/DynamicItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/EpisodeItem/EpisodeItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/ArticleItem/ArticleItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/SeasonItem/SeasonItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/EmoteTextBlock/EmoteTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />

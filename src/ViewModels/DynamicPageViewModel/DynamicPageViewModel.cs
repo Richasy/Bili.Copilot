@@ -84,14 +84,7 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
             .OfType<DynamicItemViewModel>()
             .Select(p => p.Data)
             .ToList();
-        if (_caches.ContainsKey(CurrentType))
-        {
-            _caches[CurrentType] = dynamicInfos;
-        }
-        else
-        {
-            _caches.Add(CurrentType, dynamicInfos);
-        }
+        _caches[CurrentType] = dynamicInfos;
 
         IsEmpty = Items.Count == 0;
     }

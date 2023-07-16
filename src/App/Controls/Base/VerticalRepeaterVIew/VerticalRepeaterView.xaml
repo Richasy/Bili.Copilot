@@ -24,4 +24,31 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="PgcSlimVerticalRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="220"
+                                    MinItemWidth="120"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

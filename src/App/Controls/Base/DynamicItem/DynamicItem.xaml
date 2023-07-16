@@ -1,4 +1,5 @@
-﻿<ResourceDictionary
+﻿
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
@@ -88,9 +89,7 @@
                                 x:Name="MainContainer"
                                 Grid.Row="2"
                                 Margin="0,0,0,12"
-                                BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush
-                                
-                                }"
+                                BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                                 BorderThickness="1"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Data, Converter={StaticResource ObjectToVisibilityConverter}}">

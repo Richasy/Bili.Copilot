@@ -83,19 +83,10 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
                     .OfType<VideoItemViewModel>()
                     .Select(p => p.Data)
                     .ToList();
-            if (_caches.ContainsKey(CurrentType))
-            {
-                _caches[CurrentType] = videoVMs;
-            }
-            else
-            {
-                _caches.Add(CurrentType, videoVMs);
-            }
+            _caches[CurrentType] = videoVMs;
         }
-        else
-        {
-            IsEmpty = Items.Count == 0;
-        }
+
+        IsEmpty = Items.Count == 0;
     }
 
     private void CheckModuleState()

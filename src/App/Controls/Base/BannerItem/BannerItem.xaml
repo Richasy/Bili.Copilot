@@ -16,7 +16,6 @@
                                 VerticalAlignment="Stretch"
                                 AutomationProperties.Name="{TemplateBinding Title}"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
-                                DecodePixelWidth="500"
                                 IsTabStop="False"
                                 Source="{TemplateBinding Source}"
                                 Stretch="UniformToFill">

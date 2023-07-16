@@ -514,7 +514,9 @@ public sealed class PgcAdapter
             var seasons = item.Episodes?.Count > 0
                 ? item.Episodes.Select(p => ConvertToSeasonInformation(p)).ToList()
                 : null;
-            var info = new TimelineInformation(item.Date, ConvertDayOfWeek(item.DayOfWeek), item.IsToday == 1, seasons);
+            var date = DateTimeOffset.FromUnixTimeSeconds(item.DateTimeStamp).ToLocalTime();
+            var isToday = date.Date.Equals(DateTimeOffset.Now.Date);
+            var info = new TimelineInformation(item.Date, ConvertDayOfWeek(item.DayOfWeek), isToday, seasons);
             timelines.Add(info);
         }
 

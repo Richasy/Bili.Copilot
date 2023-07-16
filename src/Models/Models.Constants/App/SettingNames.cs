@@ -89,4 +89,6 @@ public enum SettingNames
     LastPopularType,
     LastDynamicType,
     LastWatchlistType,
+    LastFilmType,
+    LastAnimeType,
 }

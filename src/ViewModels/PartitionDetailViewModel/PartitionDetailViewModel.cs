@@ -96,14 +96,7 @@ public sealed partial class PartitionDetailViewModel : InformationFlowViewModel<
                     .OfType<VideoItemViewModel>()
                     .Select(p => p.Data)
                     .ToList();
-            if (_caches.ContainsKey(partition))
-            {
-                _caches[partition] = videoVMs;
-            }
-            else
-            {
-                _caches.Add(partition, videoVMs);
-            }
+            _caches[partition] = videoVMs;
         }
         else
         {
