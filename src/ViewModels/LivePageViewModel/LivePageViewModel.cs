@@ -49,7 +49,10 @@ public sealed partial class LivePageViewModel : ViewModelBase
 
     [RelayCommand]
     private void ClosePartitionDetail()
-        => IsPartitionDetailShown = false;
+    {
+        IsPartitionDetailShown = false;
+        LivePartitionDetailViewModel.Instance.ScrollToTopCommand.Execute(default);
+    }
 
     private async Task InitializeCurrentModuleAsync()
     {

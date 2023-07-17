@@ -3,6 +3,7 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.ViewModels;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
@@ -29,6 +30,12 @@ public sealed partial class LivePartitionIndexModule : LivePartitionIndexModuleB
         {
             ViewModel.SelectPartitionCommand.Execute(data);
         }
+    }
+
+    private void OnPartitionItemClick(object sender, RoutedEventArgs e)
+    {
+        var context = (Partition)((FrameworkElement)sender).DataContext;
+        ViewModel.OpenPartitionCommand.Execute(context);
     }
 }
 

@@ -19,7 +19,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <NavigationView
-                Margin="20,12,20,4"
+                Margin="20,0,20,4"
                 ItemInvoked="OnParentItemInvoked"
                 MenuItemsSource="{x:Bind ViewModel.ParentPartitions}"
                 SelectedItem="{x:Bind ViewModel.CurrentParentPartition, Mode=OneWay}"
@@ -51,7 +51,11 @@
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="community:Partition">
-                            <base:PartitionItem Type="Live" ViewModel="{x:Bind}" />
+                            <base:PartitionItem
+                                Click="OnPartitionItemClick"
+                                DataContext="{x:Bind}"
+                                Type="Live"
+                                ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>

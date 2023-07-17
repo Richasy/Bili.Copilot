@@ -31,6 +31,13 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private static void OpenPartition(Partition partition)
+    {
+        LivePageViewModel.Instance.IsPartitionDetailShown = true;
+        LivePartitionDetailViewModel.Instance.SetPartitionCommand.Execute(partition);
+    }
+
+    [RelayCommand]
     private async Task InitializeAsync()
     {
         if (ParentPartitions.Count > 0 || IsReloading)

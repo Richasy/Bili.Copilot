@@ -36,6 +36,7 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
     public void DisplayException(Exception exception)
     {
         IsError = true;
+        IsReloading = false;
         var msg = exception is ServiceException se
             ? se.GetMessage()
             : exception.Message;
