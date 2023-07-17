@@ -82,7 +82,7 @@ public sealed partial class MainWindow : WindowBase
         var pageType = e.PageId switch
         {
             PageType.Home => typeof(HomePage),
-            PageType.Partition => typeof(PartitionPage),
+            PageType.Partition => typeof(VideoPartitionPage),
             PageType.Popular => typeof(PopularPage),
             PageType.Dynamic => typeof(DynamicPage),
             PageType.Live => typeof(LivePage),

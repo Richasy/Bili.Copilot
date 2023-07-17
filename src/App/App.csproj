@@ -42,10 +42,11 @@
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\DefaultVideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
+        <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
-        <None Remove="Controls\Modules\PartitionDetailModule.xaml" />
-        <None Remove="Controls\Modules\PartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
@@ -56,9 +57,9 @@
         <None Remove="Pages\FilmPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
-        <None Remove="Pages\PartitionPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
+        <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\WatchlistPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
@@ -98,6 +99,11 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\LivePartitionIndexModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\LivePage.xaml">
@@ -155,17 +161,17 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Controls\Modules\PartitionDetailModule.xaml">
+      <Page Update="Controls\Modules\VideoPartitionDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Pages\PartitionPage.xaml">
+      <Page Update="Pages\VideoPartitionPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Controls\Modules\PartitionIndexModule.xaml">
+      <Page Update="Controls\Modules\VideoPartitionIndexModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

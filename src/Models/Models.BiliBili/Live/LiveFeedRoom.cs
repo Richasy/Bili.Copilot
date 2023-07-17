@@ -1,100 +1,86 @@
-// Copyright (c) Bili Copilot. All rights reserved.
-
-using System.Collections.Generic;
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥Ô´ÍÆ¼öÖĞÎÒ¹Ø×¢µÄÖ±²¥¼ä.
+/// ç›´æ’­æºæ¨èä¸­æˆ‘å…³æ³¨çš„ç›´æ’­é—´.
 /// </summary>
 public class LiveFeedRoom : LiveRoomBase
 {
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("roomid")]
     public long RoomId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("uname")]
     public string UserName { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Í·Ïñ.
+    /// ç”¨æˆ·å¤´åƒ.
     /// </summary>
     [JsonPropertyName("face")]
     public string UserAvatar { get; set; }
 
     /// <summary>
-    /// Ö±²¥¿ªÊ¼Ê±¼ä.
+    /// ç›´æ’­å¼€å§‹æ—¶é—´.
     /// </summary>
     [JsonPropertyName("live_time")]
     public long LiveStartTime { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾·ÖÇøId.
-    /// </summary>
-    [JsonPropertyName("area")]
-    public string DisplayAreaId { get; set; }
-
-    /// <summary>
-    /// ÏÔÊ¾·ÖÇøÃû.
-    /// </summary>
-    [JsonPropertyName("area_name")]
-    public string DisplayAreaName { get; set; }
-
-    /// <summary>
-    /// ·ÖÇøId.
+    /// åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("area_v2_id")]
     public long AreaId { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÃû.
+    /// åˆ†åŒºå.
     /// </summary>
     [JsonPropertyName("area_v2_name")]
     public string AreaName { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøÃû.
+    /// çˆ¶åˆ†åŒºå.
     /// </summary>
     [JsonPropertyName("area_v2_parent_name")]
     public string ParentAreaName { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøId.
+    /// çˆ¶åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("area_v2_parent_id")]
     public long ParentAreaId { get; set; }
 
     /// <summary>
-    /// Ö±²¥±êÇ©Ãû.
+    /// ç›´æ’­æ ‡ç­¾å.
     /// </summary>
     [JsonPropertyName("live_tag_name")]
     public string LiveTagName { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÌØ±ğ¹Ø×¢£¬0-·ñ£¬1-ÊÇ.
+    /// æ˜¯å¦ä¸ºç‰¹åˆ«å…³æ³¨ï¼Œ0-å¦ï¼Œ1-æ˜¯.
     /// </summary>
     [JsonPropertyName("special_attention")]
     public int SpecialAttention { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñ¹Ù·½ÈÏÖ¤£¬0-·ñ£¬1-ÊÇ.
+    /// æ˜¯å¦å®˜æ–¹è®¤è¯ï¼Œ0-å¦ï¼Œ1-æ˜¯.
     /// </summary>
     [JsonPropertyName("official_verify")]
     public int OfficialVerify { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥Ô´¹Ø×¢ÓÃ»§ÁĞ±í.
+/// ç›´æ’­æºå…³æ³¨ç”¨æˆ·åˆ—è¡¨.
 /// </summary>
 public class LiveFeedFollowUserList
 {
     /// <summary>
-    /// ÁĞ±íÊı¾İ.
+    /// åˆ—è¡¨æ•°æ®.
     /// </summary>
     [JsonPropertyName("list")]
     public List<LiveFeedRoom> List { get; set; }

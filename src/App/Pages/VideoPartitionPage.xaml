@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:PartitionPageBase
-    x:Class="Bili.Copilot.App.Pages.PartitionPage"
+<local:VideoPartitionPageBase
+    x:Class="Bili.Copilot.App.Pages.VideoPartitionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <modules:PartitionIndexModule Visibility="{x:Bind ViewModel.IsInDetail, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <modules:PartitionDetailModule Visibility="{x:Bind ViewModel.IsInDetail, Mode=OneWay}" />
+        <modules:VideoPartitionIndexModule Visibility="{x:Bind ViewModel.IsInDetail, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <modules:VideoPartitionDetailModule Visibility="{x:Bind ViewModel.IsInDetail, Mode=OneWay}" />
     </Grid>
-</local:PartitionPageBase>
+</local:VideoPartitionPageBase>

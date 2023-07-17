@@ -13,7 +13,7 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 分区详情视图模型.
 /// </summary>
-public sealed partial class PartitionDetailViewModel
+public sealed partial class VideoPartitionDetailViewModel
 {
     private readonly Dictionary<Partition, IEnumerable<VideoInformation>> _caches;
 
@@ -47,7 +47,7 @@ public sealed partial class PartitionDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PartitionDetailViewModel Instance { get; } = new();
+    public static VideoPartitionDetailViewModel Instance { get; } = new();
 
     /// <summary>
     /// 横幅集合.

@@ -106,8 +106,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveItem">
                     <local:CardPanel
-                        Width="120"
-                        Height="176"
                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
                         IsEnableCheck="False">
@@ -126,7 +124,7 @@
                             </MenuFlyout>
                         </local:CardPanel.ContextFlyout>
 
-                        <Grid Padding="12" RowSpacing="12">
+                        <Grid Padding="12" RowSpacing="4">
                             <Grid.Resources>
                                 <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
                                     <Setter Property="Spacing" Value="4" />
@@ -144,6 +142,7 @@
                                 Height="52"
                                 HorizontalAlignment="Center"
                                 Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                                CornerRadius="26"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Avatar.Uri}"
                                 ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}" />
                             <StackPanel Grid.Row="1" Spacing="8">
@@ -157,7 +156,8 @@
                                     TextTrimming="CharacterEllipsis" />
                                 <TextBlock
                                     HorizontalAlignment="Center"
-                                    MaxLines="2"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    MaxLines="1"
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                                     TextAlignment="Center"

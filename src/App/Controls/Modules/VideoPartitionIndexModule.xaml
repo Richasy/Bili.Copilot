@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:PartitionIndexModuleBase
-    x:Class="Bili.Copilot.App.Controls.Modules.PartitionIndexModule"
+<local:VideoPartitionIndexModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.VideoPartitionIndexModule"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
@@ -65,4 +65,4 @@
             </Grid>
         </ScrollViewer>
     </Grid>
-</local:PartitionIndexModuleBase>
+</local:VideoPartitionIndexModuleBase>

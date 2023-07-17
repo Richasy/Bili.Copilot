@@ -9,7 +9,7 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 分区视图模型.
 /// </summary>
-public sealed partial class PartitionModuleViewModel : ViewModelBase
+public sealed partial class VideoPartitionModuleViewModel : ViewModelBase
 {
     [ObservableProperty]
     private bool _isInDetail;
@@ -17,13 +17,13 @@ public sealed partial class PartitionModuleViewModel : ViewModelBase
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PartitionModuleViewModel Instance { get; } = new();
+    public static VideoPartitionModuleViewModel Instance { get; } = new();
 
     [RelayCommand]
     private void OpenPartitionDetail(Partition partition)
     {
         IsInDetail = true;
-        PartitionDetailViewModel.Instance.LoadPartitionCommand.Execute(partition);
+        VideoPartitionDetailViewModel.Instance.LoadPartitionCommand.Execute(partition);
     }
 
     [RelayCommand]

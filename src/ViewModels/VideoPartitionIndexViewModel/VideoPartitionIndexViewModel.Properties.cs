@@ -9,7 +9,7 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 分区索引视图模型.
 /// </summary>
-public sealed partial class PartitionIndexViewModel
+public sealed partial class VideoPartitionIndexViewModel
 {
     private bool _isInitialized;
 
@@ -19,7 +19,7 @@ public sealed partial class PartitionIndexViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PartitionIndexViewModel Instance { get; } = new();
+    public static VideoPartitionIndexViewModel Instance { get; } = new();
 
     /// <summary>
     /// 分区集合.

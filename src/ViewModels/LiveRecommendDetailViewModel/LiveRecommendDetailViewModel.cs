@@ -26,7 +26,10 @@ public sealed partial class LiveRecommendDetailViewModel : InformationFlowViewMo
 
     /// <inheritdoc/>
     protected override void BeforeReload()
-        => LiveProvider.Instance.ResetFeedState();
+    {
+        Follows.Clear();
+        LiveProvider.Instance.ResetFeedState();
+    }
 
     /// <inheritdoc/>
     protected override string FormatException(string errorMsg)
@@ -50,6 +53,11 @@ public sealed partial class LiveRecommendDetailViewModel : InformationFlowViewMo
         {
             foreach (var item in data.FollowLives)
             {
+                if (Follows.Any(p => p.Data.Equals(item)))
+                {
+                    continue;
+                }
+
                 var liveVM = new LiveItemViewModel(item);
                 Follows.Add(liveVM);
             }

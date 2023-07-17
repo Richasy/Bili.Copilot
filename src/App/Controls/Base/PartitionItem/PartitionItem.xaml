@@ -23,7 +23,7 @@
                                     Height="68"
                                     Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                                     CornerRadius="{StaticResource ControlCornerRadius}">
-                                    <Image
+                                    <local:ImageEx
                                         x:Name="PartitionLogo"
                                         Width="44"
                                         Height="44"
@@ -38,7 +38,8 @@
                                     HorizontalAlignment="Center"
                                     MaxLines="1"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
-                                    TextAlignment="Center" />
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
                             </Grid>
                         </Grid>
                     </local:CardPanel>

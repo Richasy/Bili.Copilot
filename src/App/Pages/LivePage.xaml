@@ -56,6 +56,10 @@
                 </labs:SegmentedItem>
             </labs:Segmented>
         </Grid>
-        <modules:LiveRecommendDetailModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}" />
+        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsPartitionDetailShown, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <modules:LiveRecommendDetailModule Visibility="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}" />
+            <modules:LivePartitionIndexModule Visibility="{x:Bind ViewModel.IsPartitionShown, Mode=OneWay}" />
+        </Grid>
+
     </Grid>
 </local:LivePageBase>

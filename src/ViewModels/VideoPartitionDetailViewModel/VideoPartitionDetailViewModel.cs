@@ -17,12 +17,12 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 分区详情视图模型.
 /// </summary>
-public sealed partial class PartitionDetailViewModel : InformationFlowViewModel<VideoItemViewModel>
+public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewModel<VideoItemViewModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PartitionDetailViewModel"/> class.
+    /// Initializes a new instance of the <see cref="VideoPartitionDetailViewModel"/> class.
     /// </summary>
-    private PartitionDetailViewModel()
+    private VideoPartitionDetailViewModel()
     {
         _caches = new Dictionary<Partition, IEnumerable<VideoInformation>>();
 

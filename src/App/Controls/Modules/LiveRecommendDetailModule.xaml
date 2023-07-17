@@ -24,17 +24,13 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel Margin="0,0,0,12" Visibility="{x:Bind ViewModel.IsFollowsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
                         <TextBlock
                             HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="{ext:Locale Name=FollowLiveRoom}" />
                         <Button
-                            Grid.Column="1"
                             VerticalAlignment="Center"
                             Command="{x:Bind ViewModel.ToggleFollowsVisibilityCommand}"
                             Style="{StaticResource SmallIconButtonStyle}">
@@ -51,8 +47,7 @@
                                     Visibility="{x:Bind ViewModel.IsFollowsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                             </Grid>
                         </Button>
-                    </Grid>
-
+                    </StackPanel>
                     <ItemsRepeater
                         Margin="0,8,0,0"
                         ItemsSource="{x:Bind ViewModel.Follows, Mode=OneWay}"
@@ -61,8 +56,8 @@
                             <UniformGridLayout
                                 ItemsStretch="Fill"
                                 MinColumnSpacing="4"
-                                MinItemHeight="140"
-                                MinItemWidth="140"
+                                MinItemHeight="148"
+                                MinItemWidth="128"
                                 MinRowSpacing="4" />
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
@@ -72,18 +67,26 @@
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </StackPanel>
-                <base:VerticalRepeaterView
-                    x:Name="LiveView"
+                <StackPanel
                     Grid.Row="1"
                     Margin="0,0,0,12"
-                    IncrementalTriggered="OnLiveViewIncrementalTriggered"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                    <base:VerticalRepeaterView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:LiveItemViewModel">
-                            <base:LiveItem ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </base:VerticalRepeaterView.ItemTemplate>
-                </base:VerticalRepeaterView>
+                    Spacing="8">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="{ext:Locale Name=Recommend}" />
+                    <base:VerticalRepeaterView
+                        x:Name="LiveView"
+                        IncrementalTriggered="OnLiveViewIncrementalTriggered"
+                        ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                        <base:VerticalRepeaterView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:LiveItemViewModel">
+                                <base:LiveItem ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </base:VerticalRepeaterView.ItemTemplate>
+                    </base:VerticalRepeaterView>
+                </StackPanel>
             </Grid>
         </ScrollViewer>
 

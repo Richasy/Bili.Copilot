@@ -14,15 +14,15 @@ namespace Bili.Copilot.App.Controls.Modules;
 /// <summary>
 /// 分区详情模块.
 /// </summary>
-public sealed partial class PartitionDetailModule : PartitionDetailModuleBase
+public sealed partial class VideoPartitionDetailModule : VideoPartitionDetailModuleBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PartitionDetailModule"/> class.
+    /// Initializes a new instance of the <see cref="VideoPartitionDetailModule"/> class.
     /// </summary>
-    public PartitionDetailModule()
+    public VideoPartitionDetailModule()
     {
         InitializeComponent();
-        ViewModel = PartitionDetailViewModel.Instance;
+        ViewModel = VideoPartitionDetailViewModel.Instance;
         Loaded += OnLoaded;
     }
 
@@ -58,6 +58,6 @@ public sealed partial class PartitionDetailModule : PartitionDetailModuleBase
 /// <summary>
 /// 分区详情模块的基类.
 /// </summary>
-public abstract class PartitionDetailModuleBase : ReactiveUserControl<PartitionDetailViewModel>
+public abstract class VideoPartitionDetailModuleBase : ReactiveUserControl<VideoPartitionDetailViewModel>
 {
 }

@@ -31,6 +31,7 @@ public sealed partial class LivePageViewModel : ViewModelBase
         }
         else if (IsPartitionShown)
         {
+            await LivePartitionIndexViewModel.Instance.ReloadCommand.ExecuteAsync(default);
         }
     }
 
@@ -46,6 +47,10 @@ public sealed partial class LivePageViewModel : ViewModelBase
         _isInitialized = true;
     }
 
+    [RelayCommand]
+    private void ClosePartitionDetail()
+        => IsPartitionDetailShown = false;
+
     private async Task InitializeCurrentModuleAsync()
     {
         if (IsRecommendShown)
@@ -54,6 +59,7 @@ public sealed partial class LivePageViewModel : ViewModelBase
         }
         else if (IsPartitionShown)
         {
+            await LivePartitionIndexViewModel.Instance.InitializeCommand.ExecuteAsync(default);
         }
     }
 
@@ -77,4 +83,7 @@ public sealed partial class LivePageViewModel : ViewModelBase
         CheckModuleStateAsync();
         SettingsToolkit.WriteLocalSetting(SettingNames.LastLiveDisplayType, value);
     }
+
+    partial void OnIsPartitionDetailShownChanged(bool value)
+        => AppViewModel.Instance.IsBackButtonShown = value;
 }

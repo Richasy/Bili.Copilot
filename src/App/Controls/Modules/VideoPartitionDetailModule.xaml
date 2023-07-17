@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:PartitionDetailModuleBase
-    x:Class="Bili.Copilot.App.Controls.Modules.PartitionDetailModule"
+<local:VideoPartitionDetailModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.VideoPartitionDetailModule"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
@@ -196,4 +196,4 @@
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
     </Grid>
-</local:PartitionDetailModuleBase>
+</local:VideoPartitionDetailModuleBase>

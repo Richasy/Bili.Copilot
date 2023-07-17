@@ -9,15 +9,15 @@ namespace Bili.Copilot.App.Pages;
 /// <summary>
 /// 分区页面.
 /// </summary>
-public sealed partial class PartitionPage : PartitionPageBase
+public sealed partial class VideoPartitionPage : VideoPartitionPageBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PartitionPage"/> class.
+    /// Initializes a new instance of the <see cref="VideoPartitionPage"/> class.
     /// </summary>
-    public PartitionPage()
+    public VideoPartitionPage()
     {
         InitializeComponent();
-        ViewModel = PartitionModuleViewModel.Instance;
+        ViewModel = VideoPartitionModuleViewModel.Instance;
     }
 
     /// <inheritdoc/>
@@ -36,8 +36,8 @@ public sealed partial class PartitionPage : PartitionPageBase
 }
 
 /// <summary>
-/// <see cref="PartitionPage"/> 的基类.
+/// <see cref="VideoPartitionPage"/> 的基类.
 /// </summary>
-public abstract class PartitionPageBase : PageBase<PartitionModuleViewModel>
+public abstract class VideoPartitionPageBase : PageBase<VideoPartitionModuleViewModel>
 {
 }

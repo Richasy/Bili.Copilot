@@ -12,18 +12,18 @@ namespace Bili.Copilot.App.Controls.Modules;
 /// <summary>
 /// 分区索引模块.
 /// </summary>
-public sealed partial class PartitionIndexModule : PartitionIndexModuleBase
+public sealed partial class VideoPartitionIndexModule : VideoPartitionIndexModuleBase
 {
     private readonly ObservableCollection<int> _placeholderPartitions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PartitionIndexModule"/> class.
+    /// Initializes a new instance of the <see cref="VideoPartitionIndexModule"/> class.
     /// </summary>
-    public PartitionIndexModule()
+    public VideoPartitionIndexModule()
     {
         InitializeComponent();
         _placeholderPartitions = new ObservableCollection<int>(Enumerable.Range(1, 9).ToList());
-        ViewModel = PartitionIndexViewModel.Instance;
+        ViewModel = VideoPartitionIndexViewModel.Instance;
         Loaded += OnLoaded;
     }
 
@@ -38,8 +38,8 @@ public sealed partial class PartitionIndexModule : PartitionIndexModuleBase
 }
 
 /// <summary>
-/// <see cref="PartitionIndexModule"/> 的基类.
+/// <see cref="VideoPartitionIndexModule"/> 的基类.
 /// </summary>
-public abstract class PartitionIndexModuleBase : ReactiveUserControl<PartitionIndexViewModel>
+public abstract class VideoPartitionIndexModuleBase : ReactiveUserControl<VideoPartitionIndexViewModel>
 {
 }
