@@ -29,6 +29,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase
         Data = information;
         _additionalAction = action;
         _additionalData = additionalData;
+        CanRemove = true;
         InitializeData();
     }
 

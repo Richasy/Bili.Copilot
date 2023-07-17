@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Bili.Copilot.Models.App.Other;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Dispatching;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -21,10 +20,8 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
     /// </summary>
     public InformationFlowViewModel()
     {
-        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         Items = new ObservableCollection<T>();
         AttachIsRunningToAsyncCommand(p => IsIncrementalLoading = p, IncrementalCommand);
-        AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadCommand, InitializeCommand);
         AttachExceptionHandlerToAsyncCommand(LogException, IncrementalCommand);
     }
@@ -76,7 +73,7 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
     [RelayCommand]
     private async Task InitializeAsync()
     {
-        if (Items.Count > 0)
+        if (Items.Count > 0 || IsReloading)
         {
             return;
         }
@@ -94,26 +91,28 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
     }
 
     [RelayCommand]
-    private Task ReloadAsync()
+    private async Task ReloadAsync()
     {
+        if (IsReloading)
+        {
+            return;
+        }
+
+        IsReloading = true;
         ResetState();
 
-        _dispatcherQueue.TryEnqueue(
-            async () =>
-            {
-                try
-                {
-                    IsReloading = true;
-                    await GetDataAsync();
-                    IsReloading = false;
-                }
-                catch (Exception ex)
-                {
-                    DisplayException(ex);
-                }
-            });
+        try
+        {
+            IsReloading = true;
+            await GetDataAsync();
+            IsReloading = false;
+        }
+        catch (Exception ex)
+        {
+            DisplayException(ex);
+        }
 
-        return Task.CompletedTask;
+        IsReloading = false;
     }
 
     [RelayCommand]

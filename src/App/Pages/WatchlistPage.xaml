@@ -76,7 +76,7 @@
                         <base:FluentIcon Symbol="History" />
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
-                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=DefaultFavorite}">
+                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Favorite}">
                     <labs:SegmentedItem.Icon>
                         <base:FluentIcon Symbol="Star" />
                     </labs:SegmentedItem.Icon>
@@ -85,6 +85,6 @@
         </Grid>
         <modules:HistoryModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsHistoryShown, Mode=OneWay}" />
         <modules:ViewLaterModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsViewLaterShown, Mode=OneWay}" />
-        <modules:DefaultVideoFavoriteModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsFavoriteShown, Mode=OneWay}" />
+        <modules:VideoFavoriteModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsFavoriteShown, Mode=OneWay}" />
     </Grid>
 </local:WatchlistPageBase>

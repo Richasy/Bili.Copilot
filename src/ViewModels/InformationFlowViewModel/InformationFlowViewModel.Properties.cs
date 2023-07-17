@@ -2,7 +2,6 @@
 
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Dispatching;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -12,7 +11,6 @@ namespace Bili.Copilot.ViewModels;
 /// <typeparam name="T">核心数据集合的类型.</typeparam>
 public abstract partial class InformationFlowViewModel<T>
 {
-    private readonly DispatcherQueue _dispatcherQueue;
     private bool _isNeedLoadAgain;
 
     [ObservableProperty]

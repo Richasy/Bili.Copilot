@@ -37,7 +37,7 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
         }
         else
         {
-            await DefaultVideoFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+            await VideoFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
         }
     }
 
@@ -87,7 +87,7 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
         }
         else
         {
-            await DefaultVideoFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+            await VideoFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
         }
     }
 
@@ -101,7 +101,7 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
         {
             WatchlistType.ViewLater => ResourceToolkit.GetLocalizedString(StringNames.ViewLater),
             WatchlistType.History => ResourceToolkit.GetLocalizedString(StringNames.ViewHistory),
-            WatchlistType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.DefaultFavorite),
+            WatchlistType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.Favorite),
             _ => string.Empty,
         };
 

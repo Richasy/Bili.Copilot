@@ -40,13 +40,13 @@
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
-        <None Remove="Controls\Modules\DefaultVideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\TimelineModule.xaml" />
+        <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
@@ -139,7 +139,7 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Controls\Modules\DefaultVideoFavoriteModule.xaml">
+      <Page Update="Controls\Modules\VideoFavoriteModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

@@ -45,6 +45,9 @@ public sealed partial class VideoItemViewModel
     [ObservableProperty]
     private bool _isSelected;
 
+    [ObservableProperty]
+    private bool _canRemove;
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is VideoItemViewModel model && EqualityComparer<VideoInformation>.Default.Equals(Data, model.Data);
 
