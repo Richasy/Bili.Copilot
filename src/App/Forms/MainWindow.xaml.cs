@@ -88,6 +88,7 @@ public sealed partial class MainWindow : WindowBase
             PageType.Live => typeof(LivePage),
             PageType.Anime => typeof(AnimePage),
             PageType.Film => typeof(FilmPage),
+            PageType.Article => typeof(ArticlePage),
             PageType.Watchlist => typeof(WatchlistPage),
             PageType.SignIn => typeof(SignInPage),
             _ => throw new NotImplementedException(),

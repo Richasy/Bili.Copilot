@@ -54,8 +54,6 @@ public sealed partial class AppViewModel : ViewModelBase
 
             Navigate(lastOpenPage);
         }
-
-        Logger.Trace("应用完成初始化");
     }
 
     /// <summary>
@@ -151,6 +149,7 @@ public sealed partial class AppViewModel : ViewModelBase
         NavigateItems.Add(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video));
         NavigateItems.Add(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust));
         NavigateItems.Add(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay));
+        NavigateItems.Add(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn), FluentSymbol.DocumentBulletList));
         NavigateItems.Add(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple));
     }
 

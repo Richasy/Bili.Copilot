@@ -16,5 +16,5 @@ public sealed class ArticleItem : ReactiveControl<ArticleItemViewModel>, IRepeat
     public ArticleItem() => DefaultStyleKey = typeof(ArticleItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new(210, 248);
+    public Size GetHolderSize() => new(400, 240);
 }

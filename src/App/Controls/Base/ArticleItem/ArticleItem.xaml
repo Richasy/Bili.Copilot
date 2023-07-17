@@ -16,7 +16,7 @@
         <MenuFlyoutItem
             x:Name="OpenInBrowserItem"
             AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
-            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+            Command="{Binding OpenInBrowserCommand}"
             Text="{ext:Locale Name=OpenInBrowser}">
             <MenuFlyoutItem.Icon>
                 <local:FluentIcon Symbol="Globe" />
@@ -38,7 +38,6 @@
                         </Grid.Resources>
                         <local:CardPanel
                             x:Name="RootCard"
-                            MaxHeight="148"
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReadCommand}"
                             ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultArticleItemContextFlyout}}"
@@ -56,7 +55,7 @@
                                     <local:ImageEx
                                         x:Name="CoverImage"
                                         Width="180"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Stretch"
                                         Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                         Stretch="UniformToFill" />
                                 </Grid>
@@ -83,6 +82,7 @@
                                         x:Name="TitleBlock"
                                         Grid.Row="1"
                                         VerticalAlignment="Top"
+                                        MaxLines="1"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                                         TextTrimming="CharacterEllipsis"
                                         TextWrapping="Wrap">
@@ -94,6 +94,7 @@
                                     <StackPanel
                                         x:Name="InlineUserContainer"
                                         Grid.Row="2"
+                                        Margin="0,4"
                                         Orientation="Horizontal"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
                                         <local:ImageEx
@@ -212,5 +213,5 @@
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource VerticalArticleItemStyle}" TargetType="local:ArticleItem" />
+    <Style BasedOn="{StaticResource HorizontalArticleItemStyle}" TargetType="local:ArticleItem" />
 </ResourceDictionary>

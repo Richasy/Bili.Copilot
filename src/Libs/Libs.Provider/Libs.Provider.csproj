@@ -9,9 +9,8 @@
 
   <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.11.49" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230602002" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-      <PackageReference Include="System.Security.Permissions" Version="7.0.0" />
       <PackageReference Include="Websocket.Client" Version="4.6.1" />
       <PackageReference Include="ZXing.Net" Version="0.16.9" />
       <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />

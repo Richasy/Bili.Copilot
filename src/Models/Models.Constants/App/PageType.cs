@@ -53,6 +53,11 @@ public enum PageType
     Film,
 
     /// <summary>
+    /// 专栏.
+    /// </summary>
+    Article,
+
+    /// <summary>
     /// 观看列表，包括历史记录、稍后再看、收藏夹.
     /// </summary>
     Watchlist,

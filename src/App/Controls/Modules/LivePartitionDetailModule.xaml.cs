@@ -36,7 +36,7 @@ public sealed partial class LivePartitionDetailModule : LivePartitionDetailModul
     private void OnDetailNavigationViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
     {
         var data = args.InvokedItem as LiveTag;
-        ContentScrollViewer.ChangeView(default, 0, default);
+        ContentScrollViewer.ChangeView(default, 0, default, true);
         ViewModel.SelectTagCommand.Execute(data);
     }
 
