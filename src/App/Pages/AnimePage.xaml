@@ -10,7 +10,7 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:pgc="using:Bili.Copilot.Models.Data.Pgc"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+
         <Grid Margin="20,12,20,0" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -32,7 +33,7 @@
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ReloadCommand}"
+                Click="ReloadButtonClick"
                 IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                 Style="{StaticResource SmallIconButtonStyle}">
                 <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
@@ -62,117 +63,43 @@
             </labs:Segmented>
         </Grid>
 
-        <ScrollViewer
-            x:Name="ContentScrollViewer"
-            Grid.Row="1"
-            Style="{StaticResource PageScrollViewerStyle}"
-            Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <base:VerticalRepeaterView
-                x:Name="SeasonView"
-                Margin="0,0,0,12"
-                IncrementalTriggered="OnSeasonViewIncrementalTriggered"
-                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-                Style="{StaticResource PgcSlimVerticalRepeaterViewStyle}"
-                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:SeasonItemViewModel">
-                        <base:SeasonItem Style="{StaticResource SlimSeasonItemStyle}" ViewModel="{x:Bind}" />
-                    </DataTemplate>
-                </base:VerticalRepeaterView.ItemTemplate>
-            </base:VerticalRepeaterView>
-        </ScrollViewer>
-
-        <Grid
-            Grid.Row="1"
-            RowSpacing="12"
-            Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <NavigationView
-                x:Name="RecommendNavigationView"
-                Margin="20,12,20,0"
-                ItemInvoked="OnTimelineNavigationViewItemInvoked"
-                MenuItemsSource="{x:Bind ViewModel.TimelineCollection}"
-                SelectedItem="{x:Bind ViewModel.SelectedTimeline, Mode=OneWay}"
-                Style="{StaticResource TopNavigationViewStyle}">
-                <NavigationView.MenuItemTemplate>
-                    <DataTemplate x:DataType="pgc:TimelineInformation">
-                        <NavigationViewItem Content="{x:Bind}">
-                            <NavigationViewItem.ContentTemplate>
-                                <DataTemplate x:DataType="pgc:TimelineInformation">
-                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Style="{StaticResource BodyStrongTextBlockStyle}"
-                                            Text="{x:Bind DayOfWeek}" />
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{x:Bind Date}" />
-                                    </StackPanel>
-
-                                </DataTemplate>
-                            </NavigationViewItem.ContentTemplate>
-                        </NavigationViewItem>
-                    </DataTemplate>
-                </NavigationView.MenuItemTemplate>
-            </NavigationView>
+        <Grid Grid.Row="1">
             <ScrollViewer
-                x:Name="TimelineScrollViewer"
+                x:Name="ContentScrollViewer"
                 Grid.Row="1"
                 Style="{StaticResource PageScrollViewerStyle}"
-                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <Grid>
-                    <ItemsRepeater
-                        x:Name="Repeater"
-                        Margin="0,0,0,12"
-                        ItemsSource="{x:Bind ViewModel.SelectedTimeline.Seasons, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                ItemsStretch="Fill"
-                                MinColumnSpacing="8"
-                                MinItemHeight="220"
-                                MinItemWidth="120"
-                                MinRowSpacing="8" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="pgc:SeasonInformation">
-                                <base:SeasonItem Information="{x:Bind}" Style="{StaticResource SlimSeasonItemStyle}" />
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                    <controls:ErrorPanel
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{ext:Locale Name=TimelineHasNoVideo}"
-                        Visibility="{x:Bind ViewModel.SelectedTimeline.Seasons, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
-                </Grid>
+                Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <base:VerticalRepeaterView
+                    x:Name="SeasonView"
+                    Margin="0,0,0,12"
+                    IncrementalTriggered="OnSeasonViewIncrementalTriggered"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Style="{StaticResource PgcSlimVerticalRepeaterViewStyle}"
+                    Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <base:VerticalRepeaterView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:SeasonItemViewModel">
+                            <base:SeasonItem Style="{StaticResource SlimSeasonItemStyle}" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </base:VerticalRepeaterView.ItemTemplate>
+                </base:VerticalRepeaterView>
             </ScrollViewer>
+            <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+            <controls:ErrorPanel
+                x:Name="ErrorPanel"
+                VerticalAlignment="Center"
+                ActionContent="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+            <controls:ErrorPanel
+                x:Name="EmptyPanel"
+                VerticalAlignment="Center"
+                ActionContent="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                Text="{ext:Locale Name=NoSpecificData}"
+                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         </Grid>
 
-
-        <controls:OverlayLoadingPanel
-            Grid.Row="1"
-            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
-            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
-        <controls:ErrorPanel
-            x:Name="ErrorPanel"
-            Grid.Row="1"
-            VerticalAlignment="Center"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand}"
-            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
-        <controls:ErrorPanel
-            x:Name="EmptyPanel"
-            Grid.Row="1"
-            VerticalAlignment="Center"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand}"
-            Text="{ext:Locale Name=NoSpecificData}"
-            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+        <modules:TimelineModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay}" />
     </Grid>
 </local:AnimePageBase>

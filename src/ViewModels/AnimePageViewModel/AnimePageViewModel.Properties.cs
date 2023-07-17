@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Pgc;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -36,16 +35,8 @@ public sealed partial class AnimePageViewModel
     [ObservableProperty]
     private string _title;
 
-    [ObservableProperty]
-    private TimelineInformation _selectedTimeline;
-
     /// <summary>
     /// 实例.
     /// </summary>
     public static AnimePageViewModel Instance { get; } = new();
-
-    /// <summary>
-    /// 时间线集合.
-    /// </summary>
-    public ObservableCollection<TimelineInformation> TimelineCollection { get; }
 }

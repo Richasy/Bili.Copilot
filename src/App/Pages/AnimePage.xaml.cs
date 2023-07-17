@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 
@@ -29,7 +28,14 @@ public sealed partial class AnimePage : AnimePageBase
     {
         CoreViewModel.IsBackButtonShown = false;
         AnimeTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
-        ViewModel.InitializeCommand.Execute(default);
+        if (ViewModel.IsTimelineShown)
+        {
+            TimelineViewModel.Instance.InitializeCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.InitializeCommand.Execute(default);
+        }
     }
 
     private async void OnAnimeTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
@@ -42,8 +48,17 @@ public sealed partial class AnimePage : AnimePageBase
     private void OnSeasonViewIncrementalTriggered(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
 
-    private void OnTimelineNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        => ViewModel.SelectedTimeline = (TimelineInformation)args.InvokedItem;
+    private void ReloadButtonClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        if (ViewModel.IsTimelineShown)
+        {
+            TimelineViewModel.Instance.ReloadCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.ReloadCommand.Execute(default);
+        }
+    }
 }
 
 /// <summary>
