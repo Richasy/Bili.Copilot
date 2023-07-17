@@ -22,7 +22,7 @@ public sealed class FluentIcon : FontIcon
     /// Initializes a new instance of the <see cref="FluentIcon"/> class.
     /// </summary>
     public FluentIcon()
-        => FontFamily = new FontFamily("/Assets/FluentSystemIcon.ttf#FluentSystemIcons-Resizable");
+        => FontFamily = new FontFamily("ms-appx:///Assets/FluentSystemIcon.ttf#FluentSystemIcons-Resizable");
 
     /// <summary>
     /// Icon.

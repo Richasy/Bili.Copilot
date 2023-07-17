@@ -91,4 +91,6 @@ public enum SettingNames
     LastWatchlistType,
     LastFilmType,
     LastAnimeType,
+    IsLiveFollowsVisible,
+    LastLiveDisplayType,
 }

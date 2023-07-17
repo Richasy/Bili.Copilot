@@ -1,0 +1,180 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base">
+
+    <Style x:Key="HorizontalLiveItemStyle" TargetType="local:LiveItem">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveItem">
+                    <local:CardPanel
+                        x:Name="RootCard"
+                        MaxHeight="124"
+                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                        IsEnableCheck="False">
+
+                        <local:CardPanel.ContextFlyout>
+                            <MenuFlyout x:Name="LiveFlyout">
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBrowserItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardPanel.ContextFlyout>
+
+                        <Grid>
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
+                                    <Setter Property="Spacing" Value="4" />
+                                    <Setter Property="IconFontSize" Value="12" />
+                                    <Setter Property="FontSize" Value="11" />
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                x:Name="CoverContainer"
+                                Width="144"
+                                Height="86"
+                                Margin="8"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <local:ImageEx
+                                    x:Name="CoverImage"
+                                    VerticalAlignment="Stretch"
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                    Stretch="UniformToFill" />
+                            </Grid>
+                            <Grid
+                                x:Name="ContentContainer"
+                                Grid.Column="1"
+                                Padding="8,8,12,8"
+                                RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Name="SubtitleBlock"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}" />
+
+                                <TextBlock
+                                    x:Name="TitleBlock"
+                                    Grid.Row="1"
+                                    VerticalAlignment="Top"
+                                    MaxLines="2"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+
+                                <local:IconTextBlock
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Left"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Symbol="People"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCountText}"
+                                    ToolTipService.ToolTip="{ext:Locale Name=Viewer}" />
+                            </Grid>
+                        </Grid>
+                    </local:CardPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SlimLiveItemStyle" TargetType="local:LiveItem">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveItem">
+                    <local:CardPanel
+                        Width="120"
+                        Height="176"
+                        AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                        IsEnableCheck="False">
+
+                        <local:CardPanel.ContextFlyout>
+                            <MenuFlyout x:Name="LiveFlyout">
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBrowserItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardPanel.ContextFlyout>
+
+                        <Grid Padding="12" RowSpacing="12">
+                            <Grid.Resources>
+                                <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
+                                    <Setter Property="Spacing" Value="4" />
+                                    <Setter Property="IconFontSize" Value="12" />
+                                    <Setter Property="FontSize" Value="11" />
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <local:ImageEx
+                                Width="52"
+                                Height="52"
+                                HorizontalAlignment="Center"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Avatar.Uri}"
+                                ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}" />
+                            <StackPanel Grid.Row="1" Spacing="8">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontWeight="Bold"
+                                    MaxLines="1"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}"
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    MaxLines="2"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <local:IconTextBlock
+                                Grid.Row="2"
+                                HorizontalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Symbol="People"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCountText, Mode=OneWay}" />
+                        </Grid>
+                    </local:CardPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource HorizontalLiveItemStyle}" TargetType="local:LiveItem" />
+</ResourceDictionary>

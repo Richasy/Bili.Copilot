@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LivePageBase
+    x:Class="Bili.Copilot.App.Pages.LivePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Style="{StaticResource SmallIconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
+                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+            </Button>
+
+            <labs:Segmented
+                x:Name="LiveTypeSelection"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                SelectionChanged="OnLiveTypeSegmentedSelectionChanged"
+                SelectionMode="Single">
+                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Recommend}">
+                    <labs:SegmentedItem.Icon>
+                        <base:FluentIcon Symbol="Live" />
+                    </labs:SegmentedItem.Icon>
+                </labs:SegmentedItem>
+                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Partition}">
+                    <labs:SegmentedItem.Icon>
+                        <base:FluentIcon Symbol="Apps" />
+                    </labs:SegmentedItem.Icon>
+                </labs:SegmentedItem>
+            </labs:Segmented>
+        </Grid>
+        <modules:LiveRecommendDetailModule Grid.Row="1" Visibility="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}" />
+    </Grid>
+</local:LivePageBase>

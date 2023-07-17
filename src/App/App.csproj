@@ -37,10 +37,12 @@
         <None Remove="Controls\Base\SeasonItem\SeasonItem.xaml" />
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
+        <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\DefaultVideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
+        <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\PartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\PartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
@@ -53,6 +55,7 @@
         <None Remove="Pages\DynamicPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
+        <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\PartitionPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
@@ -95,6 +98,11 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\LivePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\AnimePage.xaml">
@@ -278,6 +286,14 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Base\SeasonItem\SeasonItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\LiveItem\LiveItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveRecommendDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
