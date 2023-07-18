@@ -89,8 +89,6 @@
                                 x:Name="MainContainer"
                                 Grid.Row="2"
                                 Margin="0,0,0,12"
-                                BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                                BorderThickness="1"
                                 CornerRadius="{ThemeResource ControlCornerRadius}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Data, Converter={StaticResource ObjectToVisibilityConverter}}">
                                 <local:DynamicPresenter x:Name="Presenter" Data="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Data}" />

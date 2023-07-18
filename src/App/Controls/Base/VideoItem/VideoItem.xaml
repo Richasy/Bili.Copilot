@@ -172,7 +172,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
-                    <Grid RowSpacing="8">
+                    <Grid
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        RowSpacing="8">
                         <Grid.Resources>
                             <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
                                 <Setter Property="Spacing" Value="4" />

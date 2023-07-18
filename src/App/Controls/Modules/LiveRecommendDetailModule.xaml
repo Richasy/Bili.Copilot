@@ -62,7 +62,10 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:LiveItemViewModel">
-                                <base:LiveItem Style="{StaticResource SlimLiveItemStyle}" ViewModel="{x:Bind}" />
+                                <base:LiveItem
+                                    DataContext="{x:Bind}"
+                                    Style="{StaticResource SlimLiveItemStyle}"
+                                    ViewModel="{x:Bind}" />
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
@@ -82,7 +85,7 @@
                         ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                         <base:VerticalRepeaterView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:LiveItemViewModel">
-                                <base:LiveItem ViewModel="{x:Bind}" />
+                                <base:LiveItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
                             </DataTemplate>
                         </base:VerticalRepeaterView.ItemTemplate>
                     </base:VerticalRepeaterView>
