@@ -119,7 +119,7 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
 
         // 合并推荐分区及排行榜分区.
         var rcmdPartition = partition.Children.First(p => p.Id == p.ParentId);
-        var rankPartition = new Partition("-1", ResourceToolkit.GetLocalizedString(StringNames.Rank), parentId: rcmdPartition.ParentId);
+        var rankPartition = new Partition("-1", ResourceToolkit.GetLocalizedString(StringNames.PartitionRank), parentId: rcmdPartition.ParentId);
         RecommendPartitions.Add(rcmdPartition);
         RecommendPartitions.Add(rankPartition);
 

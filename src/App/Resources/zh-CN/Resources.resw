@@ -1047,6 +1047,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="PartitionLoading" xml:space="preserve">
     <value>正在加载分区</value>
   </data>
+  <data name="PartitionRank" xml:space="preserve">
+    <value>分区排行榜</value>
+  </data>
   <data name="PartitionRequestFailed" xml:space="preserve">
     <value>分区请求失败</value>
   </data>

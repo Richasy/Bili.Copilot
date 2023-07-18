@@ -31,7 +31,7 @@ public static class LiveAdapter
         var viewerCount = room.ViewerCount;
         var user = UserAdapter.ConvertToUserProfile(room.UserId, room.UserName, room.UserAvatar, AvatarSize.Size48);
         var cover = ImageAdapter.ConvertToVideoCardCover(room.Cover);
-        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(room.AreaName);
+        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded($"{room.AreaName} · {room.UserName}");
 
         var identifier = new VideoIdentifier(id, title, -1, cover);
         return new LiveInformation(
