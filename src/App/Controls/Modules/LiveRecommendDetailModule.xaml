@@ -75,7 +75,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyStrongTextBlockStyle}"
-                        Text="{ext:Locale Name=Recommend}" />
+                        Text="{ext:Locale Name=RecommendLive}" />
                     <base:VerticalRepeaterView
                         x:Name="LiveView"
                         IncrementalTriggered="OnLiveViewIncrementalTriggered"

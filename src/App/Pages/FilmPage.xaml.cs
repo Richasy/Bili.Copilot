@@ -31,15 +31,8 @@ public sealed partial class FilmPage : FilmPageBase
         ViewModel.InitializeCommand.Execute(default);
     }
 
-    private async void OnFilmTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
-    {
-        ContentScrollViewer.ChangeView(default, 0, default, true);
-        await Task.Delay(100);
-        ViewModel.CurrentType = (FilmType)FilmTypeSelection.SelectedIndex;
-    }
-
-    private void OnSeasonViewIncrementalTriggered(object sender, EventArgs e)
-        => ViewModel.IncrementalCommand.Execute(default);
+    private void OnFilmTypeSegmentedSelectionChanged(object sender, SelectionChangedEventArgs e)
+        => ViewModel.CurrentType = (FilmType)FilmTypeSelection.SelectedIndex;
 }
 
 /// <summary>

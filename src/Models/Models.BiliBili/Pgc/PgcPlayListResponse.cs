@@ -1,11 +1,9 @@
-// Copyright (c) Bili Copilot. All rights reserved.
-
-using System.Collections.Generic;
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// PGC²¥·ÅÁĞ±íÏìÓ¦.
+/// PGCæ’­æ”¾åˆ—è¡¨å“åº”.
 /// </summary>
 public class PgcPlayListResponse
 {
@@ -16,139 +14,139 @@ public class PgcPlayListResponse
     public int Id { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯ÁĞ±í.
+    /// å‰§é›†åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("seasons")]
     public List<PgcPlayListSeason> Seasons { get; set; }
 
     /// <summary>
-    /// ËµÃ÷ÎÄ±¾.
+    /// è¯´æ˜æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("summary")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÁĞ±í±êÌâ.
+    /// æ’­æ”¾åˆ—è¡¨æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ×ÜÊı.
+    /// æ€»æ•°.
     /// </summary>
     [JsonPropertyName("total")]
     public string Total { get; set; }
 }
 
 /// <summary>
-/// PGC²¥·ÅÁĞ±í¾ç¼¯ÌõÄ¿.
+/// PGCæ’­æ”¾åˆ—è¡¨å‰§é›†æ¡ç›®.
 /// </summary>
 public class PgcPlayListSeason
 {
     /// <summary>
-    /// ÑİÔ±.
+    /// æ¼”å‘˜.
     /// </summary>
     [JsonPropertyName("actors")]
     public string Actors { get; set; }
 
     /// <summary>
-    /// Ä£¿é×ÓÏîÁĞ±í.
+    /// æ¨¡å—å­é¡¹åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ¼ò½é.
+    /// ç®€ä»‹.
     /// </summary>
     [JsonPropertyName("evaluate")]
     public string Description { get; set; }
 
     /// <summary>
-    /// Á´½Ó.
+    /// é“¾æ¥.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// Ã½ÌåÁ´½Ó.
+    /// åª’ä½“é“¾æ¥.
     /// </summary>
     [JsonPropertyName("media_id")]
     public int MediaId { get; set; }
 
     /// <summary>
-    /// ×îĞÂ¾ç¼¯.
+    /// æœ€æ–°å‰§é›†.
     /// </summary>
     [JsonPropertyName("new_ep")]
     public PgcEpisode NewEpisode { get; set; }
 
     /// <summary>
-    /// ÆÀ·Ö.
+    /// è¯„åˆ†.
     /// </summary>
     [JsonPropertyName("rating")]
     public PgcRating Rating { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// å‰§é›†Id.
     /// </summary>
     [JsonPropertyName("seasonId")]
     public int SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯ÀàĞÍ.
+    /// å‰§é›†ç±»å‹.
     /// </summary>
     [JsonPropertyName("seasonType")]
     public int SeasonType { get; set; }
 
     /// <summary>
-    /// ÓÃ»§½»»¥ĞÅÏ¢.
+    /// ç”¨æˆ·äº¤äº’ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("stat")]
     public PgcPlayListItemStat Stat { get; set; }
 
     /// <summary>
-    /// ±êÇ©.
+    /// æ ‡ç­¾.
     /// </summary>
     [JsonPropertyName("styles")]
     public string Styles { get; set; }
 
     /// <summary>
-    /// ¸±±êÌâ.
+    /// å‰¯æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("subtitle")]
     public string Subtitle { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// PGC²¥·ÅÁĞ±íÌõÄ¿ÓÃ»§½»»¥ĞÅÏ¢.
+/// PGCæ’­æ”¾åˆ—è¡¨æ¡ç›®ç”¨æˆ·äº¤äº’ä¿¡æ¯.
 /// </summary>
 public class PgcPlayListItemStat
 {
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmakus")]
     public int DanmakuCount { get; set; }
 
     /// <summary>
-    /// ÊÕ²ØÊı.
+    /// æ”¶è—æ•°.
     /// </summary>
     [JsonPropertyName("favorites")]
     public int FavoriteCount { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÊı.
+    /// æ’­æ”¾æ•°.
     /// </summary>
     [JsonPropertyName("views")]
     public int PlayCount { get; set; }

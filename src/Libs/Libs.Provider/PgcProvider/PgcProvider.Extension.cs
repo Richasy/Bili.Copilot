@@ -17,7 +17,7 @@ namespace Bili.Copilot.Libs.Provider;
 public partial class PgcProvider
 {
     private readonly Dictionary<PgcType, string> _pgcOffsetCache;
-    private int _indexPageNumber;
+    private readonly Dictionary<PgcType, int> _pgcIndexCache;
 
     /// <summary>
     /// 实例.

@@ -20,7 +20,7 @@ public enum FavoriteType
     /// <summary>
     /// 追剧.
     /// </summary>
-    Cinema,
+    Film,
 
     /// <summary>
     /// 文章.

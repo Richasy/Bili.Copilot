@@ -28,37 +28,11 @@ public sealed partial class AnimePage : AnimePageBase
     {
         CoreViewModel.IsBackButtonShown = false;
         AnimeTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
-        if (ViewModel.IsTimelineShown)
-        {
-            TimelineViewModel.Instance.InitializeCommand.Execute(default);
-        }
-        else
-        {
-            ViewModel.InitializeCommand.Execute(default);
-        }
+        ViewModel.InitializeCommand.Execute(default);
     }
 
-    private async void OnAnimeTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
-    {
-        ContentScrollViewer.ChangeView(default, 0, default, true);
-        await Task.Delay(100);
-        ViewModel.CurrentType = (AnimeDisplayType)AnimeTypeSelection.SelectedIndex;
-    }
-
-    private void OnSeasonViewIncrementalTriggered(object sender, EventArgs e)
-        => ViewModel.IncrementalCommand.Execute(default);
-
-    private void ReloadButtonClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        if (ViewModel.IsTimelineShown)
-        {
-            TimelineViewModel.Instance.ReloadCommand.Execute(default);
-        }
-        else
-        {
-            ViewModel.ReloadCommand.Execute(default);
-        }
-    }
+    private void OnAnimeTypeSegmentedSelectionChanged(object sender, SelectionChangedEventArgs e)
+        => ViewModel.CurrentType = (AnimeDisplayType)AnimeTypeSelection.SelectedIndex;
 }
 
 /// <summary>

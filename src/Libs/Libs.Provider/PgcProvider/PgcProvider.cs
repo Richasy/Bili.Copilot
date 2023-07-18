@@ -27,7 +27,10 @@ public partial class PgcProvider
     /// Initializes a new instance of the <see cref="PgcProvider"/> class.
     /// </summary>
     private PgcProvider()
-        => _pgcOffsetCache = new Dictionary<PgcType, string>();
+    {
+        _pgcOffsetCache = new Dictionary<PgcType, string>();
+        _pgcIndexCache = new Dictionary<PgcType, int>();
+    }
 
     /// <summary>
     /// 获取顶部导航（过滤掉网页标签）.
@@ -164,7 +167,10 @@ public partial class PgcProvider
     /// <returns>PGC索引结果响应.</returns>
     public async Task<(bool IsFinished, IEnumerable<SeasonInformation> Items)> GetPgcIndexResultAsync(PgcType type, Dictionary<string, string> parameters)
     {
-        var queryParameters = GetPgcIndexResultQueryParameters(type, _indexPageNumber, parameters);
+        var index = _pgcIndexCache.ContainsKey(type)
+                ? _pgcIndexCache[type]
+                : 1;
+        var queryParameters = GetPgcIndexResultQueryParameters(type, index, parameters);
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, ApiConstants.Pgc.IndexResult, queryParameters, RequestClientType.IOS);
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync<ServerResponse<PgcIndexResultResponse>>(response);
@@ -172,8 +178,10 @@ public partial class PgcProvider
         var items = data.Data.List.Select(p => PgcAdapter.ConvertToSeasonInformation(p)).ToList();
         if (!isFinish)
         {
-            _indexPageNumber++;
+            index++;
         }
+
+        _pgcIndexCache[type] = index;
 
         return (isFinish, items);
     }
@@ -188,6 +196,6 @@ public partial class PgcProvider
     /// <summary>
     /// 重置索引页面请求状态.
     /// </summary>
-    public void ResetIndexStatus()
-        => _indexPageNumber = 1;
+    public void ResetIndexStatus(PgcType type)
+        => _pgcIndexCache.Remove(type);
 }

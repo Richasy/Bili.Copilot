@@ -8,6 +8,11 @@ namespace Bili.Copilot.Models.Constants.App;
 public enum FilmType
 {
     /// <summary>
+    /// 追剧.
+    /// </summary>
+    Favorite,
+
+    /// <summary>
     /// 电影.
     /// </summary>
     Movie,

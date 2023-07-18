@@ -1,112 +1,103 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Constants.Bili;
-using Bili.Copilot.Models.Data.Pgc;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
 /// 影视圈页面视图模型.
 /// </summary>
-public sealed partial class FilmPageViewModel : InformationFlowViewModel<SeasonItemViewModel>
+public sealed partial class FilmPageViewModel : ViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FilmPageViewModel"/> class.
     /// </summary>
     private FilmPageViewModel()
     {
-        _seasonCaches = new Dictionary<FilmType, IEnumerable<SeasonInformation>>();
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastFilmType, FilmType.Movie);
-        CheckModuleState();
+        CheckModuleStateAsync();
+
+        AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
     }
 
-    /// <inheritdoc/>
-    protected override void BeforeReload()
+    [RelayCommand]
+    private async Task ReloadAsync()
     {
-        var pgcType = GetPgcType();
-        PgcProvider.Instance.ResetPageStatus(pgcType);
-    }
-
-    /// <inheritdoc/>
-    protected override async Task GetDataAsync()
-    {
-        var pgcType = GetPgcType();
-        var data = await PgcProvider.Instance.GetPageDetailAsync(pgcType);
-
-        if (data.Seasons != null && data.Seasons.Count() > 0)
+        if (IsMovieShown)
         {
-            data.Seasons.ToList().ForEach(p =>
-            {
-                Items.Add(new SeasonItemViewModel(p));
-            });
+            await MovieRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsTvShown)
+        {
+            await TvRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsDocumentaryShown)
+        {
+            await DocumentaryRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsFavoriteShown)
+        {
+            await FilmFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+    }
 
-            _seasonCaches[CurrentType] = Items.Select(p => p.Data).ToList();
+    [RelayCommand]
+    private async Task InitializeAsync()
+    {
+        if (_isInitialized)
+        {
+            return;
         }
 
-        IsEmpty = Items.Count == 0;
+        await InitializeCurrentModuleAsync();
+        _isInitialized = true;
     }
 
-    /// <inheritdoc/>
-    protected override string FormatException(string errorMsg)
-        => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestFeedDetailFailed)}\n{errorMsg}";
+    private async Task InitializeCurrentModuleAsync()
+    {
+        if (IsMovieShown)
+        {
+            await MovieRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsTvShown)
+        {
+            await TvRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsDocumentaryShown)
+        {
+            await DocumentaryRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsFavoriteShown)
+        {
+            await FilmFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+    }
 
-    private void CheckModuleState()
+    private async void CheckModuleStateAsync()
     {
         IsMovieShown = CurrentType == FilmType.Movie;
         IsTvShown = CurrentType == FilmType.Tv;
         IsDocumentaryShown = CurrentType == FilmType.Documentary;
+        IsFavoriteShown = CurrentType == FilmType.Favorite;
 
         Title = CurrentType switch
         {
             FilmType.Movie => ResourceToolkit.GetLocalizedString(StringNames.Movie),
             FilmType.Tv => ResourceToolkit.GetLocalizedString(StringNames.TV),
             FilmType.Documentary => ResourceToolkit.GetLocalizedString(StringNames.Documentary),
+            FilmType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteFilm),
             _ => string.Empty,
         };
-    }
 
-    private PgcType GetPgcType()
-    {
-        return CurrentType switch
-        {
-            FilmType.Movie => PgcType.Movie,
-            FilmType.Tv => PgcType.TV,
-            FilmType.Documentary => PgcType.Documentary,
-            _ => PgcType.Movie,
-        };
+        await InitializeCurrentModuleAsync();
     }
 
     partial void OnCurrentTypeChanged(FilmType value)
     {
-        CheckModuleState();
+        CheckModuleStateAsync();
         SettingsToolkit.WriteLocalSetting(SettingNames.LastFilmType, value);
-
-        if (!IsInitialized)
-        {
-            return;
-        }
-
-        TryClear(Items);
-        if (_seasonCaches.ContainsKey(value))
-        {
-            var data = _seasonCaches[value];
-            foreach (var season in data)
-            {
-                var seasonVM = new SeasonItemViewModel(season);
-                Items.Add(seasonVM);
-            }
-
-            IsEmpty = Items.Count == 0;
-        }
-        else
-        {
-            InitializeCommand.ExecuteAsync(default);
-        }
     }
 }

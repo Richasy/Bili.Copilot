@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Pgc;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -12,7 +10,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class FilmPageViewModel
 {
-    private readonly Dictionary<FilmType, IEnumerable<SeasonInformation>> _seasonCaches;
+    private bool _isInitialized;
 
     [ObservableProperty]
     private FilmType _currentType;
@@ -27,10 +25,13 @@ public sealed partial class FilmPageViewModel
     private bool _isDocumentaryShown;
 
     [ObservableProperty]
-    private bool _isEmpty;
+    private bool _isFavoriteShown;
 
     [ObservableProperty]
     private string _title;
+
+    [ObservableProperty]
+    private bool _isReloading;
 
     /// <summary>
     /// 实例.

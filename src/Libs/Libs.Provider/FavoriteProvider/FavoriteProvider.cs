@@ -39,7 +39,7 @@ public sealed partial class FavoriteProvider
             { Query.Device, "phone" },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.UpdatePgcStatus, queryParameters, needToken: true);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.UpdatePgcStatus, queryParameters, RequestClientType.IOS, needToken: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse>(response);
         return result.Message == "success";

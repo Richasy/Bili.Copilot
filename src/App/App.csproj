@@ -44,6 +44,8 @@
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcFavoriteDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\TimelineModule.xaml" />
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
@@ -102,6 +104,16 @@
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\PgcFavoriteDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\PgcRecommendModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\ArticlePage.xaml">

@@ -1,143 +1,103 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Constants.Bili;
-using Bili.Copilot.Models.Data.Pgc;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
 /// 动漫页面的视图模型.
 /// </summary>
-public sealed partial class AnimePageViewModel : InformationFlowViewModel<SeasonItemViewModel>
+public sealed partial class AnimePageViewModel : ViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AnimePageViewModel"/> class.
     /// </summary>
     private AnimePageViewModel()
     {
-        _caches = new Dictionary<AnimeDisplayType, IEnumerable<SeasonInformation>>();
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastAnimeType, AnimeDisplayType.Timeline);
-        CheckModuleState();
+        CheckModuleStateAsync();
+
+        AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
     }
 
-    /// <inheritdoc/>
-    protected override void BeforeReload()
-        => PgcProvider.Instance.ResetIndexStatus();
-
-    /// <inheritdoc/>
-    protected override async Task GetDataAsync()
+    [RelayCommand]
+    private async Task ReloadAsync()
     {
-        if ((IsBangumiShown && _isBangumiFinished)
-             || (IsDomesticShown && _isDomesticFinished))
+        if (IsTimelineShown)
+        {
+            await TimelineViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsBangumiShown)
+        {
+            await BangumiRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsDomesticShown)
+        {
+            await DomesticRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+        else if (IsFavoriteShown)
+        {
+            await AnimeFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
+        }
+    }
+
+    [RelayCommand]
+    private async Task InitializeAsync()
+    {
+        if (_isInitialized)
         {
             return;
         }
 
-        var pgcType = GetPgcType();
-        var parameters = GetDefaultIndexParameters();
-        var (isFinished, items) = await PgcProvider.Instance.GetPgcIndexResultAsync(pgcType, parameters);
-        if (IsBangumiShown)
-        {
-            _isBangumiFinished = isFinished;
-        }
-        else
-        {
-            _isDomesticFinished = isFinished;
-        }
-
-        if (items != null && items.Count() > 0)
-        {
-            items.ToList().ForEach(p =>
-            {
-                Items.Add(new SeasonItemViewModel(p));
-            });
-
-            _caches[CurrentType] = Items.Select(p => p.Data).ToList();
-        }
-
-        IsEmpty = Items.Count == 0;
+        await InitializeCurrentModuleAsync();
+        _isInitialized = true;
     }
 
-    /// <inheritdoc/>
-    protected override string FormatException(string errorMsg)
-        => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestFeedDetailFailed)}\n{errorMsg}";
+    private async Task InitializeCurrentModuleAsync()
+    {
+        if (IsTimelineShown)
+        {
+            await TimelineViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsBangumiShown)
+        {
+            await BangumiRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsDomesticShown)
+        {
+            await DomesticRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+        else if (IsFavoriteShown)
+        {
+            await AnimeFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
+        }
+    }
 
-    private void CheckModuleState()
+    private async void CheckModuleStateAsync()
     {
         IsTimelineShown = CurrentType == AnimeDisplayType.Timeline;
         IsBangumiShown = CurrentType == AnimeDisplayType.Bangumi;
         IsDomesticShown = CurrentType == AnimeDisplayType.Domestic;
+        IsFavoriteShown = CurrentType == AnimeDisplayType.Favorite;
 
         Title = CurrentType switch
         {
             AnimeDisplayType.Timeline => ResourceToolkit.GetLocalizedString(StringNames.TimeChart),
             AnimeDisplayType.Bangumi => ResourceToolkit.GetLocalizedString(StringNames.Bangumi),
             AnimeDisplayType.Domestic => ResourceToolkit.GetLocalizedString(StringNames.DomesticAnime),
+            AnimeDisplayType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteAnime),
             _ => string.Empty,
         };
-    }
 
-    private PgcType GetPgcType()
-    {
-        return CurrentType switch
-        {
-            AnimeDisplayType.Bangumi => PgcType.Bangumi,
-            AnimeDisplayType.Domestic => PgcType.Domestic,
-            _ => PgcType.Bangumi,
-        };
-    }
-
-    private Dictionary<string, string> GetDefaultIndexParameters()
-    {
-        var area = IsBangumiShown ? "2" : "1,6,7";
-        return new Dictionary<string, string>
-        {
-            { "order", "8" },
-            { "style_id", "-1" },
-            { "area", area },
-            { "is_finish", "-1" },
-            { "year", "-1" },
-            { "season_month", "-1" },
-            { "copyright", "-1" },
-            { "spoken_language_type", "-1" },
-            { "season_status", "-1" },
-            { "season_version", "-1" },
-        };
+        await InitializeCurrentModuleAsync();
     }
 
     partial void OnCurrentTypeChanged(AnimeDisplayType value)
     {
-        CheckModuleState();
+        CheckModuleStateAsync();
         SettingsToolkit.WriteLocalSetting(SettingNames.LastAnimeType, value);
-
-        if (IsTimelineShown)
-        {
-            TimelineViewModel.Instance.InitializeCommand.Execute(default);
-        }
-        else
-        {
-            TryClear(Items);
-            if (_caches.ContainsKey(value))
-            {
-                var data = _caches[value];
-                foreach (var season in data)
-                {
-                    var seasonVM = new SeasonItemViewModel(season);
-                    Items.Add(seasonVM);
-                }
-
-                IsEmpty = Items.Count == 0;
-            }
-            else
-            {
-                InitializeCommand.ExecuteAsync(default);
-            }
-        }
     }
 }
