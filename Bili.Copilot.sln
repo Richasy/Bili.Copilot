@@ -3,31 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33906.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "src\App\App.csproj", "{4B8115E7-B636-499D-8C2E-40DF4DF01FC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App", "src\App\App.csproj", "{4B8115E7-B636-499D-8C2E-40DF4DF01FC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{6928EC51-115C-4FF0-BF4B-F1B31369B669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels", "src\ViewModels\ViewModels.csproj", "{C6363806-EDC2-43BA-A015-58CF3C1A174E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels", "src\ViewModels\ViewModels.csproj", "{C6363806-EDC2-43BA-A015-58CF3C1A174E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.ResourceGenerator", "src\Libs\Libs.ResourceGenerator\Libs.ResourceGenerator.csproj", "{9237F9B3-A28D-4521-99F9-CBCB0B5EE30E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.ResourceGenerator", "src\Libs\Libs.ResourceGenerator\Libs.ResourceGenerator.csproj", "{9237F9B3-A28D-4521-99F9-CBCB0B5EE30E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.App", "src\Models\Models.App\Models.App.csproj", "{4D372C56-4C96-4245-AF66-C6D9994778D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models.App", "src\Models\Models.App\Models.App.csproj", "{4D372C56-4C96-4245-AF66-C6D9994778D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.Constants", "src\Models\Models.Constants\Models.Constants.csproj", "{A365EFA9-BA05-4D46-8AA9-6DAE4A0ABFC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models.Constants", "src\Models\Models.Constants\Models.Constants.csproj", "{A365EFA9-BA05-4D46-8AA9-6DAE4A0ABFC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.BiliBili", "src\Models\Models.BiliBili\Models.BiliBili.csproj", "{BADFA1F2-A38F-4A6D-B208-C7ABEDAF1C2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models.BiliBili", "src\Models\Models.BiliBili\Models.BiliBili.csproj", "{BADFA1F2-A38F-4A6D-B208-C7ABEDAF1C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.Grpc", "src\Models\Models.Grpc\Models.Grpc.csproj", "{DF19313B-CCBC-4989-9D42-4E7F73045539}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models.Grpc", "src\Models\Models.Grpc\Models.Grpc.csproj", "{DF19313B-CCBC-4989-9D42-4E7F73045539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.Data", "src\Models\Models.Data\Models.Data.csproj", "{96B89F30-5386-4469-B19E-E73CA370E878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models.Data", "src\Models\Models.Data\Models.Data.csproj", "{96B89F30-5386-4469-B19E-E73CA370E878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Adapter", "src\Libs\Libs.Adapter\Libs.Adapter.csproj", "{8E9462B1-B030-4F5D-90F9-BB304581B6EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Adapter", "src\Libs\Libs.Adapter\Libs.Adapter.csproj", "{8E9462B1-B030-4F5D-90F9-BB304581B6EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Toolkit", "src\Libs\Libs.Toolkit\Libs.Toolkit.csproj", "{C56C60F0-C717-4AA1-8B4E-C516A83031A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Toolkit", "src\Libs\Libs.Toolkit\Libs.Toolkit.csproj", "{C56C60F0-C717-4AA1-8B4E-C516A83031A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Provider", "src\Libs\Libs.Provider\Libs.Provider.csproj", "{1024C320-57B8-445D-875E-5D969E7CA520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Provider", "src\Libs\Libs.Provider\Libs.Provider.csproj", "{1024C320-57B8-445D-875E-5D969E7CA520}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Player", "src\Libs\Libs.Player\Libs.Player.csproj", "{BF20FC54-2A85-422B-9AF3-D97D3A633137}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,6 +227,22 @@ Global
 		{1024C320-57B8-445D-875E-5D969E7CA520}.Release|x64.Build.0 = Release|Any CPU
 		{1024C320-57B8-445D-875E-5D969E7CA520}.Release|x86.ActiveCfg = Release|Any CPU
 		{1024C320-57B8-445D-875E-5D969E7CA520}.Release|x86.Build.0 = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|x64.Build.0 = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Debug|x86.Build.0 = Debug|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|ARM64.Build.0 = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|x64.ActiveCfg = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|x64.Build.0 = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|x86.ActiveCfg = Release|Any CPU
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,6 +257,7 @@ Global
 		{8E9462B1-B030-4F5D-90F9-BB304581B6EF} = {4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}
 		{C56C60F0-C717-4AA1-8B4E-C516A83031A9} = {4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}
 		{1024C320-57B8-445D-875E-5D969E7CA520} = {4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}
+		{BF20FC54-2A85-422B-9AF3-D97D3A633137} = {4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A195D36-BD13-472D-B17E-5070E06D82C8}
