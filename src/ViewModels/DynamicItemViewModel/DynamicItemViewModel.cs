@@ -36,6 +36,42 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
         InitializeData();
     }
 
+    private static void ActiveData(object data)
+    {
+        if (data == null || data is IEnumerable<Image>)
+        {
+            return;
+        }
+
+        if (data is VideoInformation video)
+        {
+            var playSnapshot = new PlaySnapshot(video.Identifier.Id, "0", VideoType.Video);
+            AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
+        }
+        else if (data is EpisodeInformation episode)
+        {
+            var needBiliPlus = episode.Identifier.Id == "0";
+            var id = needBiliPlus
+                ? episode.VideoId
+                : episode.Identifier.Id;
+
+            var playSnapshot = new PlaySnapshot(id, episode.SeasonId, VideoType.Pgc)
+            {
+                Title = episode.Identifier.Title,
+                NeedBiliPlus = needBiliPlus,
+            };
+            AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
+        }
+        else if (data is ArticleInformation article)
+        {
+            AppViewModel.Instance.OpenReaderCommand.Execute(article);
+        }
+        else if (data is DynamicInformation dynamic)
+        {
+            ActiveData(dynamic.Data);
+        }
+    }
+
     [RelayCommand]
     private async Task ToggleLikeAsync()
     {
@@ -152,41 +188,5 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
         }
 
         CanAddViewLater = Data.Data is VideoInformation;
-    }
-
-    private void ActiveData(object data)
-    {
-        if (data == null || data is IEnumerable<Image>)
-        {
-            return;
-        }
-
-        if (data is VideoInformation video)
-        {
-            var playSnapshot = new PlaySnapshot(video.Identifier.Id, "0", VideoType.Video);
-            AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
-        }
-        else if (data is EpisodeInformation episode)
-        {
-            var needBiliPlus = episode.Identifier.Id == "0";
-            var id = needBiliPlus
-                ? episode.VideoId
-                : episode.Identifier.Id;
-
-            var playSnapshot = new PlaySnapshot(id, episode.SeasonId, VideoType.Pgc)
-            {
-                Title = episode.Identifier.Title,
-                NeedBiliPlus = needBiliPlus,
-            };
-            AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
-        }
-        else if (data is ArticleInformation article)
-        {
-            AppViewModel.Instance.OpenReaderCommand.Execute(article);
-        }
-        else if (data is DynamicInformation dynamic)
-        {
-            ActiveData(dynamic.Data);
-        }
     }
 }

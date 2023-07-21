@@ -88,9 +88,9 @@ public sealed partial class HttpProvider
                     },
                     exception);
         }
-        catch (ServiceException exception)
+        catch (ServiceException)
         {
-            throw exception;
+            throw;
         }
         catch (Exception exception)
         {
