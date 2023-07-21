@@ -1,0 +1,180 @@
+﻿using System;
+
+using FFmpeg.AutoGen;
+using static FFmpeg.AutoGen.ffmpeg;
+
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
+
+namespace Bili.Copilot.Libs.Player.MediaFramework.MediaDecoder;
+
+public abstract unsafe class DecoderBase : RunThreadBase
+{
+    public MediaType                Type            { get; protected set; }
+
+    public bool                     OnVideoDemuxer  => demuxer?.Type == MediaType.Video;
+    public Demuxer                  Demuxer         => demuxer;
+    public StreamBase               Stream          { get; protected set; }
+    public AVCodecContext*          CodecCtx        => codecCtx;
+    public Action<DecoderBase>      CodecChanged    { get; set; }
+    public Config                   Config          { get; protected set; }
+    public double                   Speed           { get => speed; set { if (Disposed) { speed = value; return; } if (speed != value) OnSpeedChanged(value); } }
+    protected double speed = 1, oldSpeed = 1;
+    protected virtual void OnSpeedChanged(double value) { }
+
+    internal bool               filledFromCodec;
+    protected int               curSpeedFrame = 1;
+    protected AVFrame*          frame;
+    protected AVCodecContext*   codecCtx;
+    internal  object            lockCodecCtx    = new();
+
+    protected Demuxer           demuxer;
+
+    public DecoderBase(Config config, int uniqueId = -1) : base(uniqueId)
+    {
+        Config = config;
+
+        if (this is VideoDecoder)
+            Type = MediaType.Video;
+        else if (this is AudioDecoder)
+            Type = MediaType.Audio;
+        else if (this is SubtitlesDecoder)
+            Type = MediaType.Subs;
+
+        threadName = $"Decoder: {Type,5}";
+    }
+
+    public string Open(StreamBase stream)
+    {
+        lock (lockActions)
+        {
+            var prevStream = Stream;
+            Dispose();
+            Status = Status.Opening;
+            string error = Open2(stream, prevStream);
+            if (!Disposed)
+                frame = av_frame_alloc();
+
+            return error;
+        }
+    }
+    protected string Open2(StreamBase stream, StreamBase prevStream, bool openStream = true)
+    {
+        string error = null;
+
+        try
+        {
+            lock (stream.Demuxer.lockActions)
+            {
+                if (stream == null || stream.Demuxer.Interrupter.ForceInterrupt == 1 || stream.Demuxer.Disposed)
+                    return "Cancelled";
+
+                int ret = -1;
+                Disposed= false;
+                Stream  = stream;
+                demuxer = stream.Demuxer;
+                    
+                var codec = avcodec_find_decoder(stream.CodecID);
+                if (codec == null)
+                    return error = $"[{Type} avcodec_find_decoder] No suitable codec found";
+
+                codecCtx = avcodec_alloc_context3(null);
+                if (codecCtx == null)
+                    return error = $"[{Type} avcodec_alloc_context3] Failed to allocate context3";
+
+                ret = avcodec_parameters_to_context(codecCtx, stream.AVStream->codecpar);
+                if (ret < 0)
+                    return error = $"[{Type} avcodec_parameters_to_context] {FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})";
+
+                codecCtx->pkt_timebase  = stream.AVStream->time_base;
+                codecCtx->codec_id      = codec->id;
+
+                if (Config.Decoder.ShowCorrupted)
+                    codecCtx->flags |= AV_CODEC_FLAG_OUTPUT_CORRUPT;
+                    
+                try { ret = Setup(codec); } catch(Exception e) { return error = $"[{Type} Setup] {e.Message}"; }
+                if (ret < 0)
+                    return error = $"[{Type} Setup] {ret}";
+
+                ret = avcodec_open2(codecCtx, codec, null);
+                if (ret < 0)
+                    return error = $"[{Type} avcodec_open2] {FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})";
+
+                if (openStream)
+                {
+                    if (prevStream != null)
+                    {
+                        if (prevStream.Demuxer.Type == stream.Demuxer.Type)
+                            stream.Demuxer.SwitchStream(stream);
+                        else if (!prevStream.Demuxer.Disposed)
+                        {
+                            if (prevStream.Demuxer.Type == MediaType.Video)
+                                prevStream.Demuxer.DisableStream(prevStream);
+                            else if (prevStream.Demuxer.Type == MediaType.Audio || prevStream.Demuxer.Type == MediaType.Subs)
+                                prevStream.Demuxer.Dispose();
+
+                            stream.Demuxer.EnableStream(stream);
+                        }
+                    }
+                    else
+                        stream.Demuxer.EnableStream(stream);
+
+                    Status = Status.Stopped;
+                    CodecChanged?.Invoke(this);
+                }
+
+                return null;
+            }
+        }
+        finally
+        {
+            if (error != null)
+                Dispose(true);
+        }
+    }
+    protected abstract int Setup(AVCodec* codec);
+
+    public void Dispose(bool closeStream = false)
+    {
+        if (Disposed)
+            return;
+
+        lock (lockActions)
+        {
+            if (Disposed)
+                return;
+
+            Stop();
+            DisposeInternal();
+
+            if (closeStream && Stream != null && !Stream.Demuxer.Disposed)
+            {
+                if (Stream.Demuxer.Type == MediaType.Video)
+                    Stream.Demuxer.DisableStream(Stream);
+                else
+                    Stream.Demuxer.Dispose();
+            }
+
+            if (frame != null)
+                fixed (AVFrame** ptr = &frame)
+                    av_frame_free(ptr);
+
+            if (codecCtx != null)
+            {
+                // TBR possible not required, also in case of image codec it will through an access violation
+                //avcodec_flush_buffers(codecCtx);
+                avcodec_close(codecCtx);
+                fixed (AVCodecContext** ptr = &codecCtx)
+                    avcodec_free_context(ptr);
+            }
+            
+            demuxer         = null;
+            Stream          = null;
+            Status          = Status.Stopped;
+            curSpeedFrame   = (int)speed;
+            Disposed        = true;
+            Log.Info("Disposed");
+        }
+    }
+    protected abstract void DisposeInternal();
+}

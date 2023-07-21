@@ -60,6 +60,7 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
         if (partition.Id == "-1")
         {
             // 排行榜数据.
+            TryClear(Items);
             videos = await HomeProvider.GetRankDetailAsync(partition.ParentId);
         }
         else
