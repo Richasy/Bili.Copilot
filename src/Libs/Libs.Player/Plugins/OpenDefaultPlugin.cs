@@ -1,25 +1,25 @@
-﻿using System;
-using System.IO;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
+using System.IO;
+using Bili.Copilot.Libs.Player.Enums;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 
 namespace Bili.Copilot.Libs.Player.Plugins;
 
-public class OpenDefault : PluginBase, IOpen, IScrapeItem
+/// <summary>
+/// 默认的启动插件.
+/// </summary>
+public class OpenDefaultPlugin : PluginBase, IOpenPlugin, IScrapeItemPlugin
 {
-    /* TODO
-     * 
-     * 1) Current Url Syntax issues
-     *  ..\..\..\..\folder\file.mp3 | Cannot handle this
-     *  file:///C:/folder/fi%20le.mp3 | FFmpeg & File.Exists cannot handle this
-     * 
-     */
-
+    /// <inheritdoc/>
     public new int Priority { get; set; } = 3000;
 
+    /// <inheritdoc/>
     public bool CanOpen() => true;
 
-    public OpenResults Open()
+    /// <inheritdoc/>
+    public OpenResult Open()
     {
         try
         {
@@ -29,19 +29,19 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
                 {
                     IOStream = Playlist.IOStream,
                     Title = "Custom IO Stream",
-                    FileSize = Playlist.IOStream.Length
+                    FileSize = Playlist.IOStream.Length,
                 });
 
                 Handler.OnPlaylistCompleted();
 
-                return new OpenResults();
+                return new OpenResult();
             }
 
             // Proper Url Format
             string scheme;
-            bool isWeb = false;
-            string uriType = "";
-            string ext = Utils.GetUrlExtention(Playlist.Url);
+            var isWeb = false;
+            var uriType = string.Empty;
+            var ext = Utils.GetUrlExtension(Playlist.Url);
             string localPath = null;
 
             try
@@ -49,16 +49,17 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
                 Uri uri = new(Playlist.Url);
                 scheme = uri.Scheme.ToLower();
                 isWeb = scheme.StartsWith("http");
-                uriType = uri.IsFile ? "file" : (uri.IsUnc ? "unc" : "");
+                uriType = uri.IsFile ? "file" : (uri.IsUnc ? "unc" : string.Empty);
                 localPath = uri.LocalPath;
             }
-            catch { }
-
+            catch
+            {
+            }
 
             // Playlists (M3U, PLS | TODO: WPL, XSPF)
             if (ext == "m3u")
             {
-                Playlist.InputType = InputType.Web; // TBR: Can be mixed
+                Playlist.InputType = InputType.Web;
                 Playlist.FolderBase = Path.GetTempPath();
 
                 var items = isWeb ? M3UPlaylist.ParseFromHttp(Playlist.Url) : M3UPlaylist.Parse(Playlist.Url);
@@ -71,13 +72,13 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
                         Url = mitem.Url,
                         DirectUrl = mitem.Url,
                         UserAgent = mitem.UserAgent,
-                        Referrer = mitem.Referrer
+                        Referrer = mitem.Referrer,
                     });
                 }
 
                 Handler.OnPlaylistCompleted();
 
-                return new OpenResults();
+                return new OpenResult();
             }
             else if (ext == "pls")
             {
@@ -93,18 +94,15 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
                         Title = mitem.Title,
                         Url = mitem.Url,
                         DirectUrl = mitem.Url,
-                        // Duration
                     });
                 }
 
                 Handler.OnPlaylistCompleted();
 
-                return new OpenResults();
+                return new OpenResult();
             }
 
-
             // Single Playlist Item
-
             if (uriType == "file")
             {
                 if (ext == "mpd")
@@ -139,14 +137,13 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
             }
             else
             {
-                //Playlist.InputType = InputType.Unknown;
                 Playlist.FolderBase = Path.GetTempPath();
             }
 
             PlaylistItem item = new()
             {
                 Url = Playlist.Url,
-                DirectUrl = Playlist.Url
+                DirectUrl = Playlist.Url,
             };
 
             if (File.Exists(Playlist.Url))
@@ -156,28 +153,34 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
                 item.FileSize = fi.Length;
             }
             else
+            {
                 item.Title = localPath != null ? Path.GetFileName(localPath) : Playlist.Url;
+            }
 
             AddPlaylistItem(item);
             Handler.OnPlaylistCompleted();
 
-            return new OpenResults();
+            return new OpenResult();
         }
         catch (Exception e)
         {
-            return new OpenResults(e.Message);
+            return new OpenResult(e.Message);
         }
     }
 
-    public OpenResults OpenItem() => new OpenResults();
+    /// <inheritdoc/>
+    public OpenResult OpenItem() => new();
 
+    /// <inheritdoc/>
     public void ScrapeItem(PlaylistItem item)
     {
         // Update Title (TBR: don't mess with other media types - only movies/tv shows)
         if (Playlist.InputType != InputType.File && Playlist.InputType != InputType.UNC && Playlist.InputType != InputType.Torrent)
+        {
             return;
+        }
 
-        var mp = Utils.GetMediaParts(item.OriginalTitle);
+        var mp = Utils.GetMediaPart(item.OriginalTitle);
         item.Title = mp.Title;
 
         if (mp.Season > 0)

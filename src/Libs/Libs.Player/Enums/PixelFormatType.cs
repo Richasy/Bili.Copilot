@@ -13,8 +13,8 @@ public enum PixelFormatType
     Hardware,
 
     /// <summary>
-    /// 通用软件解码，不一定使用 ffmpeg 的 swscale 库。
-    /// 具体的实现可能因平台和环境而异，可以是使用其他软件库或自定义的算法来进行图像处理。
+    /// 通用软件解码，不一定使用 ffmpeg 的 swscale 库.
+    /// 具体的实现可能因平台和环境而异，可以是使用其他软件库或自定义的算法来进行图像处理.
     /// 这种方式可能会有不同的性能和效果，取决于具体的实现.
     /// </summary>
     SoftwareHandled,

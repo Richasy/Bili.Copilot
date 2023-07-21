@@ -7,7 +7,7 @@ namespace Bili.Copilot.Libs.Player.Plugins;
 /// <summary>
 /// 插件类型.
 /// </summary>
-public sealed class PluginType
+public class PluginType
 {
     /// <summary>
     /// 类型.

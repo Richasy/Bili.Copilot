@@ -6,7 +6,7 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
-public class Video : NotifyPropertyChanged
+public class Video : ObservableObject
 {
     /// <summary>
     /// Embedded Streams

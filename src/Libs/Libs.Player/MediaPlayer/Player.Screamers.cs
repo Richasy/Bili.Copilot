@@ -376,14 +376,14 @@ unsafe partial class Player
                 {
                     if (CanTrace) Log.Trace($"[A] Presenting {TicksToTime(aFrame.timestamp)}");
                     Audio.AddSamples(aFrame);
-                    Audio.framesDisplayed++;
+                    Audio._framesDisplayed++;
                     AudioDecoder.Frames.TryDequeue(out aFrame);
                 }
                 else if (aDistanceMs > 1000) // Drops few audio frames in case of wrong timestamps
                 {
                     if (allowedLateAudioDrops > 0)
                     {
-                        Audio.framesDropped++;
+                        Audio._framesDropped++;
                         allowedLateAudioDrops--;
                         if (CanDebug) Log.Debug($"aDistanceMs 3 = {aDistanceMs}");
                         AudioDecoder.Frames.TryDequeue(out aFrame);
@@ -405,7 +405,7 @@ unsafe partial class Player
                     if (aDistanceMs < -600)
                     {
                         if (CanTrace) Log.Trace($"All audio frames disposed");
-                        Audio.framesDropped += AudioDecoder.Frames.Count;
+                        Audio._framesDropped += AudioDecoder.Frames.Count;
                         AudioDecoder.DisposeFrames();
                         aFrame = null;
                     }
@@ -415,7 +415,7 @@ unsafe partial class Player
                         for (int i=0; i<maxdrop; i++)
                         {
                             if (CanTrace) Log.Trace($"aDistanceMs 2 = {aDistanceMs}");
-                            Audio.framesDropped++;
+                            Audio._framesDropped++;
                             AudioDecoder.Frames.TryDequeue(out aFrame);
 
                             if (aFrame == null || ((aFrame.timestamp - startTicks) / speed) - ((long) (sw.ElapsedTicks * SWFREQ_TO_TICKS) - Audio.GetDeviceDelay() + 8 * 1000) > 0)

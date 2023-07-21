@@ -7,7 +7,7 @@ using static FlyleafLib.Utils;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 
-public class Playlist : NotifyPropertyChanged
+public class Playlist : ObservableObject
 {
     /// <summary>
     /// Url provided by user

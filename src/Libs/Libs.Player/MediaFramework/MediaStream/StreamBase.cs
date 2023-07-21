@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.Generic;
+using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.Enums;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
 using FFmpeg.AutoGen;
-using Windows.Globalization;
 using static FFmpeg.AutoGen.ffmpeg;
+using static FFmpeg.AutoGen.ffmpegEx;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
@@ -45,11 +47,6 @@ public abstract unsafe class StreamBase
     /// 获取或设置 AV 流.
     /// </summary>
     public AVStream* AVStream { get; internal set; }
-
-    /// <summary>
-    /// HLS 播放列表.
-    /// </summary>
-    public HLSPlaylist* HlsPlaylist { get; set; }
 
     /// <summary>
     /// 获取或设置流索引.
@@ -115,6 +112,11 @@ public abstract unsafe class StreamBase
     /// 获取或设置媒体类型.
     /// </summary>
     public MediaType Type { get; internal set; }
+
+    /// <summary>
+    /// HLS 播放列表.
+    /// </summary>
+    internal HLSPlaylist* HlsPlaylist { get; set; }
 
     /// <summary>
     /// 获取转储信息.
@@ -184,5 +186,4 @@ public abstract unsafe class StreamBase
 
         Language ??= Language.Unknown;
     }
-}
 }

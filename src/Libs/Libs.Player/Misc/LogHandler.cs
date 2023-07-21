@@ -4,7 +4,7 @@ using Bili.Copilot.Libs.Player.Enums;
 
 namespace Bili.Copilot.Libs.Player.Misc;
 
-internal class LogHandler
+public class LogHandler
 {
     /// <summary>
     /// 构造函数.

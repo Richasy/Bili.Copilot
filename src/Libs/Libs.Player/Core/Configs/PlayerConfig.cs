@@ -161,7 +161,7 @@ public class PlayerConfig : ObservableObject
         set
         {
             Set(ref _volumeMax, value);
-            if (_player != null && _player.Audio.masteringVoice != null)
+            if (_player != null && _player.Audio._masteringVoice != null)
             {
                 _player.Audio.masteringVoice.Volume = value / 100f;
             }

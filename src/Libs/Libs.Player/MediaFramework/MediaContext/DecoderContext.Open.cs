@@ -106,9 +106,9 @@ public partial class DecoderContext
     }
     public class OpenExternalSubtitlesStreamCompletedArgs : ExternalStreamOpenedArgs
     {
-        public new ExternalSubtitlesStream ExtStream   => (ExternalSubtitlesStream)base.ExtStream;
-        public new ExternalSubtitlesStream OldExtStream=> (ExternalSubtitlesStream)base.OldExtStream;
-        public OpenExternalSubtitlesStreamCompletedArgs(ExternalSubtitlesStream extStream = null, ExternalSubtitlesStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { }
+        public new ExternalSubtitleStream ExtStream   => (ExternalSubtitleStream)base.ExtStream;
+        public new ExternalSubtitleStream OldExtStream=> (ExternalSubtitleStream)base.OldExtStream;
+        public OpenExternalSubtitlesStreamCompletedArgs(ExternalSubtitleStream extStream = null, ExternalSubtitleStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { }
     }
 
     private void OnOpenCompleted(OpenCompletedArgs args = null)
@@ -506,12 +506,12 @@ public partial class DecoderContext
             }
             else
             {
-                args = new OpenExternalSubtitlesStreamCompletedArgs((ExternalSubtitlesStream) extStream, Playlist.Selected.ExternalSubtitlesStream);
+                args = new OpenExternalSubtitlesStreamCompletedArgs((ExternalSubtitleStream) extStream, Playlist.Selected.ExternalSubtitlesStream);
 
                 if (args.OldExtStream != null)
                     args.OldExtStream.Enabled = false;
 
-                Playlist.Selected.ExternalSubtitlesStream = (ExternalSubtitlesStream) extStream;
+                Playlist.Selected.ExternalSubtitlesStream = (ExternalSubtitleStream) extStream;
 
                 if (!Playlist.Selected.ExternalSubtitlesStream.Downloaded)
                     DownloadSubtitles(Playlist.Selected.ExternalSubtitlesStream);
@@ -835,7 +835,7 @@ public partial class DecoderContext
                     return;
                 }
 
-                ExternalSubtitlesStream extStream;
+                ExternalSubtitleStream extStream;
 
                 // 4. Search offline if allowed (not async)
                 if (!Playlist.Selected.SearchedLocal && Config.Subtitles.SearchLocal && (Config.Subtitles.SearchLocalOnInputType == null || Config.Subtitles.SearchLocalOnInputType.Count == 0 || Config.Subtitles.SearchLocalOnInputType.Contains(Playlist.InputType)))
@@ -892,8 +892,8 @@ public partial class DecoderContext
 
         string error = null;
 
-        SerializableDictionary<string, string> formatOpt = null;
-        SerializableDictionary<string, string> copied = null;
+        Dictionary<string, string> formatOpt = null;
+        Dictionary<string, string> copied = null;
 
         try
         {
@@ -901,7 +901,7 @@ public partial class DecoderContext
             if (Playlist.InputType == InputType.Web)
             {
                 formatOpt = Config.Demuxer.GetFormatOptPtr(demuxer.Type);
-                copied = new SerializableDictionary<string, string>();
+                copied = new Dictionary<string, string>();
 
                 foreach (var opt in formatOpt)
                     copied.Add(opt.Key, opt.Value);
@@ -982,7 +982,7 @@ public partial class DecoderContext
     }
     public void CloseSubtitles()
     {
-        ClosedSubtitlesStream = new Tuple<ExternalSubtitlesStream, int>(Playlist.Selected.ExternalSubtitlesStream, SubtitlesStream != null ? SubtitlesStream.StreamIndex : -1);
+        ClosedSubtitlesStream = new Tuple<ExternalSubtitleStream, int>(Playlist.Selected.ExternalSubtitlesStream, SubtitlesStream != null ? SubtitlesStream.StreamIndex : -1);
 
         if (Playlist.Selected.ExternalSubtitlesStream != null)
         {

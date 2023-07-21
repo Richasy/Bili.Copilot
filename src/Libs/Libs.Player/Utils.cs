@@ -3,9 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using Bili.Copilot.Libs.Player.Core;
+using Bili.Copilot.Libs.Player.Models;
 using Microsoft.UI.Dispatching;
 using Windows.UI;
 
@@ -13,7 +16,15 @@ namespace Bili.Copilot.Libs.Player;
 
 internal static class Utils
 {
+    private static int _uniqueId;
+
     internal static DispatcherQueue DispatcherQueue { get; set; }
+
+    internal static int GetUniqueId()
+    {
+        Interlocked.Increment(ref _uniqueId);
+        return _uniqueId;
+    }
 
     internal static int GCD(int a, int b) => b == 0 ? a : GCD(b, a % b);
 
@@ -134,7 +145,7 @@ internal static class Utils
     }
 
     internal static string GetUrlExtension(string url)
-        => url.LastIndexOf(".") > 0 ? url[(url.LastIndexOf(".") + 1) ..].ToLower() : string.Empty;
+        => url.LastIndexOf(".") > 0 ? url[(url.LastIndexOf(".") + 1)..].ToLower() : string.Empty;
 
     internal static string FindNextAvailableFile(string fileName)
     {
@@ -160,4 +171,63 @@ internal static class Utils
 
     internal static string GetValidFileName(string name)
         => string.Join("_", name.Split(Path.GetInvalidFileNameChars()));
+
+    internal static MediaPart GetMediaPart(string title, bool movieOnly = false)
+    {
+        Match res;
+        MediaPart mp = new();
+        List<int> indices = new();
+
+        // s|season 01 ... e|episode 01
+        res = Regex.Match(title, @"(^|[^a-z0-9])(s|season)[^a-z0-9]*(?<season>[0-9]{1,2})[^a-z0-9]*(e|episode)[^a-z0-9]*(?<episode>[0-9]{1,2})($|[^a-z0-9])", RegexOptions.IgnoreCase);
+        if (!res.Success) // 01x01
+        {
+            res = Regex.Match(title, @"(^|[^a-z0-9])(?<season>[0-9]{1,2})x(?<episode>[0-9]{1,2})($|[^a-z0-9])", RegexOptions.IgnoreCase);
+        }
+
+        if (res.Success && res.Groups["season"].Value != string.Empty && res.Groups["episode"].Value != string.Empty)
+        {
+            mp.Season = int.Parse(res.Groups["season"].Value);
+            mp.Episode = int.Parse(res.Groups["episode"].Value);
+
+            if (movieOnly)
+            {
+                return mp;
+            }
+
+            indices.Add(res.Index);
+        }
+
+        // non-movie words, 1080p, 2015
+        indices.Add(Regex.Match(title, "[^a-z0-9]extended", RegexOptions.IgnoreCase).Index);
+        indices.Add(Regex.Match(title, "[^a-z0-9]directors.cut", RegexOptions.IgnoreCase).Index);
+        indices.Add(Regex.Match(title, "[^a-z0-9]brrip", RegexOptions.IgnoreCase).Index);
+        indices.Add(Regex.Match(title, "[^a-z0-9][0-9]{3,4}p", RegexOptions.IgnoreCase).Index);
+
+        res = Regex.Match(title, @"[^a-z0-9](?<year>(19|20)[0-9][0-9])($|[^a-z0-9])", RegexOptions.IgnoreCase);
+        if (res.Success)
+        {
+            indices.Add(res.Index);
+            mp.Year = int.Parse(res.Groups["year"].Value);
+        }
+
+        var sorted = indices.OrderBy(x => x);
+
+        foreach (var index in sorted)
+        {
+            if (index > 0)
+            {
+                title = title[..index];
+                break;
+            }
+        }
+
+        title = title.Replace(".", " ").Replace("_", " ");
+        title = Regex.Replace(title, @"\s{2,}", " ");
+        title = Regex.Replace(title, @"[^a-z0-9]$", string.Empty, RegexOptions.IgnoreCase);
+
+        mp.Title = title.Trim();
+
+        return mp;
+    }
 }

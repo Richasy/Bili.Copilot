@@ -11,9 +11,6 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaRemuxer;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 using Bili.Copilot.Libs.Player.Plugins;
 
-using static FlyleafLib.Logger;
-using static FlyleafLib.Utils;
-
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 
 public unsafe partial class DecoderContext : PluginHandler
@@ -87,7 +84,7 @@ public unsafe partial class DecoderContext : PluginHandler
 
     public Tuple<ExternalAudioStream, int>      ClosedAudioStream       { get; private set; }
     public Tuple<ExternalVideoStream, int>      ClosedVideoStream       { get; private set; }
-    public Tuple<ExternalSubtitlesStream, int>  ClosedSubtitlesStream   { get; private set; }
+    public Tuple<ExternalSubtitleStream, int>  ClosedSubtitlesStream   { get; private set; }
     #endregion
 
     #region Initialize

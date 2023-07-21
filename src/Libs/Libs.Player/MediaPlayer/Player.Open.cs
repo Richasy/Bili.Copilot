@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Concurrent;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaDecoder;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 using Bili.Copilot.Libs.Player.Models;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
@@ -13,47 +14,47 @@ namespace Bili.Copilot.Libs.Player.MediaPlayer;
 public unsafe sealed partial class Player
 {
     /// <summary>
-    /// 当打开完成时发生。也用于字幕。
+    /// 当打开完成时发生.也用于字幕.
     /// </summary>
     public event EventHandler<OpenCompletedEventArgs> OpenCompleted;
 
     /// <summary>
-    /// 当打开播放列表项完成时发生。
+    /// 当打开播放列表项完成时发生.
     /// </summary>
     public event EventHandler<OpenPlaylistItemCompletedArgs> OpenPlaylistItemCompleted;
 
     /// <summary>
-    /// 当打开会话完成时发生。
+    /// 当打开会话完成时发生.
     /// </summary>
     public event EventHandler<OpenSessionCompletedArgs> OpenSessionCompleted;
 
     /// <summary>
-    /// 当打开音频流完成时发生。
+    /// 当打开音频流完成时发生.
     /// </summary>
     public event EventHandler<OpenAudioStreamCompletedArgs> OpenAudioStreamCompleted;
 
     /// <summary>
-    /// 当打开视频流完成时发生。
+    /// 当打开视频流完成时发生.
     /// </summary>
     public event EventHandler<OpenVideoStreamCompletedArgs> OpenVideoStreamCompleted;
 
     /// <summary>
-    /// 当打开字幕流完成时发生。
+    /// 当打开字幕流完成时发生.
     /// </summary>
     public event EventHandler<OpenSubtitlesStreamCompletedArgs> OpenSubtitlesStreamCompleted;
 
     /// <summary>
-    /// 当打开外部音频流完成时发生。
+    /// 当打开外部音频流完成时发生.
     /// </summary>
     public event EventHandler<OpenExternalAudioStreamCompletedArgs> OpenExternalAudioStreamCompleted;
 
     /// <summary>
-    /// 当打开外部视频流完成时发生。
+    /// 当打开外部视频流完成时发生.
     /// </summary>
     public event EventHandler<OpenExternalVideoStreamCompletedArgs> OpenExternalVideoStreamCompleted;
 
     /// <summary>
-    /// 当打开外部字幕流完成时发生。
+    /// 当打开外部字幕流完成时发生.
     /// </summary>
     public event EventHandler<OpenExternalSubtitlesStreamCompletedArgs> OpenExternalSubtitlesStreamCompleted;
 

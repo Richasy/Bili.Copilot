@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
+
 namespace Bili.Copilot.Libs.Player.Plugins;
 
 /// <summary>
@@ -14,7 +16,10 @@ public class OpenSubtitleResult : OpenResult
     /// <param name="error">错误信息.</param>
     public OpenSubtitleResult(ExternalSubtitleStream extStream, string error = default)
         : base(error)
-        => ExternalSubtitlesStream = extStream;
+        => ExternalSubtitleStream = extStream;
 
-    public ExternalSubtitleStream ExternalSubtitleStream;
+    /// <summary>
+    /// 外部字幕流.
+    /// </summary>
+    public ExternalSubtitleStream ExternalSubtitleStream { get; internal set; }
 }

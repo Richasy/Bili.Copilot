@@ -24,7 +24,7 @@ public class OpenResult
     /// <summary>
     /// 错误信息.
     /// </summary>
-    public string Error { get; }
+    public string Error { get; internal set; }
 
     /// <summary>
     /// 是否成功.

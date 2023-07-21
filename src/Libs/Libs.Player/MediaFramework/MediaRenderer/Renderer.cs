@@ -33,7 +33,7 @@ namespace Bili.Copilot.Libs.Player.MediaFramework.MediaRenderer;
  *      swapChain.LastPresentCount - stats.PresentCount;
  */
 
-public partial class Renderer : NotifyPropertyChanged, IDisposable
+public partial class Renderer : ObservableObject, IDisposable
 {
     public Config           Config          { get; private set;}
     public int              ControlWidth    { get; private set; }

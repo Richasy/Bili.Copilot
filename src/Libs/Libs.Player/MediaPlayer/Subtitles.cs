@@ -6,7 +6,7 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
-public class Subtitles : NotifyPropertyChanged
+public class Subtitles : ObservableObject
 {
     /// <summary>
     /// Embedded Streams

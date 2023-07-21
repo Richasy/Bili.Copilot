@@ -1,6 +1,6 @@
 ﻿namespace Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
-public class ExternalSubtitlesStream : ExternalStream
+public class ExternalSubtitleStream : ExternalStream
 {
     /// <summary>
     /// Initial Url. Url can be the converted format from the original input

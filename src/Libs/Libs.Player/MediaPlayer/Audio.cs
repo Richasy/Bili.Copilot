@@ -1,216 +1,130 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Vortice.Multimedia;
-using Vortice.XAudio2;
-
-using static Vortice.XAudio2.XAudio2;
-
-using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
+using System;
+using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
-
-using static FlyleafLib.Logger;
+using Bili.Copilot.Libs.Player.Models;
+using Vortice.Multimedia;
+using static Bili.Copilot.Libs.Player.Misc.Logger;
+using static Vortice.XAudio2.XAudio2;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
-public class Audio : NotifyPropertyChanged
+/// <summary>
+/// 音频类.
+/// </summary>
+public partial class Audio : ObservableObject
 {
-    public event EventHandler<AudioFrame> SamplesAdded;
-
-    #region Properties
     /// <summary>
-    /// Embedded Streams
+    /// 构造函数，初始化音频对象.
     /// </summary>
-    public ObservableCollection<AudioStream>
-                    Streams         => decoder?.VideoDemuxer.AudioStreams; // TBR: We miss AudioDemuxer embedded streams
-
-    /// <summary>
-    /// Whether the input has audio and it is configured
-    /// </summary>
-    public bool     IsOpened        { get => isOpened;          internal set => Set(ref _IsOpened, value); }
-    internal bool   _IsOpened, isOpened;
-
-    public string   Codec           { get => codec;             internal set => Set(ref _Codec, value); }
-    internal string _Codec, codec;
-
-    ///// <summary>
-    ///// Audio bitrate (Kbps)
-    ///// </summary>
-    public double   BitRate         { get => bitRate;           internal set => Set(ref _BitRate, value); }
-    internal double _BitRate, bitRate;
-
-    public int      Bits            { get => bits;              internal set => Set(ref _Bits, value); }
-    internal int    _Bits, bits;
-
-    public int      Channels        { get => channels;          internal set => Set(ref _Channels, value); }
-    internal int    _Channels, channels;
-
-    /// <summary>
-    /// Audio player's channels out (currently 2 channels supported only)
-    /// </summary>
-    public int      ChannelsOut     { get; } = 2;
-
-    public string   ChannelLayout   { get => channelLayout;     internal set => Set(ref _ChannelLayout, value); }
-    internal string _ChannelLayout, channelLayout;
-
-    ///// <summary>
-    ///// Total Dropped Frames
-    ///// </summary>
-    public int      FramesDropped   { get => framesDropped;     internal set => Set(ref _FramesDropped, value); }
-    internal int    _FramesDropped, framesDropped;
-
-    public int      FramesDisplayed { get => framesDisplayed;   internal set => Set(ref _FramesDisplayed, value); }
-    internal int    _FramesDisplayed, framesDisplayed;
-
-    public string   SampleFormat    { get => sampleFormat;      internal set => Set(ref _SampleFormat, value); }
-    internal string _SampleFormat, sampleFormat;
-
-    /// <summary>
-    /// Audio sample rate (in/out)
-    /// </summary>
-    public int      SampleRate      { get => sampleRate;        internal set => Set(ref _SampleRate, value); }
-    internal int    _SampleRate, sampleRate;
-
-    /// <summary>
-    /// Audio player's volume / amplifier (valid values 0 - no upper limit)
-    /// </summary>
-    public int Volume
-    {
-        get
-        {
-            lock (locker)
-                return sourceVoice == null || Mute ? _Volume : (int) ((decimal)sourceVoice.Volume * 100);
-        }
-        set
-        {
-            if (value > Config.Player.VolumeMax || value < 0)
-                return;
-            
-            if (value == 0)
-                Mute = true;
-            else if (Mute)
-            {
-                _Volume = value;
-                Mute = false;
-            }
-            else
-            {
-                if (sourceVoice != null)
-                    sourceVoice.Volume = Math.Max(0, value / 100.0f);
-            }
-
-            Set(ref _Volume, value, false);
-        }
-    }
-    int _Volume;
-
-    /// <summary>
-    /// Audio player's mute
-    /// </summary>
-    public bool Mute
-    {
-        get => mute;
-        set
-        {
-            lock (locker)
-            {
-                if (sourceVoice == null)
-                    return;
-
-                sourceVoice.Volume = value ? 0 : _Volume / 100.0f;
-            }
-
-            Set(ref mute, value, false);
-        }
-    }
-    private bool mute = false;
-
-    /// <summary>
-    /// <para>Audio player's current device (available devices can be found on Engine.Audio.Devices)/></para>
-    /// </summary>
-    public string Device
-    {
-        get => _Device;
-        set
-        {
-            if (value == null || _Device == value)
-                return; 
-
-            _Device     = value;
-            _DeviceId   = Engine.Audio.GetDeviceId(value);
-
-            Initialize();
-
-            Utils.UI(() => Raise(nameof(Device)));
-        }
-    }
-    internal string _Device = Engine.Audio.DefaultDeviceName;
-    internal void RaiseDevice() => Utils.UI(() => Raise(nameof(Device)));  // Required for Selected Items on the Devices observation list (as we clear it everytime)
-
-    public string DeviceId
-    {
-        get => _DeviceId;
-        set
-        {
-            if (value == null || _DeviceId == value)
-                return; 
-
-            _DeviceId   = value;
-            _Device     = Engine.Audio.GetDeviceName(value);
-
-            Initialize();
-
-            Utils.UI(() => Raise(nameof(DeviceId)));
-        }
-    }
-    internal string _DeviceId = Engine.Audio.DefaultDeviceId;
-    #endregion
-
-    #region Declaration
-    Player                  player;
-    Config                  Config => player.Config;
-    DecoderContext          decoder => player?.decoder;
-
-    Action                  uiAction;
-    readonly object         locker = new();
-
-    IXAudio2                xaudio2;
-    internal IXAudio2MasteringVoice
-                            masteringVoice;
-    IXAudio2SourceVoice     sourceVoice;
-    WaveFormat              waveFormat  = new(48000, 16, 2); // Output Audio Device
-    AudioBuffer             audioBuffer = new();
-    double                  deviceDelayTimebase;
-    ulong                   submittedSamples;
-    #endregion
-
+    /// <param name="player">播放器对象.</param>
     public Audio(Player player)
     {
-        this.player = player;
+        _player = player;
 
-        uiAction = () =>
+        _uiAction = () =>
         {
-            IsOpened        = IsOpened;
-            Codec           = Codec;
-            BitRate         = BitRate;
-            Bits            = Bits;
-            Channels        = Channels;
-            ChannelLayout   = ChannelLayout;
-            SampleFormat    = SampleFormat;
-            SampleRate      = SampleRate;
+            IsOpened = IsOpened;
+            Codec = Codec;
+            BitRate = BitRate;
+            Bits = Bits;
+            Channels = Channels;
+            ChannelLayout = ChannelLayout;
+            SampleFormat = SampleFormat;
+            SampleRate = SampleRate;
 
             FramesDisplayed = FramesDisplayed;
-            FramesDropped   = FramesDropped;
+            FramesDropped = FramesDropped;
         };
 
         Volume = Config.Player.VolumeMax / 2;
         Initialize();
     }
 
+    /// <summary>
+    /// 音频帧添加事件
+    /// </summary>
+    public event EventHandler<AudioFrame> SamplesAdded;
+
+    /// <summary>
+    /// 延迟增加.
+    /// </summary>
+    public void DelayAdd() => Config.Audio.Delay += Config.Player.AudioDelayOffset;
+
+    /// <summary>
+    /// 延迟增加2.
+    /// </summary>
+    public void DelayAdd2() => Config.Audio.Delay += Config.Player.AudioDelayOffset2;
+
+    /// <summary>
+    /// 延迟减少.
+    /// </summary>
+    public void DelayRemove() => Config.Audio.Delay -= Config.Player.AudioDelayOffset;
+
+    /// <summary>
+    /// 延迟减少2.
+    /// </summary>
+    public void DelayRemove2() => Config.Audio.Delay -= Config.Player.AudioDelayOffset2;
+
+    /// <summary>
+    /// 切换音频状态.
+    /// </summary>
+    public void Toggle() => Config.Audio.Enabled = !Config.Audio.Enabled;
+
+    /// <summary>
+    /// 切换静音状态.
+    /// </summary>
+    public void ToggleMute() => Mute = !Mute;
+
+    /// <summary>
+    /// 音量增加.
+    /// </summary>
+    public void VolumeUp()
+    {
+        if (Volume == Config.Player.VolumeMax)
+        {
+            return;
+        }
+
+        Volume = Math.Min(Volume + Config.Player.VolumeOffset, Config.Player.VolumeMax);
+    }
+
+    /// <summary>
+    /// 音量减少.
+    /// </summary>
+    public void VolumeDown()
+    {
+        if (Volume == 0)
+        {
+            return;
+        }
+
+        Volume = Math.Max(Volume - Config.Player.VolumeOffset, 0);
+    }
+
+    /// <summary>
+    /// 重新加载滤镜（实验性）.
+    /// </summary>
+    /// <returns>成功返回0.</returns>
+    public int ReloadFilters() => _player.AudioDecoder.ReloadFilters();
+
+    /// <summary>
+    /// 更新滤镜属性（实验性）
+    /// 注意：这不会更新Config.Audio.Filters中的属性值.
+    /// </summary>
+    /// <param name="filterId">滤镜的唯一标识符，指定在Config.Audio.Filters中.</param>
+    /// <param name="key">要更改的滤镜属性.</param>
+    /// <param name="value">滤镜属性值.</param>
+    /// <returns>成功返回0.</returns>
+    public int UpdateFilter(string filterId, string key, string value) => _player.AudioDecoder.UpdateFilter(filterId, key, value);
+
+    /// <summary>
+    /// 初始化音频对象.
+    /// </summary>
     internal void Initialize()
     {
-        lock (locker)
+        lock (_locker)
         {
             if (Engine.Audio.Failed)
             {
@@ -218,203 +132,213 @@ public class Audio : NotifyPropertyChanged
                 return;
             }
 
-            sampleRate = decoder != null && decoder.AudioStream != null && decoder.AudioStream.SampleRate > 0 ? decoder.AudioStream.SampleRate : 48000;
-            player.Log.Info($"Initialiazing audio ({Device} @ {SampleRate}Hz)");
+            _sampleRate = Decoder != null && Decoder.AudioStream != null && Decoder.AudioStream.SampleRate > 0 ? Decoder.AudioStream.SampleRate : 48000;
+            _player.Log.Info($"Initialiazing audio ({Device} @ {SampleRate}Hz)");
 
             Dispose();
 
             try
             {
-                xaudio2 = XAudio2Create();
+                _xaudio2 = XAudio2Create();
 
                 try
                 {
-	                masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDeviceName ? null : Engine.Audio.GetDeviceId(_Device));
+                    _masteringVoice = _xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : Engine.Audio.GetDeviceId(_device));
                 }
-                catch (Exception) // Win 7/8 compatibility issue https://social.msdn.microsoft.com/Forums/en-US/4989237b-814c-4a7a-8a35-00714d36b327/xaudio2-how-to-get-device-id-for-mastering-voice?forum=windowspro-audiodevelopment
+                catch (Exception)
                 {
-                    masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDeviceName ? null : (@"\\?\swd#mmdevapi#" + Engine.Audio.GetDeviceId(_Device).ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}")); 
+                    _masteringVoice = _xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : (@"\\?\swd#mmdevapi#" + Engine.Audio.GetDeviceId(_device).ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}"));
                 }
 
-                sourceVoice = xaudio2.CreateSourceVoice(waveFormat, false);
-                sourceVoice.SetSourceSampleRate(SampleRate);
-                sourceVoice.Start();
+                _sourceVoice = _xaudio2.CreateSourceVoice(_waveFormat, false);
+                _sourceVoice.SetSourceSampleRate(SampleRate);
+                _sourceVoice.Start();
 
-                submittedSamples        = 0;
-                deviceDelayTimebase     = 1000 * 10000.0 / sampleRate;
-                masteringVoice.Volume   = Config.Player.VolumeMax / 100.0f;
-                sourceVoice.Volume      = mute ? 0 : Math.Max(0, _Volume / 100.0f);
+                _submittedSamples = 0;
+                _deviceDelayTimebase = 1000 * 10000.0 / _sampleRate;
+                _masteringVoice.Volume = Config.Player.VolumeMax / 100.0f;
+                _sourceVoice.Volume = _mute ? 0 : Math.Max(0, _volume / 100.0f);
             }
             catch (Exception e)
             {
-                player.Log.Info($"Audio initialization failed ({e.Message})");
+                _player.Log.Info($"Audio initialization failed ({e.Message})");
                 Config.Audio.Enabled = false;
             }
         }
     }
+
+    /// <summary>
+    /// 释放音频对象.
+    /// </summary>
     internal void Dispose()
     {
-        lock (locker)
+        lock (_locker)
         {
-            if (xaudio2 == null)
+            if (_xaudio2 == null)
+            {
                 return;
+            }
 
-            xaudio2.        Dispose();
-            sourceVoice?.   Dispose();
-            masteringVoice?.Dispose();
-            xaudio2         = null;
-            sourceVoice     = null;
-            masteringVoice  = null;
+            _xaudio2.Dispose();
+            _sourceVoice?.Dispose();
+            _masteringVoice?.Dispose();
+            _xaudio2 = null;
+            _sourceVoice = null;
+            _masteringVoice = null;
         }
     }
 
-    // TBR: Very rarely could crash the app on audio device change while playing? Requires two locks (Audio's locker and aFrame)
-    // The process was terminated due to an internal error in the .NET Runtime at IP 00007FFA6725DA03 (00007FFA67090000) with exit code c0000005.
     [System.Security.SecurityCritical]
+    /// <summary>
+    /// 添加音频帧.
+    /// </summary>
+    /// <param name="aFrame">音频帧对象.</param>
     internal void AddSamples(AudioFrame aFrame)
     {
         try
         {
-            int bufferedMs = (int) ((submittedSamples - sourceVoice.State.SamplesPlayed) * deviceDelayTimebase / 10000);
+            var bufferedMs = (int)((_submittedSamples - _sourceVoice.State.SamplesPlayed) * _deviceDelayTimebase / 10000);
 
             if (bufferedMs > 30)
             {
                 if (CanDebug)
-                    player.Log.Debug($"Audio desynced by {bufferedMs}ms, clearing buffers");
+                {
+                    _player.Log.Debug($"Audio desynced by {bufferedMs}ms, clearing buffers");
+                }
 
                 ClearBuffer();
             }
-            
-            //player.Log.Debug($"xxx {durationMs}ms, {state.BuffersQueued}");
 
-            submittedSamples += (ulong) (aFrame.dataLen / 4); // ASampleBytes
+            _submittedSamples += (ulong)(aFrame.dataLen / 4); // ASampleBytes
             SamplesAdded?.Invoke(this, aFrame);
-            
-            audioBuffer.AudioDataPointer= aFrame.dataPtr;
-            audioBuffer.AudioBytes      = aFrame.dataLen;
-            sourceVoice.SubmitSourceBuffer(audioBuffer);
+
+            _audioBuffer.AudioDataPointer = aFrame.dataPtr;
+            _audioBuffer.AudioBytes = aFrame.dataLen;
+            _sourceVoice.SubmitSourceBuffer(_audioBuffer);
         }
         catch (Exception e) // Happens on audio device changed/removed
         {
             if (CanDebug)
-                player.Log.Debug($"[Audio] Submitting samples failed ({e.Message})");
+            {
+                _player.Log.Debug($"[Audio] Submitting samples failed ({e.Message})");
+            }
 
             ClearBuffer();
         }
     }
-    internal long GetDeviceDelay() => (long) ((xaudio2.PerformanceData.CurrentLatencyInSamples * deviceDelayTimebase) - 80000); // TODO: VBlack delay (8ms correction for now)
+
+    /// <summary>
+    /// 获取设备延迟.
+    /// </summary>
+    /// <returns>设备延迟时间.</returns>
+    internal long GetDeviceDelay() => (long)((_xaudio2.PerformanceData.CurrentLatencyInSamples * _deviceDelayTimebase) - 80000); // TODO: VBlack delay (8ms correction for now)
+
+    /// <summary>
+    /// 清空缓冲区.
+    /// </summary>
     internal void ClearBuffer()
     {
-        lock (locker)
+        lock (_locker)
         {
-            if (sourceVoice == null)
+            if (_sourceVoice == null)
+            {
                 return;
+            }
 
-            sourceVoice.Stop();
-            sourceVoice.FlushSourceBuffers();
-            sourceVoice.Start();
-            submittedSamples = sourceVoice.State.SamplesPlayed;
+            _sourceVoice.Stop();
+            _sourceVoice.FlushSourceBuffers();
+            _sourceVoice.Start();
+            _submittedSamples = _sourceVoice.State.SamplesPlayed;
         }
-            
     }
 
+    /// <summary>
+    /// 重置音频对象.
+    /// </summary>
     internal void Reset()
     {
-        codec           = null;
-        bitRate         = 0;
-        bits            = 0;
-        channels        = 0;
-        channelLayout   = null;
-        sampleFormat    = null;
-        isOpened        = false;
+        _codec = null;
+        _bitRate = 0;
+        _bits = 0;
+        _channels = 0;
+        _channelLayout = null;
+        _sampleFormat = null;
+        _isOpened = false;
 
         ClearBuffer();
-        player.UIAdd(uiAction);
+        _player.UIAdd(_uiAction);
     }
+
+    /// <summary>
+    /// 刷新音频对象.
+    /// </summary>
     internal void Refresh()
     {
-        if (decoder.AudioStream == null) { Reset(); return; }
+        if (Decoder.AudioStream == null)
+        {
+            Reset();
+            return;
+        }
 
-        codec           = decoder.AudioStream.Codec;
-        bits            = decoder.AudioStream.Bits;
-        channels        = decoder.AudioStream.Channels;
-        channelLayout   = decoder.AudioStream.ChannelLayoutStr;
-        sampleFormat    = decoder.AudioStream.SampleFormatStr;
-        isOpened        =!decoder.AudioDecoder.Disposed;
+        _codec = Decoder.AudioStream.Codec;
+        _bits = Decoder.AudioStream.Bits;
+        _channels = Decoder.AudioStream.Channels;
+        _channelLayout = Decoder.AudioStream.ChannelLayoutStr;
+        _sampleFormat = Decoder.AudioStream.SampleFormatStr;
+        _isOpened = !Decoder.AudioDecoder.Disposed;
 
-        framesDisplayed = 0;
-        framesDropped   = 0;
+        _framesDisplayed = 0;
+        _framesDropped = 0;
 
-        if (SampleRate!= decoder.AudioStream.SampleRate)
+        if (SampleRate != Decoder.AudioStream.SampleRate)
+        {
             Initialize();
+        }
 
-        player.UIAdd(uiAction);
+        _player.UIAdd(_uiAction);
     }
+
+    /// <summary>
+    /// 启用音频.
+    /// </summary>
     internal void Enable()
     {
-        bool wasPlaying = player.IsPlaying;
+        var wasPlaying = _player.IsPlaying;
 
-        decoder.OpenSuggestedAudio();
+        Decoder.OpenSuggestedAudio();
 
-        player.ReSync(decoder.AudioStream, (int) (player.CurTime / 10000), true);
+        _player.ReSync(Decoder.AudioStream, (int)(_player.CurTime / 10000), true);
 
         Refresh();
-        player.UIAll();
+        _player.UIAll();
 
         if (wasPlaying || Config.Player.AutoPlay)
-            player.Play();
+        {
+            _player.Play();
+        }
     }
+
+    /// <summary>
+    /// 禁用音频.
+    /// </summary>
     internal void Disable()
     {
         if (!IsOpened)
-            return;
-
-        decoder.CloseAudio();
-
-        player.aFrame = null;
-
-        if (!player.Video.IsOpened)
         {
-            player.canPlay = false;
-            player.UIAdd(() => player.CanPlay = player.CanPlay);
+            return;
+        }
+
+        Decoder.CloseAudio();
+
+        _player.AudioFrame = null;
+
+        if (!_player.Video.IsOpened)
+        {
+            _player.CanPlay = false;
+            _player.UIAdd(() => _player.CanPlay = _player.CanPlay);
         }
 
         Reset();
-        player.UIAll();
+        _player.UIAll();
     }
-
-    public void DelayAdd()      => Config.Audio.Delay += Config.Player.AudioDelayOffset;
-    public void DelayAdd2()     => Config.Audio.Delay += Config.Player.AudioDelayOffset2;
-    public void DelayRemove()   => Config.Audio.Delay -= Config.Player.AudioDelayOffset;
-    public void DelayRemove2()  => Config.Audio.Delay -= Config.Player.AudioDelayOffset2;
-    public void Toggle()        => Config.Audio.Enabled = !Config.Audio.Enabled;
-    public void ToggleMute()    => Mute = !Mute;
-    public void VolumeUp()
-    {
-        if (Volume == Config.Player.VolumeMax) return;
-        Volume = Math.Min(Volume + Config.Player.VolumeOffset, Config.Player.VolumeMax);
-    }
-    public void VolumeDown()
-    {
-        if (Volume == 0) return;
-        Volume = Math.Max(Volume - Config.Player.VolumeOffset, 0);
-    }
-
-    /// <summary>
-    /// Reloads filters from Config.Audio.Filters (experimental)
-    /// </summary>
-    /// <returns>0 on success</returns>
-    public int ReloadFilters() => player.AudioDecoder.ReloadFilters();
-
-    /// <summary>
-    /// <para>
-    /// Updates filter's property (experimental)
-    /// Note: This will not update the property value in Config.Audio.Filters
-    /// </para>
-    /// </summary>
-    /// <param name="filterId">Filter's unique id specified in Config.Audio.Filters</param>
-    /// <param name="key">Filter's property to change</param>
-    /// <param name="value">Filter's property value</param>
-    /// <returns>0 on success</returns>
-    public int UpdateFilter(string filterId, string key, string value) => player.AudioDecoder.UpdateFilter(filterId, key, value);
 }

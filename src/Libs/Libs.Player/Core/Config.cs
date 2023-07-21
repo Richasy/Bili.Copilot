@@ -73,7 +73,7 @@ public sealed class Config : ObservableObject
     /// <summary>
     /// 插件配置.
     /// </summary>
-    public Dictionary<string, Dictionary<string, string>> Plugins = new();
+    public Dictionary<string, Dictionary<string, string>> Plugins { get; } = new();
 
     /// <summary>
     /// 克隆配置.

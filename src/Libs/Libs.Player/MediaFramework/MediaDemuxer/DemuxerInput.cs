@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
 
-public class DemuxerInput : NotifyPropertyChanged
+public class DemuxerInput : ObservableObject
 {
     /// <summary>
     /// Url provided as a demuxer input
