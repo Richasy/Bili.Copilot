@@ -180,10 +180,10 @@ partial class Player
     {
         if (!CanPlay) return;
 
-        lock (seeks)
+        lock (_seeks)
         {
             curTime = ms * (long)10000;
-            seeks.Push(new SeekData(ms, forward, accurate));
+            _seeks.Push(new SeekData(ms, forward, accurate));
         }
         Raise(nameof(CurTime));
         
@@ -201,9 +201,9 @@ partial class Player
             {
                 Engine.TimeBeginPeriod1();
                 
-                while (seeks.TryPop(out var seekData) && CanPlay && !IsPlaying)
+                while (_seeks.TryPop(out var seekData) && CanPlay && !IsPlaying)
                 {
-                    seeks.Clear();
+                    _seeks.Clear();
 
                     if (Status == Status.Ended)
                     {

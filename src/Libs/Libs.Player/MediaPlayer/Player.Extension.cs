@@ -1,10 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using System;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaFrame;
 using Windows.Foundation;
-using Windows.Media;
-
+using static Bili.Copilot.Libs.Player.Misc.Logger;
 using static Bili.Copilot.Libs.Player.Utils;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
@@ -113,30 +115,30 @@ public unsafe sealed partial class Player
         {
             Pause();
             SubtitleFrame = null;
-            Subtitles.SubsText = "";
-            if (Subtitles._SubsText != "")
+            Subtitles.SubtitleText = string.Empty;
+            if (Subtitles.SubtitleText != string.Empty)
             {
-                UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
             }
 
             Decoder.Flush();
             Decoder.RequiresResync = true;
 
-            VideoFrame = VideoDecoder.GetFrame(frameIndex);
-            if (VideoFrame == null)
+            _videoFrame = VideoDecoder.GetFrame(frameIndex);
+            if (_videoFrame == null)
             {
                 return;
             }
 
             if (CanDebug)
             {
-                Log.Debug($"SFI: {VideoDecoder.GetFrameNumber(VideoFrame.timestamp)}");
+                Log.Debug($"SFI: {VideoDecoder.GetFrameNumber(_videoFrame.Timestamp)}");
             }
 
-            _curTime = VideoFrame.timestamp;
-            Renderer.Present(VideoFrame);
+            _curTime = _videoFrame.Timestamp;
+            Renderer.Present(_videoFrame);
             _reversePlaybackResync = true;
-            VideoFrame = null;
+            _videoFrame = null;
 
             UI(() => UpdateCurTime());
         }
@@ -156,35 +158,35 @@ public unsafe sealed partial class Player
         {
             Pause();
             ReversePlayback = false;
-            if (!string.IsNullOrEmpty(Subtitles.SubsText))
+            if (!string.IsNullOrEmpty(Subtitles.SubtitleText))
             {
                 SubtitleFrame = null;
-                Subtitles.SubsText = Subtitles.SubsText;
+                Subtitles.SubtitleText = Subtitles.SubtitleText;
             }
 
-            if (VideoDecoder.Frames.Count == 0)
+            if (VideoDecoder.Frames.IsEmpty)
             {
-                VideoFrame = VideoDecoder.GetFrameNext();
+                _videoFrame = VideoDecoder.GetFrameNext();
             }
             else
             {
-                VideoDecoder.Frames.TryDequeue(out VideoFrame);
+                VideoDecoder.Frames.TryDequeue(out _videoFrame);
             }
 
-            if (VideoFrame == null)
+            if (_videoFrame == null)
             {
                 return;
             }
 
             if (CanDebug)
             {
-                Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(VideoFrame.timestamp)}");
+                Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(_videoFrame.Timestamp)}");
             }
 
-            _curTime = _curTime = VideoFrame.timestamp;
-            Renderer.Present(VideoFrame);
+            _curTime = _curTime = _videoFrame.Timestamp;
+            Renderer.Present(_videoFrame);
             _reversePlaybackResync = true;
-            VideoFrame = null;
+            _videoFrame = null;
 
             UI(() => UpdateCurTime());
         }
@@ -208,10 +210,10 @@ public unsafe sealed partial class Player
             {
                 Set(ref _reversePlayback, true, false);
                 Speed = 1;
-                if (!string.IsNullOrEmpty(Subtitles.SubsText))
+                if (!string.IsNullOrEmpty(Subtitles.SubtitleText))
                 {
                     SubtitleFrame = null;
-                    Subtitles.SubsText = Subtitles.SubsText;
+                    Subtitles.SubtitleText = Subtitles.SubtitleText;
                 }
 
                 Decoder.StopThreads();
@@ -222,42 +224,42 @@ public unsafe sealed partial class Player
             {
                 // Temp fix for previous timestamps until we seperate GetFrame for Extractor and the Player
                 _reversePlaybackResync = true;
-                int askedFrame = VideoDecoder.GetFrameNumber(CurTime) - 1;
+                var askedFrame = VideoDecoder.GetFrameNumber(CurTime) - 1;
 
-                VideoFrame = VideoDecoder.GetFrame(askedFrame);
-                if (VideoFrame == null)
+                _videoFrame = VideoDecoder.GetFrame(askedFrame);
+                if (_videoFrame == null)
                 {
                     return;
                 }
 
-                int recVideoFrame = VideoDecoder.GetFrameNumber(VideoFrame.timestamp);
+                var recVideoFrame = VideoDecoder.GetFrameNumber(_videoFrame.Timestamp);
                 if (askedFrame != recVideoFrame)
                 {
-                    VideoDecoder.DisposeFrame(VideoFrame);
-                    VideoFrame = null;
-                    VideoFrame = askedFrame > recVideoFrame
+                    MediaFramework.MediaDecoder.VideoDecoder.DisposeFrame(_videoFrame);
+                    _videoFrame = null;
+                    _videoFrame = askedFrame > recVideoFrame
                         ? VideoDecoder.GetFrame(VideoDecoder.GetFrameNumber(CurTime))
                         : VideoDecoder.GetFrame(VideoDecoder.GetFrameNumber(CurTime) - 2);
                 }
             }
             else
             {
-                VideoDecoder.Frames.TryDequeue(out VideoFrame);
+                VideoDecoder.Frames.TryDequeue(out _videoFrame);
             }
 
-            if (VideoFrame == null)
+            if (_videoFrame == null)
             {
                 return;
             }
 
             if (CanDebug)
             {
-                Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(VideoFrame.timestamp)}");
+                Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(_videoFrame.Timestamp)}");
             }
 
-            _curTime = VideoFrame.timestamp;
-            Renderer.Present(VideoFrame);
-            VideoFrame = null;
+            _curTime = _videoFrame.Timestamp;
+            Renderer.Present(_videoFrame);
+            _videoFrame = null;
             UI(() => UpdateCurTime()); // For some strange reason this will not be updated on KeyDown (only on KeyUp) which doesn't happen on ShowFrameNext (GPU overload? / Thread.Sleep underlying in UI thread?)
         }
     }
@@ -307,7 +309,7 @@ public unsafe sealed partial class Player
     /// </summary>
     public void ToggleFullScreen()
     {
-        if (Host == null)
+        if (TransportControls == null)
         {
             return;
         }
@@ -332,7 +334,7 @@ public unsafe sealed partial class Player
                 Directory.CreateDirectory(Config.Player.FolderRecordings);
             }
 
-            string filename = GetValidFileName(string.IsNullOrEmpty(Playlist.Selected.Title) ? "Record" : Playlist.Selected.Title) + $"_{new TimeSpan(CurTime):hhmmss}." + Decoder.Extension;
+            var filename = GetValidFileName(string.IsNullOrEmpty(Playlist.Selected.Title) ? "Record" : Playlist.Selected.Title) + $"_{new TimeSpan(CurTime):hhmmss}." + Decoder.Extension;
             filename = FindNextAvailableFile(Path.Combine(Config.Player.FolderRecordings, filename));
             StartRecording(ref filename, false);
         }
@@ -413,7 +415,10 @@ public unsafe sealed partial class Player
                 filename = GetValidFileName(string.IsNullOrEmpty(Playlist.Selected.Title) ? "Snapshot" : Playlist.Selected.Title) + $"_{(frame == null ? VideoDecoder.GetFrameNumber(CurTime).ToString() : "X")}.{Config.Player.SnapshotFormat}";
                 filename = FindNextAvailableFile(Path.Combine(Config.Player.FolderSnapshots, filename));
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
         }
 
         var ext = GetUrlExtension(filename);
@@ -441,7 +446,11 @@ public unsafe sealed partial class Player
         {
             snapshotBitmap.Save(filename, imageFormat);
         }
-        catch (Exception e2) { e = e2; }
+        catch (Exception e2)
+        {
+            e = e2;
+        }
+
         snapshotBitmap.Dispose();
 
         if (e != null)
@@ -484,7 +493,7 @@ public unsafe sealed partial class Player
     /// <param name="p">中心点.</param>
     public void ZoomIn(Point p)
     {
-        Renderer.ZoomWithCenterPoint(p, Renderer.Zoom + Config.Player.ZoomOffset / 100.0);
+        Renderer.ZoomWithCenterPoint(p, Renderer.Zoom + (Config.Player.ZoomOffset / 100.0));
         RaiseUI(nameof(Zoom));
     }
 
@@ -494,7 +503,7 @@ public unsafe sealed partial class Player
     /// <param name="p">中心点.</param>
     public void ZoomOut(Point p)
     {
-        double zoom = Renderer.Zoom - (Config.Player.ZoomOffset / 100.0);
+        var zoom = Renderer.Zoom - (Config.Player.ZoomOffset / 100.0);
         if (zoom < 0.001)
         {
             return;
@@ -535,7 +544,7 @@ public unsafe sealed partial class Player
         var npy = Renderer.PanXOffset != 0;
         var npr = Renderer.Rotation != 0;
         var npz = Renderer.Zoom != 1;
-        Renderer.SetPanAll(0, 0, 0, 1, Renderer.ZoomCenterPoint, true); // Pan X/Y, Rotation, Zoom, Zoomcenter, Refresh
+        Renderer.SetPanAll(0, 0, 0, 1, MediaFramework.MediaRenderer.Renderer.ZoomCenterPoint, true); // Pan X/Y, Rotation, Zoom, Zoomcenter, Refresh
 
         UI(() =>
         {

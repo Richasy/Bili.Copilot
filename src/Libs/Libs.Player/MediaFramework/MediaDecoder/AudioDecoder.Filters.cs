@@ -163,23 +163,23 @@ public unsafe partial class AudioDecoder
     }
     internal void FixSample(AudioFrame frame, double oldSpeed, double speed)
     {
-        var oldDataLen = frame.dataLen;
-        frame.dataLen = Utils.Align((int) (oldDataLen * oldSpeed / speed), ASampleBytes);
+        var oldDataLen = frame.DataLen;
+        frame.DataLen = Utils.Align((int) (oldDataLen * oldSpeed / speed), ASampleBytes);
         fixed (byte* cBufStartPosPtr = &cBuf[0])
         {
-            var curOffset = (long)frame.dataPtr - (long)cBufStartPosPtr;
+            var curOffset = (long)frame.DataPtr - (long)cBufStartPosPtr;
 
             if (speed < oldSpeed)
             {
-                if (curOffset + frame.dataLen >= cBuf.Length)
+                if (curOffset + frame.DataLen >= cBuf.Length)
                 {
-                    frame.dataPtr = (IntPtr)cBufStartPosPtr;
+                    frame.DataPtr = (IntPtr)cBufStartPosPtr;
                     curOffset  = 0;
                     oldDataLen = 0;
                 }
 
                 // fill silence
-                for (int p = oldDataLen; p < frame.dataLen; p++)
+                for (int p = oldDataLen; p < frame.DataLen; p++)
                     cBuf[curOffset + p] = 0;
             }
         }
@@ -324,9 +324,9 @@ public unsafe partial class AudioDecoder
     {
         AudioFrame mFrame   = new();
         long newPts         = filterFirstPts + av_rescale_q((long)(curSamples + missedSamples), codecCtx->time_base, AudioStream.AVStream->time_base);
-        mFrame.timestamp    = (long)((newPts * AudioStream.Timebase) - demuxer.StartTime + Config.Audio.Delay);
-        mFrame.dataLen      = frame->nb_samples * ASampleBytes;
-        if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.timestamp)}");
+        mFrame.Timestamp    = (long)((newPts * AudioStream.Timebase) - demuxer.StartTime + Config.Audio.Delay);
+        mFrame.DataLen      = frame->nb_samples * ASampleBytes;
+        if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.Timestamp)}");
 
         var samplesSpeed1   = frame->nb_samples * speed;
         missedSamples      += samplesSpeed1 - (int)samplesSpeed1;
@@ -334,14 +334,14 @@ public unsafe partial class AudioDecoder
 
         if (frame->nb_samples > cBufSamples)
             AllocateCircularBuffer(frame->nb_samples);
-        else if (cBufPos + mFrame.dataLen >= cBuf.Length)
+        else if (cBufPos + mFrame.DataLen >= cBuf.Length)
             cBufPos = 0;
 
         fixed (byte* circularBufferPosPtr = &cBuf[cBufPos])
-            mFrame.dataPtr = (IntPtr)circularBufferPosPtr;
+            mFrame.DataPtr = (IntPtr)circularBufferPosPtr;
 
-        Marshal.Copy((IntPtr) frame->data[0], cBuf, cBufPos, mFrame.dataLen);
-        cBufPos += mFrame.dataLen;
+        Marshal.Copy((IntPtr) frame->data[0], cBuf, cBufPos, mFrame.DataLen);
+        cBufPos += mFrame.DataLen;
             
         Frames.Enqueue(mFrame);
         av_frame_unref(frame);

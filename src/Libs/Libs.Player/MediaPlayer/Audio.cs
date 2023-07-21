@@ -209,11 +209,11 @@ public partial class Audio : ObservableObject
                 ClearBuffer();
             }
 
-            _submittedSamples += (ulong)(aFrame.dataLen / 4); // ASampleBytes
+            _submittedSamples += (ulong)(aFrame.DataLen / 4); // ASampleBytes
             SamplesAdded?.Invoke(this, aFrame);
 
-            _audioBuffer.AudioDataPointer = aFrame.dataPtr;
-            _audioBuffer.AudioBytes = aFrame.dataLen;
+            _audioBuffer.AudioDataPointer = aFrame.DataPtr;
+            _audioBuffer.AudioBytes = aFrame.DataLen;
             _sourceVoice.SubmitSourceBuffer(_audioBuffer);
         }
         catch (Exception e) // Happens on audio device changed/removed

@@ -19,6 +19,7 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaRenderer;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaRemuxer;
 
 using static FlyleafLib.Logger;
+using Bili.Copilot.Libs.Player.Enums;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaDecoder;
 
@@ -564,7 +565,7 @@ public unsafe class VideoDecoder : DecoderBase
 
         } while (Status == Status.Running);
 
-        if (isRecording) { StopRecording(); recCompleted(MediaType.Video); }
+        if (isRecording) { StopRecording(); RecCompleted(MediaType.Video); }
 
         if (Status == Status.Draining) Status = Status.Ended;
     }
@@ -1005,21 +1006,21 @@ public unsafe class VideoDecoder : DecoderBase
         if (frame == null)
             return;
 
-        if (frame.textures != null)
-            for (int i=0; i<frame.textures.Length; i++)
-                frame.textures[i].Dispose();
+        if (frame.Textures != null)
+            for (int i=0; i<frame.Textures.Length; i++)
+                frame.Textures[i].Dispose();
 
-        if (frame.srvs != null)
-            for (int i=0; i<frame.srvs.Length; i++)
-                frame.srvs[i].Dispose();
+        if (frame.Srvs != null)
+            for (int i=0; i<frame.Srvs.Length; i++)
+                frame.Srvs[i].Dispose();
 
-        if (frame.bufRef != null)
-            fixed (AVBufferRef** ptr = &frame.bufRef)
+        if (frame.BufRef != null)
+            fixed (AVBufferRef** ptr = &frame.BufRef)
                 av_buffer_unref(ptr);
 
-        frame.srvs      = null;
-        frame.textures  = null;
-        frame.bufRef    = null;
+        frame.Srvs      = null;
+        frame.Textures  = null;
+        frame.BufRef    = null;
     }
     protected override void DisposeInternal()
     {
@@ -1055,7 +1056,7 @@ public unsafe class VideoDecoder : DecoderBase
     #endregion
 
     #region Recording
-    internal Action<MediaType> recCompleted;
+    internal Action<MediaType> RecCompleted { get; set; }
     Remuxer curRecorder;
     bool recGotKeyframe;
     internal bool isRecording;

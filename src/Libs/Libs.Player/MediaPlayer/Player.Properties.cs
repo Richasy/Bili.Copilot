@@ -6,9 +6,14 @@ using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Controls;
 using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.Enums;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDecoder;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaFrame;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaRenderer;
 using Bili.Copilot.Libs.Player.Misc;
 using Bili.Copilot.Libs.Player.Models;
-using Windows.Media;
 
 using static Bili.Copilot.Libs.Player.Utils;
 
@@ -17,13 +22,20 @@ namespace Bili.Copilot.Libs.Player.MediaPlayer;
 /// <summary>
 /// 玩家类，表示一个播放器.
 /// </summary>
-public sealed partial class Player
+public partial class Player
 {
-    private readonly ConcurrentStack<SeekData> seeks = new();
-    private readonly ConcurrentQueue<Action> UIActions = new();
+    private readonly ConcurrentStack<SeekData> _seeks = new();
+    private readonly ConcurrentQueue<Action> _uiActions = new();
 
     private readonly object _lockActions = new();
     private readonly object _lockSubtitles = new();
+
+    private readonly bool _isAudioSwitch;
+    private readonly bool _isSubsSwitch;
+
+    private readonly bool _taskSeekRuns;
+    private readonly bool _taskPlayRuns;
+    private readonly bool _taskOpenAsyncRuns;
 
     private IMediaTransportControls _transportControls;
     private PlayerStatus _status = PlayerStatus.Stopped;
@@ -34,19 +46,13 @@ public sealed partial class Player
     private string _lastError;
     private bool _reversePlaybackResync;
     private bool _isVideoSwitch;
-    private bool _isAudioSwitch;
-    private bool _isSubsSwitch;
-
-    private bool _taskSeekRuns;
-    private bool _taskPlayRuns;
-    private bool _taskOpenAsyncRuns;
-
     private long _duration;
     private double _speed = 1;
     private double _bitRate;
     private long _bufferedDuration;
     private bool _isLive;
     private bool _isRecording;
+    private VideoFrame _videoFrame;
 
     /// <summary>
     /// 获取或设置一个值，指示播放器是否已被释放.
@@ -140,7 +146,7 @@ public sealed partial class Player
     /// <summary>
     /// 播放器的配置（在构造函数中设置一次）.
     /// </summary>
-    public Config Config { get; protected set; }
+    public Config Config { get; private set; }
 
     /// <summary>
     /// 播放器的状态.
@@ -302,11 +308,11 @@ public sealed partial class Player
             _speed = newValue;
             Decoder.RequiresResync = true;
             RequiresBuffering = true;
-            Subtitles.SubsText = string.Empty;
+            Subtitles.SubtitleText = string.Empty;
 
             UI(() =>
             {
-                Subtitles.SubsText = Subtitles.SubsText;
+                Subtitles.SubtitleText = Subtitles.SubtitleText;
                 Raise(nameof(Speed));
             });
         }
@@ -365,10 +371,10 @@ public sealed partial class Player
                 var shouldPlay = IsPlaying;
                 Pause();
                 SubtitleFrame = null;
-                Subtitles.SubsText = string.Empty;
-                if (!string.IsNullOrEmpty(Subtitles._subsText))
+                Subtitles.SubtitleText = string.Empty;
+                if (!string.IsNullOrEmpty(Subtitles.SubtitleText))
                 {
-                    UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                    UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
                 }
 
                 Decoder.StopThreads();
@@ -405,9 +411,8 @@ public sealed partial class Player
     }
 
     internal AudioFrame AudioFrame { get; set; }
-    internal VideoFrame VideoFrame { get; set; }
-    internal SubtitlesFrame SubtitleFrame { get; set; }
-    internal SubtitlesFrame SubtitleFramePrev { get; set; }
+    internal SubtitleFrame SubtitleFrame { get; set; }
+    internal SubtitleFrame SubtitleFramePrev { get; set; }
     internal PlayerStats Stats { get; set; } = new();
     internal LogHandler Log { get; set; }
     internal bool RequiresBuffering { get; set; }
@@ -417,6 +422,6 @@ public sealed partial class Player
     /// </summary>
     private bool DecoderHasEnded =>
         Decoder != null
-        && (VideoDecoder.Status == MediaFramework.Status.Ended
-            || (VideoDecoder.Disposed && AudioDecoder.Status == MediaFramework.Status.Ended));
+        && (VideoDecoder.Status == ThreadStatus.Ended
+            || (VideoDecoder.Disposed && AudioDecoder.Status == ThreadStatus.Ended));
 }

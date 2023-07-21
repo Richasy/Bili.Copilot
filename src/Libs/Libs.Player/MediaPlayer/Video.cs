@@ -161,8 +161,8 @@ public class Video : ObservableObject
 
         player.Pause();
         decoder.CloseVideo();
-        player.Subtitles.subsText = "";
-        player.UIAdd(() => player.Subtitles.SubsText = player.Subtitles.SubsText);
+        player.Subtitles._subtitleText = "";
+        player.UIAdd(() => player.Subtitles.SubtitleText = player.Subtitles.SubtitleText);
 
         if (!player.Audio.IsOpened)
         {

@@ -13,9 +13,9 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
 {
     internal void UpdateCurTime()
     {
-        lock (seeks)
+        lock (_seeks)
         {
-            if (MainDemuxer == null || !seeks.IsEmpty)
+            if (MainDemuxer == null || !_seeks.IsEmpty)
                 return;
 
             if (MainDemuxer.IsHLSLive)
@@ -187,7 +187,7 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
                 this.status = status;
                 canPlay = false;
                 _isVideoSwitch = false;
-                seeks.Clear();
+                _seeks.Clear();
 
                 while (taskPlayRuns || taskSeekRuns)
                     Thread.Sleep(5);
@@ -220,12 +220,12 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
         }
     }
 
-    internal void UIAdd(Action action) => UIActions.Enqueue(action);
+    internal void UIAdd(Action action) => _uIActions.Enqueue(action);
     internal void UIAll()
     {
-        while (!UIActions.IsEmpty)
+        while (!_uIActions.IsEmpty)
         {
-            if (UIActions.TryDequeue(out var action))
+            if (_uIActions.TryDequeue(out var action))
             {
                 UI(action);
             }

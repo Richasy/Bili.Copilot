@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -18,6 +20,46 @@ internal static class Utils
 {
     private static int _uniqueId;
 
+    public static List<string> ExtensionsAudio { get; } = new()
+    {
+        "3ga", "669", "a52", "aac", "ac3",
+        "adt", "adts", "aif", "aifc", "aiff",
+        "au", "amr", "aob", "ape", "caf",
+        "cda", "dts", "flac", "it", "m4a",
+        "m4p", "mid", "mka", "mlp", "mod",
+        "mp1", "mp2", "mp3", "mpc", "mpga",
+        "oga", "oma", "opus", "qcp", "ra",
+        "rmi", "snd", "s3m", "spx", "tta",
+        "voc", "vqf", "w64", "wav", "wma",
+        "wv", "xa", "xm",
+    };
+
+    public static List<string> ExtensionsPictures { get; } = new()
+    {
+        "apng", "bmp", "gif", "jpg", "jpeg", "png", "ico", "tif", "tiff", "tga",
+    };
+
+    public static List<string> ExtensionsSubtitles { get; } = new()
+    {
+        "ass", "ssa", "srt", "sub", "txt", "text", "vtt",
+    };
+
+    public static List<string> ExtensionsVideo { get; } = new()
+    {
+        "3g2", "3gp", "3gp2", "3gpp", "amrec",
+        "amv", "asf", "avi", "bik", "divx",
+        "drc", "dv", "f4v", "flv", "gvi",
+        "gxf", "m1v", "m2t", "m2v", "m2ts",
+        "m4v", "mkv", "mov", "mp2v", "mp4",
+        "mp4v", "mpa", "mpe", "mpeg", "mpeg1",
+        "mpeg2", "mpeg4", "mpg", "mpv2", "mts",
+        "mtv", "mxf", "nsv", "nuv", "ogg",
+        "ogm", "ogx", "ogv", "rec", "rm",
+        "rmvb", "rpl", "thp", "tod", "ts",
+        "tts", "vob", "vro", "webm", "wmv",
+        "xesc", "dav",
+    };
+
     internal static DispatcherQueue DispatcherQueue { get; set; }
 
     internal static int GetUniqueId()
@@ -29,6 +71,20 @@ internal static class Utils
     internal static int GCD(int a, int b) => b == 0 ? a : GCD(b, a % b);
 
     internal static void UI(Action action) => DispatcherQueue.TryEnqueue(() => { action(); });
+
+    internal static string TicksToTime(long ticks) => new TimeSpan(ticks).ToString();
+
+    internal static void Log(string msg)
+    {
+        try
+        {
+            Debug.WriteLine($"[{DateTime.Now:hh.mm.ss.fff}] {msg}");
+        }
+        catch (Exception)
+        {
+            Debug.WriteLine($"[............] [MediaFramework] {msg}");
+        }
+    }
 
     internal static string GetBytesReadable(long i)
     {
@@ -145,7 +201,7 @@ internal static class Utils
     }
 
     internal static string GetUrlExtension(string url)
-        => url.LastIndexOf(".") > 0 ? url[(url.LastIndexOf(".") + 1)..].ToLower() : string.Empty;
+        => url.LastIndexOf(".") > 0 ? url[(url.LastIndexOf(".") + 1) ..].ToLower() : string.Empty;
 
     internal static string FindNextAvailableFile(string fileName)
     {
@@ -229,5 +285,50 @@ internal static class Utils
         mp.Title = title.Trim();
 
         return mp;
+    }
+
+    internal static string FixFileUrl(string url)
+    {
+        try
+        {
+            if (url == null || url.Length < 5)
+            {
+                return url;
+            }
+
+            if (url[..5].ToLower() == "file:")
+            {
+                return new Uri(url).LocalPath;
+            }
+        }
+        catch
+        {
+        }
+
+        return url;
+    }
+
+    internal static string DownloadToString(string url, int timeoutMs = 30000)
+    {
+        try
+        {
+            using HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(timeoutMs) };
+            return client.GetAsync(url).Result.Content.ReadAsStringAsync().Result;
+        }
+        catch (Exception e)
+        {
+            Log($"Download failed {e.Message} [Url: {url ?? "Null"}]");
+        }
+
+        return null;
+    }
+
+    internal static float Scale(float value, float inMin, float inMax, float outMin, float outMax)
+        => ((value - inMin) * (outMax - outMin) / (inMax - inMin)) + outMin;
+
+    internal static int Align(int num, int align)
+    {
+        var mod = num % align;
+        return mod == 0 ? num : num + (align - mod);
     }
 }

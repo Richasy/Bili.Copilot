@@ -70,9 +70,9 @@ unsafe partial class Player
     private void ShowOneFrame()
     {
         sFrame = null;
-        Subtitles.subsText = "";
-        if (Subtitles._SubsText != "")
-            UIAdd(() => Subtitles.SubsText = Subtitles.SubsText);
+        Subtitles._subtitleText = "";
+        if (Subtitles._subtitleText != "")
+            UIAdd(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
 
         if (!VideoDecoder.Frames.IsEmpty)
         {
@@ -80,7 +80,7 @@ unsafe partial class Player
             if (vFrame != null) // might come from video input switch interrupt
                 renderer.Present(vFrame);
 
-            if (seeks.IsEmpty)
+            if (_seeks.IsEmpty)
             {
                 if (!VideoDemuxer.IsHLSLive)
                     curTime = vFrame.timestamp;
@@ -89,7 +89,7 @@ unsafe partial class Player
             }
 
             // Required for buffering on paused
-            if (decoder.RequiresResync && !IsPlaying && seeks.IsEmpty)
+            if (decoder.RequiresResync && !IsPlaying && _seeks.IsEmpty)
                 decoder.Resync(vFrame.timestamp);
 
             vFrame = null;
@@ -166,7 +166,7 @@ unsafe partial class Player
             }
 
             // We allo few ms to show a frame before cancelling
-            if ((!showOneFrame || loops > 8) && !seeks.IsEmpty)
+            if ((!showOneFrame || loops > 8) && !_seeks.IsEmpty)
                 return false;
 
             if (!gotVideo && !showOneFrame && !VideoDecoder.Frames.IsEmpty)
@@ -251,9 +251,9 @@ unsafe partial class Player
             return false;
         }
 
-        while(seeks.IsEmpty && GetBufferedDuration() < Config.Player.MinBufferDuration && IsPlaying && VideoDemuxer.IsRunning && VideoDemuxer.Status != MediaFramework.Status.QueueFull) Thread.Sleep(20);
+        while(_seeks.IsEmpty && GetBufferedDuration() < Config.Player.MinBufferDuration && IsPlaying && VideoDemuxer.IsRunning && VideoDemuxer.Status != MediaFramework.Status.QueueFull) Thread.Sleep(20);
 
-        if (!seeks.IsEmpty)
+        if (!_seeks.IsEmpty)
             return false;
 
         if (CanInfo) Log.Info($"Started [V: {TicksToTime(vFrame.timestamp)}]" + (aFrame == null ? "" : $" [A: {TicksToTime(aFrame.timestamp)}]"));
@@ -266,9 +266,9 @@ unsafe partial class Player
     {
         while (Status == Status.Playing)
         {
-            if (seeks.TryPop(out var seekData))
+            if (_seeks.TryPop(out var seekData))
             {
-                seeks.Clear();
+                _seeks.Clear();
                 requiresBuffering = true;
 
                 decoder.PauseDecoders(); // TBR: Required to avoid getting packets between Seek and ShowFrame which causes resync issues
@@ -284,7 +284,7 @@ unsafe partial class Player
                 OnBufferingStarted();
                 MediaBuffer();
                 requiresBuffering = false;
-                if (!seeks.IsEmpty)
+                if (!_seeks.IsEmpty)
                     continue;
 
                 if (vFrame == null)
@@ -436,8 +436,8 @@ unsafe partial class Player
                 else
                     Video.framesDropped++;
 
-                lock (seeks)
-                    if (seeks.IsEmpty)
+                lock (_seeks)
+                    if (_seeks.IsEmpty)
                     {
                         curTime = !MainDemuxer.IsHLSLive ? vFrame.timestamp : VideoDemuxer.CurTime;
 
@@ -470,8 +470,8 @@ unsafe partial class Player
 
             if (sFramePrev != null && ((sFramePrev.timestamp - startTicks + (sFramePrev.duration * (long)10000)) / speed) - (long) (sw.ElapsedTicks * SWFREQ_TO_TICKS) < 0)
             {
-                Subtitles.subsText = "";
-                UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                Subtitles._subtitleText = "";
+                UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
 
                 sFramePrev = null;
             }
@@ -480,8 +480,8 @@ unsafe partial class Player
             {
                 if (Math.Abs(sDistanceMs - sleepMs) < 30 || (sDistanceMs < -30 && sFrame.duration + sDistanceMs > 0))
                 {
-                    Subtitles.subsText = sFrame.text;
-                    UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                    Subtitles._subtitleText = sFrame.text;
+                    UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
                     
                     sFramePrev = sFrame;
                     sFrame = null;
@@ -566,7 +566,7 @@ unsafe partial class Player
         if (VideoDecoder.Frames.IsEmpty)
             return 0;
 
-        var decoder = VideoDecoder.Frames.ToArray()[^1].timestamp - vFrame.timestamp;
+        var decoder = VideoDecoder.Frames.ToArray()[^1].Timestamp - vFrame.timestamp;
         var demuxer = VideoDemuxer.VideoPackets.LastTimestamp == ffmpeg.AV_NOPTS_VALUE
             ? 0 : 
             (VideoDemuxer.VideoPackets.LastTimestamp - VideoDemuxer.StartTime) - vFrame.timestamp;
@@ -589,26 +589,26 @@ unsafe partial class Player
         if (aFrame == null) 
             return false;
 
-        lock (seeks)
-            if (seeks.IsEmpty)
+        lock (_seeks)
+            if (_seeks.IsEmpty)
             {
                 if (MainDemuxer.IsHLSLive)
                     curTime = aFrame.timestamp;
                 UI(() => UpdateCurTime());
             }
 
-        while(seeks.IsEmpty && decoder.AudioStream.Demuxer.BufferedDuration < Config.Player.MinBufferDuration && IsPlaying && decoder.AudioStream.Demuxer.IsRunning && decoder.AudioStream.Demuxer.Status != MediaFramework.Status.QueueFull)
+        while(_seeks.IsEmpty && decoder.AudioStream.Demuxer.BufferedDuration < Config.Player.MinBufferDuration && IsPlaying && decoder.AudioStream.Demuxer.IsRunning && decoder.AudioStream.Demuxer.Status != MediaFramework.Status.QueueFull)
             Thread.Sleep(20);
 
-        return IsPlaying && !AudioDecoder.Frames.IsEmpty && seeks.IsEmpty;
+        return IsPlaying && !AudioDecoder.Frames.IsEmpty && _seeks.IsEmpty;
     }
     private void ScreamerAudioOnly()
     {
         while (IsPlaying)
         {
-            if (seeks.TryPop(out var seekData))
+            if (_seeks.TryPop(out var seekData))
             {
-                seeks.Clear();
+                _seeks.Clear();
                 requiresBuffering = true;
                 
                 if (AudioDecoder.OnVideoDemuxer)
@@ -628,7 +628,7 @@ unsafe partial class Player
                 OnBufferingStarted();
                 AudioBuffer();
                 requiresBuffering = false;
-                if (!seeks.IsEmpty)
+                if (!_seeks.IsEmpty)
                     continue;
                 OnBufferingCompleted();
                 if (aFrame == null) { Log.Warn("[MediaBuffer] No audio frame"); break; }
@@ -676,8 +676,8 @@ unsafe partial class Player
                 Thread.Sleep(aDistanceMs);
             }
 
-            lock (seeks)
-                if (!MainDemuxer.IsHLSLive && seeks.IsEmpty)
+            lock (_seeks)
+                if (!MainDemuxer.IsHLSLive && _seeks.IsEmpty)
                 {
                     curTime = (long) (aFrame.timestamp * Speed);
 
@@ -697,9 +697,9 @@ unsafe partial class Player
     {
         while (Status == Status.Playing)
         {
-            if (seeks.TryPop(out var seekData))
+            if (_seeks.TryPop(out var seekData))
             {
-                seeks.Clear();
+                _seeks.Clear();
                 if (decoder.Seek(seekData.ms, seekData.forward) < 0)
                     Log.Warn("Seek failed");
             }
@@ -729,7 +729,7 @@ unsafe partial class Player
                 sw.Restart();
                 elapsedSec = 0;
 
-                if (!MainDemuxer.IsHLSLive && seeks.IsEmpty)
+                if (!MainDemuxer.IsHLSLive && _seeks.IsEmpty)
                     curTime = (long) (vFrame.timestamp * Speed);
                 UI(() => UpdateCurTime());
             }
@@ -773,7 +773,7 @@ unsafe partial class Player
             }
 
             decoder.VideoDecoder.Renderer.Present(vFrame);
-            if (!MainDemuxer.IsHLSLive && seeks.IsEmpty)
+            if (!MainDemuxer.IsHLSLive && _seeks.IsEmpty)
             {
                 curTime = (long) (vFrame.timestamp * Speed);
 

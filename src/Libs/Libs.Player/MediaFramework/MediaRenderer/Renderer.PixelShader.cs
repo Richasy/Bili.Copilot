@@ -587,8 +587,8 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
         try
         {
             VideoFrame mFrame = new();
-            mFrame.timestamp = (long)(frame->pts * VideoStream.Timebase) - VideoDecoder.Demuxer.StartTime;
-            if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.timestamp)}");
+            mFrame.Timestamp = (long)(frame->pts * VideoStream.Timebase) - VideoDecoder.Demuxer.StartTime;
+            if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.Timestamp)}");
 
             if (checkHDR)
             {
@@ -625,71 +625,71 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
 
             if (curPSCase == PSCase.HWD3D11VPZeroCopy)
             {
-                mFrame.subresource  = (int) frame->data[1];
-                mFrame.bufRef       = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
+                mFrame.SubResource  = (int) frame->data[1];
+                mFrame.BufRef       = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
             }
 
             else if (curPSCase == PSCase.HWD3D11VP)
             {
-                mFrame.textures     = new ID3D11Texture2D[1];
-                mFrame.textures[0]  = Device.CreateTexture2D(textDesc[0]);
+                mFrame.Textures     = new ID3D11Texture2D[1];
+                mFrame.Textures[0]  = Device.CreateTexture2D(textDesc[0]);
                 context.CopySubresourceRegion(
-                    mFrame.textures[0], 0, 0, 0, 0, // dst
+                    mFrame.Textures[0], 0, 0, 0, 0, // dst
                     VideoDecoder.textureFFmpeg, (int) frame->data[1],  // src
                     cropBox); // crop decoder's padding
             }
 
             else if (curPSCase == PSCase.HWZeroCopy)
             {
-                mFrame.srvs         = new ID3D11ShaderResourceView[2];
-                mFrame.bufRef       = av_buffer_ref(frame->buf[0]);
+                mFrame.Srvs         = new ID3D11ShaderResourceView[2];
+                mFrame.BufRef       = av_buffer_ref(frame->buf[0]);
                 srvDesc[0].Texture2DArray.FirstArraySlice = srvDesc[1].Texture2DArray.FirstArraySlice = (int) frame->data[1];
 
-                mFrame.srvs[0]      = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[0]);
-                mFrame.srvs[1]      = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[1]);
+                mFrame.Srvs[0]      = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[0]);
+                mFrame.Srvs[1]      = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[1]);
             }
 
             else if (curPSCase == PSCase.HW)
             {
-                mFrame.textures     = new ID3D11Texture2D[1];
-                mFrame.srvs         = new ID3D11ShaderResourceView[2];
+                mFrame.Textures     = new ID3D11Texture2D[1];
+                mFrame.Srvs         = new ID3D11ShaderResourceView[2];
 
-                mFrame.textures[0]  = Device.CreateTexture2D(textDesc[0]);
+                mFrame.Textures[0]  = Device.CreateTexture2D(textDesc[0]);
                 context.CopySubresourceRegion(
-                    mFrame.textures[0], 0, 0, 0, 0, // dst
+                    mFrame.Textures[0], 0, 0, 0, 0, // dst
                     VideoDecoder.textureFFmpeg, (int) frame->data[1],  // src
                     cropBox); // crop decoder's padding
 
-                mFrame.srvs[0]      = Device.CreateShaderResourceView(mFrame.textures[0], srvDesc[0]);
-                mFrame.srvs[1]      = Device.CreateShaderResourceView(mFrame.textures[0], srvDesc[1]);
+                mFrame.Srvs[0]      = Device.CreateShaderResourceView(mFrame.Textures[0], srvDesc[0]);
+                mFrame.Srvs[1]      = Device.CreateShaderResourceView(mFrame.Textures[0], srvDesc[1]);
             }
 
             else if (curPSCase == PSCase.SwsScale)
             {
-                mFrame.textures     = new ID3D11Texture2D[1];
-                mFrame.srvs         = new ID3D11ShaderResourceView[1];
+                mFrame.Textures     = new ID3D11Texture2D[1];
+                mFrame.Srvs         = new ID3D11ShaderResourceView[1];
 
                 sws_scale(VideoDecoder.swsCtx, frame->data, frame->linesize, 0, frame->height, VideoDecoder.swsData, VideoDecoder.swsLineSize);
 
                 subData[0].DataPointer      = (IntPtr) VideoDecoder.swsData[0];
                 subData[0].RowPitch         = VideoDecoder.swsLineSize[0];
 
-                mFrame.textures[0]  = Device.CreateTexture2D(textDesc[0], subData);
-                mFrame.srvs[0]      = Device.CreateShaderResourceView(mFrame.textures[0], srvDesc[0]);
+                mFrame.Textures[0]  = Device.CreateTexture2D(textDesc[0], subData);
+                mFrame.Srvs[0]      = Device.CreateShaderResourceView(mFrame.Textures[0], srvDesc[0]);
             }
 
             else
             {
-                mFrame.textures = new ID3D11Texture2D[VideoStream.PixelPlanes];
-                mFrame.srvs     = new ID3D11ShaderResourceView[VideoStream.PixelPlanes];
+                mFrame.Textures = new ID3D11Texture2D[VideoStream.PixelPlanes];
+                mFrame.Srvs     = new ID3D11ShaderResourceView[VideoStream.PixelPlanes];
 
                 for (uint i = 0; i < VideoStream.PixelPlanes; i++)
                 {
                     subData[0].DataPointer  = (IntPtr) frame->data[i];
                     subData[0].RowPitch     = frame->linesize[i];
 
-                    mFrame.textures[i]  = Device.CreateTexture2D(textDesc[i], subData);
-                    mFrame.srvs[i]      = Device.CreateShaderResourceView(mFrame.textures[i], srvDesc[i]);
+                    mFrame.Textures[i]  = Device.CreateTexture2D(textDesc[i], subData);
+                    mFrame.Srvs[i]      = Device.CreateShaderResourceView(mFrame.Textures[i], srvDesc[i]);
                 }
             }
 

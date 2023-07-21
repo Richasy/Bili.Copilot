@@ -1,93 +1,137 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
+using System.Collections.ObjectModel;
+using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
+using Bili.Copilot.Libs.Player.Models;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
+/// <summary>
+/// 字幕类，继承自 ObservableObject.
+/// </summary>
 public class Subtitles : ObservableObject
 {
-    /// <summary>
-    /// Embedded Streams
-    /// </summary>
-    public ObservableCollection<SubtitlesStream>
-                    Streams         => decoder?.VideoDemuxer.SubtitlesStreams;
+    private readonly Action _uiAction;
+    private readonly Player _player;
+    private bool _isOpened;
+    private string _codec;
+    private string _subtitleText = string.Empty;
 
     /// <summary>
-    /// Whether the input has subtitles and it is configured
+    /// 构造函数.
     /// </summary>
-    public bool     IsOpened        { get => isOpened;     internal set => Set(ref _IsOpened, value); }
-    internal bool   _IsOpened, isOpened;
-
-    public string   Codec           { get => codec;        internal set => Set(ref _Codec, value); }
-    internal string _Codec, codec;
-
-    /// <summary>
-    /// Subtitles Text (updates dynamically while playing based on the duration that it should be displayed)
-    /// </summary>
-    public string   SubsText        { get => subsText;     internal set => Set(ref _SubsText,  value); }
-    internal string _SubsText = "", subsText = "";
-
-    Action uiAction;
-    Player player;
-    DecoderContext decoder => player?.decoder;
-    Config Config => player.Config;
-
+    /// <param name="player">播放器对象.</param>
     public Subtitles(Player player)
     {
-        this.player = player;
-
-        uiAction = () =>
+        _player = player;
+        _uiAction = () =>
         {
-            IsOpened    = IsOpened;
-            Codec       = Codec;
-            SubsText    = SubsText;
+            IsOpened = IsOpened;
+            Codec = Codec;
+            SubtitleText = SubtitleText;
         };
     }
+
+    /// <summary>
+    /// 嵌入的流.
+    /// </summary>
+    public ObservableCollection<SubtitlesStream> Streams => Decoder?.VideoDemuxer.SubtitlesStreams;
+
+    /// <summary>
+    /// 输入是否有字幕并且已配置.
+    /// </summary>
+    public bool IsOpened { get => _isOpened; internal set => Set(ref _isOpened, value); }
+
+    /// <summary>
+    /// 字幕编码.
+    /// </summary>
+    public string Codec { get => _codec; internal set => Set(ref _codec, value); }
+
+    /// <summary>
+    /// 字幕文本（根据应该显示的持续时间在播放时动态更新）.
+    /// </summary>
+    public string SubtitleText { get => _subtitleText; internal set => Set(ref _subtitleText, value); }
+
+    private DecoderContext Decoder => _player?.Decoder;
+
+    private Config Config => _player.Config;
+
+    /// <summary>
+    /// 延迟减少字幕显示时间.
+    /// </summary>
+    public void DelayRemove() => Config.Subtitles.Delay -= Config.Player.SubtitlesDelayOffset;
+
+    /// <summary>
+    /// 延迟增加字幕显示时间.
+    /// </summary>
+    public void DelayAdd() => Config.Subtitles.Delay += Config.Player.SubtitlesDelayOffset;
+
+    /// <summary>
+    /// 延迟减少字幕显示时间2.
+    /// </summary>
+    public void DelayRemove2() => Config.Subtitles.Delay -= Config.Player.SubtitlesDelayOffset2;
+
+    /// <summary>
+    /// 延迟增加字幕显示时间2.
+    /// </summary>
+    public void DelayAdd2() => Config.Subtitles.Delay += Config.Player.SubtitlesDelayOffset2;
+
+    /// <summary>
+    /// 切换字幕显示状态.
+    /// </summary>
+    public void Toggle() => Config.Subtitles.Enabled = !Config.Subtitles.Enabled;
+
     internal void Reset()
     {
-        codec       = null;
-        isOpened    = false;
-        subsText    = "";
+        _codec = null;
+        _isOpened = false;
+        _subtitleText = string.Empty;
 
-        player.UIAdd(uiAction);
+        _player.UIAdd(_uiAction);
     }
+
     internal void Refresh()
     {
-        if (decoder.SubtitlesStream == null) { Reset(); return; }
+        if (Decoder.SubtitlesStream == null)
+        {
+            Reset();
+            return;
+        }
 
-        codec       = decoder.SubtitlesStream.Codec;
-        isOpened    =!decoder.SubtitlesDecoder.Disposed;
+        _codec = Decoder.SubtitlesStream.Codec;
+        _isOpened = !Decoder.SubtitlesDecoder.Disposed;
 
-        player.UIAdd(uiAction);
+        _player.UIAdd(_uiAction);
     }
+
     internal void Enable()
     {
-        if (!player.CanPlay)
+        if (!_player.CanPlay)
+        {
             return;
+        }
 
-        decoder.OpenSuggestedSubtitles();
-        player.ReSync(decoder.SubtitlesStream, (int) (player.CurTime / 10000), true);
+        Decoder.OpenSuggestedSubtitles();
+        _player.ReSync(Decoder.SubtitlesStream, (int)(_player.CurTime / 10000), true);
 
         Refresh();
-        player.UIAll();
+        _player.UIAll();
     }
+
     internal void Disable()
     {
         if (!IsOpened)
+        {
             return;
+        }
 
-        decoder.CloseSubtitles();
+        Decoder.CloseSubtitles();
 
-        player.sFrame = null;
+        _player.SubtitleFrame = null;
         Reset();
-        player.UIAll();
+        _player.UIAll();
     }
-
-    public void DelayRemove()   => Config.Subtitles.Delay -= Config.Player.SubtitlesDelayOffset;
-    public void DelayAdd()      => Config.Subtitles.Delay += Config.Player.SubtitlesDelayOffset;
-    public void DelayRemove2()  => Config.Subtitles.Delay -= Config.Player.SubtitlesDelayOffset2;
-    public void DelayAdd2()     => Config.Subtitles.Delay += Config.Player.SubtitlesDelayOffset2;
-    public void Toggle()        => Config.Subtitles.Enabled = !Config.Subtitles.Enabled;
 }

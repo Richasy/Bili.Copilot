@@ -750,9 +750,9 @@ public unsafe sealed partial class Player
             }
             else
             {
-                Subtitles.subsText = "";
-                if (Subtitles._SubsText != "")
-                    UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                Subtitles._subtitleText = "";
+                if (Subtitles._subtitleText != "")
+                    UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
             }
         }
         else
@@ -769,9 +769,9 @@ public unsafe sealed partial class Player
                 isSubsSwitch = true;
                 decoder.SeekSubtitles();
                 sFrame = null;
-                Subtitles.subsText = "";
-                if (Subtitles._SubsText != "")
-                    UI(() => Subtitles.SubsText = Subtitles.SubsText);
+                Subtitles._subtitleText = "";
+                if (Subtitles._subtitleText != "")
+                    UI(() => Subtitles.SubtitleText = Subtitles.SubtitleText);
                 isSubsSwitch = false;
             }
 

@@ -16,15 +16,15 @@ public unsafe class SubtitlesDecoder : DecoderBase
 {
     public SubtitlesStream  SubtitlesStream     => (SubtitlesStream) Stream;
 
-    public ConcurrentQueue<SubtitlesFrame>
-                            Frames              { get; protected set; } = new ConcurrentQueue<SubtitlesFrame>();
+    public ConcurrentQueue<SubtitleFrame>
+                            Frames              { get; protected set; } = new ConcurrentQueue<SubtitleFrame>();
 
     public SubtitlesDecoder(Config config, int uniqueId = -1) : base(config, uniqueId) { }
 
     protected override unsafe int Setup(AVCodec* codec) => 0;
 
     protected override void DisposeInternal()
-        => Frames = new ConcurrentQueue<SubtitlesFrame>();
+        => Frames = new ConcurrentQueue<SubtitleFrame>();
 
     public void Flush()
     {
@@ -156,7 +156,7 @@ public unsafe class SubtitlesDecoder : DecoderBase
         } while (Status == Status.Running);
     }
 
-    private SubtitlesFrame ProcessSubtitlesFrame(AVPacket* packet, AVSubtitle* sub)
+    private SubtitleFrame ProcessSubtitlesFrame(AVPacket* packet, AVSubtitle* sub)
     {
 
         try
@@ -181,13 +181,13 @@ public unsafe class SubtitlesDecoder : DecoderBase
                     return null;
             }
 
-            SubtitlesFrame mFrame = new(line)
+            SubtitleFrame mFrame = new(line)
             {
-                duration    = (int)(sub->end_display_time - sub->start_display_time),
-                timestamp   = (long)(packet->pts * SubtitlesStream.Timebase) - demuxer.StartTime + Config.Subtitles.Delay
+                Duration    = (int)(sub->end_display_time - sub->start_display_time),
+                Timestamp   = (long)(packet->pts * SubtitlesStream.Timebase) - demuxer.StartTime + Config.Subtitles.Delay
             };
 
-            if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.timestamp)}");
+            if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.Timestamp)}");
 
             Config.Subtitles.Parser(mFrame);
 
@@ -196,5 +196,5 @@ public unsafe class SubtitlesDecoder : DecoderBase
     }
 
     public void DisposeFrames()
-        => Frames = new ConcurrentQueue<SubtitlesFrame>();
+        => Frames = new ConcurrentQueue<SubtitleFrame>();
 }

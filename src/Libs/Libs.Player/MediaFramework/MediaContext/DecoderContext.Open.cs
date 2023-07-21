@@ -113,7 +113,7 @@ public partial class DecoderContext
 
     private void OnOpenCompleted(OpenCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -125,7 +125,7 @@ public partial class DecoderContext
     }
     private void OnOpenSessionCompleted(OpenSessionCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -137,7 +137,7 @@ public partial class DecoderContext
     }
     private void OnOpenSubtitles(OpenSubtitlesCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -148,7 +148,7 @@ public partial class DecoderContext
     }
     private void OnOpenPlaylistItemCompleted(OpenPlaylistItemCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -160,7 +160,7 @@ public partial class DecoderContext
     }
     private void OnOpenAudioStreamCompleted(OpenAudioStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -174,7 +174,7 @@ public partial class DecoderContext
     }
     private void OnOpenVideoStreamCompleted(OpenVideoStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -188,7 +188,7 @@ public partial class DecoderContext
     }
     private void OnOpenSubtitlesStreamCompleted(OpenSubtitlesStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -201,7 +201,7 @@ public partial class DecoderContext
     }
     private void OnOpenExternalAudioStreamCompleted(OpenExternalAudioStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -215,7 +215,7 @@ public partial class DecoderContext
     }
     private void OnOpenExternalVideoStreamCompleted(OpenExternalVideoStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;
@@ -229,7 +229,7 @@ public partial class DecoderContext
     }
     private void OnOpenExternalSubtitlesStreamCompleted(OpenExternalSubtitlesStreamCompletedArgs args = null)
     {
-        if (shouldDispose)
+        if (_shouldDispose)
         {
             Dispose();
             return;

@@ -40,15 +40,15 @@ public partial class Renderer
             vc.VideoProcessorSetStreamDestRect(vp, 0, true, rect);
             vc.VideoProcessorSetOutputTargetRect(vp, true, rect);
 
-            if (frame.bufRef != null)
+            if (frame.BufRef != null)
             {
-                vpivd.Texture2D.ArraySlice = frame.subresource;
+                vpivd.Texture2D.ArraySlice = frame.SubResource;
                 vd1.CreateVideoProcessorInputView(VideoDecoder.textureFFmpeg, vpe, vpivd, out vpiv);
             }
             else
             {
                 vpivd.Texture2D.ArraySlice = 0;
-                vd1.CreateVideoProcessorInputView(frame.textures[0], vpe, vpivd, out vpiv);
+                vd1.CreateVideoProcessorInputView(frame.Textures[0], vpe, vpivd, out vpiv);
             }
 
             vpsa[0].InputSurface = vpiv;
@@ -61,7 +61,7 @@ public partial class Renderer
             context.OMSetRenderTargets(rtv);
             context.ClearRenderTargetView(rtv, Config.Video._BackgroundColor);
             context.RSSetViewport(viewport);
-            context.PSSetShaderResources(0, frame.srvs);
+            context.PSSetShaderResources(0, frame.Srvs);
             context.Draw(6, 0);
         }
     }
@@ -81,7 +81,7 @@ public partial class Renderer
             {
                 frame ??= LastFrame;
 
-                if (Disposed || frame == null || (frame.textures == null && frame.bufRef == null))
+                if (Disposed || frame == null || (frame.Textures == null && frame.BufRef == null))
                     return null;
 
                 if (width == -1 && height == -1)

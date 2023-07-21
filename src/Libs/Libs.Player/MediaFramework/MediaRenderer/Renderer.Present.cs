@@ -51,7 +51,7 @@ public unsafe partial class Renderer
             }
         }
 
-        if (CanDebug) Log.Debug("Dropped Frame - Lock timeout " + (frame != null ? Utils.TicksToTime(frame.timestamp) : ""));
+        if (CanDebug) Log.Debug("Dropped Frame - Lock timeout " + (frame != null ? Utils.TicksToTime(frame.Timestamp) : ""));
         VideoDecoder.DisposeFrame(frame);
 
         return false;
@@ -103,15 +103,15 @@ public unsafe partial class Renderer
         // TBR: Replica performance issue with D3D11 (more zoom more gpu overload)
         if (videoProcessor == VideoProcessors.D3D11)
         {
-            if (frame.bufRef != null)
+            if (frame.BufRef != null)
             {
-                vpivd.Texture2D.ArraySlice = frame.subresource;
+                vpivd.Texture2D.ArraySlice = frame.SubResource;
                 vd1.CreateVideoProcessorInputView(VideoDecoder.textureFFmpeg, vpe, vpivd, out vpiv);
             }
             else
             {
                 vpivd.Texture2D.ArraySlice = 0;
-                vd1.CreateVideoProcessorInputView(frame.textures[0], vpe, vpivd, out vpiv);
+                vd1.CreateVideoProcessorInputView(frame.Textures[0], vpe, vpivd, out vpiv);
             }
 
             vpsa[0].InputSurface = vpiv;
@@ -125,7 +125,7 @@ public unsafe partial class Renderer
             context.OMSetRenderTargets(backBufferRtv);
             context.ClearRenderTargetView(backBufferRtv, Config.Video._BackgroundColor);
             context.RSSetViewport(GetViewport);
-            context.PSSetShaderResources(0, frame.srvs);
+            context.PSSetShaderResources(0, frame.Srvs);
             context.Draw(6, 0);
             swapChain.Present(Config.Video.VSync, PresentFlags.None);
         }
@@ -143,7 +143,7 @@ public unsafe partial class Renderer
                 if (SCDisposed)
                     return;
 
-                if (LastFrame != null && (LastFrame.textures != null || LastFrame.bufRef != null))
+                if (LastFrame != null && (LastFrame.Textures != null || LastFrame.BufRef != null))
                     PresentInternal(LastFrame);
                 else
                 {
