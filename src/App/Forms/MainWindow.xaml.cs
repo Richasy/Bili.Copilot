@@ -6,6 +6,7 @@ using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using WinUIEx;
@@ -36,6 +37,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
+        _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
     }
 
     /// <summary>
@@ -107,6 +109,12 @@ public sealed partial class MainWindow : WindowBase
             XamlRoot = Content.XamlRoot,
         };
         _ = await dialog.ShowAsync();
+    }
+
+    private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
+    {
+        var playWindow = new PlayerWindow(e);
+        playWindow.Activate();
     }
 
     private void OnSettingsButtonClick(object sender, RoutedEventArgs e)

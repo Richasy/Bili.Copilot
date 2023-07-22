@@ -151,7 +151,7 @@ public sealed class EmoteTextBlock : Control
                 if (emojiRegex.IsMatch(content))
                 {
                     emotes.TryGetValue(content, out var emoji);
-                    if (emoji != null)
+                    if (emoji != null && !string.IsNullOrEmpty(emoji.Uri))
                     {
                         var inlineCon = new InlineUIContainer();
                         var img = new Microsoft.UI.Xaml.Controls.Image() { Width = 20, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(2, 0, 2, -4) };

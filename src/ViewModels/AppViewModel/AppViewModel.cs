@@ -99,12 +99,6 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestShowMessage?.Invoke(this, message);
 
     [RelayCommand]
-    private static void OpenPlayer(PlaySnapshot snapshot)
-    {
-        // TODO: 打开播放器.
-    }
-
-    [RelayCommand]
     private static void OpenReader(ArticleInformation article)
     {
         // TODO: 打开阅读器.
@@ -127,6 +121,10 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         // TODO: 打开用户详情.
     }
+
+    [RelayCommand]
+    private void OpenPlayer(PlaySnapshot snapshot)
+        => RequestPlay?.Invoke(this, snapshot);
 
     [RelayCommand]
     private void Back()

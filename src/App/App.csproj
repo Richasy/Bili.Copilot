@@ -19,8 +19,19 @@
         <TrimMode>partial</TrimMode>
     </PropertyGroup>
     <ItemGroup>
+      <Content Remove="Assets\ffmpeg\avcodec-60.dll" />
+      <Content Remove="Assets\ffmpeg\avdevice-60.dll" />
+      <Content Remove="Assets\ffmpeg\avfilter-9.dll" />
+      <Content Remove="Assets\ffmpeg\avformat-60.dll" />
+      <Content Remove="Assets\ffmpeg\avutil-58.dll" />
+      <Content Remove="Assets\ffmpeg\postproc-57.dll" />
+      <Content Remove="Assets\ffmpeg\swresample-4.dll" />
+      <Content Remove="Assets\ffmpeg\swscale-7.dll" />
+    </ItemGroup>
+    <ItemGroup>
         <None Remove="Assets\FluentSystemIcons.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
+        <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
         <None Remove="Controls\Base\DynamicPresenter.xaml" />
@@ -55,6 +66,7 @@
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
+        <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
@@ -86,6 +98,7 @@
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="NLog" Version="5.2.2" />
+        <PackageReference Include="Vortice.WinUI" Version="3.2.1-beta" />
         <PackageReference Include="WinUIEx" Version="2.2.0" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
@@ -99,11 +112,48 @@
         <ProjectCapability Include="Msix" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj" />
         <ProjectReference Include="..\Libs\Libs.Provider\Libs.Provider.csproj" />
         <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Assets\ffmpeg\avcodec-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avdevice-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avfilter-9.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avformat-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avutil-58.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\postproc-57.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\swresample-4.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\swscale-7.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Forms\PlayerWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Base\BiliPlayer\BiliPlayer.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Modules\PgcFavoriteDetailModule.xaml">

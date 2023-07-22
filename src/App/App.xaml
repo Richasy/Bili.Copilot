@@ -56,6 +56,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Base/LiveItem/LiveItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/EmoteTextBlock/EmoteTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayer/BiliPlayer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>

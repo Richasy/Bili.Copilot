@@ -6,9 +6,9 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
+using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
-using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -34,8 +34,11 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task PlayAsync()
-       => Launcher.LaunchUriAsync(new Uri($"https://www.bilibili.com/video/{Data.AlternateId}")).AsTask();
+    private void Play()
+    {
+        var snapshot = new PlaySnapshot(Data.Identifier.Id, "0", Models.Constants.Bili.VideoType.Video);
+        AppViewModel.Instance.OpenPlayerCommand.Execute(snapshot);
+    }
 
     [RelayCommand]
     private async Task AddToViewLaterAsync()

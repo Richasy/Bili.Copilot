@@ -108,6 +108,7 @@ public sealed partial class AccountViewModel : ViewModelBase
 
         Avatar = _accountInformation.User.Avatar.GetSourceUri().ToString();
         Name = _accountInformation.User.Name;
+        IsVip = _accountInformation.IsVip;
         Introduce = string.IsNullOrEmpty(_accountInformation.Introduce)
             ? ResourceToolkit.GetLocalizedString(StringNames.NoSelfIntroduce)
             : _accountInformation.Introduce;

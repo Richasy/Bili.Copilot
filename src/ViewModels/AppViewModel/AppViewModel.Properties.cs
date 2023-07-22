@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Local;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -43,6 +44,11 @@ public sealed partial class AppViewModel
     /// 在有新的提示请求时触发.
     /// </summary>
     public event EventHandler<AppTipNotificationEventArgs> RequestShowTip;
+
+    /// <summary>
+    /// 有新的播放请求时触发.
+    /// </summary>
+    public event EventHandler<PlaySnapshot> RequestPlay;
 
     /// <summary>
     /// 在有新的消息请求时触发.

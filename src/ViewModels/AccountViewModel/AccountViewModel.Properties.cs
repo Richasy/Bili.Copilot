@@ -43,6 +43,9 @@ public sealed partial class AccountViewModel
     [ObservableProperty]
     private bool _isInitializing;
 
+    [ObservableProperty]
+    private bool _isVip;
+
     /// <summary>
     /// 实例.
     /// </summary>

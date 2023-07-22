@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Bili.Copilot.Models.Constants.App;
 using Windows.ApplicationModel;
+using Windows.UI;
 
 namespace Bili.Copilot.Libs.Toolkit;
 
@@ -77,5 +78,27 @@ public static class AppToolkit
         }
 
         return new Tuple<string, string>(proxy, area);
+    }
+
+    /// <summary>
+    /// 将颜色代码转换为Windows.UI.Color对象.
+    /// </summary>
+    /// <param name="hexCode">颜色代码.</param>
+    /// <returns><see cref="Color"/>.</returns>
+    public static Color HexToColor(string hexCode)
+    {
+        // 去除可能包含的 # 符号
+        if (hexCode.StartsWith("#"))
+        {
+            hexCode = hexCode.Substring(1);
+        }
+
+        // 将十六进制颜色代码转换为RGB值
+        var r = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
+        var g = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
+        var b = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+
+        // 创建并返回Windows.UI.Color对象
+        return Color.FromArgb(255, r, g, b);
     }
 }
