@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Player.Core.Configs;
 using Bili.Copilot.Libs.Player.Core.Engines;
 using Bili.Copilot.Libs.Player.Enums;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDevice;
 using Bili.Copilot.Libs.Player.Misc;
 using Microsoft.UI.Dispatching;
 
@@ -17,6 +18,11 @@ namespace Bili.Copilot.Libs.Player.Core;
 /// </summary>
 public static class Engine
 {
+    private static readonly object _lockEngine = new();
+    private static Thread _tMaster;
+    private static bool _isLoading;
+    private static int _timePeriod;
+
     /// <summary>
     /// 加载完成事件.
     /// </summary>
@@ -55,14 +61,9 @@ public static class Engine
     /// <summary>
     /// 活动播放器列表.
     /// </summary>
-    public static List<Player> Players { get; private set; }
+    public static List<MediaPlayer.Player> Players { get; private set; }
 
     internal static LogHandler Log { get; private set; }
-
-    private static Thread _tMaster;
-    private static object _lockEngine = new();
-    private static bool _isLoading;
-    private static int _timePeriod;
 
     /// <summary>
     /// 初始化播放引擎（必须从 UI 线程调用）.
@@ -90,7 +91,7 @@ public static class Engine
             if (_timePeriod == 1)
             {
                 Log.Trace("timeBeginPeriod(1)");
-                Windows.Win32.PInvoke.TimeBeginPeriod(1);
+                NativeMethods.TimeBeginPeriod(1);
             }
         }
     }
@@ -107,76 +108,12 @@ public static class Engine
             if (_timePeriod == 0)
             {
                 Log.Trace("timeEndPeriod(1)");
-                Windows.Win32.PInvoke.TimeEndPeriod(1);
+                NativeMethods.TimeEndPeriod(1);
             }
         }
     }
 
-    private static void StartInternal(EngineConfig config = null, bool async = false)
-    {
-        lock (_lockEngine)
-        {
-            if (_isLoading)
-            {
-                return;
-            }
-
-            _isLoading = true;
-
-            Config = config ?? new EngineConfig();
-
-            Utils.DispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            StartInternalUI();
-
-            if (async)
-            {
-                Task.Run(() => StartInternalNonUI());
-            }
-            else
-            {
-                StartInternalNonUI();
-            }
-        }
-    }
-
-    private static void StartInternalUI()
-    {
-        Logger.SetOutput();
-
-        Log = new LogHandler("[FlyleafEngine] ");
-
-        Audio = new AudioEngine();
-        if (Config.FFmpegDevices)
-        {
-            AudioDevice.RefreshDevices();
-        }
-    }
-
-    private static void StartInternalNonUI()
-    {
-        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        Log.Info($"FlyleafLib {version.Major}.{version.Minor}.{version.Build}");
-
-        FFmpeg = new FFmpegEngine();
-        Video = new VideoEngine();
-        if (Config.FFmpegDevices)
-        {
-            VideoDevice.RefreshDevices();
-        }
-
-        Plugins = new PluginsEngine();
-        Players = new List<Player>();
-
-        IsLoaded = true;
-        Loaded?.Invoke(null, null);
-
-        if (EngineConfig.UIRefresh)
-        {
-            StartThread();
-        }
-    }
-
-    internal static void AddPlayer(Player player)
+    internal static void AddPlayer(MediaPlayer.Player player)
     {
         lock (Players)
         {
@@ -197,7 +134,7 @@ public static class Engine
         return -1;
     }
 
-    internal static void DisposePlayer(Player player)
+    internal static void DisposePlayer(MediaPlayer.Player player)
     {
         if (player == null)
         {
@@ -279,14 +216,14 @@ public static class Engine
                         {
                             if (player.Config.Player.Stats)
                             {
-                                var curStats = player.stats;
-                                long curTotalBytes = player.VideoDemuxer.TotalBytes + player.AudioDemuxer.TotalBytes + player.SubtitlesDemuxer.TotalBytes;
-                                long curVideoBytes = player.VideoDemuxer.VideoPackets.Bytes + player.AudioDemuxer.VideoPackets.Bytes + player.SubtitlesDemuxer.VideoPackets.Bytes;
-                                long curAudioBytes = player.VideoDemuxer.AudioPackets.Bytes + player.AudioDemuxer.AudioPackets.Bytes + player.SubtitlesDemuxer.AudioPackets.Bytes;
+                                var curStats = player.Stats;
+                                var curTotalBytes = player.VideoDemuxer.TotalBytes + player.AudioDemuxer.TotalBytes + player.SubtitlesDemuxer.TotalBytes;
+                                var curVideoBytes = player.VideoDemuxer.VideoPackets.Bytes + player.AudioDemuxer.VideoPackets.Bytes + player.SubtitlesDemuxer.VideoPackets.Bytes;
+                                var curAudioBytes = player.VideoDemuxer.AudioPackets.Bytes + player.AudioDemuxer.AudioPackets.Bytes + player.SubtitlesDemuxer.AudioPackets.Bytes;
 
-                                player.bitRate = (curTotalBytes - curStats.TotalBytes) * 8 / 1000.0;
-                                player.Video.bitRate = (curVideoBytes - curStats.VideoBytes) * 8 / 1000.0;
-                                player.Audio.bitRate = (curAudioBytes - curStats.AudioBytes) * 8 / 1000.0;
+                                player.BitRate = (curTotalBytes - curStats.TotalBytes) * 8 / 1000.0;
+                                player.Video.BitRate = (curVideoBytes - curStats.VideoBytes) * 8 / 1000.0;
+                                player.Audio.BitRate = (curAudioBytes - curStats.AudioBytes) * 8 / 1000.0;
 
                                 curStats.TotalBytes = curTotalBytes;
                                 curStats.VideoBytes = curVideoBytes;
@@ -294,7 +231,7 @@ public static class Engine
 
                                 if (player.IsPlaying)
                                 {
-                                    player.Video.fpsCurrent = (player.Video.FramesDisplayed - curStats.FramesDisplayed) / curSecond;
+                                    player.Video.FpsCurrent = (player.Video.FramesDisplayed - curStats.FramesDisplayed) / curSecond;
                                     curStats.FramesDisplayed = player.Video.FramesDisplayed;
                                 }
                             }
@@ -316,10 +253,7 @@ public static class Engine
                             /* 每个 UIRefreshInterval */
 
                             // 活动模式刷新和隐藏鼠标光标（仅全屏）
-                            if (player.Activity.mode != player.Activity._Mode)
-                            {
-                                player.Activity.SetMode();
-                            }
+                            player.Activity.SetMode();
 
                             // 当前时间 / 缓冲持续时间（HLS 还需加上 Duration）
                             if (!Config.UICurTimePerSecond)
@@ -355,7 +289,7 @@ public static class Engine
 
                                         player.Video.FramesDisplayed = player.Video.FramesDisplayed;
                                         player.Video.FramesDropped = player.Video.FramesDropped;
-                                        player.Video.FPSCurrent = player.Video.FPSCurrent;
+                                        player.Video.FpsCurrent = player.Video.FpsCurrent;
                                     }
                                 }
                             }
@@ -377,5 +311,69 @@ public static class Engine
         while (EngineConfig.UIRefresh);
 
         Log.Info("Thread stopped");
+    }
+
+    private static void StartInternal(EngineConfig config = null, bool async = false)
+    {
+        lock (_lockEngine)
+        {
+            if (_isLoading)
+            {
+                return;
+            }
+
+            _isLoading = true;
+
+            Config = config ?? new EngineConfig();
+
+            Utils.DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            StartInternalUI();
+
+            if (async)
+            {
+                Task.Run(() => StartInternalNonUI());
+            }
+            else
+            {
+                StartInternalNonUI();
+            }
+        }
+    }
+
+    private static void StartInternalUI()
+    {
+        Logger.SetOutput();
+
+        Log = new LogHandler("[FlyleafEngine] ");
+
+        Audio = new AudioEngine();
+        if (Config.FFmpegDevices)
+        {
+            AudioDevice.RefreshDevices();
+        }
+    }
+
+    private static void StartInternalNonUI()
+    {
+        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        Log.Info($"BiliPlayer {version.Major}.{version.Minor}.{version.Build}");
+
+        FFmpeg = new FFmpegEngine();
+        Video = new VideoEngine();
+        if (Config.FFmpegDevices)
+        {
+            VideoDevice.RefreshDevices();
+        }
+
+        Plugins = new PluginsEngine();
+        Players = new List<MediaPlayer.Player>();
+
+        IsLoaded = true;
+        Loaded?.Invoke(null, null);
+
+        if (EngineConfig.UIRefresh)
+        {
+            StartThread();
+        }
     }
 }

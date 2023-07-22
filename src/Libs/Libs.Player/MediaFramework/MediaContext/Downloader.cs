@@ -7,6 +7,7 @@ using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.Enums;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaRemuxer;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FFmpeg.AutoGen;
 using static Bili.Copilot.Libs.Player.Misc.Logger;
 
@@ -15,12 +16,27 @@ namespace Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 /// <summary>
 /// 下载或重新封装任何 ffmpeg 可用的输入 URL 到不同的格式.
 /// </summary>
-public unsafe class Downloader : RunThreadBase
+public unsafe partial class Downloader : RunThreadBase
 {
-    private double _downloadPercentage; // 当前下载进度的百分比
     private double _downPercentageFactor; // 下载进度的因子
+
+    /// <summary>
+    /// 当前帧的时间戳（从0开始，以 Ticks 表示）.
+    /// </summary>
+    [ObservableProperty]
     private long _curTime; // 当前帧的时间戳（从0开始，以 Ticks 表示）
-    private long _duration; // 输入的总时长（以 Ticks 表示）
+
+    /// <summary>
+    /// 当前下载进度的百分比（对于直播流为0）.
+    /// </summary>
+    [ObservableProperty]
+    private double _downloadPercentage;
+
+    /// <summary>
+    /// 输入的总时长（以 Ticks 表示）.
+    /// </summary>
+    [ObservableProperty]
+    private long _duration;
 
     /// <summary>
     /// 构造函数.
@@ -53,21 +69,6 @@ public unsafe class Downloader : RunThreadBase
     public Remuxer Remuxer { get; private set; }
 
     /// <summary>
-    /// 当前帧的时间戳（从0开始，以 Ticks 表示）.
-    /// </summary>
-    public long CurTime { get => _curTime; private set => Set(ref _curTime, value); }
-
-    /// <summary>
-    /// 输入的总时长（以 Ticks 表示）.
-    /// </summary>
-    public long Duration { get => _duration; private set => Set(ref _duration, value); }
-
-    /// <summary>
-    /// 当前下载进度的百分比（对于直播流为0）.
-    /// </summary>
-    public double DownloadPercentage { get => _downloadPercentage; set => Set(ref _downloadPercentage, value); }
-
-    /// <summary>
     /// 音频解封装器.
     /// </summary>
     internal Demuxer AudioDemuxer => DecoderContext.AudioDemuxer;
@@ -82,7 +83,7 @@ public unsafe class Downloader : RunThreadBase
     /// <returns>错误信息.</returns>
     public string Open(string url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true)
     {
-        lock (_lockActions)
+        lock (LockActions)
         {
             Dispose();
 
@@ -112,7 +113,7 @@ public unsafe class Downloader : RunThreadBase
     /// <param name="useRecommendedExtension">尝试将输出容器与输入容器匹配.</param>
     public void Download(ref string filename, bool useRecommendedExtension = true)
     {
-        lock (_lockActions)
+        lock (LockActions)
         {
             if (Status != ThreadStatus.Opening || Disposed)
             {
@@ -155,7 +156,7 @@ public unsafe class Downloader : RunThreadBase
             return;
         }
 
-        lock (_lockActions)
+        lock (LockActions)
         {
             if (Disposed)
             {
@@ -221,7 +222,7 @@ public unsafe class Downloader : RunThreadBase
         {
             if ((demuxer.Packets.Count == 0 && AudioDemuxer.Packets.Count == 0) || (hasAVDemuxers && (demuxer.Packets.Count == 0 || AudioDemuxer.Packets.Count == 0)))
             {
-                lock (_lockStatus)
+                lock (LockStatus)
                 {
                     if (Status == ThreadStatus.Running)
                     {
@@ -236,7 +237,7 @@ public unsafe class Downloader : RunThreadBase
                         Status = ThreadStatus.Ended;
                         if (demuxer.Interrupter.Interrupted == 0)
                         {
-                            CurTime = _duration;
+                            CurTime = Duration;
                             DownloadPercentage = 100;
                         }
 
@@ -249,8 +250,8 @@ public unsafe class Downloader : RunThreadBase
                             Log.Debug($"Demuxer is not running [Demuxer Status: {demuxer.Status}]");
                         }
 
-                        lock (demuxer._lockStatus)
-                            lock (_lockStatus)
+                        lock (demuxer.LockStatus)
+                            lock (LockStatus)
                             {
                                 if (demuxer.Status == ThreadStatus.Pausing || demuxer.Status == ThreadStatus.Paused)
                                 {
@@ -280,7 +281,7 @@ public unsafe class Downloader : RunThreadBase
                     }
                 }
 
-                lock (_lockStatus)
+                lock (LockStatus)
                 {
                     if (Status != ThreadStatus.QueueEmpty)
                     {
@@ -338,7 +339,7 @@ public unsafe class Downloader : RunThreadBase
                     ? (long)((packet->dts * demuxer.AVStreamToStream[packet->stream_index].TimeBase) - startTime)
                     : demuxer.CurTime + demuxer.BufferedDuration;
 
-                if (_duration > 0)
+                if (Duration > 0)
                 {
                     DownloadPercentage = CurTime / _downPercentageFactor;
                 }

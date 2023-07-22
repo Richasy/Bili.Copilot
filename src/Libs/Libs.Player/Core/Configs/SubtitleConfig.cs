@@ -3,7 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaFrame;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
 
@@ -32,7 +33,7 @@ public sealed class SubtitleConfig : ObservableObject
                 return;
             }
 
-            if (Set(ref _delay, value))
+            if (SetProperty(ref _delay, value))
             {
                 _player?.ReSync(_player.Decoder.SubtitlesStream);
             }
@@ -47,7 +48,7 @@ public sealed class SubtitleConfig : ObservableObject
         get => _enabled;
         set
         {
-            if (Set(ref _enabled, value))
+            if (SetProperty(ref _enabled, value))
             {
                 if (value)
                 {
@@ -77,7 +78,7 @@ public sealed class SubtitleConfig : ObservableObject
     /// <summary>
     /// 是否使用本地搜索插件（参见 <see cref="SearchLocalOnInputType"/>）.
     /// </summary>
-    public bool SearchLocal { get => _searchLocal; set => Set(ref _searchLocal, value); }
+    public bool SearchLocal { get => _searchLocal; set => SetProperty(ref _searchLocal, value); }
 
     /// <summary>
     /// 允许在本地搜索字幕的输入类型列表（空列表表示允许所有类型）.
@@ -87,7 +88,7 @@ public sealed class SubtitleConfig : ObservableObject
     /// <summary>
     /// 是否使用在线搜索插件（参见 <see cref="SearchOnlineOnInputType"/>）.
     /// </summary>
-    public bool SearchOnline { get => _searchOnline; set => Set(ref _searchOnline, value); }
+    public bool SearchOnline { get => _searchOnline; set => SetProperty(ref _searchOnline, value); }
 
     /// <summary>
     /// 允许在在线搜索字幕的输入类型列表（空列表表示允许所有类型）.
@@ -97,7 +98,7 @@ public sealed class SubtitleConfig : ObservableObject
     /// <summary>
     /// 字幕解析器（可用于自定义解析）.
     /// </summary>
-    public Action<SubtitleFrame> Parser { get; set; } = ParseSubtitles.Parse;
+    public Action<SubtitleFrame> Parser { get; set; } = ParseSubtitle.Parse;
 
     /// <summary>
     /// 克隆当前的字幕配置.
@@ -105,9 +106,7 @@ public sealed class SubtitleConfig : ObservableObject
     /// <returns>克隆后的字幕配置.</returns>
     public SubtitleConfig Clone()
     {
-        SubtitleConfig subs = new();
-        subs = (SubtitleConfig)MemberwiseClone();
-
+        var subs = (SubtitleConfig)MemberwiseClone();
         subs.Languages = new List<Language>();
         if (Languages != null)
         {
@@ -123,10 +122,10 @@ public sealed class SubtitleConfig : ObservableObject
     }
 
     internal void SetEnabled(bool enabled)
-        => Set(ref _enabled, enabled, true, nameof(Enabled));
+        => SetProperty(ref _enabled, enabled, nameof(Enabled));
 
     internal void SetDelay(long delay)
-        => Set(ref _delay, delay, true, nameof(Delay));
+        => SetProperty(ref _delay, delay, nameof(Delay));
 
     internal void SetPlayer(MediaPlayer.Player player)
         => _player = player;

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
 namespace Bili.Copilot.Libs.Player.Models;

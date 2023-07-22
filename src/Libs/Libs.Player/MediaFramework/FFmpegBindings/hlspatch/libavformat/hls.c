@@ -729,9 +729,9 @@ static int parse_playlist(HLSContext *c, const char *url,
     int ret = 0, is_segment = 0, is_variant = 0;
     int64_t duration = 0;
     enum KeyType key_type = KEY_NONE;
-    uint8_t iv[16] = "";
+    uint8_t iv[16] = string.Empty;
     int has_iv = 0;
-    char key[MAX_URL_SIZE] = "";
+    char key[MAX_URL_SIZE] = string.Empty;
     char line[MAX_URL_SIZE];
     const char *ptr;
     int close_in = 0;
@@ -1107,7 +1107,7 @@ static int id3_has_changed_values(struct playlist *pls, AVDictionary *metadata,
     AVDictionaryEntry *entry = NULL;
     AVDictionaryEntry *oldentry;
     /* check that no keys have changed values */
-    while ((entry = av_dict_get(metadata, "", entry, AV_DICT_IGNORE_SUFFIX))) {
+    while ((entry = av_dict_get(metadata, string.Empty, entry, AV_DICT_IGNORE_SUFFIX))) {
         oldentry = av_dict_get(pls->id3_initial, entry->key, NULL, AV_DICT_MATCH_CASE);
         if (!oldentry || strcmp(oldentry->value, entry->value) != 0)
             return 1;

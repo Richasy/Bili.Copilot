@@ -2,7 +2,10 @@
 
 using System.Threading;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using Bili.Copilot.Libs.Player.Misc;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+using static Bili.Copilot.Libs.Player.Misc.Logger;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework;
 
@@ -12,19 +15,30 @@ namespace Bili.Copilot.Libs.Player.MediaFramework;
 public abstract class RunThreadBase : ObservableObject
 {
     private ThreadStatus _status = ThreadStatus.Stopped;
+    private string _threadName;
 
+    /// <summary>
+    /// 初始化 <see cref="RunThreadBase"/> 类的新实例.
+    /// </summary>
+    /// <param name="uniqueId">标识符.</param>
+    public RunThreadBase(int uniqueId = -1)
+        => UniqueId = uniqueId == -1 ? Utils.GetUniqueId() : uniqueId;
+
+    /// <summary>
+    /// 线程状态.
+    /// </summary>
     public ThreadStatus Status
     {
         get => _status;
         set
         {
-            lock (_lockStatus)
+            lock (LockStatus)
             {
                 if (CanDebug
-                    && _status != Status.QueueFull
-                    && value != Status.QueueFull
-                    && _status != Status.QueueEmpty
-                    && value != Status.QueueEmpty)
+                    && _status != ThreadStatus.QueueFull
+                    && value != ThreadStatus.QueueFull
+                    && _status != ThreadStatus.QueueEmpty
+                    && value != ThreadStatus.QueueEmpty)
                 {
                     Log.Debug($"{_status} -> {value}");
                 }
@@ -34,32 +48,52 @@ public abstract class RunThreadBase : ObservableObject
         }
     }
 
+    /// <summary>
+    /// 是否正在运行.
+    /// </summary>
     public bool IsRunning
     {
         get
         {
             var ret = false;
-            lock (_lockStatus)
+            lock (LockStatus)
             {
-                ret = Thread != null && Thread.IsAlive && Status != Status.Paused;
+                ret = Thread != null && Thread.IsAlive && Status != ThreadStatus.Paused;
             }
 
             return ret;
         }
     }
 
+    /// <summary>
+    /// 是否为关键区域.
+    /// </summary>
     public bool CriticalArea { get; protected set; }
 
+    /// <summary>
+    /// 是否已释放.
+    /// </summary>
     public bool Disposed { get; protected set; } = true;
 
+    /// <summary>
+    /// 唯一标识符.
+    /// </summary>
     public int UniqueId { get; protected set; } = -1;
 
+    /// <summary>
+    /// 当队列满时是否暂停.
+    /// </summary>
     public bool PauseOnQueueFull { get; set; }
 
-    protected Thread Thread;
+    internal object LockActions { get; } = new();
 
-    protected AutoResetEvent ThreadARE = new(false);
+    internal object LockStatus { get; } = new();
 
+    internal LogHandler Log { get; set; }
+
+    /// <summary>
+    /// 线程名称.
+    /// </summary>
     protected string ThreadName
     {
         get => _threadName;
@@ -70,25 +104,24 @@ public abstract class RunThreadBase : ObservableObject
         }
     }
 
-    private string _threadName;
-
-    internal LogHandler Log;
-
-    internal object _lockActions = new();
-    internal object _lockStatus = new();
+    /// <summary>
+    /// 线程实例.
+    /// </summary>
+    protected Thread Thread { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RunThreadBase"/> class.
+    /// 线程的自动重置事件对象.
     /// </summary>
-    /// <param name="uniqueId">标识符.</param>
-    public RunThreadBase(int uniqueId = -1)
-        => UniqueId = uniqueId == -1 ? Utils.GetUniqueId() : uniqueId;
+    protected AutoResetEvent ThreadARE { get; set; } = new(false);
 
+    /// <summary>
+    /// 暂停线程.
+    /// </summary>
     public void Pause()
     {
-        lock (_lockActions)
+        lock (LockActions)
         {
-            lock (_lockStatus)
+            lock (LockStatus)
             {
                 PauseOnQueueFull = false;
 
@@ -114,9 +147,12 @@ public abstract class RunThreadBase : ObservableObject
         }
     }
 
+    /// <summary>
+    /// 启动线程.
+    /// </summary>
     public void Start()
     {
-        lock (_lockActions)
+        lock (LockActions)
         {
             var retries = 1;
             while (Thread != null && Thread.IsAlive && CriticalArea)
@@ -134,7 +170,7 @@ public abstract class RunThreadBase : ObservableObject
                 }
             }
 
-            lock (_lockStatus)
+            lock (LockStatus)
             {
                 if (Disposed)
                 {
@@ -143,39 +179,39 @@ public abstract class RunThreadBase : ObservableObject
 
                 PauseOnQueueFull = false;
 
-                if (Status == Status.Draining)
+                if (Status == ThreadStatus.Draining)
                 {
-                    while (Status != Status.Draining)
+                    while (Status != ThreadStatus.Draining)
                     {
                         Thread.Sleep(3);
                     }
                 }
 
-                if (Status == Status.Stopping)
+                if (Status == ThreadStatus.Stopping)
                 {
-                    while (Status != Status.Stopping)
+                    while (Status != ThreadStatus.Stopping)
                     {
                         Thread.Sleep(3);
                     }
                 }
 
-                if (Status == Status.Pausing)
+                if (Status == ThreadStatus.Pausing)
                 {
-                    while (Status != Status.Pausing)
+                    while (Status != ThreadStatus.Pausing)
                     {
                         Thread.Sleep(3);
                     }
                 }
 
-                if (Status == Status.Ended)
+                if (Status == ThreadStatus.Ended)
                 {
                     return;
                 }
 
-                if (Status == Status.Paused)
+                if (Status == ThreadStatus.Paused)
                 {
                     ThreadARE.Set();
-                    while (Status == Status.Paused)
+                    while (Status == ThreadStatus.Paused)
                     {
                         Thread.Sleep(3);
                     }
@@ -189,7 +225,7 @@ public abstract class RunThreadBase : ObservableObject
                 }
 
                 Thread = new Thread(() => Run());
-                Status = Status.Running;
+                Status = ThreadStatus.Running;
 
                 Thread.Name = $"[#{UniqueId}] [{ThreadName}]";
                 Thread.IsBackground = true;
@@ -207,38 +243,44 @@ public abstract class RunThreadBase : ObservableObject
         }
     }
 
+    /// <summary>
+    /// 停止线程.
+    /// </summary>
     public void Stop()
     {
-        lock (_lockActions)
+        lock (LockActions)
         {
-            lock (_lockStatus)
+            lock (LockStatus)
             {
                 PauseOnQueueFull = false;
 
-                if (Disposed || Thread == null || !Thread.IsAlive || Status == Status.Stopping || Status == Status.Stopped || Status == Status.Ended)
+                if (Disposed || Thread == null || !Thread.IsAlive || Status == ThreadStatus.Stopping || Status == ThreadStatus.Stopped || Status == ThreadStatus.Ended)
                 {
                     return;
                 }
 
-                if (Status == Status.Pausing)
+                if (Status == ThreadStatus.Pausing)
                 {
-                    while (Status != Status.Pausing)
+                    while (Status != ThreadStatus.Pausing)
                     {
                         Thread.Sleep(3);
                     }
                 }
 
-                Status = Status.Stopping;
+                Status = ThreadStatus.Stopping;
                 ThreadARE.Set();
             }
 
-            while (Status == Status.Stopping && Thread != null && Thread.IsAlive)
+            while (Status == ThreadStatus.Stopping && Thread != null && Thread.IsAlive)
             {
                 Thread.Sleep(5);
             }
         }
     }
 
+    /// <summary>
+    /// 运行线程.
+    /// </summary>
     protected void Run()
     {
         if (CanDebug)
@@ -250,27 +292,27 @@ public abstract class RunThreadBase : ObservableObject
         {
             RunInternal();
 
-            if (Status == Status.Pausing)
+            if (Status == ThreadStatus.Pausing)
             {
                 ThreadARE.Reset();
-                Status = Status.Paused;
+                Status = ThreadStatus.Paused;
                 ThreadARE.WaitOne();
-                if (Status == Status.Paused)
+                if (Status == ThreadStatus.Paused)
                 {
                     if (CanDebug)
                     {
-                        Log.Debug($"{_status} -> {Status.Running}");
+                        Log.Debug($"{_status} -> {ThreadStatus.Running}");
                     }
 
-                    _status = Status.Running;
+                    _status = ThreadStatus.Running;
                 }
             }
         }
-        while (Status == Status.Running);
+        while (Status == ThreadStatus.Running);
 
-        if (Status != Status.Ended)
+        if (Status != ThreadStatus.Ended)
         {
-            Status = Status.Stopped;
+            Status = ThreadStatus.Stopped;
         }
 
         if (CanDebug)
@@ -279,5 +321,8 @@ public abstract class RunThreadBase : ObservableObject
         }
     }
 
+    /// <summary>
+    /// 内部运行方法.
+    /// </summary>
     protected abstract void RunInternal();
 }

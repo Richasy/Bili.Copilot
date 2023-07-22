@@ -2,13 +2,14 @@
 
 using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
 
 /// <summary>
 /// 音频配置类.
 /// </summary>
-public class AudioConfig : ObservableObject
+public sealed partial class AudioConfig : ObservableObject
 {
     private MediaPlayer.Player _player;
     private long _delay;
@@ -29,7 +30,7 @@ public class AudioConfig : ObservableObject
                 return;
             }
 
-            if (Set(ref _delay, value))
+            if (SetProperty(ref _delay, value))
             {
                 _player?.ReSync(_player.Decoder.AudioStream);
             }
@@ -44,7 +45,7 @@ public class AudioConfig : ObservableObject
         get => _enabled;
         set
         {
-            if (Set(ref _enabled, value))
+            if (SetProperty(ref _enabled, value))
             {
                 if (value)
                 {
@@ -68,7 +69,7 @@ public class AudioConfig : ObservableObject
         get => _filtersEnabled;
         set
         {
-            if (Set(ref _filtersEnabled, value && Engine.FFmpeg.FiltersLoaded))
+            if (SetProperty(ref _filtersEnabled, value && Engine.FFmpeg.FiltersLoaded))
             {
                 _player?.AudioDecoder.SetupFiltersOrSwr();
             }
@@ -107,10 +108,10 @@ public class AudioConfig : ObservableObject
     }
 
     internal void SetEnabled(bool enabled)
-        => Set(ref _enabled, enabled, true, nameof(Enabled));
+        => SetProperty(ref _enabled, enabled, nameof(Enabled));
 
     internal void SetDelay(long delay)
-        => Set(ref _delay, delay, true, nameof(Delay));
+        => SetProperty(ref _delay, delay, nameof(Delay));
 
     internal void SetPlayer(MediaPlayer.Player player)
         => _player = player;

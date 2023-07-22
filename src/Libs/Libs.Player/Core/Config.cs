@@ -2,8 +2,8 @@
 
 using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Core.Configs;
-using Bili.Copilot.Libs.Player.Models;
 using Bili.Copilot.Libs.Player.Plugins;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core;
 

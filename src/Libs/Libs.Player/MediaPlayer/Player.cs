@@ -1,54 +1,36 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
-using System.Collections.Generic;
+using System.Threading;
 using Bili.Copilot.Libs.Player.Core;
+using Bili.Copilot.Libs.Player.Enums;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Player.Misc;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using static Bili.Copilot.Libs.Player.Misc.Logger;
 using static Bili.Copilot.Libs.Player.Utils;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
-public unsafe sealed partial class Player : ObservableObject, IDisposable
+/// <summary>
+/// 表示播放器的类.
+/// </summary>
+/// <remarks>
+/// 播放器类用于控制媒体的播放、暂停、停止等操作.
+/// </remarks>
+#pragma warning disable CA1063 // 正确实现 IDisposable
+public unsafe partial class Player : ObservableObject, IDisposable
+#pragma warning restore CA1063 // 正确实现 IDisposable
 {
-    internal void UpdateCurTime()
-    {
-        lock (_seeks)
-        {
-            if (MainDemuxer == null || !_seeks.IsEmpty)
-                return;
-
-            if (MainDemuxer.IsHLSLive)
-            {
-                _curTime = MainDemuxer.CurTime; // *speed ?
-                duration = MainDemuxer.Duration;
-                Duration = Duration;
-            }
-        }
-
-        Set(ref _curTime, curTime, true, nameof(CurTime));
-
-        UpdateBufferedDuration();
-    }
-
-    internal void UpdateBufferedDuration()
-    {
-        if (_bufferedDuration != MainDemuxer.BufferedDuration)
-        {
-            _bufferedDuration = MainDemuxer.BufferedDuration;
-            Raise(nameof(BufferedDuration));
-        }
-    }
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="Player"/> class.
+    /// 初始化 <see cref="Player"/> 类的新实例.
     /// </summary>
-    /// <param name="config"></param>
+    /// <param name="config">配置参数.</param>
     public Player(Config config = null)
     {
         if (config != null)
         {
-            if (config.Player.player != null)
+            if (config.Player.HasPlayer)
             {
                 throw new Exception("Player's configuration is already assigned to another player");
             }
@@ -71,7 +53,7 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
 
         Config.SetPlayer(this);
 
-        if (Config.Player.Usage == Usage.Audio)
+        if (Config.Player.Usage == PlayerUsage.Audio)
         {
             Config.Video.Enabled = false;
             Config.Subtitles.Enabled = false;
@@ -81,90 +63,160 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
         Engine.AddPlayer(this);
 
         if (Decoder.VideoDecoder.Renderer != null)
+        {
             Decoder.VideoDecoder.Renderer.forceNotExtractor = true;
+        }
 
-        //decoder.OpenPlaylistItemCompleted              += Decoder_OnOpenExternalSubtitlesStreamCompleted;
+        Decoder.OpenAudioStreamCompleted += DecoderOpenAudioStreamCompleted;
+        Decoder.OpenVideoStreamCompleted += DecoderOpenVideoStreamCompleted;
+        Decoder.OpenSubtitlesStreamCompleted += DecoderOpenSubtitlesStreamCompleted;
 
-        Decoder.OpenAudioStreamCompleted += Decoder_OpenAudioStreamCompleted;
-        Decoder.OpenVideoStreamCompleted += Decoder_OpenVideoStreamCompleted;
-        Decoder.OpenSubtitlesStreamCompleted += Decoder_OpenSubtitlesStreamCompleted;
+        Decoder.OpenExternalAudioStreamCompleted += DecoderOpenExternalAudioStreamCompleted;
+        Decoder.OpenExternalVideoStreamCompleted += DecoderOpenExternalVideoStreamCompleted;
+        Decoder.OpenExternalSubtitlesStreamCompleted += DecoderOpenExternalSubtitlesStreamCompleted;
 
-        Decoder.OpenExternalAudioStreamCompleted += Decoder_OpenExternalAudioStreamCompleted;
-        Decoder.OpenExternalVideoStreamCompleted += Decoder_OpenExternalVideoStreamCompleted;
-        Decoder.OpenExternalSubtitlesStreamCompleted += Decoder_OpenExternalSubtitlesStreamCompleted;
-
-        AudioDecoder.CBufAlloc = () => { Audio.ClearBuffer(); AudioFrame = null; };
-        AudioDecoder.CodecChanged = Decoder_AudioCodecChanged;
-        VideoDecoder.CodecChanged = Decoder_VideoCodecChanged;
+        AudioDecoder.CBufAlloc = () =>
+        {
+            Audio.ClearBuffer();
+            AudioFrame = null;
+        };
+        AudioDecoder.CodecChanged = DecoderAudioCodecChanged;
+        VideoDecoder.CodecChanged = DecoderVideoCodecChanged;
         Decoder.RecordingCompleted += (o, e) => { IsRecording = false; };
 
-        status = Status.Stopped;
+        Status = PlayerStatus.Stopped;
         Reset();
         Log.Debug("Created");
     }
 
     /// <summary>
-    /// Disposes the Player and de-assigns it from FlyleafHost
+    /// 释放播放器并从 FlyleafHost 中取消分配.
     /// </summary>
+#pragma warning disable CA1063 // 正确实现 IDisposable
     public void Dispose() => Engine.DisposePlayer(this);
+#pragma warning restore CA1063 // 正确实现 IDisposable
+
+    /// <summary>
+    /// 确定指定的对象是否等于当前对象.
+    /// </summary>
+    /// <param name="obj">要与当前对象进行比较的对象.</param>
+    /// <returns>如果指定的对象等于当前对象，则为 true；否则为 false.</returns>
+    public override bool Equals(object obj)
+        => obj is null or not Player ? false : ((Player)obj).PlayerId == PlayerId;
+
+    /// <summary>
+    /// 用作默认哈希函数.
+    /// </summary>
+    /// <returns>当前对象的哈希代码.</returns>
+    public override int GetHashCode() => PlayerId.GetHashCode();
+
+    /// <summary>
+    /// 更新当前时间.
+    /// </summary>
+    internal void UpdateCurTime()
+    {
+        lock (_seeks)
+        {
+            if (MainDemuxer == null || !_seeks.IsEmpty)
+            {
+                return;
+            }
+
+            if (MainDemuxer.IsHLSLive)
+            {
+                _curTime = MainDemuxer.CurTime; // *speed ?
+                Duration = MainDemuxer.Duration;
+            }
+        }
+
+        SetProperty(CurTime, _curTime, null, nameof(CurTime));
+        UpdateBufferedDuration();
+    }
+
+    /// <summary>
+    /// 更新缓冲时长.
+    /// </summary>
+    internal void UpdateBufferedDuration()
+    {
+        if (BufferedDuration != MainDemuxer.BufferedDuration)
+        {
+            BufferedDuration = MainDemuxer.BufferedDuration;
+        }
+    }
+
     internal void DisposeInternal()
     {
         lock (_lockActions)
         {
             if (IsDisposed)
+            {
                 return;
+            }
 
             try
             {
                 Initialize();
                 Audio.Dispose();
                 Decoder.Dispose();
-                TransportControls?.Player_Disposed();
+                TransportControls?.Disposed();
                 Log.Info("Disposed");
             }
-            catch (Exception e) { Log.Warn($"Disposed ({e.Message})"); }
+            catch (Exception e)
+            {
+                Log.Warn($"Disposed ({e.Message})");
+            }
 
             IsDisposed = true;
         }
     }
+
     internal void RefreshMaxVideoFrames()
     {
         lock (_lockActions)
         {
-            if (!Video.isOpened)
+            if (!Video.IsOpened)
+            {
                 return;
+            }
 
-            bool wasPlaying = IsPlaying;
+            var wasPlaying = IsPlaying;
             Pause();
             VideoDecoder.RefreshMaxVideoFrames();
             ReSync(Decoder.VideoStream, (int)(CurTime / 10000), true);
 
             if (wasPlaying)
+            {
                 Play();
+            }
+        }
+    }
+
+    internal void UIAdd(Action action) => _uiActions.Enqueue(action);
+
+    internal void UIAll()
+    {
+        while (!_uiActions.IsEmpty)
+        {
+            if (_uiActions.TryDequeue(out var action))
+            {
+                UI(action);
+            }
         }
     }
 
     private void ResetMe()
     {
-        canPlay = false;
-        bitRate = 0;
-        curTime = 0;
-        duration = 0;
-        isLive = false;
-        lastError = null;
-
         UIAdd(() =>
         {
-            BitRate = BitRate;
-            Duration = Duration;
-            IsLive = IsLive;
-            Status = Status;
-            CanPlay = CanPlay;
-            LastError = LastError;
-            BufferedDuration = 0;
-            Set(ref _curTime, curTime, true, nameof(CurTime));
+            CanPlay = false;
+            BitRate = 0;
+            CurTime = 0;
+            Duration = 0;
+            IsLive = false;
+            LastError = null;
         });
     }
+
     private void Reset()
     {
         ResetMe();
@@ -173,10 +225,13 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
         Subtitles.Reset();
         UIAll();
     }
-    private void Initialize(Status status = Status.Stopped, bool andDecoder = true, bool isSwitch = false)
+
+    private void Initialize(PlayerStatus status = PlayerStatus.Stopped, bool andDecoder = true, bool isSwitch = false)
     {
         if (CanDebug)
+        {
             Log.Debug($"Initializing");
+        }
 
         lock (_lockActions) // Required in case of OpenAsync and Stop requests
         {
@@ -184,20 +239,26 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
             {
                 Engine.TimeBeginPeriod1();
 
-                this.status = status;
-                canPlay = false;
+                Status = status;
+                CanPlay = false;
                 _isVideoSwitch = false;
                 _seeks.Clear();
 
-                while (taskPlayRuns || taskSeekRuns)
+                while (_taskPlayRuns || _taskSeekRuns)
+                {
                     Thread.Sleep(5);
+                }
 
                 if (andDecoder)
                 {
                     if (isSwitch)
+                    {
                         Decoder.InitializeSwitch();
+                    }
                     else
+                    {
                         Decoder.Initialize();
+                    }
                 }
 
                 Reset();
@@ -205,13 +266,13 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
                 ReversePlayback = false;
 
                 if (CanDebug)
+                {
                     Log.Debug($"Initialized");
-
+                }
             }
             catch (Exception e)
             {
                 Log.Error($"Initialize() Error: {e.Message}");
-
             }
             finally
             {
@@ -219,20 +280,4 @@ public unsafe sealed partial class Player : ObservableObject, IDisposable
             }
         }
     }
-
-    internal void UIAdd(Action action) => _uIActions.Enqueue(action);
-    internal void UIAll()
-    {
-        while (!_uIActions.IsEmpty)
-        {
-            if (_uIActions.TryDequeue(out var action))
-            {
-                UI(action);
-            }
-        }
-    }
-
-    public override bool Equals(object obj)
-        => obj == null || !(obj is Player) ? false : ((Player)obj).PlayerId == PlayerId;
-    public override int GetHashCode() => PlayerId.GetHashCode();
 }

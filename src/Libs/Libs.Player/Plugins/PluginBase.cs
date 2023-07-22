@@ -132,7 +132,7 @@ public abstract class PluginBase : PluginType, IPluginBase
     public void AddExternalStream(ExternalStream extStream, object tag = null, PlaylistItem item = null)
     {
         item ??= Playlist.Selected;
-        item?.AddExternalStream(extStream, item, Name, tag);
+        PlaylistItem.AddExternalStream(extStream, item, Name, tag);
     }
 
     /// <summary>

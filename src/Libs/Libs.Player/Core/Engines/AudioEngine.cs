@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDevice;
 using Bili.Copilot.Libs.Player.Misc;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
@@ -72,7 +73,7 @@ public sealed class AudioEngine : CallbackBase, IMMNotificationClient
     /// <summary>
     /// 刷新音频捕获设备列表.
     /// </summary>
-    public void RefreshCapDevices() => AudioDevice.RefreshDevices();
+    public static void RefreshCapDevices() => AudioDevice.RefreshDevices();
 
     /// <summary>
     /// 根据设备名称获取设备 ID.

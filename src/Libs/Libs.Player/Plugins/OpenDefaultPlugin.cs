@@ -27,7 +27,7 @@ public class OpenDefaultPlugin : PluginBase, IOpenPlugin, IScrapeItemPlugin
             {
                 AddPlaylistItem(new PlaylistItem()
                 {
-                    IOStream = Playlist.IOStream,
+                    IoStream = Playlist.IOStream,
                     Title = "Custom IO Stream",
                     FileSize = Playlist.IOStream.Length,
                 });
@@ -85,7 +85,7 @@ public class OpenDefaultPlugin : PluginBase, IOpenPlugin, IScrapeItemPlugin
                 Playlist.InputType = InputType.Web; // TBR: Can be mixed
                 Playlist.FolderBase = Path.GetTempPath();
 
-                var items = PLSPlaylist.Parse(Playlist.Url);
+                var items = PlsPlaylist.Parse(Playlist.Url);
 
                 foreach (var mitem in items)
                 {

@@ -1,33 +1,64 @@
-﻿namespace Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+namespace Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
+
+/// <summary>
+/// 表示一个会话.
+/// </summary>
 public class Session
 {
-    public string   Url                     { get; set; }
-    public int      PlaylistItem            { get; set; } = -1;
+    /// <summary>
+    /// 获取或设置会话的 URL.
+    /// </summary>
+    public string Url { get; set; }
 
-    public int      ExternalAudioStream     { get; set; } = -1;
-    public int      ExternalVideoStream     { get; set; } = -1;
-    public string   ExternalSubtitlesUrl    { get; set; }
+    /// <summary>
+    /// 获取或设置播放列表项.
+    /// </summary>
+    public int PlaylistItem { get; set; } = -1;
 
-    public int      AudioStream             { get; set; } = -1;
-    public int      VideoStream             { get; set; } = -1;
-    public int      SubtitlesStream         { get; set; } = -1;
+    /// <summary>
+    /// 获取或设置外部音频流.
+    /// </summary>
+    public int ExternalAudioStream { get; set; } = -1;
 
-    public long     CurTime                 { get; set; }
+    /// <summary>
+    /// 获取或设置外部视频流.
+    /// </summary>
+    public int ExternalVideoStream { get; set; } = -1;
 
-    public long     AudioDelay              { get; set; }
-    public long     SubtitlesDelay          { get; set; }
+    /// <summary>
+    /// 获取或设置外部字幕的 URL.
+    /// </summary>
+    public string ExternalSubtitlesUrl { get; set; }
 
-    //public SavedSession() { }
-    //public SavedSession(int extVideoStream, int videoStream, int extAudioStream, int audioStream, int extSubtitlesStream, int subtitlesStream, long curTime, long audioDelay, long subtitlesDelay)
-    //{
-    //    Update(extVideoStream, videoStream, extAudioStream, audioStream, extSubtitlesStream, subtitlesStream, curTime, audioDelay, subtitlesDelay);
-    //}
-    //public void Update(int extVideoStream, int videoStream, int extAudioStream, int audioStream, int extSubtitlesStream, int subtitlesStream, long curTime, long audioDelay, long subtitlesDelay)
-    //{
-    //    ExternalVideoStream = extVideoStream; VideoStream = videoStream;
-    //    ExternalAudioStream = extAudioStream; AudioStream = audioStream;
-    //    ExternalSubtitlesStream = extSubtitlesStream; SubtitlesStream = subtitlesStream;
-    //    CurTime = curTime; AudioDelay = audioDelay; SubtitlesDelay = subtitlesDelay;
-    //}
+    /// <summary>
+    /// 获取或设置音频流.
+    /// </summary>
+    public int AudioStream { get; set; } = -1;
+
+    /// <summary>
+    /// 获取或设置视频流.
+    /// </summary>
+    public int VideoStream { get; set; } = -1;
+
+    /// <summary>
+    /// 获取或设置字幕流.
+    /// </summary>
+    public int SubtitlesStream { get; set; } = -1;
+
+    /// <summary>
+    /// 获取或设置当前时间.
+    /// </summary>
+    public long CurTime { get; set; }
+
+    /// <summary>
+    /// 获取或设置音频延迟.
+    /// </summary>
+    public long AudioDelay { get; set; }
+
+    /// <summary>
+    /// 获取或设置字幕延迟.
+    /// </summary>
+    public long SubtitlesDelay { get; set; }
 }

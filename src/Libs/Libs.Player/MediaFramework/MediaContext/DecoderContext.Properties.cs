@@ -6,7 +6,6 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaDecoder;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaRemuxer;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
-using Bili.Copilot.Libs.Player.Misc;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 
@@ -27,7 +26,7 @@ public partial class DecoderContext
     /// <summary>
     /// 是否正在录制.
     /// </summary>
-    public bool IsRecording => VideoDecoder.isRecording || AudioDecoder.isRecording;
+    public bool IsRecording => VideoDecoder.isRecording || AudioDecoder.IsRecording;
 
     /// <summary>
     /// 上层对象（例如播放器、下载器），主要用于插件访问.
@@ -145,11 +144,6 @@ public partial class DecoderContext
     /// 已关闭的字幕流.
     /// </summary>
     public Tuple<ExternalSubtitleStream, int> ClosedSubtitlesStream { get; private set; }
-
-    /// <summary>
-    /// 日志.
-    /// </summary>
-    internal LogHandler Log { get; set; }
 
     internal Remuxer Recorder { get; set; }
 

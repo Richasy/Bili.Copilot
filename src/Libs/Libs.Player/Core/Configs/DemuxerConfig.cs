@@ -2,14 +2,14 @@
 
 using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
 
 /// <summary>
 /// 解复用器配置类，用于配置解复用器的参数和选项.
 /// </summary>
-public sealed class DemuxerConfig : ObservableObject
+public sealed partial class DemuxerConfig : ObservableObject
 {
     private MediaPlayer.Player _player;
     private Config _config;
@@ -67,7 +67,7 @@ public sealed class DemuxerConfig : ObservableObject
         get => _bufferDuration;
         set
         {
-            if (!Set(ref _bufferDuration, value))
+            if (!SetProperty(ref _bufferDuration, value))
             {
                 return;
             }

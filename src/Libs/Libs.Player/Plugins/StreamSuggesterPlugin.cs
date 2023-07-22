@@ -40,7 +40,7 @@ public unsafe class StreamSuggesterPlugin : PluginBase, ISuggestPlaylistItemPlug
     /// <inheritdoc/>
     public AudioStream SuggestAudio(ObservableCollection<AudioStream> streams)
     {
-        lock (streams[0].Demuxer._lockActions)
+        lock (streams[0].Demuxer.LockActions)
         {
             foreach (var lang in Config.Audio.Languages)
             {

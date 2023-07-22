@@ -4,6 +4,9 @@ using Bili.Copilot.Libs.Player.Enums;
 
 namespace Bili.Copilot.Libs.Player.Misc;
 
+/// <summary>
+/// 日志处理类.
+/// </summary>
 public class LogHandler
 {
     /// <summary>

@@ -3,7 +3,9 @@
 using System;
 using System.Collections.Generic;
 using Bili.Copilot.Libs.Player.Enums;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaRenderer;
 using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.UI;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
@@ -38,12 +40,12 @@ public sealed class VideoConfig : ObservableObject
         get => _aspectRatio;
         set
         {
-            if (Set(ref _aspectRatio, value) && _player != null && _player.Renderer != null && !_player.Renderer.SCDisposed)
+            if (SetProperty(ref _aspectRatio, value) && _player != null && _player.Renderer != null && !_player.Renderer.SCDisposed)
             {
                 lock (_player.Renderer.lockDevice)
                 {
                     _player.Renderer.SetViewport();
-                    _player.Renderer.child?.SetViewport();
+                    _player.Renderer.Child?.SetViewport();
                 }
             }
         }
@@ -57,7 +59,7 @@ public sealed class VideoConfig : ObservableObject
         get => _customAspectRatio;
         set
         {
-            if (Set(ref _customAspectRatio, value))
+            if (SetProperty(ref _customAspectRatio, value))
             {
                 AspectRatio = AspectRatio.Custom;
             }
@@ -72,7 +74,7 @@ public sealed class VideoConfig : ObservableObject
         get => Utils.VorticeToWinUIColor(_backgroundColor);
         set
         {
-            Set(ref _backgroundColor, Utils.WinUIToVorticeColor(value));
+            SetProperty(ref _backgroundColor, Utils.WinUIToVorticeColor(value));
             _player?.Renderer?.UpdateBackgroundColor();
         }
     }
@@ -90,7 +92,7 @@ public sealed class VideoConfig : ObservableObject
         get => _enabled;
         set
         {
-            if (Set(ref _enabled, value))
+            if (SetProperty(ref _enabled, value))
             {
                 if (value)
                 {
@@ -149,7 +151,7 @@ public sealed class VideoConfig : ObservableObject
         get => _videoProcessor;
         set
         {
-            if (Set(ref _videoProcessor, value))
+            if (SetProperty(ref _videoProcessor, value))
             {
                 _player?.Renderer?.UpdateVideoProcessor();
             }
@@ -170,7 +172,7 @@ public sealed class VideoConfig : ObservableObject
         get => _deinterlace;
         set
         {
-            if (Set(ref _deinterlace, value))
+            if (SetProperty(ref _deinterlace, value))
             {
                 _player?.Renderer?.UpdateDeinterlace();
             }
@@ -185,7 +187,7 @@ public sealed class VideoConfig : ObservableObject
         get => _deinterlaceBottomFirst;
         set
         {
-            if (Set(ref _deinterlaceBottomFirst, value))
+            if (SetProperty(ref _deinterlaceBottomFirst, value))
             {
                 _player?.Renderer?.UpdateDeinterlace();
             }
@@ -200,7 +202,7 @@ public sealed class VideoConfig : ObservableObject
         get => _hdrToSdrMethod;
         set
         {
-            if (Set(ref _hdrToSdrMethod, value)
+            if (SetProperty(ref _hdrToSdrMethod, value)
                 && _player != null
                 && _player.VideoDecoder.VideoStream != null
                 && _player.VideoDecoder.VideoStream.ColorSpace == ColorSpace.BT2020)
@@ -218,7 +220,7 @@ public sealed class VideoConfig : ObservableObject
         get => _hdrToSdrTone;
         set
         {
-            if (Set(ref _hdrToSdrTone, value)
+            if (SetProperty(ref _hdrToSdrTone, value)
                 && _player != null
                 && _player.VideoDecoder.VideoStream != null
                 && _player.VideoDecoder.VideoStream.ColorSpace == ColorSpace.BT2020)
@@ -280,7 +282,7 @@ public sealed class VideoConfig : ObservableObject
     }
 
     internal void SetEnabled(bool enabled)
-        => Set(ref _enabled, enabled, true, nameof(Enabled));
+        => SetProperty(ref _enabled, enabled, nameof(Enabled));
 
     internal void SetPlayer(MediaPlayer.Player player)
         => _player = player;

@@ -6,7 +6,7 @@ using Bili.Copilot.Libs.Player.Enums;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
-using static FFmpeg.AutoGen.ffmpegEx;
+using static FFmpeg.AutoGen.FFmpegEx;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;

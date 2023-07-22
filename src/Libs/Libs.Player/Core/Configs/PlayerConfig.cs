@@ -4,29 +4,53 @@ using System;
 using System.IO;
 using System.Threading;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
 
 /// <summary>
 /// 播放器配置类.
 /// </summary>
-public class PlayerConfig : ObservableObject
+public sealed partial class PlayerConfig : ObservableObject
 {
-    private MediaPlayer.Player _player;
     private Config _config;
     private long _minBufferDuration = 500 * 10000;
     private long _maxLatency = 0;
-    private long _minLatency = 0;
-    private bool _seekAccurate;
-    private bool _stats = false;
     private int _volumeMax = 150;
     private int _zoomOffset = 10;
+
+    /// <summary>
+    /// 最小延迟（以 ticks 为单位），防止MaxLatency（速度为x1）低于此限制（默认值：0 - 尽可能低）.
+    /// </summary>
+    [ObservableProperty]
+    private long _minLatency = 0;
+
+    /// <summary>
+    /// 强制在视频上准确地进行 CurTime/SeekBackward/SeekForward.
+    /// </summary>
+    [ObservableProperty]
+    private bool _seekAccurate;
+
+    /// <summary>
+    /// 是否刷新有关比特率/帧率/丢帧等的统计信息.
+    /// </summary>
+    [ObservableProperty]
+    private bool _stats = false;
+
+    /// <summary>
+    /// 播放器.
+    /// </summary>
+    public MediaPlayer.Player Player { get; private set; }
 
     /// <summary>
     /// 打开或者结束后自动播放.
     /// </summary>
     public bool AutoPlay { get; set; } = true;
+
+    /// <summary>
+    /// 是否已经关联了播放器.
+    /// </summary>
+    public bool HasPlayer => Player != null;
 
     /// <summary>
     /// 播放前需要缓冲的时长.
@@ -36,7 +60,7 @@ public class PlayerConfig : ObservableObject
         get => _minBufferDuration;
         set
         {
-            if (!Set(ref _minBufferDuration, value))
+            if (!SetProperty(ref _minBufferDuration, value))
             {
                 return;
             }
@@ -66,16 +90,16 @@ public class PlayerConfig : ObservableObject
                 value = 0;
             }
 
-            if (!Set(ref _maxLatency, value))
+            if (!SetProperty(ref _maxLatency, value))
             {
                 return;
             }
 
             if (value == 0)
             {
-                if (_player != null)
+                if (Player != null)
                 {
-                    _player.Speed = 1;
+                    Player.Speed = 1;
                 }
 
                 return;
@@ -96,15 +120,6 @@ public class PlayerConfig : ObservableObject
     }
 
     /// <summary>
-    /// 最小延迟（以 ticks 为单位），防止MaxLatency（速度为x1）低于此限制（默认值：0 - 尽可能低）.
-    /// </summary>
-    public long MinLatency
-    {
-        get => _minLatency;
-        set => Set(ref _minLatency, value);
-    }
-
-    /// <summary>
     /// 当启用MaxLatency时，防止频繁的速度更改（以避免音频/视频间隙和不同步）.
     /// </summary>
     public long LatencySpeedChangeInterval { get; set; } = TimeSpan.FromMilliseconds(700).Ticks;
@@ -120,27 +135,9 @@ public class PlayerConfig : ObservableObject
     public string FolderSnapshots { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Snapshots");
 
     /// <summary>
-    /// 强制在视频上准确地进行 CurTime/SeekBackward/SeekForward.
-    /// </summary>
-    public bool SeekAccurate
-    {
-        get => _seekAccurate;
-        set => Set(ref _seekAccurate, value);
-    }
-
-    /// <summary>
     /// 快照的编码格式（有效格式为 bmp、png、jpg/jpeg）.
     /// </summary>
     public string SnapshotFormat { get; set; } = "bmp";
-
-    /// <summary>
-    /// 是否刷新有关比特率/帧率/丢帧等的统计信息.
-    /// </summary>
-    public bool Stats
-    {
-        get => _stats;
-        set => Set(ref _stats, value);
-    }
 
     /// <summary>
     /// 设置播放线程的优先级.
@@ -160,10 +157,10 @@ public class PlayerConfig : ObservableObject
         get => _volumeMax;
         set
         {
-            Set(ref _volumeMax, value);
-            if (_player != null && _player.Audio._masteringVoice != null)
+            SetProperty(ref _volumeMax, value);
+            if (Player != null && Player.Audio.MasteringVoice != null)
             {
-                _player.Audio.masteringVoice.Volume = value / 100f;
+                Player.Audio.MasteringVoice.Volume = value / 100f;
             }
         }
     }
@@ -226,9 +223,9 @@ public class PlayerConfig : ObservableObject
         get => _zoomOffset;
         set
         {
-            if (Set(ref _zoomOffset, value))
+            if (SetProperty(ref _zoomOffset, value))
             {
-                _player?.ResetAll();
+                Player?.ResetAll();
             }
         }
     }
@@ -245,7 +242,7 @@ public class PlayerConfig : ObservableObject
     public PlayerConfig Clone()
     {
         var player = (PlayerConfig)MemberwiseClone();
-        player._player = null;
+        player.Player = null;
         player._config = null;
         return player;
     }
@@ -254,5 +251,5 @@ public class PlayerConfig : ObservableObject
         => _config = config;
 
     internal void SetPlayer(MediaPlayer.Player player)
-        => _player = player;
+        => Player = player;
 }

@@ -5,19 +5,34 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
 /// <summary>
 /// 字幕类，继承自 ObservableObject.
 /// </summary>
-public class Subtitles : ObservableObject
+public partial class Subtitles : ObservableObject
 {
     private readonly Action _uiAction;
     private readonly Player _player;
+
+    /// <summary>
+    /// 输入是否有字幕并且已配置.
+    /// </summary>
+    [ObservableProperty]
     private bool _isOpened;
+
+    /// <summary>
+    /// 字幕编码.
+    /// </summary>
+    [ObservableProperty]
     private string _codec;
+
+    /// <summary>
+    /// 字幕文本（根据应该显示的持续时间在播放时动态更新）.
+    /// </summary>
+    [ObservableProperty]
     private string _subtitleText = string.Empty;
 
     /// <summary>
@@ -39,21 +54,6 @@ public class Subtitles : ObservableObject
     /// 嵌入的流.
     /// </summary>
     public ObservableCollection<SubtitlesStream> Streams => Decoder?.VideoDemuxer.SubtitlesStreams;
-
-    /// <summary>
-    /// 输入是否有字幕并且已配置.
-    /// </summary>
-    public bool IsOpened { get => _isOpened; internal set => Set(ref _isOpened, value); }
-
-    /// <summary>
-    /// 字幕编码.
-    /// </summary>
-    public string Codec { get => _codec; internal set => Set(ref _codec, value); }
-
-    /// <summary>
-    /// 字幕文本（根据应该显示的持续时间在播放时动态更新）.
-    /// </summary>
-    public string SubtitleText { get => _subtitleText; internal set => Set(ref _subtitleText, value); }
 
     private DecoderContext Decoder => _player?.Decoder;
 
@@ -86,9 +86,9 @@ public class Subtitles : ObservableObject
 
     internal void Reset()
     {
-        _codec = null;
-        _isOpened = false;
-        _subtitleText = string.Empty;
+        Codec = null;
+        IsOpened = false;
+        SubtitleText = string.Empty;
 
         _player.UIAdd(_uiAction);
     }
@@ -101,8 +101,8 @@ public class Subtitles : ObservableObject
             return;
         }
 
-        _codec = Decoder.SubtitlesStream.Codec;
-        _isOpened = !Decoder.SubtitlesDecoder.Disposed;
+        Codec = Decoder.SubtitlesStream.Codec;
+        IsOpened = !Decoder.SubtitlesDecoder.Disposed;
 
         _player.UIAdd(_uiAction);
     }

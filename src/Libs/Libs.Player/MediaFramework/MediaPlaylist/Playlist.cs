@@ -1,113 +1,148 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using System.Collections.ObjectModel;
 using System.IO;
-
+using Bili.Copilot.Libs.Player.Enums;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
-
-using static FlyleafLib.Utils;
+using Bili.Copilot.Libs.Player.Misc;
+using CommunityToolkit.Mvvm.ComponentModel;
+using static Bili.Copilot.Libs.Player.Utils;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 
-public class Playlist : ObservableObject
+/// <summary>
+/// 播放列表类.
+/// </summary>
+public partial class Playlist : ObservableObject
 {
-    /// <summary>
-    /// Url provided by user
-    /// </summary>
-    public string       Url             { get => _Url;   set { string fixedUrl = FixFileUrl(value); SetUI(ref _Url, fixedUrl); } }
-    string _Url;
+    private readonly object _lockItems = new();
+
+    [ObservableProperty]
+    private int _expectingItems;
 
     /// <summary>
-    /// IOStream provided by user
+    /// 播放列表的标题.
     /// </summary>
-    public Stream       IOStream        { get; set; }
+    [ObservableProperty]
+    private string _title;
 
     /// <summary>
-    /// Playlist's folder base which can be used to save related files
+    /// 播放列表的打开/选中项.
     /// </summary>
-    public string       FolderBase      { get; set; }
+    [ObservableProperty]
+    private PlaylistItem _selected;
+
+    private string _url;
+    private long _openCounter;
 
     /// <summary>
-    /// Playlist's title
+    /// 构造函数，初始化播放列表对象.
     /// </summary>
-    public string       Title           { get => _Title; set => SetUI(ref _Title, value); }
-    string _Title;
-
-    public int          ExpectingItems  { get => _ExpectingItems; set => SetUI(ref _ExpectingItems, value); }
-    int _ExpectingItems;
-
-    public bool         Completed       { get; set; }
-
-    /// <summary>
-    /// Playlist's opened/selected item
-    /// </summary>
-    public PlaylistItem Selected        { get => _Selected; internal set => SetUI(ref _Selected, value); }
-    PlaylistItem _Selected;
-
-    /// <summary>
-    /// Type of the provided input (such as File, UNC, Torrent, Web, etc.)
-    /// </summary>
-    public InputType    InputType       { get; set; }
-
-    // TODO: MediaType (Music/MusicClip/Movie/TVShow/etc.) probably should go per Playlist Item
-
-    public ObservableCollection<PlaylistItem>
-                        Items           { get; set; } = new ObservableCollection<PlaylistItem>();
-    object lockItems = new();
-
-    long openCounter;
-    //long openItemCounter;
-    internal DecoderContext decoder;
-    LogHandler Log;
-
+    /// <param name="uniqueId">唯一标识符.</param>
     public Playlist(int uniqueId)
+        => Log = new LogHandler(("[#" + uniqueId + "]").PadRight(8, ' ') + " [Playlist] ");
+
+    /// <summary>
+    /// 用户提供的 URL.
+    /// </summary>
+    public string Url
     {
-        Log = new LogHandler(("[#" + uniqueId + "]").PadRight(8, ' ') + " [Playlist] ");
+        get => _url; set
+        {
+            var fixedUrl = FixFileUrl(value);
+            SetProperty(ref _url, fixedUrl);
+        }
     }
 
+    /// <summary>
+    /// 用户提供的 IO 流.
+    /// </summary>
+    public Stream IOStream { get; set; }
+
+    /// <summary>
+    /// 播放列表的文件夹基础路径，可用于保存相关文件.
+    /// </summary>
+    public string FolderBase { get; set; }
+
+    /// <summary>
+    /// 播放列表是否已完成.
+    /// </summary>
+    public bool Completed { get; set; }
+
+    /// <summary>
+    /// 提供的输入类型（如文件、UNC、种子、网络等）.
+    /// </summary>
+    public InputType InputType { get; set; }
+
+    /// <summary>
+    /// 播放列表的项集合.
+    /// </summary>
+    public ObservableCollection<PlaylistItem> Items { get; set; } = new ObservableCollection<PlaylistItem>();
+
+    internal DecoderContext Decoder { get; set; }
+
+    internal LogHandler Log { get; }
+
+    /// <summary>
+    /// 重置播放列表.
+    /// </summary>
     public void Reset()
     {
-        openCounter = decoder.OpenCounter;
+        _openCounter = Decoder.OpenCounter;
 
-        lock (lockItems)
+        lock (_lockItems)
+        {
             Items.Clear();
+        }
 
-        bool noupdate = _Url == null && _Title == null && _Selected == null;
+        var noupdate = _url == null && Title == null && Selected == null;
 
-        _Url        = null;
-        _Title      = null;
-        _Selected   = null;
-        IOStream    = null;
-        FolderBase  = null;
-        Completed   = false;
+        _url = null;
+        Title = null;
+        Selected = null;
+        IOStream = null;
+        FolderBase = null;
+        Completed = false;
         ExpectingItems = 0;
 
-        InputType   = InputType.Unknown;
+        InputType = InputType.Unknown;
 
         if (!noupdate)
+        {
             UI(() =>
             {
-                Raise(nameof(Url));
-                Raise(nameof(Title));
-                Raise(nameof(Selected));
+                OnPropertyChanged(nameof(Url));
+                OnPropertyChanged(nameof(Title));
+                OnPropertyChanged(nameof(Selected));
             });
+        }
     }
 
+    /// <summary>
+    /// 向播放列表中添加项.
+    /// </summary>
+    /// <param name="item">要添加的项.</param>
+    /// <param name="pluginName">插件名称.</param>
+    /// <param name="tag">标签对象.</param>
     public void AddItem(PlaylistItem item, string pluginName, object tag = null)
     {
-        if (openCounter != decoder.OpenCounter)
+        if (_openCounter != Decoder.OpenCounter)
         {
             Log.Debug("AddItem Cancelled");
             return;
         }
 
-        lock (lockItems)
+        lock (_lockItems)
         {
             Items.Add(item);
             Items[^1].Index = Items.Count - 1;
 
             if (tag != null)
+            {
                 item.AddTag(tag, pluginName);
-        };
+            }
+        }
 
-        decoder.ScrapeItem(item);
+        Decoder.ScrapeItem(item);
     }
 }

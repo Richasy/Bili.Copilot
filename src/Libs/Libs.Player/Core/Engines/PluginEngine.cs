@@ -13,7 +13,7 @@ namespace Bili.Copilot.Libs.Player.Core.Engines;
 /// </summary>
 public class PluginsEngine
 {
-    private Type _pluginBaseType = typeof(PluginBase);
+    private readonly Type _pluginBaseType = typeof(PluginBase);
 
     /// <summary>
     /// 初始化 <see cref="PluginsEngine"/> 类的新实例.

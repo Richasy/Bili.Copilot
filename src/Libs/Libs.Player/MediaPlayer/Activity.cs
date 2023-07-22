@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
 
@@ -73,7 +73,7 @@ public class Activity : ObservableObject
                 if (_isEnabled)
                 {
                     _isEnabled = false;
-                    RaiseUI(nameof(IsEnabled));
+                    OnPropertyChanged(nameof(IsEnabled));
                 }
                 else
                 {
@@ -94,7 +94,7 @@ public class Activity : ObservableObject
                 }
 
                 _isEnabled = value;
-                RaiseUI(nameof(IsEnabled));
+                OnPropertyChanged(nameof(IsEnabled));
             }
         }
     }
@@ -149,7 +149,7 @@ public class Activity : ObservableObject
     /// </summary>
     internal void SetMode()
     {
-        Raise(nameof(Mode));
+        OnPropertyChanged(nameof(Mode));
         _player.Log.Trace(_mode.ToString());
     }
 

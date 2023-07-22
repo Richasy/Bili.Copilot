@@ -14,7 +14,7 @@ namespace Bili.Copilot.Libs.Player.MediaPlayer;
 /// <summary>
 /// 表示播放器的类.
 /// </summary>
-public unsafe sealed partial class Player
+public unsafe partial class Player
 {
     /// <summary>
     /// 向后快进.
@@ -80,7 +80,7 @@ public unsafe sealed partial class Player
 
         var seekTs = CurTime + offset;
 
-        if (seekTs <= Duration || _isLive)
+        if (seekTs <= Duration || IsLive)
         {
             if (Config.Player.SeekAccurate)
             {
@@ -208,7 +208,7 @@ public unsafe sealed partial class Player
 
             if (!ReversePlayback)
             {
-                Set(ref _reversePlayback, true, false);
+                SetProperty(ref _reversePlayback, true);
                 Speed = 1;
                 if (!string.IsNullOrEmpty(Subtitles.SubtitleText))
                 {
@@ -494,7 +494,7 @@ public unsafe sealed partial class Player
     public void ZoomIn(Point p)
     {
         Renderer.ZoomWithCenterPoint(p, Renderer.Zoom + (Config.Player.ZoomOffset / 100.0));
-        RaiseUI(nameof(Zoom));
+        OnPropertyChanged(nameof(Zoom));
     }
 
     /// <summary>
@@ -510,7 +510,7 @@ public unsafe sealed partial class Player
         }
 
         Renderer.ZoomWithCenterPoint(p, zoom);
-        RaiseUI(nameof(Zoom));
+        OnPropertyChanged(nameof(Zoom));
     }
 
     /// <summary>
@@ -550,22 +550,22 @@ public unsafe sealed partial class Player
         {
             if (npx)
             {
-                Raise(nameof(PanXOffset));
+                OnPropertyChanged(nameof(PanXOffset));
             }
 
             if (npy)
             {
-                Raise(nameof(PanYOffset));
+                OnPropertyChanged(nameof(PanYOffset));
             }
 
             if (npr)
             {
-                Raise(nameof(Rotation));
+                OnPropertyChanged(nameof(Rotation));
             }
 
             if (npz)
             {
-                Raise(nameof(Zoom));
+                OnPropertyChanged(nameof(Zoom));
             }
         });
     }

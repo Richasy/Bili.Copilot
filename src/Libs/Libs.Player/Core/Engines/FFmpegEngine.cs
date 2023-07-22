@@ -40,7 +40,7 @@ public class FFmpegEngine
             Folder = Utils.GetFolderPath(Engine.Config.FFmpegPath);
             RootPath = Folder;
             var ver = avformat_version();
-            Version = $"{ver >> 16}.{ver >> 8 & 255}.{ver & 255}";
+            Version = $"{ver >> 16}.{(ver >> 8) & 255}.{ver & 255}";
 
             if (Engine.Config.FFmpegDevices)
             {

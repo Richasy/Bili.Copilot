@@ -18,6 +18,7 @@ namespace Bili.Copilot.Libs.Player;
 
 internal static class Utils
 {
+    public static readonly double SWFREQ_TO_TICKS = 10000000.0 / Stopwatch.Frequency;
     private static int _uniqueId;
 
     public static List<string> ExtensionsAudio { get; } = new()

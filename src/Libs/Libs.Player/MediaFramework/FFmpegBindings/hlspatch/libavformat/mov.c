@@ -1641,7 +1641,7 @@ static int mov_read_colr(MOVContext *c, AVIOContext *pb, MOVAtom atom)
 
         if (!strncmp(color_parameter_type, "nclx", 4)) {
             uint8_t color_range = avio_r8(pb) >> 7;
-            av_log(c->fc, AV_LOG_TRACE, " full %"PRIu8"", color_range);
+            av_log(c->fc, AV_LOG_TRACE, " full %"PRIu8string.Empty, color_range);
             if (color_range)
                 st->codecpar->color_range = AVCOL_RANGE_JPEG;
             else
@@ -2354,7 +2354,7 @@ static int mov_rewrite_dvd_sub_extradata(AVStream *st)
         uint32_t yuv = AV_RB32(src + i * 4);
         uint32_t rgba = yuv_to_rgba(yuv);
 
-        av_strlcatf(buf, sizeof(buf), "%06"PRIx32"%s", rgba, i != 15 ? ", " : "");
+        av_strlcatf(buf, sizeof(buf), "%06"PRIx32"%s", rgba, i != 15 ? ", " : string.Empty);
     }
 
     if (av_strlcat(buf, "\n", sizeof(buf)) >= sizeof(buf))
@@ -6038,8 +6038,8 @@ static int mov_read_uuid(MOVContext *c, AVIOContext *pb, MOVAtom atom)
         }
 
         ptr = buffer;
-        while ((ptr = av_stristr(ptr, "systemBitrate=\""))) {
-            ptr += sizeof("systemBitrate=\"") - 1;
+        while ((ptr = av_stristr(ptr, "systemBitrate=\string.Empty))) {
+            ptr += sizeof("systemBitrate=\string.Empty) - 1;
             c->bitrates_count++;
             c->bitrates = av_realloc_f(c->bitrates, c->bitrates_count, sizeof(*c->bitrates));
             if (!c->bitrates) {
@@ -9039,7 +9039,7 @@ static const AVOption mov_options[] = {
         "Modify the AVIndex according to the editlists. Use this option to decode in the order specified by the edits.",
         OFFSET(advanced_editlist), AV_OPT_TYPE_BOOL, {.i64 = 1},
         0, 1, FLAGS},
-    {"ignore_chapters", "", OFFSET(ignore_chapters), AV_OPT_TYPE_BOOL, {.i64 = 0},
+    {"ignore_chapters", string.Empty, OFFSET(ignore_chapters), AV_OPT_TYPE_BOOL, {.i64 = 0},
         0, 1, FLAGS},
     {"use_mfra_for",
         "use mfra for fragment timestamps",

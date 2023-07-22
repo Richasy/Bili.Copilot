@@ -33,7 +33,7 @@ public unsafe partial class DecoderContext : PluginHandler
         : base(config, uniqueId)
     {
         Log = new LogHandler(("[#" + UniqueId + "]").PadRight(8, ' ') + " [DecoderContext] ");
-        Playlist.decoder = this;
+        Playlist.Decoder = this;
 
         EnableDecoding = enableDecoding;
 
@@ -110,15 +110,15 @@ public unsafe partial class DecoderContext : PluginHandler
         }
 
         // Review decoder locks (lockAction should be added to avoid dead locks with flush mainly before lockCodecCtx)
-        AudioDecoder.resyncWithVideoRequired = false; // Temporary to avoid dead lock on AudioDecoder.lockCodecCtx
-        lock (VideoDecoder.lockCodecCtx)
-            lock (AudioDecoder.lockCodecCtx)
-                lock (SubtitlesDecoder.lockCodecCtx)
+        AudioDecoder.ResyncWithVideoRequired = false; // Temporary to avoid dead lock on AudioDecoder.lockCodecCtx
+        lock (VideoDecoder._lockCodecCtx)
+            lock (AudioDecoder._lockCodecCtx)
+                lock (SubtitlesDecoder._lockCodecCtx)
                 {
                     var seekTimestamp = CalcSeekTimestamp(VideoDemuxer, ms, ref forward);
 
                     // Should exclude seek in queue for all "local/fast" files
-                    lock (VideoDemuxer._lockActions)
+                    lock (VideoDemuxer.LockActions)
                     {
                         if (Playlist.InputType == InputType.Torrent || ms == 0 || !seekInQueue || VideoDemuxer.SeekInQueue(seekTimestamp, forward) != 0)
                         {
@@ -190,11 +190,11 @@ public unsafe partial class DecoderContext : PluginHandler
 
         var seekTimestamp = CalcSeekTimestamp(AudioDemuxer, ms, ref forward);
 
-        AudioDecoder.resyncWithVideoRequired = false; // Temporary to avoid dead lock on AudioDecoder.lockCodecCtx
-        lock (AudioDecoder._lockActions)
-            lock (AudioDecoder.lockCodecCtx)
+        AudioDecoder.ResyncWithVideoRequired = false; // Temporary to avoid dead lock on AudioDecoder.lockCodecCtx
+        lock (AudioDecoder.LockActions)
+            lock (AudioDecoder._lockCodecCtx)
             {
-                lock (AudioDemuxer._lockActions)
+                lock (AudioDemuxer.LockActions)
                 {
                     if (AudioDemuxer.SeekInQueue(seekTimestamp, forward) != 0)
                     {
@@ -235,8 +235,8 @@ public unsafe partial class DecoderContext : PluginHandler
 
         var seekTimestamp = CalcSeekTimestamp(SubtitlesDemuxer, ms, ref forward);
 
-        lock (SubtitlesDecoder._lockActions)
-            lock (SubtitlesDecoder.lockCodecCtx)
+        lock (SubtitlesDecoder.LockActions)
+            lock (SubtitlesDecoder._lockCodecCtx)
             {
                 ret = SubtitlesDemuxer.Seek(seekTimestamp, forward);
 
@@ -464,7 +464,7 @@ public unsafe partial class DecoderContext : PluginHandler
         var frame = av_frame_alloc();
 
         lock (VideoDemuxer.lockFmtCtx)
-            lock (VideoDecoder.lockCodecCtx)
+            lock (VideoDecoder._lockCodecCtx)
             {
                 while (VideoDemuxer.VideoStream != null && !Interrupt)
                 {

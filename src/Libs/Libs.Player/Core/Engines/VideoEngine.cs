@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaDevice;
 using Bili.Copilot.Libs.Player.Models;
 using Vortice.DXGI;
 
@@ -18,11 +19,12 @@ public sealed class VideoEngine
     /// </summary>
     internal VideoEngine()
     {
-        if (DXGI.CreateDXGIFactory1(out Factory).Failure)
+        if (DXGI.CreateDXGIFactory1(out IDXGIFactory2 factory).Failure)
         {
             throw new InvalidOperationException("无法创建 IDXGIFactory1");
         }
 
+        Factory = factory;
         GpuAdapters = GetAdapters();
     }
 
@@ -46,7 +48,7 @@ public sealed class VideoEngine
     /// <summary>
     /// 刷新视频捕获设备列表.
     /// </summary>
-    public void RefreshCapDevices() => VideoDevice.RefreshDevices();
+    public static void RefreshCapDevices() => VideoDevice.RefreshDevices();
 
     /// <summary>
     /// 根据位置获取屏幕.

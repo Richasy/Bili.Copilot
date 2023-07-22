@@ -2,19 +2,29 @@
 
 using System;
 using Bili.Copilot.Libs.Player.Enums;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.Libs.Player.Core.Configs;
 
 /// <summary>
 /// 解码器配置类，用于配置解码器的参数和选项.
 /// </summary>
-public sealed class DecoderConfig : ObservableObject
+public sealed partial class DecoderConfig : ObservableObject
 {
     private MediaPlayer.Player _player;
     private int _maxVideoFrames = 4;
     private ZeroCopyState _zeroCopy = ZeroCopyState.Auto;
+
+    /// <summary>
+    /// 是否允许即使编解码器的配置不匹配也进行视频加速.
+    /// </summary>
+    [ObservableProperty]
     private bool _allowProfileMismatch;
+
+    /// <summary>
+    /// 是否显示损坏的帧（解析 AV_CODEC_FLAG_OUTPUT_CORRUPT 到 AVCodecContext）.
+    /// </summary>
+    [ObservableProperty]
     private bool _showCorrupted;
 
     /// <summary>
@@ -30,7 +40,7 @@ public sealed class DecoderConfig : ObservableObject
         get => _maxVideoFrames;
         set
         {
-            if (Set(ref _maxVideoFrames, value))
+            if (SetProperty(ref _maxVideoFrames, value))
             {
                 _player?.RefreshMaxVideoFrames();
             }
@@ -61,29 +71,11 @@ public sealed class DecoderConfig : ObservableObject
         get => _zeroCopy;
         set
         {
-            if (SetUI(ref _zeroCopy, value) && _player != null && _player.Video.isOpened)
+            if (SetProperty(ref _zeroCopy, value) && _player != null && _player.Video.IsOpened)
             {
                 _player.VideoDecoder?.RecalculateZeroCopy();
             }
         }
-    }
-
-    /// <summary>
-    /// 是否允许即使编解码器的配置不匹配也进行视频加速.
-    /// </summary>
-    public bool AllowProfileMismatch
-    {
-        get => _allowProfileMismatch;
-        set => SetUI(ref _allowProfileMismatch, value);
-    }
-
-    /// <summary>
-    /// 是否显示损坏的帧（解析 AV_CODEC_FLAG_OUTPUT_CORRUPT 到 AVCodecContext）.
-    /// </summary>
-    public bool ShowCorrupted
-    {
-        get => _showCorrupted;
-        set => SetUI(ref _showCorrupted, value);
     }
 
     /// <summary>

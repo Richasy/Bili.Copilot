@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Vortice.Multimedia;
 using Vortice.XAudio2;
 
@@ -19,28 +20,77 @@ public partial class Audio
     private readonly WaveFormat _waveFormat = new(48000, 16, 2);
     private readonly AudioBuffer _audioBuffer = new();
 
-    private string _deviceId = Engine.Audio.DefaultDeviceId;
+    private readonly Player _player;
+    private readonly Action _uiAction;
+
+    /// <summary>
+    /// 音频编解码器.
+    /// </summary>
+    [ObservableProperty]
     private string _codec;
+
+    /// <summary>
+    /// 输入是否有音频并且已配置.
+    /// </summary>
+    [ObservableProperty]
     private bool _isOpened;
+
+    /// <summary>
+    /// 音频比特率（Kbps）.
+    /// </summary>
+    [ObservableProperty]
     private double _bitRate;
+
+    /// <summary>
+    /// 比特.
+    /// </summary>
+    [ObservableProperty]
     private int _bits;
+
+    /// <summary>
+    /// 频道数量.
+    /// </summary>
+    [ObservableProperty]
     private int _channels;
+
+    /// <summary>
+    /// 输出通道布局.
+    /// </summary>
+    [ObservableProperty]
     private string _channelLayout;
+
+    /// <summary>
+    /// 总丢帧数.
+    /// </summary>
+    [ObservableProperty]
     private int _framesDropped;
+
+    /// <summary>
+    /// 音频采样率（输入/输出）.
+    /// </summary>
+    [ObservableProperty]
     private int _sampleRate;
+
+    /// <summary>
+    /// 总显示帧数.
+    /// </summary>
+    [ObservableProperty]
     private int _framesDisplayed;
+
+    /// <summary>
+    /// 音频采样格式（输入/输出）.
+    /// </summary>
+    [ObservableProperty]
     private string _sampleFormat;
+
     private int _volume;
     private bool _mute = false;
     private string _device = Engine.Audio.DefaultDeviceName;
+    private string _deviceId = Engine.Audio.DefaultDeviceId;
 
-    private Player _player;
-    private Action _uiAction;
-
-    private IXAudio2 _xaudio2;
-    private IXAudio2MasteringVoice _masteringVoice;
+    private IXAudio2 _xAudio2;
     private IXAudio2SourceVoice _sourceVoice;
-    private double _deviceDelayTimebase;
+    private double _deviceDelayTimeBase;
     private ulong _submittedSamples;
 
     /// <summary>
@@ -49,91 +99,14 @@ public partial class Audio
     public ObservableCollection<AudioStream> Streams => Decoder?.VideoDemuxer.AudioStreams;
 
     /// <summary>
-    /// 输入是否有音频并且已配置.
+    /// 主音频流.
     /// </summary>
-    public bool IsOpened { get => _isOpened; internal set => Set(ref _isOpened, value); }
-
-    /// <summary>
-    /// 音频编解码器.
-    /// </summary>
-    public string Codec { get => _codec; internal set => Set(ref _codec, value); }
-
-    /// <summary>
-    /// 音频比特率（Kbps）.
-    /// </summary>
-    public double BitRate
-    {
-        get => _bitRate;
-        internal set => Set(ref _bitRate, value);
-    }
-
-    /// <summary>
-    /// 比特.
-    /// </summary>
-    public int Bits
-    {
-        get => _bits; internal
-            set => Set(ref _bits, value);
-    }
-
-    /// <summary>
-    /// 频道数量.
-    /// </summary>
-    public int Channels
-    {
-        get => _channels;
-        internal set => Set(ref _channels, value);
-    }
+    public IXAudio2MasteringVoice MasteringVoice { get; private set; }
 
     /// <summary>
     /// 音频播放器的输出通道（目前仅支持2个通道）.
     /// </summary>
     public int ChannelsOut { get; } = 2;
-
-    /// <summary>
-    /// 输出通道布局.
-    /// </summary>
-    public string ChannelLayout
-    {
-        get => _channelLayout;
-        internal set => Set(ref _channelLayout, value);
-    }
-
-    /// <summary>
-    /// 总丢帧数.
-    /// </summary>
-    public int FramesDropped
-    {
-        get => _framesDropped;
-        internal set => Set(ref _framesDropped, value);
-    }
-
-    /// <summary>
-    /// 总显示帧数.
-    /// </summary>
-    public int FramesDisplayed
-    {
-        get => _framesDisplayed;
-        internal set => Set(ref _framesDisplayed, value);
-    }
-
-    /// <summary>
-    /// 音频采样格式（输入/输出）.
-    /// </summary>
-    public string SampleFormat
-    {
-        get => _sampleFormat;
-        internal set => Set(ref _sampleFormat, value);
-    }
-
-    /// <summary>
-    /// 音频采样率（输入/输出）.
-    /// </summary>
-    public int SampleRate
-    {
-        get => _sampleRate;
-        internal set => Set(ref _sampleRate, value);
-    }
 
     /// <summary>
     /// 音频播放器的音量/放大器（有效值为0-无上限）.
@@ -172,7 +145,7 @@ public partial class Audio
                 }
             }
 
-            Set(ref _volume, value, false);
+            SetProperty(ref _volume, value);
         }
     }
 
@@ -194,7 +167,7 @@ public partial class Audio
                 _sourceVoice.Volume = value ? 0 : _volume / 100.0f;
             }
 
-            Set(ref _mute, value, false);
+            SetProperty(ref _mute, value);
         }
     }
 
@@ -216,7 +189,7 @@ public partial class Audio
 
             Initialize();
 
-            Utils.UI(() => Raise(nameof(Device)));
+            Utils.UI(() => OnPropertyChanged(nameof(Device)));
         }
     }
 
@@ -238,7 +211,7 @@ public partial class Audio
 
             Initialize();
 
-            Utils.UI(() => Raise(nameof(DeviceId)));
+            Utils.UI(() => OnPropertyChanged(nameof(DeviceId)));
         }
     }
 
@@ -246,5 +219,5 @@ public partial class Audio
 
     internal DecoderContext Decoder => _player?.Decoder;
 
-    internal void RaiseDevice() => Utils.UI(() => Raise(nameof(Device)));
+    internal void RaiseDevice() => Utils.UI(() => OnPropertyChanged(nameof(Device)));
 }

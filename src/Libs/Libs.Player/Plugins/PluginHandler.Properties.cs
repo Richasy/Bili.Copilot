@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.Generic;
-using Bili.Copilot.Libs.Player.Engine;
+using Bili.Copilot.Libs.Player.Core;
+using Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
+using Bili.Copilot.Libs.Player.Misc;
 
 namespace Bili.Copilot.Libs.Player.Plugins;
 
@@ -28,7 +30,7 @@ public partial class PluginHandler
     /// <summary>
     /// 当前打开的字幕插件.
     /// </summary>
-    public IOpenSubtitles OpenedSubtitlesPlugin { get; private set; }
+    public IOpenSubtitlePlugin OpenedSubtitlePlugin { get; private set; }
 
     /// <summary>
     /// 打开计数器.
@@ -58,70 +60,75 @@ public partial class PluginHandler
     /// <summary>
     /// 打开插件集合.
     /// </summary>
-    public Dictionary<string, IOpen> PluginsOpen { get; private set; }
+    public Dictionary<string, IOpenPlugin> PluginsOpen { get; private set; }
 
     /// <summary>
     /// 打开字幕插件集合.
     /// </summary>
-    public Dictionary<string, IOpenSubtitles> PluginsOpenSubtitles { get; private set; }
+    public Dictionary<string, IOpenSubtitlePlugin> PluginsOpenSubtitles { get; private set; }
 
     /// <summary>
     /// 爬取项插件集合.
     /// </summary>
-    public Dictionary<string, IScrapeItem> PluginsScrapeItem { get; private set; }
+    public Dictionary<string, IScrapeItemPlugin> PluginsScrapeItem { get; private set; }
 
     /// <summary>
     /// 建议播放项插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestPlaylistItem> PluginsSuggestItem { get; private set; }
+    public Dictionary<string, ISuggestPlaylistItemPlugin> PluginsSuggestItem { get; private set; }
 
     /// <summary>
     /// 建议音频流插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestAudioStream> PluginsSuggestAudioStream { get; private set; }
+    public Dictionary<string, ISuggestAudioStreamPlugin> PluginsSuggestAudioStream { get; private set; }
 
     /// <summary>
     /// 建议视频流插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestVideoStream> PluginsSuggestVideoStream { get; private set; }
+    public Dictionary<string, ISuggestVideoStreamPlugin> PluginsSuggestVideoStream { get; private set; }
 
     /// <summary>
     /// 建议外部音频插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestExternalAudio> PluginsSuggestExternalAudio { get; private set; }
+    public Dictionary<string, ISuggestExternalAudioPlugin> PluginsSuggestExternalAudio { get; private set; }
 
     /// <summary>
     /// 建议外部视频插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestExternalVideo> PluginsSuggestExternalVideo { get; private set; }
+    public Dictionary<string, ISuggestExternalVideoPlugin> PluginsSuggestExternalVideo { get; private set; }
 
     /// <summary>
     /// 建议字幕流插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestSubtitlesStream> PluginsSuggestSubtitlesStream { get; private set; }
+    public Dictionary<string, ISuggestSubtitleStreamPlugin> PluginsSuggestSubtitlesStream { get; private set; }
 
     /// <summary>
     /// 建议字幕插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestSubtitles> PluginsSuggestSubtitles { get; private set; }
+    public Dictionary<string, ISuggestSubtitlePlugin> PluginsSuggestSubtitles { get; private set; }
 
     /// <summary>
     /// 建议最佳外部字幕插件集合.
     /// </summary>
-    public Dictionary<string, ISuggestBestExternalSubtitles> PluginsSuggestBestExternalSubtitles { get; private set; }
+    public Dictionary<string, ISuggestBestExternalSubtitlePlugin> PluginsSuggestBestExternalSubtitles { get; private set; }
 
     /// <summary>
     /// 下载字幕插件集合.
     /// </summary>
-    public Dictionary<string, IDownloadSubtitles> PluginsDownloadSubtitles { get; private set; }
+    public Dictionary<string, IDownloadSubtitlePlugin> PluginsDownloadSubtitles { get; private set; }
 
     /// <summary>
     /// 搜索本地字幕插件集合.
     /// </summary>
-    public Dictionary<string, ISearchLocalSubtitles> PluginsSearchLocalSubtitles { get; private set; }
+    public Dictionary<string, ISearchLocalSubtitlePlugin> PluginsSearchLocalSubtitles { get; private set; }
 
     /// <summary>
     /// 搜索在线字幕插件集合.
     /// </summary>
-    public Dictionary<string, ISearchOnlineSubtitles> PluginsSearchOnlineSubtitles { get; private set; }
+    public Dictionary<string, ISearchOnlineSubtitlePlugin> PluginsSearchOnlineSubtitles { get; private set; }
+
+    /// <summary>
+    /// 日志处理器.
+    /// </summary>
+    internal LogHandler Log { get; set; }
 }

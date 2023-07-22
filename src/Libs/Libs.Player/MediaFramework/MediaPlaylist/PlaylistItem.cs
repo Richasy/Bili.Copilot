@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Bili.Copilot.Libs.Player.MediaFramework.MediaDemuxer;
@@ -6,113 +8,197 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaStream;
 
 namespace Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 
+/// <summary>
+/// 播放列表项.
+/// </summary>
 public class PlaylistItem : DemuxerInput
 {
-    public int      Index                   { get; set; } = -1; // if we need it we need to ensure we fix it in case of removing an item
+    private readonly object _lockExternalStreams = new();
+    private string _title = string.Empty;
+    private string _originalTitle = string.Empty;
+    private bool _enabled;
 
     /// <summary>
-    /// While the Url can expire or be null DirectUrl can be used as a new input for re-opening
+    /// 索引，如果需要，在删除项时需要确保修复它.
     /// </summary>
-    public string   DirectUrl               { get; set; }
-
-    //public IOpen    OpenPlugin      { get; set; }
+    public int Index { get; set; } = -1;
 
     /// <summary>
-    /// Relative folder to playlist's folder base (can be empty, not null)
-    /// Use Path.Combine(Playlist.FolderBase, Folder) to get absolute path for saving related files with the current selection item (such as subtitles)
+    /// 当URL可能过期或为空时，可以使用DirectUrl作为重新打开的新输入.
     /// </summary>
-    public string   Folder                  { get; set; } = "";
-
-    
-    //public long     StoppedAt               { get; set; }
-    //public long     SubtitlesDelay          { get; set; }
-    //public long     AudioDelay              { get; set; }
+    public string DirectUrl { get; set; }
 
     /// <summary>
-    /// Item's file size
+    /// 相对于播放列表文件夹基础的文件夹（可以为空，但不能为null）.
+    /// 使用Path.Combine(Playlist.FolderBase, Folder)获取与当前选择项相关文件（如字幕）的绝对路径.
     /// </summary>
-    public long     FileSize                { get; set; }
+    public string Folder { get; set; } = string.Empty;
 
     /// <summary>
-    /// Item's title
-    /// (can be updated from scrapers)
+    /// 项的文件大小.
     /// </summary>
-    public string   Title                   { get => _Title; set { if (_Title == "") OriginalTitle = value; SetUI(ref _Title, value ?? "", false);} }
-    string _Title = "";
+    public long FileSize { get; set; }
 
     /// <summary>
-    /// Item's original title
-    /// (setted by opened plugin)
+    /// 项的标题（可以从爬虫更新）.
     /// </summary>
-    public string   OriginalTitle           { get => _OriginalTitle; set => SetUI(ref _OriginalTitle, value ?? "", false); }
-    string _OriginalTitle = "";
-
-    public int      Season                  { get; set; }
-    public int      Episode                 { get; set; }
-
-    public Dictionary<string, object>
-                    Tag                     { get; set; } = new Dictionary<string, object>();
-    public void AddTag(object tag, string pluginName)
+    public string Title
     {
-        if (Tag.ContainsKey(pluginName))
-            Tag[pluginName] = tag;
-        else
-            Tag.Add(pluginName, tag);
+        get => _title;
+        set
+        {
+            if (_title == string.Empty)
+            {
+                OriginalTitle = value;
+            }
+
+            SetProperty(ref _title, value ?? string.Empty);
+        }
     }
 
-    public object GetTag(string pluginName)
-        => Tag.ContainsKey(pluginName) ? Tag[pluginName] : null;
-
-    public bool     SearchedLocal           { get; set; }
-    public bool     SearchedOnline          { get; set; }
+    /// <summary>
+    /// 项的原始标题（由打开的插件设置）.
+    /// </summary>
+    public string OriginalTitle
+    {
+        get => _originalTitle;
+        set => SetProperty(ref _originalTitle, value ?? string.Empty);
+    }
 
     /// <summary>
-    /// Whether the item is currently enabled or not
+    /// 季数.
     /// </summary>
-    public bool     Enabled                 { get => _Enabled; set { if (SetUI(ref _Enabled, value) && value == true) OpenedCounter++; } }
-    bool _Enabled;
-    public int      OpenedCounter           { get; set; }
+    public int Season { get; set; }
 
-    public ExternalVideoStream
-                    ExternalVideoStream     { get; set; }
-    public ExternalAudioStream
-                    ExternalAudioStream     { get; set; }
-    public ExternalSubtitleStream
-                    ExternalSubtitlesStream { get; set; }
+    /// <summary>
+    /// 集数.
+    /// </summary>
+    public int Episode { get; set; }
 
-    public ObservableCollection<ExternalVideoStream>
-                    ExternalVideoStreams    { get; set; } = new ObservableCollection<ExternalVideoStream>();
-    public ObservableCollection<ExternalAudioStream>
-                    ExternalAudioStreams    { get; set; } = new ObservableCollection<ExternalAudioStream>();
-    public ObservableCollection<ExternalSubtitleStream> 
-                    ExternalSubtitlesStreams{ get; set; } = new ObservableCollection<ExternalSubtitleStream>();
-    internal object lockExternalStreams = new();
+    /// <summary>
+    /// 是否已在本地搜索.
+    /// </summary>
+    public bool SearchedLocal { get; set; }
 
-    public void AddExternalStream(ExternalStream extStream, PlaylistItem item, string pluginName, object tag = null)
+    /// <summary>
+    /// 是否已在线搜索.
+    /// </summary>
+    public bool SearchedOnline { get; set; }
+
+    /// <summary>
+    /// 标签字典.
+    /// </summary>
+    public Dictionary<string, object> Tag { get; set; } = new Dictionary<string, object>();
+
+    /// <summary>
+    /// 项当前是否启用.
+    /// </summary>
+    public bool Enabled
     {
-        lock (item.lockExternalStreams)
+        get => _enabled;
+        set
+        {
+            if (SetProperty(ref _enabled, value) && value == true)
+            {
+                OpenedCounter++;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 打开计数器.
+    /// </summary>
+    public int OpenedCounter { get; set; }
+
+    /// <summary>
+    /// 外部视频流.
+    /// </summary>
+    public ExternalVideoStream ExternalVideoStream { get; set; }
+
+    /// <summary>
+    /// 外部音频流.
+    /// </summary>
+    public ExternalAudioStream ExternalAudioStream { get; set; }
+
+    /// <summary>
+    /// 外部字幕流.
+    /// </summary>
+    public ExternalSubtitleStream ExternalSubtitlesStream { get; set; }
+
+    /// <summary>
+    /// 外部视频流集合.
+    /// </summary>
+    public ObservableCollection<ExternalVideoStream> ExternalVideoStreams { get; set; } = new ObservableCollection<ExternalVideoStream>();
+
+    /// <summary>
+    /// 外部音频流集合.
+    /// </summary>
+    public ObservableCollection<ExternalAudioStream> ExternalAudioStreams { get; set; } = new ObservableCollection<ExternalAudioStream>();
+
+    /// <summary>
+    /// 外部字幕流集合.
+    /// </summary>
+    public ObservableCollection<ExternalSubtitleStream> ExternalSubtitlesStreams { get; set; } = new ObservableCollection<ExternalSubtitleStream>();
+
+    /// <summary>
+    /// 添加外部流.
+    /// </summary>
+    /// <param name="extStream">外部流.</param>
+    /// <param name="item">播放列表项.</param>
+    /// <param name="pluginName">插件名称.</param>
+    /// <param name="tag">标签.</param>
+    public static void AddExternalStream(ExternalStream extStream, PlaylistItem item, string pluginName, object tag = null)
+    {
+        lock (item._lockExternalStreams)
         {
             extStream.PlaylistItem = item;
             extStream.PluginName = pluginName;
 
-            if (extStream is ExternalAudioStream)
+            if (extStream is ExternalAudioStream audioStream)
             {
-                item.ExternalAudioStreams.Add((ExternalAudioStream)extStream);
+                item.ExternalAudioStreams.Add(audioStream);
                 extStream.Index = item.ExternalAudioStreams.Count - 1;
             }
-            else if (extStream is ExternalVideoStream)
+            else if (extStream is ExternalVideoStream videoStream)
             {
-                item.ExternalVideoStreams.Add((ExternalVideoStream)extStream);
+                item.ExternalVideoStreams.Add(videoStream);
                 extStream.Index = item.ExternalVideoStreams.Count - 1;
             }
-            else if (extStream is ExternalSubtitleStream)
+            else if (extStream is ExternalSubtitleStream subtitleStream)
             {
-                item.ExternalSubtitlesStreams.Add((ExternalSubtitleStream)extStream);
+                item.ExternalSubtitlesStreams.Add(subtitleStream);
                 extStream.Index = item.ExternalSubtitlesStreams.Count - 1;
             }
 
             if (tag != null)
+            {
                 extStream.AddTag(tag, pluginName);
-        };
+            }
+        }
     }
+
+    /// <summary>
+    /// 添加标签.
+    /// </summary>
+    /// <param name="tag">标签.</param>
+    /// <param name="pluginName">插件名称.</param>
+    public void AddTag(object tag, string pluginName)
+    {
+        if (Tag.ContainsKey(pluginName))
+        {
+            Tag[pluginName] = tag;
+        }
+        else
+        {
+            Tag.Add(pluginName, tag);
+        }
+    }
+
+    /// <summary>
+    /// 获取标签.
+    /// </summary>
+    /// <param name="pluginName">插件名称.</param>
+    /// <returns>标签.</returns>
+    public object GetTag(string pluginName)
+        => Tag.TryGetValue(pluginName, out var value) ? value : null;
 }

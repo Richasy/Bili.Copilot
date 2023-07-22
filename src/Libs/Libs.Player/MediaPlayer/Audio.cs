@@ -3,7 +3,7 @@
 using System;
 using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Player.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Vortice.Multimedia;
 using static Bili.Copilot.Libs.Player.Misc.Logger;
 using static Vortice.XAudio2.XAudio2;
@@ -132,31 +132,31 @@ public partial class Audio : ObservableObject
                 return;
             }
 
-            _sampleRate = Decoder != null && Decoder.AudioStream != null && Decoder.AudioStream.SampleRate > 0 ? Decoder.AudioStream.SampleRate : 48000;
-            _player.Log.Info($"Initialiazing audio ({Device} @ {SampleRate}Hz)");
+            SampleRate = Decoder != null && Decoder.AudioStream != null && Decoder.AudioStream.SampleRate > 0 ? Decoder.AudioStream.SampleRate : 48000;
+            _player.Log.Info($"Initializing audio ({Device} @ {SampleRate}Hz)");
 
             Dispose();
 
             try
             {
-                _xaudio2 = XAudio2Create();
+                _xAudio2 = XAudio2Create();
 
                 try
                 {
-                    _masteringVoice = _xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : Engine.Audio.GetDeviceId(_device));
+                    MasteringVoice = _xAudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : Engine.Audio.GetDeviceId(_device));
                 }
                 catch (Exception)
                 {
-                    _masteringVoice = _xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : (@"\\?\swd#mmdevapi#" + Engine.Audio.GetDeviceId(_device).ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}"));
+                    MasteringVoice = _xAudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _device == Engine.Audio.DefaultDeviceName ? null : (@"\\?\swd#mmdevapi#" + Engine.Audio.GetDeviceId(_device).ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}"));
                 }
 
-                _sourceVoice = _xaudio2.CreateSourceVoice(_waveFormat, false);
+                _sourceVoice = _xAudio2.CreateSourceVoice(_waveFormat, false);
                 _sourceVoice.SetSourceSampleRate(SampleRate);
                 _sourceVoice.Start();
 
                 _submittedSamples = 0;
-                _deviceDelayTimebase = 1000 * 10000.0 / _sampleRate;
-                _masteringVoice.Volume = Config.Player.VolumeMax / 100.0f;
+                _deviceDelayTimeBase = 1000 * 10000.0 / SampleRate;
+                MasteringVoice.Volume = Config.Player.VolumeMax / 100.0f;
                 _sourceVoice.Volume = _mute ? 0 : Math.Max(0, _volume / 100.0f);
             }
             catch (Exception e)
@@ -174,21 +174,20 @@ public partial class Audio : ObservableObject
     {
         lock (_locker)
         {
-            if (_xaudio2 == null)
+            if (_xAudio2 == null)
             {
                 return;
             }
 
-            _xaudio2.Dispose();
+            _xAudio2.Dispose();
             _sourceVoice?.Dispose();
-            _masteringVoice?.Dispose();
-            _xaudio2 = null;
+            MasteringVoice?.Dispose();
+            _xAudio2 = null;
             _sourceVoice = null;
-            _masteringVoice = null;
+            MasteringVoice = null;
         }
     }
 
-    [System.Security.SecurityCritical]
     /// <summary>
     /// 添加音频帧.
     /// </summary>
@@ -197,7 +196,7 @@ public partial class Audio : ObservableObject
     {
         try
         {
-            var bufferedMs = (int)((_submittedSamples - _sourceVoice.State.SamplesPlayed) * _deviceDelayTimebase / 10000);
+            var bufferedMs = (int)((_submittedSamples - _sourceVoice.State.SamplesPlayed) * _deviceDelayTimeBase / 10000);
 
             if (bufferedMs > 30)
             {
@@ -231,7 +230,7 @@ public partial class Audio : ObservableObject
     /// 获取设备延迟.
     /// </summary>
     /// <returns>设备延迟时间.</returns>
-    internal long GetDeviceDelay() => (long)((_xaudio2.PerformanceData.CurrentLatencyInSamples * _deviceDelayTimebase) - 80000); // TODO: VBlack delay (8ms correction for now)
+    internal long GetDeviceDelay() => (long)((_xAudio2.PerformanceData.CurrentLatencyInSamples * _deviceDelayTimeBase) - 80000); // TODO: VBlack delay (8ms correction for now)
 
     /// <summary>
     /// 清空缓冲区.
@@ -257,13 +256,13 @@ public partial class Audio : ObservableObject
     /// </summary>
     internal void Reset()
     {
-        _codec = null;
-        _bitRate = 0;
-        _bits = 0;
-        _channels = 0;
-        _channelLayout = null;
-        _sampleFormat = null;
-        _isOpened = false;
+        Codec = null;
+        BitRate = 0;
+        Bits = 0;
+        Channels = 0;
+        ChannelLayout = null;
+        SampleFormat = null;
+        IsOpened = false;
 
         ClearBuffer();
         _player.UIAdd(_uiAction);
@@ -280,15 +279,15 @@ public partial class Audio : ObservableObject
             return;
         }
 
-        _codec = Decoder.AudioStream.Codec;
-        _bits = Decoder.AudioStream.Bits;
-        _channels = Decoder.AudioStream.Channels;
-        _channelLayout = Decoder.AudioStream.ChannelLayoutStr;
-        _sampleFormat = Decoder.AudioStream.SampleFormatStr;
-        _isOpened = !Decoder.AudioDecoder.Disposed;
+        Codec = Decoder.AudioStream.Codec;
+        Bits = Decoder.AudioStream.Bits;
+        Channels = Decoder.AudioStream.Channels;
+        ChannelLayout = Decoder.AudioStream.ChannelLayoutStr;
+        SampleFormat = Decoder.AudioStream.SampleFormatStr;
+        IsOpened = !Decoder.AudioDecoder.Disposed;
 
-        _framesDisplayed = 0;
-        _framesDropped = 0;
+        FramesDisplayed = 0;
+        FramesDropped = 0;
 
         if (SampleRate != Decoder.AudioStream.SampleRate)
         {

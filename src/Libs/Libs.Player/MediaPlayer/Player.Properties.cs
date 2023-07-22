@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Bili.Copilot.Libs.Player.Controls;
 using Bili.Copilot.Libs.Player.Core;
 using Bili.Copilot.Libs.Player.Enums;
@@ -14,7 +15,7 @@ using Bili.Copilot.Libs.Player.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Player.MediaFramework.MediaRenderer;
 using Bili.Copilot.Libs.Player.Misc;
 using Bili.Copilot.Libs.Player.Models;
-
+using CommunityToolkit.Mvvm.ComponentModel;
 using static Bili.Copilot.Libs.Player.Utils;
 
 namespace Bili.Copilot.Libs.Player.MediaPlayer;
@@ -29,44 +30,105 @@ public partial class Player
 
     private readonly object _lockActions = new();
     private readonly object _lockSubtitles = new();
+    private readonly string _playerSessionTag = "_session";
+    private readonly Stopwatch _sw = new();
 
-    private readonly bool _isAudioSwitch;
-    private readonly bool _isSubsSwitch;
+    private readonly ConcurrentStack<OpenAsyncData> _openInputs = new();
+    private readonly ConcurrentStack<OpenAsyncData> _openSessions = new();
+    private readonly ConcurrentStack<OpenAsyncData> _openItems = new();
+    private readonly ConcurrentStack<OpenAsyncData> _openVideo = new();
+    private readonly ConcurrentStack<OpenAsyncData> _openAudio = new();
+    private readonly ConcurrentStack<OpenAsyncData> _openSubtitles = new();
 
-    private readonly bool _taskSeekRuns;
-    private readonly bool _taskPlayRuns;
-    private readonly bool _taskOpenAsyncRuns;
-
-    private IMediaTransportControls _transportControls;
-    private PlayerStatus _status = PlayerStatus.Stopped;
-    private bool _canPlay;
-    private long _curTime;
-    private bool _reversePlayback;
-    private object _tag;
-    private string _lastError;
+    private bool _stoppedWithError;
+    private bool _taskSeekRuns;
+    private bool _taskPlayRuns;
+    private bool _taskOpenAsyncRuns;
+    private bool _isAudioSwitch;
+    private bool _isSubsSwitch;
     private bool _reversePlaybackResync;
     private bool _isVideoSwitch;
-    private long _duration;
+    private long _curTime;
+    private bool _reversePlayback;
     private double _speed = 1;
-    private double _bitRate;
-    private long _bufferedDuration;
-    private bool _isLive;
     private bool _isRecording;
     private VideoFrame _videoFrame;
+
+    private long _onBufferingStarted;
+    private long _onBufferingCompleted;
+
+    private int _vDistanceMs;
+    private int _aDistanceMs;
+    private int _sDistanceMs;
+    private int _sleepMs;
+
+    private long _elapsedTicks;
+    private long _elapsedSec;
+    private long _startTicks;
+
+    private int _allowedLateAudioDrops;
+    private long _lastSpeedChangeTicks;
+    private long _curLatency;
+    private long _curAudioDeviceDelay;
+
+    /// <summary>
+    /// 媒体传输控件.
+    /// </summary>
+    [ObservableProperty]
+    private IMediaTransportControls _transportControls;
+
+    /// <summary>
+    /// 播放器的状态.
+    /// </summary>
+    [ObservableProperty]
+    private PlayerStatus _status = PlayerStatus.Stopped;
+
+    /// <summary>
+    /// 获取或设置一个值，指示播放器的状态是否能够接受播放命令.
+    /// </summary>
+    [ObservableProperty]
+    private bool _canPlay;
+
+    /// <summary>
+    /// 获取或设置一个对象，表示播放器的标签.
+    /// </summary>
+    [ObservableProperty]
+    private object _tag;
+
+    /// <summary>
+    /// 获取或设置最后的错误信息.
+    /// </summary>
+    [ObservableProperty]
+    private string _lastError;
+
+    /// <summary>
+    /// 输入的持续时间.
+    /// </summary>
+    [ObservableProperty]
+    private long _duration;
+
+    /// <summary>
+    /// 总比特率（单位：Kbps）.
+    /// </summary>
+    [ObservableProperty]
+    private double _bitRate;
+
+    /// <summary>
+    /// 解复用器中当前缓冲的持续时间.
+    /// </summary>
+    [ObservableProperty]
+    private long _bufferedDuration;
+
+    /// <summary>
+    /// 输入是否为实时流（实时流的持续时间可能不为0，以允许实时定位，例如HLS）.
+    /// </summary>
+    [ObservableProperty]
+    private bool _isLive;
 
     /// <summary>
     /// 获取或设置一个值，指示播放器是否已被释放.
     /// </summary>
     public bool IsDisposed { get; private set; }
-
-    /// <summary>
-    /// 媒体传输控件.
-    /// </summary>
-    public IMediaTransportControls TransportControls
-    {
-        get => _transportControls;
-        set => Set(ref _transportControls, value);
-    }
 
     /// <summary>
     /// 播放器的活动状态（空闲/活动/全活动）.
@@ -149,19 +211,9 @@ public partial class Player
     public Config Config { get; private set; }
 
     /// <summary>
-    /// 播放器的状态.
-    /// </summary>
-    public PlayerStatus Status { get => _status; private set => Set(ref _status, value); }
-
-    /// <summary>
     /// 获取一个值，指示播放器是否正在播放.
     /// </summary>
-    public bool IsPlaying => _status == PlayerStatus.Playing;
-
-    /// <summary>
-    /// 获取或设置一个值，指示播放器的状态是否能够接受播放命令.
-    /// </summary>
-    public bool CanPlay { get => _canPlay; internal set => Set(ref _canPlay, value); }
+    public bool IsPlaying => Status == PlayerStatus.Playing;
 
     /// <summary>
     /// 章节列表.
@@ -191,52 +243,6 @@ public partial class Player
     }
 
     /// <summary>
-    /// 获取或设置一个对象，表示播放器的标签.
-    /// </summary>
-    public object Tag { get => _tag; set => Set(ref _tag, value); }
-
-    /// <summary>
-    /// 获取或设置最后的错误信息.
-    /// </summary>
-    public string LastError
-    {
-        get => _lastError;
-        set => Set(ref _lastError, value);
-    }
-
-    /// <summary>
-    /// 输入的持续时间.
-    /// </summary>
-    public long Duration { get => _duration; private set => Set(ref _duration, value); }
-
-    /// <summary>
-    /// 解复用器中当前缓冲的持续时间.
-    /// </summary>
-    public long BufferedDuration
-    {
-        get => MainDemuxer == null ? 0 : MainDemuxer.BufferedDuration;
-        internal set => Set(ref _bufferedDuration, value);
-    }
-
-    /// <summary>
-    /// 输入是否为实时流（实时流的持续时间可能不为0，以允许实时定位，例如HLS）.
-    /// </summary>
-    public bool IsLive
-    {
-        get => _isLive;
-        private set => Set(ref _isLive, value);
-    }
-
-    /// <summary>
-    /// 总比特率（单位：Kbps）.
-    /// </summary>
-    public double BitRate
-    {
-        get => _bitRate;
-        internal set => Set(ref _bitRate, value);
-    }
-
-    /// <summary>
     /// 播放器是否正在录制.
     /// </summary>
     public bool IsRecording
@@ -250,7 +256,7 @@ public partial class Player
             }
 
             _isRecording = value;
-            UI(() => Set(ref _isRecording, value, false));
+            UI(() => SetProperty(ref _isRecording, value));
         }
     }
 
@@ -263,7 +269,7 @@ public partial class Player
         set
         {
             Renderer.PanXOffset = value;
-            Raise(nameof(PanXOffset));
+            OnPropertyChanged(nameof(PanXOffset));
         }
     }
 
@@ -276,7 +282,7 @@ public partial class Player
         set
         {
             Renderer.PanYOffset = value;
-            Raise(nameof(PanYOffset));
+            OnPropertyChanged(nameof(PanYOffset));
         }
     }
 
@@ -313,7 +319,7 @@ public partial class Player
             UI(() =>
             {
                 Subtitles.SubtitleText = Subtitles.SubtitleText;
-                Raise(nameof(Speed));
+                OnPropertyChanged(nameof(Speed));
             });
         }
     }
@@ -327,7 +333,7 @@ public partial class Player
         set
         {
             Renderer.SetZoom(Renderer.Zoom = value / 100.0);
-            RaiseUI(nameof(Zoom));
+            OnPropertyChanged(nameof(Zoom));
         }
     }
 
@@ -340,7 +346,7 @@ public partial class Player
         set
         {
             Renderer.Rotation = value;
-            RaiseUI(nameof(Rotation));
+            OnPropertyChanged(nameof(Rotation));
         }
     }
 
@@ -359,7 +365,7 @@ public partial class Player
             }
 
             _reversePlayback = value;
-            UI(() => Set(ref _reversePlayback, value, false));
+            UI(() => SetProperty(ref _reversePlayback, value));
 
             if (!Video.IsOpened || !CanPlay | IsLive)
             {
@@ -391,8 +397,7 @@ public partial class Player
 
                     if (Status == PlayerStatus.Ended)
                     {
-                        _status = PlayerStatus.Paused;
-                        UI(() => Status = Status);
+                        Status = PlayerStatus.Paused;
                     }
 
                     var vFrame = VideoDecoder.GetFrame(VideoDecoder.GetFrameNumber(CurTime));
