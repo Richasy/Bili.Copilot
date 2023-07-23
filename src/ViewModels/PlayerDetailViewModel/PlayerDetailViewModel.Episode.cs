@@ -59,7 +59,7 @@ public sealed partial class PlayerDetailViewModel
         DanmakuViewModel.SetData(_currentEpisode.VideoId, _currentEpisode.PartId, _videoType);
         await InitializeEpisodeMediaInformationAsync();
         CheckEpisodeHistory();
-        await InitializeOrginalVideoSourceAsync();
+        InitializeOriginalVideoSource();
     }
 
     private void CheckEpisodeHistory()

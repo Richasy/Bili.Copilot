@@ -119,7 +119,12 @@ public sealed partial class PlayerDetailViewModel
 
         if (Player != null)
         {
-            Player.ClearCommand.Execute(null);
+            Player.MediaOpened -= OnMediaOpened;
+            Player.MediaEnded -= OnMediaEnded;
+            Player.PositionChanged -= OnMediaPositionChanged;
+            Player.PropertyChanged -= OnPropertyChanged;
+            Player.StateChanged -= OnMediaStateChanged;
+            Player?.Dispose();
             Player = default;
         }
 
@@ -213,9 +218,11 @@ public sealed partial class PlayerDetailViewModel
         }
     }
 
+    [RelayCommand]
     private void ShowNextVideoTip()
         => IsShowNextVideoTip = true;
 
+    [RelayCommand]
     private void PlayNextVideo()
         => _playNextAction?.Invoke();
 

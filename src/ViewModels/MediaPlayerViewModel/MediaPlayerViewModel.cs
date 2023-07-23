@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
-using System.Threading.Tasks;
 using Bili.Copilot.Libs.Flyleaf;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Models.Data.Player;
@@ -13,8 +12,10 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 使用 FFmpeg 的播放器视图模型.
 /// </summary>
-public sealed partial class MediaPlayerViewModel : ViewModelBase
+public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
 {
+    private bool _disposedValue;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MediaPlayerViewModel"/> class.
     /// </summary>
@@ -24,24 +25,20 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase
     /// <summary>
     /// 初始化.
     /// </summary>
-    /// <returns><see cref="Task"/>.</returns>
-    public async Task InitializeAsync()
+    public void Initialize()
     {
-        await Task.Run(() =>
+        var currentFolder = Package.Current.InstalledPath;
+        var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
+        Engine.Start(new EngineConfig()
         {
-            var currentFolder = Package.Current.InstalledPath;
-            var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
-            Engine.Start(new EngineConfig()
-            {
-                FFmpegPath = ffmpegFolder,
-                FFmpegDevices = false,
-                FFmpegLogLevel = FFmpegLogLevel.Warning,
-                LogLevel = LogLevel.Debug,
-                LogOutput = ":debug",
-                UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
-                UIRefreshInterval = 250,      // How often (in ms) to notify the UI
-                UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
-            });
+            FFmpegPath = ffmpegFolder,
+            FFmpegDevices = false,
+            FFmpegLogLevel = FFmpegLogLevel.Warning,
+            LogLevel = LogLevel.Debug,
+            LogOutput = ":debug",
+            UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
+            UIRefreshInterval = 250,      // How often (in ms) to notify the UI
+            UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
         });
 
         var config = new Config();
@@ -56,12 +53,11 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase
     /// </summary>
     /// <param name="video">视频源.</param>
     /// <param name="audio">音频源.</param>
-    /// <returns><see cref="Task"/>.</returns>
-    public async Task SetSourceAsync(SegmentInformation video, SegmentInformation audio)
+    public void SetSource(SegmentInformation video, SegmentInformation audio)
     {
         _video = video;
         _audio = audio;
-        await LoadDashVideoSourceAsync();
+        LoadDashVideoSource();
     }
 
     /// <summary>
@@ -107,4 +103,25 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase
     /// <param name="volume">音量.</param>
     public void SetVolume(int volume)
         => Player.Audio.Volume = Convert.ToInt32(volume);
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            if (disposing)
+            {
+                Player?.Dispose();
+            }
+
+            Player = null;
+            _disposedValue = true;
+        }
+    }
 }

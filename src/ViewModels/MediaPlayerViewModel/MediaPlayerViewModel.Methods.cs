@@ -2,7 +2,7 @@
 
 using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
+using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
@@ -35,12 +35,18 @@ public sealed partial class MediaPlayerViewModel
         return httpClient;
     }
 
-    private async Task LoadDashVideoSourceAsync()
+    private void LoadDashVideoSource()
     {
-        var hasAudio = _audio != null;
+        var playItem = new PlaylistItem();
+        playItem.Title = "video";
+        playItem.Tag.Add("video", _video);
 
-        // TODO: 加载音视频源.
-        await Task.CompletedTask;
+        if (_audio != null)
+        {
+            playItem.Tag.Add("audio", _audio);
+        }
+
+        Player.OpenAsync(playItem);
     }
 
     private void LoadDashLiveSource(string url)
@@ -93,6 +99,13 @@ public sealed partial class MediaPlayerViewModel
     {
         if (e.PropertyName == nameof(Player.Status))
         {
+            if (Player == null)
+            {
+                Status = PlayerStatus.NotLoad;
+                StateChanged?.Invoke(this, new MediaStateChangedEventArgs(Status, null));
+                return;
+            }
+
             Status = Player.Status switch
             {
                 Libs.Flyleaf.MediaPlayer.Status.Paused => PlayerStatus.Pause,
@@ -107,7 +120,7 @@ public sealed partial class MediaPlayerViewModel
         }
         else if (e.PropertyName == nameof(Player.CurTime))
         {
-            PositionChanged?.Invoke(this, new MediaPositionChangedEventArgs(Position, TimeSpan.FromTicks(Player.Duration)));
+            PositionChanged?.Invoke(this, new MediaPositionChangedEventArgs(Position, TimeSpan.FromTicks(Player?.Duration ?? 0)));
         }
     }
 

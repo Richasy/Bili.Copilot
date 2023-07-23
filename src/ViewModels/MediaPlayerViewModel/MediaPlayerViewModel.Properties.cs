@@ -49,7 +49,7 @@ public sealed partial class MediaPlayerViewModel
     /// <summary>
     /// 获取当前媒体的位置.
     /// </summary>
-    public TimeSpan Position => TimeSpan.FromTicks(Player.CurTime);
+    public TimeSpan Position => TimeSpan.FromTicks(Player?.CurTime ?? 0);
 
     /// <summary>
     /// 获取媒体的总时长.

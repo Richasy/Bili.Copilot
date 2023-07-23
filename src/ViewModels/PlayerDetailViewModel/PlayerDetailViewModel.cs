@@ -21,8 +21,10 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 媒体播放器视图模型.
 /// </summary>
-public sealed partial class PlayerDetailViewModel : ViewModelBase
+public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 {
+    private bool _disposedValue;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerDetailViewModel"/> class.
     /// </summary>
@@ -57,7 +59,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         _viewData = data;
         _isInPrivate = isInPrivate;
         _videoType = VideoType.Video;
-        ReloadCommand.ExecuteAsync(null);
+        ReloadCommand.ExecuteAsync(default);
     }
 
     /// <summary>
@@ -137,7 +139,14 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         LogException(exception);
     }
 
-    private void Reset()
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Clear()
     {
         if (IsError)
         {
@@ -155,7 +164,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReloadAsync()
     {
-        Reset();
+        Clear();
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();
@@ -169,7 +178,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
             await LoadLiveAsync();
         }
 
-        InitializeSmtc();
+        // InitializeSmtc();
     }
 
     [RelayCommand]
@@ -193,7 +202,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         if (_videoType == VideoType.Video
             || _videoType == VideoType.Pgc)
         {
-            await SelectVideoFormatAsync(information);
+            SelectVideoFormat(information);
         }
         else if (_videoType == VideoType.Live)
         {
@@ -219,7 +228,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         }
     }
 
-    private async Task InitializePlayerAsync()
+    private void InitializePlayer()
     {
         var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         InitializeDisplayModeText();
@@ -227,7 +236,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         if (Player == null)
         {
             Player = new MediaPlayerViewModel();
-            await Player.InitializeAsync();
+            Player.Initialize();
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;
             Player.PositionChanged += OnMediaPositionChanged;
@@ -243,6 +252,21 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase
         _systemMediaTransportControls.IsPauseEnabled = true;
         _systemMediaTransportControls.ButtonPressed -= OnSystemControlsButtonPressed;
         _systemMediaTransportControls.ButtonPressed += OnSystemControlsButtonPressed;
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+        {
+            if (disposing)
+            {
+                Clear();
+                Formats.Clear();
+                PlaybackRates.Clear();
+            }
+
+            _disposedValue = true;
+        }
     }
 
     partial void OnPlaybackRateChanged(double value)

@@ -49,7 +49,11 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
         => Player_GetFullScreen();
 
     /// <inheritdoc/>
-    public void Player_Disposed() => Player = null;
+    public void Player_Disposed()
+    {
+        Player = null;
+        Panel = null;
+    }
 
     /// <inheritdoc/>
     public bool Player_GetFullScreen()

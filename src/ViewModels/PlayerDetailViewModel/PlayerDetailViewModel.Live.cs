@@ -68,7 +68,7 @@ public sealed partial class PlayerDetailViewModel
     {
         CurrentFormat = format;
         ResetPlayer();
-        await InitializePlayerAsync();
+        InitializePlayer();
         var view = _viewData as LivePlayerView;
         var codecId = GetLivePreferCodecId();
         var quality = format.Quality;

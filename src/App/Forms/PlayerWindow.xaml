@@ -9,20 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="0,38,0,0" Loaded="OnLoaded">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Button
-            HorizontalAlignment="Center"
-            Click="OnOpenButtonClickAsync"
-            Content="打开文件" />
-        <base:BiliPlayer
-            x:Name="MainPlayer"
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="Transparent" />
+    <Grid>
+        <Frame x:Name="MainFrame" />
     </Grid>
 </local:WindowBase>
