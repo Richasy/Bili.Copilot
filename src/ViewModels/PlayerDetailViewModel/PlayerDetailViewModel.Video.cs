@@ -193,16 +193,6 @@ public sealed partial class PlayerDetailViewModel
         }
     }
 
-    private void FillVideoPlaybackProperties()
-    {
-        var view = _viewData as VideoPlayerView;
-        SetDisplayProperties(
-            view.Information.Identifier.Cover.GetSourceUri().ToString() + "@100w_100h_1c_100q.jpg",
-            view.Information.Identifier.Title,
-            string.Join(string.Empty, view.Information.Description.Take(20)),
-            _videoType.ToString());
-    }
-
     [RelayCommand]
     private void SelectInteractionChoice(InteractionInformation info)
     {
@@ -223,6 +213,7 @@ public sealed partial class PlayerDetailViewModel
         ChangePartCommand.ExecuteAsync(part);
     }
 
+    [RelayCommand]
     private void BackToInteractionVideoStart()
     {
         IsShowInteractionChoices = false;

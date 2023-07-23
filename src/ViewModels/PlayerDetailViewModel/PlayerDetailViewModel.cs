@@ -13,7 +13,6 @@ using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
-using Windows.Media;
 using Windows.System.Display;
 
 namespace Bili.Copilot.ViewModels;
@@ -198,6 +197,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     private async Task ChangeFormatAsync(FormatInformation information)
     {
         var needResume = Status == PlayerStatus.Playing;
+        _initializeProgress = Player.Position;
+
         Player.Pause();
         if (_videoType == VideoType.Video
             || _videoType == VideoType.Pgc)
@@ -242,16 +243,6 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             Player.PositionChanged += OnMediaPositionChanged;
             Player.StateChanged += OnMediaStateChanged;
         }
-    }
-
-    private void InitializeSmtc()
-    {
-        _systemMediaTransportControls = SystemMediaTransportControls.GetForCurrentView();
-        _systemMediaTransportControls.IsEnabled = true;
-        _systemMediaTransportControls.IsPlayEnabled = true;
-        _systemMediaTransportControls.IsPauseEnabled = true;
-        _systemMediaTransportControls.ButtonPressed -= OnSystemControlsButtonPressed;
-        _systemMediaTransportControls.ButtonPressed += OnSystemControlsButtonPressed;
     }
 
     private void Dispose(bool disposing)

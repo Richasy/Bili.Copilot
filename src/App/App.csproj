@@ -29,9 +29,10 @@
       <Content Remove="Assets\ffmpeg\swscale-7.dll" />
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Assets\FluentSystemIcons.ttf" />
+        <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
+        <None Remove="Controls\Base\BiliTransportControls.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
         <None Remove="Controls\Base\DynamicPresenter.xaml" />
@@ -145,6 +146,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Base\BiliTransportControls.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\VideoPlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

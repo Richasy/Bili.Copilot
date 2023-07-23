@@ -11,7 +11,6 @@ using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Windows.Media;
 using Windows.System.Display;
 
 namespace Bili.Copilot.ViewModels;
@@ -35,7 +34,6 @@ public sealed partial class PlayerDetailViewModel
     private TimeSpan _lastReportProgress;
     private TimeSpan _initializeProgress;
     private Action _playNextAction;
-    private SystemMediaTransportControls _systemMediaTransportControls;
     private DisplayRequest _displayRequest;
 
     private DispatcherTimer _unitTimer;

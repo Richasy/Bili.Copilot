@@ -127,7 +127,6 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
             PlayerDetail.MediaEnded -= OnMediaEnded;
             PlayerDetail.InternalPartChanged -= OnInternalPartChanged;
             PlayerDetail?.Dispose();
-            PlayerDetail = null;
         }
     }
 
@@ -150,16 +149,6 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
             if (disposing)
             {
                 Clear();
-                TryClear(Collaborators);
-                TryClear(Tags);
-                TryClear(FavoriteFolders);
-                TryClear(Sections);
-                TryClear(RelatedVideos);
-                TryClear(VideoParts);
-                TryClear(Seasons);
-                TryClear(CurrentSeasonVideos);
-                TryClear(VideoPlaylist);
-                View = default;
             }
 
             _disposedValue = true;

@@ -31,7 +31,7 @@ public sealed partial class VideoPlayerPageViewModel
             var myId = AuthorizeProvider.Instance.CurrentUserId;
             var userVM = new UserItemViewModel(View.Information.Publisher)
             {
-                Relation = View.PublisherCommunityInformation.Relation,
+                Relation = View.PublisherCommunityInformation?.Relation ?? Models.Constants.Community.UserRelationStatus.Unknown,
                 IsRelationButtonShown = !string.IsNullOrEmpty(myId) && myId != View.Information.Publisher.User.Id,
             };
             Author = userVM;
@@ -49,6 +49,11 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void InitializeOperation()
     {
+        if (View.Operation == null)
+        {
+            return;
+        }
+
         IsLiked = View.Operation.IsLiked;
         IsCoined = View.Operation.IsCoined;
         IsFavorited = View.Operation.IsFavorited;

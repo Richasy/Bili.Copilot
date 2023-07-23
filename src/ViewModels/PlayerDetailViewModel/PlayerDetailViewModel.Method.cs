@@ -74,13 +74,6 @@ public sealed partial class PlayerDetailViewModel
         IsInteractionVideo = false;
         IsShowInteractionChoices = false;
         DanmakuViewModel.ResetCommand.Execute(null);
-
-        if (_systemMediaTransportControls != null)
-        {
-            _systemMediaTransportControls.DisplayUpdater.ClearAll();
-            _systemMediaTransportControls.IsEnabled = false;
-            _systemMediaTransportControls = null;
-        }
     }
 
     private void InitializePlaybackRates()
@@ -244,41 +237,6 @@ public sealed partial class PlayerDetailViewModel
         IsShowExitFullPlayerButton = isFullPlayer && (IsError || IsShowMediaTransport);
     }
 
-    private void InitializeDisplayInformation()
-    {
-        switch (_videoType)
-        {
-            case VideoType.Video:
-                FillVideoPlaybackProperties();
-                break;
-            case VideoType.Pgc:
-                FillEpisodePlaybackProperties();
-                break;
-            case VideoType.Live:
-                FillLivePlaybackProperties();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void SetDisplayProperties(string cover, string title, string subtitle, string videoType)
-    {
-        if (_systemMediaTransportControls == null)
-        {
-            return;
-        }
-
-        var updater = _systemMediaTransportControls.DisplayUpdater;
-        updater.ClearAll();
-        updater.Type = MediaPlaybackType.Video;
-        updater.Thumbnail = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromUri(new Uri(cover));
-        updater.VideoProperties.Title = title;
-        updater.VideoProperties.Subtitle = subtitle;
-        updater.VideoProperties.Genres.Add(videoType);
-        updater.Update();
-    }
-
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
     {
         IsError = e.Status == PlayerStatus.Failed;
@@ -286,28 +244,17 @@ public sealed partial class PlayerDetailViewModel
         IsMediaPause = e.Status != PlayerStatus.Playing;
         IsBuffering = e.Status == PlayerStatus.Buffering;
 
-        if (_systemMediaTransportControls == null)
-        {
-            return;
-        }
-
         if (e.Status == PlayerStatus.Failed)
         {
             ErrorText = e.Message;
-            _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
         }
         else if (e.Status == PlayerStatus.Playing)
         {
-            _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Playing;
             if (Player.Position < _initializeProgress)
             {
                 Player.SeekTo(_initializeProgress);
                 _initializeProgress = TimeSpan.Zero;
             }
-        }
-        else
-        {
-            _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Paused;
         }
 
         if (e.Status == PlayerStatus.Playing)
@@ -347,7 +294,6 @@ public sealed partial class PlayerDetailViewModel
     {
         ChangePlayRateCommand.Execute(PlaybackRate);
         ChangeVolumeCommand.Execute(Volume);
-        InitializeDisplayInformation();
 
         var autoPlay = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoPlayWhenLoaded, true);
         if (autoPlay)

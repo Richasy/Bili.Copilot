@@ -92,13 +92,4 @@ public sealed partial class PlayerDetailViewModel
             proxy.Item1,
             proxy.Item2);
     }
-
-    private void FillEpisodePlaybackProperties()
-    {
-        SetDisplayProperties(
-            _currentEpisode.Identifier.Cover.GetSourceUri().ToString() + "@100w_100h_1c_100q.jpg",
-            _currentEpisode.Identifier.Title,
-            _currentEpisode.PublishTime.ToString("yyyy/MM/dd HH:mm"),
-            _videoType.ToString());
-    }
 }

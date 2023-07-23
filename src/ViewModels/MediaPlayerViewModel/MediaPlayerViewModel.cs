@@ -42,6 +42,9 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         });
 
         var config = new Config();
+        config.Player.SeekAccurate = true;
+        config.Decoder.ZeroCopy = ZeroCopy.Auto;
+        config.Video.SwsHighQuality = true;
         Player = new Player(config);
         Player.PropertyChanged += OnPlayerPropertyChanged;
         Player.PlaybackStopped += OnPlayerPlaybackStopped;
@@ -88,7 +91,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// </summary>
     /// <param name="time">指定的时间.</param>
     public void SeekTo(TimeSpan time)
-        => Player?.SeekAccurate(Convert.ToInt32(time.TotalMicroseconds));
+        => Player?.Seek(Convert.ToInt32(time.TotalMilliseconds));
 
     /// <summary>
     /// 设置播放速率.

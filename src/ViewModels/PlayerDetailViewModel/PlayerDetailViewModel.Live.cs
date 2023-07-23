@@ -109,14 +109,4 @@ public sealed partial class PlayerDetailViewModel
             await SelectLiveFormatAsync(CurrentFormat);
         }
     }
-
-    private void FillLivePlaybackProperties()
-    {
-        var view = _viewData as LivePlayerView;
-        SetDisplayProperties(
-            view.Information.User.Avatar.GetSourceUri() + "@100w_100h_1c_100q.jpg",
-            view.Information.Identifier.Title,
-            string.Join(string.Empty, view.Information.Description.Take(20)),
-            _videoType.ToString());
-    }
 }

@@ -36,7 +36,8 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     [RelayCommand]
     private void Play()
     {
-        var snapshot = new PlaySnapshot(Data.Identifier.Id, "0", Models.Constants.Bili.VideoType.Video);
+        var id = string.IsNullOrEmpty(Data.AlternateId) ? Data.Identifier.Id : Data.AlternateId;
+        var snapshot = new PlaySnapshot(id, "0", Models.Constants.Bili.VideoType.Video);
         AppViewModel.Instance.OpenPlayerCommand.Execute(snapshot);
     }
 

@@ -151,11 +151,11 @@ public sealed partial class HttpProvider : IDisposable
         }
 
         var grpcConfig = new GRPCConfig(token);
-        var userAgent = $"bili-universal/62800300 "
+        var userAgent = $"bili-inter/73300300 "
             + $"os/ios model/{GRPCConfig.Model} mobi_app/iphone "
             + $"osVer/{GRPCConfig.OSVersion} "
             + $"network/{GRPCConfig.NetworkType} "
-            + $"grpc-objc/1.32.0 grpc-c/12.0.0 (ios; cronet_http)";
+            + $"grpc-objc/1.47.0 grpc-c/25.0.0 (ios; cronet_http)";
 
         if (!string.IsNullOrEmpty(token))
         {
@@ -175,6 +175,8 @@ public sealed partial class HttpProvider : IDisposable
         requestMessage.Headers.Add(Headers.Envoriment, GRPCConfig.Envorienment);
         requestMessage.Headers.Add(Headers.TransferEncodingKey, Headers.TransferEncodingValue);
         requestMessage.Headers.Add(Headers.TEKey, Headers.TEValue);
+        requestMessage.Headers.Add(Headers.AuroraEid, GRPCConfig.GetAuroraEid(string.IsNullOrEmpty(AuthorizeProvider.Instance.CurrentUserId) ? 0 : Convert.ToInt64(AuthorizeProvider.Instance.CurrentUserId)));
+        requestMessage.Headers.Add(Headers.TraceId, GRPCConfig.GetTraceId());
 
         var messageBytes = grpcMessage.ToByteArray();
 

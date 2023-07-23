@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.Data.Local;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinUIEx;
@@ -29,6 +29,7 @@ public sealed partial class PlayerWindow : WindowBase
         Closed += OnClosed;
         Width = 1280;
         Height = 720;
+        AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 
         if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
         {
@@ -39,8 +40,7 @@ public sealed partial class PlayerWindow : WindowBase
     private void OnClosed(object sender, WindowEventArgs args)
     {
         MainFrame.Navigate(typeof(Page));
-        GC.SuppressFinalize(this);
-        GC.Collect();
+        MainWindow.Instance.Activate();
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)

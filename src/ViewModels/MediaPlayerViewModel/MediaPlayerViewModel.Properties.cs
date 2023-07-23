@@ -54,7 +54,7 @@ public sealed partial class MediaPlayerViewModel
     /// <summary>
     /// 获取媒体的总时长.
     /// </summary>
-    public TimeSpan Duration => _video != null ? TimeSpan.Zero : TimeSpan.FromMinutes(1);
+    public TimeSpan Duration => Player == null ? TimeSpan.Zero : TimeSpan.FromTicks(Player.Duration);
 
     /// <summary>
     /// 获取或设置媒体的音量.

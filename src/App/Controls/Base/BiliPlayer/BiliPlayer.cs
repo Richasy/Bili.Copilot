@@ -52,7 +52,6 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
     public void Player_Disposed()
     {
         Player = null;
-        Panel = null;
     }
 
     /// <inheritdoc/>

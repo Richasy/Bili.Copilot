@@ -180,6 +180,7 @@ public sealed partial class PlayerDetailViewModel
             : PlayerDisplayMode.Default;
     }
 
+    [RelayCommand]
     private void ExitFullPlayer()
         => DisplayMode = PlayerDisplayMode.Default;
 

@@ -14,7 +14,38 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Black"
-            Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}" />
-        <ProgressRing IsActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" Style="{StaticResource PageProgressRingStyle}" />
+            Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}">
+            <Grid>
+                <base:BiliTransportControls
+                    Margin="12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
+                    <base:BiliTransportControls.DetailContent>
+                        <StackPanel Padding="12,8" Spacing="8">
+                            <TextBlock
+                                MaxLines="1"
+                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <base:ImageEx
+                                    Width="24"
+                                    Height="24"
+                                    CornerRadius="14"
+                                    Source="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </StackPanel>
+                    </base:BiliTransportControls.DetailContent>
+                </base:BiliTransportControls>
+            </Grid>
+        </base:BiliPlayer>
     </Grid>
 </local:VideoPlayerPageBase>

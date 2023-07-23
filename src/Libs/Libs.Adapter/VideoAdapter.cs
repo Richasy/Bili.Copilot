@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.Player;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Constants.Player;
@@ -419,6 +420,18 @@ public static class VideoAdapter
     }
 
     /// <summary>
+    /// 将视频页详情 <see cref="ViewReply"/> 转换为视频信息.
+    /// </summary>
+    /// <param name="response">视频详情.</param>
+    /// <returns><see cref="VideoPlayerView"/>.</returns>
+    public static VideoPlayerView ConvertToVideoView(VideoPageResponse response)
+    {
+        var videoInfo = GetVideoInformationFromVideoPageResponse(response);
+        var subVideos = GetSubVideosFromVideoPageResponse(response);
+        return new VideoPlayerView(videoInfo, default, subVideos, default, default, default, default, default, default);
+    }
+
+    /// <summary>
     /// 将稍后再看响应 <see cref="ViewLaterResponse"/> 转换为视频集.
     /// </summary>
     /// <param name="response">稍后在看响应结果.</param>
@@ -487,6 +500,22 @@ public static class VideoAdapter
         return new VideoInformation(identifier, publisher, cid, subtitle: subtitle, communityInformation: communityInfo);
     }
 
+    private static VideoInformation GetVideoInformationFromVideoPageResponse(VideoPageResponse response)
+    {
+        var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.Title);
+        var id = response.Aid.ToString();
+        var bvid = response.Bvid;
+        var duration = response.Duration;
+        var cover = ImageAdapter.ConvertToImage(response.Cover);
+        var publisher = UserAdapter.ConvertToRoleProfile(response.Owner, AvatarSize.Size32);
+        var desc = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.Description);
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(response.PublishDateTime).DateTime;
+        var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(response.Stat);
+
+        var identifier = new VideoIdentifier(id, title, duration, cover);
+        return new VideoInformation(identifier, publisher, bvid, desc, publishTime: publishTime, communityInformation: communityInfo);
+    }
+
     private static VideoInformation GetVideoInformationFromViewReply(ViewReply videoDetail)
     {
         var arc = videoDetail.Arc;
@@ -516,6 +545,21 @@ public static class VideoAdapter
             collaborators: collaborators,
             communityInformation: communityInfo,
             isOriginal: isOriginal);
+    }
+
+    private static IEnumerable<VideoIdentifier> GetSubVideosFromVideoPageResponse(VideoPageResponse response)
+    {
+        var subVideos = new List<VideoIdentifier>();
+        foreach (var page in response.SubVideos.OrderBy(p => p.Page))
+        {
+            var cid = page.Cid.ToString();
+            var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(page.Title);
+            var duration = page.Duration;
+            var identifier = new VideoIdentifier(cid, title, duration, null);
+            subVideos.Add(identifier);
+        }
+
+        return subVideos;
     }
 
     private static IEnumerable<VideoIdentifier> GetSubVideosFromViewReply(ViewReply videoDetail)
