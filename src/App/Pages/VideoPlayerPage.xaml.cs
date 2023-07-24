@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.ViewModels;
@@ -31,10 +32,20 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override async void OnNavigatedFrom(NavigationEventArgs e)
     {
         // 如果是以暂停状态关闭，可能会导致播放器无法释放.
-        ViewModel.PlayerDetail.Player?.Play();
+        if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.Pause)
+        {
+            ViewModel.PlayerDetail.Player?.Play();
+        }
+        else if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.End || ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.NotLoad)
+        {
+            ViewModel.PlayerDetail.ChangeProgressCommand.Execute(0);
+            await Task.Delay(500);
+            ViewModel.PlayerDetail.Player?.Play();
+        }
+
         ViewModel?.Dispose();
     }
 }

@@ -52,7 +52,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     var videoStream = new ExternalVideoStream()
                     {
                         Url = videoData.BaseUrl,
-                        UrlFallback = videoData.BackupUrls.FirstOrDefault(),
+                        UrlFallback = videoData.BackupUrls?.FirstOrDefault(),
                         HasAudio = hasAudio,
                         Codec = videoData.Codecs,
                         Width = videoData.Width,
@@ -69,7 +69,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     var audioStream = new ExternalAudioStream()
                     {
                         Url = audioData.BaseUrl,
-                        UrlFallback = audioData.BackupUrls.FirstOrDefault(),
+                        UrlFallback = audioData.BackupUrls?.FirstOrDefault(),
                         Codec = videoData.Codecs,
                         UserAgent = ServiceConstants.DefaultUserAgentString,
                         Referrer = "https://www.bilibili.com",

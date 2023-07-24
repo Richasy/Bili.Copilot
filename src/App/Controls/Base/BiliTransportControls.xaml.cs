@@ -120,7 +120,8 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
             VisualStateManager.GoToState(this, "PlayingState", false);
         }
         else if (ViewModel.Status == PlayerStatus.Pause
-            || ViewModel.Status == PlayerStatus.End)
+            || ViewModel.Status == PlayerStatus.End
+            || ViewModel.Status == PlayerStatus.NotLoad)
         {
             VisualStateManager.GoToState(this, "PauseState", false);
         }

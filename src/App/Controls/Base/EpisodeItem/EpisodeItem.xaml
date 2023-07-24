@@ -249,7 +249,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeItem">
-                    <Grid RowSpacing="8">
+                    <Grid
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        RowSpacing="8">
                         <Grid.Resources>
                             <Style TargetType="local:IconTextBlock">
                                 <Setter Property="Spacing" Value="4" />

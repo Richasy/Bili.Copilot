@@ -10,11 +10,23 @@
     mc:Ignorable="d">
 
     <Grid>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="8"
+            Visibility="{x:Bind ViewModel.PlayerDetail.Player.Player.CanPlay, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <ProgressRing IsActive="True" Style="{StaticResource PageProgressRingStyle}" />
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                TextAlignment="Center" />
+        </StackPanel>
         <base:BiliPlayer
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="Black"
-            Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}">
+            Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.PlayerDetail.Player.Player.CanPlay, Mode=OneWay}">
             <Grid>
                 <base:BiliTransportControls
                     Margin="12"

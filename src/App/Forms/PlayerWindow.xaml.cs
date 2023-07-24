@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Threading.Tasks;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.Data.Local;
 using Microsoft.UI;
@@ -14,8 +15,8 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class PlayerWindow : WindowBase
 {
-    private readonly PlaySnapshot _snapshot;
     private bool _isActivated;
+    private bool _isHidden;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
@@ -23,10 +24,9 @@ public sealed partial class PlayerWindow : WindowBase
     public PlayerWindow(PlaySnapshot snapshot)
     {
         InitializeComponent();
-        _snapshot = snapshot;
         Title = snapshot.Title;
         Activated += OnActivated;
-        Closed += OnClosed;
+        Closed += OnClosedAsync;
         Width = 1280;
         Height = 720;
         AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -37,10 +37,18 @@ public sealed partial class PlayerWindow : WindowBase
         }
     }
 
-    private void OnClosed(object sender, WindowEventArgs args)
+    private async void OnClosedAsync(object sender, WindowEventArgs args)
     {
-        MainFrame.Navigate(typeof(Page));
-        MainWindow.Instance.Activate();
+        if (!_isHidden)
+        {
+            args.Handled = true;
+            MainFrame.Navigate(typeof(Page));
+            MainWindow.Instance.Activate();
+            this.Hide();
+            _isHidden = true;
+            await Task.Delay(1000);
+            Close();
+        }
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
