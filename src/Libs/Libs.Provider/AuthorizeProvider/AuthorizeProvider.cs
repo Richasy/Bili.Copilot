@@ -41,7 +41,7 @@ public sealed partial class AuthorizeProvider
     public static string GetCookieString()
     {
         var fiter = new HttpBaseProtocolFilter();
-        var cookies = fiter.CookieManager.GetCookies(new Uri(ApiConstants.CookieGetDomain));
+        var cookies = fiter.CookieManager.GetCookies(new Uri(CookieGetDomain));
         var cookieList = cookies.Select(x =>
         {
             return $"{x.Name}={x.Value}";

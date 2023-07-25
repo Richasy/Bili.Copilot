@@ -21,6 +21,7 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class PlayerDetailViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
+    private readonly Window _attachedWindow;
     private VideoType _videoType;
     private object _viewData;
     private bool _isInPrivate;

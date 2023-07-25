@@ -43,9 +43,16 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
             {
                 var hasVideo = _videoItem.Tag.TryGetValue("video", out var videoObj);
                 var hasAudio = _videoItem.Tag.TryGetValue("audio", out var audioObj);
+                var hasCookie = _videoItem.Tag.TryGetValue("cookie", out var cookieObj);
 
                 var videoData = videoObj as SegmentInformation;
                 var audioData = audioObj as SegmentInformation;
+
+                var headers = new Dictionary<string, string>();
+                if (hasCookie)
+                {
+                    headers.Add("Cookie", cookieObj.ToString());
+                }
 
                 if (hasVideo)
                 {
@@ -59,6 +66,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                         Height = videoData.Height,
                         UserAgent = ServiceConstants.DefaultUserAgentString,
                         Referrer = "https://www.bilibili.com",
+                        HTTPHeaders = headers,
                     };
 
                     AddExternalStream(videoStream, videoData, _videoItem);
@@ -73,6 +81,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                         Codec = videoData.Codecs,
                         UserAgent = ServiceConstants.DefaultUserAgentString,
                         Referrer = "https://www.bilibili.com",
+                        HTTPHeaders = headers,
                     };
 
                     AddExternalStream(audioStream, audioData, _videoItem);

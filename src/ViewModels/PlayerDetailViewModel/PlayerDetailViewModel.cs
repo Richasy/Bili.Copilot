@@ -13,6 +13,7 @@ using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Windows.System.Display;
 
 namespace Bili.Copilot.ViewModels;
@@ -27,9 +28,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerDetailViewModel"/> class.
     /// </summary>
-    public PlayerDetailViewModel()
+    public PlayerDetailViewModel(Window attachedWindow)
     {
-        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        _attachedWindow = attachedWindow;
+        _dispatcherQueue = _attachedWindow.DispatcherQueue;
         SubtitleViewModel = new SubtitleModuleViewModel();
         DanmakuViewModel = new DanmakuModuleViewModel();
         InteractionViewModel = new InteractionModuleViewModel();

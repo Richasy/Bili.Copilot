@@ -34,41 +34,85 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ProgressBar
-            x:Name="ProgressBar"
-            HorizontalAlignment="Stretch"
-            x:Load="{x:Bind IsLive, Mode=OneWay}"
-            Maximum="{x:Bind ViewModel.DurationSeconds, Mode=OneWay}"
-            Value="{x:Bind ViewModel.ProgressSeconds, Mode=OneWay}" />
-
-        <Grid ColumnSpacing="12">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind ViewModel.ProgressText, Mode=OneWay}" />
-            <Slider
-                x:Name="ProgressSlider"
+            <Button
+                x:Name="CompactPlayPauseButton"
+                Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=PlayPause}"
+                Visibility="Collapsed">
+                <Grid>
+                    <local:FluentIcon
+                        x:Name="CompactPauseIcon"
+                        FontSize="14"
+                        Symbol="Pause"
+                        Visibility="Collapsed" />
+                    <local:FluentIcon
+                        x:Name="CompactPlayIcon"
+                        FontSize="14"
+                        Symbol="Play" />
+                </Grid>
+            </Button>
+            <ProgressBar
+                x:Name="ProgressBar"
                 Grid.Column="1"
-                MinHeight="0"
                 HorizontalAlignment="Stretch"
-                x:Load="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                IsThumbToolTipEnabled="False"
                 Maximum="{x:Bind ViewModel.DurationSeconds, Mode=OneWay}"
-                ValueChanged="OnProgressSliderValueChanged"
+                Visibility="{x:Bind IsLive, Mode=OneWay}"
                 Value="{x:Bind ViewModel.ProgressSeconds, Mode=OneWay}" />
-            <TextBlock
+            <Grid
+                x:Name="InteractionProgressContainer"
+                Grid.Column="1"
+                ColumnSpacing="12"
+                Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Name="ProgressText"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.ProgressText, Mode=OneWay}" />
+                <Slider
+                    x:Name="ProgressSlider"
+                    Grid.Column="1"
+                    MinHeight="0"
+                    HorizontalAlignment="Stretch"
+                    x:Load="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                    IsThumbToolTipEnabled="False"
+                    Maximum="{x:Bind ViewModel.DurationSeconds, Mode=OneWay}"
+                    ValueChanged="OnProgressSliderValueChanged"
+                    Value="{x:Bind ViewModel.ProgressSeconds, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="DurationText"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.DurationText, Mode=OneWay}" />
+            </Grid>
+            <Button
+                x:Name="ExitCompactButton"
                 Grid.Column="2"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind ViewModel.DurationText, Mode=OneWay}" />
+                Command="{x:Bind ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind ViewModel.CompactOverlayText, Mode=OneWay}"
+                Visibility="Collapsed">
+                <local:FluentIcon FontSize="16" Symbol="ArrowExpand" />
+            </Button>
         </Grid>
 
-        <Grid Grid.Row="1" ColumnSpacing="12">
+
+        <Grid
+            x:Name="DetailControlPanel"
+            Grid.Row="1"
+            ColumnSpacing="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -94,6 +138,7 @@
                     Command="{x:Bind ViewModel.BackwardSkipCommand, Mode=OneWay}"
                     CornerRadius="20"
                     Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=BackSkip}"
                     Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <local:FluentIcon FontSize="16" Symbol="ArrowStepBack" />
                 </Button>
@@ -125,6 +170,10 @@
                             Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                             Symbol="Play" />
                     </Grid>
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource SystemAccentColorLight1}" />
+                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{ThemeResource SystemAccentColor}" />
+                    </Button.Resources>
                 </Button>
                 <Button
                     x:Name="ForwardButton"
@@ -132,6 +181,7 @@
                     Command="{x:Bind ViewModel.ForwardSkipCommand, Mode=OneWay}"
                     CornerRadius="20"
                     Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=ForwardSkip}"
                     Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <local:FluentIcon FontSize="16" Symbol="ArrowStepOver" />
                 </Button>
@@ -289,6 +339,18 @@
                     <VisualState.Setters>
                         <Setter Target="EnterFullScreenIcon.Visibility" Value="Collapsed" />
                         <Setter Target="ExitFullScreenIcon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="CompactState">
+                    <VisualState.Setters>
+                        <Setter Target="DetailControlPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="CompactPlayPauseButton.Visibility" Value="Visible" />
+                        <Setter Target="ExitCompactButton.Visibility" Value="Visible" />
+                        <Setter Target="ProgressBar.Margin" Value="12,0" />
+                        <Setter Target="ProgressText.Visibility" Value="Collapsed" />
+                        <Setter Target="DurationText.Visibility" Value="Collapsed" />
+                        <Setter Target="ControlPanel.RowSpacing" Value="0" />
+                        <Setter Target="ControlPanel.Padding" Value="12,8" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Constants;
@@ -44,6 +45,12 @@ public sealed partial class MediaPlayerViewModel
         if (_audio != null)
         {
             playItem.Tag.Add("audio", _audio);
+        }
+
+        var cookie = AuthorizeProvider.GetCookieString();
+        if(!string.IsNullOrEmpty(cookie))
+        {
+            playItem.Tag.Add("cookie", cookie);
         }
 
         Player.OpenAsync(playItem);

@@ -7,6 +7,7 @@ using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -20,6 +21,7 @@ public sealed partial class VideoPlayerPageViewModel
     private string _presetVideoId;
     private Action _playNextVideoAction;
     private bool _isInPrivate;
+    private Window _attachedWindow;
 
     [ObservableProperty]
     private VideoPlayerView _view;

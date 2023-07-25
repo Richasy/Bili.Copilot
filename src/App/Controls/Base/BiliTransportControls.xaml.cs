@@ -132,10 +132,13 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         switch (ViewModel.DisplayMode)
         {
             case PlayerDisplayMode.FullScreen:
-                VisualStateManager.GoToState(this, "FullScreenState", false);
+                VisualStateManager.GoToState(this, nameof(FullScreenState), false);
+                break;
+            case PlayerDisplayMode.CompactOverlay:
+                VisualStateManager.GoToState(this, nameof(CompactState), false);
                 break;
             default:
-                VisualStateManager.GoToState(this, "NormalState", false);
+                VisualStateManager.GoToState(this, nameof(NormalState), false);
                 break;
         }
     }

@@ -2,6 +2,7 @@
 
 using System.Threading.Tasks;
 using Bili.Copilot.App.Pages;
+using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Data.Local;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -30,10 +31,16 @@ public sealed partial class PlayerWindow : WindowBase
         Width = 1280;
         Height = 720;
         AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
+        var navArgs = new PlayerPageNavigateEventArgs
+        {
+            Snapshot = snapshot,
+            AttachedWindow = this,
+        };
         if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
         {
-            MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
+            MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
         }
     }
 

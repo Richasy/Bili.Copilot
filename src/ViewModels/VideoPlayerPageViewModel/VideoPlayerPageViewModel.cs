@@ -15,6 +15,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -64,6 +65,13 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         PlayerDetail.DisplayMode = snapshot.DisplayMode ?? defaultPlayMode;
         ReloadCommand.ExecuteAsync(null);
     }
+
+    /// <summary>
+    /// 设置关联的窗口.
+    /// </summary>
+    /// <param name="window">窗口实例.</param>
+    public void SetWindow(object window)
+        => _attachedWindow = window as Window;
 
     /// <summary>
     /// 设置播放列表.
@@ -137,7 +145,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
             return;
         }
 
-        PlayerDetail = new PlayerDetailViewModel();
+        PlayerDetail = new PlayerDetailViewModel(_attachedWindow);
         PlayerDetail.MediaEnded += OnMediaEnded;
         PlayerDetail.InternalPartChanged += OnInternalPartChanged;
     }

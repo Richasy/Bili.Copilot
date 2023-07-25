@@ -2,6 +2,7 @@
 
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml.Navigation;
@@ -25,9 +26,10 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is PlaySnapshot snapshot)
+        if (e.Parameter is PlayerPageNavigateEventArgs args)
         {
-            ViewModel.SetSnapshot(snapshot);
+            ViewModel.SetWindow(args.AttachedWindow);
+            ViewModel.SetSnapshot(args.Snapshot);
         }
     }
 
