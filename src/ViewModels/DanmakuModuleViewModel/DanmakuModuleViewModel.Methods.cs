@@ -33,6 +33,7 @@ public sealed partial class DanmakuModuleViewModel
         DanmakuFontSize = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuFontSize, 1.5d);
         DanmakuArea = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuArea, 1d);
         DanmakuSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuSpeed, 1d);
+        DanmakuZoom = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuZoom, 1d);
         DanmakuFont = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuFont, "Segoe UI");
         IsDanmakuMerge = SettingsToolkit.ReadLocalSetting(SettingNames.IsDanmakuMerge, false);
         IsDanmakuBold = SettingsToolkit.ReadLocalSetting(SettingNames.IsDanmakuBold, true);
@@ -78,6 +79,9 @@ public sealed partial class DanmakuModuleViewModel
                 break;
             case nameof(DanmakuOpacity):
                 SettingsToolkit.WriteLocalSetting(SettingNames.DanmakuOpacity, DanmakuOpacity);
+                break;
+            case nameof(DanmakuZoom):
+                SettingsToolkit.WriteLocalSetting(SettingNames.DanmakuZoom, DanmakuZoom);
                 break;
             case nameof(DanmakuFontSize):
                 SettingsToolkit.WriteLocalSetting(SettingNames.DanmakuFontSize, DanmakuFontSize);

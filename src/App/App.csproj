@@ -31,6 +31,7 @@
     <ItemGroup>
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
+        <None Remove="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\BiliTransportControls.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
@@ -50,6 +51,7 @@
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
@@ -146,6 +148,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuView\DanmakuView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Base\BiliTransportControls.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

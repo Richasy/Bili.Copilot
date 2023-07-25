@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:Bili.Copilot.App.Controls.Danmaku"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -28,12 +29,8 @@
             Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.PlayerDetail.Player.Player.CanPlay, Mode=OneWay}">
             <Grid>
-                <base:BiliTransportControls
-                    Margin="12"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom"
-                    ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
-                    <base:BiliTransportControls.DetailContent>
+                <base:BiliPlayerOverlay ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
+                    <base:BiliPlayerOverlay.MediaPresenter>
                         <StackPanel Padding="12,8" Spacing="8">
                             <TextBlock
                                 MaxLines="1"
@@ -55,8 +52,8 @@
                                     TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </StackPanel>
-                    </base:BiliTransportControls.DetailContent>
-                </base:BiliTransportControls>
+                    </base:BiliPlayerOverlay.MediaPresenter>
+                </base:BiliPlayerOverlay>
             </Grid>
         </base:BiliPlayer>
     </Grid>

@@ -54,6 +54,9 @@ public sealed partial class DanmakuModuleViewModel
     private bool _isDanmakuBold;
 
     [ObservableProperty]
+    private double _danmakuZoom;
+
+    [ObservableProperty]
     private bool _useCloudShieldSettings;
 
     [ObservableProperty]

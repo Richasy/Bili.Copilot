@@ -284,7 +284,7 @@
                                 SelectionChanged="OnFormatSelectionChanged">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="player:FormatInformation">
-                                        <ListViewItem Content="{x:Bind Description, Mode=OneWay}" IsEnabled="{x:Bind IsLimited, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+                                        <ListViewItem Content="{x:Bind Description}" IsEnabled="{x:Bind IsLimited, Converter={StaticResource ObjectToBoolReverseConverter}}" />
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>

@@ -12,7 +12,6 @@ using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Windows.System.Display;
 

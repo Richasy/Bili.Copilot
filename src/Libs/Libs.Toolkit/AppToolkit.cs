@@ -93,12 +93,30 @@ public static class AppToolkit
             hexCode = hexCode.Substring(1);
         }
 
-        // 将十六进制颜色代码转换为RGB值
-        var r = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
-        var g = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
-        var b = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+        hexCode = Convert.ToInt32(hexCode).ToString("X2");
 
-        // 创建并返回Windows.UI.Color对象
-        return Color.FromArgb(255, r, g, b);
+        var color = default(Color);
+        if (hexCode.Length == 4)
+        {
+            hexCode = "00" + hexCode;
+        }
+
+        if (hexCode.Length == 6)
+        {
+            color.R = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
+            color.G = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
+            color.B = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+            color.A = 255;
+        }
+
+        if (hexCode.Length == 8)
+        {
+            color.R = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
+            color.G = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+            color.B = byte.Parse(hexCode.Substring(6, 2), NumberStyles.HexNumber);
+            color.A = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
+        }
+
+        return color;
     }
 }

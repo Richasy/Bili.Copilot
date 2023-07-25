@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:danmaku="using:Bili.Copilot.App.Controls.Danmaku"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base">
+    <Style TargetType="local:BiliPlayerOverlay">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:BiliPlayerOverlay">
+                    <Grid>
+                        <danmaku:DanmakuView
+                            x:Name="DanmakuView"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            DanmakuArea="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuArea}"
+                            DanmakuBold="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsDanmakuBold}"
+                            DanmakuFontFamily="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuFont}"
+                            DanmakuStyle="Shadow"
+                            Opacity="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuOpacity}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsShowDanmaku}" />
+                        <local:BiliTransportControls
+                            Margin="12"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            DetailContent="{TemplateBinding MediaPresenter}"
+                            ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
