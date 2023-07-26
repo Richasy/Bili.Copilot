@@ -151,7 +151,7 @@ public partial class BiliPlayerOverlay
             && !ViewModel.IsShowMediaTransport
             && IsPointerStay)
         {
-            ProtectedCursor = default;
+            ProtectedCursor.Dispose();
             _cursorStayTime = 0;
         }
     }

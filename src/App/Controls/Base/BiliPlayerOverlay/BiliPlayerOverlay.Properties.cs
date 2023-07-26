@@ -16,6 +16,12 @@ public partial class BiliPlayerOverlay
         DependencyProperty.Register(nameof(MediaPresenter), typeof(object), typeof(BiliPlayerOverlay), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="IsLive"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsLiveProperty =
+        DependencyProperty.Register(nameof(IsLive), typeof(bool), typeof(BiliPlayerOverlay), new PropertyMetadata(default));
+
+    /// <summary>
     /// 光标是否停留在覆盖层上.
     /// </summary>
     public bool IsPointerStay { get; set; }
@@ -27,5 +33,14 @@ public partial class BiliPlayerOverlay
     {
         get => (object)GetValue(MediaPresenterProperty);
         set => SetValue(MediaPresenterProperty, value);
+    }
+
+    /// <summary>
+    /// 是否为直播.
+    /// </summary>
+    public bool IsLive
+    {
+        get => (bool)GetValue(IsLiveProperty);
+        set => SetValue(IsLiveProperty, value);
     }
 }

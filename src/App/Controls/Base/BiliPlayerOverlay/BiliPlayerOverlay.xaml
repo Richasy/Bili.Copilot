@@ -117,6 +117,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Bottom"
                                 DetailContent="{TemplateBinding MediaPresenter}"
+                                IsLive="{TemplateBinding IsLive}"
                                 ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         </Grid>
                         <Grid

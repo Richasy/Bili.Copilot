@@ -43,7 +43,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         else if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.End || ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.NotLoad)
         {
             ViewModel.PlayerDetail.ChangeProgressCommand.Execute(0);
-            await Task.Delay(500);
+            await Task.Delay(1000);
             ViewModel.PlayerDetail.Player?.Play();
         }
 
