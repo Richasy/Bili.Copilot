@@ -3,7 +3,6 @@
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
-using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml.Navigation;
 

@@ -6,6 +6,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -37,6 +38,16 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     }
 
     /// <summary>
+    /// 光标是否停留在控件上.
+    /// </summary>
+    public bool IsPointerStay { get; set; }
+
+    /// <summary>
+    /// 弹幕输入框是否聚焦.
+    /// </summary>
+    public bool IsDanmakuBoxFocused { get; set; }
+
+    /// <summary>
     /// 是否为直播控件.
     /// </summary>
     public bool IsLive
@@ -52,6 +63,21 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     {
         get => (object)GetValue(DetailContentProperty);
         set => SetValue(DetailContentProperty, value);
+    }
+
+    /// <summary>
+    /// 将焦点转移到播放按钮上.
+    /// </summary>
+    public void FocusPlayPauseButton()
+    {
+        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            CompactPlayPauseButton.Focus(FocusState.Programmatic);
+        }
+        else
+        {
+            PlayPauseButton.Focus(FocusState.Programmatic);
+        }
     }
 
     internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -70,6 +96,18 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         vm.PropertyChanged -= OnViewModelPropertyChanged;
         vm.PropertyChanged += OnViewModelPropertyChanged;
     }
+
+    /// <inheritdoc/>
+    protected override void OnPointerEntered(PointerRoutedEventArgs e)
+        => IsPointerStay = true;
+
+    /// <inheritdoc/>
+    protected override void OnPointerMoved(PointerRoutedEventArgs e)
+        => IsPointerStay = true;
+
+    /// <inheritdoc/>
+    protected override void OnPointerExited(PointerRoutedEventArgs e)
+        => IsPointerStay = false;
 
     private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -92,7 +130,7 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
                 VisualStateManager.GoToState(this, "ControlPanelFadeOutState", false);
             }
 
-            PlayPauseButton?.Focus(FocusState.Programmatic);
+            FocusPlayPauseButton();
         }
     }
 
@@ -100,7 +138,7 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     {
         ChangeVisualStateFromStatus();
         ChangeVisualStateFromDisplayMode();
-        PlayPauseButton?.Focus(FocusState.Programmatic);
+        FocusPlayPauseButton();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

@@ -16,6 +16,11 @@ public partial class BiliPlayerOverlay
         DependencyProperty.Register(nameof(MediaPresenter), typeof(object), typeof(BiliPlayerOverlay), new PropertyMetadata(default));
 
     /// <summary>
+    /// 光标是否停留在覆盖层上.
+    /// </summary>
+    public bool IsPointerStay { get; set; }
+
+    /// <summary>
     /// 播放信息展示.
     /// </summary>
     public object MediaPresenter

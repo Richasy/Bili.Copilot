@@ -2,14 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Player;
-using Bili.Copilot.ViewModels;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -26,6 +24,16 @@ public partial class BiliPlayerOverlay
             _danmakuTimer = new DispatcherTimer();
             _danmakuTimer.Interval = TimeSpan.FromSeconds(1);
             _danmakuTimer.Tick += OnDanmkuTimerTick;
+        }
+    }
+
+    private void InitializeUnitTimer()
+    {
+        if(_unitTimer == null)
+        {
+            _unitTimer = new DispatcherTimer();
+            _unitTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _unitTimer.Tick += OnUnitTimerTick;
         }
     }
 
@@ -94,110 +102,139 @@ public partial class BiliPlayerOverlay
         _danmakuView.DanmakuSizeZoom = scale;
     }
 
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    private void ShowTempMessage(string msg)
     {
-        CheckDanmakuZoom();
-        ViewModel.DanmakuViewModel.CanShowDanmaku = e.NewSize.Width >= 480;
-    }
+        _tempMessageContainer.Visibility = string.IsNullOrEmpty(msg)
+            ? Visibility.Collapsed
+            : Visibility.Visible;
 
-    private void OnDanmakuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(ViewModel.DanmakuViewModel.DanmakuZoom))
+        if (!string.IsNullOrEmpty(msg))
         {
-            CheckDanmakuZoom();
+            _tempMessageBlock.Text = msg;
+            _tempMessageStayTime = 0;
         }
-        else if (e.PropertyName == nameof(ViewModel.DanmakuViewModel.DanmakuArea))
+        else
         {
-            _danmakuView.DanmakuArea = ViewModel.DanmakuViewModel.DanmakuArea;
-        }
-        else if (e.PropertyName == nameof(ViewModel.DanmakuViewModel.DanmakuSpeed))
-        {
-            _danmakuView.DanmakuDuration = Convert.ToInt32((2.1 - ViewModel.DanmakuViewModel.DanmakuSpeed) * 10);
+            _tempMessageStayTime = -1;
         }
     }
 
-    private void OnSendDanmakuSucceeded(object sender, string e)
+    private void HideTempMessage()
     {
-        var model = new DanmakuModel
+        _tempMessageContainer.Visibility = Visibility.Collapsed;
+        _tempMessageBlock.Text = string.Empty;
+        _tempMessageStayTime = -1;
+    }
+
+    private void HandleTransportAutoHide()
+    {
+        if (_transportStayTime > 1.2)
         {
-            Color = AppToolkit.HexToColor(ViewModel.DanmakuViewModel.Color),
-            Size = ViewModel.DanmakuViewModel.IsStandardSize ? 25 : 18,
-            Text = e,
-            Location = ViewModel.DanmakuViewModel.Location,
-        };
-
-        _danmakuView.AddScreenDanmaku(model, true);
-    }
-
-    private void OnLiveDanmakuAdded(object sender, LiveDanmakuInformation e)
-    {
-        if (_danmakuView != null)
-        {
-            var myName = AccountViewModel.Instance.Name;
-            var isOwn = !string.IsNullOrEmpty(myName) && myName == e.UserName;
-            _danmakuView.AddLiveDanmaku(e.Text, isOwn, AppToolkit.HexToColor(e.TextColor));
-        }
-    }
-
-    private void OnRequestClearDanmaku(object sender, EventArgs e)
-    {
-        _danmakuDictionary.Clear();
-        _danmakuTimer.Stop();
-        _danmakuView.ClearAll();
-    }
-
-    private void OnDanmakuListAdded(object sender, IEnumerable<DanmakuInformation> e)
-    {
-        InitializeDanmaku(e);
-        _danmakuTimer.Start();
-    }
-
-    private void OnDanmkuTimerTick(object sender, object e)
-    {
-        try
-        {
-            if (ViewModel.Status != PlayerStatus.Playing)
+            _transportStayTime = 0;
+            if (!_transportControls.IsDanmakuBoxFocused
+            && (_isTouch || !_transportControls.IsPointerStay || !IsPointerStay))
             {
-                return;
-            }
-
-            var position = ViewModel.Player.Position.TotalSeconds;
-            var positionInt = Convert.ToInt32(position);
-            if (_danmakuDictionary.ContainsKey(positionInt))
-            {
-                var data = _danmakuDictionary[positionInt];
-
-                if (ViewModel.DanmakuViewModel.IsDanmakuMerge)
+                if (_isForceHiddenTransportControls)
                 {
-                    data = data.Distinct().ToList();
+                    ViewModel.IsShowMediaTransport = true;
+                    _isForceHiddenTransportControls = false;
                 }
 
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    foreach (var item in data)
-                    {
-                        _danmakuView.AddScreenDanmaku(item, false);
-                    }
-                });
+                ViewModel.IsShowMediaTransport = false;
             }
-        }
-        catch (Exception)
-        {
         }
     }
 
-    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void HandleCursorAutoHide()
     {
-        if (e.PropertyName == nameof(ViewModel.Status))
+        if (_cursorStayTime > 1.5
+            && !ViewModel.IsShowMediaTransport
+            && IsPointerStay)
         {
-            if (ViewModel.Status == PlayerStatus.Playing)
-            {
-                _danmakuView.ResumeDanmaku();
-            }
-            else
-            {
-                _danmakuView.PauseDanmaku();
-            }
+            ProtectedCursor = default;
+            _cursorStayTime = 0;
         }
+    }
+
+    private void HandleTempMessageAutoHide()
+    {
+        if (_tempMessageStayTime >= 2)
+        {
+            HideTempMessage();
+        }
+    }
+
+    private void HandleNextVideoAutoHide()
+    {
+        if (_nextVideoStayTime > 5)
+        {
+            _nextVideoStayTime = 0;
+            ViewModel.NextVideoCountdown = 0;
+            ViewModel.IsShowNextVideoTip = false;
+            ViewModel.PlayNextVideoCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.NextVideoCountdown = Math.Ceiling(5 - _nextVideoStayTime);
+        }
+    }
+
+    private void HandleProgressTipAutoHide()
+    {
+        if (_progressTipStayTime > 5)
+        {
+            _progressTipStayTime = 0;
+            ViewModel.ProgressTipCountdown = 0;
+            ViewModel.IsShowProgressTip = false;
+        }
+        else
+        {
+            ViewModel.ProgressTipCountdown = Math.Ceiling(5 - _progressTipStayTime);
+        }
+    }
+
+    private void ShowAndResetMediaTransport(bool isMouse)
+    {
+        ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        if (!ViewModel.IsShowMediaTransport
+            && isMouse)
+        {
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                ViewModel.IsShowMediaTransport = true;
+            });
+        }
+
+        _cursorStayTime = 0;
+        _transportStayTime = 0;
+    }
+
+    private void HideAndResetMediaTransport()
+    {
+        ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        _cursorStayTime = 0;
+        _transportStayTime = 0;
+    }
+
+    private void ResizeSubtitle()
+    {
+        if (ActualWidth == 0 || ActualHeight == 0 || _subtitleBlock == null)
+        {
+            return;
+        }
+
+        var baseWidth = 800d;
+        var baseHeight = 600d;
+        var scale = Math.Min(ActualWidth / baseWidth, ActualHeight / baseHeight);
+        if (scale > 2.0)
+        {
+            scale = 2.0;
+        }
+        else if (scale < 0.4)
+        {
+            scale = 0.4;
+        }
+
+        _subtitleBlock.FontSize = 22 * scale;
     }
 }

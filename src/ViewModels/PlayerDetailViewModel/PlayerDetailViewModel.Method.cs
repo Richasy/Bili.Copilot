@@ -219,6 +219,7 @@ public sealed partial class PlayerDetailViewModel
     private void PlayNextVideo()
         => _playNextAction?.Invoke();
 
+    [RelayCommand]
     private void ClearSourceProgress()
     {
         if (_viewData is VideoPlayerView videoPlayer)

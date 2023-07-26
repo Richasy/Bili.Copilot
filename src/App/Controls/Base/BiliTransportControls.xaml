@@ -20,11 +20,22 @@
             <Setter Property="Padding" Value="0" />
             <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
         </Style>
+        <Style x:Key="HiddenButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Width" Value="1" />
+            <Setter Property="Height" Value="1" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TabFocusNavigation" Value="Once" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
+            <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+        </Style>
     </UserControl.Resources>
 
     <Grid
         x:Name="ControlPanel"
-        MaxWidth="640"
+        MaxWidth="680"
         Padding="20,12"
         Background="{ThemeResource MediaTransportBackgroundBrush}"
         CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -33,7 +44,54 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.RenderTransform>
+            <TranslateTransform x:Name="TranslateVertical" />
+        </Grid.RenderTransform>
+        <Grid x:Name="HiddenControlsContainer">
+            <Button
+                x:Name="IncreaseVolumeButton"
+                Command="{x:Bind ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="DecreaseVolumeButton"
+                Command="{x:Bind ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenMiniViewButton"
+                Command="{x:Bind ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="M"
+                        IsEnabled="True"
+                        Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenFullScreenButton"
+                Command="{x:Bind ViewModel.ToggleFullScreenModeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="BackToDefaultButton"
+                Command="{x:Bind ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+        </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -219,54 +277,6 @@
                     </Button.Flyout>
                 </Button>
                 <Button
-                    AutomationProperties.Name="{ext:Locale Name=PlaybackRate}"
-                    Style="{StaticResource IconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=PlaybackRate}"
-                    Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <TextBlock
-                        Margin="0,-2,0,0"
-                        FontSize="14"
-                        TextLineBounds="Tight">
-                        <Run Text="{x:Bind ViewModel.PlaybackRate, Mode=OneWay}" /><Run Text="x" />
-                    </TextBlock>
-                    <Button.Flyout>
-                        <Flyout FlyoutPresenterStyle="{StaticResource PlayerFlyoutStyle}">
-                            <StackPanel Padding="12,8" Spacing="8">
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{ext:Locale Name=PlaybackRate}" />
-                                <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlaybackRates}">
-                                    <ItemsRepeater.Layout>
-                                        <StackLayout Orientation="Horizontal" Spacing="4" />
-                                    </ItemsRepeater.Layout>
-                                    <ItemsRepeater.ItemTemplate>
-                                        <DataTemplate x:DataType="viewmodels:PlaybackRateItemViewModel">
-                                            <ToggleButton
-                                                MinWidth="60"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Command="{x:Bind ActiveCommand}"
-                                                Content="{Binding Data}"
-                                                DataContext="{x:Bind}"
-                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
-                                        </DataTemplate>
-                                    </ItemsRepeater.ItemTemplate>
-                                </ItemsRepeater>
-                                <Slider
-                                    MinWidth="160"
-                                    HorizontalAlignment="Stretch"
-                                    Maximum="{x:Bind ViewModel.MaxPlaybackRate, Mode=OneWay}"
-                                    StepFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
-                                    TickFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
-                                    TickPlacement="BottomRight"
-                                    Value="{x:Bind ViewModel.PlaybackRate, Mode=TwoWay}" />
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button
                     x:Name="QualityButton"
                     AutomationProperties.Name="{ext:Locale Name=Quality}"
                     Style="{StaticResource IconButtonStyle}"
@@ -291,6 +301,70 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
+                <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <Button
+                        AutomationProperties.Name="{ext:Locale Name=PlaybackRate}"
+                        Style="{StaticResource IconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=PlaybackRate}">
+                        <TextBlock
+                            Margin="0,-2,0,0"
+                            FontSize="14"
+                            TextLineBounds="Tight">
+                            <Run Text="{x:Bind ViewModel.PlaybackRate, Mode=OneWay}" /><Run Text="x" />
+                        </TextBlock>
+                        <Button.Flyout>
+                            <Flyout FlyoutPresenterStyle="{StaticResource PlayerFlyoutStyle}">
+                                <StackPanel Padding="12,8" Spacing="8">
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{ext:Locale Name=PlaybackRate}" />
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlaybackRates}">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Orientation="Horizontal" Spacing="4" />
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="viewmodels:PlaybackRateItemViewModel">
+                                                <ToggleButton
+                                                    MinWidth="60"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Command="{x:Bind ActiveCommand}"
+                                                    Content="{Binding Data}"
+                                                    DataContext="{x:Bind}"
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                    <Slider
+                                        MinWidth="160"
+                                        HorizontalAlignment="Stretch"
+                                        Maximum="{x:Bind ViewModel.MaxPlaybackRate, Mode=OneWay}"
+                                        StepFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
+                                        TickFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
+                                        TickPlacement="BottomRight"
+                                        Value="{x:Bind ViewModel.PlaybackRate, Mode=TwoWay}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button
+                        x:Name="SubtitleButton"
+                        AutomationProperties.Name="{ext:Locale Name=Subtitle}"
+                        Style="{StaticResource IconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=Subtitle}"
+                        Visibility="{x:Bind ViewModel.SubtitleViewModel.HasSubtitles, Mode=OneWay}">
+                        <Button.Content>
+                            <local:FluentIcon Symbol="ClosedCaption" />
+                        </Button.Content>
+                        <Button.Flyout>
+                            <Flyout>
+                                <local:SubtitleConfigPanel ViewModel="{x:Bind ViewModel.SubtitleViewModel, Mode=OneWay}" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
                 <Button
                     x:Name="CompactButton"
                     Command="{x:Bind ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
@@ -324,12 +398,16 @@
                     <VisualState.Setters>
                         <Setter Target="PlayIcon.Visibility" Value="Collapsed" />
                         <Setter Target="PauseIcon.Visibility" Value="Visible" />
+                        <Setter Target="CompactPlayIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="CompactPauseIcon.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="PauseState">
                     <VisualState.Setters>
                         <Setter Target="PlayIcon.Visibility" Value="Visible" />
                         <Setter Target="PauseIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="CompactPlayIcon.Visibility" Value="Visible" />
+                        <Setter Target="CompactPauseIcon.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

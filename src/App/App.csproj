@@ -32,6 +32,7 @@
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml" />
+        <None Remove="Controls\Base\BiliPlayerTip.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\BiliTransportControls.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
@@ -40,6 +41,8 @@
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
+        <None Remove="Controls\Base\InteractionChoicePanel.xaml" />
+        <None Remove="Controls\Base\SubtitleConfigPanel.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
@@ -148,6 +151,15 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Base\SubtitleConfigPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\InteractionChoicePanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\BiliPlayerTip.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

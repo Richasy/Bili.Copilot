@@ -79,6 +79,7 @@
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
             <converters:SortTypeTextConverter x:Key="SortTypeConverter" />
+            <converters:SubtitleConvertTypeConverter x:Key="SubtitleConvertTypeConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
