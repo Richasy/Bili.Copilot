@@ -155,6 +155,11 @@ public sealed partial class PlayerDetailViewModel
     public event EventHandler<string> RequestShowTempMessage;
 
     /// <summary>
+    /// 请求在网页中打开.
+    /// </summary>
+    public event EventHandler RequestOpenInBrowser;
+
+    /// <summary>
     /// 当媒体播放结束时触发的事件.
     /// </summary>
     public event EventHandler MediaEnded;

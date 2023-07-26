@@ -42,6 +42,10 @@ public sealed partial class PlayerWindow : WindowBase
         {
             MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
         }
+        else if(snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
+        {
+            MainFrame.Navigate(typeof(LivePlayerPage), navArgs);
+        }
     }
 
     private async void OnClosedAsync(object sender, WindowEventArgs args)

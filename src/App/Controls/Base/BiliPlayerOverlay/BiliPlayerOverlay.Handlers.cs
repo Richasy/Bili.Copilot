@@ -10,6 +10,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.ViewModels;
+using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -115,7 +116,8 @@ public partial class BiliPlayerOverlay
         {
             var myName = AccountViewModel.Instance.Name;
             var isOwn = !string.IsNullOrEmpty(myName) && myName == e.UserName;
-            _danmakuView.AddLiveDanmaku(e.Text, isOwn, AppToolkit.HexToColor(e.TextColor));
+            var color = string.IsNullOrEmpty(e.TextColor) ? Colors.White : AppToolkit.HexToColor(e.TextColor);
+            _danmakuView.AddLiveDanmaku(e.Text, isOwn, color);
         }
     }
 
@@ -123,7 +125,7 @@ public partial class BiliPlayerOverlay
     {
         _danmakuDictionary.Clear();
         _danmakuTimer.Stop();
-        _danmakuView.ClearAll();
+        _danmakuView?.ClearAll();
     }
 
     private void OnDanmakuListAdded(object sender, IEnumerable<DanmakuInformation> e)
@@ -201,7 +203,7 @@ public partial class BiliPlayerOverlay
             {
                 _danmakuView.ResumeDanmaku();
             }
-            else
+            else if (!IsLive)
             {
                 _danmakuView.PauseDanmaku();
             }
@@ -359,4 +361,15 @@ public partial class BiliPlayerOverlay
 
     private void OnInteractionControlPointerPressed(object sender, PointerRoutedEventArgs e)
         => _gestureRecognizer.ProcessDownEvent(e.GetCurrentPoint(this));
+
+    private void OnRefreshButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.CurrentFormat != null)
+        {
+            ViewModel.ChangeFormatCommand.Execute(ViewModel.CurrentFormat);
+        }
+    }
+
+    private void OnOpenInBrowserButtonClick(object sender, RoutedEventArgs e)
+        => ViewModel.OpenInBrowserCommand.Execute(default);
 }

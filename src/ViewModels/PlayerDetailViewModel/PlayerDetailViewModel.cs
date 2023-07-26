@@ -198,7 +198,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     private async Task ChangeFormatAsync(FormatInformation information)
     {
         var needResume = Status == PlayerStatus.Playing;
-        _initializeProgress = Player.Position;
+        if (_videoType != VideoType.Live)
+        {
+            _initializeProgress = Player.Position;
+        }
 
         Player.Pause();
         if (_videoType == VideoType.Video
@@ -230,6 +233,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         }
     }
 
+    [RelayCommand]
+    private void OpenInBrowser()
+        => RequestOpenInBrowser?.Invoke(this, EventArgs.Empty);
+
     private void InitializePlayer()
     {
         var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
@@ -238,7 +245,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         if (Player == null)
         {
             Player = new MediaPlayerViewModel();
-            Player.Initialize();
+            Player.Initialize(_videoType == VideoType.Live);
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;
             Player.PositionChanged += OnMediaPositionChanged;

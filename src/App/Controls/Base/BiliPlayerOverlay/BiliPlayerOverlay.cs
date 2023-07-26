@@ -26,6 +26,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private Grid _tempMessageContainer;
     private TextBlock _tempMessageBlock;
     private TextBlock _subtitleBlock;
+    private Button _refreshButton;
+    private Button _openInBrowserButton;
 
     private DispatcherTimer _danmakuTimer;
     private DispatcherTimer _unitTimer;
@@ -94,6 +96,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _tempMessageContainer = GetTemplateChild("TempMessageContainer") as Grid;
         _tempMessageBlock = GetTemplateChild("TempMessageBlock") as TextBlock;
         _subtitleBlock = GetTemplateChild("SubtitleBlock") as TextBlock;
+        _refreshButton = GetTemplateChild("RefreshButton") as Button;
+        _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
 
         _gestureRecognizer = new GestureRecognizer
         {
@@ -111,6 +115,9 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _interactionControl.PointerReleased += OnInteractionControlPointerReleased;
         _interactionControl.PointerCanceled += OnInteractionControlPointerCanceled;
         _gestureRecognizer.Holding += OnGestureRecognizerHolding;
+
+        _refreshButton.Click += OnRefreshButtonClick;
+        _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
 
         CheckDanmakuZoom();
         ResizeSubtitle();

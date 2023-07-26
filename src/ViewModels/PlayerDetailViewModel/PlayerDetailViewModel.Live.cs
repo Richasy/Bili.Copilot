@@ -75,18 +75,22 @@ public sealed partial class PlayerDetailViewModel
         _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsLiveAudioOnly);
         if (_liveMediaInformation.Lines != null)
         {
-            var playlines = _liveMediaInformation.Lines.Where(p => p.Name == codecId);
-            if (playlines.Count() == 0)
+            var playLines = _liveMediaInformation.Lines.Where(p => p.Name == codecId);
+            if (playLines.Count() == 0)
             {
-                playlines = _liveMediaInformation.Lines.Where(p => p.Urls.Any(j => j.Host.EndsWith(".com")));
+                playLines = _liveMediaInformation.Lines.Where(p => p.Urls.Any(j => j.Protocol == "http_hls" || j.Protocol == "http_stream"));
             }
 
-            var url = playlines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Host.EndsWith(".com"));
+            var url = playLines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Protocol == "http_hls");
             if (url == null)
             {
-                IsError = true;
-                ErrorText = ResourceToolkit.GetLocalizedString(StringNames.FlvNotSupported);
-                return;
+                url = playLines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Protocol == "http_stream");
+                if (url == null)
+                {
+                    IsError = true;
+                    ErrorText = ResourceToolkit.GetLocalizedString(StringNames.FlvNotSupported);
+                    return;
+                }
             }
 
             SettingsToolkit.WriteLocalSetting(SettingNames.DefaultLiveFormat, CurrentFormat.Quality);

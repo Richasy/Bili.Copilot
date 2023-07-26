@@ -2,15 +2,14 @@
 
 using System;
 using System.ComponentModel;
+using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
-using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.Input;
-using Windows.Web.Http;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -19,23 +18,6 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class MediaPlayerViewModel
 {
-    private static HttpClient GetVideoClient()
-    {
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Referer = new Uri("https://www.bilibili.com");
-        httpClient.DefaultRequestHeaders.Add("User-Agent", ServiceConstants.DefaultUserAgentString);
-        return httpClient;
-    }
-
-    private static HttpClient GetLiveClient()
-    {
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Referer = new Uri("https://live.bilibili.com/");
-        httpClient.DefaultRequestHeaders.Add("rtsp_transport", "tcp");
-        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
-        return httpClient;
-    }
-
     private void LoadDashVideoSource()
     {
         var playItem = new PlaylistItem();
@@ -60,7 +42,18 @@ public sealed partial class MediaPlayerViewModel
     {
         try
         {
-            Player.OpenAsync(url);
+            var playItem = new PlaylistItem
+            {
+                Title = "video",
+            };
+            playItem.Tag.Add("live", url);
+            var cookie = AuthorizeProvider.GetCookieString();
+            if (!string.IsNullOrEmpty(cookie))
+            {
+                playItem.Tag.Add("cookie", cookie);
+            }
+
+            Player.OpenAsync(playItem);
         }
         catch (Exception ex)
         {
@@ -73,33 +66,58 @@ public sealed partial class MediaPlayerViewModel
 
     private void OnPlayerOpenCompleted(object sender, OpenCompletedArgs e)
     {
-        if (e.Success)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            MediaOpened?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            Status = PlayerStatus.Failed;
-            var arg = new MediaStateChangedEventArgs(Status, e.Error);
-            StateChanged?.Invoke(this, arg);
-            LogException(new Exception($"播放失败: {e.Error}"));
-        }
+            if (e.Success)
+            {
+                MediaOpened?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                Status = PlayerStatus.Failed;
+                var arg = new MediaStateChangedEventArgs(Status, e.Error);
+                StateChanged?.Invoke(this, arg);
+                LogException(new Exception($"播放失败: {e.Error}"));
+            }
+        });
     }
 
     private void OnPlayerPlaybackStopped(object sender, PlaybackStoppedArgs e)
     {
-        if (e.Success)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            Status = PlayerStatus.End;
-            MediaEnded?.Invoke(this, EventArgs.Empty);
-        }
-        else
+            if (e.Success)
+            {
+                Status = PlayerStatus.End;
+                MediaEnded?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                Status = PlayerStatus.Failed;
+                var arg = new MediaStateChangedEventArgs(Status, e.Error);
+                StateChanged?.Invoke(this, arg);
+                LogException(new Exception($"播放失败: {e.Error}"));
+            }
+        });
+    }
+
+    private void OnOpenPlaylistItemCompleted(object sender, DecoderContext.OpenPlaylistItemCompletedArgs e)
+    {
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            Status = PlayerStatus.Failed;
-            var arg = new MediaStateChangedEventArgs(Status, e.Error);
-            StateChanged?.Invoke(this, arg);
-            LogException(new Exception($"播放失败: {e.Error}"));
-        }
+            if (e.Success)
+            {
+                Status = PlayerStatus.Opened;
+                MediaOpened?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                Status = PlayerStatus.Failed;
+                var arg = new MediaStateChangedEventArgs(Status, e.Error);
+                StateChanged?.Invoke(this, arg);
+                LogException(new Exception($"播放失败: {e.Error}"));
+            }
+        });
     }
 
     private void OnPlayerPropertyChanged(object sender, PropertyChangedEventArgs e)

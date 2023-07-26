@@ -19,10 +19,18 @@
             Text="{x:Bind Text, Mode=OneWay}"
             TextAlignment="Center"
             TextWrapping="Wrap" />
-        <Button
-            HorizontalAlignment="Center"
-            Command="{x:Bind Command, Mode=OneWay}"
-            Content="{x:Bind ActionContent, Mode=OneWay}"
-            Visibility="{x:Bind ActionContent, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+        <StackPanel HorizontalAlignment="Center">
+            <Button
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind Command, Mode=OneWay}"
+                Content="{x:Bind ActionContent, Mode=OneWay}"
+                Visibility="{x:Bind ActionContent, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+            <Button
+                Margin="0,8,0,0"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind SubCommand, Mode=OneWay}"
+                Content="{x:Bind SubActionContent, Mode=OneWay}"
+                Visibility="{x:Bind SubActionContent, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

@@ -3,7 +3,9 @@
 using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Live;
+using Bili.Copilot.Models.Data.Local;
 using CommunityToolkit.Mvvm.Input;
 using Windows.System;
 
@@ -26,7 +28,10 @@ public sealed partial class LiveItemViewModel : ViewModelBase
 
     [RelayCommand]
     private void Play()
-        => AppViewModel.Instance.OpenPlayerCommand.Execute(new Models.Data.Local.PlaySnapshot(Data.Identifier.Id, default, Models.Constants.Bili.VideoType.Live));
+        => AppViewModel.Instance.OpenPlayerCommand.Execute(new PlaySnapshot(Data.Identifier.Id, default, VideoType.Live)
+        {
+            Title = Data.Identifier.Title,
+        });
 
     [RelayCommand]
     private async Task OpenInBrowserAsync()

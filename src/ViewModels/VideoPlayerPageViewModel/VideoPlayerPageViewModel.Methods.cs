@@ -13,6 +13,7 @@ using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
+using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -197,4 +198,10 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void OnInternalPartChanged(object sender, VideoIdentifier e)
         => ChangeVideoPart(e);
+
+    private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
+    {
+        var uri = $"https://www.bilibili.com/video/av{View.Information.Identifier.Id}";
+        await Launcher.LaunchUriAsync(new Uri(uri));
+    }
 }

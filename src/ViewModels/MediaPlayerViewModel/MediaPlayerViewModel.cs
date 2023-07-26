@@ -25,11 +25,11 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// <summary>
     /// 初始化.
     /// </summary>
-    public void Initialize()
+    public void Initialize(bool isLive)
     {
         var currentFolder = Package.Current.InstalledPath;
         var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
-        Engine.Start(new EngineConfig()
+        var engineConfig = new EngineConfig()
         {
             FFmpegPath = ffmpegFolder,
             FFmpegDevices = false,
@@ -39,15 +39,25 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
             UIRefreshInterval = 250,      // How often (in ms) to notify the UI
             UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
-        });
+        };
+        Engine.Start(engineConfig);
 
         var config = new Config();
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Auto;
         config.Video.SwsHighQuality = true;
+        if (isLive)
+        {
+            config.Demuxer.FormatOpt["user_agent"] = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
+            config.Demuxer.FormatOpt["referer"] = "https://live.bilibili.com/";
+            config.Demuxer.AudioFormatOpt["user_agent"] = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
+            config.Demuxer.AudioFormatOpt["referer"] = "https://live.bilibili.com/";
+        }
+
         Player = new Player(config);
         Player.PropertyChanged += OnPlayerPropertyChanged;
         Player.PlaybackStopped += OnPlayerPlaybackStopped;
+        Player.OpenPlaylistItemCompleted += OnOpenPlaylistItemCompleted;
         Player.OpenCompleted += OnPlayerOpenCompleted;
     }
 

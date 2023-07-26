@@ -200,6 +200,14 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
             ViewModel.ChangeFormatCommand.Execute(info);
         }
     }
+
+    private void OnRefreshButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.CurrentFormat != null)
+        {
+            ViewModel.ChangeFormatCommand.Execute(ViewModel.CurrentFormat);
+        }
+    }
 }
 
 /// <summary>

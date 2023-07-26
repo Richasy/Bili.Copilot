@@ -123,7 +123,7 @@ public partial class LiveProvider
         {
             _liveWebSocket = new WebsocketClient(new Uri(ApiConstants.Live.ChatSocket))
             {
-                ErrorReconnectTimeout = TimeSpan.FromSeconds(30),
+                IsReconnectionEnabled = false,
             };
             _liveWebSocket.DisconnectionHappened.Subscribe(info => OnLiveSocketDisconnected(info));
             _liveWebSocket.MessageReceived.Subscribe(msg => OnLiveSocketMessageReceived(msg));

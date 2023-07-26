@@ -12,7 +12,7 @@ namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 /// </summary>
 public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISuggestExternalVideo
 {
-    private PlaylistItem _videoItem;
+    private PlaylistItem _playItem;
 
     /// <inheritdoc/>
     public new int Priority => 1;
@@ -25,8 +25,8 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
             return false;
         }
 
-        _videoItem = Playlist.Selected;
-        return _videoItem != null;
+        _playItem = Playlist.Selected;
+        return _playItem != null;
     }
 
     /// <inheritdoc/>
@@ -39,14 +39,16 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
         Playlist.InputType = InputType.Web;
         try
         {
-            if (_videoItem != null)
+            if (_playItem != null)
             {
-                var hasVideo = _videoItem.Tag.TryGetValue("video", out var videoObj);
-                var hasAudio = _videoItem.Tag.TryGetValue("audio", out var audioObj);
-                var hasCookie = _videoItem.Tag.TryGetValue("cookie", out var cookieObj);
+                var hasVideo = _playItem.Tag.TryGetValue("video", out var videoObj);
+                var hasAudio = _playItem.Tag.TryGetValue("audio", out var audioObj);
+                var hasLive = _playItem.Tag.TryGetValue("live", out var liveObj);
+                var hasCookie = _playItem.Tag.TryGetValue("cookie", out var cookieObj);
 
                 var videoData = videoObj as SegmentInformation;
                 var audioData = audioObj as SegmentInformation;
+                var liveData = liveObj as string;
 
                 var headers = new Dictionary<string, string>();
                 if (hasCookie)
@@ -69,7 +71,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                         HTTPHeaders = headers,
                     };
 
-                    AddExternalStream(videoStream, videoData, _videoItem);
+                    AddExternalStream(videoStream, videoData, _playItem);
                 }
 
                 if (hasAudio)
@@ -84,7 +86,22 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                         HTTPHeaders = headers,
                     };
 
-                    AddExternalStream(audioStream, audioData, _videoItem);
+                    AddExternalStream(audioStream, audioData, _playItem);
+                }
+
+                if (hasLive)
+                {
+                    headers.Add("Origin", "https://live.bilibili.com");
+                    headers.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
+                    var videoStream = new ExternalVideoStream()
+                    {
+                        Url = liveData,
+                        Referrer = "https://live.bilibili.com",
+                        HTTPHeaders = headers,
+                        HasAudio = true,
+                    };
+
+                    AddExternalStream(videoStream, liveData, _playItem);
                 }
             }
         }

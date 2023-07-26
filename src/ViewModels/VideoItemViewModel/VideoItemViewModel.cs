@@ -9,6 +9,7 @@ using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -37,7 +38,10 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     private void Play()
     {
         var id = string.IsNullOrEmpty(Data.AlternateId) ? Data.Identifier.Id : Data.AlternateId;
-        var snapshot = new PlaySnapshot(id, "0", Models.Constants.Bili.VideoType.Video);
+        var snapshot = new PlaySnapshot(id, "0", Models.Constants.Bili.VideoType.Video)
+        {
+            Title = Data.Identifier.Title,
+        };
         AppViewModel.Instance.OpenPlayerCommand.Execute(snapshot);
     }
 
@@ -151,6 +155,13 @@ public sealed partial class VideoItemViewModel : ViewModelBase
                     ResourceToolkit.GetLocalizedString(StringNames.NeedLoginFirst),
                     InfoType.Warning);
         }
+    }
+
+    [RelayCommand]
+    private async Task OpenInBrowserAsync()
+    {
+        var uri = $"https://www.bilibili.com/video/av{Data.Identifier.Id}";
+        await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     private void InitializeData()

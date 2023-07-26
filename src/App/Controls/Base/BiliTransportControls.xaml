@@ -120,9 +120,9 @@
                 x:Name="ProgressBar"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
-                Maximum="{x:Bind ViewModel.DurationSeconds, Mode=OneWay}"
+                Maximum="100"
                 Visibility="{x:Bind IsLive, Mode=OneWay}"
-                Value="{x:Bind ViewModel.ProgressSeconds, Mode=OneWay}" />
+                Value="100" />
             <Grid
                 x:Name="InteractionProgressContainer"
                 Grid.Column="1"
@@ -248,6 +248,14 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
+                <Button
+                    x:Name="RefreshButton"
+                    Click="OnRefreshButtonClick"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Refresh}"
+                    Visibility="{x:Bind IsLive, Mode=OneWay}">
+                    <local:FluentIcon FontSize="16" Symbol="ArrowSync" />
+                </Button>
                 <Button x:Name="VolumeButton" Style="{StaticResource IconButtonStyle}">
                     <local:FluentIcon FontSize="16" Symbol="Speaker2" />
                     <Button.Flyout>
@@ -408,6 +416,7 @@
                         <Setter Target="PauseIcon.Visibility" Value="Collapsed" />
                         <Setter Target="CompactPlayIcon.Visibility" Value="Visible" />
                         <Setter Target="CompactPauseIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="ProgressBar.ShowPaused" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -442,12 +451,6 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlPanel" Storyboard.TargetProperty="Height">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Auto" />
                         </ObjectAnimationUsingKeyFrames>
-                        <DoubleAnimation
-                            Storyboard.TargetName="TranslateVertical"
-                            Storyboard.TargetProperty="Y"
-                            From="50"
-                            To="0.5"
-                            Duration="0:0:0.2" />
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="ControlPanelFadeOutState">
@@ -462,12 +465,6 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlPanel" Storyboard.TargetProperty="Height">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="8" />
                         </ObjectAnimationUsingKeyFrames>
-                        <DoubleAnimation
-                            Storyboard.TargetName="TranslateVertical"
-                            Storyboard.TargetProperty="Y"
-                            From="0.5"
-                            To="50"
-                            Duration="0:0:0.2" />
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

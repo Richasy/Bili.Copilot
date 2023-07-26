@@ -25,7 +25,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Fill="Transparent" />
-                        <Grid RowSpacing="8">
+                        <Grid RowSpacing="8" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
@@ -122,19 +122,18 @@
                         </Grid>
                         <Grid
                             x:Name="PlayErrorContainer"
-                            MinHeight="200"
+                            MaxWidth="300"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}"
                             CornerRadius="{StaticResource OverlayCornerRadius}"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError}">
                             <StackPanel
-                                Padding="20,12"
+                                Padding="20"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
-                                Spacing="8">
+                                Spacing="12">
                                 <Image
                                     Width="120"
                                     HorizontalAlignment="Center"
@@ -143,12 +142,18 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ErrorText}"
-                                    TextAlignment="Center" />
-                                <Button
-                                    x:Name="RefreshButton"
-                                    HorizontalAlignment="Center"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReloadCommand}"
-                                    Content="{ext:Locale Name=Refresh}" />
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                                <StackPanel HorizontalAlignment="Center" Spacing="8">
+                                    <Button
+                                        x:Name="RefreshButton"
+                                        HorizontalAlignment="Stretch"
+                                        Content="{ext:Locale Name=Refresh}" />
+                                    <Button
+                                        x:Name="OpenInBrowserButton"
+                                        HorizontalAlignment="Stretch"
+                                        Content="{ext:Locale Name=OpenInBrowser}" />
+                                </StackPanel>
                             </StackPanel>
                         </Grid>
                     </Grid>

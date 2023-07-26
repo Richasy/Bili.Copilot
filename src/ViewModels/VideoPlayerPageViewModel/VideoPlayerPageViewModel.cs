@@ -134,6 +134,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         {
             PlayerDetail.MediaEnded -= OnMediaEnded;
             PlayerDetail.InternalPartChanged -= OnInternalPartChanged;
+            PlayerDetail.RequestOpenInBrowser -= OnRequestOpenInBrowserAsync;
             PlayerDetail?.Dispose();
         }
     }
@@ -148,6 +149,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         PlayerDetail = new PlayerDetailViewModel(_attachedWindow);
         PlayerDetail.MediaEnded += OnMediaEnded;
         PlayerDetail.InternalPartChanged += OnInternalPartChanged;
+        PlayerDetail.RequestOpenInBrowser += OnRequestOpenInBrowserAsync;
     }
 
     private void Dispose(bool disposing)

@@ -240,32 +240,36 @@ public sealed partial class PlayerDetailViewModel
 
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
     {
-        IsError = e.Status == PlayerStatus.Failed;
-        Status = e.Status;
-        IsMediaPause = e.Status != PlayerStatus.Playing;
-        IsBuffering = e.Status == PlayerStatus.Buffering;
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            IsError = e.Status == PlayerStatus.Failed || !string.IsNullOrEmpty(Player.Player.LastError);
+            OnPropertyChanged(nameof(IsError));
+            Status = e.Status;
+            IsMediaPause = e.Status != PlayerStatus.Playing;
+            IsBuffering = e.Status == PlayerStatus.Buffering;
 
-        if (e.Status == PlayerStatus.Failed)
-        {
-            ErrorText = e.Message;
-        }
-        else if (e.Status == PlayerStatus.Playing)
-        {
-            if (Player.Position < _initializeProgress)
+            if (e.Status == PlayerStatus.Failed)
             {
-                Player.SeekTo(_initializeProgress);
-                _initializeProgress = TimeSpan.Zero;
+                ErrorText = e.Message;
             }
-        }
+            else if (e.Status == PlayerStatus.Playing)
+            {
+                if (Player.Position < _initializeProgress)
+                {
+                    Player.SeekTo(_initializeProgress);
+                    _initializeProgress = TimeSpan.Zero;
+                }
+            }
 
-        if (e.Status == PlayerStatus.Playing)
-        {
-            ActiveDisplay();
-        }
-        else
-        {
-            ReleaseDisplay();
-        }
+            if (e.Status == PlayerStatus.Playing)
+            {
+                ActiveDisplay();
+            }
+            else
+            {
+                ReleaseDisplay();
+            }
+        });
     }
 
     private void OnMediaPositionChanged(object sender, MediaPositionChangedEventArgs e)
