@@ -45,7 +45,7 @@ public partial class LiveProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<LiveAreaResponse>>(response);
 
-        return result.Data.List.Select(p => CommunityAdapter.ConvertToPartition(p));
+        return result.Data.List.Select(CommunityAdapter.ConvertToPartition);
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ public partial class LiveProvider
             ConnectLiveSocket();
             if (_liveConnectionTask != null)
             {
-                await _liveConnectionTask.ContinueWith(async result =>
+                _ = await _liveConnectionTask.ContinueWith(async result =>
                 {
                     if (result.IsCompleted)
                     {
@@ -270,7 +270,7 @@ public partial class LiveProvider
         _liveCancellationToken?.Cancel();
         _liveCancellationToken = new CancellationTokenSource();
         _isLiveSocketConnected = false;
-        _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
+        _ = _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
         _liveWebSocket?.Dispose();
         _liveWebSocket = null;
     }

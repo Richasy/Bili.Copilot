@@ -53,6 +53,10 @@ public sealed partial class AppViewModel : ViewModelBase
             }
 
             Navigate(lastOpenPage);
+            if (lastOpenPage != PageType.Home)
+            {
+                AccountViewModel.Instance.InitializeCommand.Execute(default);
+            }
         }
     }
 

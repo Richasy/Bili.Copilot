@@ -189,7 +189,7 @@ public sealed partial class AccountProvider
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.MyFollowingTags, null, RequestClientType.IOS, true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<List<RelatedTag>>>(response);
-        return result.Data.Select(p => CommunityAdapter.ConvertToFollowGroup(p));
+        return result.Data.Select(CommunityAdapter.ConvertToFollowGroup);
     }
 
     /// <summary>

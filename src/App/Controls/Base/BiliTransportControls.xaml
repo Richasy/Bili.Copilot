@@ -120,7 +120,9 @@
                 x:Name="ProgressBar"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
+                IsIndeterminate="{x:Bind ViewModel.IsBuffering, Mode=OneWay}"
                 Maximum="100"
+                ShowPaused="{x:Bind ViewModel.IsMediaPause, Mode=OneWay}"
                 Visibility="{x:Bind IsLive, Mode=OneWay}"
                 Value="100" />
             <Grid
@@ -416,7 +418,16 @@
                         <Setter Target="PauseIcon.Visibility" Value="Collapsed" />
                         <Setter Target="CompactPlayIcon.Visibility" Value="Visible" />
                         <Setter Target="CompactPauseIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="ProgressBar.ShowPaused" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="BufferingState">
+                    <VisualState.Setters>
+                        <Setter Target="PlayIcon.Visibility" Value="Visible" />
+                        <Setter Target="PauseIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="CompactPlayIcon.Visibility" Value="Visible" />
+                        <Setter Target="CompactPauseIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="PlayPauseButton.IsEnabled" Value="False" />
+                        <Setter Target="CompactPlayPauseButton.IsEnabled" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

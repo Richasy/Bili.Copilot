@@ -123,10 +123,10 @@ public partial class AuthorizeProvider
 
         apiSecret = clientType switch
         {
-            RequestClientType.IOS => (string)Keys.IOSSecret,
-            RequestClientType.Android => (string)Keys.AndroidSecret,
-            RequestClientType.Login => (string)Keys.LoginSecret,
-            _ => (string)Keys.WebSecret,
+            RequestClientType.IOS => Keys.IOSSecret,
+            RequestClientType.Android => Keys.AndroidSecret,
+            RequestClientType.Login => Keys.LoginSecret,
+            _ => Keys.WebSecret,
         };
         var query = string.Join('&', queryList);
         var signQuery = query + apiSecret;
@@ -193,7 +193,7 @@ public partial class AuthorizeProvider
         var url = Passport.SSO;
         var httpProvider = HttpProvider.Instance;
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, needToken: false);
-        await httpProvider.SendAsync(request);
+        _ = await httpProvider.SendAsync(request);
     }
 
     private static async Task<string> GetCookieToAccessKeyConfirmUrlAsync()

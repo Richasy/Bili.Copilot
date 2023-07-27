@@ -116,7 +116,7 @@ public partial class PgcProvider
     {
         var queryParameters = new Dictionary<string, string>();
 
-        if (type == PgcType.Bangumi || type == PgcType.Domestic)
+        if (type is PgcType.Bangumi or PgcType.Domestic)
         {
             queryParameters.Add(Query.SeasonType, "1");
         }

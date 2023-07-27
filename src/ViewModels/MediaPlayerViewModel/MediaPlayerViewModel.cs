@@ -45,14 +45,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         var config = new Config();
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Auto;
-        config.Video.SwsHighQuality = true;
-        if (isLive)
-        {
-            config.Demuxer.FormatOpt["user_agent"] = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
-            config.Demuxer.FormatOpt["referer"] = "https://live.bilibili.com/";
-            config.Demuxer.AudioFormatOpt["user_agent"] = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
-            config.Demuxer.AudioFormatOpt["referer"] = "https://live.bilibili.com/";
-        }
+        config.Video.VideoAcceleration = true;
 
         Player = new Player(config);
         Player.PropertyChanged += OnPlayerPropertyChanged;

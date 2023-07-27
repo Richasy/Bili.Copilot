@@ -8,12 +8,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Spacing="12">
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Spacing="12">
         <Image
             Width="200"
             HorizontalAlignment="Center"
             Source="ms-appx:///Assets/Null_rgba.png" />
         <TextBlock
+            MaxWidth="360"
             HorizontalAlignment="Center"
             Style="{StaticResource BodyTextBlockStyle}"
             Text="{x:Bind Text, Mode=OneWay}"

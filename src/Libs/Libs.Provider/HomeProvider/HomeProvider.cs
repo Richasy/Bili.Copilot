@@ -42,7 +42,7 @@ public sealed partial class HomeProvider
         var request = await HttpProvider.GetRequestMessageAsync(ApiConstants.Home.RankingGRPC, rankRequst);
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync(response, RankListReply.Parser);
-        return data.Items.ToList().Select(p => VideoAdapter.ConvertToVideoInformation(p));
+        return data.Items.ToList().Select(VideoAdapter.ConvertToVideoInformation);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed partial class HomeProvider
                                     p.Uri.Contains("region/") &&
                                     p.Children != null &&
                                     p.Children.Count > 0);
-        var result = items.Select(p => CommunityAdapter.ConvertToPartition(p));
+        var result = items.Select(CommunityAdapter.ConvertToPartition);
         await CachePartitionsAsync(result);
         return result;
     }
@@ -150,7 +150,7 @@ public sealed partial class HomeProvider
             .Where(p => p.ItemCase == Bilibili.App.Card.V1.Card.ItemOneofCase.SmallCoverV5)
             .Where(p => p.SmallCoverV5 != null)
             .Where(p => p.SmallCoverV5.Base.CardGoto == Av)
-            .Select(p => VideoAdapter.ConvertToVideoInformation(p));
+            .Select(VideoAdapter.ConvertToVideoInformation);
         _hotOffsetId = data.Items.Where(p => p.SmallCoverV5 != null).Last().SmallCoverV5.Base.Idx;
         return result;
     }
@@ -247,12 +247,12 @@ public sealed partial class HomeProvider
         var id = subPartitionId;
         var videos = data.NewVideos
             .Concat(data.RecommendVideos ?? new List<PartitionVideo>())
-            .Select(p => VideoAdapter.ConvertToVideoInformation(p));
+            .Select(VideoAdapter.ConvertToVideoInformation);
         IEnumerable<BannerIdentifier> banners = null;
         if (data is Models.BiliBili.SubPartitionRecommend recommendView
             && recommendView.Banner != null)
         {
-            banners = recommendView.Banner.TopBanners.Select(p => CommunityAdapter.ConvertToBannerIdentifier(p));
+            banners = recommendView.Banner.TopBanners.Select(CommunityAdapter.ConvertToBannerIdentifier);
         }
 
         _videoPartitionOffsetId = data.BottomOffsetId;
@@ -260,7 +260,7 @@ public sealed partial class HomeProvider
 
         UpdateVideoPartitionCache();
 
-        return new VideoPartitionView(id, (IEnumerable<VideoInformation>)videos, banners);
+        return new VideoPartitionView(id, videos, banners);
     }
 
     /// <summary>

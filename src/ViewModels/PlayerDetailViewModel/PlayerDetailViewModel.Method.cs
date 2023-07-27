@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -243,7 +244,6 @@ public sealed partial class PlayerDetailViewModel
         _dispatcherQueue.TryEnqueue(() =>
         {
             IsError = e.Status == PlayerStatus.Failed || !string.IsNullOrEmpty(Player.Player.LastError);
-            OnPropertyChanged(nameof(IsError));
             Status = e.Status;
             IsMediaPause = e.Status != PlayerStatus.Playing;
             IsBuffering = e.Status == PlayerStatus.Buffering;

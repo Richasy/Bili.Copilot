@@ -82,6 +82,7 @@
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
+        <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
@@ -153,6 +154,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Pages\PgcPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\LivePlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

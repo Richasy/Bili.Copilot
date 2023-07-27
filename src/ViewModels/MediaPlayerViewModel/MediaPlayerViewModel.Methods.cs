@@ -30,7 +30,7 @@ public sealed partial class MediaPlayerViewModel
         }
 
         var cookie = AuthorizeProvider.GetCookieString();
-        if(!string.IsNullOrEmpty(cookie))
+        if (!string.IsNullOrEmpty(cookie))
         {
             playItem.Tag.Add("cookie", cookie);
         }
@@ -86,10 +86,18 @@ public sealed partial class MediaPlayerViewModel
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
+            if (Player == null)
+            {
+                return;
+            }
+
             if (e.Success)
             {
-                Status = PlayerStatus.End;
-                MediaEnded?.Invoke(this, EventArgs.Empty);
+                Status = Player.Status == Libs.Flyleaf.MediaPlayer.Status.Paused ? PlayerStatus.Pause : PlayerStatus.End;
+                if (Status == PlayerStatus.End)
+                {
+                    MediaEnded?.Invoke(this, EventArgs.Empty);
+                }
             }
             else
             {
@@ -140,6 +148,7 @@ public sealed partial class MediaPlayerViewModel
                 Libs.Flyleaf.MediaPlayer.Status.Failed => PlayerStatus.Failed,
                 _ => PlayerStatus.NotLoad,
             };
+
             var arg = new MediaStateChangedEventArgs(Status, null);
             StateChanged?.Invoke(this, arg);
         }

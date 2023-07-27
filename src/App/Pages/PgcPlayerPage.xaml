@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPlayerPageBase
-    x:Class="Bili.Copilot.App.Pages.VideoPlayerPage"
+<local:PgcPlayerPageBase
+    x:Class="Bili.Copilot.App.Pages.PgcPlayerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
@@ -22,27 +22,37 @@
                 <Grid>
                     <base:BiliPlayerOverlay ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
-                            <StackPanel Padding="12,8" Spacing="8">
-                                <TextBlock
-                                    MaxLines="1"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap" />
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <base:ImageEx
-                                        Width="24"
-                                        Height="24"
-                                        CornerRadius="14"
-                                        Source="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}" />
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <base:ImageEx
+                                    Width="100"
+                                    VerticalAlignment="Stretch"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    DecodePixelWidth="200"
+                                    Source="{x:Bind ViewModel.CurrentEpisode.Identifier.Cover.Uri, Mode=OneWay}"
+                                    Stretch="UniformToFill" />
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Padding="0,4,4,4"
+                                    VerticalAlignment="Center"
+                                    Spacing="4">
                                     <TextBlock
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}"
+                                        MaxLines="1"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        MaxLines="2"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
                                 </StackPanel>
-                            </StackPanel>
+                            </Grid>
                         </base:BiliPlayerOverlay.MediaPresenter>
                     </base:BiliPlayerOverlay>
                 </Grid>
@@ -56,11 +66,10 @@
                 <TextBlock
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{ext:Locale Name=VideoInitializing}"
+                    Text="{ext:Locale Name=PgcInitializing}"
                     TextAlignment="Center" />
             </StackPanel>
         </Grid>
-
         <controls:ErrorPanel
             x:Name="ErrorPanel"
             ActionContent="{ext:Locale Name=Refresh}"
@@ -68,4 +77,4 @@
             Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
     </Grid>
-</local:VideoPlayerPageBase>
+</local:PgcPlayerPageBase>

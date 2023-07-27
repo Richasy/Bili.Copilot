@@ -1083,6 +1083,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="PgcFollowing" xml:space="preserve">
     <value>正在追</value>
   </data>
+  <data name="PgcInitializing" xml:space="preserve">
+    <value>正在加载 PGC 内容</value>
+  </data>
   <data name="PgcNotFollow" xml:space="preserve">
     <value>追</value>
   </data>

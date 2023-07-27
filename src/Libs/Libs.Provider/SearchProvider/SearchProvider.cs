@@ -45,7 +45,7 @@ public partial class SearchProvider
         var response = await HttpProvider.Instance.SendAsync(request, cancellationToken);
         var result = await HttpProvider.ParseAsync(response, Bilibili.App.Interfaces.V1.SuggestionResult3Reply.Parser);
         return !cancellationToken.IsCancellationRequested
-            ? result.List.Select(p => SearchAdapter.ConvertToSearchSuggest(p)).ToList()
+            ? result.List.Select(SearchAdapter.ConvertToSearchSuggest).ToList()
             : null;
     }
 
@@ -67,7 +67,7 @@ public partial class SearchProvider
         var resData = await HttpProvider.ParseAsync<ServerResponse<List<SearchSquareItem>>>(response);
         var list = resData.Data.Where(p => p.Type == "trending")
             .SelectMany(p => p.Data.List)
-            .Select(p => SearchAdapter.ConvertToSearchSuggest(p));
+            .Select(SearchAdapter.ConvertToSearchSuggest);
         return list;
     }
 
@@ -88,7 +88,7 @@ public partial class SearchProvider
         _articlePageNumber++;
         var items = data.ItemList == null
             ? new List<ArticleInformation>()
-            : data.ItemList.Select(p => ArticleAdapter.ConvertToArticleInformation(p));
+            : data.ItemList.Select(ArticleAdapter.ConvertToArticleInformation);
         return new SearchSet<ArticleInformation>(items, data.PageNumber < _articlePageNumber);
     }
 
@@ -104,7 +104,7 @@ public partial class SearchProvider
         _animePageNumber++;
         var items = data.ItemList == null
             ? new List<SeasonInformation>()
-            : data.ItemList.Select(p => PgcAdapter.ConvertToSeasonInformation(p)).ToList();
+            : data.ItemList.Select(PgcAdapter.ConvertToSeasonInformation).ToList();
         return new SearchSet<SeasonInformation>(items, data.PageNumber < _animePageNumber);
     }
 
@@ -120,7 +120,7 @@ public partial class SearchProvider
         _moviePageNumber++;
         var items = data.ItemList == null
             ? new List<SeasonInformation>()
-            : data.ItemList.Select(p => PgcAdapter.ConvertToSeasonInformation(p)).ToList();
+            : data.ItemList.Select(PgcAdapter.ConvertToSeasonInformation).ToList();
         return new SearchSet<SeasonInformation>(items, data.PageNumber < _moviePageNumber);
     }
 
@@ -187,7 +187,7 @@ public partial class SearchProvider
         _livePageNumber++;
         var items = result.Data.RoomResult?.Items == null
             ? new List<LiveInformation>()
-            : result.Data.RoomResult.Items.Select(p => LiveAdapter.ConvertToLiveInformation(p));
+            : result.Data.RoomResult.Items.Select(LiveAdapter.ConvertToLiveInformation);
         return new SearchSet<LiveInformation>(items, result.Data.PageNumber < _livePageNumber);
     }
 

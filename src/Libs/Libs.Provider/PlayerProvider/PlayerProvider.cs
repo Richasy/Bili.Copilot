@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -11,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Libs.Toolkit;
-using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Player;
@@ -25,7 +23,6 @@ using Bili.Copilot.Models.Data.Video;
 using Bilibili.App.Playeronline.V1;
 using Bilibili.App.View.V1;
 using Bilibili.Community.Service.Dm.V1;
-using Bilibili.Pgc.Gateway.Player.V2;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
@@ -188,7 +185,7 @@ public partial class PlayerProvider
         var request = await HttpProvider.GetRequestMessageAsync(Video.SegmentDanmaku, req);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, DmSegMobileReply.Parser);
-        return result.Elems.Select(p => PlayerAdapter.ConvertToDanmakuInformation(p)).ToList();
+        return result.Elems.Select(PlayerAdapter.ConvertToDanmakuInformation).ToList();
     }
 
     /// <summary>
@@ -416,7 +413,7 @@ public partial class PlayerProvider
         {
             var json = Regex.Match(text, @"<subtitle>(.*?)</subtitle>").Groups[1].Value;
             var index = JsonSerializer.Deserialize<SubtitleIndexResponse>(json);
-            return index.Subtitles.Select(p => PlayerAdapter.ConvertToSubtitleMeta(p)).ToList();
+            return index.Subtitles.Select(PlayerAdapter.ConvertToSubtitleMeta).ToList();
         }
 
         return null;
@@ -437,7 +434,7 @@ public partial class PlayerProvider
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, clientType: RequestClientType.IOS, needCookie: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<SubtitleDetailResponse>(response);
-        return result.Body.Select(p => PlayerAdapter.ConvertToSubtitleInformation(p)).ToList();
+        return result.Body.Select(PlayerAdapter.ConvertToSubtitleInformation).ToList();
     }
 
     /// <summary>

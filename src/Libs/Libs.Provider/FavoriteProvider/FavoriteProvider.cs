@@ -148,7 +148,7 @@ public sealed partial class FavoriteProvider
         var result = await HttpProvider.ParseAsync<ServerResponse<FavoriteListResponse>>(response);
         var data = result.Data;
         var count = data.Count;
-        var items = data.List.Select(p => FavoriteAdapter.ConvertToVideoFavoriteFolder(p));
+        var items = data.List.Select(FavoriteAdapter.ConvertToVideoFavoriteFolder);
         var ids = data.List.Where(p => p.FavoriteState == 1).Select(p => p.Id.ToString());
         var favoriteSet = new VideoFavoriteSet(items, count);
         return (favoriteSet, ids);
@@ -228,7 +228,7 @@ public sealed partial class FavoriteProvider
         }
 
         var count = result.Data.Count;
-        var favorites = result.Data.List.Select(p => FavoriteAdapter.ConvertToVideoFavoriteFolder(p));
+        var favorites = result.Data.List.Select(FavoriteAdapter.ConvertToVideoFavoriteFolder);
         return new VideoFavoriteSet(favorites, count);
     }
 
