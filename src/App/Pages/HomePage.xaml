@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
+<base:PageBase
     x:Class="Bili.Copilot.App.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,4 +16,4 @@
             <modules:SearchBoxModule />
         </StackPanel>
     </ScrollViewer>
-</Page>
+</base:PageBase>

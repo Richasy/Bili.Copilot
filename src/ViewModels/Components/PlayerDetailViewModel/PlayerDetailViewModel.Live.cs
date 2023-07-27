@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -21,21 +22,21 @@ public sealed partial class PlayerDetailViewModel
     /// </summary>
     /// <returns>直播播放地址.</returns>
     public string GetLivePlayUrl()
-        => _currentLiveUrl == null ? "--" : _currentLiveUrl.ToString();
+        => _currentLiveUrl == null ? "--" : $"{_currentLiveUrl.Host}{_currentLiveUrl.Route}";
 
     /// <summary>
     /// 获取当前的视频播放地址.
     /// </summary>
     /// <returns>播放地址.</returns>
     public string GetVideoPlayUrl()
-        => _video == null ? "--" : _video.BaseUrl.ToString();
+        => _video == null ? "--" : new Uri(_video.BaseUrl).Host;
 
     /// <summary>
     /// 获取当前的音频播放地址.
     /// </summary>
     /// <returns>播放地址.</returns>
     public string GetAudioPlayUrl()
-        => _audio == null ? "--" : _audio.BaseUrl.ToString();
+        => _audio == null ? "--" : new Uri(_audio.BaseUrl).Host;
 
     private void ResetLiveData()
         => _currentPlayLine = default;
