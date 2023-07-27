@@ -30,8 +30,8 @@ public sealed partial class PlayerWindow : WindowBase
         Closed += OnClosedAsync;
         Width = 1280;
         Height = 720;
-        MinWidth = 600;
-        MinHeight = 500;
+        MinWidth = 560;
+        MinHeight = 320;
         AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 

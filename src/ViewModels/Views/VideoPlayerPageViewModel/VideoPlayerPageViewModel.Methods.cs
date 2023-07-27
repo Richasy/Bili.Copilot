@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
@@ -28,6 +30,7 @@ public sealed partial class VideoPlayerPageViewModel
         return vm;
     }
 
+    [RelayCommand]
     private static void SearchTag(Tag tag)
     {
         // TODO: 搜索标签.
@@ -54,6 +57,7 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void CheckSectionVisibility()
     {
+        IsShowInformation = CurrentSection.Type == PlayerSectionType.VideoInformation;
         IsShowUgcSeason = CurrentSection.Type == PlayerSectionType.UgcSeason;
         IsShowRelatedVideos = CurrentSection.Type == PlayerSectionType.RelatedVideos;
         IsShowParts = CurrentSection.Type == PlayerSectionType.VideoParts;
@@ -61,6 +65,7 @@ public sealed partial class VideoPlayerPageViewModel
         IsShowVideoPlaylist = CurrentSection.Type == PlayerSectionType.Playlist;
     }
 
+    [RelayCommand]
     private void SelectSeason(VideoSeason season)
     {
         CurrentSeason = season;
@@ -222,5 +227,24 @@ public sealed partial class VideoPlayerPageViewModel
     {
         var uri = $"https://www.bilibili.com/video/av{View.Information.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(uri));
+    }
+
+    private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(PlayerDetail.Status))
+        {
+            var info = PlayerDetail.Player?.GetMediaInformation();
+            if (info == null)
+            {
+                return;
+            }
+
+            var media = new VideoMediaStats(info)
+            {
+                VideoUrl = PlayerDetail.GetVideoPlayUrl(),
+                AudioUrl = PlayerDetail.GetAudioPlayUrl(),
+            };
+            Stats = media;
+        }
     }
 }

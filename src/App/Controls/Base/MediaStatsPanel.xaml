@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:MediaStatPanelBase
-    x:Class="Bili.Copilot.App.Controls.Base.MediaStatPanel"
+<local:MediaStatsPanelBase
+    x:Class="Bili.Copilot.App.Controls.Base.MediaStatsPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -32,14 +32,9 @@
                 <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.Height, Mode=OneWay}" />
             </TextBlock>
             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
-                <Run Text="{ext:Locale Name=VideoBitrate}" />
+                <Run Text="{ext:Locale Name=Fps}" />
                 <Run Text=":" />
-                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.VideoBitrate, Mode=OneWay}" />
-            </TextBlock>
-            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
-                <Run Text="{ext:Locale Name=AudioBitrate}" />
-                <Run Text=":" />
-                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.AudioBitrate, Mode=OneWay}" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.Fps, Mode=OneWay}" />
             </TextBlock>
             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
                 <Run Text="{ext:Locale Name=VideoCodec}" />
@@ -53,4 +48,4 @@
             </TextBlock>
         </StackPanel>
     </Grid>
-</local:MediaStatPanelBase>
+</local:MediaStatsPanelBase>

@@ -68,6 +68,8 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Danmaku/DanmakuView/DanmakuView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayer/BiliPlayer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayerOverlay/BiliPlayerOverlay.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BubbleView/BubbleView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/ProgressButton/ProgressButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -84,6 +86,9 @@
             <converters:ColorConverter x:Key="BrushConverter" IsBrush="True" />
             <converters:RelationTextConverter x:Key="RelationTextConverter" />
             <converters:RelationButtonStyleConverter x:Key="RelationButtonStyleConverter" />
+            <converters:DurationConverter x:Key="SecondsDurationConverter" />
+            <converters:DurationConverter x:Key="MillisecondsDurationConverter" IsMilliseconds="True" />
+            <converters:PgcFollowTextConverter x:Key="FollowTextConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

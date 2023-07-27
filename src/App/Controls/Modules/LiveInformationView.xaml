@@ -22,71 +22,72 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Spacing="8">
-            <StackPanel
-                Margin="0,0,0,12"
-                HorizontalAlignment="Left"
-                Orientation="Horizontal"
-                Spacing="12">
-                <base:ImageEx
-                    Width="36"
-                    Height="36"
-                    Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
-                    CornerRadius="18"
-                    Source="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
-                <StackPanel Spacing="4">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        IsTextSelectionEnabled="True"
-                        Text="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
-                    <Button
-                        Padding="8,2"
-                        HorizontalAlignment="Left"
-                        Command="{x:Bind ViewModel.User.ToggleRelationCommand, Mode=OneWay}"
-                        Content="{x:Bind ViewModel.User.Relation, Converter={StaticResource RelationTextConverter}, Mode=OneWay}"
-                        FontSize="10"
-                        Style="{x:Bind ViewModel.User.Relation, Converter={StaticResource RelationButtonStyleConverter}, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.User.IsRelationButtonShown, Mode=OneWay}" />
-                </StackPanel>
-            </StackPanel>
-            <TextBlock
-                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                IsTextSelectionEnabled="True"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind ViewModel.View.Partition, Mode=OneWay}" />
-            <TextBlock
-                x:Name="TitleBlock"
-                HorizontalAlignment="Left"
-                IsTextSelectionEnabled="True"
-                MaxLines="2"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
-                TextWrapping="Wrap">
-                <ToolTipService.ToolTip>
-                    <ToolTip Content="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}" IsEnabled="{Binding ElementName=TitleBlock, Mode=OneWay, Path=IsTextTrimmed}" />
-                </ToolTipService.ToolTip>
-            </TextBlock>
-            <base:IconTextBlock
-                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                Symbol="Eye"
-                Text="{x:Bind ViewModel.WatchingCountText, Mode=OneWay}"
-                ToolTipService.ToolTip="{ext:Locale Name=Viewer}"
-                Visibility="{x:Bind ViewModel.WatchingCountText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
-            <labs:SettingsCard
-                HorizontalAlignment="Stretch"
-                Description="{ext:Locale Name=OnlyAudioDescription}"
-                Header="{ext:Locale Name=OnlyAudio}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsLiveAudioOnly, Mode=OneWay}" Toggled="OnLiveOnlyAudioToggledAsync" />
-            </labs:SettingsCard>
-        </StackPanel>
         <ScrollViewer
             Grid.Row="1"
             Margin="-20,0"
             Style="{StaticResource PageScrollViewerStyle}">
-            <StackPanel Spacing="12">
-                <base:MediaStatPanel ViewModel="{x:Bind ViewModel.Media, Mode=OneWay}">
-                    <base:MediaStatPanel.AdditionalContent>
+            <StackPanel Margin="0,0,0,20" Spacing="12">
+                <StackPanel Spacing="8">
+                    <StackPanel
+                        Margin="0,0,0,12"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <base:ImageEx
+                            Width="36"
+                            Height="36"
+                            Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
+                            CornerRadius="18"
+                            Source="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
+                        <StackPanel Spacing="4">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                IsTextSelectionEnabled="True"
+                                Text="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
+                            <Button
+                                Padding="8,2"
+                                HorizontalAlignment="Left"
+                                Command="{x:Bind ViewModel.User.ToggleRelationCommand, Mode=OneWay}"
+                                Content="{x:Bind ViewModel.User.Relation, Converter={StaticResource RelationTextConverter}, Mode=OneWay}"
+                                FontSize="10"
+                                Style="{x:Bind ViewModel.User.Relation, Converter={StaticResource RelationButtonStyleConverter}, Mode=OneWay}"
+                                Visibility="{x:Bind ViewModel.User.IsRelationButtonShown, Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.View.Partition, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="TitleBlock"
+                        HorizontalAlignment="Left"
+                        IsTextSelectionEnabled="True"
+                        MaxLines="2"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
+                        TextWrapping="Wrap">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}" IsEnabled="{Binding ElementName=TitleBlock, Mode=OneWay, Path=IsTextTrimmed}" />
+                        </ToolTipService.ToolTip>
+                    </TextBlock>
+                    <base:IconTextBlock
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Symbol="Eye"
+                        Text="{x:Bind ViewModel.WatchingCountText, Mode=OneWay}"
+                        ToolTipService.ToolTip="{ext:Locale Name=Viewer}"
+                        Visibility="{x:Bind ViewModel.WatchingCountText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                    <labs:SettingsCard
+                        HorizontalAlignment="Stretch"
+                        Description="{ext:Locale Name=OnlyAudioDescription}"
+                        Header="{ext:Locale Name=OnlyAudio}">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsLiveAudioOnly, Mode=OneWay}" Toggled="OnLiveOnlyAudioToggledAsync" />
+                    </labs:SettingsCard>
+                </StackPanel>
+
+                <base:MediaStatsPanel ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}">
+                    <base:MediaStatsPanel.AdditionalContent>
                         <StackPanel Spacing="4">
                             <TextBlock
                                 HorizontalAlignment="Left"
@@ -97,12 +98,12 @@
                                 Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                 IsTextSelectionEnabled="True"
                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{x:Bind ViewModel.Media.PlayUrl, Mode=OneWay}"
+                                Text="{x:Bind ViewModel.Stats.PlayUrl, Mode=OneWay}"
                                 TextDecorations="Underline"
                                 TextWrapping="Wrap" />
                         </StackPanel>
-                    </base:MediaStatPanel.AdditionalContent>
-                </base:MediaStatPanel>
+                    </base:MediaStatsPanel.AdditionalContent>
+                </base:MediaStatsPanel>
 
                 <StackPanel
                     Padding="0,8,0,0"

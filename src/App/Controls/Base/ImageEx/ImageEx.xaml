@@ -5,8 +5,7 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
     <Style TargetType="local:ImageEx">
-        <Setter Property="Background" 
-                Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="LazyLoadingThreshold" Value="300" />
         <Setter Property="Template">
@@ -33,8 +32,8 @@
                             Stretch="{TemplateBinding Stretch}" />
                         <labs:Shimmer
                             x:Name="LoadingHolder"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
                             Visibility="Collapsed" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">

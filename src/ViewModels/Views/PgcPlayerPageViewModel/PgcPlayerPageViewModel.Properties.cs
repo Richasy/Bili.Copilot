@@ -109,10 +109,16 @@ public sealed partial class PgcPlayerPageViewModel
     private bool _isShowExtras;
 
     [ObservableProperty]
+    private bool _isShowInformation;
+
+    [ObservableProperty]
     private bool _isSectionsEmpty;
 
     [ObservableProperty]
     private PlayerDetailViewModel _playerDetail;
+
+    [ObservableProperty]
+    private VideoMediaStats _stats;
 
     /// <summary>
     /// 视频收藏夹.

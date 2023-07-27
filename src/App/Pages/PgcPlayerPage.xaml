@@ -9,6 +9,7 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:module="using:Bili.Copilot.App.Controls.Modules"
     mc:Ignorable="d">
 
     <Grid>
@@ -20,7 +21,11 @@
                 Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid>
-                    <base:BiliPlayerOverlay ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
+                    <base:BiliPlayerOverlay
+                        SectionHeaderItemInvoked="OnSectionHeaderItemInvoked"
+                        SectionHeaderItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
+                        SectionHeaderSelectedItem="{x:Bind ViewModel.CurrentSection, Mode=OneWay}"
+                        ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
                             <Grid ColumnSpacing="8">
                                 <Grid.ColumnDefinitions>
@@ -54,6 +59,31 @@
                                 </StackPanel>
                             </Grid>
                         </base:BiliPlayerOverlay.MediaPresenter>
+                        <base:BiliPlayerOverlay.SectionContent>
+                            <Grid>
+                                <module:PgcInformationView
+                                    x:Name="InformationView"
+                                    DataContext="{x:Bind ViewModel, Mode=OneWay}"
+                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowInformation, Mode=OneWay}" />
+                                <module:PgcEpisodeView
+                                    x:Name="EpisodeView"
+                                    DataContext="{x:Bind ViewModel, Mode=OneWay}"
+                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowEpisodes, Mode=OneWay}" />
+                                <module:PgcSeasonView
+                                    x:Name="SeasonView"
+                                    DataContext="{x:Bind ViewModel, Mode=OneWay}"
+                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowSeasons, Mode=OneWay}" />
+                                <module:PgcExtraView
+                                    x:Name="ExtraView"
+                                    DataContext="{x:Bind ViewModel, Mode=OneWay}"
+                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowExtras, Mode=OneWay}" />
+                                <controls:ErrorPanel Text="{ext:Locale Name=NoEpisode}" Visibility="{x:Bind ViewModel.IsSectionsEmpty, Mode=OneWay}" />
+                            </Grid>
+                        </base:BiliPlayerOverlay.SectionContent>
                     </base:BiliPlayerOverlay>
                 </Grid>
             </base:BiliPlayer>

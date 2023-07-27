@@ -118,11 +118,15 @@ public sealed partial class LivePlayerPageViewModel
     private void UpdateLiveMediaInformation()
     {
         var info = PlayerDetail.Player?.GetMediaInformation();
-        info ??= new Models.App.Other.MediaStats();
+        if (info == null)
+        {
+            return;
+        }
+
         var media = new Models.App.Other.LiveMediaStats(info)
         {
             PlayUrl = PlayerDetail.GetLivePlayUrl(),
         };
-        Media = media;
+        Stats = media;
     }
 }

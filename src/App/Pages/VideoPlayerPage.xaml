@@ -9,6 +9,7 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     mc:Ignorable="d">
 
     <Grid>
@@ -20,7 +21,11 @@
                 Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid>
-                    <base:BiliPlayerOverlay ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
+                    <base:BiliPlayerOverlay
+                        SectionHeaderItemInvoked="OnSectionHeaderItemInvoked"
+                        SectionHeaderItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
+                        SectionHeaderSelectedItem="{x:Bind ViewModel.CurrentSection, Mode=OneWay}"
+                        ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
                             <StackPanel Padding="12,8" Spacing="8">
                                 <TextBlock
@@ -44,6 +49,17 @@
                                 </StackPanel>
                             </StackPanel>
                         </base:BiliPlayerOverlay.MediaPresenter>
+                        <base:BiliPlayerOverlay.SectionContent>
+                            <Grid>
+                                <modules:RelatedVideoView
+                                    x:Name="RelatedVideoView"
+                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowRelatedVideos, Mode=OneWay}" />
+                                <modules:VideoPartView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowParts, Mode=OneWay}" />
+                                <modules:UgcSeasonView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowUgcSeason, Mode=OneWay}" />
+                                <modules:VideoInformationView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowInformation, Mode=OneWay}" />
+                            </Grid>
+                        </base:BiliPlayerOverlay.SectionContent>
                     </base:BiliPlayerOverlay>
                 </Grid>
             </base:BiliPlayer>

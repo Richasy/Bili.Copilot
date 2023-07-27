@@ -38,7 +38,7 @@
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
-        <None Remove="Controls\Base\MediaStatPanel.xaml" />
+        <None Remove="Controls\Base\MediaStatsPanel.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
@@ -59,13 +59,21 @@
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcEpisodeView.xaml" />
+        <None Remove="Controls\Modules\PgcExtraView.xaml" />
         <None Remove="Controls\Modules\PgcFavoriteDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcInformationView.xaml" />
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
+        <None Remove="Controls\Modules\PgcSeasonView.xaml" />
+        <None Remove="Controls\Modules\RelatedVideoView.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\TimelineModule.xaml" />
+        <None Remove="Controls\Modules\UgcSeasonView.xaml" />
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
+        <None Remove="Controls\Modules\VideoInformationView.xaml" />
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
@@ -87,6 +95,8 @@
         <None Remove="Pages\WatchlistPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
+        <None Remove="Controls\Base\BubbleView\BubbleView.xaml" />
+        <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="NLog.config" />
@@ -97,7 +107,9 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.0.1" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
+        <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.112" />
+        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -151,7 +163,37 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Page Update="Controls\Base\MediaStatPanel.xaml">
+      <Page Update="Controls\Modules\VideoInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\UgcSeasonView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\VideoPartView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\RelatedVideoView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\ProgressButton\ProgressButton.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\BubbleView\BubbleView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcSeasonView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcExtraView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcEpisodeView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\MediaStatsPanel.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\LiveInformationView.xaml">

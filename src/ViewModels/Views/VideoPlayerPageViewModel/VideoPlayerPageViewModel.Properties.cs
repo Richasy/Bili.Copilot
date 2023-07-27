@@ -117,6 +117,9 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isShowParts;
 
     [ObservableProperty]
+    private bool _isShowInformation;
+
+    [ObservableProperty]
     private bool _isReloading;
 
     [ObservableProperty]
@@ -124,6 +127,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     [ObservableProperty]
     private PlayerDetailViewModel _playerDetail;
+
+    [ObservableProperty]
+    private VideoMediaStats _stats;
 
     /// <summary>
     /// 视频协作者.

@@ -13,6 +13,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -45,6 +46,7 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void CheckSectionVisibility()
     {
+        IsShowInformation = CurrentSection.Type == PlayerSectionType.PgcInformation;
         IsShowSeasons = CurrentSection.Type == PlayerSectionType.Seasons;
         IsShowEpisodes = CurrentSection.Type == PlayerSectionType.Episodes;
         IsShowExtras = CurrentSection.Type == PlayerSectionType.Extras;
@@ -184,5 +186,30 @@ public sealed partial class PgcPlayerPageViewModel
         }
     }
 
-    private void OnRequestOpenInBrowserAsync(object sender, EventArgs e) => throw new NotImplementedException();
+    private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
+    {
+        var uri = !string.IsNullOrEmpty(_presetEpisodeId)
+            ? $"https://www.bilibili.com/bangumi/play/ep{_presetEpisodeId}"
+            : $"https://www.bilibili.com/bangumi/play/ss{_presetSeasonId}";
+        await Launcher.LaunchUriAsync(new Uri(uri));
+    }
+
+    private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(PlayerDetail.Status))
+        {
+            var info = PlayerDetail.Player?.GetMediaInformation();
+            if (info == null)
+            {
+                return;
+            }
+
+            var media = new VideoMediaStats(info)
+            {
+                VideoUrl = PlayerDetail.GetVideoPlayUrl(),
+                AudioUrl = PlayerDetail.GetAudioPlayUrl(),
+            };
+            Stats = media;
+        }
+    }
 }

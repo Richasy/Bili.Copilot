@@ -230,7 +230,7 @@ public static class VideoAdapter
         var cover = ImageAdapter.ConvertToVideoCardCover(relatedVideo.Pic);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(relatedVideo.Stat);
         var identifier = new VideoIdentifier(id, title, duration, cover);
-        var subtitle = relatedVideo.Badge ?? relatedVideo.RcmdReason ?? relatedVideo.TagName ?? "视频";
+        var subtitle = publisher.User.Name;
         subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(subtitle);
         return new VideoInformation(
             identifier,
@@ -635,7 +635,7 @@ public static class VideoAdapter
     {
         // 将非视频内容过滤掉.
         var relates = videoDetail.Relates.Where(p => p.Goto.Equals(ServiceConstants.Av, StringComparison.OrdinalIgnoreCase));
-        var relatedVideos = relates.Select(p => ConvertToVideoInformation(p));
+        var relatedVideos = relates.Select(ConvertToVideoInformation);
         return relatedVideos;
     }
 

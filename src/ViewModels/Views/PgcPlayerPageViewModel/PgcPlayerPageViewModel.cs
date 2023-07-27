@@ -131,6 +131,7 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
                     PlayerDetail.MediaEnded -= OnMediaEnded;
                     PlayerDetail.InternalPartChanged -= OnInternalPartChanged;
                     PlayerDetail.RequestOpenInBrowser -= OnRequestOpenInBrowserAsync;
+                    PlayerDetail.PropertyChanged -= OnPlayerDetailPropertyChanged;
                     PlayerDetail?.Dispose();
                 }
             }
@@ -150,5 +151,6 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
         PlayerDetail.MediaEnded += OnMediaEnded;
         PlayerDetail.InternalPartChanged += OnInternalPartChanged;
         PlayerDetail.RequestOpenInBrowser += OnRequestOpenInBrowserAsync;
+        PlayerDetail.PropertyChanged += OnPlayerDetailPropertyChanged;
     }
 }

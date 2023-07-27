@@ -56,4 +56,14 @@ public enum PlayerSectionType
     /// 直播信息.
     /// </summary>
     LiveInformation,
+
+    /// <summary>
+    /// PGC 信息.
+    /// </summary>
+    PgcInformation,
+
+    /// <summary>
+    /// 视频信息.
+    /// </summary>
+    VideoInformation,
 }

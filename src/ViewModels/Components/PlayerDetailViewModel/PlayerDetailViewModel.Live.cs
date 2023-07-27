@@ -23,6 +23,20 @@ public sealed partial class PlayerDetailViewModel
     public string GetLivePlayUrl()
         => _currentLiveUrl == null ? "--" : _currentLiveUrl.ToString();
 
+    /// <summary>
+    /// 获取当前的视频播放地址.
+    /// </summary>
+    /// <returns>播放地址.</returns>
+    public string GetVideoPlayUrl()
+        => _video == null ? "--" : _video.BaseUrl.ToString();
+
+    /// <summary>
+    /// 获取当前的音频播放地址.
+    /// </summary>
+    /// <returns>播放地址.</returns>
+    public string GetAudioPlayUrl()
+        => _audio == null ? "--" : _audio.BaseUrl.ToString();
+
     private void ResetLiveData()
         => _currentPlayLine = default;
 

@@ -49,6 +49,14 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
 
         ViewModel?.Dispose();
     }
+
+    private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)
+    {
+        if (ViewModel.CurrentSection != e)
+        {
+            ViewModel.CurrentSection = e;
+        }
+    }
 }
 
 /// <summary>

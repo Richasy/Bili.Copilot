@@ -177,11 +177,11 @@
   <data name="AtMessageTypeDescription" xml:space="preserve">
     <value>在{0}中@了我</value>
   </data>
-  <data name="AudioBitrate" xml:space="preserve">
-    <value>音频比特率</value>
-  </data>
   <data name="AudioCodec" xml:space="preserve">
     <value>音频编解码器</value>
+  </data>
+  <data name="AudioSourceUrl" xml:space="preserve">
+    <value>音频源地址</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>自动</value>
@@ -668,6 +668,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="ForwardSkip" xml:space="preserve">
     <value>向前跳转</value>
   </data>
+  <data name="Fps" xml:space="preserve">
+    <value>帧率</value>
+  </data>
   <data name="Full" xml:space="preserve">
     <value>完整</value>
   </data>
@@ -757,6 +760,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="InfinityLoop" xml:space="preserve">
     <value>洗脑循环</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>信息</value>
   </data>
   <data name="InitialCheckDescription" xml:space="preserve">
     <value>是否在应用启动时检查上次关闭时正在播放的视频，并提醒继续播放</value>
@@ -1725,9 +1731,6 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Video" xml:space="preserve">
     <value>视频</value>
   </data>
-  <data name="VideoBitrate" xml:space="preserve">
-    <value>视频比特率</value>
-  </data>
   <data name="VideoCodec" xml:space="preserve">
     <value>视频编解码器</value>
   </data>
@@ -1742,6 +1745,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="VideoSize" xml:space="preserve">
     <value>视频尺寸</value>
+  </data>
+  <data name="VideoSourceUrl" xml:space="preserve">
+    <value>视频源地址</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>观看</value>

@@ -8,21 +8,18 @@ namespace Bili.Copilot.App.Controls.Base;
 /// <summary>
 /// 媒体信息面板.
 /// </summary>
-public sealed partial class MediaStatPanel : MediaStatPanelBase
+public sealed partial class MediaStatsPanel : MediaStatsPanelBase
 {
     /// <summary>
     /// <see cref="AdditionalContent"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty AdditionalContentProperty =
-       DependencyProperty.Register(nameof(AdditionalContent), typeof(object), typeof(MediaStatPanel), new PropertyMetadata(default));
+       DependencyProperty.Register(nameof(AdditionalContent), typeof(object), typeof(MediaStatsPanel), new PropertyMetadata(default));
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MediaStatPanel"/> class.
+    /// Initializes a new instance of the <see cref="MediaStatsPanel"/> class.
     /// </summary>
-    public MediaStatPanel()
-    {
-        InitializeComponent();
-    }
+    public MediaStatsPanel() => InitializeComponent();
 
     /// <summary>
     /// 附加内容.
@@ -35,8 +32,8 @@ public sealed partial class MediaStatPanel : MediaStatPanelBase
 }
 
 /// <summary>
-/// <see cref="MediaStatPanel"/> 的基类.
+/// <see cref="MediaStatsPanel"/> 的基类.
 /// </summary>
-public abstract class MediaStatPanelBase : ReactiveUserControl<MediaStats>
+public abstract class MediaStatsPanelBase : ReactiveUserControl<MediaStats>
 {
 }

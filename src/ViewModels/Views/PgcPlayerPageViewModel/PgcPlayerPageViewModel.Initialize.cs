@@ -85,6 +85,8 @@ public sealed partial class PgcPlayerPageViewModel
             }
         }
 
+        Sections.Add(new PlayerSectionHeader(PlayerSectionType.PgcInformation, ResourceToolkit.GetLocalizedString(StringNames.Information)));
+
         if (hasEpisodes)
         {
             // 只有分集数大于1时才提供切换功能.

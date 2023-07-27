@@ -64,7 +64,7 @@ public sealed partial class LivePlayerPageViewModel
     private PlayerDetailViewModel _playerDetail;
 
     [ObservableProperty]
-    private Models.App.Other.LiveMediaStats _media;
+    private LiveMediaStats _stats;
 
     /// <summary>
     /// 请求弹幕滚动到底部.

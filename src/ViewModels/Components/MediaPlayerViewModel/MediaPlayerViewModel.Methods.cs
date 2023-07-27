@@ -30,16 +30,14 @@ public sealed partial class MediaPlayerViewModel
             return null;
         }
 
-        var videoBitrate = Player.Video.BitRate;
-        var audioBitrate = Player.Audio?.BitRate ?? -1;
+        var fps = Player.decoder?.VideoStream.FPS ?? -1;
         var width = Player.Video.Width;
         var height = Player.Video.Height;
         var videoCodec = Player.Video.Codec;
         var audioCodec = Player.Audio?.Codec ?? "N/A";
         var mediaInfo = new MediaStats
         {
-            VideoBitrate = videoBitrate,
-            AudioBitrate = audioBitrate,
+            Fps = Math.Round(fps, 1),
             Width = width,
             Height = height,
             VideoCodec = videoCodec,
