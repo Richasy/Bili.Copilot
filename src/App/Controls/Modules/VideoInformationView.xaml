@@ -143,10 +143,9 @@
                         <ToolTip Content="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}" IsEnabled="{Binding ElementName=TitleBlock, Mode=OneWay, Path=IsTextTrimmed}" />
                     </ToolTipService.ToolTip>
                 </TextBlock>
-                <Grid>
+                <Grid Margin="0,4">
                     <StackPanel
                         x:Name="SinglePublisherContainer"
-                        Margin="0,0,0,12"
                         HorizontalAlignment="Left"
                         Orientation="Horizontal"
                         Spacing="12"
@@ -175,7 +174,6 @@
                     </StackPanel>
                     <StackPanel
                         x:Name="StaffContainer"
-                        Margin="0,0,0,8"
                         Orientation="Horizontal"
                         Visibility="{x:Bind ViewModel.IsCooperationVideo, Mode=OneWay}">
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.Collaborators}">
@@ -273,22 +271,30 @@
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     Text="{x:Bind ViewModel.View.Information.Description, Mode=OneWay}"
                     TextWrapping="Wrap" />
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel
+                    Margin="0,4,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
                     <TextBlock
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="AV" />
                     <TextBlock
+                        FontWeight="Bold"
                         IsTextSelectionEnabled="True"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{x:Bind ViewModel.View.Information.Identifier.Id, Mode=OneWay}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel
+                    Margin="0,0,0,4"
+                    Orientation="Horizontal"
+                    Spacing="8">
                     <TextBlock
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="BV" />
                     <TextBlock
+                        FontWeight="Bold"
                         IsTextSelectionEnabled="True"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{x:Bind ViewModel.View.Information.AlternateId, Mode=OneWay}" />
