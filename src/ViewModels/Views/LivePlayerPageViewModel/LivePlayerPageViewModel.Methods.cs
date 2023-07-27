@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -67,13 +68,26 @@ public sealed partial class LivePlayerPageViewModel
         }
 
         PlayerDetail = new PlayerDetailViewModel(_attachedWindow);
+        PlayerDetail.PropertyChanged += OnPlayerDetailPropertyChanged;
         PlayerDetail.RequestOpenInBrowser += OnRequestOpenInBrowserAsync;
+    }
+
+    private void CheckSectionVisibility()
+    {
+        if (CurrentSection == null)
+        {
+            IsShowInformation = false;
+            IsShowChat = false;
+            return;
+        }
+
+        IsShowInformation = CurrentSection.Type == PlayerSectionType.LiveInformation;
+        IsShowChat = CurrentSection.Type == PlayerSectionType.Chat;
     }
 
     private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
     {
-        var uri = $"https://live.bilibili.com/{View.Information.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        await OpenInBroswerAsync();
     }
 
     private void OnAuthorizeStateChanged(object sender, AuthorizeStateChangedEventArgs e)
@@ -92,4 +106,23 @@ public sealed partial class LivePlayerPageViewModel
 
     private void OnDanmakusCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         => IsDanmakusEmpty = Danmakus.Count == 0;
+
+    private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName.Equals(nameof(PlayerDetail.Status)))
+        {
+            UpdateLiveMediaInformation();
+        }
+    }
+
+    private void UpdateLiveMediaInformation()
+    {
+        var info = PlayerDetail.Player?.GetMediaInformation();
+        info ??= new Models.App.Other.MediaStats();
+        var media = new Models.App.Other.LiveMediaStats(info)
+        {
+            PlayUrl = PlayerDetail.GetLivePlayUrl(),
+        };
+        Media = media;
+    }
 }

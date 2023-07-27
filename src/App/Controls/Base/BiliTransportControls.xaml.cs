@@ -38,6 +38,11 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     }
 
     /// <summary>
+    /// 当详情按钮被点击时发生.
+    /// </summary>
+    public event EventHandler DetailButtonClicked;
+
+    /// <summary>
     /// 光标是否停留在控件上.
     /// </summary>
     public bool IsPointerStay { get; set; }
@@ -212,6 +217,9 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
             ViewModel.ChangeFormatCommand.Execute(ViewModel.CurrentFormat);
         }
     }
+
+    private void OnDetailButtonClick(object sender, RoutedEventArgs e)
+        => DetailButtonClicked?.Invoke(this, EventArgs.Empty);
 }
 
 /// <summary>

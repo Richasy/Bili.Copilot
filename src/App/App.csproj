@@ -32,18 +32,13 @@
         <None Remove="Assets\ERROR_rgba.png" />
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
-        <None Remove="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml" />
-        <None Remove="Controls\Base\BiliPlayerTip.xaml" />
-        <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
-        <None Remove="Controls\Base\BiliTransportControls.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
         <None Remove="Controls\Base\DynamicPresenter.xaml" />
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
-        <None Remove="Controls\Base\InteractionChoicePanel.xaml" />
-        <None Remove="Controls\Base\SubtitleConfigPanel.xaml" />
+        <None Remove="Controls\Base\MediaStatPanel.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
@@ -59,6 +54,8 @@
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
+        <None Remove="Controls\Modules\LiveInformationView.xaml" />
+        <None Remove="Controls\Modules\LiveMessageView.xaml" />
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
@@ -100,12 +97,12 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.0.1" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.108" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.112" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="NLog" Version="5.2.2" />
         <PackageReference Include="Vortice.WinUI" Version="3.2.1-beta" />
@@ -154,28 +151,22 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Base\MediaStatPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveMessageView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\PgcPlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Pages\LivePlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Controls\Base\SubtitleConfigPanel.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\Base\InteractionChoicePanel.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\Base\BiliPlayerTip.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\Base\BiliPlayerOverlay\BiliPlayerOverlay.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
       <Page Update="Controls\Danmaku\DanmakuView\DanmakuView.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\Base\BiliTransportControls.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Pages\VideoPlayerPage.xaml">
@@ -184,11 +175,6 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Forms\PlayerWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Page Update="Controls\Base\BiliPlayer\BiliPlayer.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

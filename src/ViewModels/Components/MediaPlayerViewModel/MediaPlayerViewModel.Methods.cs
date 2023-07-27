@@ -8,6 +8,7 @@ using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.Input;
 
@@ -18,6 +19,36 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class MediaPlayerViewModel
 {
+    /// <summary>
+    /// 获取当前正在播放的媒体信息.
+    /// </summary>
+    /// <returns><see cref="MediaStats"/>.</returns>
+    public MediaStats GetMediaInformation()
+    {
+        if (Player == null || !Player.CanPlay)
+        {
+            return null;
+        }
+
+        var videoBitrate = Player.Video.BitRate;
+        var audioBitrate = Player.Audio?.BitRate ?? -1;
+        var width = Player.Video.Width;
+        var height = Player.Video.Height;
+        var videoCodec = Player.Video.Codec;
+        var audioCodec = Player.Audio?.Codec ?? "N/A";
+        var mediaInfo = new MediaStats
+        {
+            VideoBitrate = videoBitrate,
+            AudioBitrate = audioBitrate,
+            Width = width,
+            Height = height,
+            VideoCodec = videoCodec,
+            AudioCodec = audioCodec,
+        };
+
+        return mediaInfo;
+    }
+
     private void LoadDashVideoSource()
     {
         var playItem = new PlaylistItem();

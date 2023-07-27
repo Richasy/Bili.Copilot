@@ -7,6 +7,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Player;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -15,8 +16,15 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PlayerDetailViewModel
 {
+    /// <summary>
+    /// 获取当前的直播播放地址.
+    /// </summary>
+    /// <returns>直播播放地址.</returns>
+    public string GetLivePlayUrl()
+        => _currentLiveUrl == null ? "--" : _currentLiveUrl.ToString();
+
     private void ResetLiveData()
-        => _currentPlayline = default;
+        => _currentPlayLine = default;
 
     private async Task LoadLiveAsync()
     {
@@ -27,17 +35,17 @@ public sealed partial class PlayerDetailViewModel
     private async Task InitializeLiveMediaInformationAsync()
     {
         var view = _viewData as LivePlayerView;
-        var quality = _currentPlayline != null
-            ? _currentPlayline.Quality
+        var quality = _currentPlayLine != null
+            ? _currentPlayLine.Quality
             : SettingsToolkit.ReadLocalSetting(SettingNames.DefaultLiveFormat, 400);
 
         Cover = view.Information.Identifier.Cover.GetSourceUri().ToString();
         DanmakuViewModel.SetData(view.Information.Identifier.Id, default, _videoType);
         _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsLiveAudioOnly);
 
-        if (_currentPlayline == null)
+        if (_currentPlayLine == null)
         {
-            _currentPlayline = _liveMediaInformation.Lines.FirstOrDefault(p => p.Quality == quality) ?? _liveMediaInformation.Lines.First();
+            _currentPlayLine = _liveMediaInformation.Lines.FirstOrDefault(p => p.Quality == quality) ?? _liveMediaInformation.Lines.First();
         }
     }
 
@@ -93,6 +101,7 @@ public sealed partial class PlayerDetailViewModel
                 }
             }
 
+            _currentLiveUrl = url;
             SettingsToolkit.WriteLocalSetting(SettingNames.DefaultLiveFormat, CurrentFormat.Quality);
             InitializeLivePlayer(url.ToString());
         }
@@ -104,6 +113,7 @@ public sealed partial class PlayerDetailViewModel
         StartTimers();
     }
 
+    [RelayCommand]
     private async Task ChangeLiveAudioOnlyAsync(bool isAudioOnly)
     {
         IsLiveAudioOnly = isAudioOnly;

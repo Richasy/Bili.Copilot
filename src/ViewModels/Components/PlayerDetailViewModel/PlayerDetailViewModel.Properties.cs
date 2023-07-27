@@ -27,7 +27,8 @@ public sealed partial class PlayerDetailViewModel
     private bool _isInPrivate;
     private VideoIdentifier _currentPart;
     private EpisodeInformation _currentEpisode;
-    private LivePlaylineInformation _currentPlayline;
+    private LivePlaylineInformation _currentPlayLine;
+    private LivePlayUrl _currentLiveUrl;
     private LiveMediaInformation _liveMediaInformation;
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;

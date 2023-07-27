@@ -28,6 +28,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private TextBlock _subtitleBlock;
     private Button _refreshButton;
     private Button _openInBrowserButton;
+    private SplitView _rootSplitView;
 
     private DispatcherTimer _danmakuTimer;
     private DispatcherTimer _unitTimer;
@@ -98,6 +99,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _subtitleBlock = GetTemplateChild("SubtitleBlock") as TextBlock;
         _refreshButton = GetTemplateChild("RefreshButton") as Button;
         _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
+        _rootSplitView = GetTemplateChild("RootSplitView") as SplitView;
+        var sectionView = GetTemplateChild("SectionNavigationView") as NavigationView;
 
         _gestureRecognizer = new GestureRecognizer
         {
@@ -118,6 +121,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
 
         _refreshButton.Click += OnRefreshButtonClick;
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
+        _transportControls.DetailButtonClicked += OnDetailButtonClicked;
+        sectionView.ItemInvoked += OnSectionViewItemInvoked;
 
         CheckDanmakuZoom();
         ResizeSubtitle();

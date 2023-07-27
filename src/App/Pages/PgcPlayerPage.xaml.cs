@@ -54,6 +54,6 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
 /// <summary>
 /// <see cref="PgcPlayerPage"/> 的基类.
 /// </summary>
-public class PgcPlayerPageBase : PageBase<PgcPlayerPageViewModel>
+public abstract class PgcPlayerPageBase : PageBase<PgcPlayerPageViewModel>
 {
 }

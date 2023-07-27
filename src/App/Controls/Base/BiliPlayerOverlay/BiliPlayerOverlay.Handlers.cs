@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Player;
@@ -372,4 +373,13 @@ public partial class BiliPlayerOverlay
 
     private void OnOpenInBrowserButtonClick(object sender, RoutedEventArgs e)
         => ViewModel.OpenInBrowserCommand.Execute(default);
+
+    private void OnDetailButtonClicked(object sender, EventArgs e)
+        => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
+
+    private void OnSectionViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+    {
+        var item = args.InvokedItem as PlayerSectionHeader;
+        SectionHeaderItemInvoked?.Invoke(this, item);
+    }
 }

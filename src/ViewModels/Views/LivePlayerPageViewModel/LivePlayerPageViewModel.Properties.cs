@@ -55,7 +55,16 @@ public sealed partial class LivePlayerPageViewModel
     private bool _isReloading;
 
     [ObservableProperty]
+    private bool _isShowChat;
+
+    [ObservableProperty]
+    private bool _isShowInformation;
+
+    [ObservableProperty]
     private PlayerDetailViewModel _playerDetail;
+
+    [ObservableProperty]
+    private Models.App.Other.LiveMediaStats _media;
 
     /// <summary>
     /// 请求弹幕滚动到底部.

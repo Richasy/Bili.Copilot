@@ -80,6 +80,10 @@
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
             <converters:SortTypeTextConverter x:Key="SortTypeConverter" />
             <converters:SubtitleConvertTypeConverter x:Key="SubtitleConvertTypeConverter" />
+            <converters:ColorConverter x:Key="ColorConverter" IsBrush="False" />
+            <converters:ColorConverter x:Key="BrushConverter" IsBrush="True" />
+            <converters:RelationTextConverter x:Key="RelationTextConverter" />
+            <converters:RelationButtonStyleConverter x:Key="RelationButtonStyleConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

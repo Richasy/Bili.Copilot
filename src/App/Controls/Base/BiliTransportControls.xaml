@@ -186,6 +186,7 @@
                 VerticalContentAlignment="Stretch"
                 Background="Transparent"
                 BorderThickness="0"
+                Click="OnDetailButtonClick"
                 Content="{x:Bind DetailContent, Mode=OneWay}" />
             <StackPanel
                 Grid.Column="1"

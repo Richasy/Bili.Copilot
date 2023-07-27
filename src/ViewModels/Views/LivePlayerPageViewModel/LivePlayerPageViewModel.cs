@@ -34,6 +34,7 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
         Danmakus = new ObservableCollection<LiveDanmakuInformation>();
         Sections = new ObservableCollection<PlayerSectionHeader>
         {
+            new PlayerSectionHeader(PlayerSectionType.LiveInformation, ResourceToolkit.GetLocalizedString(StringNames.LiveInformation)),
             new PlayerSectionHeader(PlayerSectionType.Chat, ResourceToolkit.GetLocalizedString(StringNames.Chat)),
         };
         CurrentSection = Sections.First();
@@ -120,10 +121,16 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
             {
                 Reset();
                 PlayerDetail.RequestOpenInBrowser -= OnRequestOpenInBrowserAsync;
+                PlayerDetail.PropertyChanged -= OnPlayerDetailPropertyChanged;
                 PlayerDetail?.Dispose();
             }
 
             _disposedValue = true;
         }
+    }
+
+    partial void OnCurrentSectionChanged(PlayerSectionHeader value)
+    {
+        CheckSectionVisibility();
     }
 }

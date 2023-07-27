@@ -51,4 +51,9 @@ public enum PlayerSectionType
     /// 播放列表.
     /// </summary>
     Playlist,
+
+    /// <summary>
+    /// 直播信息.
+    /// </summary>
+    LiveInformation,
 }

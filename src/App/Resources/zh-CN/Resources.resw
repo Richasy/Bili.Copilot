@@ -177,6 +177,12 @@
   <data name="AtMessageTypeDescription" xml:space="preserve">
     <value>在{0}中@了我</value>
   </data>
+  <data name="AudioBitrate" xml:space="preserve">
+    <value>音频比特率</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>音频编解码器</value>
+  </data>
   <data name="Automatic" xml:space="preserve">
     <value>自动</value>
   </data>
@@ -831,8 +837,14 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Live" xml:space="preserve">
     <value>直播</value>
   </data>
+  <data name="LiveInformation" xml:space="preserve">
+    <value>直播信息</value>
+  </data>
   <data name="LiveInitializing" xml:space="preserve">
     <value>正在加载直播</value>
+  </data>
+  <data name="LiveSourceUrl" xml:space="preserve">
+    <value>直播源地址</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>位置</value>
@@ -1013,6 +1025,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="OnlyAudio" xml:space="preserve">
     <value>仅音频</value>
+  </data>
+  <data name="OnlyAudioDescription" xml:space="preserve">
+    <value>尝试在视频支持的情况下仅播放音频流</value>
   </data>
   <data name="OnlyIndex" xml:space="preserve">
     <value>仅显示序号</value>
@@ -1710,6 +1725,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Video" xml:space="preserve">
     <value>视频</value>
   </data>
+  <data name="VideoBitrate" xml:space="preserve">
+    <value>视频比特率</value>
+  </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>视频编解码器</value>
+  </data>
   <data name="VideoCount" xml:space="preserve">
     <value>视频数</value>
   </data>
@@ -1718,6 +1739,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>
+  </data>
+  <data name="VideoSize" xml:space="preserve">
+    <value>视频尺寸</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>观看</value>
