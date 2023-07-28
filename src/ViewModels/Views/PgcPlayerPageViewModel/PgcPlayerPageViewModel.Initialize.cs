@@ -138,8 +138,7 @@ public sealed partial class PgcPlayerPageViewModel
         if (CurrentEpisode != null)
         {
             Sections.Add(new PlayerSectionHeader(PlayerSectionType.Comments, ResourceToolkit.GetLocalizedString(StringNames.Reply)));
-
-            // CommentPageViewModel.SetData(CurrentEpisode.VideoId, CommentType.Video);
+            Comments.SetData(CurrentEpisode.VideoId, CommentType.Video);
         }
 
         CreatePlayNextAction();

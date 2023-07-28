@@ -144,7 +144,7 @@ public sealed partial class VideoPlayerPageViewModel
         // 评论区常显，但位于最后一个.
         Sections.Add(new PlayerSectionHeader(PlayerSectionType.Comments, ResourceToolkit.GetLocalizedString(StringNames.Reply)));
 
-        // _commentPageViewModel.SetData(View.Information.Identifier.Id, CommentType.Video);
+        Comments.SetData(View.Information.Identifier.Id, CommentType.Video);
         CurrentSection = Sections.First();
         RequestOnlineCountCommand.ExecuteAsync(null);
     }

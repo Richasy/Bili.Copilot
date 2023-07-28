@@ -81,6 +81,10 @@
                                     DataContext="{x:Bind ViewModel, Mode=OneWay}"
                                     ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                                     Visibility="{x:Bind ViewModel.IsShowExtras, Mode=OneWay}" />
+                                <module:CommentModule
+                                    Margin="0,0,0,12"
+                                    ViewModel="{x:Bind ViewModel.Comments, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowComments, Mode=OneWay}" />
                                 <controls:ErrorPanel Text="{ext:Locale Name=NoEpisode}" Visibility="{x:Bind ViewModel.IsSectionsEmpty, Mode=OneWay}" />
                             </Grid>
                         </base:BiliPlayerOverlay.SectionContent>

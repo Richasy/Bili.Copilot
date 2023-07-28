@@ -58,6 +58,11 @@
                                 <modules:VideoPartView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowParts, Mode=OneWay}" />
                                 <modules:UgcSeasonView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowUgcSeason, Mode=OneWay}" />
                                 <modules:VideoInformationView ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsShowInformation, Mode=OneWay}" />
+                                <modules:CommentModule
+                                    Margin="0,0,0,12"
+                                    DataContext="{x:Bind ViewModel.Comments, Mode=OneWay}"
+                                    ViewModel="{x:Bind ViewModel.Comments, Mode=OneWay}"
+                                    Visibility="{x:Bind ViewModel.IsShowComments, Mode=OneWay}" />
                             </Grid>
                         </base:BiliPlayerOverlay.SectionContent>
                     </base:BiliPlayerOverlay>

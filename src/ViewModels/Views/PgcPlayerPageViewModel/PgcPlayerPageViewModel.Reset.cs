@@ -55,7 +55,6 @@ public sealed partial class PgcPlayerPageViewModel
         IsShowSeasons = false;
         IsShowComments = false;
         IsShowExtras = false;
-
-        // _commentPageViewModel.ClearData();
+        Comments.ClearData();
     }
 }

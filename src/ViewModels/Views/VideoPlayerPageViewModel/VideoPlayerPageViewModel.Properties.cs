@@ -129,6 +129,9 @@ public sealed partial class VideoPlayerPageViewModel
     private PlayerDetailViewModel _playerDetail;
 
     [ObservableProperty]
+    private CommentModuleViewModel _comments;
+
+    [ObservableProperty]
     private VideoMediaStats _stats;
 
     /// <summary>

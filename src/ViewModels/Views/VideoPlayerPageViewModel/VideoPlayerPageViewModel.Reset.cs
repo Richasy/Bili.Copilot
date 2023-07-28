@@ -66,6 +66,7 @@ public sealed partial class VideoPlayerPageViewModel
         IsShowComments = false;
         IsShowParts = false;
         IsShowVideoPlaylist = false;
+        Comments.ClearData();
     }
 
     [RelayCommand]

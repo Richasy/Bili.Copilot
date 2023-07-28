@@ -42,6 +42,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         Seasons = new ObservableCollection<VideoSeason>();
         CurrentSeasonVideos = new ObservableCollection<VideoItemViewModel>();
         VideoPlaylist = new ObservableCollection<VideoItemViewModel>();
+        Comments = new CommentModuleViewModel();
 
         IsSignedIn = AuthorizeProvider.Instance.State == AuthorizeState.SignedIn;
         AuthorizeProvider.Instance.StateChanged += OnAuthorizeStateChanged;

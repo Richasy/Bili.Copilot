@@ -118,6 +118,9 @@ public sealed partial class PgcPlayerPageViewModel
     private PlayerDetailViewModel _playerDetail;
 
     [ObservableProperty]
+    private CommentModuleViewModel _comments;
+
+    [ObservableProperty]
     private VideoMediaStats _stats;
 
     /// <summary>

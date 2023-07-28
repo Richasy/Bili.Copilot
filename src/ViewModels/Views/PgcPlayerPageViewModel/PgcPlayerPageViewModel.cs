@@ -33,6 +33,7 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
         Seasons = new ObservableCollection<VideoIdentifierSelectableViewModel>();
         Extras = new ObservableCollection<PgcExtraItemViewModel>();
         Celebrities = new ObservableCollection<UserItemViewModel>();
+        Comments = new CommentModuleViewModel();
 
         IsSignedIn = AuthorizeProvider.Instance.State == AuthorizeState.SignedIn;
         AuthorizeProvider.Instance.StateChanged += OnAuthorizeStateChanged;

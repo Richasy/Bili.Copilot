@@ -50,6 +50,9 @@
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
+        <None Remove="Controls\Comment\CommentBox.xaml" />
+        <None Remove="Controls\Comment\CommentModule.xaml" />
+        <None Remove="Controls\Comment\CommentRepeater.xaml" />
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
@@ -97,6 +100,9 @@
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\BubbleView\BubbleView.xaml" />
         <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
+        <None Remove="Controls\Comment\CommentDetailView\CommentDetailView.xaml" />
+        <None Remove="Controls\Comment\CommentItem\CommentItem.xaml" />
+        <None Remove="Controls\Comment\CommentMainView\CommentMainView.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="NLog.config" />
@@ -163,6 +169,24 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Comment\CommentModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentDetailView\CommentDetailView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentItem\CommentItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentMainView\CommentMainView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentRepeater.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentBox.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\VideoInformationView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
