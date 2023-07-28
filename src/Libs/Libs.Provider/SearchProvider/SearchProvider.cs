@@ -35,7 +35,7 @@ public partial class SearchProvider
     /// <returns>搜索建议列表.</returns>
     public static async Task<IEnumerable<SearchSuggest>> GetSearchSuggestionAsync(string keyword, CancellationToken cancellationToken)
     {
-        var req = new Bilibili.App.Interfaces.V1.SuggestionResult3Req()
+        var req = new Bilibili.App.Interface.V1.SuggestionResult3Req()
         {
             Keyword = keyword,
             Highlight = 0,
@@ -43,7 +43,7 @@ public partial class SearchProvider
 
         var request = await HttpProvider.GetRequestMessageAsync(Models.App.Constants.ApiConstants.Search.Suggestion, req);
         var response = await HttpProvider.Instance.SendAsync(request, cancellationToken);
-        var result = await HttpProvider.ParseAsync(response, Bilibili.App.Interfaces.V1.SuggestionResult3Reply.Parser);
+        var result = await HttpProvider.ParseAsync(response, Bilibili.App.Interface.V1.SuggestionResult3Reply.Parser);
         return !cancellationToken.IsCancellationRequested
             ? result.List.Select(SearchAdapter.ConvertToSearchSuggest).ToList()
             : null;

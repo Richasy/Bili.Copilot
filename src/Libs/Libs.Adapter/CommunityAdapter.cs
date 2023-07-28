@@ -11,7 +11,7 @@ using Bili.Copilot.Models.Data.Community;
 using Bilibili.App.Archive.V1;
 using Bilibili.App.Card.V1;
 using Bilibili.App.Dynamic.V2;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 using Bilibili.App.Show.V1;
 
 namespace Bili.Copilot.Libs.Adapter;

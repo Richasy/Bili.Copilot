@@ -239,6 +239,8 @@ public static class ServiceConstants
         public const string TEValue = "trailers";
         public const string AuroraEid = "x-bili-aurora-eid";
         public const string TraceId = "x-bili-trace-id";
+        public const string BiliMid = "x-bili-mid";
+        public const string Buvid = "buvid";
     }
 
     public static class Settings

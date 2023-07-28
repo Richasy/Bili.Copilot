@@ -152,7 +152,7 @@ public sealed partial class HttpProvider : IDisposable
 
         var grpcConfig = new GRPCConfig(token);
         var userAgent = $"bili-inter/73300300 "
-            + $"os/ios model/{GRPCConfig.Model} mobi_app/iphone "
+            + $"os/ios model/{GRPCConfig.Model} mobi_app/iphone_i "
             + $"osVer/{GRPCConfig.OSVersion} "
             + $"network/{GRPCConfig.NetworkType} "
             + $"grpc-objc/1.47.0 grpc-c/25.0.0 (ios; cronet_http)";
@@ -160,6 +160,7 @@ public sealed partial class HttpProvider : IDisposable
         if (!string.IsNullOrEmpty(token))
         {
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue(Headers.Identify, token);
+            requestMessage.Headers.Add(Headers.BiliMid, AuthorizeProvider.Instance.CurrentUserId);
         }
 
         requestMessage.Headers.Add(Headers.UserAgent, userAgent);
@@ -177,6 +178,7 @@ public sealed partial class HttpProvider : IDisposable
         requestMessage.Headers.Add(Headers.TEKey, Headers.TEValue);
         requestMessage.Headers.Add(Headers.AuroraEid, GRPCConfig.GetAuroraEid(string.IsNullOrEmpty(AuthorizeProvider.Instance.CurrentUserId) ? 0 : Convert.ToInt64(AuthorizeProvider.Instance.CurrentUserId)));
         requestMessage.Headers.Add(Headers.TraceId, GRPCConfig.GetTraceId());
+        requestMessage.Headers.Add(Headers.Buvid, GetBuvid());
 
         var messageBytes = grpcMessage.ToByteArray();
 

@@ -17,7 +17,7 @@ using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bilibili.App.Card.V1;
 using Bilibili.App.Dynamic.V2;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 using Bilibili.App.Show.V1;
 using Bilibili.App.View.V1;
 using Humanizer;

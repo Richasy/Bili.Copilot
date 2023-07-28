@@ -13,7 +13,7 @@ using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 

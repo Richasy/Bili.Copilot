@@ -19,7 +19,7 @@ public class GRPCConfig
     /// <summary>
     /// 系统版本.
     /// </summary>
-    public const string OSVersion = "16.5.1";
+    public const string OSVersion = "16.6";
 
     /// <summary>
     /// 厂商.

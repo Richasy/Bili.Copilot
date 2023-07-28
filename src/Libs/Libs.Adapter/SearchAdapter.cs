@@ -7,7 +7,7 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.Models.Data.Video;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 
