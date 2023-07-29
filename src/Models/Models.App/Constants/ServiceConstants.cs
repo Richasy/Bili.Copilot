@@ -1,9 +1,9 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.App.Constants;
 
 /// <summary>
-/// ·şÎñÏà¹ØµÄ³£Á¿.
+/// æœåŠ¡ç›¸å…³çš„å¸¸é‡.
 /// </summary>
 public static class ServiceConstants
 {
@@ -20,12 +20,12 @@ public static class ServiceConstants
     public const string Section = "section";
 
     /// <summary>
-    /// ·¬¾ç·ÖÇøId.
+    /// ç•ªå‰§åˆ†åŒºId.
     /// </summary>
     public const int BangumiPartitionId = 152;
 
     /// <summary>
-    /// ¹ú´´·ÖÇøId.
+    /// å›½åˆ›åˆ†åŒºId.
     /// </summary>
     public const int DomesticPartitionId = 167;
 
@@ -203,12 +203,12 @@ public static class ServiceConstants
 
     public static class Messages
     {
-        public const string NotFound = "Ã»ÓĞÕÒµ½ÄãËùĞèÒªµÄ×ÊÔ´";
-        public const string NoData = "ÇëÇóÊ§°Ü£¬Ã»ÓĞÊı¾İ·µ»Ø";
-        public const string UnexpectedExceptionOnSend = "ÔÚ·¢ËÍÇëÇóÊ±³öÏÖÁËÒì³£";
-        public const string RequestTimedOut = "ÇëÇó³¬Ê±";
-        public const string OverallTimeoutCannotBeSet = "È«¾Ö³¬Ê±Î´ÄÜÔÚµÚÒ»´ÎÇëÇóºóÉèÖÃ";
-        public const string UnexpectedExceptionResponse = "ÔÚ»ñÈ¡ÏìÓ¦Ê±³öÏÖÁËÒì³£";
+        public const string NotFound = "æ²¡æœ‰æ‰¾åˆ°ä½ æ‰€éœ€è¦çš„èµ„æº";
+        public const string NoData = "è¯·æ±‚å¤±è´¥ï¼Œæ²¡æœ‰æ•°æ®è¿”å›";
+        public const string UnexpectedExceptionOnSend = "åœ¨å‘é€è¯·æ±‚æ—¶å‡ºç°äº†å¼‚å¸¸";
+        public const string RequestTimedOut = "è¯·æ±‚è¶…æ—¶";
+        public const string OverallTimeoutCannotBeSet = "å…¨å±€è¶…æ—¶æœªèƒ½åœ¨ç¬¬ä¸€æ¬¡è¯·æ±‚åè®¾ç½®";
+        public const string UnexpectedExceptionResponse = "åœ¨è·å–å“åº”æ—¶å‡ºç°äº†å¼‚å¸¸";
     }
 
     public static class Headers
@@ -237,6 +237,10 @@ public static class ServiceConstants
         public const string TransferEncodingValue = "chunked";
         public const string TEKey = "TE";
         public const string TEValue = "trailers";
+        public const string AuroraEid = "x-bili-aurora-eid";
+        public const string TraceId = "x-bili-trace-id";
+        public const string BiliMid = "x-bili-mid";
+        public const string Buvid = "buvid";
     }
 
     public static class Settings

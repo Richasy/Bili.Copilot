@@ -142,7 +142,7 @@ public sealed partial class VerticalRepeaterView : Control
             if (args.Index == 0)
             {
                 await Task.Delay(200);
-                await FocusManager.TryFocusAsync(args.Element, FocusState.Programmatic);
+                _ = await FocusManager.TryFocusAsync(args.Element, FocusState.Programmatic);
             }
         }
     }

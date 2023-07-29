@@ -17,5 +17,5 @@ public sealed class EpisodeItem : ReactiveControl<EpisodeItemViewModel>, IRepeat
         => DefaultStyleKey = typeof(EpisodeItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new Size(210, 248);
+    public Size GetHolderSize() => new(210, 248);
 }

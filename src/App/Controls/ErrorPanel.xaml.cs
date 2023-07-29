@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,6 +28,18 @@ public sealed partial class ErrorPanel : UserControl
     /// </summary>
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(ErrorPanel), new PropertyMetadata(default));
+
+    /// <summary>
+    /// <see cref="SubActionContent"/>的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty SubActionContentProperty =
+        DependencyProperty.Register(nameof(SubActionContent), typeof(string), typeof(ErrorPanel), new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// <see cref="SubCommand"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty SubCommandProperty =
+        DependencyProperty.Register(nameof(SubCommand), typeof(ICommand), typeof(ErrorPanel), new PropertyMetadata(default));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ErrorPanel"/> class.
@@ -60,5 +71,23 @@ public sealed partial class ErrorPanel : UserControl
     {
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
+    }
+
+    /// <summary>
+    /// 次要按钮文本.
+    /// </summary>
+    public string SubActionContent
+    {
+        get => (string)GetValue(SubActionContentProperty);
+        set => SetValue(SubActionContentProperty, value);
+    }
+
+    /// <summary>
+    /// 次要命令.
+    /// </summary>
+    public ICommand SubCommand
+    {
+        get => (ICommand)GetValue(SubCommandProperty);
+        set => SetValue(SubCommandProperty, value);
     }
 }

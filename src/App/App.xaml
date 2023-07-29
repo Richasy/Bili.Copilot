@@ -19,6 +19,10 @@
                         x:Key="AccentBadgeBackground"
                         Opacity="0.4"
                         Color="{ThemeResource SystemAccentColorDark1}" />
+                    <SolidColorBrush
+                        x:Key="MediaTransportBackgroundBrush"
+                        Opacity="0.48"
+                        Color="White" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Dark">
@@ -31,12 +35,17 @@
                         x:Key="AccentBadgeBackground"
                         Opacity="0.4"
                         Color="{ThemeResource SystemAccentColorLight2}" />
+                    <SolidColorBrush
+                        x:Key="MediaTransportBackgroundBrush"
+                        Opacity="0.77"
+                        Color="Black" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="AppMaskBrush" Color="{ThemeResource SystemChromeAltMediumHighColor}" />
                     <SolidColorBrush x:Key="AccentMaskBrush" Color="{ThemeResource SystemColorWindowColor}" />
                     <SolidColorBrush x:Key="AccentBadgeBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                    <SolidColorBrush x:Key="MediaTransportBackgroundBrush" Color="{ThemeResource SystemChromeAltMediumHighColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -56,6 +65,14 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Base/LiveItem/LiveItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/EmoteTextBlock/EmoteTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Danmaku/DanmakuView/DanmakuView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayer/BiliPlayer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayerOverlay/BiliPlayerOverlay.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/BubbleView/BubbleView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/ProgressButton/ProgressButton.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentItem/CommentItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentMainView/CommentMainView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentDetailView/CommentDetailView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -67,6 +84,16 @@
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
             <converters:SortTypeTextConverter x:Key="SortTypeConverter" />
+            <converters:SubtitleConvertTypeConverter x:Key="SubtitleConvertTypeConverter" />
+            <converters:ColorConverter x:Key="ColorConverter" IsBrush="False" />
+            <converters:ColorConverter x:Key="BrushConverter" IsBrush="True" />
+            <converters:RelationTextConverter x:Key="RelationTextConverter" />
+            <converters:RelationButtonStyleConverter x:Key="RelationButtonStyleConverter" />
+            <converters:DurationConverter x:Key="SecondsDurationConverter" />
+            <converters:DurationConverter x:Key="MillisecondsDurationConverter" IsMilliseconds="True" />
+            <converters:PgcFollowTextConverter x:Key="FollowTextConverter" />
+            <converters:UserLevelConverter x:Key="UserLevelConverter" />
+            <converters:DanmakuLocationConverter x:Key="DanmakuLocationConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

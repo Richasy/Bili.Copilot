@@ -1,9 +1,9 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.App.Constants;
 
 /// <summary>
-/// API³£Á¿.
+/// APIå¸¸é‡.
 /// </summary>
 public static class ApiConstants
 {
@@ -22,22 +22,22 @@ public static class ApiConstants
     public static class Passport
     {
         /// <summary>
-        /// ×Ö·û´®¼ÓÃÜ.
+        /// å­—ç¬¦ä¸²åŠ å¯†.
         /// </summary>
         public const string PasswordEncrypt = _passBase + "/api/oauth2/getKey";
 
         /// <summary>
-        /// µÇÂ¼.
+        /// ç™»å½•.
         /// </summary>
         public const string Login = _passBase + "/x/passport-login/oauth2/login";
 
         /// <summary>
-        /// Ë¢ĞÂÁîÅÆĞÅÏ¢.
+        /// åˆ·æ–°ä»¤ç‰Œä¿¡æ¯.
         /// </summary>
         public const string RefreshToken = _passBase + "/api/oauth2/refreshToken";
 
         /// <summary>
-        /// ÑéÖ¤ÁîÅÆÊÇ·ñÓĞĞ§.
+        /// éªŒè¯ä»¤ç‰Œæ˜¯å¦æœ‰æ•ˆ.
         /// </summary>
         public const string CheckToken = _passBase + "/api/oauth2/info";
 
@@ -47,22 +47,22 @@ public static class ApiConstants
         public const string SSO = _passBase + "/api/login/sso";
 
         /// <summary>
-        /// »ñÈ¡µÇÂ¼¶şÎ¬Âë.
+        /// è·å–ç™»å½•äºŒç»´ç .
         /// </summary>
         public const string QRCode = _passBase + "/x/passport-tv-login/qrcode/auth_code";
 
         /// <summary>
-        /// µÇÂ¼¶şÎ¬ÂëÂÖÑ¯×´Ì¬.
+        /// ç™»å½•äºŒç»´ç è½®è¯¢çŠ¶æ€.
         /// </summary>
         public const string QRCodeCheck = _passBase + "/x/passport-tv-login/qrcode/poll";
 
         /// <summary>
-        /// cookie×ª·ÃÎÊÁîÅÆ.
+        /// cookieè½¬è®¿é—®ä»¤ç‰Œ.
         /// </summary>
         public const string LoginAppThird = _passBase + "/login/app/third";
 
         /// <summary>
-        /// cookie×ª·ÃÎÊÁîÅÆ.
+        /// cookieè½¬è®¿é—®ä»¤ç‰Œ.
         /// </summary>
         public const string LoginAppThirdApi = "http://link.acg.tv/forum.php";
     }
@@ -70,189 +70,189 @@ public static class ApiConstants
     public static class Account
     {
         /// <summary>
-        /// ÎÒµÄĞÅÏ¢.
+        /// æˆ‘çš„ä¿¡æ¯.
         /// </summary>
         public const string MyInfo = _appBase + "/x/v2/account/myinfo";
 
         /// <summary>
-        /// ¸öÈËÖ÷Ò³Êı¾İĞÅÏ¢.
+        /// ä¸ªäººä¸»é¡µæ•°æ®ä¿¡æ¯.
         /// </summary>
         public const string Mine = _appBase + "/x/v2/account/mine";
 
         /// <summary>
-        /// ÓÃ»§¿Õ¼ä.
+        /// ç”¨æˆ·ç©ºé—´.
         /// </summary>
         public const string Space = _appBase + "/x/v2/space";
 
         public const string SpaceVideoSearch = _grpcBase + "/bilibili.app.interface.v1.Space/SearchArchive";
 
         /// <summary>
-        /// ÓÃ»§¿Õ¼äÖĞÊÓÆµµÄÔöÁ¿ÇëÇó.
+        /// ç”¨æˆ·ç©ºé—´ä¸­è§†é¢‘çš„å¢é‡è¯·æ±‚.
         /// </summary>
         public const string VideoCursor = _appBase + "/x/v2/space/archive/cursor";
 
         /// <summary>
-        /// »ñÈ¡ÓëÓÃ»§¼äµÄ¹ØÏµ£¨¹Ø×¢Óë·ñ£©.
+        /// è·å–ä¸ç”¨æˆ·é—´çš„å…³ç³»ï¼ˆå…³æ³¨ä¸å¦ï¼‰.
         /// </summary>
         public const string Relation = _apiBase + "/x/relation";
 
         /// <summary>
-        /// ĞŞ¸ÄÓëÓÃ»§¼äµÄ¹ØÏµ£¨¹Ø×¢/È¡Ïû¹Ø×¢£©.
+        /// ä¿®æ”¹ä¸ç”¨æˆ·é—´çš„å…³ç³»ï¼ˆå…³æ³¨/å–æ¶ˆå…³æ³¨ï¼‰.
         /// </summary>
         public const string ModifyRelation = _apiBase + "/x/relation/modify";
 
         /// <summary>
-        /// ÀúÊ·¼ÇÂ¼±êÇ©Ò³.
+        /// å†å²è®°å½•æ ‡ç­¾é¡µ.
         /// </summary>
         public const string HistoryTabs = _grpcBase + "/bilibili.app.interface.v1.History/HistoryTabV2";
 
         /// <summary>
-        /// ÀúÊ·¼ÇÂ¼Ö¸Õë.
+        /// å†å²è®°å½•æŒ‡é’ˆ.
         /// </summary>
         public const string HistoryCursor = _grpcBase + "/bilibili.app.interface.v1.History/CursorV2";
 
         /// <summary>
-        /// É¾³ıµ¥ÌõÀúÊ·¼ÇÂ¼.
+        /// åˆ é™¤å•æ¡å†å²è®°å½•.
         /// </summary>
         public const string DeleteHistoryItem = _grpcBase + "/bilibili.app.interface.v1.History/Delete";
 
         /// <summary>
-        /// Çå¿ÕÀúÊ·¼ÇÂ¼.
+        /// æ¸…ç©ºå†å²è®°å½•.
         /// </summary>
         public const string ClearHistory = _grpcBase + "/bilibili.app.interface.v1.History/Clear";
 
         /// <summary>
-        /// »ñÈ¡·ÛË¿ÁĞ±í.
+        /// è·å–ç²‰ä¸åˆ—è¡¨.
         /// </summary>
         public const string Fans = _apiBase + "/x/relation/followers";
 
         /// <summary>
-        /// »ñÈ¡¹Ø×¢ÁĞ±í.
+        /// è·å–å…³æ³¨åˆ—è¡¨.
         /// </summary>
         public const string Follows = _apiBase + "/x/relation/followings";
 
         /// <summary>
-        /// »ñÈ¡ÎÒµÄ¹Ø×¢·Ö×é.
+        /// è·å–æˆ‘çš„å…³æ³¨åˆ†ç»„.
         /// </summary>
         public const string MyFollowingTags = _apiBase + "/x/relation/tags";
 
         /// <summary>
-        /// »ñÈ¡ÎÒµÄ¹Ø×¢·Ö×éÏêÇé.
+        /// è·å–æˆ‘çš„å…³æ³¨åˆ†ç»„è¯¦æƒ….
         /// </summary>
         public const string MyFollowingTagDetail = _apiBase + "/x/relation/tag";
 
         /// <summary>
-        /// »ñÈ¡ÉÔºóÔÙ¿´ÁĞ±í.
+        /// è·å–ç¨åå†çœ‹åˆ—è¡¨.
         /// </summary>
         public const string ViewLaterList = _apiBase + "/x/v2/history/toview";
 
         /// <summary>
-        /// Ìí¼ÓÊÓÆµµ½ÉÔºóÔÙ¿´.
+        /// æ·»åŠ è§†é¢‘åˆ°ç¨åå†çœ‹.
         /// </summary>
         public const string ViewLaterAdd = _apiBase + "/x/v2/history/toview/add";
 
         /// <summary>
-        /// É¾³ıÉÔºóÔÙ¿´µÄÊÓÆµ.
+        /// åˆ é™¤ç¨åå†çœ‹çš„è§†é¢‘.
         /// </summary>
         public const string ViewLaterDelete = _apiBase + "/x/v2/history/toview/del";
 
         /// <summary>
-        /// Çå¿ÕÉÔºóÔÙ¿´µÄÊÓÆµ.
+        /// æ¸…ç©ºç¨åå†çœ‹çš„è§†é¢‘.
         /// </summary>
         public const string ViewLaterClear = _apiBase + "/x/v2/history/toview/clear";
 
         /// <summary>
-        /// »ñÈ¡È«²¿ÊÕ²Ø¼ĞÁĞ±í.
+        /// è·å–å…¨éƒ¨æ”¶è—å¤¹åˆ—è¡¨.
         /// </summary>
         public const string FavoriteList = _apiBase + "/x/v3/fav/folder/created/list-all";
 
         /// <summary>
-        /// »ñÈ¡ÊÓÆµÊÕ²Ø¼Ğ¸ÅÀÀ.
+        /// è·å–è§†é¢‘æ”¶è—å¤¹æ¦‚è§ˆ.
         /// </summary>
         public const string VideoFavoriteGallery = _apiBase + "/x/v3/fav/folder/space/v2";
 
         /// <summary>
-        /// »ñÈ¡ÊÓÆµÊÕ²Ø¼ĞÔöÁ¿ĞÅÏ¢.
+        /// è·å–è§†é¢‘æ”¶è—å¤¹å¢é‡ä¿¡æ¯.
         /// </summary>
         public const string VideoFavoriteDelta = _apiBase + "/x/v3/fav/resource/list";
 
         /// <summary>
-        /// »ñÈ¡ÓÃ»§ÊÕ¼¯µÄÊÓÆµÊÕ²Ø¼Ğ·ÖÀàµÄÔöÁ¿ĞÅÏ¢.
+        /// è·å–ç”¨æˆ·æ”¶é›†çš„è§†é¢‘æ”¶è—å¤¹åˆ†ç±»çš„å¢é‡ä¿¡æ¯.
         /// </summary>
         public const string CollectedVideoFavoriteFolderDelta = _apiBase + "/x/v3/fav/folder/collected/list";
 
         /// <summary>
-        /// »ñÈ¡ÓÃ»§´´½¨µÄÊÓÆµÊÕ²Ø¼Ğ·ÖÀàµÄÔöÁ¿ĞÅÏ¢.
+        /// è·å–ç”¨æˆ·åˆ›å»ºçš„è§†é¢‘æ”¶è—å¤¹åˆ†ç±»çš„å¢é‡ä¿¡æ¯.
         /// </summary>
         public const string CreatedVideoFavoriteFolderDelta = _apiBase + "/x/v3/fav/folder/created/list";
 
         /// <summary>
-        /// »ñÈ¡¶¯ÂşÊÕ²ØĞÅÏ¢.
+        /// è·å–åŠ¨æ¼«æ”¶è—ä¿¡æ¯.
         /// </summary>
         public const string AnimeFavorite = _apiBase + "/pgc/app/follow/v2/bangumi";
 
         /// <summary>
-        /// µçÓ°µçÊÓ¾çÊÕ²ØĞÅÏ¢.
+        /// ç”µå½±ç”µè§†å‰§æ”¶è—ä¿¡æ¯.
         /// </summary>
         public const string CinemaFavorite = _apiBase + "/pgc/app/follow/v2/cinema";
 
         /// <summary>
-        /// ×¨À¸ÎÄÕÂÊÕ²ØĞÅÏ¢.
+        /// ä¸“æ æ–‡ç« æ”¶è—ä¿¡æ¯.
         /// </summary>
         public const string ArticleFavorite = _appBase + "/x/v2/favorite/article";
 
         /// <summary>
-        /// È¡Ïû¹Ø×¢ÊÕ²Ø¼Ğ.
+        /// å–æ¶ˆå…³æ³¨æ”¶è—å¤¹.
         /// </summary>
         public const string UnFavoriteFolder = _apiBase + "/x/v3/fav/folder/unfav";
 
         /// <summary>
-        /// È¡Ïû¹Ø×¢ÊÓÆµ.
+        /// å–æ¶ˆå…³æ³¨è§†é¢‘.
         /// </summary>
         public const string UnFavoriteVideo = _apiBase + "/x/v3/fav/resource/batch-del";
 
         /// <summary>
-        /// È¡Ïû¹Ø×¢·¬¾ç»òÓ°ÊÓ.
+        /// å–æ¶ˆå…³æ³¨ç•ªå‰§æˆ–å½±è§†.
         /// </summary>
         public const string UnFavoritePgc = _apiBase + "/pgc/app/follow/del";
 
         /// <summary>
-        /// È¡Ïû¹Ø×¢ÎÄÕÂ.
+        /// å–æ¶ˆå…³æ³¨æ–‡ç« .
         /// </summary>
         public const string UnFavoriteArticle = _apiBase + "/x/article/favorites/del";
 
         /// <summary>
-        /// Ìí¼ÓÊÓÆµÊÕ²Ø¼Ğ.
+        /// æ·»åŠ è§†é¢‘æ”¶è—å¤¹.
         /// </summary>
         public const string AddFavoriteFolder = _apiBase + "/x/v3/fav/folder/add";
 
         /// <summary>
-        /// É¾³ıÊÓÆµÊÕ²Ø¼Ğ.
+        /// åˆ é™¤è§†é¢‘æ”¶è—å¤¹.
         /// </summary>
         public const string DeleteFavoriteFolder = _apiBase + "/x/v3/fav/folder/del";
 
         /// <summary>
-        /// »ñÈ¡Î´¶ÁÏûÏ¢.
+        /// è·å–æœªè¯»æ¶ˆæ¯.
         /// </summary>
         public const string MessageUnread = _apiBase + "/x/msgfeed/unread";
 
         /// <summary>
-        /// »ñÈ¡µãÔŞÏûÏ¢.
+        /// è·å–ç‚¹èµæ¶ˆæ¯.
         /// </summary>
         public const string MessageLike = _apiBase + "/x/msgfeed/like";
 
         /// <summary>
-        /// »ñÈ¡@ÎÒµÄÏûÏ¢.
+        /// è·å–@æˆ‘çš„æ¶ˆæ¯.
         /// </summary>
         public const string MessageAt = _apiBase + "/x/msgfeed/at";
 
         /// <summary>
-        /// »ñÈ¡»Ø¸´ÎÒµÄÏûÏ¢.
+        /// è·å–å›å¤æˆ‘çš„æ¶ˆæ¯.
         /// </summary>
         public const string MessageReply = _apiBase + "/x/msgfeed/reply";
 
         /// <summary>
-        /// ¸üĞÂPGCÊÕ²Ø×´Ì¬.
+        /// æ›´æ–°PGCæ”¶è—çŠ¶æ€.
         /// </summary>
         public const string UpdatePgcStatus = _apiBase + "/pgc/app/follow/status/update";
     }
@@ -260,32 +260,32 @@ public static class ApiConstants
     public static class Partition
     {
         /// <summary>
-        /// ·ÖÇøË÷Òı£¨°üº¬×Ó·ÖÇøÊı¾İ£©.
+        /// åˆ†åŒºç´¢å¼•ï¼ˆåŒ…å«å­åˆ†åŒºæ•°æ®ï¼‰.
         /// </summary>
         public const string PartitionIndex = _appBase + "/x/v2/region/index";
 
         /// <summary>
-        /// ÍÆ¼ö×Ó·ÖÇø.
+        /// æ¨èå­åˆ†åŒº.
         /// </summary>
         public const string SubPartitionRecommend = _appBase + "/x/v2/region/dynamic";
 
         /// <summary>
-        /// ÍÆ¼ö×Ó·ÖÇøµÄÔöÁ¿¼ÓÔØ.
+        /// æ¨èå­åˆ†åŒºçš„å¢é‡åŠ è½½.
         /// </summary>
         public const string SubPartitionRecommendOffset = _appBase + "/x/v2/region/dynamic/list";
 
         /// <summary>
-        /// ³£¹æ×Ó·ÖÇø.
+        /// å¸¸è§„å­åˆ†åŒº.
         /// </summary>
         public const string SubPartitionNormal = _appBase + "/x/v2/region/dynamic/child";
 
         /// <summary>
-        /// ³£¹æ×Ó·ÖÇøµÄÔöÁ¿¼ÓÔØ.
+        /// å¸¸è§„å­åˆ†åŒºçš„å¢é‡åŠ è½½.
         /// </summary>
         public const string SubPartitionNormalOffset = _appBase + "/x/v2/region/dynamic/child/list";
 
         /// <summary>
-        /// ×Ó·ÖÇøÅÅĞòÔöÁ¿¼ÓÔØ.
+        /// å­åˆ†åŒºæ’åºå¢é‡åŠ è½½.
         /// </summary>
         public const string SubPartitionOrderOffset = _appBase + "/x/v2/region/show/child/list";
     }
@@ -293,22 +293,22 @@ public static class ApiConstants
     public static class Home
     {
         /// <summary>
-        /// ÍÆ¼öÊÓÆµ.
+        /// æ¨èè§†é¢‘.
         /// </summary>
         public const string Recommend = _appBase + "/x/v2/feed/index";
 
         /// <summary>
-        /// ÈÈÃÅ - gRPC.
+        /// çƒ­é—¨ - gRPC.
         /// </summary>
         public const string PopularGRPC = _grpcBase + "/bilibili.app.show.v1.Popular/Index";
 
         /// <summary>
-        /// ÅÅĞĞ°ñ - Web.
+        /// æ’è¡Œæ¦œ - Web.
         /// </summary>
         public const string Ranking = _apiBase + "/x/web-interface/ranking/v2";
 
         /// <summary>
-        /// ÅÅĞĞ°ñ - gRPC.
+        /// æ’è¡Œæ¦œ - gRPC.
         /// </summary>
         public const string RankingGRPC = _grpcBase + "/bilibili.app.show.v1.Rank/RankRegion";
     }
@@ -316,47 +316,47 @@ public static class ApiConstants
     public static class Live
     {
         /// <summary>
-        /// Ö±²¥Ô´£¨Ê×Ò³ÄÚÈİ£©.
+        /// ç›´æ’­æºï¼ˆé¦–é¡µå†…å®¹ï¼‰.
         /// </summary>
         public const string LiveFeed = _liveBase + "/xlive/app-interface/v2/index/feed";
 
         /// <summary>
-        /// Ö±²¥·ÖÇø.
+        /// ç›´æ’­åˆ†åŒº.
         /// </summary>
         public const string LiveArea = _liveBase + "/xlive/app-interface/v2/index/getAreaList";
 
         /// <summary>
-        /// Ö±²¥¼äÏêÇé.
+        /// ç›´æ’­é—´è¯¦æƒ….
         /// </summary>
         public const string RoomDetail = _liveBase + "/xlive/app-room/v1/index/getInfoByRoom";
 
         /// <summary>
-        /// Ö±²¥²¥·ÅĞÅÏ¢.
+        /// ç›´æ’­æ’­æ”¾ä¿¡æ¯.
         /// </summary>
         public const string PlayInformation = _liveBase + "/xlive/web-room/v1/index/getRoomPlayInfo";
 
         /// <summary>
-        /// ÁÄÌìÌ×½Ó×ÖµØÖ·.
+        /// èŠå¤©å¥—æ¥å­—åœ°å€.
         /// </summary>
         public const string ChatSocket = "wss://broadcastlv.chat.bilibili.com/sub";
 
         /// <summary>
-        /// ½øÈëÖ±²¥¼ä.
+        /// è¿›å…¥ç›´æ’­é—´.
         /// </summary>
         public const string EnterRoom = _liveBase + "/xlive/app-room/v1/index/roomEntryAction";
 
         /// <summary>
-        /// ·¢ËÍÏûÏ¢.
+        /// å‘é€æ¶ˆæ¯.
         /// </summary>
         public const string SendMessage = _liveBase + "/api/sendmsg";
 
         /// <summary>
-        /// ·ÖÇøÏêÇé.
+        /// åˆ†åŒºè¯¦æƒ….
         /// </summary>
         public const string AreaDetail = _liveBase + "/xlive/app-interface/v2/second/getList";
 
         /// <summary>
-        /// ÒÆ¶¯Ó¦ÓÃÉÏµÄ²¥·ÅĞÅÏ¢.
+        /// ç§»åŠ¨åº”ç”¨ä¸Šçš„æ’­æ”¾ä¿¡æ¯.
         /// </summary>
         public const string AppPlayInformation = _liveBase + "/xlive/app-room/v2/index/getRoomPlayInfo";
     }
@@ -364,22 +364,22 @@ public static class ApiConstants
     public static class Article
     {
         /// <summary>
-        /// ×¨À¸·ÖÇø.
+        /// ä¸“æ åˆ†åŒº.
         /// </summary>
         public const string Categories = _apiBase + "/x/article/categories";
 
         /// <summary>
-        /// ×¨À¸Ê×Ò³£¬ÍÆ¼öÄÚÈİ.
+        /// ä¸“æ é¦–é¡µï¼Œæ¨èå†…å®¹.
         /// </summary>
         public const string Recommend = _apiBase + "/x/article/recommends/plus";
 
         /// <summary>
-        /// ¸÷¸ö·ÖÇøÏÂµÄÎÄÕÂÁĞ±í.
+        /// å„ä¸ªåˆ†åŒºä¸‹çš„æ–‡ç« åˆ—è¡¨.
         /// </summary>
         public const string ArticleList = _apiBase + "/x/article/recommends";
 
         /// <summary>
-        /// ÎÄÕÂÄÚÈİ.
+        /// æ–‡ç« å†…å®¹.
         /// </summary>
         public const string ArticleContent = "https://www.bilibili.com/read/app/";
     }
@@ -387,55 +387,55 @@ public static class ApiConstants
     public static class Pgc
     {
         /// <summary>
-        /// ¶¥²¿±êÇ©.
+        /// é¡¶éƒ¨æ ‡ç­¾.
         /// </summary>
         public const string Tab = _apiBase + "/pgc/page/tab";
 
         /// <summary>
-        /// Ò³ÃæÏêÇé.
+        /// é¡µé¢è¯¦æƒ….
         /// </summary>
         public const string PageDetail = _apiBase + "/pgc/page";
 
         /// <summary>
-        /// ·Ö¼¯½»»¥ĞÅÏ¢.
+        /// åˆ†é›†äº¤äº’ä¿¡æ¯.
         /// </summary>
         public const string EpisodeInteraction = _apiBase + "/pgc/season/episode/community";
 
         /// <summary>
-        /// ×··¬/×·¾ç.
+        /// è¿½ç•ª/è¿½å‰§.
         /// </summary>
         public const string Follow = _apiBase + "/pgc/app/follow/add";
 
         /// <summary>
-        /// È¡Ïû×··¬/×·¾ç.
+        /// å–æ¶ˆè¿½ç•ª/è¿½å‰§.
         /// </summary>
         public const string Unfollow = _apiBase + "/pgc/app/follow/del";
 
         /// <summary>
-        /// PGCË÷ÒıÌõ¼ş.
+        /// PGCç´¢å¼•æ¡ä»¶.
         /// </summary>
         public const string IndexCondition = _apiBase + "/pgc/season/index/condition";
 
         /// <summary>
-        /// PGCË÷ÒıÉ¸Ñ¡½á¹û.
+        /// PGCç´¢å¼•ç­›é€‰ç»“æœ.
         /// </summary>
         public const string IndexResult = _apiBase + "/pgc/season/index/result";
 
         /// <summary>
-        /// Ê±¼ä±í.
+        /// æ—¶é—´è¡¨.
         /// </summary>
         public const string TimeLine = _apiBase + "/pgc/app/timeline";
 
         /// <summary>
-        /// ²¥·ÅÁĞ±í.
+        /// æ’­æ”¾åˆ—è¡¨.
         /// </summary>
         public const string PlayList = _apiBase + "/pgc/web/playlist";
 
         /// <summary>
-        /// ¾ç¼¯ÏêÇé.
+        /// å‰§é›†è¯¦æƒ….
         /// </summary>
-        /// <param name="proxy">´úÀí·şÎñÆ÷µØÖ·.</param>
-        /// <returns>APIµØÖ·.</returns>
+        /// <param name="proxy">ä»£ç†æœåŠ¡å™¨åœ°å€.</param>
+        /// <returns>APIåœ°å€.</returns>
         public static string SeasonDetail(string proxy = "")
         {
             var prefix = string.IsNullOrEmpty(proxy)
@@ -445,10 +445,10 @@ public static class ApiConstants
         }
 
         /// <summary>
-        /// ¾ç¼¯²¥·ÅĞÅÏ¢.
+        /// å‰§é›†æ’­æ”¾ä¿¡æ¯.
         /// </summary>
-        /// <param name="proxy">´úÀí·şÎñÆ÷µØÖ·.</param>
-        /// <returns>APIµØÖ·.</returns>
+        /// <param name="proxy">ä»£ç†æœåŠ¡å™¨åœ°å€.</param>
+        /// <returns>APIåœ°å€.</returns>
         public static string PlayInformation(string proxy = "")
         {
             var prefix = string.IsNullOrEmpty(proxy)
@@ -461,82 +461,87 @@ public static class ApiConstants
     public static class Video
     {
         /// <summary>
-        /// ÊÓÆµÏêÇé.
+        /// è§†é¢‘è¯¦æƒ… (GRPC).
         /// </summary>
-        public const string Detail = _grpcBase + "/bilibili.app.view.v1.View/View";
+        public const string DetailGrpc = _grpcBase + "/bilibili.app.view.v1.View/View";
 
         /// <summary>
-        /// ÔÚÏß¹Û¿´ÈËÊı.
+        /// è§†é¢‘è¯¦æƒ….
+        /// </summary>
+        public const string Detail = _apiBase + "/x/web-interface/view";
+
+        /// <summary>
+        /// åœ¨çº¿è§‚çœ‹äººæ•°.
         /// </summary>
         public const string OnlineViewerCount = _grpcBase + "/bilibili.app.playeronline.v1.PlayerOnline/PlayerOnline";
 
         /// <summary>
-        /// ÊÓÆµ²¥·ÅĞÅÏ¢.
+        /// è§†é¢‘æ’­æ”¾ä¿¡æ¯.
         /// </summary>
         public const string PlayInformation = _apiBase + "/x/player/playurl";
 
         /// <summary>
-        /// ÊÓÆµ²¥·ÅĞÅÏ¢.
+        /// è§†é¢‘æ’­æ”¾ä¿¡æ¯.
         /// </summary>
         public const string PlayUrl = _grpcBase + "/bilibili.app.playurl.v1.PlayURL/PlayView";
 
         /// <summary>
-        /// ÊÓÆµ²¥·ÅĞÅÏ¢.
+        /// è§†é¢‘æ’­æ”¾ä¿¡æ¯.
         /// </summary>
         public const string PlayConfig = _appBase + "/bilibili.app.playurl.v1.PlayURL/PlayConf";
 
         /// <summary>
-        /// µ¯Ä»ÔªÊı¾İ.
+        /// å¼¹å¹•å…ƒæ•°æ®.
         /// </summary>
         public const string DanmakuMetaData = _grpcBase + "/bilibili.community.service.dm.v1.DM/DmView";
 
         /// <summary>
-        /// ·Ö¶Îµ¯Ä».
+        /// åˆ†æ®µå¼¹å¹•.
         /// </summary>
         public const string SegmentDanmaku = _grpcBase + "/bilibili.community.service.dm.v1.DM/DmSegMobile";
 
         /// <summary>
-        /// ÀúÊ·¼ÇÂ¼.
+        /// å†å²è®°å½•.
         /// </summary>
         public const string ProgressReport = _apiBase + "/x/v2/history/report";
 
         /// <summary>
-        /// µãÔŞÊÓÆµ.
+        /// ç‚¹èµè§†é¢‘.
         /// </summary>
         public const string Like = _appBase + "/x/v2/view/like";
 
         /// <summary>
-        /// ¸øÊÓÆµÍ¶±Ò.
+        /// ç»™è§†é¢‘æŠ•å¸.
         /// </summary>
         public const string Coin = _appBase + "/x/v2/view/coin/add";
 
         /// <summary>
-        /// Ìí¼Ó»òÉ¾³ıÊÓÆµÊÕ²Ø.
+        /// æ·»åŠ æˆ–åˆ é™¤è§†é¢‘æ”¶è—.
         /// </summary>
         public const string ModifyFavorite = _apiBase + "/x/v3/fav/resource/batch-deal";
 
         /// <summary>
-        /// Ò»¼üÈıÁ¬.
+        /// ä¸€é”®ä¸‰è¿.
         /// </summary>
         public const string Triple = _appBase + "/x/v2/view/like/triple";
 
         /// <summary>
-        /// ·¢ËÍµ¯Ä».
+        /// å‘é€å¼¹å¹•.
         /// </summary>
         public const string SendDanmaku = _apiBase + "/x/v2/dm/post";
 
         /// <summary>
-        /// »ñÈ¡ÊÓÆµ×ÖÄ».
+        /// è·å–è§†é¢‘å­—å¹•.
         /// </summary>
         public const string Subtitle = _apiBase + "/x/player.so";
 
         /// <summary>
-        /// »ñÈ¡»¥¶¯ÊÓÆµÑ¡Ïî.
+        /// è·å–äº’åŠ¨è§†é¢‘é€‰é¡¹.
         /// </summary>
         public const string InteractionEdge = _apiBase + "/x/stein/edgeinfo_v2";
 
         /// <summary>
-        /// »ñÈ¡ÊÓÆµ²ÎÊı.
+        /// è·å–è§†é¢‘å‚æ•°.
         /// </summary>
         public const string Stat = _apiBase + "/x/web-interface/archive/stat";
     }
@@ -544,30 +549,30 @@ public static class ApiConstants
     public static class Search
     {
         /// <summary>
-        /// ËÑË÷ÍÆ¼ö.
+        /// æœç´¢æ¨è.
         /// </summary>
         public const string Square = _appBase + "/x/v2/search/square";
 
         /// <summary>
-        /// ×ÛºÏËÑË÷.
+        /// ç»¼åˆæœç´¢.
         /// </summary>
         public const string ComprehensiveSearch = _appBase + "/x/v2/search";
 
         /// <summary>
-        /// Ö±²¥ËÑË÷.
+        /// ç›´æ’­æœç´¢.
         /// </summary>
         public const string LiveModuleSearch = _appBase + "/x/v2/search/live";
 
         /// <summary>
-        /// ËÑË÷½¨Òé.
+        /// æœç´¢å»ºè®®.
         /// </summary>
         public const string Suggestion = _grpcBase + "/bilibili.app.interface.v1.Search/Suggest3";
 
         /// <summary>
-        /// ×ÓÄ£¿éËÑË÷£¬°üÀ¨PGC£¬ÓÃ»§ºÍÎÄÕÂ.
+        /// å­æ¨¡å—æœç´¢ï¼ŒåŒ…æ‹¬PGCï¼Œç”¨æˆ·å’Œæ–‡ç« .
         /// </summary>
-        /// <param name="proxy">´úÀí·şÎñÆ÷µØÖ·.</param>
-        /// <returns>APIµØÖ·.</returns>
+        /// <param name="proxy">ä»£ç†æœåŠ¡å™¨åœ°å€.</param>
+        /// <returns>APIåœ°å€.</returns>
         public static string SubModuleSearch(string proxy = "")
         {
             var prefix = string.IsNullOrEmpty(proxy)
@@ -580,47 +585,47 @@ public static class ApiConstants
     public static class Community
     {
         /// <summary>
-        /// ÆÀÂÛÁĞ±í.
+        /// è¯„è®ºåˆ—è¡¨.
         /// </summary>
         public const string ReplyMainList = _grpcBase + "/bilibili.main.community.reply.v1.Reply/MainList";
 
         /// <summary>
-        /// µ¥²ãÆÀÂÛÏêÇé.
+        /// å•å±‚è¯„è®ºè¯¦æƒ….
         /// </summary>
         public const string ReplyDetailList = _grpcBase + "/bilibili.main.community.reply.v1.Reply/DetailList";
 
         /// <summary>
-        /// µãÔŞÆÀÂÛ.
+        /// ç‚¹èµè¯„è®º.
         /// </summary>
         public const string LikeReply = _apiBase + "/x/v2/reply/action";
 
         /// <summary>
-        /// Ìí¼ÓÆÀÂÛ.
+        /// æ·»åŠ è¯„è®º.
         /// </summary>
         public const string AddReply = _apiBase + "/x/v2/reply/add";
 
         /// <summary>
-        /// ¶¯Ì¬±êÇ©.
+        /// åŠ¨æ€æ ‡ç­¾.
         /// </summary>
         public const string DynamicTabs = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynTab";
 
         /// <summary>
-        /// ×ÛºÏ¶¯Ì¬ÁĞ±í.
+        /// ç»¼åˆåŠ¨æ€åˆ—è¡¨.
         /// </summary>
         public const string DynamicAll = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynAll";
 
         /// <summary>
-        /// ÊÓÆµ¶¯Ì¬ÁĞ±í.
+        /// è§†é¢‘åŠ¨æ€åˆ—è¡¨.
         /// </summary>
         public const string DynamicVideo = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynVideo";
 
         /// <summary>
-        /// Î´µÇÂ¼Ê±µÄ¶¯Ì¬ÍÆ¼ö.
+        /// æœªç™»å½•æ—¶çš„åŠ¨æ€æ¨è.
         /// </summary>
         public const string DynamicWhenUnlogin = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynUnLoginRcmd";
 
         /// <summary>
-        /// µãÔŞ/È¡ÏûµãÔŞ¶¯Ì¬.
+        /// ç‚¹èµ/å–æ¶ˆç‚¹èµåŠ¨æ€.
         /// </summary>
         public const string LikeDynamic = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynThumb";
     }

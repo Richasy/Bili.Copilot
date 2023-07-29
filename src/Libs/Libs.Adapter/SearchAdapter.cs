@@ -7,7 +7,7 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.Models.Data.Video;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 
 namespace Bili.Copilot.Libs.Adapter;
 
@@ -22,7 +22,7 @@ public static class SearchAdapter
     /// <param name="item">热搜条目.</param>
     /// <returns><see cref="SearchSuggest"/>.</returns>
     public static SearchSuggest ConvertToSearchSuggest(SearchRecommendItem item)
-        => new SearchSuggest(item.Position, item.DisplayName, item.Keyword, item.Icon);
+        => new(item.Position, item.DisplayName, item.Keyword, item.Icon);
 
     /// <summary>
     /// 将来自 Web 的搜索建议条目 <see cref="ResultItem"/> 转换为本地搜索建议条目.
@@ -30,7 +30,7 @@ public static class SearchAdapter
     /// <param name="item">来自 Web 的搜索建议条目.</param>
     /// <returns><see cref="SearchSuggest"/>.</returns>
     public static SearchSuggest ConvertToSearchSuggest(ResultItem item)
-        => new SearchSuggest(item.Position, item.Title, item.Keyword);
+        => new(item.Position, item.Title, item.Keyword);
 
     /// <summary>
     /// 将综合搜索结果响应 <see cref="ComprehensiveSearchResultResponse"/> 转换为综合数据集.
@@ -48,7 +48,7 @@ public static class SearchAdapter
         var isEnd = response.ItemList == null;
         var videos = isEnd
             ? new List<VideoInformation>()
-            : response.ItemList.Where(p => p.Goto == ServiceConstants.Av).Select(p => VideoAdapter.ConvertToVideoInformation(p)).ToList();
+            : response.ItemList.Where(p => p.Goto == ServiceConstants.Av).Select(VideoAdapter.ConvertToVideoInformation).ToList();
         var videoSet = new SearchSet<VideoInformation>(videos, isEnd);
 
         return new ComprehensiveSet(videoSet, metaList);

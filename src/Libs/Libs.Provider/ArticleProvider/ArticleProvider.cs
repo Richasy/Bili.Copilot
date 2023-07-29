@@ -54,7 +54,7 @@ public sealed partial class ArticleProvider
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, ApiConstants.Article.Categories, queryParameters);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<List<ArticleCategory>>>(response);
-        var partitions = result.Data.Select(p => CommunityAdapter.ConvertToPartition(p)).ToList();
+        var partitions = result.Data.Select(CommunityAdapter.ConvertToPartition).ToList();
         partitions.Insert(0, new Models.Data.Community.Partition("0", "推荐"));
         return partitions;
     }

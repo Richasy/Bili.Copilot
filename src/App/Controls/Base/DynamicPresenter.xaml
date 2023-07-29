@@ -11,21 +11,14 @@
 
     <UserControl.Resources>
         <DataTemplate x:Name="VideoTemplate" x:DataType="viewmodels:VideoItemViewModel">
-            <local:VideoItem
-                DataContext="{x:Bind}"
-                Style="{StaticResource HorizontalDynamicVideoItemStyle}"
-                ViewModel="{x:Bind}" />
+            <local:VideoItem Style="{StaticResource HorizontalDynamicVideoItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="EpisodeTemplate" x:DataType="viewmodels:EpisodeItemViewModel">
-            <local:EpisodeItem
-                DataContext="{x:Bind}"
-                Style="{StaticResource HorizontalDynamicEpisodeItemStyle}"
-                ViewModel="{x:Bind}" />
+            <local:EpisodeItem Style="{StaticResource HorizontalDynamicEpisodeItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="ForwardTemplate" x:DataType="viewmodels:DynamicItemViewModel">
             <local:DynamicItem
                 Margin="-12,0"
-                DataContext="{x:Bind}"
                 Style="{StaticResource ForwardDynamicItemStyle}"
                 ViewModel="{x:Bind}" />
         </DataTemplate>
@@ -33,10 +26,7 @@
             <local:DynamicImageItem ItemsSource="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Name="ArticleTemplate" x:DataType="viewmodels:ArticleItemViewModel">
-            <local:ArticleItem
-                DataContext="{x:Bind}"
-                Style="{StaticResource DynamicArticleItemStyle}"
-                ViewModel="{x:Bind}" />
+            <local:ArticleItem Style="{StaticResource DynamicArticleItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="NoneTemplate">
             <local:DynamicNotSupportItem />

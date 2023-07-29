@@ -32,7 +32,7 @@ public sealed partial class PopularPage : PopularPageBase
 
     private async void OnPopularTypeSegmentedSelectionChangedAsync(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
     {
-        ContentScrollViewer.ChangeView(default, 0, default, true);
+        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
         await Task.Delay(100);
         ViewModel.CurrentType = (PopularType)PopularTypeSelection.SelectedIndex;
     }

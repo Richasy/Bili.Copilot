@@ -12,6 +12,7 @@ using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.Player;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
@@ -47,20 +48,47 @@ public partial class PlayerProvider
     public static async Task<VideoPlayerView> GetVideoDetailAsync(string videoId)
     {
         var type = VideoToolkit.GetVideoIdType(videoId, out var avId);
-        var viewRequest = new ViewReq();
-        if (type == VideoIdType.Av && !string.IsNullOrEmpty(avId))
+        try
         {
-            viewRequest.Aid = Convert.ToInt64(avId);
+            var viewRequest = new ViewReq();
+            if (type == VideoIdType.Av && !string.IsNullOrEmpty(avId))
+            {
+                viewRequest.Aid = Convert.ToInt64(avId);
+            }
+            else if (type == VideoIdType.Bv)
+            {
+                viewRequest.Bvid = videoId;
+            }
+
+            viewRequest.Fnval = 16;
+            var request = await HttpProvider.GetRequestMessageAsync(Video.DetailGrpc, viewRequest);
+            var response = await HttpProvider.Instance.SendAsync(request);
+            var data = await HttpProvider.ParseAsync(response, ViewReply.Parser);
+            return VideoAdapter.ConvertToVideoView(data);
         }
-        else if (type == VideoIdType.Bv)
+        catch (ServiceException se)
         {
-            viewRequest.Bvid = videoId;
+            if (se.Message == Messages.NoData)
+            {
+                // 使用网页 API 请求数据.
+                var queryParameters = new Dictionary<string, string>();
+                if (type == VideoIdType.Av)
+                {
+                    queryParameters.Add("aid", avId);
+                }
+                else
+                {
+                    queryParameters.Add("bvid", videoId);
+                }
+
+                var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.Detail, queryParameters, RequestClientType.IOS, needToken: false);
+                var response = await HttpProvider.Instance.SendAsync(request);
+                var data = await HttpProvider.ParseAsync<ServerResponse<VideoPageResponse>>(response);
+                return VideoAdapter.ConvertToVideoView(data.Data);
+            }
         }
 
-        var request = await HttpProvider.GetRequestMessageAsync(Video.Detail, viewRequest);
-        var response = await HttpProvider.Instance.SendAsync(request);
-        var data = await HttpProvider.ParseAsync(response, ViewReply.Parser);
-        return VideoAdapter.ConvertToVideoView(data);
+        return default;
     }
 
     /// <summary>
@@ -157,7 +185,7 @@ public partial class PlayerProvider
         var request = await HttpProvider.GetRequestMessageAsync(Video.SegmentDanmaku, req);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, DmSegMobileReply.Parser);
-        return result.Elems.Select(p => PlayerAdapter.ConvertToDanmakuInformation(p)).ToList();
+        return result.Elems.Select(PlayerAdapter.ConvertToDanmakuInformation).ToList();
     }
 
     /// <summary>
@@ -385,7 +413,7 @@ public partial class PlayerProvider
         {
             var json = Regex.Match(text, @"<subtitle>(.*?)</subtitle>").Groups[1].Value;
             var index = JsonSerializer.Deserialize<SubtitleIndexResponse>(json);
-            return index.Subtitles.Select(p => PlayerAdapter.ConvertToSubtitleMeta(p)).ToList();
+            return index.Subtitles.Select(PlayerAdapter.ConvertToSubtitleMeta).ToList();
         }
 
         return null;
@@ -406,7 +434,7 @@ public partial class PlayerProvider
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, clientType: RequestClientType.IOS, needCookie: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<SubtitleDetailResponse>(response);
-        return result.Body.Select(p => PlayerAdapter.ConvertToSubtitleInformation(p)).ToList();
+        return result.Body.Select(PlayerAdapter.ConvertToSubtitleInformation).ToList();
     }
 
     /// <summary>

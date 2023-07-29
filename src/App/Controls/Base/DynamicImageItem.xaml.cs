@@ -32,7 +32,7 @@ public sealed partial class DynamicImageItem : UserControl
     /// </summary>
     public object ItemsSource
     {
-        get => (object)GetValue(ItemsSourceProperty);
+        get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 

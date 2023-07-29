@@ -2,15 +2,18 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.Grpc;
 
 namespace Bili.Copilot.Libs.Provider;
 
@@ -19,6 +22,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class HttpProvider
 {
+    private static string _buvid;
     private bool _disposedValue;
     private CookieContainer _cookieContainer;
 
@@ -88,9 +92,9 @@ public sealed partial class HttpProvider
                     },
                     exception);
         }
-        catch (ServiceException exception)
+        catch (ServiceException)
         {
-            throw exception;
+            throw;
         }
         catch (Exception exception)
         {
@@ -104,6 +108,21 @@ public sealed partial class HttpProvider
         }
 
         return response;
+    }
+
+    private static string GetBuvid()
+    {
+        if (string.IsNullOrEmpty(_buvid))
+        {
+            var macAddress = NetworkInterface.GetAllNetworkInterfaces()
+                .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .Select(nic => nic.GetPhysicalAddress().ToString())
+                .FirstOrDefault();
+            var buvidObj = new Buvid(macAddress);
+            _buvid = buvidObj.Generate();
+        }
+
+        return _buvid;
     }
 
     private static async Task ThrowIfHasExceptionAsync(HttpResponseMessage response)

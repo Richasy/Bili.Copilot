@@ -123,10 +123,10 @@ public partial class LiveProvider
         {
             _liveWebSocket = new WebsocketClient(new Uri(ApiConstants.Live.ChatSocket))
             {
-                ErrorReconnectTimeout = TimeSpan.FromSeconds(30),
+                IsReconnectionEnabled = false,
             };
-            _liveWebSocket.DisconnectionHappened.Subscribe(info => OnLiveSocketDisconnected(info));
-            _liveWebSocket.MessageReceived.Subscribe(msg => OnLiveSocketMessageReceived(msg));
+            _ = _liveWebSocket.DisconnectionHappened.Subscribe(OnLiveSocketDisconnected);
+            _ = _liveWebSocket.MessageReceived.Subscribe(OnLiveSocketMessageReceived);
         }
     }
 
@@ -317,7 +317,7 @@ public partial class LiveProvider
         if (_isLiveSocketConnected)
         {
             _isLiveSocketConnected = false;
-            _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
+            _ = _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
             ConnectLiveSocket();
         }
     }

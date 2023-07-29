@@ -93,4 +93,6 @@ public enum SettingNames
     LastAnimeType,
     IsLiveFollowsVisible,
     LastLiveDisplayType,
+    DanmakuZoom,
+    VideoAcceleration,
 }

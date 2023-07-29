@@ -16,5 +16,5 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
     public VideoItem() => DefaultStyleKey = typeof(VideoItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new Size(400, 180);
+    public Size GetHolderSize() => new(400, 180);
 }

@@ -102,10 +102,10 @@ public sealed class DynamicAdapter
     public static DynamicView ConvertToDynamicView(DynVideoReply reply)
     {
         var list = reply.DynamicList.List.Where(p =>
-            p.CardType == DynamicType.Av
-            || p.CardType == DynamicType.Pgc
-            || p.CardType == DynamicType.UgcSeason)
-            .Select(p => ConvertToDynamicInformation(p))
+            p.CardType is DynamicType.Av
+            or DynamicType.Pgc
+            or DynamicType.UgcSeason)
+            .Select(ConvertToDynamicInformation)
             .ToList();
 
         return new DynamicView(list);
@@ -119,9 +119,9 @@ public sealed class DynamicAdapter
     public static DynamicView ConvertToDynamicView(DynAllReply reply)
     {
         var list = reply.DynamicList.List.Where(p =>
-            p.CardType != DynamicType.DynNone
-            && p.CardType != DynamicType.Ad)
-            .Select(p => ConvertToDynamicInformation(p))
+            p.CardType is not DynamicType.DynNone
+            and not DynamicType.Ad)
+            .Select(ConvertToDynamicInformation)
             .ToList();
 
         return new DynamicView(list);

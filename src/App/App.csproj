@@ -19,7 +19,18 @@
         <TrimMode>partial</TrimMode>
     </PropertyGroup>
     <ItemGroup>
-        <None Remove="Assets\FluentSystemIcons.ttf" />
+      <Content Remove="Assets\ffmpeg\avcodec-60.dll" />
+      <Content Remove="Assets\ffmpeg\avdevice-60.dll" />
+      <Content Remove="Assets\ffmpeg\avfilter-9.dll" />
+      <Content Remove="Assets\ffmpeg\avformat-60.dll" />
+      <Content Remove="Assets\ffmpeg\avutil-58.dll" />
+      <Content Remove="Assets\ffmpeg\postproc-57.dll" />
+      <Content Remove="Assets\ffmpeg\swresample-4.dll" />
+      <Content Remove="Assets\ffmpeg\swscale-7.dll" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\ERROR_rgba.png" />
+        <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
@@ -27,9 +38,11 @@
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
+        <None Remove="Controls\Base\MediaStatsPanel.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
+        <None Remove="Controls\Base\UserAvatar.xaml" />
         <None Remove="Controls\Base\VideoItem\VideoItem.xaml" />
         <None Remove="Controls\Base\BannerItem\BannerItem.xaml" />
         <None Remove="Controls\Base\ArticleItem\ArticleItem.xaml" />
@@ -38,23 +51,42 @@
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
+        <None Remove="Controls\Comment\CommentBox.xaml" />
+        <None Remove="Controls\Comment\CommentModule.xaml" />
+        <None Remove="Controls\Comment\CommentRepeater.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
+        <None Remove="Controls\Modules\LiveInformationView.xaml" />
+        <None Remove="Controls\Modules\LiveMessageView.xaml" />
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcEpisodeView.xaml" />
+        <None Remove="Controls\Modules\PgcExtraView.xaml" />
         <None Remove="Controls\Modules\PgcFavoriteDetailModule.xaml" />
+        <None Remove="Controls\Modules\PgcInformationView.xaml" />
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
+        <None Remove="Controls\Modules\PgcSeasonView.xaml" />
+        <None Remove="Controls\Modules\RelatedVideoView.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\TimelineModule.xaml" />
+        <None Remove="Controls\Modules\UgcSeasonView.xaml" />
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
+        <None Remove="Controls\Modules\VideoInformationView.xaml" />
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartView.xaml" />
+        <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
+        <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
@@ -62,12 +94,20 @@
         <None Remove="Pages\FilmPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
+        <None Remove="Pages\LivePlayerPage.xaml" />
+        <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
+        <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\WatchlistPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
+        <None Remove="Controls\Base\BubbleView\BubbleView.xaml" />
+        <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
+        <None Remove="Controls\Comment\CommentDetailView\CommentDetailView.xaml" />
+        <None Remove="Controls\Comment\CommentItem\CommentItem.xaml" />
+        <None Remove="Controls\Comment\CommentMainView\CommentMainView.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="NLog.config" />
@@ -78,14 +118,17 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.0.1" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.108" />
+        <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.112" />
+        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230724000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="NLog" Version="5.2.2" />
+        <PackageReference Include="Vortice.WinUI" Version="3.2.1-beta" />
         <PackageReference Include="WinUIEx" Version="2.2.0" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
@@ -99,11 +142,127 @@
         <ProjectCapability Include="Msix" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj" />
         <ProjectReference Include="..\Libs\Libs.Provider\Libs.Provider.csproj" />
         <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Assets\ffmpeg\avcodec-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avdevice-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avfilter-9.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avformat-60.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\avutil-58.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\postproc-57.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\swresample-4.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\swscale-7.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <Page Update="Controls\Modules\VideoPlaylistView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\UserAvatar.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentDetailView\CommentDetailView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentItem\CommentItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentMainView\CommentMainView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentRepeater.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Comment\CommentBox.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\VideoInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\UgcSeasonView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\VideoPartView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\RelatedVideoView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\ProgressButton\ProgressButton.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\BubbleView\BubbleView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcSeasonView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcExtraView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PgcEpisodeView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\MediaStatsPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveMessageView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\PgcPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\LivePlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuView\DanmakuView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\VideoPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Forms\PlayerWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Modules\PgcFavoriteDetailModule.xaml">

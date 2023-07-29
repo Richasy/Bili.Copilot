@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
@@ -11,6 +12,18 @@ namespace Bili.Copilot.App.Extensions;
 /// </summary>
 public static class VisualTreeExtensions
 {
+    /// <summary>
+    /// 绑定大小.
+    /// </summary>
+    /// <param name="target">目标元素.</param>
+    /// <param name="source">来源视图.</param>
+    public static void BindSize(this Visual target, Visual source)
+    {
+        var exp = target.Compositor.CreateExpressionAnimation("host.Size");
+        exp.SetReferenceParameter("host", source);
+        target.StartAnimation("Size", exp);
+    }
+
     /// <summary>
     /// 通过名称查找指定的后裔元素.
     /// </summary>

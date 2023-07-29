@@ -8,6 +8,11 @@ import "bilibili/pagination/pagination.proto";
 import "bilibili/app/dynamic/common/dynamic.proto";
 import "bilibili/app/dynamic/v2/dynamic.proto";
 
+service Campus {
+    // 
+    rpc WaterFlowRcmd (WaterFlowRcmdReq) returns (WaterFlowRcmdResp);
+}
+
 // 
 message CampusWaterFlowItem {
     // 
@@ -28,6 +33,8 @@ message WaterFlowRcmdReq {
     int32 page = 2;
     // 
     bilibili.app.archive.middleware.v1.PlayerArgs player_args = 3;
+    // 
+    CampusRcmdReqFrom from = 4;
 }
 
 // 

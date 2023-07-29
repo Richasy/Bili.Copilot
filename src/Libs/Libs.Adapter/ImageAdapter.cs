@@ -21,7 +21,7 @@ public static class ImageAdapter
     /// <param name="uri">图片地址.</param>
     /// <returns><see cref="Image"/>.</returns>
     public static Image ConvertToImage(string uri)
-        => new Image(uri);
+        => new(uri);
 
     /// <summary>
     /// 根据图片地址及宽高信息生成缩略图地址.
@@ -31,7 +31,7 @@ public static class ImageAdapter
     /// <param name="height">图片高度.</param>
     /// <returns><see cref="Image"/>.</returns>
     public static Image ConvertToImage(string uri, double width, double height)
-        => new Image(uri, width, height, (w, h) => $"@{w}w_{h}h_1c_100q.jpg");
+        => new(uri, width, height, (w, h) => $"@{w}w_{h}h_1c_100q.jpg");
 
     /// <summary>
     /// 根据图片地址生成适用于视频卡片尺寸的缩略图地址.

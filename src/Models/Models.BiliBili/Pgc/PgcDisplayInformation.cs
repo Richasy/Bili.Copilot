@@ -1,302 +1,302 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// PGCÄÚÈİÏêÇé.
+/// PGCå†…å®¹è¯¦æƒ….
 /// </summary>
 public class PgcDisplayInformation
 {
     /// <summary>
-    /// ÑİÔ±±í.
+    /// æ¼”å‘˜è¡¨.
     /// </summary>
     [JsonPropertyName("actor")]
     public PgcStaff Actor { get; set; }
 
     /// <summary>
-    /// êÇ³Æ£¬¼ÙÃû.
+    /// æ˜µç§°ï¼Œå‡å.
     /// </summary>
     [JsonPropertyName("alias")]
     public string Alias { get; set; }
 
     /// <summary>
-    /// ËùÊôµØÇø.
+    /// æ‰€å±åœ°åŒº.
     /// </summary>
     [JsonPropertyName("areas")]
     public List<PgcArea> Areas { get; set; }
 
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// å¾½ç« æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ¶¯Ì¬¸±±êÌâ.
+    /// åŠ¨æ€å‰¯æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("dynamic_subtitle")]
     public string DynamicSubtitle { get; set; }
 
     /// <summary>
-    /// ÆÀ¼Û£¬ËµÃ÷ÎÄ±¾.
+    /// è¯„ä»·ï¼Œè¯´æ˜æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("evaluate")]
     public string Evaluate { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// Ã½ÌåId.
+    /// åª’ä½“Id.
     /// </summary>
     [JsonPropertyName("media_id")]
     public int MediaId { get; set; }
 
     /// <summary>
-    /// Ä£Ê½£¬ÓÃÍ¾²»Ã÷.
+    /// æ¨¡å¼ï¼Œç”¨é€”ä¸æ˜.
     /// </summary>
     [JsonPropertyName("mode")]
     public int Mode { get; set; }
 
     /// <summary>
-    /// Ä£¿é.
+    /// æ¨¡å—.
     /// </summary>
     [JsonPropertyName("modules")]
     public List<PgcDetailModule> Modules { get; set; }
 
     /// <summary>
-    /// Ô­Ãû.
+    /// åŸå.
     /// </summary>
     [JsonPropertyName("origin_name")]
     public string OriginName { get; set; }
 
     /// <summary>
-    /// ·¢²¼ĞÅÏ¢.
+    /// å‘å¸ƒä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("publish")]
     public PgcPublishInformation PublishInformation { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// å‰§é›†Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public int SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯±êÌâ.
+    /// å‰§é›†æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("season_title")]
     public string SeasonTitle { get; set; }
 
     /// <summary>
-    /// ÏµÁĞ.
+    /// ç³»åˆ—.
     /// </summary>
     [JsonPropertyName("series")]
     public PgcSeries Series { get; set; }
 
     /// <summary>
-    /// ·ÖÏí±êÌâ.
+    /// åˆ†äº«æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("share_copy")]
     public string ShareTitle { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÁ´½Ó.
+    /// åˆ†äº«é“¾æ¥.
     /// </summary>
     [JsonPropertyName("share_url")]
     public string ShareUrl { get; set; }
 
     /// <summary>
-    /// ¶ÌÁ´½Ó.
+    /// çŸ­é“¾æ¥.
     /// </summary>
     [JsonPropertyName("short_link")]
     public string ShortLink { get; set; }
 
     /// <summary>
-    /// ¾ØĞÎ·âÃæ.
+    /// çŸ©å½¢å°é¢.
     /// </summary>
     [JsonPropertyName("square_cover")]
     public string SquareCover { get; set; }
 
     /// <summary>
-    /// ²ÎÓëÈËÔ±£¬ÖÆ×÷ĞÅÏ¢.
+    /// å‚ä¸äººå‘˜ï¼Œåˆ¶ä½œä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("staff")]
     public PgcStaff Staff { get; set; }
 
     /// <summary>
-    /// ÏêÇé»¥¶¯Êı¾İ£¨°üÀ¨Í¶±ÒÊı£¬¹Û¿´ÊıµÈ£©.
+    /// è¯¦æƒ…äº’åŠ¨æ•°æ®ï¼ˆåŒ…æ‹¬æŠ•å¸æ•°ï¼Œè§‚çœ‹æ•°ç­‰ï¼‰.
     /// </summary>
     [JsonPropertyName("stat")]
     public PgcInformationStat InformationStat { get; set; }
 
     /// <summary>
-    /// ×´Ì¬£¨ÊıÖµº¬Òå²»Ã÷£©.
+    /// çŠ¶æ€ï¼ˆæ•°å€¼å«ä¹‰ä¸æ˜ï¼‰.
     /// </summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
     /// <summary>
-    /// Ë÷ÒıÉ¸Ñ¡ÁĞ±í.
+    /// ç´¢å¼•ç­›é€‰åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("styles")]
     public List<PgcIndex> IndexList { get; set; }
 
     /// <summary>
-    /// ¸±±êÌâ.
+    /// å‰¯æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("subtitle")]
     public string Subtitle { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ×Ü¼¯Êı.
+    /// æ€»é›†æ•°.
     /// </summary>
     [JsonPropertyName("total")]
     public int TotalCount { get; set; }
 
     /// <summary>
-    /// ÀàĞÍ.
+    /// ç±»å‹.
     /// </summary>
     [JsonPropertyName("type")]
     public int Type { get; set; }
 
     /// <summary>
-    /// ÀàĞÍËµÃ÷.
+    /// ç±»å‹è¯´æ˜.
     /// </summary>
     [JsonPropertyName("type_desc")]
     public string TypeDescription { get; set; }
 
     /// <summary>
-    /// ÀàĞÍÃû.
+    /// ç±»å‹å.
     /// </summary>
     [JsonPropertyName("type_name")]
     public string TypeName { get; set; }
 
     /// <summary>
-    /// ÓÃ»§×´Ì¬£¬°üÀ¨ÊÇ·ñÒÑ×··¬¼°²¥·Å½ø¶ÈµÈ.
+    /// ç”¨æˆ·çŠ¶æ€ï¼ŒåŒ…æ‹¬æ˜¯å¦å·²è¿½ç•ªåŠæ’­æ”¾è¿›åº¦ç­‰.
     /// </summary>
     [JsonPropertyName("user_status")]
     public PgcUserStatus UserStatus { get; set; }
 
     /// <summary>
-    /// ¶¯Ì¬±êÇ©Ò³.
+    /// åŠ¨æ€æ ‡ç­¾é¡µ.
     /// </summary>
     [JsonPropertyName("activity_tab")]
     public PgcActivityTab ActivityTab { get; set; }
 
     /// <summary>
-    /// ÆÀ·Ö.
+    /// è¯„åˆ†.
     /// </summary>
     [JsonPropertyName("rating")]
     public PgcRating Rating { get; set; }
 
     /// <summary>
-    /// ÑİÖ°ÈËÔ±.
+    /// æ¼”èŒäººå‘˜.
     /// </summary>
     [JsonPropertyName("celebrity")]
     public List<PgcCelebrity> Celebrity { get; set; }
 
     /// <summary>
-    /// ¾¯Ê¾ĞÅÏ¢.
+    /// è­¦ç¤ºä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("dialog")]
     public PgcPlayerDialog Warning { get; set; }
 }
 
 /// <summary>
-/// ²¥·ÅÆ÷¾¯¸æ.
+/// æ’­æ”¾å™¨è­¦å‘Š.
 /// </summary>
 public class PgcPlayerDialog
 {
     /// <summary>
-    /// ¾¯¸æ´úºÅ.
+    /// è­¦å‘Šä»£å·.
     /// </summary>
     [JsonPropertyName("code")]
     public int Code { get; set; }
 
     /// <summary>
-    /// ¾¯¸æĞÅÏ¢.
+    /// è­¦å‘Šä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("msg")]
     public string Message { get; set; }
 
     /// <summary>
-    /// ¾¯¸æÀàĞÍ.
+    /// è­¦å‘Šç±»å‹.
     /// </summary>
     [JsonPropertyName("type")]
     public string Type { get; set; }
 }
 
 /// <summary>
-/// ·¢²¼ÏêÇé.
+/// å‘å¸ƒè¯¦æƒ….
 /// </summary>
 public class PgcPublishInformation
 {
     /// <summary>
-    /// ÊÇ·ñÒÑÍê½á£¬0-Î´Íê½á£¬1-ÒÑÍê½á.
+    /// æ˜¯å¦å·²å®Œç»“ï¼Œ0-æœªå®Œç»“ï¼Œ1-å·²å®Œç»“.
     /// </summary>
     [JsonPropertyName("is_finish")]
     public int IsFinish { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÒÑ¿ªÊ¼Á¬ÔØ.
+    /// æ˜¯å¦å·²å¼€å§‹è¿è½½.
     /// </summary>
     [JsonPropertyName("is_started")]
     public int IsStarted { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä.
+    /// å‘å¸ƒæ—¶é—´.
     /// </summary>
     [JsonPropertyName("pub_time")]
     public string PublishTime { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾µÄ¿É¶Á·¢²¼Ê±¼ä.
+    /// æ˜¾ç¤ºçš„å¯è¯»å‘å¸ƒæ—¶é—´.
     /// </summary>
     [JsonPropertyName("pub_time_show")]
     public string DisplayPublishTime { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾µÄ¿É¶Á·¢²¼ÈÕÆÚ.
+    /// æ˜¾ç¤ºçš„å¯è¯»å‘å¸ƒæ—¥æœŸ.
     /// </summary>
     [JsonPropertyName("release_date_show")]
     public string DisplayReleaseDate { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾µÄÁ¬ÔØ½ø¶È.
+    /// æ˜¾ç¤ºçš„è¿è½½è¿›åº¦.
     /// </summary>
     [JsonPropertyName("time_length_show")]
     public string DisplayProgress { get; set; }
 
     /// <summary>
-    /// Î´Öª·¢²¼Ê±¼ä. 0-ÒÑÖª£¬1-Î´Öª.
+    /// æœªçŸ¥å‘å¸ƒæ—¶é—´. 0-å·²çŸ¥ï¼Œ1-æœªçŸ¥.
     /// </summary>
     [JsonPropertyName("unknow_pub_date")]
     public int UnknowPublishDate { get; set; }
 }
 
 /// <summary>
-/// PGCµ¥¼¯ĞÅÏ¢.
+/// PGCå•é›†ä¿¡æ¯.
 /// </summary>
 public class PgcEpisodeDetail
 {
     /// <summary>
-    /// ÊÓÆµId.
+    /// è§†é¢‘Id.
     /// </summary>
     [JsonPropertyName("aid")]
     public int Aid { get; set; }
@@ -308,494 +308,494 @@ public class PgcEpisodeDetail
     public string BvId { get; set; }
 
     /// <summary>
-    /// ·ÖP Id.
+    /// åˆ†P Id.
     /// </summary>
     [JsonPropertyName("cid")]
     public int PartId { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// Ê±³¤.
+    /// æ—¶é•¿.
     /// </summary>
     [JsonPropertyName("duration")]
     public int Duration { get; set; }
 
     /// <summary>
-    /// ·Ö¼¯Ë÷Òı.
+    /// åˆ†é›†ç´¢å¼•.
     /// </summary>
     [JsonPropertyName("ep_index")]
     public int Index { get; set; }
 
     /// <summary>
-    /// ·Ö¼¯Id.
+    /// åˆ†é›†Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// ³¤±êÌâ.
+    /// é•¿æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("long_title")]
     public string LongTitle { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä£¨Ãë£©.
+    /// å‘å¸ƒæ—¶é—´ï¼ˆç§’ï¼‰.
     /// </summary>
     [JsonPropertyName("pub_time")]
     public int PublishTime { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªPV£¿ 0-²»ÊÇ£¬1-ÊÇ.
+    /// æ˜¯å¦ä¸ºPVï¼Ÿ 0-ä¸æ˜¯ï¼Œ1-æ˜¯.
     /// </summary>
     [JsonPropertyName("pv")]
     public int IsPV { get; set; }
 
     /// <summary>
-    /// µ±Ç°·Ö¿éÄÚµÄË÷Òı.
+    /// å½“å‰åˆ†å—å†…çš„ç´¢å¼•.
     /// </summary>
     [JsonPropertyName("section_index")]
     public int SectionIndex { get; set; }
 
     /// <summary>
-    /// ·ÖÏí±êÌâ.
+    /// åˆ†äº«æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("share_copy")]
     public string ShareTitle { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÁ´½Ó.
+    /// åˆ†äº«é“¾æ¥.
     /// </summary>
     [JsonPropertyName("share_url")]
     public string ShareUrl { get; set; }
 
     /// <summary>
-    /// ¶ÌÁ´½Ó.
+    /// çŸ­é“¾æ¥.
     /// </summary>
     [JsonPropertyName("short_link")]
     public string ShortLink { get; set; }
 
     /// <summary>
-    /// ×´Ì¬.
+    /// çŠ¶æ€.
     /// </summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
     /// <summary>
-    /// ¸±±êÌâ.
+    /// å‰¯æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("subtitle")]
     public string Subtitle { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ±¨¸æĞÅÏ¢.
+    /// æŠ¥å‘Šä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("report")]
     public PgcModuleReport Report { get; set; }
 
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// å¾½ç« æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }
 
     /// <summary>
-    /// µ¥¼¯ÉçÇøĞÅÏ¢.
+    /// å•é›†ç¤¾åŒºä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("stat")]
     public PgcEpisodeStat Stat { get; set; }
 }
 
 /// <summary>
-/// PGCÏµÁĞ.
+/// PGCç³»åˆ—.
 /// </summary>
 public class PgcSeries
 {
     /// <summary>
-    /// ÏµÁĞId.
+    /// ç³»åˆ—Id.
     /// </summary>
     [JsonPropertyName("series_id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("series_title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// PGCÄÚÈİµÄÓÃ»§½»»¥Êı¾İ.
+/// PGCå†…å®¹çš„ç”¨æˆ·äº¤äº’æ•°æ®.
 /// </summary>
 public class PgcUserStatus
 {
     /// <summary>
-    /// ÊÇ·ñÒÑ¹Ø×¢/×··¬. 0-Ã»ÓĞ£¬1-ÒÑ×·.
+    /// æ˜¯å¦å·²å…³æ³¨/è¿½ç•ª. 0-æ²¡æœ‰ï¼Œ1-å·²è¿½.
     /// </summary>
     [JsonPropertyName("follow")]
     public int IsFollow { get; set; }
 
     /// <summary>
-    /// ¸¶·Ñ×´Ì¬. 0-Î´¸¶·Ñ£¬1-ÒÑ¸¶·Ñ.
+    /// ä»˜è´¹çŠ¶æ€. 0-æœªä»˜è´¹ï¼Œ1-å·²ä»˜è´¹.
     /// </summary>
     [JsonPropertyName("pay")]
     public int Pay { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÀúÊ·¼ÇÂ¼.
+    /// æ’­æ”¾å†å²è®°å½•.
     /// </summary>
     [JsonPropertyName("progress")]
     public PgcProgress Progress { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñĞèÒª´ó»áÔ±. 0-²»ĞèÒª£¬1-ĞèÒª.
+    /// æ˜¯å¦éœ€è¦å¤§ä¼šå‘˜. 0-ä¸éœ€è¦ï¼Œ1-éœ€è¦.
     /// </summary>
     [JsonPropertyName("vip")]
     public int IsVip { get; set; }
 }
 
 /// <summary>
-/// PGCÄÚÈİÖÆ×÷ÈËÔ±ĞÅÏ¢.
+/// PGCå†…å®¹åˆ¶ä½œäººå‘˜ä¿¡æ¯.
 /// </summary>
 public class PgcStaff
 {
     /// <summary>
-    /// ÄÚÈİ.
+    /// å†…å®¹.
     /// </summary>
     [JsonPropertyName("info")]
     public string Information { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// PGCÏêÇéĞÅÏ¢µÄÉçÇøÊı¾İ.
+/// PGCè¯¦æƒ…ä¿¡æ¯çš„ç¤¾åŒºæ•°æ®.
 /// </summary>
 public class PgcInformationStat
 {
     /// <summary>
-    /// Í¶±ÒÊı.
+    /// æŠ•å¸æ•°.
     /// </summary>
     [JsonPropertyName("coins")]
     public long CoinCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmakus")]
     public long DanmakuCount { get; set; }
 
     /// <summary>
-    /// µ¥¼¯ÊÕ²ØÊı.
+    /// å•é›†æ”¶è—æ•°.
     /// </summary>
     [JsonPropertyName("favorite")]
     public long FavoriteCount { get; set; }
 
     /// <summary>
-    /// ÏµÁĞ×··¬/ÊÕ²ØÊı.
+    /// ç³»åˆ—è¿½ç•ª/æ”¶è—æ•°.
     /// </summary>
     [JsonPropertyName("favorites")]
     public long SeriesFavoriteCount { get; set; }
 
     /// <summary>
-    /// ×··¬/ÊÕ²ØÏÔÊ¾ÎÄ±¾.
+    /// è¿½ç•ª/æ”¶è—æ˜¾ç¤ºæ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("followers")]
     public string FollowerDisplayText { get; set; }
 
     /// <summary>
-    /// µãÔŞÊı.
+    /// ç‚¹èµæ•°.
     /// </summary>
     [JsonPropertyName("likes")]
     public long LikeCount { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÁ¿ÏÔÊ¾ÎÄ±¾.
+    /// æ’­æ”¾é‡æ˜¾ç¤ºæ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("play")]
     public string PlayDisplayText { get; set; }
 
     /// <summary>
-    /// »Ø¸´Êı.
+    /// å›å¤æ•°.
     /// </summary>
     [JsonPropertyName("reply")]
     public long ReplyCount { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÊı.
+    /// åˆ†äº«æ•°.
     /// </summary>
     [JsonPropertyName("share")]
     public long ShareCount { get; set; }
 
     /// <summary>
-    /// ²¥·Å´ÎÊı.
+    /// æ’­æ”¾æ¬¡æ•°.
     /// </summary>
     [JsonPropertyName("views")]
     public long PlayCount { get; set; }
 }
 
 /// <summary>
-/// PGCµ¥¼¯µÄÉçÇøÊı¾İ.
+/// PGCå•é›†çš„ç¤¾åŒºæ•°æ®.
 /// </summary>
 public class PgcEpisodeStat
 {
     /// <summary>
-    /// Í¶±ÒÊı.
+    /// æŠ•å¸æ•°.
     /// </summary>
     [JsonPropertyName("coins")]
     public long CoinCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmakus")]
     public long DanmakuCount { get; set; }
 
     /// <summary>
-    /// µãÔŞÊı.
+    /// ç‚¹èµæ•°.
     /// </summary>
     [JsonPropertyName("likes")]
     public long LikeCount { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÁ¿.
+    /// æ’­æ”¾é‡.
     /// </summary>
     [JsonPropertyName("play")]
     public long PlayCount { get; set; }
 
     /// <summary>
-    /// »Ø¸´Êı.
+    /// å›å¤æ•°.
     /// </summary>
     [JsonPropertyName("reply")]
     public long ReplyCount { get; set; }
 }
 
 /// <summary>
-/// PGCÄÚÈİÀúÊ·¼ÇÂ¼.
+/// PGCå†…å®¹å†å²è®°å½•.
 /// </summary>
 public class PgcProgress
 {
     /// <summary>
-    /// ×îºóÒ»´Î²¥·ÅµÄµ¥¼¯Id.
+    /// æœ€åä¸€æ¬¡æ’­æ”¾çš„å•é›†Id.
     /// </summary>
     [JsonPropertyName("last_ep_id")]
     public int LastEpisodeId { get; set; }
 
     /// <summary>
-    /// ×îºóÒ»´Î²¥·ÅµÄµ¥¼¯Ë÷Òı.
+    /// æœ€åä¸€æ¬¡æ’­æ”¾çš„å•é›†ç´¢å¼•.
     /// </summary>
     [JsonPropertyName("last_ep_index")]
     public string LastEpisodeIndex { get; set; }
 
     /// <summary>
-    /// ²¥·Å½ø¶È£¨Ãë£©.
+    /// æ’­æ”¾è¿›åº¦ï¼ˆç§’ï¼‰.
     /// </summary>
     [JsonPropertyName("last_time")]
     public int LastTime { get; set; }
 }
 
 /// <summary>
-/// PGC¶¯Ì¬±êÇ©.
+/// PGCåŠ¨æ€æ ‡ç­¾.
 /// </summary>
 public class PgcActivityTab
 {
     /// <summary>
-    /// ±êÇ©Id.
+    /// æ ‡ç­¾Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾Ãû³Æ.
+    /// æ˜¾ç¤ºåç§°.
     /// </summary>
     [JsonPropertyName("show_name")]
     public string DisplayName { get; set; }
 
     /// <summary>
-    /// È«³Æ.
+    /// å…¨ç§°.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// Àà±ğ£¨Ä¿Ç°½ö´¦Àí101£©.
+    /// ç±»åˆ«ï¼ˆç›®å‰ä»…å¤„ç†101ï¼‰.
     /// </summary>
     [JsonPropertyName("type")]
     public int Type { get; set; }
 }
 
 /// <summary>
-/// PGCÄÚÈİÆÀ·Ö.
+/// PGCå†…å®¹è¯„åˆ†.
 /// </summary>
 public class PgcRating
 {
     /// <summary>
-    /// ÆÀ·ÖÈËÊı.
+    /// è¯„åˆ†äººæ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// ×ÛºÏÆÀ·Ö.
+    /// ç»¼åˆè¯„åˆ†.
     /// </summary>
     [JsonPropertyName("score")]
-    public long Score { get; set; }
+    public double Score { get; set; }
 }
 
 /// <summary>
-/// PGCÄÚÈİËùÊôµØÇø.
+/// PGCå†…å®¹æ‰€å±åœ°åŒº.
 /// </summary>
 public class PgcArea
 {
     /// <summary>
-    /// µØÇøId.
+    /// åœ°åŒºId.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÊôµØÃû³Æ.
+    /// å±åœ°åç§°.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 }
 
 /// <summary>
-/// PGCÏêÇéµÄÄ£¿é.
+/// PGCè¯¦æƒ…çš„æ¨¡å—.
 /// </summary>
 public class PgcDetailModule
 {
     /// <summary>
-    /// Êı¾İ.
+    /// æ•°æ®.
     /// </summary>
     [JsonPropertyName("data")]
     public PgcDetailModuleData Data { get; set; }
 
     /// <summary>
-    /// Î´Öª·¢²¼Ê±¼ä. 0-ÒÑÖª£¬1-Î´Öª.
+    /// æœªçŸ¥å‘å¸ƒæ—¶é—´. 0-å·²çŸ¥ï¼Œ1-æœªçŸ¥.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÑùÊ½.
+    /// æ ·å¼.
     /// </summary>
     [JsonPropertyName("style")]
     public string Style { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// PGCÏêÇéÄ£¿éÊı¾İ.
+/// PGCè¯¦æƒ…æ¨¡å—æ•°æ®.
 /// </summary>
 public class PgcDetailModuleData
 {
     /// <summary>
-    /// ¾ç¼¯ÁĞ±í.
+    /// å‰§é›†åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("episodes")]
     public List<PgcEpisodeDetail> Episodes { get; set; }
 
     /// <summary>
-    /// ¹ØÁªÏµÁĞ.
+    /// å…³è”ç³»åˆ—.
     /// </summary>
     [JsonPropertyName("seasons")]
     public List<PgcSeason> Seasons { get; set; }
 
     /// <summary>
-    /// Ä£¿éId.
+    /// æ¨¡å—Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 }
 
 /// <summary>
-/// PGC¾ç¼¯ÏµÁĞ.
+/// PGCå‰§é›†ç³»åˆ—.
 /// </summary>
 public class PgcSeason
 {
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// å¾½ç« æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("badge")]
     public string Badge { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÊÇ×îĞÂ. 0-²»ÊÇ£¬1-ÊÇ.
+    /// æ˜¯å¦æ˜¯æœ€æ–°. 0-ä¸æ˜¯ï¼Œ1-æ˜¯.
     /// </summary>
     [JsonPropertyName("is_new")]
     public int IsNew { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// ×îĞÂÄÚÈİ.
+    /// æœ€æ–°å†…å®¹.
     /// </summary>
     [JsonPropertyName("new_ep")]
     public PgcEpisode NewEpisode { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// å‰§é›†Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public int SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯±êÌâ.
+    /// å‰§é›†æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("season_title")]
     public string SeasonTitle { get; set; }
 
     /// <summary>
-    /// ±êÌâÈ«³Æ.
+    /// æ ‡é¢˜å…¨ç§°.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// PGC¹ØÁªË÷Òı.
+/// PGCå…³è”ç´¢å¼•.
 /// </summary>
 public class PgcIndex
 {
@@ -806,56 +806,56 @@ public class PgcIndex
     public int Id { get; set; }
 
     /// <summary>
-    /// Ãû³Æ.
+    /// åç§°.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// µ¼º½µØÖ·.
+    /// å¯¼èˆªåœ°å€.
     /// </summary>
     [JsonPropertyName("url")]
     public string Url { get; set; }
 }
 
 /// <summary>
-/// ÑİÖ°ÈËÔ±.
+/// æ¼”èŒäººå‘˜.
 /// </summary>
 public class PgcCelebrity
 {
     /// <summary>
-    /// Í·Ïñ.
+    /// å¤´åƒ.
     /// </summary>
     [JsonPropertyName("avatar")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// ËµÃ÷.
+    /// è¯´æ˜.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ÑİÖ°Ô±Id.
+    /// æ¼”èŒå‘˜Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÑİÖ°Ô±ĞÕÃû.
+    /// æ¼”èŒå‘˜å§“å.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ¼ò¶Ì½éÉÜ.
+    /// ç®€çŸ­ä»‹ç».
     /// </summary>
     [JsonPropertyName("short_desc")]
     public string ShortDescription { get; set; }
 }
 
 /// <summary>
-/// PGCÄ£¿é±¨¸æÊı¾İ.
+/// PGCæ¨¡å—æŠ¥å‘Šæ•°æ®.
 /// </summary>
 public class PgcModuleReport
 {
@@ -866,37 +866,37 @@ public class PgcModuleReport
     public string Aid { get; set; }
 
     /// <summary>
-    /// ·Ö¼¯±êÌâ.
+    /// åˆ†é›†æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("ep_title")]
     public string EpisodeTitle { get; set; }
 
     /// <summary>
-    /// ·Ö¼¯Id.
+    /// åˆ†é›†Id.
     /// </summary>
     [JsonPropertyName("epid")]
     public string EpisodeId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// å‰§é›†Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public string SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯ÀàĞÍ.
+    /// å‰§é›†ç±»å‹.
     /// </summary>
     [JsonPropertyName("season_type")]
     public string SeasonType { get; set; }
 
     /// <summary>
-    /// ·Ö¿éId.
+    /// åˆ†å—Id.
     /// </summary>
     [JsonPropertyName("section_id")]
     public string SectionId { get; set; }
 
     /// <summary>
-    /// ·Ö¿éÀàĞÍ.
+    /// åˆ†å—ç±»å‹.
     /// </summary>
     [JsonPropertyName("section_type")]
     public string SectionType { get; set; }

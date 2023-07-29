@@ -45,7 +45,7 @@ public partial class PgcProvider
         var data = await HttpProvider.ParseAsync<ServerResponse<List<PgcTab>>>(response);
 
         var items = data.Data.Where(p => p.Link.Contains("sub_page_id"))
-            .Select(p => CommunityAdapter.ConvertToPartition(p))
+            .Select(CommunityAdapter.ConvertToPartition)
             .ToList();
         return items;
     }
@@ -175,7 +175,7 @@ public partial class PgcProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync<ServerResponse<PgcIndexResultResponse>>(response);
         var isFinish = data.Data.HasNext == 0;
-        var items = data.Data.List.Select(p => PgcAdapter.ConvertToSeasonInformation(p)).ToList();
+        var items = data.Data.List.Select(PgcAdapter.ConvertToSeasonInformation).ToList();
         if (!isFinish)
         {
             index++;

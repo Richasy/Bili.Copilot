@@ -13,8 +13,9 @@ public sealed class LivePlayUrl
     /// <param name="host">域名.</param>
     /// <param name="route">路由.</param>
     /// <param name="query">查询参数.</param>
-    public LivePlayUrl(string host, string route, string query)
+    public LivePlayUrl(string protocol, string host, string route, string query)
     {
+        Protocol = protocol;
         Host = host;
         Route = route;
         Query = query;
@@ -34,6 +35,11 @@ public sealed class LivePlayUrl
     /// 查询参数.
     /// </summary>
     public string Query { get; }
+
+    /// <summary>
+    /// 协议.
+    /// </summary>
+    public string Protocol { get; set; }
 
     /// <inheritdoc/>
     public override string ToString()

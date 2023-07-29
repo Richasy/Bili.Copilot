@@ -37,6 +37,9 @@ public sealed class LiveDanmakuInformation
     /// </summary>
     public string Text { get; }
 
+    /// <summary>
+    /// 文本颜色.
+    /// </summary>
     public string TextColor { get; }
 
     /// <summary>

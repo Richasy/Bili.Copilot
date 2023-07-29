@@ -14,6 +14,7 @@ using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
+using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -53,6 +54,10 @@ public sealed partial class AppViewModel : ViewModelBase
             }
 
             Navigate(lastOpenPage);
+            if (lastOpenPage != PageType.Home)
+            {
+                AccountViewModel.Instance.InitializeCommand.Execute(default);
+            }
         }
     }
 
@@ -99,12 +104,6 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestShowMessage?.Invoke(this, message);
 
     [RelayCommand]
-    private static void OpenPlayer(PlaySnapshot snapshot)
-    {
-        // TODO: 打开播放器.
-    }
-
-    [RelayCommand]
     private static void OpenReader(ArticleInformation article)
     {
         // TODO: 打开阅读器.
@@ -127,6 +126,14 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         // TODO: 打开用户详情.
     }
+
+    [RelayCommand]
+    private void OpenPlayer(PlaySnapshot snapshot)
+        => RequestPlay?.Invoke(this, snapshot);
+
+    [RelayCommand]
+    private void OpenPlaylist(List<VideoInformation> playlist)
+        => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
     private void Back()

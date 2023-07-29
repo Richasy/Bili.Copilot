@@ -13,7 +13,7 @@ using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
-using Bilibili.App.Interfaces.V1;
+using Bilibili.App.Interface.V1;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
@@ -189,7 +189,7 @@ public sealed partial class AccountProvider
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.MyFollowingTags, null, RequestClientType.IOS, true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<List<RelatedTag>>>(response);
-        return result.Data.Select(p => CommunityAdapter.ConvertToFollowGroup(p));
+        return result.Data.Select(CommunityAdapter.ConvertToFollowGroup);
     }
 
     /// <summary>

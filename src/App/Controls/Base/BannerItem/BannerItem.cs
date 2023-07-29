@@ -57,10 +57,7 @@ public sealed class BannerItem : Control
     /// <summary>
     /// Initializes a new instance of the <see cref="BannerItem"/> class.
     /// </summary>
-    public BannerItem()
-    {
-        DefaultStyleKey = typeof(BannerItem);
-    }
+    public BannerItem() => DefaultStyleKey = typeof(BannerItem);
 
     /// <summary>
     /// 图片源.
@@ -137,7 +134,7 @@ public sealed class BannerItem : Control
     {
         if (!string.IsNullOrEmpty(Uri))
         {
-            await Launcher.LaunchUriAsync(new Uri(Uri));
+            _ = await Launcher.LaunchUriAsync(new Uri(Uri));
         }
     }
 }

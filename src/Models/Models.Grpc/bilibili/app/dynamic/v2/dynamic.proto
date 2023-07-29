@@ -4,6 +4,7 @@ package bilibili.app.dynamic.v2;
 
 import "google/protobuf/any.proto";
 import "bilibili/app/archive/middleware/v1/preload.proto";
+import "bilibili/dagw/component/avatar/v1/avatar.proto";
 
 // v2动态, rpc 按字母顺序排列
 service Dynamic {
@@ -779,7 +780,19 @@ message CampusHomePagesReq {
     // 
     double lng = 4;
     // 
+    bilibili.app.archive.middleware.v1.PlayerArgs player_args = 5;
+    // 
     int32 page_type = 6;
+}
+
+//
+enum CampusRcmdReqFrom {
+    CAMPUS_RCMD_FROM_UNKNOWN = 0;
+    CAMPUS_RCMD_FROM_HOME_UN_OPEN = 1;
+    CAMPUS_RCMD_FROM_VISIT_OTHER = 2;
+    CAMPUS_RCMD_FROM_HOME_MOMENT = 3;
+    CAMPUS_RCMD_FROM_DYN_MOMENT = 4;
+    CAMPUS_RCMD_FROM_PAGE_SUBORDINATE_MOMENT = 5;
 }
 
 // 
@@ -1173,6 +1186,8 @@ message CampusRecommendReq {
     int64 page_no = 2;
     // 
     bilibili.app.archive.middleware.v1.PlayerArgs player_args = 3;
+    // 
+    CampusRcmdReqFrom from = 4;
 }
 
 //
@@ -5599,6 +5614,8 @@ message UserInfo {
     NFTInfo nft_info = 14;
     // 
     int32 is_senior_member = 15;
+    // 
+    bilibili.dagw.component.avatar.v1.AvatarItem avatar = 16;
 }
 
 // 直播头像样式

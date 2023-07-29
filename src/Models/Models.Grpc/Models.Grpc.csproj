@@ -21,6 +21,7 @@
         <Protobuf Include="bilibili\ad\v1\ad.proto" />
         <Protobuf Include="bilibili\api\player\v1\player.proto" />
         <Protobuf Include="bilibili\api\probe\v1\probe.proto" />
+        <Protobuf Include="bilibili\api\ticket\v1\ticket.proto" />
         <Protobuf Include="bilibili\app\archive\middleware\v1\preload.proto" />
         <Protobuf Include="bilibili\app\archive\v1\archive.proto" />
         <Protobuf Include="bilibili\app\card\v1\ad.proto" />
@@ -29,6 +30,17 @@
         <Protobuf Include="bilibili\app\card\v1\double.proto" />
         <Protobuf Include="bilibili\app\card\v1\single.proto" />
         <Protobuf Include="bilibili\app\click\v1\heartbeat.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\download.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\dynamic.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\experimental.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\internaldevice.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\night.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\other.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\pegasus.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\play.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\privacy.proto" />
+        <Protobuf Include="bilibili\app\distribution\setting\search.proto" />
+        <Protobuf Include="bilibili\app\distribution\v1\distribution.proto" />
         <Protobuf Include="bilibili\app\dynamic\common\dynamic.proto" />
         <Protobuf Include="bilibili\app\dynamic\v1\dynamic.proto" />
         <Protobuf Include="bilibili\app\dynamic\v2\campus.proto" />
@@ -86,6 +98,8 @@
         <Protobuf Include="bilibili\community\service\dm\v1\dm.proto" />
         <Protobuf Include="bilibili\community\service\govern\v1\govern.proto" />
         <Protobuf Include="bilibili\dagw\component\avatar\common\common.proto" />
+        <Protobuf Include="bilibili\dagw\component\avatar\v1\avatar.proto" />
+        <Protobuf Include="bilibili\dagw\component\avatar\v1\plugin.proto" />
         <Protobuf Include="bilibili\dynamic\common\dynamic.proto" />
         <Protobuf Include="bilibili\dynamic\gw\gateway.proto" />
         <Protobuf Include="bilibili\dynamic\interfaces\campus\v1\api.proto" />
@@ -103,9 +117,10 @@
         <Protobuf Include="bilibili\metadata\fawkes\fawkes.proto" />
         <Protobuf Include="bilibili\metadata\locale\locale.proto" />
         <Protobuf Include="bilibili\metadata\network\network.proto" />
-        <Protobuf Include="bilibili\metadata\parabox\pararbox.proto" />
+        <Protobuf Include="bilibili\metadata\parabox\parabox.proto" />
         <Protobuf Include="bilibili\metadata\restriction\restriction.proto" />
         <Protobuf Include="bilibili\pagination\pagination.proto" />
+        <Protobuf Include="bilibili\pangu\gallery\v1\gallery.proto" />
         <Protobuf Include="bilibili\pgc\gateway\player\v1\playurl.proto" />
         <Protobuf Include="bilibili\pgc\gateway\player\v2\playurl.proto" />
         <Protobuf Include="bilibili\pgc\service\premiere\v1\premiere.proto" />
@@ -122,6 +137,7 @@
         <Protobuf Include="bilibili\vega\deneb\v1\deneb.proto" />
         <Protobuf Include="bilibili\web\interfaces\v1\interfaces.proto" />
         <Protobuf Include="bilibili\web\space\v1\space.proto" />
+        <Protobuf Include="datacenter\hakase\protobuf\android_device_info.proto" />
         <Protobuf Include="pgc\biz\room.proto" />
         <Protobuf Include="pgc\gateway\vega\v1\vega.proto" />
     </ItemGroup>

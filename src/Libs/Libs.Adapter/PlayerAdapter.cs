@@ -21,7 +21,7 @@ public static class PlayerAdapter
     /// <param name="format">视频格式.</param>
     /// <returns><see cref="FormatInformation"/>.</returns>
     public static FormatInformation ConvertToFormatInformation(VideoFormat format)
-        => new FormatInformation(
+        => new(
             format.Quality,
             TextToolkit.ConvertToTraditionalChineseIfNeeded(format.Description),
             !string.IsNullOrEmpty(format.Superscript));
@@ -61,12 +61,12 @@ public static class PlayerAdapter
 
         var minBuffer = dash.MinBufferTime;
         var videos = dash.Video?.Count > 0
-            ? dash.Video.Select(p => ConvertToSegmentInformation(p))
+            ? dash.Video.Select(ConvertToSegmentInformation)
             : null;
         var audios = dash.Audio?.Count > 0
-            ? dash.Audio.Select(p => ConvertToSegmentInformation(p))
+            ? dash.Audio.Select(ConvertToSegmentInformation)
             : null;
-        var formats = information.SupportFormats.Select(p => ConvertToFormatInformation(p)).ToList();
+        var formats = information.SupportFormats.Select(ConvertToFormatInformation).ToList();
         return new MediaInformation(minBuffer, videos, audios, formats);
     }
 
@@ -143,7 +143,7 @@ public static class PlayerAdapter
     /// <param name="item">索引条目.</param>
     /// <returns><see cref="SubtitleMeta"/>.</returns>
     public static SubtitleMeta ConvertToSubtitleMeta(SubtitleIndexItem item)
-        => new SubtitleMeta(item.Id.ToString(), item.DisplayLanguage, item.Url);
+        => new(item.Id.ToString(), item.DisplayLanguage, item.Url);
 
     /// <summary>
     /// 将字幕条目 <see cref="SubtitleItem"/> 转换成字幕信息.
@@ -151,7 +151,7 @@ public static class PlayerAdapter
     /// <param name="item">字幕条目.</param>
     /// <returns><see cref="SubtitleInformation"/>.</returns>
     public static SubtitleInformation ConvertToSubtitleInformation(SubtitleItem item)
-        => new SubtitleInformation(item.From, item.To, item.Content);
+        => new(item.From, item.To, item.Content);
 
     /// <summary>
     /// 将弹幕条目 <see cref="DanmakuElem"/> 转化成弹幕信息.
@@ -159,7 +159,7 @@ public static class PlayerAdapter
     /// <param name="danmaku">弹幕条目.</param>
     /// <returns><see cref="DanmakuInformation"/>.</returns>
     public static DanmakuInformation ConvertToDanmakuInformation(Bilibili.Community.Service.Dm.V1.DanmakuElem danmaku)
-        => new DanmakuInformation(
+        => new(
             danmaku.Id.ToString(),
             TextToolkit.ConvertToTraditionalChineseIfNeeded(danmaku.Content),
             danmaku.Mode,

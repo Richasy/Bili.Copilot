@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:CommentModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.CommentModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:comment="using:Bili.Copilot.App.Controls.Comment"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <comment:CommentMainView
+            DataContext="{x:Bind ViewModel.MainViewModel, Mode=OneWay}"
+            ViewModel="{x:Bind ViewModel.MainViewModel, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsMainShown, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+        <comment:CommentDetailView
+            DataContext="{x:Bind ViewModel.DetailViewModel, Mode=OneWay}"
+            ViewModel="{x:Bind ViewModel.DetailViewModel, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsDetailShown, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+    </Grid>
+</local:CommentModuleBase>

@@ -177,6 +177,21 @@
   <data name="AtMessageTypeDescription" xml:space="preserve">
     <value>在{0}中@了我</value>
   </data>
+  <data name="AudioChannels" xml:space="preserve">
+    <value>音频通道数</value>
+  </data>
+  <data name="AudioCodec" xml:space="preserve">
+    <value>音频编解码器</value>
+  </data>
+  <data name="AudioSampleFormat" xml:space="preserve">
+    <value>音频采样格式</value>
+  </data>
+  <data name="AudioSampleRate" xml:space="preserve">
+    <value>音频采样率</value>
+  </data>
+  <data name="AudioSourceUrl" xml:space="preserve">
+    <value>音频源地址</value>
+  </data>
   <data name="Automatic" xml:space="preserve">
     <value>自动</value>
   </data>
@@ -232,6 +247,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   </data>
   <data name="Billion" xml:space="preserve">
     <value>亿</value>
+  </data>
+  <data name="Bitrate" xml:space="preserve">
+    <value>比特率</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>青色</value>
@@ -322,6 +340,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   </data>
   <data name="Color" xml:space="preserve">
     <value>颜色</value>
+  </data>
+  <data name="ColorSpace" xml:space="preserve">
+    <value>色域</value>
   </data>
   <data name="CompactOverlayMode" xml:space="preserve">
     <value>小窗模式</value>
@@ -662,6 +683,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="ForwardSkip" xml:space="preserve">
     <value>向前跳转</value>
   </data>
+  <data name="Fps" xml:space="preserve">
+    <value>帧率</value>
+  </data>
   <data name="Full" xml:space="preserve">
     <value>完整</value>
   </data>
@@ -752,6 +776,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="InfinityLoop" xml:space="preserve">
     <value>洗脑循环</value>
   </data>
+  <data name="Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
   <data name="InitialCheckDescription" xml:space="preserve">
     <value>是否在应用启动时检查上次关闭时正在播放的视频，并提醒继续播放</value>
   </data>
@@ -830,6 +857,15 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Live" xml:space="preserve">
     <value>直播</value>
+  </data>
+  <data name="LiveInformation" xml:space="preserve">
+    <value>直播信息</value>
+  </data>
+  <data name="LiveInitializing" xml:space="preserve">
+    <value>正在加载直播</value>
+  </data>
+  <data name="LiveSourceUrl" xml:space="preserve">
+    <value>直播源地址</value>
   </data>
   <data name="Location" xml:space="preserve">
     <value>位置</value>
@@ -999,6 +1035,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="NoUserVideoSearchResult" xml:space="preserve">
     <value>没有在该用户下找到指定关键词的视频</value>
   </data>
+  <data name="NoValidPlayUrl" xml:space="preserve">
+    <value>没有可用的播放链接</value>
+  </data>
   <data name="NoViewLaterVideos" xml:space="preserve">
     <value>没有视频被加入稍后再看列表</value>
   </data>
@@ -1007,6 +1046,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="OnlyAudio" xml:space="preserve">
     <value>仅音频</value>
+  </data>
+  <data name="OnlyAudioDescription" xml:space="preserve">
+    <value>尝试在视频支持的情况下仅播放音频流</value>
   </data>
   <data name="OnlyIndex" xml:space="preserve">
     <value>仅显示序号</value>
@@ -1077,8 +1119,14 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="PgcFollowing" xml:space="preserve">
     <value>正在追</value>
   </data>
+  <data name="PgcInitializing" xml:space="preserve">
+    <value>正在加载 PGC 内容</value>
+  </data>
   <data name="PgcNotFollow" xml:space="preserve">
     <value>追</value>
+  </data>
+  <data name="PixelFormat" xml:space="preserve">
+    <value>像素格式</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
     <value>播放全部</value>
@@ -1701,11 +1749,23 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Video" xml:space="preserve">
     <value>视频</value>
   </data>
+  <data name="VideoCodec" xml:space="preserve">
+    <value>视频编解码器</value>
+  </data>
   <data name="VideoCount" xml:space="preserve">
     <value>视频数</value>
   </data>
+  <data name="VideoInitializing" xml:space="preserve">
+    <value>正在加载视频</value>
+  </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>
+  </data>
+  <data name="VideoSize" xml:space="preserve">
+    <value>视频尺寸</value>
+  </data>
+  <data name="VideoSourceUrl" xml:space="preserve">
+    <value>视频源地址</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>观看</value>

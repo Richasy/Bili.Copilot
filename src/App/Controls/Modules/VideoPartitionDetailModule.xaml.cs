@@ -35,7 +35,7 @@ public sealed partial class VideoPartitionDetailModule : VideoPartitionDetailMod
     private void OnDetailNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         var data = args.InvokedItem as Partition;
-        ContentScrollViewer.ChangeView(default, 0, default, true);
+        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
         ViewModel.SelectSubPartitionCommand.Execute(data);
     }
 
@@ -46,8 +46,8 @@ public sealed partial class VideoPartitionDetailModule : VideoPartitionDetailMod
             && ViewModel.IsInitialized)
         {
             ViewModel.SortType = type;
-            ContentScrollViewer.ChangeView(default, 0, default, true);
-            ViewModel.ReloadCommand.ExecuteAsync(default);
+            _ = ContentScrollViewer.ChangeView(default, 0, default, true);
+            _ = ViewModel.ReloadCommand.ExecuteAsync(default);
         }
     }
 
