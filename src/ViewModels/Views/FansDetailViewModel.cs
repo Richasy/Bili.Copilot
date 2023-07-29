@@ -2,7 +2,7 @@
 
 using Bili.Copilot.Models.Constants.Bili;
 
-namespace Bili.Copilot.ViewModels.Views;
+namespace Bili.Copilot.ViewModels;
 
 /// <summary>
 /// 粉丝页面视图模型.

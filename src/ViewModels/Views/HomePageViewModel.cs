@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.ViewModels.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -35,6 +34,9 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [ObservableProperty]
     private FansDetailViewModel _fans;
 
+    [ObservableProperty]
+    private MyFollowsDetailViewModel _follows;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePageViewModel"/> class.
     /// </summary>
@@ -43,6 +45,7 @@ public sealed partial class HomePageViewModel : ViewModelBase
         Search = new SearchDetailViewModel();
         Message = MessageDetailViewModel.Instance;
         Fans = new FansDetailViewModel();
+        Follows = MyFollowsDetailViewModel.Instance;
         IsHomeShown = true;
     }
 
@@ -74,6 +77,13 @@ public sealed partial class HomePageViewModel : ViewModelBase
         Fans.InitializeCommand.Execute(default);
     }
 
+    [RelayCommand]
+    private void OpenFollows()
+    {
+        IsInFollows = true;
+        Follows.InitializeCommand.Execute(default);
+    }
+
     private void CheckIsHomeShown()
         => IsHomeShown = !IsInSearch && !IsInMessage && !IsInFans && !IsInFollows;
 
@@ -84,6 +94,9 @@ public sealed partial class HomePageViewModel : ViewModelBase
         => CheckIsHomeShown();
 
     partial void OnIsInFansChanged(bool value)
+        => CheckIsHomeShown();
+
+    partial void OnIsInFollowsChanged(bool value)
         => CheckIsHomeShown();
 
     partial void OnIsHomeShownChanged(bool value)

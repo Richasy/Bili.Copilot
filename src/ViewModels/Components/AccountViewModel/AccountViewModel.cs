@@ -29,6 +29,10 @@ public sealed partial class AccountViewModel : ViewModelBase
     private static void OpenFans()
         => HomePageViewModel.Instance.OpenFansCommand.Execute(default);
 
+    [RelayCommand]
+    private static void OpenFollows()
+        => HomePageViewModel.Instance.OpenFollowsCommand.Execute(default);
+
     /// <summary>
     /// 登出.
     /// </summary>
@@ -60,10 +64,6 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private Task OpenDynamicAsync()
         => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}/dynamic")).AsTask();
-
-    [RelayCommand]
-    private Task OpenFollowAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}/fans/follow")).AsTask();
 
     /// <summary>
     /// 获取我的账户资料.

@@ -69,6 +69,7 @@
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\MessageDetailModule.xaml" />
+        <None Remove="Controls\Modules\MyFollowDetailModule.xaml" />
         <None Remove="Controls\Modules\PgcEpisodeView.xaml" />
         <None Remove="Controls\Modules\PgcExtraView.xaml" />
         <None Remove="Controls\Modules\PgcFavoriteDetailModule.xaml" />
@@ -186,6 +187,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\MyFollowDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\RelationDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
