@@ -62,7 +62,6 @@ public enum SettingNames
     CopyScreenshotAfterSave,
     PlaybackRateEnhancement,
     GlobalPlaybackRate,
-    IsFirstClickTag,
     IsAutoPlayNextRelatedVideo,
     IsLiveAudioOnly,
     IsDanmakuLimit,

@@ -256,7 +256,7 @@
                                 Padding="6,4"
                                 AutomationProperties.Name="{x:Bind Name}"
                                 Background="Transparent"
-                                Click="OnTagButtonClickAsync"
+                                Click="OnTagButtonClick"
                                 Content="{x:Bind Name}"
                                 DataContext="{x:Bind}"
                                 FontSize="11" />

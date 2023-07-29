@@ -26,9 +26,7 @@ public sealed partial class VideoPlayerPageViewModel
 {
     [RelayCommand]
     private static void SearchTag(Tag tag)
-    {
-        // TODO: 搜索标签.
-    }
+        => AppViewModel.Instance.SearchCommand.Execute(tag.Name);
 
     private VideoItemViewModel GetItemViewModel(VideoInformation information)
     {

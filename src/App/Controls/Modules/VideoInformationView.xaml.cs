@@ -31,26 +31,9 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
         CoinFlyout.Hide();
     }
 
-    private async void OnTagButtonClickAsync(object sender, RoutedEventArgs e)
+    private void OnTagButtonClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement).DataContext as Tag;
-        var isFirstClick = SettingsToolkit.ReadLocalSetting(SettingNames.IsFirstClickTag, true);
-
-        if (isFirstClick)
-        {
-            var dialog = new TipDialog(ResourceToolkit.GetLocalizedString(StringNames.FirstClickTagTip))
-            {
-                XamlRoot = XamlRoot,
-            };
-            var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
-            {
-                return;
-            }
-
-            SettingsToolkit.WriteLocalSetting(SettingNames.IsFirstClickTag, false);
-        }
-
         ViewModel.SearchTagCommand.Execute(data);
     }
 
