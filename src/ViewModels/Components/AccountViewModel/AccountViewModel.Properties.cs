@@ -11,7 +11,6 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AccountViewModel
 {
-    private AccountInformation _accountInformation;
     private bool _isInitialized = false;
 
     [ObservableProperty]
@@ -57,4 +56,9 @@ public sealed partial class AccountViewModel
     /// 实例.
     /// </summary>
     public static AccountViewModel Instance { get; } = new();
+
+    /// <summary>
+    /// 用户信息.
+    /// </summary>
+    public AccountInformation AccountInformation { get; internal set; }
 }

@@ -76,6 +76,7 @@
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
         <None Remove="Controls\Modules\PgcSeasonView.xaml" />
         <None Remove="Controls\Modules\RelatedVideoView.xaml" />
+        <None Remove="Controls\Modules\RelationDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchArticleView.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\SearchDetailModule.xaml" />
@@ -185,6 +186,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\RelationDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\MessageDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

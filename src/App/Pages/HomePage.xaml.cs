@@ -45,6 +45,7 @@ public sealed partial class HomePage : HomePageBase
     {
         ViewModel.IsInSearch = false;
         ViewModel.IsInMessage = false;
+        ViewModel.IsInFans = false;
     }
 }
 

@@ -27,5 +27,9 @@
             DataContext="{x:Bind ViewModel.Message, Mode=OneWay}"
             ViewModel="{x:Bind ViewModel.Message, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInMessage, Mode=OneWay}" />
+        <modules:RelationDetailModule
+            DataContext="{x:Bind ViewModel.Fans, Mode=OneWay}"
+            ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
     </Grid>
 </local:HomePageBase>

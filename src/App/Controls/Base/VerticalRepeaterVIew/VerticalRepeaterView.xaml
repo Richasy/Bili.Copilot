@@ -68,8 +68,8 @@
                                 <UniformGridLayout
                                     ItemsStretch="Fill"
                                     MinColumnSpacing="8"
-                                    MinItemHeight="220"
-                                    MinItemWidth="180"
+                                    MinItemHeight="200"
+                                    MinItemWidth="140"
                                     MinRowSpacing="8" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>

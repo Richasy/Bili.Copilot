@@ -32,7 +32,10 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
-                Style="{StaticResource IconButtonStyle}" />
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
+                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+            </Button>
         </Grid>
 
         <NavigationView
