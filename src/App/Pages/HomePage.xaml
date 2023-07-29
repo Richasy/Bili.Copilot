@@ -23,5 +23,9 @@
             DataContext="{x:Bind ViewModel.Search, Mode=OneWay}"
             ViewModel="{x:Bind ViewModel.Search, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInSearch, Mode=OneWay}" />
+        <modules:MessageDetailModule
+            DataContext="{x:Bind ViewModel.Message, Mode=OneWay}"
+            ViewModel="{x:Bind ViewModel.Message, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInMessage, Mode=OneWay}" />
     </Grid>
 </local:HomePageBase>

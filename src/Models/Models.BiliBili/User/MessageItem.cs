@@ -1,80 +1,80 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÏûÏ¢ÌõÄ¿.
+/// æ¶ˆæ¯æ¡ç›®.
 /// </summary>
 public class MessageItem
 {
     /// <summary>
-    /// ÌõÄ¿ID.
+    /// æ¡ç›®ID.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 }
 
 /// <summary>
-/// ÏûÏ¢ÌõÄ¿ÏêÇé.
+/// æ¶ˆæ¯æ¡ç›®è¯¦æƒ….
 /// </summary>
 public class MessageItemDetail
 {
     /// <summary>
-    /// ÏûÏ¢ÀàĞÍ.
+    /// æ¶ˆæ¯ç±»å‹.
     /// </summary>
     [JsonPropertyName("type")]
     public string Type { get; set; }
 
     /// <summary>
-    /// ÏûÏ¢¶ÔÏó.
+    /// æ¶ˆæ¯å¯¹è±¡.
     /// </summary>
     [JsonPropertyName("business")]
     public string Business { get; set; }
 
     /// <summary>
-    /// ÏûÏ¢¶ÔÏóId.
+    /// æ¶ˆæ¯å¯¹è±¡Id.
     /// </summary>
     [JsonPropertyName("business_id")]
-    public string BusinessId { get; set; }
+    public long BusinessId { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ¶ÔÏóÖĞ°üº¬µÄÍ¼Æ¬.
+    /// å¯¹è±¡ä¸­åŒ…å«çš„å›¾ç‰‡.
     /// </summary>
     [JsonPropertyName("image")]
     public string Image { get; set; }
 
     /// <summary>
-    /// Ô­Ê¼ÍøÖ·.
+    /// åŸå§‹ç½‘å€.
     /// </summary>
     [JsonPropertyName("uri")]
     public string Uri { get; set; }
 }
 
 /// <summary>
-/// ÏûÏ¢Ö¸Õë.
+/// æ¶ˆæ¯æŒ‡é’ˆ.
 /// </summary>
 public class MessageCursor
 {
     /// <summary>
-    /// ÊÇ·ñÒÑµ½Ä©Î².
+    /// æ˜¯å¦å·²åˆ°æœ«å°¾.
     /// </summary>
     [JsonPropertyName("is_end")]
     public bool IsEnd { get; set; }
 
     /// <summary>
-    /// ±êÊ¶·û.
+    /// æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// ·¢ÉúÊ±¼ä.
+    /// å‘ç”Ÿæ—¶é—´.
     /// </summary>
     [JsonPropertyName("time")]
     public long Time { get; set; }
