@@ -22,8 +22,8 @@ public sealed partial class AccountViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static Task OpenMessageAsync()
-        => Launcher.LaunchUriAsync(new Uri("https://message.bilibili.com")).AsTask();
+    private static void OpenMessage()
+        => HomePageViewModel.Instance.OpenMessageCommand.Execute(default);
 
     /// <summary>
     /// 登出.
@@ -93,9 +93,11 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// 加载未读消息数据.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
+    [RelayCommand]
     private async Task InitializeUnreadAsync()
     {
         var unreadInformation = await AccountProvider.GetUnreadMessageAsync();
+        UnreadInformation = unreadInformation;
         MessageCount = unreadInformation.Total > 99 ? "99+" : unreadInformation.Total.ToString();
     }
 

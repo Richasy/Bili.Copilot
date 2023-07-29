@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -45,6 +46,12 @@ public sealed partial class AccountViewModel
 
     [ObservableProperty]
     private bool _isVip;
+
+    /// <summary>
+    /// 未读提及数.
+    /// </summary>
+    [ObservableProperty]
+    private UnreadInformation _unreadInformation;
 
     /// <summary>
     /// 实例.

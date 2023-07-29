@@ -44,6 +44,7 @@ public sealed partial class HomePage : HomePageBase
     private void OnBackRequest(object sender, EventArgs e)
     {
         ViewModel.IsInSearch = false;
+        ViewModel.IsInMessage = false;
     }
 }
 

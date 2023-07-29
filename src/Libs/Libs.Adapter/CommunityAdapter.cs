@@ -644,10 +644,10 @@ public static class CommunityAdapter
         sourceContent = TextToolkit.ConvertToTraditionalChineseIfNeeded(sourceContent);
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(messageItem.ReplyTime).DateTime;
         var id = messageItem.Id.ToString();
-        var sourceId = messageItem.Item.SubjectId.ToString();
+        var sourceId = messageItem.Item.Uri.ToString();
         var properties = new Dictionary<string, string>()
         {
-            { "type", messageItem.Item.BusinessId },
+            { "type", messageItem.Item.BusinessId.ToString() },
         };
 
         return new MessageInformation(

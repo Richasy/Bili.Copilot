@@ -68,6 +68,7 @@
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
+        <None Remove="Controls\Modules\MessageDetailModule.xaml" />
         <None Remove="Controls\Modules\PgcEpisodeView.xaml" />
         <None Remove="Controls\Modules\PgcExtraView.xaml" />
         <None Remove="Controls\Modules\PgcFavoriteDetailModule.xaml" />
@@ -117,6 +118,7 @@
         <None Remove="Controls\Comment\CommentItem\CommentItem.xaml" />
         <None Remove="Controls\Comment\CommentMainView\CommentMainView.xaml" />
         <None Remove="Controls\Base\UserItem\UserItem.xaml" />
+        <None Remove="Controls\Base\MessageItem\MessageItem.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="NLog.config" />
@@ -183,6 +185,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\MessageDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\MessageItem\MessageItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\CloseWindowTipDialog.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
