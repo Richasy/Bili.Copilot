@@ -76,7 +76,25 @@
                                 x:Name="InteractionControl"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Fill="Transparent" />
+                                Fill="Transparent">
+                                <Rectangle.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            MinWidth="200"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.TakeScreenshotCommand}"
+                                            Text="{ext:Locale Name=Screenshot}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="Screenshot" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RefreshCommand}" Text="{ext:Locale Name=Refresh}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="ArrowSync" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Rectangle.ContextFlyout>
+                            </Rectangle>
                             <Grid RowSpacing="8" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />

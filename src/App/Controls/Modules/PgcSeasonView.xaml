@@ -10,11 +10,9 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <ScrollViewer
-        HorizontalScrollMode="Disabled"
-        VerticalScrollBarVisibility="Hidden"
-        VerticalScrollMode="Auto">
+    <ScrollViewer Margin="-20,0" Style="{StaticResource DefaultScrollViewerStyle}">
         <base:VerticalRepeaterView
+            Margin="0,0,0,20"
             EnableDetectParentScrollViewer="False"
             ItemsSource="{x:Bind ViewModel.Seasons, Mode=OneWay}"
             Style="{StaticResource PgcSlimVerticalRepeaterViewStyle}">

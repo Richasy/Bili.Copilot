@@ -12,6 +12,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class VideoItemViewModel
 {
+    private readonly Action<VideoItemViewModel> _playAction;
     private readonly Action<VideoItemViewModel> _additionalAction;
     private readonly object _additionalData;
 

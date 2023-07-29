@@ -10,11 +10,8 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <ScrollViewer
-        HorizontalScrollMode="Disabled"
-        VerticalScrollBarVisibility="Hidden"
-        VerticalScrollMode="Auto">
-        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Extras, Mode=OneWay}">
+    <ScrollViewer Margin="-20,0" Style="{StaticResource PageScrollViewerStyle}">
+        <ItemsRepeater Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.Extras, Mode=OneWay}">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:PgcExtraItemViewModel">
                     <StackPanel Spacing="8">

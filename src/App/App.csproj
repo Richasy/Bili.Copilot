@@ -81,6 +81,7 @@
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\VideoPartView.xaml" />
+        <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
@@ -173,6 +174,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\VideoPlaylistView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Base\UserAvatar.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

@@ -94,4 +94,5 @@ public enum SettingNames
     IsLiveFollowsVisible,
     LastLiveDisplayType,
     DanmakuZoom,
+    VideoAcceleration,
 }

@@ -2,7 +2,9 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
@@ -12,6 +14,8 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.Input;
+using Windows.Storage;
+using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -61,6 +65,37 @@ public sealed partial class MediaPlayerViewModel
         };
 
         return mediaInfo;
+    }
+
+    [RelayCommand]
+    private async Task TakeScreenshotAsync()
+    {
+        if (Player == null)
+        {
+            return;
+        }
+
+        var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "哔哩截图");
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        var fileName = $"{DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}_{Player.CurTime}.png";
+        var path = Path.Combine(folderPath, fileName);
+        await Task.Run(() =>
+        {
+            Player.TakeSnapshotToFile(path);
+        });
+
+        _dispatcherQueue.TryEnqueue(async () =>
+        {
+            if (File.Exists(path))
+            {
+                var storageFile = await StorageFile.GetFileFromPathAsync(path).AsTask();
+                await Launcher.LaunchFileAsync(storageFile);
+            }
+        });
     }
 
     private void LoadDashVideoSource()
@@ -143,6 +178,9 @@ public sealed partial class MediaPlayerViewModel
                 {
                     MediaEnded?.Invoke(this, EventArgs.Empty);
                 }
+
+                var arg = new MediaStateChangedEventArgs(Status, string.Empty);
+                StateChanged?.Invoke(this, arg);
             }
             else
             {

@@ -49,7 +49,7 @@ public sealed partial class ViewLaterDetailViewModel : InformationFlowViewModel<
                 continue;
             }
 
-            var videoVM = new VideoItemViewModel(item, RemoveVideo);
+            var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo);
             Items.Add(videoVM);
         }
 
@@ -83,7 +83,7 @@ public sealed partial class ViewLaterDetailViewModel : InformationFlowViewModel<
     {
         if (Items.Count > 1)
         {
-            AppViewModel.Instance.OpenPlayerCommand.Execute(Items.Select(GetSnapshot).ToList());
+            AppViewModel.Instance.OpenPlaylistCommand.Execute(Items.Select(p => p.Data).ToList());
         }
         else if (Items.Count > 0)
         {

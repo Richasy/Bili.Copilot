@@ -14,6 +14,7 @@ using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
+using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -129,6 +130,10 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void OpenPlayer(PlaySnapshot snapshot)
         => RequestPlay?.Invoke(this, snapshot);
+
+    [RelayCommand]
+    private void OpenPlaylist(List<VideoInformation> playlist)
+        => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
     private void Back()

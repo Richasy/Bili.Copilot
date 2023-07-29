@@ -182,6 +182,19 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         // InitializeSmtc();
     }
 
+    /// <summary>
+    /// 重新载入当前的流.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        if (CurrentFormat != null)
+        {
+            await ChangeFormatAsync(CurrentFormat);
+        }
+    }
+
     [RelayCommand]
     private async Task ChangePartAsync(VideoIdentifier part)
     {

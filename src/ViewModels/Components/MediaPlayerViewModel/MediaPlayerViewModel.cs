@@ -3,9 +3,12 @@
 using System;
 using Bili.Copilot.Libs.Flyleaf;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using Microsoft.UI.Dispatching;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -49,8 +52,10 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
 
         var config = new Config();
         config.Player.SeekAccurate = true;
-        config.Decoder.ZeroCopy = ZeroCopy.Auto;
-        config.Video.VideoAcceleration = true;
+        config.Decoder.ZeroCopy = ZeroCopy.Enabled;
+        config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
+        config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
+        config.Video.SwsHighQuality = true;
 
         Player = new Player(config);
         Player.PropertyChanged += OnPlayerPropertyChanged;

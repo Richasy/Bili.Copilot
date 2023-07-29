@@ -28,7 +28,15 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         if (e.Parameter is PlayerPageNavigateEventArgs args)
         {
             ViewModel.SetWindow(args.AttachedWindow);
-            ViewModel.SetSnapshot(args.Snapshot);
+
+            if (args.Snapshot != null)
+            {
+                ViewModel.SetSnapshot(args.Snapshot);
+            }
+            else if (args.Playlist != null)
+            {
+                ViewModel.SetPlaylist(args.Playlist);
+            }
         }
     }
 

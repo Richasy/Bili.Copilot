@@ -40,7 +40,7 @@ public sealed partial class HistoryDetailViewModel : InformationFlowViewModel<Vi
         var data = await AccountProvider.Instance.GetMyHistorySetAsync();
         foreach (var item in data.Items)
         {
-            var videoVM = new VideoItemViewModel(item, RemoveVideo);
+            var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo);
             Items.Add(videoVM);
         }
 

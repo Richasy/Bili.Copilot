@@ -1,9 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bili.Copilot.App.Pages;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.Video;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -22,10 +26,9 @@ public sealed partial class PlayerWindow : WindowBase
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
     /// </summary>
-    public PlayerWindow(PlaySnapshot snapshot)
+    public PlayerWindow()
     {
         InitializeComponent();
-        Title = snapshot.Title;
         Activated += OnActivated;
         Closed += OnClosedAsync;
         Width = 1280;
@@ -34,7 +37,15 @@ public sealed partial class PlayerWindow : WindowBase
         MinHeight = 320;
         AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+    }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
+    /// </summary>
+    public PlayerWindow(PlaySnapshot snapshot)
+        : this()
+    {
+        Title = snapshot.Title;
         var navArgs = new PlayerPageNavigateEventArgs
         {
             Snapshot = snapshot,
@@ -44,7 +55,7 @@ public sealed partial class PlayerWindow : WindowBase
         {
             MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
         }
-        else if(snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
+        else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
         {
             MainFrame.Navigate(typeof(LivePlayerPage), navArgs);
         }
@@ -52,6 +63,22 @@ public sealed partial class PlayerWindow : WindowBase
         {
             MainFrame.Navigate(typeof(PgcPlayerPage), navArgs);
         }
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
+    /// </summary>
+    public PlayerWindow(List<VideoInformation> snapshots)
+        : this()
+    {
+        Title = ResourceToolkit.GetLocalizedString(StringNames.Playlist);
+        var navArgs = new PlayerPageNavigateEventArgs
+        {
+            Playlist = snapshots,
+            AttachedWindow = this,
+        };
+
+        MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
     }
 
     private async void OnClosedAsync(object sender, WindowEventArgs args)

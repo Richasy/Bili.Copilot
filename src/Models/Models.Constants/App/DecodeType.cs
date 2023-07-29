@@ -8,11 +8,6 @@ namespace Bili.Copilot.Models.Constants.App;
 public enum DecodeType
 {
     /// <summary>
-    /// 自动选择.
-    /// </summary>
-    Automatic,
-
-    /// <summary>
     /// 硬件解码.
     /// </summary>
     HardwareDecode,

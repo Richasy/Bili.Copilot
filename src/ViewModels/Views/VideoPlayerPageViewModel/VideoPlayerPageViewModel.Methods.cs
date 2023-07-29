@@ -24,16 +24,22 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class VideoPlayerPageViewModel
 {
-    private static VideoItemViewModel GetItemViewModel(VideoInformation information)
-    {
-        var vm = new VideoItemViewModel(information);
-        return vm;
-    }
-
     [RelayCommand]
     private static void SearchTag(Tag tag)
     {
         // TODO: 搜索标签.
+    }
+
+    private VideoItemViewModel GetItemViewModel(VideoInformation information)
+    {
+        var vm = new VideoItemViewModel(
+            information,
+            vm =>
+            {
+                var snapshot = new PlaySnapshot(vm.Data.Identifier.Id, default, VideoType.Video);
+                SetSnapshot(snapshot);
+            });
+        return vm;
     }
 
     /// <summary>

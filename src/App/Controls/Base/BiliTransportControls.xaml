@@ -251,14 +251,6 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <Button
-                    x:Name="RefreshButton"
-                    Click="OnRefreshButtonClick"
-                    Style="{StaticResource IconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=Refresh}"
-                    Visibility="{x:Bind IsLive, Mode=OneWay}">
-                    <local:FluentIcon FontSize="16" Symbol="ArrowSync" />
-                </Button>
                 <Button x:Name="VolumeButton" Style="{StaticResource IconButtonStyle}">
                     <local:FluentIcon FontSize="16" Symbol="Speaker2" />
                     <Button.Flyout>
@@ -403,6 +395,7 @@
             </StackPanel>
         </Grid>
         <Grid
+            x:Name="DanmakuContainer"
             Grid.Row="2"
             Padding="4"
             BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
@@ -456,6 +449,7 @@
                         <Setter Target="DurationText.Visibility" Value="Collapsed" />
                         <Setter Target="ControlPanel.RowSpacing" Value="0" />
                         <Setter Target="ControlPanel.Padding" Value="12,8" />
+                        <Setter Target="DanmakuContainer.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

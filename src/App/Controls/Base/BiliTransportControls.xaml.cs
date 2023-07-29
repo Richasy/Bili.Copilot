@@ -210,14 +210,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         }
     }
 
-    private void OnRefreshButtonClick(object sender, RoutedEventArgs e)
-    {
-        if (ViewModel.CurrentFormat != null)
-        {
-            ViewModel.ChangeFormatCommand.Execute(ViewModel.CurrentFormat);
-        }
-    }
-
     private void OnDetailButtonClick(object sender, RoutedEventArgs e)
         => DetailButtonClicked?.Invoke(this, EventArgs.Empty);
 }

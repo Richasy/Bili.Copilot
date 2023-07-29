@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -49,6 +51,11 @@ public sealed partial class AppViewModel
     /// 有新的播放请求时触发.
     /// </summary>
     public event EventHandler<PlaySnapshot> RequestPlay;
+
+    /// <summary>
+    /// 有新的播放请求时触发.
+    /// </summary>
+    public event EventHandler<List<VideoInformation>> RequestPlaylist;
 
     /// <summary>
     /// 在有新的消息请求时触发.

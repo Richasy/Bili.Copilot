@@ -24,11 +24,13 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     /// <param name="information">视频信息.</param>
     public VideoItemViewModel(
         VideoInformation information,
-        Action<VideoItemViewModel> action = default,
+        Action<VideoItemViewModel> playAction = default,
+        Action<VideoItemViewModel> additionalAction = default,
         object additionalData = default)
     {
         Data = information;
-        _additionalAction = action;
+        _playAction = playAction;
+        _additionalAction = additionalAction;
         _additionalData = additionalData;
         CanRemove = true;
         InitializeData();
@@ -36,7 +38,16 @@ public sealed partial class VideoItemViewModel : ViewModelBase
 
     [RelayCommand]
     private void Play()
-        => AppViewModel.Instance.OpenPlayerCommand.Execute(GetSnapshot());
+    {
+        if (_playAction != null)
+        {
+            _playAction(this);
+        }
+        else
+        {
+            AppViewModel.Instance.OpenPlayerCommand.Execute(GetSnapshot());
+        }
+    }
 
     [RelayCommand]
     private void PlayInPrivate()

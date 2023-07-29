@@ -36,11 +36,12 @@
         </Grid>
         <ScrollViewer
             Grid.Row="1"
-            HorizontalScrollMode="Disabled"
-            VerticalScrollBarVisibility="Auto">
+            Margin="-20,0"
+            Style="{StaticResource PageScrollViewerStyle}">
             <Grid>
                 <base:VerticalRepeaterView
                     x:Name="EpisodeRepeater"
+                    Margin="0,0,0,20"
                     EnableDetectParentScrollViewer="False"
                     ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
                     Loaded="OnEpisodeRepeaterLoaded"

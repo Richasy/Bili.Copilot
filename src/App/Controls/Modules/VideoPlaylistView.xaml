@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:RelatedVideoViewBase
-    x:Class="Bili.Copilot.App.Controls.Modules.RelatedVideoView"
+<local:VideoPlaylistViewBase
+    x:Class="Bili.Copilot.App.Controls.Modules.VideoPlaylistView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
@@ -11,18 +11,12 @@
     mc:Ignorable="d">
 
     <ScrollViewer Margin="-20,0" Style="{StaticResource PageScrollViewerStyle}">
-        <base:VerticalRepeaterView
-            Margin="0,0,0,20"
-            EnableDetectParentScrollViewer="False"
-            ItemsSource="{x:Bind ViewModel.RelatedVideos, Mode=OneWay}">
+        <base:VerticalRepeaterView EnableDetectParentScrollViewer="False" ItemsSource="{x:Bind ViewModel.VideoPlaylist, Mode=OneWay}">
             <base:VerticalRepeaterView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                    <base:VideoItem
-                        Height="112"
-                        DataContext="{x:Bind}"
-                        ViewModel="{x:Bind}" />
+                    <base:VideoItem ViewModel="{x:Bind}" />
                 </DataTemplate>
             </base:VerticalRepeaterView.ItemTemplate>
         </base:VerticalRepeaterView>
     </ScrollViewer>
-</local:RelatedVideoViewBase>
+</local:VideoPlaylistViewBase>
