@@ -1,16 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using WinUIEx;
 
 namespace Bili.Copilot.App.Forms;
@@ -21,7 +19,6 @@ namespace Bili.Copilot.App.Forms;
 public sealed partial class PlayerWindow : WindowBase
 {
     private bool _isActivated;
-    private bool _isHidden;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
@@ -30,13 +27,11 @@ public sealed partial class PlayerWindow : WindowBase
     {
         InitializeComponent();
         Activated += OnActivated;
-        Closed += OnClosedAsync;
+        Closed += OnClosed;
         Width = 1280;
         Height = 720;
         MinWidth = 560;
         MinHeight = 320;
-        AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-        AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
     }
 
     /// <summary>
@@ -81,18 +76,11 @@ public sealed partial class PlayerWindow : WindowBase
         _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
     }
 
-    private async void OnClosedAsync(object sender, WindowEventArgs args)
+    private void OnClosed(object sender, WindowEventArgs args)
     {
-        if (!_isHidden)
-        {
-            args.Handled = true;
-            _ = MainFrame.Navigate(typeof(Page));
-            MainWindow.Instance.Activate();
-            _ = this.Hide();
-            _isHidden = true;
-            await Task.Delay(1000);
-            Close();
-        }
+        MainFrame.Content = null;
+        MainWindow.Instance.Activate();
+        GC.Collect();
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)

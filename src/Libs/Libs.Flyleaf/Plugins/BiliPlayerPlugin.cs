@@ -121,4 +121,10 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
     /// <inheritdoc/>
     public ExternalVideoStream SuggestExternalVideo()
         => Selected.ExternalVideoStreams.FirstOrDefault();
+
+    /// <inheritdoc/>
+    public override void Dispose()
+    {
+        _playItem = null;
+    }
 }

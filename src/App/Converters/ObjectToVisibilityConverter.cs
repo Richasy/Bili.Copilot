@@ -28,6 +28,14 @@ internal sealed class ObjectToVisibilityConverter : IValueConverter
         {
             isShow = !string.IsNullOrEmpty(str);
         }
+        else if (value is int numInt)
+        {
+            isShow = numInt <= 0;
+        }
+        else if (value is double numDouble)
+        {
+            isShow = numDouble <= 0;
+        }
 
         if (IsReverse)
         {

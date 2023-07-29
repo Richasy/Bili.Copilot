@@ -11,7 +11,6 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
-using WinUIEx;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -21,7 +20,6 @@ namespace Bili.Copilot.App.Forms;
 public sealed partial class MainWindow : WindowBase
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
-    private bool _isActivated;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -35,12 +33,12 @@ public sealed partial class MainWindow : WindowBase
         Height = 800;
         IsResizable = false;
         IsMaximizable = false;
-        Activated += OnActivated;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
+        _appViewModel.RequestSearch += OnRequestSearch;
     }
 
     /// <summary>
@@ -66,17 +64,6 @@ public sealed partial class MainWindow : WindowBase
         {
             TipContainer.Visibility = Visibility.Collapsed;
         }
-    }
-
-    private void OnActivated(object sender, WindowActivatedEventArgs args)
-    {
-        if (_isActivated)
-        {
-            return;
-        }
-
-        this.CenterOnScreen();
-        _isActivated = true;
     }
 
     private async void OnTitleBarLoadedAsync(object sender, RoutedEventArgs e)
@@ -124,6 +111,19 @@ public sealed partial class MainWindow : WindowBase
     {
         var playWindow = new PlayerWindow(e);
         playWindow.Activate();
+    }
+
+    private void OnRequestSearch(object sender, string e)
+    {
+        Activate();
+        if (MainFrame.Content is HomePage homePage)
+        {
+            homePage.ViewModel.OpenSearchCommand.Execute(e);
+        }
+        else
+        {
+            _appViewModel.Navigate(PageType.Home, e);
+        }
     }
 
     private void OnSettingsButtonClick(object sender, RoutedEventArgs e)

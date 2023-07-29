@@ -9,7 +9,6 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Models.Data.Search;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -50,14 +49,14 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task SearchBySuggestAsync(SearchSuggest suggest)
-        => SearchByTextAsync(suggest.Keyword);
+    private void SearchBySuggest(SearchSuggest suggest)
+        => SearchByText(suggest.Keyword);
 
     [RelayCommand]
-    private async Task SearchByTextAsync(string text)
+    private void SearchByText(string text)
     {
         QueryText = text;
-        _ = await Launcher.LaunchUriAsync(new Uri($"https://search.bilibili.com/all?keyword={Uri.EscapeDataString(text)}"));
+        AppViewModel.Instance.SearchCommand.Execute(text);
     }
 
     private void InitializeSuggestionCancellationTokenSource()

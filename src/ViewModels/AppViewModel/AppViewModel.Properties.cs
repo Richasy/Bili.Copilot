@@ -32,6 +32,9 @@ public sealed partial class AppViewModel
     [ObservableProperty]
     private bool _isSigningIn;
 
+    [ObservableProperty]
+    private bool _isEngineStarted;
+
     /// <summary>
     /// 在请求后退时触发.
     /// </summary>
@@ -61,6 +64,11 @@ public sealed partial class AppViewModel
     /// 在有新的消息请求时触发.
     /// </summary>
     public event EventHandler<string> RequestShowMessage;
+
+    /// <summary>
+    /// 在有搜索请求时触发.
+    /// </summary>
+    public event EventHandler<string> RequestSearch;
 
     /// <summary>
     /// 实例.

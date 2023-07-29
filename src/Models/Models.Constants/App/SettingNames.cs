@@ -95,4 +95,8 @@ public enum SettingNames
     LastLiveDisplayType,
     DanmakuZoom,
     VideoAcceleration,
+    WindowPositionLeft,
+    WindowPositionTop,
+    HideWhenCloseWindow,
+    ShouldAskBeforeWindowClosed,
 }

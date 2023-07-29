@@ -2,6 +2,7 @@
 
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
+using Microsoft.UI;
 using WinUIEx;
 
 namespace Bili.Copilot.App.Forms;
@@ -17,6 +18,8 @@ public class WindowBase : WindowEx
     public WindowBase()
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
         SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
         Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         this.SetIcon("Assets/logo.ico");

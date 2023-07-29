@@ -550,6 +550,15 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Episodes" xml:space="preserve">
     <value>分集</value>
   </data>
+  <data name="Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="ExitAppDescription" xml:space="preserve">
+    <value>你也可以选择隐藏应用，并在需要时快速切回来。你可以随时在系统托盘中退出应用</value>
+  </data>
+  <data name="ExitAppTitle" xml:space="preserve">
+    <value>退出应用？</value>
+  </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
     <value>退出小窗模式</value>
   </data>
@@ -746,8 +755,17 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="HelpAndSupport" xml:space="preserve">
     <value>帮助 &amp; 支持</value>
   </data>
+  <data name="Hide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
   <data name="HideDanmaku" xml:space="preserve">
     <value>隐藏弹幕</value>
+  </data>
+  <data name="HideWhenClose" xml:space="preserve">
+    <value>关闭时隐藏</value>
+  </data>
+  <data name="HideWhenCloseDescription" xml:space="preserve">
+    <value>关闭窗口时隐藏应用而非退出</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>首页</value>
@@ -971,6 +989,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="NetworkError" xml:space="preserve">
     <value>网络连接错误，请稍后重试</value>
+  </data>
+  <data name="NeverAskMeAgain" xml:space="preserve">
+    <value>不再询问我</value>
   </data>
   <data name="NextEpisode" xml:space="preserve">
     <value>下一集</value>

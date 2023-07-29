@@ -63,6 +63,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Base/ArticleItem/ArticleItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/SeasonItem/SeasonItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/LiveItem/LiveItem.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/UserItem/UserItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/EmoteTextBlock/EmoteTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Danmaku/DanmakuView/DanmakuView.xaml" />

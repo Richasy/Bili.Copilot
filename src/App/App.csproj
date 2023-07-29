@@ -12,6 +12,7 @@
         <EnableMsixTooling>true</EnableMsixTooling>
         <AssemblyName>Bili.Copilot.App</AssemblyName>
         <DefaultLanguage>zh-CN</DefaultLanguage>
+        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
@@ -51,6 +52,7 @@
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
+        <None Remove="Controls\CloseWindowTipDialog.xaml" />
         <None Remove="Controls\Comment\CommentBox.xaml" />
         <None Remove="Controls\Comment\CommentModule.xaml" />
         <None Remove="Controls\Comment\CommentRepeater.xaml" />
@@ -73,7 +75,13 @@
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
         <None Remove="Controls\Modules\PgcSeasonView.xaml" />
         <None Remove="Controls\Modules\RelatedVideoView.xaml" />
+        <None Remove="Controls\Modules\SearchArticleView.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
+        <None Remove="Controls\Modules\SearchDetailModule.xaml" />
+        <None Remove="Controls\Modules\SearchLiveView.xaml" />
+        <None Remove="Controls\Modules\SearchPgcView.xaml" />
+        <None Remove="Controls\Modules\SearchUserView.xaml" />
+        <None Remove="Controls\Modules\SearchVideoView.xaml" />
         <None Remove="Controls\Modules\TimelineModule.xaml" />
         <None Remove="Controls\Modules\UgcSeasonView.xaml" />
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
@@ -108,6 +116,7 @@
         <None Remove="Controls\Comment\CommentDetailView\CommentDetailView.xaml" />
         <None Remove="Controls\Comment\CommentItem\CommentItem.xaml" />
         <None Remove="Controls\Comment\CommentMainView\CommentMainView.xaml" />
+        <None Remove="Controls\Base\UserItem\UserItem.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="NLog.config" />
@@ -174,6 +183,30 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\CloseWindowTipDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchArticleView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchLiveView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchPgcView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchUserView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\UserItem\UserItem.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchVideoView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\VideoPlaylistView.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -500,5 +533,25 @@
   -->
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+    </PropertyGroup>
+
+    <!-- Needed for implementing single instance mode. See https://blogs.windows.com/windowsdeveloper/2022/01/28/making-the-app-single-instanced-part-3 -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
+        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
 </Project>
