@@ -8,6 +8,7 @@ using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -39,6 +40,8 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
         _appViewModel.RequestSearch += OnRequestSearch;
+        _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
+        _appViewModel.ActiveMainWindow += OnActiveMainWindow;
     }
 
     /// <summary>
@@ -71,6 +74,7 @@ public sealed partial class MainWindow : WindowBase
 
     private void OnAppViewModelNavigateRequest(object sender, AppNavigationEventArgs e)
     {
+        Activate();
         var pageType = e.PageId switch
         {
             PageType.Home => typeof(HomePage),
@@ -128,4 +132,16 @@ public sealed partial class MainWindow : WindowBase
 
     private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
         => _appViewModel.Navigate(PageType.Settings);
+
+    private void OnBackButtonClick(object sender, EventArgs e)
+        => _appViewModel.BackCommand.Execute(default);
+
+    private void OnRequestShowUserSpace(object sender, UserProfile e)
+    {
+        var window = new UserSpaceWindow(e);
+        window.Activate();
+    }
+
+    private void OnActiveMainWindow(object sender, EventArgs e)
+        => Activate();
 }

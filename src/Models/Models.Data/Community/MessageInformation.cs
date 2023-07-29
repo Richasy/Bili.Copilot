@@ -24,6 +24,7 @@ public sealed class MessageInformation
     /// <param name="sourceContent">源内容.</param>
     /// <param name="sourceId">源内容标识符.</param>
     /// <param name="properties">键值对属性.</param>
+    /// <param name="firstUserId">首个用户id.</param>
     public MessageInformation(
         string id,
         MessageType type,
@@ -35,7 +36,8 @@ public sealed class MessageInformation
         string message,
         string sourceContent,
         string sourceId,
-        Dictionary<string, string> properties = default)
+        Dictionary<string, string> properties = default,
+        string firstUserId = default)
     {
         Type = type;
         Avatar = avatar;
@@ -48,6 +50,7 @@ public sealed class MessageInformation
         SourceId = sourceId;
         Id = id;
         Properties = properties;
+        FirstUserId = firstUserId;
     }
 
     /// <summary>
@@ -105,6 +108,11 @@ public sealed class MessageInformation
     /// 该消息的标识符.
     /// </summary>
     public string Id { get; }
+
+    /// <summary>
+    /// 第一个用户的标识符.
+    /// </summary>
+    public string FirstUserId { get; }
 
     /// <summary>
     /// 附加的键值对属性.

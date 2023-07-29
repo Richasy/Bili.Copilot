@@ -584,7 +584,8 @@ public static class CommunityAdapter
             string.Empty,
             message,
             sourceContent,
-            sourceId);
+            sourceId,
+            firstUserId: firstUser.UserId.ToString());
     }
 
     /// <summary>
@@ -619,7 +620,8 @@ public static class CommunityAdapter
             subtitle,
             message,
             sourceContent,
-            sourceId);
+            sourceId,
+            firstUserId: user.UserId.ToString());
     }
 
     /// <summary>
@@ -661,7 +663,8 @@ public static class CommunityAdapter
             message,
             sourceContent,
             sourceId,
-            properties);
+            properties,
+            firstUserId: user.UserId.ToString());
     }
 
     /// <summary>

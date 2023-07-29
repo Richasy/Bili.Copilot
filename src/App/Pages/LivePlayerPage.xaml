@@ -41,11 +41,12 @@
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <base:ImageEx
+                                    <base:UserAvatar
                                         Width="24"
                                         Height="24"
-                                        CornerRadius="14"
-                                        Source="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}" />
+                                        Avatar="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
+                                        Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
+                                        CornerRadius="14" />
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"

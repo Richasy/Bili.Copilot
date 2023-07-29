@@ -103,6 +103,12 @@ public sealed partial class AppViewModel : ViewModelBase
     public void ShowMessage(string message)
         => RequestShowMessage?.Invoke(this, message);
 
+    /// <summary>
+    /// 激活主窗口.
+    /// </summary>
+    public void ActivateMainWindow()
+        => ActiveMainWindow?.Invoke(this, EventArgs.Empty);
+
     [RelayCommand]
     private static void OpenReader(ArticleInformation article)
     {
@@ -122,10 +128,8 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static void ShowUserDetail(UserProfile user)
-    {
-        // TODO: 打开用户详情.
-    }
+    private void ShowUserDetail(UserProfile user)
+        => RequestShowUserSpace.Invoke(this, user);
 
     [RelayCommand]
     private void OpenPlayer(PlaySnapshot snapshot)

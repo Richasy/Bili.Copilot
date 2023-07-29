@@ -25,15 +25,14 @@
                                         BorderThickness="2"
                                         CornerRadius="18"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsUserHighlight}" />
-                                    <base:ImageEx
+                                    <base:UserAvatar
                                         x:Name="UserAvatar"
                                         Width="32"
                                         Height="32"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        CornerRadius="16"
-                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Avatar.Uri}"
-                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Name}" />
+                                        Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Avatar.Uri}"
+                                        UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Name}" />
                                 </Grid>
 
                                 <Border

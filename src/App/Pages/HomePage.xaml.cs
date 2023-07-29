@@ -28,6 +28,17 @@ public sealed partial class HomePage : HomePageBase
         {
             ViewModel.OpenSearchCommand.Execute(parameter);
         }
+        else if (e.Parameter is int num)
+        {
+            if (num == 1)
+            {
+                ViewModel.OpenFollowsCommand.Execute(default);
+            }
+            else if (num == 2)
+            {
+                ViewModel.OpenFansCommand.Execute(default);
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -42,12 +53,7 @@ public sealed partial class HomePage : HomePageBase
         => CoreViewModel.BackRequest -= OnBackRequest;
 
     private void OnBackRequest(object sender, EventArgs e)
-    {
-        ViewModel.IsInSearch = false;
-        ViewModel.IsInMessage = false;
-        ViewModel.IsInFans = false;
-        ViewModel.IsInFollows = false;
-    }
+        => ViewModel.ResetCommand.Execute(default);
 }
 
 /// <summary>

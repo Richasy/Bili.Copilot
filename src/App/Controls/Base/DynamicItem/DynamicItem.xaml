@@ -28,15 +28,14 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <local:ImageEx
+                                <local:UserAvatar
                                     x:Name="UserAvatar"
                                     Width="32"
                                     Height="32"
                                     VerticalAlignment="Center"
+                                    Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
                                     Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserDetailCommand}"
-                                    CornerRadius="16"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
-                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
+                                    UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
                                 <StackPanel Grid.Column="1" Spacing="2">
                                     <TextBlock
                                         x:Name="UserNameBlock"

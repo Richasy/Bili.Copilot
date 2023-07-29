@@ -28,6 +28,7 @@
                                             Height="32"
                                             VerticalAlignment="Center"
                                             Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Avatar.Uri}"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserDetailCommand}"
                                             UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.UserName}" />
                                         <Ellipse
                                             x:Name="MultipleHolder"

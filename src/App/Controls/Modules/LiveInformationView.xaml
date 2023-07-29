@@ -33,13 +33,12 @@
                         HorizontalAlignment="Left"
                         Orientation="Horizontal"
                         Spacing="12">
-                        <base:ImageEx
+                        <base:UserAvatar
                             Width="36"
                             Height="36"
+                            Avatar="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
                             Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
-                            CornerRadius="18"
-                            Source="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
-                            ToolTipService.ToolTip="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
+                            UserName="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
                         <StackPanel Spacing="4">
                             <TextBlock
                                 VerticalAlignment="Center"

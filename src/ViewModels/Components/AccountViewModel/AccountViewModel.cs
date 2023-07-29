@@ -62,8 +62,8 @@ public sealed partial class AccountViewModel : ViewModelBase
         => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}")).AsTask();
 
     [RelayCommand]
-    private Task OpenDynamicAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}/dynamic")).AsTask();
+    private void OpenDynamic()
+        => AppViewModel.Instance.ShowUserDetailCommand.Execute(AccountInformation.User);
 
     /// <summary>
     /// 获取我的账户资料.

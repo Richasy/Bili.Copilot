@@ -18,7 +18,12 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <controls:AppTitleBar x:Name="CustomTitleBar" Loaded="OnTitleBarLoadedAsync" />
+        <controls:AppTitleBar
+            x:Name="CustomTitleBar"
+            Title="{ext:Locale Name=AppName}"
+            BackButtonClick="OnBackButtonClick"
+            BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
+            Loaded="OnTitleBarLoadedAsync" />
         <Frame
             x:Name="MainFrame"
             Grid.Row="1"

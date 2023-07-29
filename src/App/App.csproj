@@ -98,6 +98,7 @@
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
+        <None Remove="Forms\UserSpaceWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
@@ -109,6 +110,7 @@
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
+        <None Remove="Pages\UserSpacePage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\WatchlistPage.xaml" />
@@ -187,6 +189,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Pages\UserSpacePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Forms\UserSpaceWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\MyFollowDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

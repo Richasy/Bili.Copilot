@@ -48,8 +48,7 @@
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{x:Bind DisplayText}"
                         TextLineBounds="Tight"
-                        TextTrimming="CharacterEllipsis"
-                        ToolTipService.ToolTip="{x:Bind Keyword}" />
+                        TextTrimming="CharacterEllipsis" />
                 </Grid>
             </base:CardPanel>
         </DataTemplate>

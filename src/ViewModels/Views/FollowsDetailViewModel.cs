@@ -13,7 +13,7 @@ public sealed class FollowsDetailViewModel : RelationDetailViewModel
     /// Initializes a new instance of the <see cref="FollowsDetailViewModel"/> class.
     /// </summary>
     public FollowsDetailViewModel()
-        : base(RelationType.Fans)
+        : base(RelationType.Follows)
     {
     }
 }

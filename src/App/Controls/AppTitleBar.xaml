@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:AppTitleBarBase
+<UserControl
     x:Class="Bili.Copilot.App.Controls.AppTitleBar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ext="using:Bili.Copilot.App.Extensions"
-    xmlns:local="using:Bili.Copilot.App.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
@@ -25,7 +23,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Click="OnBackButtonClick"
-                Visibility="{x:Bind ViewModel.IsBackButtonShown, Mode=OneWay}">
+                Visibility="{x:Bind BackButtonVisibility, Mode=OneWay}">
                 <base:FluentIcon FontSize="12" Symbol="ArrowLeft" />
             </Button>
             <Image
@@ -37,7 +35,7 @@
             <TextBlock
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{ext:Locale Name=AppName}" />
+                Text="{x:Bind Title, Mode=OneWay}" />
         </StackPanel>
     </Grid>
-</local:AppTitleBarBase>
+</UserControl>

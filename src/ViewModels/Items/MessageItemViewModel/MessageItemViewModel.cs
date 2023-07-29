@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Windows.System;
@@ -37,5 +38,12 @@ public sealed partial class MessageItemViewModel : ViewModelBase
         {
             await Launcher.LaunchUriAsync(new Uri(sourceId));
         }
+    }
+
+    [RelayCommand]
+    private void ShowUserDetail()
+    {
+        var profile = new UserProfile(Data.FirstUserId, Data.UserName, Data.Avatar);
+        AppViewModel.Instance.ShowUserDetailCommand.Execute(profile);
     }
 }

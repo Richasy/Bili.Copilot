@@ -1,12 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
-using System.ComponentModel;
-using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.App.Forms;
-using Bili.Copilot.ViewModels;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics;
 using WinRT.Interop;
 
@@ -15,13 +13,25 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// 应用标题栏.
 /// </summary>
-public sealed partial class AppTitleBar : AppTitleBarBase
+public sealed partial class AppTitleBar : UserControl
 {
     /// <summary>
-    /// Dependency property for <see cref="AttachedWindow"/>.
+    /// <see cref="AttachedWindow"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty AttachedWindowProperty =
         DependencyProperty.Register(nameof(AttachedWindow), typeof(WindowBase), typeof(AppTitleBar), new PropertyMetadata(default));
+
+    /// <summary>
+    /// <see cref="BackButtonVisibility"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty BackButtonVisibilityProperty =
+        DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(AppTitleBar), new PropertyMetadata(default, new PropertyChangedCallback(OnBackButtonVisibilityChanged)));
+
+    /// <summary>
+    /// <see cref="Title"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty TitleProperty =
+        DependencyProperty.Register(nameof(Title), typeof(string), typeof(AppTitleBar), new PropertyMetadata(default));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppTitleBar"/> class.
@@ -29,11 +39,14 @@ public sealed partial class AppTitleBar : AppTitleBarBase
     public AppTitleBar()
     {
         InitializeComponent();
-        ViewModel = AppViewModel.Instance;
         Loaded += OnLoaded;
-        Unloaded += OnUnloaded;
         SizeChanged += OnSizeChanged;
     }
+
+    /// <summary>
+    /// 后退按钮点击事件.
+    /// </summary>
+    public event EventHandler BackButtonClick;
 
     /// <summary>
     /// 附加的窗口对象.
@@ -44,25 +57,34 @@ public sealed partial class AppTitleBar : AppTitleBarBase
         set => SetValue(AttachedWindowProperty, value);
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    /// <summary>
+    /// 回退按钮可见性.
+    /// </summary>
+    public Visibility BackButtonVisibility
     {
-        SetDragRegion();
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        get => (Visibility)GetValue(BackButtonVisibilityProperty);
+        set => SetValue(BackButtonVisibilityProperty, value);
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-        => ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+    /// <summary>
+    /// 标题.
+    /// </summary>
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    private static void OnBackButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var instance = d as AppTitleBar;
+        instance.SetDragRegion();
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e) => SetDragRegion();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         => SetDragRegion();
-
-    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(ViewModel.IsBackButtonShown))
-        {
-            SetDragRegion();
-        }
-    }
 
     private void SetDragRegion()
     {
@@ -74,7 +96,7 @@ public sealed partial class AppTitleBar : AppTitleBarBase
         var windowHandle = WindowNative.GetWindowHandle(AttachedWindow);
         var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
         var leftInset = AttachedWindow.AppWindow.TitleBar.LeftInset;
-        var leftPadding = ViewModel.IsBackButtonShown ? 48 * scaleFactor : 0;
+        var leftPadding = BackButtonVisibility == Visibility.Visible ? 48 * scaleFactor : 0;
         var dragRect = default(RectInt32);
         dragRect.X = Convert.ToInt32(leftInset + leftPadding);
         dragRect.Y = 0;
@@ -84,12 +106,5 @@ public sealed partial class AppTitleBar : AppTitleBarBase
     }
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)
-        => ViewModel.BackCommand.Execute(default);
-}
-
-/// <summary>
-/// <see cref="AppTitleBar"/> 的基类.
-/// </summary>
-public abstract class AppTitleBarBase : ReactiveUserControl<AppViewModel>
-{
+        => BackButtonClick?.Invoke(this, EventArgs.Empty);
 }

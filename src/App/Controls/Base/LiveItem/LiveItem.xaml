@@ -137,14 +137,13 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <local:ImageEx
+                            <local:UserAvatar
                                 Width="52"
                                 Height="52"
                                 HorizontalAlignment="Center"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                                Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Avatar.Uri}"
                                 CornerRadius="26"
-                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Avatar.Uri}"
-                                ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}" />
+                                UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}" />
                             <StackPanel Grid.Row="1" Spacing="8">
                                 <TextBlock
                                     HorizontalAlignment="Center"

@@ -57,6 +57,7 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private void OpenSearch(string keyword)
     {
+        Reset();
         IsInSearch = true;
         Search.SetKeyword(keyword);
         Search.InitializeCommand.Execute(default);
@@ -65,6 +66,7 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private void OpenMessage()
     {
+        Reset();
         IsInMessage = true;
         Message.InitializeCommand.Execute(default);
     }
@@ -72,6 +74,7 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private void OpenFans()
     {
+        Reset();
         IsInFans = true;
         Fans.SetProfile(AccountViewModel.Instance.AccountInformation.User);
         Fans.InitializeCommand.Execute(default);
@@ -80,8 +83,18 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [RelayCommand]
     private void OpenFollows()
     {
+        Reset();
         IsInFollows = true;
         Follows.InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private void Reset()
+    {
+        IsInSearch = false;
+        IsInMessage = false;
+        IsInFans = false;
+        IsInFollows = false;
     }
 
     private void CheckIsHomeShown()

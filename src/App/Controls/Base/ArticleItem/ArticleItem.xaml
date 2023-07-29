@@ -97,16 +97,15 @@
                                         Margin="0,4"
                                         Orientation="Horizontal"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                        <local:ImageEx
+                                        <local:UserAvatar
                                             x:Name="InlineAvatar"
                                             Width="24"
                                             Height="24"
                                             Margin="0,0,8,0"
                                             VerticalAlignment="Center"
+                                            Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                            CornerRadius="12"
-                                            Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
-                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
+                                            UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Opacity="0.6"

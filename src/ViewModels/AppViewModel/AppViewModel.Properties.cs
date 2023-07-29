@@ -7,6 +7,7 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -69,6 +70,16 @@ public sealed partial class AppViewModel
     /// 在有搜索请求时触发.
     /// </summary>
     public event EventHandler<string> RequestSearch;
+
+    /// <summary>
+    /// 在有新的用户空间请求时触发.
+    /// </summary>
+    public event EventHandler<UserProfile> RequestShowUserSpace;
+
+    /// <summary>
+    /// 激活主窗口.
+    /// </summary>
+    public event EventHandler ActiveMainWindow;
 
     /// <summary>
     /// 实例.

@@ -452,8 +452,8 @@ public static class VideoAdapter
     /// <returns><see cref="VideoSet"/>.</returns>
     public static VideoSet ConvertToVideoSet(UserSpaceVideoSet set)
     {
-        var count = set.Count;
-        var items = set.List == null
+        var count = set?.Count ?? 0;
+        var items = set?.List == null
             ? new List<VideoInformation>()
             : set.List.Select(ConvertToVideoInformation).ToList();
         return new VideoSet(items, count);
