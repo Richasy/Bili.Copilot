@@ -25,6 +25,14 @@ public sealed partial class AccountViewModel : ViewModelBase
     private static void OpenMessage()
         => HomePageViewModel.Instance.OpenMessageCommand.Execute(default);
 
+    [RelayCommand]
+    private static void OpenFans()
+        => HomePageViewModel.Instance.OpenFansCommand.Execute(default);
+
+    [RelayCommand]
+    private static void OpenFollows()
+        => HomePageViewModel.Instance.OpenFollowsCommand.Execute(default);
+
     /// <summary>
     /// 登出.
     /// </summary>
@@ -51,19 +59,11 @@ public sealed partial class AccountViewModel : ViewModelBase
 
     [RelayCommand]
     private Task OpenPersonalSiteAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}")).AsTask();
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}")).AsTask();
 
     [RelayCommand]
     private Task OpenDynamicAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/dynamic")).AsTask();
-
-    [RelayCommand]
-    private Task OpenFollowAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/fans/follow")).AsTask();
-
-    [RelayCommand]
-    private Task OpenFansAsync()
-        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{_accountInformation.User.Id}/fans/fans")).AsTask();
+        => Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{AccountInformation.User.Id}/dynamic")).AsTask();
 
     /// <summary>
     /// 获取我的账户资料.
@@ -71,7 +71,7 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     private async Task GetMyProfileAsync()
     {
-        _accountInformation = await AccountProvider.Instance.GetMyInformationAsync();
+        AccountInformation = await AccountProvider.Instance.GetMyInformationAsync();
         InitializeAccountInformation();
     }
 
@@ -103,17 +103,17 @@ public sealed partial class AccountViewModel : ViewModelBase
 
     private void InitializeAccountInformation()
     {
-        if (_accountInformation == null)
+        if (AccountInformation == null)
         {
             return;
         }
 
-        Avatar = _accountInformation.User.Avatar.GetSourceUri().ToString();
-        Name = _accountInformation.User.Name;
-        IsVip = _accountInformation.IsVip;
-        Introduce = string.IsNullOrEmpty(_accountInformation.Introduce)
+        Avatar = AccountInformation.User.Avatar.GetSourceUri().ToString();
+        Name = AccountInformation.User.Name;
+        IsVip = AccountInformation.IsVip;
+        Introduce = string.IsNullOrEmpty(AccountInformation.Introduce)
             ? ResourceToolkit.GetLocalizedString(StringNames.NoSelfIntroduce)
-            : _accountInformation.Introduce;
-        LevelImage = $"ms-appx:///Assets/Level/level_{_accountInformation.Level}.png";
+            : AccountInformation.Introduce;
+        LevelImage = $"ms-appx:///Assets/Level/level_{AccountInformation.Level}.png";
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:RelationDetailModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.RelationDetailModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:controls="using:Bili.Copilot.App.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Bili.Copilot.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Margin="20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                TextTrimming="CharacterEllipsis">
+                <Run
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind ViewModel.Profile.Name, Mode=OneWay}" />
+                <Run Text="{x:Bind ViewModel.TitleSuffix, Mode=OneWay}" />
+            </TextBlock>
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
+                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+            </Button>
+        </Grid>
+
+        <ScrollViewer
+            x:Name="ContentScrollViewer"
+            Grid.Row="1"
+            Style="{StaticResource PageScrollViewerStyle}">
+            <base:VerticalRepeaterView
+                Margin="0,0,0,12"
+                IncrementalTriggered="OnIncrementalTriggered"
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                Style="{StaticResource UserVerticalRepeaterViewStyle}">
+                <base:VerticalRepeaterView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:UserItemViewModel">
+                        <base:UserItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                    </DataTemplate>
+                </base:VerticalRepeaterView.ItemTemplate>
+            </base:VerticalRepeaterView>
+        </ScrollViewer>
+
+        <controls:OverlayLoadingPanel
+            Grid.Row="1"
+            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
+            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+        <controls:ErrorPanel
+            Grid.Row="1"
+            ActionContent="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
+            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+        <controls:ErrorPanel
+            Grid.Row="1"
+            Text="{ext:Locale Name=NoFans}"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+    </Grid>
+</local:RelationDetailModuleBase>

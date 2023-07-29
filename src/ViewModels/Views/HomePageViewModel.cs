@@ -13,23 +13,29 @@ public sealed partial class HomePageViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isHomeShown;
 
-    /// <summary>
-    /// 是否处于搜索状态.
-    /// </summary>
     [ObservableProperty]
     private bool _isInSearch;
 
-    /// <summary>
-    /// 是否在消息页面.
-    /// </summary>
     [ObservableProperty]
     private bool _isInMessage;
+
+    [ObservableProperty]
+    private bool _isInFans;
+
+    [ObservableProperty]
+    private bool _isInFollows;
 
     [ObservableProperty]
     private SearchDetailViewModel _search;
 
     [ObservableProperty]
     private MessageDetailViewModel _message;
+
+    [ObservableProperty]
+    private FansDetailViewModel _fans;
+
+    [ObservableProperty]
+    private MyFollowsDetailViewModel _follows;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePageViewModel"/> class.
@@ -38,6 +44,8 @@ public sealed partial class HomePageViewModel : ViewModelBase
     {
         Search = new SearchDetailViewModel();
         Message = MessageDetailViewModel.Instance;
+        Fans = new FansDetailViewModel();
+        Follows = MyFollowsDetailViewModel.Instance;
         IsHomeShown = true;
     }
 
@@ -61,13 +69,34 @@ public sealed partial class HomePageViewModel : ViewModelBase
         Message.InitializeCommand.Execute(default);
     }
 
+    [RelayCommand]
+    private void OpenFans()
+    {
+        IsInFans = true;
+        Fans.SetProfile(AccountViewModel.Instance.AccountInformation.User);
+        Fans.InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private void OpenFollows()
+    {
+        IsInFollows = true;
+        Follows.InitializeCommand.Execute(default);
+    }
+
     private void CheckIsHomeShown()
-        => IsHomeShown = !IsInSearch && !IsInMessage;
+        => IsHomeShown = !IsInSearch && !IsInMessage && !IsInFans && !IsInFollows;
 
     partial void OnIsInSearchChanged(bool value)
         => CheckIsHomeShown();
 
     partial void OnIsInMessageChanged(bool value)
+        => CheckIsHomeShown();
+
+    partial void OnIsInFansChanged(bool value)
+        => CheckIsHomeShown();
+
+    partial void OnIsInFollowsChanged(bool value)
         => CheckIsHomeShown();
 
     partial void OnIsHomeShownChanged(bool value)

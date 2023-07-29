@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:MessageDetailModuleBase
-    x:Class="Bili.Copilot.App.Controls.Modules.MessageDetailModule"
+<local:MyFollowDetailModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.MyFollowDetailModule"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:community="using:Bili.Copilot.Models.Data.Community"
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
@@ -13,6 +14,7 @@
     mc:Ignorable="d">
 
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -25,9 +27,16 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
+                Margin="0,0,0,8"
                 HorizontalAlignment="Left"
                 Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{ext:Locale Name=Message}" />
+                TextTrimming="CharacterEllipsis">
+                <Run
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                <Run Text="{ext:Locale Name=FollowsSuffix}" />
+            </TextBlock>
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
@@ -39,29 +48,18 @@
         </Grid>
 
         <NavigationView
-            x:Name="Nav"
             Grid.Row="1"
             Margin="8,0,8,8"
-            ItemInvoked="OnNavItemInvokedAsync"
-            MenuItemsSource="{x:Bind ViewModel.MessageTypes}"
-            SelectedItem="{x:Bind ViewModel.CurrentType, Mode=OneWay}"
+            ItemInvoked="OnNavItemInvoked"
+            MenuItemsSource="{x:Bind ViewModel.Groups}"
+            SelectedItem="{x:Bind ViewModel.CurrentGroup, Mode=OneWay}"
             Style="{StaticResource TopNavigationViewStyle}">
             <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
+                <DataTemplate x:DataType="community:FollowGroup">
                     <NavigationViewItem Content="{x:Bind}">
                         <NavigationViewItem.ContentTemplate>
-                            <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
-                                    <TextBlock
-                                        Margin="4,0,0,0"
-                                        VerticalAlignment="Center"
-                                        FontSize="10"
-                                        Foreground="{ThemeResource AccentTextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind Count, Mode=OneWay}"
-                                        Visibility="{x:Bind IsShowBadge, Mode=OneWay}" />
-                                </StackPanel>
+                            <DataTemplate x:DataType="community:FollowGroup">
+                                <TextBlock Text="{x:Bind Name}" />
                             </DataTemplate>
                         </NavigationViewItem.ContentTemplate>
                     </NavigationViewItem>
@@ -72,36 +70,29 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
-            Style="{StaticResource PageScrollViewerStyle}"
-            Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
-                x:Name="RepeaterView"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnIncrementalTriggered"
-                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                ItemsSource="{x:Bind ViewModel.Items}"
+                Style="{StaticResource UserVerticalRepeaterViewStyle}">
                 <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:MessageItemViewModel">
-                        <base:MessageItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                    <DataTemplate x:DataType="viewmodels:UserItemViewModel">
+                        <base:UserItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </base:VerticalRepeaterView.ItemTemplate>
             </base:VerticalRepeaterView>
         </ScrollViewer>
 
-        <controls:OverlayLoadingPanel
-            Grid.Row="2"
-            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
-            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
-
-        <controls:ErrorPanel
-            Grid.Row="2"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
-            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
-
-        <controls:ErrorPanel
-            Grid.Row="2"
-            Text="{ext:Locale Name=NoSpecificData}"
-            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+        <Grid Grid.Row="2">
+            <controls:OverlayLoadingPanel IsBarActive="False" IsRingActive="{x:Bind ViewModel.IsSwitching, Mode=OneWay}" />
+            <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+            <controls:ErrorPanel
+                ActionContent="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+            <controls:ErrorPanel Text="{ext:Locale Name=NoFollows}" Visibility="{x:Bind ViewModel.IsCurrentGroupEmpty, Mode=OneWay}" />
+        </Grid>
     </Grid>
-</local:MessageDetailModuleBase>
+</local:MyFollowDetailModuleBase>

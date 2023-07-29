@@ -119,7 +119,7 @@
                 <Rectangle Grid.Column="1" Style="{StaticResource StateSeparatorStyle}" />
                 <base:TwoLineButton
                     Grid.Column="2"
-                    Command="{x:Bind ViewModel.OpenFollowCommand}"
+                    Command="{x:Bind ViewModel.OpenFollowsCommand}"
                     FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
                     SecondLineText="{ext:Locale Name=FollowCount}" />
                 <Rectangle Grid.Column="3" Style="{StaticResource StateSeparatorStyle}" />
