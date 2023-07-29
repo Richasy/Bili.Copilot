@@ -19,6 +19,7 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     {
         InitializeComponent();
         ViewModel = new LivePlayerPageViewModel();
+        DataContext = ViewModel;
     }
 
     /// <inheritdoc/>
@@ -32,14 +33,9 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnPageUnloaded()
     {
-        // 如果是以暂停状态关闭，可能会导致播放器无法释放.
-        if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.Pause)
-        {
-            ViewModel.PlayerDetail.Player?.Play();
-        }
-
+        ViewModel.PlayerDetail.Player?.Player?.Stop();
         ViewModel?.Dispose();
     }
 

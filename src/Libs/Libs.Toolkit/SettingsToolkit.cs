@@ -75,4 +75,5 @@ public static class SettingsToolkit
     /// <returns><c>true</c> means the local setting exists, <c>false</c> means it does not exist.</returns>
     public static bool IsSettingKeyExist(SettingNames settingName)
         => ApplicationData.Current.LocalSettings.Values.ContainsKey(settingName.ToString());
+    public static void WriteLocalSetting(object shouldAskBeforeWindowClosed, bool v) => throw new NotImplementedException();
 }

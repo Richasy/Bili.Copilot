@@ -136,6 +136,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
+    private void Search(string text)
+        => RequestSearch?.Invoke(this, text);
+
+    [RelayCommand]
     private void Back()
     {
         if (!IsBackButtonShown)

@@ -70,16 +70,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         set => SetValue(DetailContentProperty, value);
     }
 
-    /// <summary>
-    /// 将焦点转移到播放按钮上.
-    /// </summary>
-    public void FocusPlayPauseButton()
-    {
-        _ = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
-            ? CompactPlayPauseButton.Focus(FocusState.Programmatic)
-            : PlayPauseButton.Focus(FocusState.Programmatic);
-    }
-
     internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
     {
         if (e.OldValue is PlayerDetailViewModel oldVM)
@@ -124,8 +114,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
             _ = ViewModel.IsShowMediaTransport
                 ? VisualStateManager.GoToState(this, "ControlPanelFadeInState", false)
                 : VisualStateManager.GoToState(this, "ControlPanelFadeOutState", false);
-
-            FocusPlayPauseButton();
         }
     }
 
@@ -133,7 +121,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     {
         ChangeVisualStateFromStatus();
         ChangeVisualStateFromDisplayMode();
-        FocusPlayPauseButton();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

@@ -59,7 +59,7 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
         _ = ReloadCommand.ExecuteAsync(null)
             .ContinueWith(_ =>
             {
-                _ = _dispatcherQueue.TryEnqueue(() =>
+                _dispatcherQueue.TryEnqueue(() =>
                 {
                     PlayerDetail.DisplayMode = snapshot.DisplayMode ?? defaultPlayMode;
                 });

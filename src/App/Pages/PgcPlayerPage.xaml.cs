@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.ViewModels;
@@ -20,6 +19,7 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     {
         InitializeComponent();
         ViewModel = new PgcPlayerPageViewModel();
+        DataContext = ViewModel;
     }
 
     /// <inheritdoc/>
@@ -33,21 +33,10 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override async void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnPageUnloaded()
     {
-        // 如果是以暂停状态关闭，可能会导致播放器无法释放.
-        if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.Pause)
-        {
-            ViewModel.PlayerDetail.Player?.Play();
-        }
-        else if (ViewModel.PlayerDetail.Status is Models.Constants.App.PlayerStatus.End or Models.Constants.App.PlayerStatus.NotLoad)
-        {
-            ViewModel.PlayerDetail.ChangeProgressCommand.Execute(0);
-            await Task.Delay(1000);
-            ViewModel.PlayerDetail.Player?.Play();
-        }
-
-        ViewModel?.Dispose();
+        ViewModel.PlayerDetail.Player?.Player?.Stop();
+        ViewModel.Dispose();
     }
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)

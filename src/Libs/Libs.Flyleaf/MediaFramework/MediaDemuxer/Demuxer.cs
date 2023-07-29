@@ -265,7 +265,12 @@ public unsafe class Demuxer : RunThreadBase
             if (fmtCtx != null)
             {
                 Interrupter.Request(Requester.Close);
-                fixed (AVFormatContext** ptr = &fmtCtx) { avformat_close_input(ptr); fmtCtx = null; }
+                fixed (AVFormatContext** ptr = &fmtCtx) 
+                { 
+                    avformat_close_input(ptr);
+                    avformat_free_context(fmtCtx);
+                    fmtCtx = null; 
+                }
             }
 
             if (avoptCopy != null) fixed (AVDictionary** ptr = &avoptCopy) av_dict_free(ptr);

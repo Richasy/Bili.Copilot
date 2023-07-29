@@ -26,6 +26,11 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
+        if (_rootSplitView.IsPaneOpen)
+        {
+            return;
+        }
+
         IsPointerStay = true;
         ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
     }
@@ -33,6 +38,11 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
+        if (_rootSplitView.IsPaneOpen)
+        {
+            return;
+        }
+
         IsPointerStay = true;
         ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
     }

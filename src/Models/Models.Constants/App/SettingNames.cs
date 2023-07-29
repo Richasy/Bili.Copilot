@@ -62,7 +62,6 @@ public enum SettingNames
     CopyScreenshotAfterSave,
     PlaybackRateEnhancement,
     GlobalPlaybackRate,
-    IsFirstClickTag,
     IsAutoPlayNextRelatedVideo,
     IsLiveAudioOnly,
     IsDanmakuLimit,
@@ -95,4 +94,8 @@ public enum SettingNames
     LastLiveDisplayType,
     DanmakuZoom,
     VideoAcceleration,
+    WindowPositionLeft,
+    WindowPositionTop,
+    HideWhenCloseWindow,
+    ShouldAskBeforeWindowClosed,
 }

@@ -29,29 +29,32 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// </summary>
     public void Initialize(bool isLive)
     {
-        var currentFolder = Package.Current.InstalledPath;
-        var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
-        var engineConfig = new EngineConfig()
+        if (!AppViewModel.Instance.IsEngineStarted)
         {
-            FFmpegPath = ffmpegFolder,
-            FFmpegDevices = false,
-            FFmpegLogLevel = FFmpegLogLevel.Warning,
+            var currentFolder = Package.Current.InstalledPath;
+            var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
+            var engineConfig = new EngineConfig()
+            {
+                FFmpegPath = ffmpegFolder,
+                FFmpegDevices = false,
+                FFmpegLogLevel = FFmpegLogLevel.Warning,
 #if DEBUG
-            LogLevel = LogLevel.Debug,
-            LogOutput = ":debug",
-#else
-            LogLevel = LogLevel.Info,
-            LogOutput = ":info",
+                LogLevel = LogLevel.Debug,
+                LogOutput = ":debug",
 #endif
-            UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
-            UIRefreshInterval = 250,      // How often (in ms) to notify the UI
-            UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
-        };
-        Engine.Start(engineConfig);
+                UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
+                UIRefreshInterval = 250,      // How often (in ms) to notify the UI
+                UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
+            };
+            Engine.Start(engineConfig);
+
+            AppViewModel.Instance.IsEngineStarted = true;
+        }
 
         var config = new Config();
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Enabled;
+        config.Demuxer.CloseTimeout = TimeSpan.FromSeconds(10).Ticks;
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;

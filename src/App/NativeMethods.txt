@@ -1,1 +1,6 @@
 ﻿GetDpiForWindow
+SetForegroundWindow
+SetWindowsHookEx
+UnhookWindowsHookEx
+CallNextHookEx
+GetModuleHandle
