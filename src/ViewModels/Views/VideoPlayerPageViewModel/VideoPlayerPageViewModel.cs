@@ -64,7 +64,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         _isInPrivate = snapshot.IsInPrivate;
         var defaultPlayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PlayerDetail.DisplayMode = snapshot.DisplayMode ?? defaultPlayMode;
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     /// <summary>

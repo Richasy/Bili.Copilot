@@ -57,7 +57,7 @@ public static class FavoriteAdapter
     public static VideoFavoriteFolderDetail ConvertToVideoFavoriteFolderDetail(VideoFavoriteListResponse response)
     {
         var folder = ConvertToVideoFavoriteFolder(response.Detail ?? response.Information);
-        var videos = response.Medias?.Select(p => VideoAdapter.ConvertToVideoInformation(p)) ?? new List<VideoInformation>();
+        var videos = response.Medias?.Select(VideoAdapter.ConvertToVideoInformation) ?? new List<VideoInformation>();
         var videoSet = new VideoSet(videos, folder.TotalCount);
         return new VideoFavoriteFolderDetail(folder, videoSet);
     }
@@ -72,7 +72,7 @@ public static class FavoriteAdapter
         var id = folder.Id;
         var name = TextToolkit.ConvertToTraditionalChineseIfNeeded(folder.Name);
         var isMine = id == 1;
-        var folders = folder.MediaList?.List?.Select(p => ConvertToVideoFavoriteFolder(p)) ?? new List<VideoFavoriteFolder>();
+        var folders = folder.MediaList?.List?.Select(ConvertToVideoFavoriteFolder) ?? new List<VideoFavoriteFolder>();
         var set = new VideoFavoriteSet(folders, folder.MediaList?.Count ?? 0);
         return new VideoFavoriteFolderGroup(id.ToString(), name, isMine, set);
     }
@@ -89,7 +89,7 @@ public static class FavoriteAdapter
         // 过滤稍后再看的内容，稍后再看列表的Id为3.
         var favoriteSets = response.FavoriteFolderList?
             .Where(p => p.Id != 3)
-            .Select(p => ConvertToVideoFavoriteFolderGroup(p));
+            .Select(ConvertToVideoFavoriteFolderGroup);
         return new VideoFavoriteView(favoriteSets, defaultFolder);
     }
 }

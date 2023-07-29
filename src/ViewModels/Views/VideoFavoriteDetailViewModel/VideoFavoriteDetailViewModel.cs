@@ -71,8 +71,10 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         var data = await FavoriteProvider.Instance.GetVideoFavoriteFolderDetailAsync(CurrentFolder.Id);
         foreach (var item in data.VideoSet.Items)
         {
-            var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo, additionalData: CurrentFolder.Id);
-            videoVM.CanRemove = IsMine;
+            var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo, additionalData: CurrentFolder.Id)
+            {
+                CanRemove = IsMine,
+            };
             Items.Add(videoVM);
         }
 
@@ -99,7 +101,7 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
 
     private void RemoveVideo(VideoItemViewModel vm)
     {
-        Items.Remove(vm);
+        _ = Items.Remove(vm);
         IsEmpty = Items.Count == 0;
     }
 

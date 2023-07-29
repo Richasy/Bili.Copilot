@@ -55,9 +55,9 @@ public sealed partial class DanmakuView
     private const string TopContainerName = "TopContainer";
     private const string BottomContainerName = "BottomContainer";
 
-    private readonly List<Storyboard> _topBottomStoryList = new List<Storyboard>();
-    private readonly List<Storyboard> _scrollStoryList = new List<Storyboard>();
-    private readonly List<Storyboard> _positionStoryList = new List<Storyboard>();
+    private readonly List<Storyboard> _topBottomStoryList = new();
+    private readonly List<Storyboard> _scrollStoryList = new();
+    private readonly List<Storyboard> _positionStoryList = new();
 
     private Grid _rootGrid;
     private Canvas _canvas;

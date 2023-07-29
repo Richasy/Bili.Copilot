@@ -17,5 +17,5 @@ public sealed class CommentItem : ReactiveControl<CommentItemViewModel>, IRepeat
     public CommentItem() => DefaultStyleKey = typeof(CommentItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new Size(double.PositiveInfinity, 120);
+    public Size GetHolderSize() => new(double.PositiveInfinity, 120);
 }

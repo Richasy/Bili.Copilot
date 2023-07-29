@@ -34,7 +34,7 @@ public static class ArticleAdapter
             : null;
         var partition = CommunityAdapter.ConvertToPartition(article.Category);
         var relatedPartitions = article.RelatedCategories?.Any() ?? false
-            ? article.RelatedCategories.Select(p => CommunityAdapter.ConvertToPartition(p)).ToList()
+            ? article.RelatedCategories.Select(CommunityAdapter.ConvertToPartition).ToList()
             : null;
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(article.PublishTime).ToLocalTime().DateTime;
         var user = UserAdapter.ConvertToRoleProfile(article.Publisher, AvatarSize.Size48);
@@ -124,11 +124,11 @@ public static class ArticleAdapter
     public static ArticlePartitionView ConvertToArticlePartitionView(ArticleRecommendResponse response)
     {
         var articles = response.Articles?.Any() ?? false
-            ? response.Articles.Select(p => ConvertToArticleInformation(p))
+            ? response.Articles.Select(ConvertToArticleInformation)
             : null;
 
         var ranks = response.Ranks?.Any() ?? false
-            ? response.Ranks.Select(p => ConvertToArticleInformation(p))
+            ? response.Ranks.Select(ConvertToArticleInformation)
             : null;
 
         IEnumerable<BannerIdentifier> banners = null;
@@ -136,7 +136,7 @@ public static class ArticleAdapter
         {
             var tempBanners = response.Banners.ToList();
             tempBanners.ForEach(p => p.NavigateUri = $"https://www.bilibili.com/read/cv{p.Id}");
-            banners = tempBanners.Select(p => CommunityAdapter.ConvertToBannerIdentifier(p));
+            banners = tempBanners.Select(CommunityAdapter.ConvertToBannerIdentifier);
         }
 
         return new ArticlePartitionView(articles, banners, ranks);
@@ -161,7 +161,7 @@ public static class ArticleAdapter
     public static ArticleSet ConvertToArticleSet(ArticleFavoriteListResponse response)
     {
         var count = response.Count;
-        var items = response.Items.Select(p => ConvertToArticleInformation(p));
+        var items = response.Items.Select(ConvertToArticleInformation);
         return new ArticleSet(items, count);
     }
 }

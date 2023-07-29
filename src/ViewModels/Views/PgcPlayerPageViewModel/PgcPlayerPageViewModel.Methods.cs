@@ -77,7 +77,7 @@ public sealed partial class PgcPlayerPageViewModel
             }
         }
 
-        ReloadCommunityInformationCommand.ExecuteAsync(null);
+        _ = ReloadCommunityInformationCommand.ExecuteAsync(null);
         PlayerDetail.SetPgcData(View, CurrentEpisode);
 
         // _commentPageViewModel.SetData(CurrentEpisode.VideoId, CommentType.Video);
@@ -191,7 +191,7 @@ public sealed partial class PgcPlayerPageViewModel
         var uri = !string.IsNullOrEmpty(_presetEpisodeId)
             ? $"https://www.bilibili.com/bangumi/play/ep{_presetEpisodeId}"
             : $"https://www.bilibili.com/bangumi/play/ss{_presetSeasonId}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)

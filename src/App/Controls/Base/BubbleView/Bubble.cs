@@ -17,7 +17,7 @@ namespace Bili.Copilot.App.Controls.Base;
 /// </summary>
 public class Bubble : IDisposable
 {
-    private static readonly Random _rnd = new Random();
+    private static readonly Random _rnd = new();
     private static CompositionEasingFunction _easing;
 
     private readonly Compositor _compositor;
@@ -71,14 +71,7 @@ public class Bubble : IDisposable
         else
         {
             var maxRadius = (int)Math.Min(targetSize.Width, targetSize.Height);
-            if (isFill.Value)
-            {
-                _size = new Vector2(_rnd.Next(maxRadius / 7, maxRadius / 4));
-            }
-            else
-            {
-                _size = new Vector2(_rnd.Next(maxRadius / 6, maxRadius / 3));
-            }
+            _size = isFill.Value ? new Vector2(_rnd.Next(maxRadius / 7, maxRadius / 4)) : new Vector2(_rnd.Next(maxRadius / 6, maxRadius / 3));
         }
 
         Draw(isFill.Value, color);
@@ -102,10 +95,7 @@ public class Bubble : IDisposable
     /// 添加.
     /// </summary>
     /// <param name="container">目标容器.</param>
-    public void AddTo(ContainerVisual container)
-    {
-        container.Children.InsertAtBottom(_visual);
-    }
+    public void AddTo(ContainerVisual container) => container.Children.InsertAtBottom(_visual);
 
     /// <summary>
     /// 开始播放.

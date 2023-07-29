@@ -21,18 +21,22 @@ public partial class BiliPlayerOverlay
     {
         if (_danmakuTimer == null)
         {
-            _danmakuTimer = new DispatcherTimer();
-            _danmakuTimer.Interval = TimeSpan.FromSeconds(1);
+            _danmakuTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1),
+            };
             _danmakuTimer.Tick += OnDanmkuTimerTick;
         }
     }
 
     private void InitializeUnitTimer()
     {
-        if(_unitTimer == null)
+        if (_unitTimer == null)
         {
-            _unitTimer = new DispatcherTimer();
-            _unitTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _unitTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(0.5),
+            };
             _unitTimer.Tick += OnUnitTimerTick;
         }
     }
@@ -199,7 +203,7 @@ public partial class BiliPlayerOverlay
         if (!ViewModel.IsShowMediaTransport
             && isMouse)
         {
-            DispatcherQueue.TryEnqueue(() =>
+            _ = DispatcherQueue.TryEnqueue(() =>
             {
                 ViewModel.IsShowMediaTransport = true;
             });

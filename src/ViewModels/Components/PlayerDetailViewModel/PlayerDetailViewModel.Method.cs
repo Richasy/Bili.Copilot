@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -132,16 +131,15 @@ public sealed partial class PlayerDetailViewModel
     {
         if (_unitTimer == null)
         {
-            _unitTimer = new DispatcherTimer();
-            _unitTimer.Interval = TimeSpan.FromMilliseconds(100);
+            _unitTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(100),
+            };
             _unitTimer.Tick += OnUnitTimerTick;
         }
     }
 
-    private void StartTimers()
-    {
-        _unitTimer?.Start();
-    }
+    private void StartTimers() => _unitTimer?.Start();
 
     /// <summary>
     /// 在切换片源时记录当前已播放的进度，以便在切换后重新定位.
@@ -189,7 +187,7 @@ public sealed partial class PlayerDetailViewModel
                 var view = _viewData as VideoPlayerView;
                 var aid = view.Information.Identifier.Id;
                 var cid = _currentPart.Id;
-                await PlayerProvider.ReportProgressAsync(aid, cid, progress.TotalSeconds);
+                _ = await PlayerProvider.ReportProgressAsync(aid, cid, progress.TotalSeconds);
             }
             else if (_videoType == VideoType.Pgc && _currentEpisode != null)
             {
@@ -198,7 +196,7 @@ public sealed partial class PlayerDetailViewModel
                 var cid = _currentEpisode.PartId;
                 var epid = _currentEpisode.Identifier.Id;
                 var sid = view.Information.Identifier.Id;
-                await PlayerProvider.ReportProgressAsync(aid, cid, epid, sid, progress.TotalSeconds);
+                _ = await PlayerProvider.ReportProgressAsync(aid, cid, epid, sid, progress.TotalSeconds);
             }
 
             _lastReportProgress = progress;
@@ -234,7 +232,7 @@ public sealed partial class PlayerDetailViewModel
 
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             IsError = e.Status == PlayerStatus.Failed || !string.IsNullOrEmpty(Player.Player.LastError);
             Status = e.Status;
@@ -284,7 +282,7 @@ public sealed partial class PlayerDetailViewModel
             segmentIndex = 1;
         }
 
-        DanmakuViewModel.LoadSegmentDanmakuCommand.ExecuteAsync(segmentIndex);
+        _ = DanmakuViewModel.LoadSegmentDanmakuCommand.ExecuteAsync(segmentIndex);
         DanmakuViewModel.SeekCommand.Execute(ProgressSeconds);
     }
 
@@ -329,7 +327,7 @@ public sealed partial class PlayerDetailViewModel
             _presetVolumeHoldTime = 0;
             if (Player != null && Volume != Player.Volume)
             {
-                _dispatcherQueue.TryEnqueue(() =>
+                _ = _dispatcherQueue.TryEnqueue(() =>
                 {
                     var msg = Volume > 0
                         ? $"{ResourceToolkit.GetLocalizedString(StringNames.CurrentVolume)}: {Volume}"
@@ -358,13 +356,13 @@ public sealed partial class PlayerDetailViewModel
         switch (args.Button)
         {
             case SystemMediaTransportControlsButton.Play:
-                _dispatcherQueue.TryEnqueue(() =>
+                _ = _dispatcherQueue.TryEnqueue(() =>
                 {
                     Player?.Play();
                 });
                 break;
             case SystemMediaTransportControlsButton.Pause:
-                _dispatcherQueue.TryEnqueue(() =>
+                _ = _dispatcherQueue.TryEnqueue(() =>
                 {
                     Player?.Pause();
                 });

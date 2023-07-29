@@ -16,5 +16,5 @@ public sealed class DynamicItem : ReactiveControl<DynamicItemViewModel>, IRepeat
     public DynamicItem() => DefaultStyleKey = typeof(DynamicItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new Size(300, 200);
+    public Size GetHolderSize() => new(300, 200);
 }

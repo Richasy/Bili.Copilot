@@ -16,19 +16,16 @@ internal sealed class RelationTextConverter : IValueConverter
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is UserRelationStatus status)
-        {
-            return status switch
+        return value is UserRelationStatus status
+            ? status switch
             {
                 UserRelationStatus.Unfollow => ResourceToolkit.GetLocalizedString(StringNames.Follow),
                 UserRelationStatus.Following => ResourceToolkit.GetLocalizedString(StringNames.Followed),
                 UserRelationStatus.BeFollowed => ResourceToolkit.GetLocalizedString(StringNames.Follow),
                 UserRelationStatus.Friends => ResourceToolkit.GetLocalizedString(StringNames.FollowEachOther),
                 _ => "--",
-            };
-        }
-
-        return "--";
+            }
+            : (object)"--";
     }
 
     /// <inheritdoc/>

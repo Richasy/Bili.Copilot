@@ -25,12 +25,12 @@ public sealed partial class LivePlayerPageViewModel
     private async Task OpenInBroswerAsync()
     {
         var uri = $"https://live.bilibili.com/{View.Information.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     private void OnMessageReceived(object sender, LiveMessageEventArgs e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (e.Type == LiveMessageType.ConnectSuccess)
             {
@@ -85,18 +85,15 @@ public sealed partial class LivePlayerPageViewModel
         IsShowChat = CurrentSection.Type == PlayerSectionType.Chat;
     }
 
-    private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
-    {
-        await OpenInBroswerAsync();
-    }
+    private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e) => await OpenInBroswerAsync();
 
     private void OnAuthorizeStateChanged(object sender, AuthorizeStateChangedEventArgs e)
         => IsSignedIn = e.NewState == AuthorizeState.SignedIn;
 
     private async void OnHeartBeatTimerTickAsync(object sender, object e)
     {
-        if (PlayerDetail.Status == PlayerStatus.NotLoad
-            || PlayerDetail.Status == PlayerStatus.End)
+        if (PlayerDetail.Status is PlayerStatus.NotLoad
+            or PlayerStatus.End)
         {
             return;
         }

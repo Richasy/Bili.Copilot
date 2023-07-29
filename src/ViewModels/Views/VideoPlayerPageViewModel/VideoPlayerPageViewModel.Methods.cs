@@ -106,7 +106,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         CurrentVideoPart = VideoParts.FirstOrDefault(p => p.IsSelected).Data;
         CreatePlayNextAction();
-        PlayerDetail.ChangePartCommand.ExecuteAsync(identifier);
+        _ = PlayerDetail.ChangePartCommand.ExecuteAsync(identifier);
     }
 
     private void CreatePlayNextAction()
@@ -232,7 +232,7 @@ public sealed partial class VideoPlayerPageViewModel
     private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
     {
         var uri = $"https://www.bilibili.com/video/av{View.Information.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)

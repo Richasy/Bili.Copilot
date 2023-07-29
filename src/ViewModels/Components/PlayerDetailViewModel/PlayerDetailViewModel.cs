@@ -59,7 +59,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         _viewData = data;
         _isInPrivate = isInPrivate;
         _videoType = VideoType.Video;
-        ReloadCommand.ExecuteAsync(default);
+        _ = ReloadCommand.ExecuteAsync(default);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         _viewData = view;
         _currentEpisode = episode;
         _videoType = VideoType.Pgc;
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     {
         _viewData = data;
         _videoType = VideoType.Live;
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             _displayRequest = new DisplayRequest();
             _displayRequest.RequestActive();
@@ -110,7 +110,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             _displayRequest?.RequestRelease();
             _displayRequest = null;
@@ -129,7 +129,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// </summary>
     public void DisplayException(Exception exception)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             IsError = true;
             var msg = GetErrorMessage(exception);
@@ -218,8 +218,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         }
 
         Player.Pause();
-        if (_videoType == VideoType.Video
-            || _videoType == VideoType.Pgc)
+        if (_videoType is VideoType.Video
+            or VideoType.Pgc)
         {
             SelectVideoFormat(information);
         }

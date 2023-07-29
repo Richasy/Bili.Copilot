@@ -56,7 +56,7 @@ public partial class BiliPlayerOverlay
     /// </summary>
     public object MediaPresenter
     {
-        get => (object)GetValue(MediaPresenterProperty);
+        get => GetValue(MediaPresenterProperty);
         set => SetValue(MediaPresenterProperty, value);
     }
 
@@ -74,7 +74,7 @@ public partial class BiliPlayerOverlay
     /// </summary>
     public object SectionHeaderItemsSource
     {
-        get => (object)GetValue(SectionHeaderItemsSourceProperty);
+        get => GetValue(SectionHeaderItemsSourceProperty);
         set => SetValue(SectionHeaderItemsSourceProperty, value);
     }
 
@@ -83,7 +83,7 @@ public partial class BiliPlayerOverlay
     /// </summary>
     public object SectionHeaderSelectedItem
     {
-        get => (object)GetValue(SectionHeaderSelectedItemProperty);
+        get => GetValue(SectionHeaderSelectedItemProperty);
         set => SetValue(SectionHeaderSelectedItemProperty, value);
     }
 
@@ -92,7 +92,7 @@ public partial class BiliPlayerOverlay
     /// </summary>
     public object SectionContent
     {
-        get => (object)GetValue(SectionContentProperty);
+        get => GetValue(SectionContentProperty);
         set => SetValue(SectionContentProperty, value);
     }
 }

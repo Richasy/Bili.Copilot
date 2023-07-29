@@ -38,7 +38,7 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
 
     private static void ActiveData(object data)
     {
-        if (data == null || data is IEnumerable<Image>)
+        if (data is null or IEnumerable<Image>)
         {
             return;
         }

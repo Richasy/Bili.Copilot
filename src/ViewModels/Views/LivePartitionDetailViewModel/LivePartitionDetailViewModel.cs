@@ -54,7 +54,7 @@ public sealed partial class LivePartitionDetailViewModel : InformationFlowViewMo
 
         if (data.Tags?.Count() > 0 && Tags.Count == 0)
         {
-            data.Tags.ToList().ForEach(p => Tags.Add(p));
+            data.Tags.ToList().ForEach(Tags.Add);
             await Task.Delay(100);
             CurrentTag = Tags.First();
         }

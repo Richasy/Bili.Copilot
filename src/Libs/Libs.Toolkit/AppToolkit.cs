@@ -90,7 +90,7 @@ public static class AppToolkit
         // 去除可能包含的 # 符号
         if (hexCode.StartsWith("#"))
         {
-            hexCode = hexCode.Substring(1);
+            hexCode = hexCode[1..];
         }
 
         hexCode = Convert.ToInt32(hexCode).ToString("X2");
@@ -103,7 +103,7 @@ public static class AppToolkit
 
         if (hexCode.Length == 6)
         {
-            color.R = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
+            color.R = byte.Parse(hexCode[..2], NumberStyles.HexNumber);
             color.G = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
             color.B = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
             color.A = 255;
@@ -114,7 +114,7 @@ public static class AppToolkit
             color.R = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
             color.G = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
             color.B = byte.Parse(hexCode.Substring(6, 2), NumberStyles.HexNumber);
-            color.A = byte.Parse(hexCode.Substring(0, 2), NumberStyles.HexNumber);
+            color.A = byte.Parse(hexCode[..2], NumberStyles.HexNumber);
         }
 
         return color;

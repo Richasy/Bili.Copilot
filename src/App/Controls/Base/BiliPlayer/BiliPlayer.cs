@@ -25,10 +25,7 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
     /// </summary>
-    public BiliPlayer()
-    {
-        DefaultStyleKey = typeof(BiliPlayer);
-    }
+    public BiliPlayer() => DefaultStyleKey = typeof(BiliPlayer);
 
     /// <summary>
     /// 图像播放面板.
@@ -49,10 +46,7 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
         => Player_GetFullScreen();
 
     /// <inheritdoc/>
-    public void Player_Disposed()
-    {
-        Player = null;
-    }
+    public void Player_Disposed() => Player = null;
 
     /// <inheritdoc/>
     public bool Player_GetFullScreen()
@@ -88,7 +82,7 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
 
     private static void OnPlayerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is BiliPlayer instance && e.NewValue is Player player)
+        if (d is BiliPlayer instance && e.NewValue is Player)
         {
             instance.ReplacePlayer(e.OldValue as Player);
         }
@@ -127,7 +121,7 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
     {
         using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(Panel))
         {
-            nativeObject.SetSwapChain(swapChain);
+            _ = nativeObject.SetSwapChain(swapChain);
         }
 
         Player?.renderer.ResizeBuffers((int)ActualWidth, (int)ActualHeight);

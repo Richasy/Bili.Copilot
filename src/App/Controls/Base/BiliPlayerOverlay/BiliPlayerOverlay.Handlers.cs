@@ -155,7 +155,7 @@ public partial class BiliPlayerOverlay
                     data = data.Distinct().ToList();
                 }
 
-                DispatcherQueue.TryEnqueue(() =>
+                _ = DispatcherQueue.TryEnqueue(() =>
                 {
                     foreach (var item in data)
                     {
@@ -235,7 +235,7 @@ public partial class BiliPlayerOverlay
     private void OnInteractionControlDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
         var playerStatus = ViewModel.Status;
-        var canDoubleTapped = playerStatus == PlayerStatus.Playing || playerStatus == PlayerStatus.Pause;
+        var canDoubleTapped = playerStatus is PlayerStatus.Playing or PlayerStatus.Pause;
         if (canDoubleTapped)
         {
             if (e.PointerDeviceType == PointerDeviceType.Mouse)
@@ -284,8 +284,8 @@ public partial class BiliPlayerOverlay
 
     private void OnInteractionControlManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
     {
-        if (ViewModel.Status != PlayerStatus.Playing
-            && ViewModel.Status != PlayerStatus.Pause)
+        if (ViewModel.Status is not PlayerStatus.Playing
+            and not PlayerStatus.Pause)
         {
             return;
         }
@@ -333,7 +333,7 @@ public partial class BiliPlayerOverlay
 
     private void OnInteractionControlManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
     {
-        if (ViewModel.Status == PlayerStatus.NotLoad || ViewModel.Status == PlayerStatus.Buffering)
+        if (ViewModel.Status is PlayerStatus.NotLoad or PlayerStatus.Buffering)
         {
             return;
         }

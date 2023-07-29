@@ -155,7 +155,7 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
         }
         else
         {
-            InitializeCommand.ExecuteAsync(null);
+            _ = InitializeCommand.ExecuteAsync(null);
         }
     }
 

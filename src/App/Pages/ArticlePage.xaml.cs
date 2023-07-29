@@ -53,7 +53,7 @@ public sealed partial class ArticlePage : ArticlePageBase
             && ViewModel.SortType != type)
         {
             ViewModel.SortType = type;
-            ContentScrollViewer.ChangeView(default, 0, default, true);
+            _ = ContentScrollViewer.ChangeView(default, 0, default, true);
             ViewModel.ReloadCommand.Execute(default);
         }
     }

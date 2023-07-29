@@ -59,7 +59,7 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
         if (Partitions.Count == 0)
         {
             var partitions = await ArticleProvider.GetPartitionsAsync();
-            partitions.ToList().ForEach(p => Partitions.Add(p));
+            partitions.ToList().ForEach(Partitions.Add);
             CurrentPartition = partitions.First();
         }
 
@@ -103,7 +103,7 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
         }
         else
         {
-            InitializeCommand.ExecuteAsync(default);
+            _ = InitializeCommand.ExecuteAsync(default);
         }
     }
 

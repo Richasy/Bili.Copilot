@@ -15,8 +15,10 @@ public sealed partial class LivePlayerPageViewModel
     {
         if (_heartBeatTimer == null)
         {
-            _heartBeatTimer = new DispatcherTimer();
-            _heartBeatTimer.Interval = TimeSpan.FromSeconds(25);
+            _heartBeatTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(25),
+            };
             _heartBeatTimer.Tick += OnHeartBeatTimerTickAsync;
         }
     }

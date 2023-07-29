@@ -8,7 +8,6 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using Microsoft.UI.Dispatching;
 using Windows.ApplicationModel;
-using Windows.Storage;
 
 namespace Bili.Copilot.ViewModels;
 

@@ -349,7 +349,7 @@ public sealed class PgcAdapter
             if (episodeModule != null)
             {
                 episodes = episodeModule.Data.Episodes
-                    .Select(p => ConvertToEpisodeInformation(p))
+                    .Select(ConvertToEpisodeInformation)
                     .ToList();
             }
 
@@ -369,7 +369,7 @@ public sealed class PgcAdapter
                     if (
                         section.Data?.Episodes?.Any() ?? false)
                     {
-                        extras.Add(title, section.Data.Episodes.Select(p => ConvertToEpisodeInformation(p)));
+                        extras.Add(title, section.Data.Episodes.Select(ConvertToEpisodeInformation));
                     }
                 }
             }
@@ -436,7 +436,7 @@ public sealed class PgcAdapter
         var subtitle = $"{response.Total} · {response.Description}";
         subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(subtitle);
         var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.Title);
-        var seasons = response.Seasons.Select(p => ConvertToSeasonInformation(p));
+        var seasons = response.Seasons.Select(ConvertToSeasonInformation);
         return new PgcPlaylist(title, id, subtitle, seasons);
     }
 
@@ -449,7 +449,7 @@ public sealed class PgcAdapter
     {
         var banners = response.Modules.Where(p => p.Style.Contains("banner"))
             .SelectMany(p => p.Items)
-            .Select(p => CommunityAdapter.ConvertToBannerIdentifier(p));
+            .Select(CommunityAdapter.ConvertToBannerIdentifier);
 
         var originRanks = response.Modules.Where(p => p.Style.Contains("rank"))
             .SelectMany(p => p.Items);
@@ -458,7 +458,7 @@ public sealed class PgcAdapter
         foreach (var item in originRanks)
         {
             var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(item.Title);
-            var subRanks = item.Cards.Take(3).Select(p => ConvertToEpisodeInformation(p)).ToList();
+            var subRanks = item.Cards.Take(3).Select(ConvertToEpisodeInformation).ToList();
             ranks.Add(title, subRanks);
         }
 
@@ -467,7 +467,7 @@ public sealed class PgcAdapter
             : response.FeedIdentifier.PartitionIds.First().ToString();
 
         var playLists = response.Modules.Where(p => p.Style == "v_card" || p.Style.Contains("feed"))
-            .Select(p => ConvertToPgcPlaylist(p))
+            .Select(ConvertToPgcPlaylist)
             .ToList();
 
         var seasons = response.Modules.Where(p => p.Style == "common_feed")
@@ -486,7 +486,7 @@ public sealed class PgcAdapter
     public static IEnumerable<Filter> ConvertToFilters(PgcIndexConditionResponse response)
     {
         var filters = response.FilterList
-            .Select(p => GetFilterFromIndexFilter(p))
+            .Select(GetFilterFromIndexFilter)
             .ToList();
         if (response.OrderList?.Count > 0)
         {
@@ -512,7 +512,7 @@ public sealed class PgcAdapter
         foreach (var item in response.Data)
         {
             var seasons = item.Episodes?.Count > 0
-                ? item.Episodes.Select(p => ConvertToSeasonInformation(p)).ToList()
+                ? item.Episodes.Select(ConvertToSeasonInformation).ToList()
                 : null;
             var date = DateTimeOffset.FromUnixTimeSeconds(item.DateTimeStamp).ToLocalTime();
             var isToday = date.Date.Equals(DateTimeOffset.Now.Date);
@@ -532,7 +532,7 @@ public sealed class PgcAdapter
     {
         var total = response.Total;
         var items = response.FollowList != null
-            ? response.FollowList.Select(p => ConvertToSeasonInformation(p))
+            ? response.FollowList.Select(ConvertToSeasonInformation)
             : new List<SeasonInformation>();
         return new SeasonSet(items, total);
     }

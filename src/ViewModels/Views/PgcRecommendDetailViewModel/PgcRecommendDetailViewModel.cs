@@ -28,7 +28,7 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
     {
         _isEnd = false;
         IsEmpty = false;
-        if (_type == PgcType.Bangumi || _type == PgcType.Domestic)
+        if (_type is PgcType.Bangumi or PgcType.Domestic)
         {
             PgcProvider.Instance.ResetIndexStatus(_type);
         }
@@ -47,7 +47,7 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
         }
 
         var seasons = new List<SeasonInformation>();
-        if (_type == PgcType.Bangumi || _type == PgcType.Domestic)
+        if (_type is PgcType.Bangumi or PgcType.Domestic)
         {
             var (isFinished, items) = await PgcProvider.Instance.GetPgcIndexResultAsync(_type, GetDefaultAnimeParameters());
             seasons = items?.ToList();

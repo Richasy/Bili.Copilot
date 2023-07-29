@@ -57,7 +57,7 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
     private async Task SearchByTextAsync(string text)
     {
         QueryText = text;
-        await Launcher.LaunchUriAsync(new Uri($"https://search.bilibili.com/all?keyword={Uri.EscapeDataString(text)}"));
+        _ = await Launcher.LaunchUriAsync(new Uri($"https://search.bilibili.com/all?keyword={Uri.EscapeDataString(text)}"));
     }
 
     private void InitializeSuggestionCancellationTokenSource()

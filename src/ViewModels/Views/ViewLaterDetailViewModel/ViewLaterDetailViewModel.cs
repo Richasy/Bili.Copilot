@@ -93,7 +93,7 @@ public sealed partial class ViewLaterDetailViewModel : InformationFlowViewModel<
 
     private void RemoveVideo(VideoItemViewModel vm)
     {
-        Items.Remove(vm);
+        _ = Items.Remove(vm);
         IsEmpty = Items.Count == 0;
     }
 }

@@ -30,7 +30,7 @@ public sealed partial class HistoryDetailViewModel : InformationFlowViewModel<Vi
     }
 
     /// <inheritdoc/>
-    protected async override Task GetDataAsync()
+    protected override async Task GetDataAsync()
     {
         if (_isEnd)
         {
@@ -65,7 +65,7 @@ public sealed partial class HistoryDetailViewModel : InformationFlowViewModel<Vi
 
     private void RemoveVideo(VideoItemViewModel vm)
     {
-        Items.Remove(vm);
+        _ = Items.Remove(vm);
         IsEmpty = Items.Count == 0;
     }
 }

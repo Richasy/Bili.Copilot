@@ -33,7 +33,7 @@ public sealed partial class CommentRepeater : UserControl
     /// </summary>
     public object ItemsSource
     {
-        get => (object)GetValue(ItemsSourceProperty);
+        get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 

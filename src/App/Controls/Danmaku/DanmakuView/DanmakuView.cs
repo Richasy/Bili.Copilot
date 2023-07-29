@@ -158,12 +158,16 @@ public sealed partial class DanmakuView : Control
 
         // 创建动画
         var duration = new Duration(ts);
-        var danmakuAnimationX = new DoubleAnimation();
-        danmakuAnimationX.Duration = duration;
+        var danmakuAnimationX = new DoubleAnimation
+        {
+            Duration = duration,
+        };
 
         // 创建故事版
-        var moveStoryboard = new Storyboard();
-        moveStoryboard.Duration = duration;
+        var moveStoryboard = new Storyboard
+        {
+            Duration = duration,
+        };
 
         if (m.Location == DanmakuLocation.Scroll)
         {
@@ -180,10 +184,10 @@ public sealed partial class DanmakuView : Control
 
         moveStoryboard.Completed += new EventHandler<object>((senders, obj) =>
         {
-            container.Children.Remove(danmaku);
+            _ = container.Children.Remove(danmaku);
             danmaku.Children.Clear();
             danmaku = null;
-            locationStoryList.Remove(moveStoryboard);
+            _ = locationStoryList.Remove(moveStoryboard);
             moveStoryboard.Stop();
             moveStoryboard = null;
         });

@@ -29,7 +29,7 @@ internal class ColorConverter : IValueConverter
                 : CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(hexColor);
         }
 
-        return IsBrush ? new SolidColorBrush(color) : (object)color;
+        return IsBrush ? new SolidColorBrush(color) : color;
     }
 
     /// <inheritdoc/>

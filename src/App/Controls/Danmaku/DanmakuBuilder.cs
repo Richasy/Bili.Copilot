@@ -159,8 +159,10 @@ public class DanmakuBuilder
         }
 
         // 创建基础控件
-        var tx = new TextBlock();
-        tx.Text = _model.Text;
+        var tx = new TextBlock
+        {
+            Text = _model.Text,
+        };
         if (_isBold)
         {
             tx.FontWeight = FontWeights.Bold;
@@ -178,11 +180,13 @@ public class DanmakuBuilder
         var grid = new Grid();
         var hostGrid = new Grid();
 
-        var shadow = new AttachedDropShadow();
-        shadow.BlurRadius = 2;
-        shadow.Opacity = 0.8;
-        shadow.Offset = "1,1,0";
-        shadow.Color = _model.Color.R <= 80 ? Colors.White : Colors.Black;
+        var shadow = new AttachedDropShadow
+        {
+            BlurRadius = 2,
+            Opacity = 0.8,
+            Offset = "1,1,0",
+            Color = _model.Color.R <= 80 ? Colors.White : Colors.Black,
+        };
         grid.Children.Add(hostGrid);
         grid.Children.Add(tx);
         grid.Loaded += (s, e) =>

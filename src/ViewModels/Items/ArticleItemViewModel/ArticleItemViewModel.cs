@@ -53,7 +53,7 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
         if (!IsReloading)
         {
             _detailContent = string.Empty;
-            await GetDetailAsync();
+            _ = await GetDetailAsync();
         }
     }
 
@@ -65,7 +65,7 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
     private async Task OpenInBrowserAsync()
     {
         var uri = $"https://www.bilibili.com/read/cv{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     [RelayCommand]

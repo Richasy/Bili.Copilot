@@ -65,7 +65,7 @@ public sealed class SeasonItem : ReactiveControl<SeasonItemViewModel>, IRepeater
 
     /// <inheritdoc/>
     public Size GetHolderSize()
-        => new Size(200, 240);
+        => new(200, 240);
 
     private static void OnInformationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

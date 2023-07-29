@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
-
 namespace Bili.Copilot.Models.Data.Dynamic;
 
 /// <summary>

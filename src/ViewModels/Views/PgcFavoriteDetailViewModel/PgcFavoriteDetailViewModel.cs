@@ -78,7 +78,7 @@ public partial class PgcFavoriteDetailViewModel : InformationFlowViewModel<Seaso
 
     private void RemoveItem(SeasonItemViewModel vm)
     {
-        Items.Remove(vm);
+        _ = Items.Remove(vm);
         IsEmpty = Items.Count == 0;
     }
 }

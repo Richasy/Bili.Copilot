@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Constants.Bili;

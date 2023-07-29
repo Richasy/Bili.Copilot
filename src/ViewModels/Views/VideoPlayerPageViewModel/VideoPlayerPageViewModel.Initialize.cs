@@ -43,7 +43,7 @@ public sealed partial class VideoPlayerPageViewModel
         PublishTime = View.Information.PublishTime.Humanize();
         WatchingCountText = "--";
 
-        View.Tags?.ToList().ForEach(p => Tags.Add(p));
+        View.Tags?.ToList().ForEach(Tags.Add);
         IsShowTags = Tags.Count > 0;
     }
 
@@ -123,7 +123,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (hasSeason)
         {
-            View.Seasons.ToList().ForEach(p => Seasons.Add(p));
+            View.Seasons.ToList().ForEach(Seasons.Add);
             var season = Seasons.FirstOrDefault(p => p.Videos != null && p.Videos.Any(j => j.Equals(View.Information)));
             if (season != null)
             {
@@ -146,6 +146,6 @@ public sealed partial class VideoPlayerPageViewModel
 
         Comments.SetData(View.Information.Identifier.Id, CommentType.Video);
         CurrentSection = Sections.First();
-        RequestOnlineCountCommand.ExecuteAsync(null);
+        _ = RequestOnlineCountCommand.ExecuteAsync(null);
     }
 }

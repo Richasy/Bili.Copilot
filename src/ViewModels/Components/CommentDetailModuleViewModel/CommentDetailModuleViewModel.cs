@@ -20,10 +20,7 @@ public sealed partial class CommentDetailModuleViewModel : InformationFlowViewMo
     /// <summary>
     /// Initializes a new instance of the <see cref="CommentDetailModuleViewModel"/> class.
     /// </summary>
-    public CommentDetailModuleViewModel()
-    {
-        AttachIsRunningToAsyncCommand(p => IsSending = p, SendCommentCommand);
-    }
+    public CommentDetailModuleViewModel() => AttachIsRunningToAsyncCommand(p => IsSending = p, SendCommentCommand);
 
     /// <summary>
     /// 设置根评论.
@@ -32,7 +29,7 @@ public sealed partial class CommentDetailModuleViewModel : InformationFlowViewMo
     {
         TryClear(Items);
         RootComment = GetItemViewModel(rootItem.Data);
-        InitializeCommand.ExecuteAsync(null);
+        _ = InitializeCommand.ExecuteAsync(null);
     }
 
     /// <summary>
@@ -140,10 +137,11 @@ public sealed partial class CommentDetailModuleViewModel : InformationFlowViewMo
                 {
                     ResetSelectedComment();
                 }
-            });
-
-        vm.IsUserHighlight = !string.IsNullOrEmpty(highlightUserId) && information.Publisher.User.Id == highlightUserId;
-        vm.ReplyCountText = string.Empty;
+            })
+        {
+            IsUserHighlight = !string.IsNullOrEmpty(highlightUserId) && information.Publisher.User.Id == highlightUserId,
+            ReplyCountText = string.Empty,
+        };
         return vm;
     }
 }

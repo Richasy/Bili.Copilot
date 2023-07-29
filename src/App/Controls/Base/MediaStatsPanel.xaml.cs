@@ -26,7 +26,7 @@ public sealed partial class MediaStatsPanel : MediaStatsPanelBase
     /// </summary>
     public object AdditionalContent
     {
-        get => (object)GetValue(AdditionalContentProperty);
+        get => GetValue(AdditionalContentProperty);
         set => SetValue(AdditionalContentProperty, value);
     }
 }

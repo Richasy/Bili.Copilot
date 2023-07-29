@@ -66,7 +66,7 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     /// </summary>
     public object DetailContent
     {
-        get => (object)GetValue(DetailContentProperty);
+        get => GetValue(DetailContentProperty);
         set => SetValue(DetailContentProperty, value);
     }
 
@@ -75,14 +75,9 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     /// </summary>
     public void FocusPlayPauseButton()
     {
-        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
-        {
-            CompactPlayPauseButton.Focus(FocusState.Programmatic);
-        }
-        else
-        {
-            PlayPauseButton.Focus(FocusState.Programmatic);
-        }
+        _ = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
+            ? CompactPlayPauseButton.Focus(FocusState.Programmatic)
+            : PlayPauseButton.Focus(FocusState.Programmatic);
     }
 
     internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -126,14 +121,9 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         }
         else if (e.PropertyName == nameof(ViewModel.IsShowMediaTransport))
         {
-            if (ViewModel.IsShowMediaTransport)
-            {
-                VisualStateManager.GoToState(this, "ControlPanelFadeInState", false);
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, "ControlPanelFadeOutState", false);
-            }
+            _ = ViewModel.IsShowMediaTransport
+                ? VisualStateManager.GoToState(this, "ControlPanelFadeInState", false)
+                : VisualStateManager.GoToState(this, "ControlPanelFadeOutState", false);
 
             FocusPlayPauseButton();
         }
@@ -158,36 +148,23 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
 
     private void ChangeVisualStateFromStatus()
     {
-        if (ViewModel.Status == PlayerStatus.Playing)
-        {
-            VisualStateManager.GoToState(this, nameof(PlayingState), false);
-        }
-        else if (ViewModel.Status == PlayerStatus.Pause
-            || ViewModel.Status == PlayerStatus.End
-            || ViewModel.Status == PlayerStatus.NotLoad)
-        {
-            VisualStateManager.GoToState(this, nameof(PauseState), false);
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, nameof(BufferingState), false);
-        }
+        _ = ViewModel.Status == PlayerStatus.Playing
+            ? VisualStateManager.GoToState(this, nameof(PlayingState), false)
+            : ViewModel.Status is PlayerStatus.Pause
+                        or PlayerStatus.End
+                        or PlayerStatus.NotLoad
+                ? VisualStateManager.GoToState(this, nameof(PauseState), false)
+                : VisualStateManager.GoToState(this, nameof(BufferingState), false);
     }
 
     private void ChangeVisualStateFromDisplayMode()
     {
-        switch (ViewModel.DisplayMode)
+        _ = ViewModel.DisplayMode switch
         {
-            case PlayerDisplayMode.FullScreen:
-                VisualStateManager.GoToState(this, nameof(FullScreenState), false);
-                break;
-            case PlayerDisplayMode.CompactOverlay:
-                VisualStateManager.GoToState(this, nameof(CompactState), false);
-                break;
-            default:
-                VisualStateManager.GoToState(this, nameof(NormalState), false);
-                break;
-        }
+            PlayerDisplayMode.FullScreen => VisualStateManager.GoToState(this, nameof(FullScreenState), false),
+            PlayerDisplayMode.CompactOverlay => VisualStateManager.GoToState(this, nameof(CompactState), false),
+            _ => VisualStateManager.GoToState(this, nameof(NormalState), false),
+        };
     }
 
     private void OnProgressSliderValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

@@ -56,10 +56,10 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
         ReloadMediaPlayer();
         _presetRoomId = snapshot.VideoId;
         var defaultPlayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        ReloadCommand.ExecuteAsync(null)
+        _ = ReloadCommand.ExecuteAsync(null)
             .ContinueWith(_ =>
             {
-                _dispatcherQueue.TryEnqueue(() =>
+                _ = _dispatcherQueue.TryEnqueue(() =>
                 {
                     PlayerDetail.DisplayMode = snapshot.DisplayMode ?? defaultPlayMode;
                 });

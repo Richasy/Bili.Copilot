@@ -119,7 +119,7 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
         }
         else
         {
-            InitializeCommand.ExecuteAsync(default);
+            _ = InitializeCommand.ExecuteAsync(default);
         }
     }
 }

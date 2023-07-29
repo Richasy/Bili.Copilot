@@ -63,7 +63,7 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
         _needBiliPlus = snapshot.NeedBiliPlus;
         var defaultPlayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PlayerDetail.DisplayMode = snapshot.DisplayMode ?? defaultPlayMode;
-        ReloadCommand.ExecuteAsync(default);
+        _ = ReloadCommand.ExecuteAsync(default);
     }
 
     /// <summary>

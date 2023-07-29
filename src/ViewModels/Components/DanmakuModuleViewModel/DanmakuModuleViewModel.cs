@@ -51,7 +51,7 @@ public sealed partial class DanmakuModuleViewModel : ViewModelBase
         _partId = partId;
         _videoType = type;
 
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     /// <summary>

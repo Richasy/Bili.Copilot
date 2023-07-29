@@ -40,7 +40,7 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
         {
             ViewModel.PlayerDetail.Player?.Play();
         }
-        else if (ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.End || ViewModel.PlayerDetail.Status == Models.Constants.App.PlayerStatus.NotLoad)
+        else if (ViewModel.PlayerDetail.Status is Models.Constants.App.PlayerStatus.End or Models.Constants.App.PlayerStatus.NotLoad)
         {
             ViewModel.PlayerDetail.ChangeProgressCommand.Execute(0);
             await Task.Delay(1000);

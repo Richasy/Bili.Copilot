@@ -36,7 +36,7 @@ public sealed partial class InteractionModuleViewModel : ViewModelBase
         _partId = partId;
         _choiceId = string.IsNullOrEmpty(choiceId) ? "0" : choiceId;
         _graphVersion = graphVersion;
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]

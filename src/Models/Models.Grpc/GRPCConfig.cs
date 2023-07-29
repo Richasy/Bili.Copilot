@@ -228,7 +228,7 @@ public class GRPCConfig
         var random_trace_id = new StringBuilder(40);
 
         // 2. 取 random_id 前 24 位, 作为 random_trace_id.
-        random_trace_id.Append(random_id.Substring(0, 24));
+        _ = random_trace_id.Append(random_id[..24]);
 
         // 3. 初始化一个长度为 3 的数组 b_arr, 初始值都为 0.
         var b_arr = new sbyte[3];
@@ -252,18 +252,18 @@ public class GRPCConfig
         // 4. 将数组 b_arr 中的每个元素逐个转换为两位的十六进制字符串并追加到 random_trace_id 中.
         for (var i = 0; i < 3; i++)
         {
-            random_trace_id.Append(b_arr[i].ToString("x2"));
+            _ = random_trace_id.Append(b_arr[i].ToString("x2"));
         }
 
         // 5. 将 random_id 的第 31, 32 个字符追加到 random_trace_id 中, 此时 random_trace_id 生成完毕, 应当为 32 位长度.
-        random_trace_id.Append(random_id.Substring(30, 2));
+        _ = random_trace_id.Append(random_id.Substring(30, 2));
 
         // 6. 最后, 按 `{random_trace_id}:{random_trace_id[16..32]}:0:0` 的顺序拼接起来, 即为 x-bili-trace-id
         var random_trace_id_final = new StringBuilder(64);
-        random_trace_id_final.Append(random_trace_id);
-        random_trace_id_final.Append(":");
-        random_trace_id_final.Append(random_trace_id.ToString(16, 16));
-        random_trace_id_final.Append(":0:0");
+        _ = random_trace_id_final.Append(random_trace_id);
+        _ = random_trace_id_final.Append(":");
+        _ = random_trace_id_final.Append(random_trace_id.ToString(16, 16));
+        _ = random_trace_id_final.Append(":0:0");
         return random_trace_id_final.ToString();
     }
 
@@ -299,7 +299,7 @@ public class GRPCConfig
         var randomString = new StringBuilder(length);
         for (var i = 0; i < length; i++)
         {
-            randomString.Append(charset[random.Next(charset.Length)]);
+            _ = randomString.Append(charset[random.Next(charset.Length)]);
         }
 
         return randomString.ToString();

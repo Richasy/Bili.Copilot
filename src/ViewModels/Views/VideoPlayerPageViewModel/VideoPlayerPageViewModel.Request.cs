@@ -44,7 +44,7 @@ public sealed partial class VideoPlayerPageViewModel
     private async Task RequestOnlineCountAsync()
     {
         var text = await PlayerProvider.GetOnlineViewerCountAsync(View.Information.Identifier.Id, CurrentVideoPart.Id);
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             WatchingCountText = text;
         });
@@ -56,7 +56,7 @@ public sealed partial class VideoPlayerPageViewModel
         var selectedFolders = FavoriteFolders.Where(p => p.IsSelected).Select(p => p.Data.Id).ToList();
         var deselectedFolders = FavoriteFolders.Where(p => !p.IsSelected).Select(p => p.Data.Id).ToList();
         var result = await PlayerProvider.FavoriteAsync(View.Information.Identifier.Id, selectedFolders, deselectedFolders, true);
-        if (result == FavoriteResult.Success || result == FavoriteResult.InsufficientAccess)
+        if (result is FavoriteResult.Success or FavoriteResult.InsufficientAccess)
         {
             IsFavorited = selectedFolders.Count > 0;
             _ = ReloadCommunityInformationCommand.ExecuteAsync(null);

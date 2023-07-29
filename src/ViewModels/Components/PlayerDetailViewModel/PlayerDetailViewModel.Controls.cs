@@ -21,7 +21,7 @@ public sealed partial class PlayerDetailViewModel
     {
         EnsureMediaPlayerExist();
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (Status == PlayerStatus.Playing)
             {
@@ -56,7 +56,7 @@ public sealed partial class PlayerDetailViewModel
             return;
         }
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             var duration = Player.Duration;
             var currentPos = Player.Position;
@@ -86,7 +86,7 @@ public sealed partial class PlayerDetailViewModel
             return;
         }
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             var duration = Player.Duration;
             var currentPos = Player.Position;
@@ -115,7 +115,7 @@ public sealed partial class PlayerDetailViewModel
             return;
         }
 
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (rate > MaxPlaybackRate)
             {

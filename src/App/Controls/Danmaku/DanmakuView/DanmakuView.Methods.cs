@@ -88,10 +88,10 @@ public sealed partial class DanmakuView
 
         moveStoryboard.Completed += new EventHandler<object>((senders, obj) =>
         {
-            _scrollContainer.Children.Remove(grid);
+            _ = _scrollContainer.Children.Remove(grid);
             grid.Children.Clear();
             grid = null;
-            _scrollStoryList.Remove(moveStoryboard);
+            _ = _scrollStoryList.Remove(moveStoryboard);
             moveStoryboard.Stop();
             moveStoryboard = null;
         });
@@ -131,7 +131,7 @@ public sealed partial class DanmakuView
         var data = JsonSerializer.Deserialize<object[]>(m.Text);
         m.Text = data[4].ToString().Replace("/n", "\r\n");
         var danmaku = CreateNewDanmuControl(m);
-        var danmakuFontFamily = data[data.Length - 2].ToString();
+        var danmakuFontFamily = data[^2].ToString();
 
         danmaku.Tag = m;
         danmaku.HorizontalAlignment = HorizontalAlignment.Left;
@@ -205,10 +205,12 @@ public sealed partial class DanmakuView
         Storyboard.SetTargetProperty(myDoubleAnimationY, "(Canvas.Top)");
         moveStoryboard.Children.Add(myDoubleAnimationY);
 
-        var myDoubleAnimationX = new DoubleAnimation();
-        myDoubleAnimationX.Duration = duration;
-        myDoubleAnimationX.From = x;
-        myDoubleAnimationX.To = toX;
+        var myDoubleAnimationX = new DoubleAnimation
+        {
+            Duration = duration,
+            From = x,
+            To = toX,
+        };
         Storyboard.SetTarget(myDoubleAnimationX, danmaku);
         Storyboard.SetTargetProperty(myDoubleAnimationX, "(Canvas.Left)");
         moveStoryboard.Children.Add(myDoubleAnimationX);
@@ -229,8 +231,8 @@ public sealed partial class DanmakuView
 
         moveStoryboard.Completed += new EventHandler<object>((senders, obj) =>
         {
-            _canvas.Children.Remove(danmaku);
-            _positionStoryList.Remove(moveStoryboard);
+            _ = _canvas.Children.Remove(danmaku);
+            _ = _positionStoryList.Remove(moveStoryboard);
         });
 
         moveStoryboard.Begin();
@@ -277,7 +279,7 @@ public sealed partial class DanmakuView
                 {
                     if ((((FrameworkElement)item).Tag as DanmakuModel) == danmaku)
                     {
-                        _topContainer.Children.Remove(item);
+                        _ = _topContainer.Children.Remove(item);
                     }
                 }
 
@@ -287,7 +289,7 @@ public sealed partial class DanmakuView
                 {
                     if ((((FrameworkElement)item).Tag as DanmakuModel) == danmaku)
                     {
-                        _bottomContainer.Children.Remove(item);
+                        _ = _bottomContainer.Children.Remove(item);
                     }
                 }
 
@@ -297,7 +299,7 @@ public sealed partial class DanmakuView
                 {
                     if ((((FrameworkElement)item).Tag as DanmakuModel) == danmaku)
                     {
-                        _scrollContainer.Children.Remove(item);
+                        _ = _scrollContainer.Children.Remove(item);
                     }
                 }
 
@@ -337,7 +339,7 @@ public sealed partial class DanmakuView
         }
 
         var danmakus = new List<DanmakuModel>();
-        if (danmakuLocation == null || danmakuLocation == DanmakuLocation.Top)
+        if (danmakuLocation is null or DanmakuLocation.Top)
         {
             foreach (Grid item in _topContainer.Children)
             {
@@ -345,7 +347,7 @@ public sealed partial class DanmakuView
             }
         }
 
-        if (danmakuLocation == null || danmakuLocation == DanmakuLocation.Bottom)
+        if (danmakuLocation is null or DanmakuLocation.Bottom)
         {
             foreach (Grid item in _bottomContainer.Children)
             {
@@ -353,7 +355,7 @@ public sealed partial class DanmakuView
             }
         }
 
-        if (danmakuLocation == null || danmakuLocation == DanmakuLocation.Scroll)
+        if (danmakuLocation is null or DanmakuLocation.Scroll)
         {
             foreach (Grid item in _scrollContainer.Children)
             {

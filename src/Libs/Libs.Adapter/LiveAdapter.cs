@@ -125,16 +125,16 @@ public static class LiveAdapter
             .ToList();
         var followRooms = response.CardList.Where(p => p.CardType.Contains("idol"))
             .SelectMany(p => p.CardData?.FollowList?.List)
-            .Select(p => ConvertToLiveInformation(p))
+            .Select(ConvertToLiveInformation)
             .ToList();
         var banners = response.CardList.Where(p => p.CardType.Contains("banner"))
             .SelectMany(p => p.CardData?.Banners?.List)
-            .Select(p => CommunityAdapter.ConvertToBannerIdentifier(p))
+            .Select(CommunityAdapter.ConvertToBannerIdentifier)
             .ToList();
         var partitions = response.CardList.Where(p => p.CardType.Contains("area"))
             .SelectMany(p => p.CardData?.HotAreas?.List)
             .Where(p => p.Id != 0)
-            .Select(p => CommunityAdapter.ConvertToPartition(p))
+            .Select(CommunityAdapter.ConvertToPartition)
             .ToList();
 
         return new LiveFeedView(banners, partitions, followRooms, recommendRooms);
@@ -147,7 +147,7 @@ public static class LiveAdapter
     /// <returns><see cref="LivePartitionView"/>.</returns>
     public static LivePartitionView ConvertToLivePartitionView(LiveAreaDetailResponse response)
     {
-        var lives = response.List.Select(p => ConvertToLiveInformation(p)).ToList();
+        var lives = response.List.Select(ConvertToLiveInformation).ToList();
         var tags = response.Tags?.Count > 0
             ? response.Tags.Select(p => new LiveTag(p.Id.ToString(), p.Name, p.SortType)).ToList()
             : new List<LiveTag>() { new LiveTag(string.Empty, TextToolkit.ConvertToTraditionalChineseIfNeeded("全部"), string.Empty) };

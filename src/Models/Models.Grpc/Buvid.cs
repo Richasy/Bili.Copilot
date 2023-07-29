@@ -28,11 +28,11 @@ public class Buvid
         var inputStrMd5 = GetMd5Hash(_mac.Replace(":", string.Empty));
 
         var buvidRaw = new StringBuilder();
-        buvidRaw.Append(buvidPrefix);
-        buvidRaw.Append(inputStrMd5[2]);
-        buvidRaw.Append(inputStrMd5[12]);
-        buvidRaw.Append(inputStrMd5[22]);
-        buvidRaw.Append(inputStrMd5);
+        _ = buvidRaw.Append(buvidPrefix);
+        _ = buvidRaw.Append(inputStrMd5[2]);
+        _ = buvidRaw.Append(inputStrMd5[12]);
+        _ = buvidRaw.Append(inputStrMd5[22]);
+        _ = buvidRaw.Append(inputStrMd5);
 
         return buvidRaw.ToString();
     }
@@ -45,7 +45,7 @@ public class Buvid
         var sb = new StringBuilder();
         foreach (var b in hashBytes)
         {
-            sb.Append(b.ToString("x2"));
+            _ = sb.Append(b.ToString("x2"));
         }
 
         return sb.ToString();

@@ -441,7 +441,7 @@ public static class VideoAdapter
         var count = response.Count;
         var items = response.List == null
             ? new List<VideoInformation>()
-            : response.List.Select(p => ConvertToVideoInformation(p)).ToList();
+            : response.List.Select(ConvertToVideoInformation).ToList();
         return new VideoSet(items, count);
     }
 
@@ -455,7 +455,7 @@ public static class VideoAdapter
         var count = set.Count;
         var items = set.List == null
             ? new List<VideoInformation>()
-            : set.List.Select(p => ConvertToVideoInformation(p)).ToList();
+            : set.List.Select(ConvertToVideoInformation).ToList();
         return new VideoSet(items, count);
     }
 
@@ -469,7 +469,7 @@ public static class VideoAdapter
         var count = Convert.ToInt32(reply.Total);
         var items = reply.Archives == null
             ? new List<VideoInformation>()
-            : reply.Archives.Select(p => ConvertToVideoInformation(p)).ToList();
+            : reply.Archives.Select(ConvertToVideoInformation).ToList();
         return new VideoSet(items, count);
     }
 
@@ -481,7 +481,7 @@ public static class VideoAdapter
     public static VideoHistoryView ConvertToVideoHistoryView(CursorV2Reply reply)
     {
         var isFinished = !reply.HasMore;
-        var items = reply.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardUgc).Select(p => ConvertToVideoInformation(p)).ToList();
+        var items = reply.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardUgc).Select(ConvertToVideoInformation).ToList();
         return new VideoHistoryView(items, isFinished);
     }
 
@@ -651,7 +651,7 @@ public static class VideoAdapter
         {
             var id = item.Id.ToString();
             var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(item.Title);
-            var videos = item.Episodes.Select(p => GetVideoInformationFromEpisode(p));
+            var videos = item.Episodes.Select(GetVideoInformationFromEpisode);
             var section = new VideoSeason(id, title, videos);
             sections.Add(section);
         }

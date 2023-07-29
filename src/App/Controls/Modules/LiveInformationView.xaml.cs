@@ -14,10 +14,7 @@ public sealed partial class LiveInformationView : LiveInformationViewBase
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveInformationView"/> class.
     /// </summary>
-    public LiveInformationView()
-    {
-        InitializeComponent();
-    }
+    public LiveInformationView() => InitializeComponent();
 
     private void OnLiveOnlyAudioToggledAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {

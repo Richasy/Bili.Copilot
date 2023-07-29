@@ -32,7 +32,7 @@ public sealed partial class PgcPlayerPageViewModel
     {
         IsTracking = View.Information.IsTracking;
         IsCoinWithLiked = true;
-        ReloadCommunityInformationCommand.ExecuteAsync(null);
+        _ = ReloadCommunityInformationCommand.ExecuteAsync(null);
     }
 
     private void InitializeCommunityInformation()

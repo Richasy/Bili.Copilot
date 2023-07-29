@@ -75,7 +75,7 @@ public static class CommunityAdapter
         var logo = string.IsNullOrEmpty(partition.Logo)
             ? null
             : ImageAdapter.ConvertToImage(partition.Logo);
-        var children = partition.Children?.Select(p => ConvertToPartition(p)).ToList();
+        var children = partition.Children?.Select(ConvertToPartition).ToList();
         if (children?.Count > 0)
         {
             children.Insert(0, new Models.Data.Community.Partition(partition.Tid.ToString(), TextToolkit.ConvertToTraditionalChineseIfNeeded("推荐")));
@@ -111,7 +111,7 @@ public static class CommunityAdapter
     {
         var id = group.Id.ToString();
         var name = TextToolkit.ConvertToTraditionalChineseIfNeeded(group.Name);
-        var children = group.AreaList.Select(p => ConvertToPartition(p)).ToList();
+        var children = group.AreaList.Select(ConvertToPartition).ToList();
 
         return new Models.Data.Community.Partition(id, name, children: children);
     }
@@ -139,7 +139,7 @@ public static class CommunityAdapter
     /// <param name="tab">PGC标签.</param>
     /// <returns><see cref="Models.Data.Community.Partition"/>.</returns>
     public static Models.Data.Community.Partition ConvertToPartition(PgcTab tab)
-        => new Models.Data.Community.Partition(tab.Id.ToString(), TextToolkit.ConvertToTraditionalChineseIfNeeded(tab.Title));
+        => new(tab.Id.ToString(), TextToolkit.ConvertToTraditionalChineseIfNeeded(tab.Title));
 
     /// <summary>
     /// 将文章分类 <see cref="LiveAreaGroup"/> 转换为自定义的分区信息.
@@ -151,7 +151,7 @@ public static class CommunityAdapter
         var id = category.Id.ToString();
         var name = TextToolkit.ConvertToTraditionalChineseIfNeeded(category.Name);
         var children = category.Children?.Any() ?? false
-            ? category.Children.Select(p => ConvertToPartition(p)).ToList()
+            ? category.Children.Select(ConvertToPartition).ToList()
             : null;
         var parentId = category.ParentId.ToString();
 
@@ -196,7 +196,7 @@ public static class CommunityAdapter
     /// <param name="mine">个人信息.</param>
     /// <returns><see cref="UserCommunityInformation"/>.</returns>
     public static UserCommunityInformation ConvertToUserCommunityInformation(Mine mine)
-        => new UserCommunityInformation(
+        => new(
             mine.Mid.ToString(),
             mine.FollowCount,
             mine.FollowerCount,
@@ -209,7 +209,7 @@ public static class CommunityAdapter
     /// <param name="spaceInfo">用户空间信息.</param>
     /// <returns><see cref="UserCommunityInformation"/>.</returns>
     public static UserCommunityInformation ConvertToUserCommunityInformation(UserSpaceInformation spaceInfo)
-        => new UserCommunityInformation(
+        => new(
             spaceInfo.UserId,
             spaceInfo.FollowCount,
             spaceInfo.FollowerCount,
@@ -222,7 +222,7 @@ public static class CommunityAdapter
     /// <param name="mine">个人信息.</param>
     /// <returns><see cref="UserCommunityInformation"/>.</returns>
     public static UserCommunityInformation ConvertToUserCommunityInformation(MyInfo mine)
-        => new UserCommunityInformation(
+        => new(
             mine.Mid.ToString(),
             coinCount: mine.Coins);
 
@@ -449,7 +449,7 @@ public static class CommunityAdapter
     /// <returns><see cref="VideoCommunityInformation"/>.</returns>
     public static VideoCommunityInformation ConvertToVideoCommunityInformation(PgcInformationStat stat)
     {
-        var tracingCount = NumberToolkit.GetCountNumber(stat.FollowerDisplayText);
+        _ = NumberToolkit.GetCountNumber(stat.FollowerDisplayText);
         return new VideoCommunityInformation(
             default,
             stat.PlayCount,
@@ -508,7 +508,7 @@ public static class CommunityAdapter
     /// <param name="ugc">UGC 条目信息.</param>
     /// <returns><see cref="VideoCommunityInformation"/>.</returns>
     public static VideoCommunityInformation ConvertToVideoCommunityInformation(CardUGC ugc)
-        => new VideoCommunityInformation(default, ugc.View);
+        => new(default, ugc.View);
 
     /// <summary>
     /// 将视频状态信息 <see cref="VideoStatusInfo"/> 转换为视频交互信息.
@@ -534,7 +534,7 @@ public static class CommunityAdapter
     /// <param name="message">未读消息.</param>
     /// <returns><see cref="UnreadInformation"/>.</returns>
     public static UnreadInformation ConvertToUnreadInformation(UnreadMessage message)
-        => new UnreadInformation(message.At, message.Reply, message.Like);
+        => new(message.At, message.Reply, message.Like);
 
     /// <summary>
     /// 将点赞消息条目 <see cref="LikeMessageItem"/> 转换为消息信息.
@@ -676,14 +676,14 @@ public static class CommunityAdapter
         if (messageResponse.Latest != null)
         {
             items = items
-                .Concat(messageResponse.Latest.Items.Select(p => ConvertToMessageInformation(p)))
+                .Concat(messageResponse.Latest.Items.Select(ConvertToMessageInformation))
                 .ToList();
         }
 
         if (messageResponse.Total != null)
         {
             items = items
-                .Concat(messageResponse.Total.Items.Select(p => ConvertToMessageInformation(p)))
+                .Concat(messageResponse.Total.Items.Select(ConvertToMessageInformation))
                 .ToList();
         }
 
@@ -698,7 +698,7 @@ public static class CommunityAdapter
     public static MessageView ConvertToMessageView(AtMessageResponse messageResponse)
     {
         var cursor = messageResponse.Cursor;
-        var items = messageResponse.Items.Select(p => ConvertToMessageInformation(p)).ToList();
+        var items = messageResponse.Items.Select(ConvertToMessageInformation).ToList();
         return new MessageView(items, cursor.IsEnd);
     }
 
@@ -710,7 +710,7 @@ public static class CommunityAdapter
     public static MessageView ConvertToMessageView(ReplyMessageResponse messageResponse)
     {
         var cursor = messageResponse.Cursor;
-        var items = messageResponse.Items.Select(p => ConvertToMessageInformation(p)).ToList();
+        var items = messageResponse.Items.Select(ConvertToMessageInformation).ToList();
         return new MessageView(items, cursor.IsEnd);
     }
 
@@ -720,7 +720,7 @@ public static class CommunityAdapter
     /// <param name="tag">关联标签.</param>
     /// <returns><see cref="FollowGroup"/>.</returns>
     public static FollowGroup ConvertToFollowGroup(RelatedTag tag)
-        => new FollowGroup(tag.TagId.ToString(), TextToolkit.ConvertToTraditionalChineseIfNeeded(tag.Name), tag.Count);
+        => new(tag.TagId.ToString(), TextToolkit.ConvertToTraditionalChineseIfNeeded(tag.Name), tag.Count);
 
     /// <summary>
     /// 将动态状态数据 <see cref="ModuleStat"/> 转换为动态社区信息.
@@ -729,7 +729,7 @@ public static class CommunityAdapter
     /// <param name="dynamicId">动态 Id.</param>
     /// <returns><see cref="DynamicCommunityInformation"/>.</returns>
     public static DynamicCommunityInformation ConvertToDynamicCommunityInformation(ModuleStat stat, string dynamicId)
-        => new DynamicCommunityInformation(dynamicId, stat.Like, stat.Reply, stat.LikeInfo.IsLike);
+        => new(dynamicId, stat.Like, stat.Reply, stat.LikeInfo.IsLike);
 
     /// <summary>
     /// 将一键三连的结果 <see cref="TripleResult"/> 转换为一键三连信息.
@@ -738,7 +738,7 @@ public static class CommunityAdapter
     /// <param name="id">视频 Id.</param>
     /// <returns><see cref="TripleInformation"/>.</returns>
     public static TripleInformation ConvertToTripleInformation(TripleResult result, string id)
-        => new TripleInformation(id, result.IsLike, result.IsCoin, result.IsFavorite);
+        => new(id, result.IsLike, result.IsCoin, result.IsFavorite);
 
     /// <summary>
     /// 将单集交互响应 <see cref="EpisodeInteraction"/> 转换为单集交互信息.
@@ -746,5 +746,5 @@ public static class CommunityAdapter
     /// <param name="interaction">单集交互响应.</param>
     /// <returns><see cref="EpisodeInteractionInformation"/>.</returns>
     public static EpisodeInteractionInformation ConvertToEpisodeInteractionInformation(EpisodeInteraction interaction)
-        => new EpisodeInteractionInformation(interaction.IsLike == 1, interaction.CoinNumber > 0, interaction.IsFavorite == 1);
+        => new(interaction.IsLike == 1, interaction.CoinNumber > 0, interaction.IsFavorite == 1);
 }

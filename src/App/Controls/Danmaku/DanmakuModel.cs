@@ -45,7 +45,7 @@ public class DanmakuModel
     /// <summary>
     /// 前景色.
     /// </summary>
-    public SolidColorBrush Foreground => new SolidColorBrush(Color);
+    public SolidColorBrush Foreground => new(Color);
 
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is DanmakuModel model && Text == model.Text;

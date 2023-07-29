@@ -58,7 +58,7 @@ public sealed partial class PgcPlayerPageViewModel
         var selectedFolders = FavoriteFolders.Where(p => p.IsSelected).Select(p => p.Data.Id).ToList();
         var deselectedFolders = FavoriteFolders.Where(p => !p.IsSelected).Select(p => p.Data.Id).ToList();
         var result = await PlayerProvider.FavoriteAsync(CurrentEpisode.Identifier.Id, selectedFolders, deselectedFolders, false);
-        if (result == FavoriteResult.Success || result == FavoriteResult.InsufficientAccess)
+        if (result is FavoriteResult.Success or FavoriteResult.InsufficientAccess)
         {
             IsFavorited = selectedFolders.Count > 0;
             _ = ReloadCommunityInformationCommand.ExecuteAsync(null);

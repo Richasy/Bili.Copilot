@@ -150,7 +150,7 @@ public sealed class EmoteTextBlock : Control
             {
                 if (emojiRegex.IsMatch(content))
                 {
-                    emotes.TryGetValue(content, out var emoji);
+                    _ = emotes.TryGetValue(content, out var emoji);
                     if (emoji != null && !string.IsNullOrEmpty(emoji.Uri))
                     {
                         var inlineCon = new InlineUIContainer();

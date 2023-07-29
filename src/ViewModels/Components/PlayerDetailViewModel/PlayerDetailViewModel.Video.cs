@@ -210,7 +210,7 @@ public sealed partial class PlayerDetailViewModel
 
         InteractionViewModel.SetData(view.Information.Identifier.Id, info.Id, view.InteractionVideo.GraphVersion);
         var part = new VideoIdentifier(info.PartId, default, default, default);
-        ChangePartCommand.ExecuteAsync(part);
+        _ = ChangePartCommand.ExecuteAsync(part);
     }
 
     [RelayCommand]
@@ -225,6 +225,6 @@ public sealed partial class PlayerDetailViewModel
 
         InteractionViewModel.SetData(view.Information.Identifier.Id, default, view.InteractionVideo.GraphVersion);
         var part = view.SubVideos.FirstOrDefault();
-        ChangePartCommand.ExecuteAsync(part);
+        _ = ChangePartCommand.ExecuteAsync(part);
     }
 }

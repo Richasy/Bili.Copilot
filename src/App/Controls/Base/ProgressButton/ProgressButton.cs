@@ -138,7 +138,7 @@ public sealed class ProgressButton : ToggleButton
         _host = GetTemplateChild("BackgroundHost") as Ellipse;
         _bubbleView = GetTemplateChild("BubbleView") as BubbleView;
         _progressRing = GetTemplateChild("ProgressRing") as Microsoft.UI.Xaml.Controls.ProgressRing;
-        _progressRing.RegisterPropertyChangedCallback(Microsoft.UI.Xaml.Controls.ProgressRing.ValueProperty, new DependencyPropertyChangedCallback(OnValueChanged));
+        _ = _progressRing.RegisterPropertyChangedCallback(Microsoft.UI.Xaml.Controls.ProgressRing.ValueProperty, new DependencyPropertyChangedCallback(OnValueChanged));
         Initialize();
     }
 
@@ -202,7 +202,7 @@ public sealed class ProgressButton : ToggleButton
         }
         else
         {
-            if (_currentProgressValue < 99.9 && _currentProgressValue > 0)
+            if (_currentProgressValue is < 99.9 and > 0)
             {
                 HoldingSuspend?.Invoke(this, EventArgs.Empty);
             }
@@ -252,7 +252,7 @@ public sealed class ProgressButton : ToggleButton
         }
 
         _timer?.Stop();
-        VisualStateManager.GoToState(this, "NonState", false);
+        _ = VisualStateManager.GoToState(this, "NonState", false);
     }
 
     private void Initialize()

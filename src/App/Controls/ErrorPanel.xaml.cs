@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Windows.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

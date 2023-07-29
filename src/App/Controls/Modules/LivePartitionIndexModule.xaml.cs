@@ -24,7 +24,7 @@ public sealed partial class LivePartitionIndexModule : LivePartitionIndexModuleB
 
     private void OnParentItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        ContentScrollViewer.ChangeView(default, 0, default, true);
+        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
         var data = args.InvokedItem as Partition;
         if (data != ViewModel.CurrentParentPartition)
         {

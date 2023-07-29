@@ -27,7 +27,7 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
     private void OnGiveCoinButtonClick(object sender, RoutedEventArgs e)
     {
         var num = int.Parse((sender as FrameworkElement).Tag.ToString());
-        ViewModel.CoinCommand.ExecuteAsync(num);
+        _ = ViewModel.CoinCommand.ExecuteAsync(num);
         CoinFlyout.Hide();
     }
 
@@ -57,7 +57,7 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
     private void OnLikeButtonHoldingCompleted(object sender, EventArgs e)
     {
         _isLikeHoldCompleted = true;
-        ViewModel.TripleCommand.ExecuteAsync(null);
+        _ = ViewModel.TripleCommand.ExecuteAsync(null);
         CoinButton.ShowBubbles();
         FavoriteButton.ShowBubbles();
     }
@@ -74,7 +74,7 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
             return;
         }
 
-        ViewModel.LikeCommand.ExecuteAsync(null);
+        _ = ViewModel.LikeCommand.ExecuteAsync(null);
     }
 
     private void OnCoinButtonClick(object sender, RoutedEventArgs e)
@@ -95,7 +95,7 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
 
         if (ViewModel.FavoriteFolders.Count == 0)
         {
-            ViewModel.RequestFavoriteFoldersCommand.ExecuteAsync(null);
+            _ = ViewModel.RequestFavoriteFoldersCommand.ExecuteAsync(null);
         }
 
         FavoriteFlyout.ShowAt(FavoriteButton);

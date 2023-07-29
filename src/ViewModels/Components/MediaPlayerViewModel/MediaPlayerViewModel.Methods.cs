@@ -78,30 +78,32 @@ public sealed partial class MediaPlayerViewModel
         var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "哔哩截图");
         if (!Directory.Exists(folderPath))
         {
-            Directory.CreateDirectory(folderPath);
+            _ = Directory.CreateDirectory(folderPath);
         }
 
-        var fileName = $"{DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}_{Player.CurTime}.png";
+        var fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_{Player.CurTime}.png";
         var path = Path.Combine(folderPath, fileName);
         await Task.Run(() =>
         {
             Player.TakeSnapshotToFile(path);
         });
 
-        _dispatcherQueue.TryEnqueue(async () =>
+        _ = _dispatcherQueue.TryEnqueue(async () =>
         {
             if (File.Exists(path))
             {
                 var storageFile = await StorageFile.GetFileFromPathAsync(path).AsTask();
-                await Launcher.LaunchFileAsync(storageFile);
+                _ = await Launcher.LaunchFileAsync(storageFile);
             }
         });
     }
 
     private void LoadDashVideoSource()
     {
-        var playItem = new PlaylistItem();
-        playItem.Title = "video";
+        var playItem = new PlaylistItem
+        {
+            Title = "video",
+        };
         playItem.Tag.Add("video", _video);
 
         if (_audio != null)
@@ -146,7 +148,7 @@ public sealed partial class MediaPlayerViewModel
 
     private void OnPlayerOpenCompleted(object sender, OpenCompletedArgs e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (e.Success)
             {
@@ -164,7 +166,7 @@ public sealed partial class MediaPlayerViewModel
 
     private void OnPlayerPlaybackStopped(object sender, PlaybackStoppedArgs e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (Player == null)
             {
@@ -194,7 +196,7 @@ public sealed partial class MediaPlayerViewModel
 
     private void OnOpenPlaylistItemCompleted(object sender, DecoderContext.OpenPlaylistItemCompletedArgs e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _ = _dispatcherQueue.TryEnqueue(() =>
         {
             if (e.Success)
             {

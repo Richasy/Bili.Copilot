@@ -53,15 +53,15 @@ public sealed partial class PlayerWindow : WindowBase
         };
         if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
         {
-            MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
+            _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
         {
-            MainFrame.Navigate(typeof(LivePlayerPage), navArgs);
+            _ = MainFrame.Navigate(typeof(LivePlayerPage), navArgs);
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Pgc)
         {
-            MainFrame.Navigate(typeof(PgcPlayerPage), navArgs);
+            _ = MainFrame.Navigate(typeof(PgcPlayerPage), navArgs);
         }
     }
 
@@ -78,7 +78,7 @@ public sealed partial class PlayerWindow : WindowBase
             AttachedWindow = this,
         };
 
-        MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
+        _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
     }
 
     private async void OnClosedAsync(object sender, WindowEventArgs args)
@@ -86,9 +86,9 @@ public sealed partial class PlayerWindow : WindowBase
         if (!_isHidden)
         {
             args.Handled = true;
-            MainFrame.Navigate(typeof(Page));
+            _ = MainFrame.Navigate(typeof(Page));
             MainWindow.Instance.Activate();
-            this.Hide();
+            _ = this.Hide();
             _isHidden = true;
             await Task.Delay(1000);
             Close();

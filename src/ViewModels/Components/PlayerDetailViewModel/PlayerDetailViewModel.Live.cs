@@ -58,10 +58,7 @@ public sealed partial class PlayerDetailViewModel
         DanmakuViewModel.SetData(view.Information.Identifier.Id, default, _videoType);
         _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsLiveAudioOnly);
 
-        if (_currentPlayLine == null)
-        {
-            _currentPlayLine = _liveMediaInformation.Lines.FirstOrDefault(p => p.Quality == quality) ?? _liveMediaInformation.Lines.First();
-        }
+        _currentPlayLine ??= _liveMediaInformation.Lines.FirstOrDefault(p => p.Quality == quality) ?? _liveMediaInformation.Lines.First();
     }
 
     private async Task InitializeOriginalLiveSourceAsync()
@@ -101,7 +98,7 @@ public sealed partial class PlayerDetailViewModel
             var playLines = _liveMediaInformation.Lines.Where(p => p.Name == codecId);
             if (playLines.Count() == 0)
             {
-                playLines = _liveMediaInformation.Lines.Where(p => p.Urls.Any(j => j.Protocol == "http_hls" || j.Protocol == "http_stream"));
+                playLines = _liveMediaInformation.Lines.Where(p => p.Urls.Any(j => j.Protocol is "http_hls" or "http_stream"));
             }
 
             var url = playLines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Protocol == "http_hls");

@@ -15,14 +15,11 @@ internal sealed class RelationButtonStyleConverter : IValueConverter
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is UserRelationStatus status)
-        {
-            return status == UserRelationStatus.Unfollow || status == UserRelationStatus.BeFollowed
+        return value is UserRelationStatus status
+            ? status is UserRelationStatus.Unfollow or UserRelationStatus.BeFollowed
                 ? App.Current.Resources["AccentButtonStyle"] as Style
-                : App.Current.Resources["DefaultButtonStyle"] as Style;
-        }
-
-        return null;
+                : App.Current.Resources["DefaultButtonStyle"] as Style
+            : (object)null;
     }
 
     /// <inheritdoc/>

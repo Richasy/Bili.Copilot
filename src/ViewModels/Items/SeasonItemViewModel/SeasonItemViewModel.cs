@@ -40,7 +40,7 @@ public sealed partial class SeasonItemViewModel : ViewModelBase
     private async Task OpenInBrowserAsync()
     {
         var uri = $"https://www.bilibili.com/bangumi/play/ss{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     [RelayCommand]

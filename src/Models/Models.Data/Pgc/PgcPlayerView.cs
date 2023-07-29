@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 

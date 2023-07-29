@@ -169,7 +169,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     private async Task OpenInBrowserAsync()
     {
         var uri = $"https://www.bilibili.com/video/av{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
     private void InitializeData()

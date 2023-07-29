@@ -16,10 +16,7 @@ public sealed partial class PlaybackRateItemViewModel : SelectableViewModel<doub
     /// Initializes a new instance of the <see cref="PlaybackRateItemViewModel"/> class.
     /// </summary>
     public PlaybackRateItemViewModel(double data, Action<double> action)
-        : base(data)
-    {
-        _action = action;
-    }
+        : base(data) => _action = action;
 
     [RelayCommand]
     private void Active() => _action?.Invoke(Data);

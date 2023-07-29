@@ -37,7 +37,7 @@ public static class CommentAdapter
     /// <returns><see cref="CommentView"/>.</returns>
     public static CommentView ConvertToCommentView(MainListReply reply, string targetId)
     {
-        var comments = reply.Replies.Select(p => ConvertToCommentInformation(p)).ToList();
+        var comments = reply.Replies.Select(ConvertToCommentInformation).ToList();
         var top = reply.UpTop ?? reply.VoteTop;
         var topComment = top == null
             ? null
@@ -54,7 +54,7 @@ public static class CommentAdapter
     /// <returns><see cref="CommentView"/>.</returns>
     public static CommentView ConvertToCommentView(DetailListReply reply, string targetId)
     {
-        var comments = reply.Root.Replies.Select(p => ConvertToCommentInformation(p)).ToList();
+        var comments = reply.Root.Replies.Select(ConvertToCommentInformation).ToList();
         var topComment = ConvertToCommentInformation(reply.Root);
         var isEnd = reply.Cursor.IsEnd;
         return new CommentView(comments, targetId, topComment, isEnd);

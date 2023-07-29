@@ -37,6 +37,6 @@ public sealed partial class LiveItemViewModel : ViewModelBase
     private async Task OpenInBrowserAsync()
     {
         var uri = $"https://live.bilibili.com/{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(uri));
+        _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 }

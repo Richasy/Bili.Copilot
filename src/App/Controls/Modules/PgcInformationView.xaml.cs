@@ -29,15 +29,12 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
     private void OnLikeButtonHoldingCompleted(object sender, System.EventArgs e)
     {
         _isLikeHoldCompleted = true;
-        ViewModel.TripleCommand.ExecuteAsync(null);
+        _ = ViewModel.TripleCommand.ExecuteAsync(null);
         CoinButton.ShowBubbles();
         FavoriteButton.ShowBubbles();
     }
 
-    private void OnLikeButtonHoldingSuspend(object sender, EventArgs e)
-    {
-        _isLikeHoldSuspend = true;
-    }
+    private void OnLikeButtonHoldingSuspend(object sender, EventArgs e) => _isLikeHoldSuspend = true;
 
     private void OnLikeButtonClick(object sender, RoutedEventArgs e)
     {
@@ -48,7 +45,7 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
             return;
         }
 
-        ViewModel.LikeCommand.ExecuteAsync(null);
+        _ = ViewModel.LikeCommand.ExecuteAsync(null);
     }
 
     private void OnCoinButtonClick(object sender, RoutedEventArgs e)
@@ -69,7 +66,7 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
 
         if (ViewModel.FavoriteFolders.Count == 0)
         {
-            ViewModel.RequestFavoriteFoldersCommand.ExecuteAsync(null);
+            _ = ViewModel.RequestFavoriteFoldersCommand.ExecuteAsync(null);
         }
 
         FavoriteFlyout.ShowAt(FavoriteButton);

@@ -12,14 +12,8 @@ public sealed partial class HomePage : PageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePage"/> class.
     /// </summary>
-    public HomePage()
-    {
-        InitializeComponent();
-    }
+    public HomePage() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnPageLoaded()
-    {
-        CoreViewModel.IsBackButtonShown = false;
-    }
+    protected override void OnPageLoaded() => CoreViewModel.IsBackButtonShown = false;
 }

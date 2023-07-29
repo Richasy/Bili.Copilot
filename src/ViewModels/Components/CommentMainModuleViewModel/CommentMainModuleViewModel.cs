@@ -44,7 +44,7 @@ public sealed partial class CommentMainModuleViewModel : InformationFlowViewMode
         _commentType = type;
         var sort = SortCollection.First(p => p.Type == defaultSort);
         CurrentSort = sort;
-        InitializeCommand.ExecuteAsync(null);
+        _ = InitializeCommand.ExecuteAsync(null);
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public sealed partial class CommentMainModuleViewModel : InformationFlowViewMode
     private void ChangeSort(CommentSortHeader sort)
     {
         CurrentSort = sort;
-        ReloadCommand.ExecuteAsync(null);
+        _ = ReloadCommand.ExecuteAsync(null);
     }
 
     [RelayCommand]

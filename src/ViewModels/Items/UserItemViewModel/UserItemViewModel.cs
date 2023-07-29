@@ -71,12 +71,12 @@ public sealed partial class UserItemViewModel : ViewModelBase
         }
 
         bool? isFollow = null;
-        if (Relation == UserRelationStatus.Unfollow || Relation == UserRelationStatus.BeFollowed)
+        if (Relation is UserRelationStatus.Unfollow or UserRelationStatus.BeFollowed)
         {
             // 未关注该用户.
             isFollow = true;
         }
-        else if (Relation == UserRelationStatus.Following || Relation == UserRelationStatus.Friends)
+        else if (Relation is UserRelationStatus.Following or UserRelationStatus.Friends)
         {
             isFollow = false;
         }

@@ -24,8 +24,10 @@ public sealed partial class PgcExtraItemViewModel : ViewModelBase
         Title = title;
         foreach (var item in episodes)
         {
-            var vm = new EpisodeItemViewModel(item);
-            vm.IsSelected = item.Identifier.Id == currentId;
+            var vm = new EpisodeItemViewModel(item)
+            {
+                IsSelected = item.Identifier.Id == currentId,
+            };
             Episodes.Add(vm);
         }
     }

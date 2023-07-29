@@ -47,7 +47,7 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
     {
         _mainId = mainId;
         _partId = partId;
-        ReloadCommand.ExecuteAsync(default);
+        _ = ReloadCommand.ExecuteAsync(default);
     }
 
     [RelayCommand]

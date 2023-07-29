@@ -128,7 +128,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
         else
         {
-            InitializeCommand.ExecuteAsync(default);
+            _ = InitializeCommand.ExecuteAsync(default);
         }
     }
 }

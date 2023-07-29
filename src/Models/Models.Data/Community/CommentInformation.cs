@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.User;

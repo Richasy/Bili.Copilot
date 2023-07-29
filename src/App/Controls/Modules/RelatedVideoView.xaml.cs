@@ -13,10 +13,7 @@ public sealed partial class RelatedVideoView : RelatedVideoViewBase
     /// <summary>
     /// Initializes a new instance of the <see cref="RelatedVideoView"/> class.
     /// </summary>
-    public RelatedVideoView()
-    {
-        InitializeComponent();
-    }
+    public RelatedVideoView() => InitializeComponent();
 }
 
 /// <summary>

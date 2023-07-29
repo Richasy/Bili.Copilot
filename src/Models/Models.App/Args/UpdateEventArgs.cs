@@ -1,6 +1,5 @@
 // Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.App.Other;
 
 namespace Bili.Copilot.Models.App.Args;

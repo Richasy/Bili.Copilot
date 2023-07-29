@@ -28,7 +28,7 @@ public sealed partial class DanmakuBox : DanmakuBoxBase
         {
             sender.IsEnabled = false;
             await ViewModel.SendDanmakuCommand.ExecuteAsync(args.QueryText);
-            DispatcherQueue.TryEnqueue(() =>
+            _ = DispatcherQueue.TryEnqueue(() =>
             {
                 sender.IsEnabled = true;
                 sender.Text = string.Empty;
