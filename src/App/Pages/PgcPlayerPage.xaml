@@ -45,10 +45,15 @@
                                     VerticalAlignment="Center"
                                     Spacing="4">
                                     <TextBlock
+                                        x:Name="TitleBlock"
                                         MaxLines="1"
                                         Style="{StaticResource BodyStrongTextBlockStyle}"
                                         Text="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        TextTrimming="CharacterEllipsis">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
                                     <TextBlock
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         MaxLines="2"

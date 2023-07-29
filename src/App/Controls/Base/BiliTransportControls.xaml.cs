@@ -50,7 +50,7 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     /// <summary>
     /// 弹幕输入框是否聚焦.
     /// </summary>
-    public bool IsDanmakuBoxFocused { get; set; }
+    public bool IsDanmakuBoxFocused => DanmakuBox.IsInputFocused;
 
     /// <summary>
     /// 是否为直播控件.

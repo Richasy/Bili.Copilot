@@ -93,6 +93,7 @@
             <converters:DurationConverter x:Key="MillisecondsDurationConverter" IsMilliseconds="True" />
             <converters:PgcFollowTextConverter x:Key="FollowTextConverter" />
             <converters:UserLevelConverter x:Key="UserLevelConverter" />
+            <converters:DanmakuLocationConverter x:Key="DanmakuLocationConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

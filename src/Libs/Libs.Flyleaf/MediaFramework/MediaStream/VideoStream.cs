@@ -69,14 +69,14 @@ public unsafe class VideoStream : StreamBase
                 ? ColorSpace.BT2020
                 : Height > 576 ? ColorSpace.BT709 : ColorSpace.BT601;
 
-            // This causes issues
-            //if (AVStream->codecpar->color_space == AVColorSpace.AVCOL_SPC_UNSPECIFIED && AVStream->codecpar->color_trc == AVColorTransferCharacteristic.AVCOL_TRC_UNSPECIFIED && Height > 1080)
-            //{   // TBR: Handle Dolphy Vision?
-            //    ColorSpace = ColorSpace.BT2020;
-            //    ColorTransfer = AVColorTransferCharacteristic.AVCOL_TRC_SMPTE2084;
-            //}
-            //else
-            ColorTransfer = AVStream->codecpar->color_trc;
+            if (AVStream->codecpar->color_space == AVColorSpace.AVCOL_SPC_UNSPECIFIED && AVStream->codecpar->color_trc == AVColorTransferCharacteristic.AVCOL_TRC_UNSPECIFIED && Height > 1080)
+            {   
+                // TBR: Handle Dolphy Vision?
+                ColorSpace = ColorSpace.BT2020;
+                ColorTransfer = AVColorTransferCharacteristic.AVCOL_TRC_SMPTE2084;
+            }
+            else
+                ColorTransfer = AVStream->codecpar->color_trc;
 
             Rotation = av_display_rotation_get(av_stream_get_side_data(AVStream, AVPacketSideDataType.AV_PKT_DATA_DISPLAYMATRIX, null));
 

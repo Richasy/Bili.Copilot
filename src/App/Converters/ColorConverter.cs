@@ -24,7 +24,9 @@ internal class ColorConverter : IValueConverter
         var color = Colors.Transparent;
         if (value is string hexColor)
         {
-            color = AppToolkit.HexToColor(hexColor);
+            color = int.TryParse(hexColor, out _)
+                ? AppToolkit.HexToColor(hexColor)
+                : CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(hexColor);
         }
 
         return IsBrush ? new SolidColorBrush(color) : (object)color;

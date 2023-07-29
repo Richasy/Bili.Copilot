@@ -39,7 +39,6 @@ public sealed partial class PlayerDetailViewModel
     private DisplayRequest _displayRequest;
 
     private DispatcherTimer _unitTimer;
-    private DispatcherTimer _progressTimer;
 
     private double _originalPlayRate;
     private double _originalDanmakuSpeed;

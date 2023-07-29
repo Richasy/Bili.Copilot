@@ -42,6 +42,7 @@
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
+        <None Remove="Controls\Base\UserAvatar.xaml" />
         <None Remove="Controls\Base\VideoItem\VideoItem.xaml" />
         <None Remove="Controls\Base\BannerItem\BannerItem.xaml" />
         <None Remove="Controls\Base\ArticleItem\ArticleItem.xaml" />
@@ -53,6 +54,9 @@
         <None Remove="Controls\Comment\CommentBox.xaml" />
         <None Remove="Controls\Comment\CommentModule.xaml" />
         <None Remove="Controls\Comment\CommentRepeater.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
+        <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
@@ -169,6 +173,18 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Base\UserAvatar.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Comment\CommentModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

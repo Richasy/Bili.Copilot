@@ -32,11 +32,35 @@ public class MediaStats
     /// </summary>
     public string AudioCodec { get; set; }
 
-    /// <inheritdoc/>
-    public override bool Equals(object obj) => obj is MediaStats stats && Fps == stats.Fps && Width == stats.Width && Height == stats.Height && VideoCodec == stats.VideoCodec && AudioCodec == stats.AudioCodec;
+    /// <summary>
+    /// 像素格式.
+    /// </summary>
+    public string PixelFormat { get; set; }
 
-    /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(Fps, Width, Height, VideoCodec, AudioCodec);
+    /// <summary>
+    /// 比特率.
+    /// </summary>
+    public double Bitrate { get; set; }
+
+    /// <summary>
+    /// 色域.
+    /// </summary>
+    public string ColorSpace { get; set; }
+
+    /// <summary>
+    /// 音频采样格式.
+    /// </summary>
+    public string AudioSampleFormat { get; set; }
+
+    /// <summary>
+    /// 音频通道数.
+    /// </summary>
+    public int AudioChannels { get; set; }
+
+    /// <summary>
+    /// 音频采样率.
+    /// </summary>
+    public int AudioSampleRate { get; set; }
 }
 
 /// <summary>
@@ -55,6 +79,12 @@ public sealed class LiveMediaStats : MediaStats
         Height = info.Height;
         VideoCodec = info.VideoCodec;
         AudioCodec = info.AudioCodec;
+        PixelFormat = info.PixelFormat;
+        Bitrate = info.Bitrate;
+        ColorSpace = info.ColorSpace;
+        AudioSampleFormat = info.AudioSampleFormat;
+        AudioChannels = info.AudioChannels;
+        AudioSampleRate = info.AudioSampleRate;
     }
 
     /// <summary>
@@ -79,6 +109,12 @@ public sealed class VideoMediaStats : MediaStats
         Height = info.Height;
         VideoCodec = info.VideoCodec;
         AudioCodec = info.AudioCodec;
+        PixelFormat = info.PixelFormat;
+        Bitrate = info.Bitrate;
+        ColorSpace = info.ColorSpace;
+        AudioSampleFormat = info.AudioSampleFormat;
+        AudioChannels = info.AudioChannels;
+        AudioSampleRate = info.AudioSampleRate;
     }
 
     /// <summary>

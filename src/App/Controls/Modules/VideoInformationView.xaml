@@ -150,13 +150,12 @@
                         Orientation="Horizontal"
                         Spacing="12"
                         Visibility="{x:Bind ViewModel.IsCooperationVideo, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                        <base:ImageEx
+                        <base:UserAvatar
                             Width="36"
                             Height="36"
+                            Avatar="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
                             Command="{x:Bind ViewModel.Author.ShowDetailCommand, Mode=OneWay}"
-                            CornerRadius="18"
-                            Source="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
-                            ToolTipService.ToolTip="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                            UserName="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
                         <StackPanel Spacing="4">
                             <TextBlock
                                 VerticalAlignment="Center"
@@ -181,13 +180,13 @@
                                 <DataTemplate x:DataType="viewmodels:UserItemViewModel">
                                     <Grid>
                                         <StackPanel Spacing="4">
-                                            <base:ImageEx
+                                            <base:UserAvatar
                                                 Width="36"
                                                 Height="36"
+                                                Avatar="{x:Bind User.Avatar.Uri}"
                                                 Command="{x:Bind ShowDetailCommand}"
-                                                CornerRadius="18"
                                                 DataContext="{x:Bind}"
-                                                ToolTipService.ToolTip="{x:Bind User.Name}" />
+                                                UserName="{x:Bind User.Name}" />
                                             <TextBlock
                                                 MaxWidth="52"
                                                 HorizontalAlignment="Center"

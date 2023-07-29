@@ -46,6 +46,36 @@
                 <Run Text=":" />
                 <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.AudioCodec, Mode=OneWay}" />
             </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=PixelFormat}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.PixelFormat, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=Bitrate}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.Bitrate, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=ColorSpace}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.ColorSpace, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=AudioSampleFormat}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.AudioSampleFormat, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=AudioChannels}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.AudioChannels, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=AudioSampleRate}" />
+                <Run Text=":" />
+                <Run Foreground="{ThemeResource TextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.AudioSampleRate, Mode=OneWay}" />
+            </TextBlock>
         </StackPanel>
     </Grid>
 </local:MediaStatsPanelBase>

@@ -5,9 +5,19 @@
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
     <MenuFlyout x:Key="DefaultVideoItemContextFlyout">
+        <MenuFlyoutItem Command="{Binding PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
+            <MenuFlyoutItem.Icon>
+                <local:FluentIcon Symbol="WindowInprivate" />
+            </MenuFlyoutItem.Icon>
+        </MenuFlyoutItem>
         <MenuFlyoutItem Command="{Binding AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
             <MenuFlyoutItem.Icon>
                 <local:FluentIcon Symbol="Add" />
+            </MenuFlyoutItem.Icon>
+        </MenuFlyoutItem>
+        <MenuFlyoutItem Command="{Binding OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+            <MenuFlyoutItem.Icon>
+                <local:FluentIcon Symbol="Globe" />
             </MenuFlyoutItem.Icon>
         </MenuFlyoutItem>
     </MenuFlyout>

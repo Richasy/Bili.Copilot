@@ -136,8 +136,8 @@ public sealed partial class PlayerDetailViewModel
         if (_mediaInformation.AudioSegments != null)
         {
             // 音频直接上最大码率.
-            var maxRate = _mediaInformation.AudioSegments.Max(p => Convert.ToInt32(p.Id));
-            _audio = _mediaInformation.AudioSegments.First(p => p.Id == maxRate.ToString());
+            var maxBandWidth = _mediaInformation.AudioSegments.Max(p => p.Bandwidth);
+            _audio = _mediaInformation.AudioSegments.First(p => p.Bandwidth == maxBandWidth);
         }
 
         if (_video == null)

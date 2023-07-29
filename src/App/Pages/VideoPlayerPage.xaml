@@ -10,6 +10,7 @@
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
     <Grid>
@@ -29,24 +30,58 @@
                         <base:BiliPlayerOverlay.MediaPresenter>
                             <StackPanel Padding="12,8" Spacing="8">
                                 <TextBlock
+                                    x:Name="TitleBlock"
                                     MaxLines="1"
                                     Style="{StaticResource BodyStrongTextBlockStyle}"
                                     Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap" />
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <base:ImageEx
-                                        Width="24"
-                                        Height="24"
-                                        CornerRadius="14"
-                                        Source="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}" />
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
+                                    TextWrapping="Wrap">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+                                <Grid Margin="0,4">
+                                    <StackPanel
+                                        x:Name="SinglePublisherContainer"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal"
+                                        Spacing="12"
+                                        Visibility="{x:Bind ViewModel.IsCooperationVideo, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                        <base:UserAvatar
+                                            Width="24"
+                                            Height="24"
+                                            Avatar="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
+                                            Command="{x:Bind ViewModel.Author.ShowDetailCommand, Mode=OneWay}"
+                                            UserName="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        x:Name="StaffContainer"
+                                        Orientation="Horizontal"
+                                        Visibility="{x:Bind ViewModel.IsCooperationVideo, Mode=OneWay}">
+                                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Collaborators}">
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="viewmodels:UserItemViewModel">
+                                                    <StackPanel Spacing="4">
+                                                        <base:UserAvatar
+                                                            Width="24"
+                                                            Height="24"
+                                                            Avatar="{x:Bind User.Avatar.Uri}"
+                                                            Command="{x:Bind ShowDetailCommand}"
+                                                            DataContext="{x:Bind}"
+                                                            UserName="{x:Bind User.Name}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Orientation="Horizontal" Spacing="4" />
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
                         </base:BiliPlayerOverlay.MediaPresenter>
                         <base:BiliPlayerOverlay.SectionContent>

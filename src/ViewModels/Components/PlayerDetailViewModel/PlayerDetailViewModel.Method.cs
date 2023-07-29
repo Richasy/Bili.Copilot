@@ -123,7 +123,6 @@ public sealed partial class PlayerDetailViewModel
         }
 
         _lastReportProgress = TimeSpan.Zero;
-        _progressTimer?.Stop();
         _unitTimer?.Stop();
 
         Status = PlayerStatus.NotLoad;
@@ -137,18 +136,10 @@ public sealed partial class PlayerDetailViewModel
             _unitTimer.Interval = TimeSpan.FromMilliseconds(100);
             _unitTimer.Tick += OnUnitTimerTick;
         }
-
-        if (_progressTimer == null)
-        {
-            _progressTimer = new DispatcherTimer();
-            _progressTimer.Interval = TimeSpan.FromSeconds(5);
-            _progressTimer.Tick += OnProgressTimerTick;
-        }
     }
 
     private void StartTimers()
     {
-        _progressTimer?.Start();
         _unitTimer?.Start();
     }
 
@@ -183,7 +174,9 @@ public sealed partial class PlayerDetailViewModel
     [RelayCommand]
     private async Task ReportViewProgressAsync()
     {
-        if (AuthorizeProvider.Instance.State == Models.Constants.Authorize.AuthorizeState.SignedIn)
+        if (AuthorizeProvider.Instance.State != Models.Constants.Authorize.AuthorizeState.SignedIn
+            || Player == null
+            || _isInPrivate)
         {
             return;
         }
@@ -327,9 +320,6 @@ public sealed partial class PlayerDetailViewModel
             MediaEnded?.Invoke(this, EventArgs.Empty);
         }
     }
-
-    private void OnProgressTimerTick(object sender, object e)
-        => ReportViewProgressCommand.ExecuteAsync(null);
 
     private void OnUnitTimerTick(object sender, object e)
     {

@@ -34,8 +34,13 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             FFmpegPath = ffmpegFolder,
             FFmpegDevices = false,
             FFmpegLogLevel = FFmpegLogLevel.Warning,
+#if DEBUG
             LogLevel = LogLevel.Debug,
             LogOutput = ":debug",
+#else
+            LogLevel = LogLevel.Info,
+            LogOutput = ":info",
+#endif
             UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
             UIRefreshInterval = 250,      // How often (in ms) to notify the UI
             UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
@@ -87,7 +92,19 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// 播放.
     /// </summary>
     public void Play()
-        => Player?.Play();
+    {
+        if (Player == null)
+        {
+            return;
+        }
+
+        if (Math.Abs(Player.Duration - Player.CurTime) < 100)
+        {
+            SeekTo(TimeSpan.Zero);
+        }
+
+        Player?.Play();
+    }
 
     /// <summary>
     /// 跳转至.

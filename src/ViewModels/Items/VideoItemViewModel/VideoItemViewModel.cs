@@ -36,14 +36,11 @@ public sealed partial class VideoItemViewModel : ViewModelBase
 
     [RelayCommand]
     private void Play()
-    {
-        var id = string.IsNullOrEmpty(Data.AlternateId) ? Data.Identifier.Id : Data.AlternateId;
-        var snapshot = new PlaySnapshot(id, "0", Models.Constants.Bili.VideoType.Video)
-        {
-            Title = Data.Identifier.Title,
-        };
-        AppViewModel.Instance.OpenPlayerCommand.Execute(snapshot);
-    }
+        => AppViewModel.Instance.OpenPlayerCommand.Execute(GetSnapshot());
+
+    [RelayCommand]
+    private void PlayInPrivate()
+        => AppViewModel.Instance.OpenPlayerCommand.Execute(GetSnapshot(true));
 
     [RelayCommand]
     private async Task AddToViewLaterAsync()
@@ -185,5 +182,17 @@ public sealed partial class VideoItemViewModel : ViewModelBase
         {
             DurationText = NumberToolkit.GetDurationText(TimeSpan.FromSeconds(Data.Identifier.Duration));
         }
+    }
+
+    private PlaySnapshot GetSnapshot(bool isInPrivate = false)
+    {
+        var id = string.IsNullOrEmpty(Data.AlternateId) ? Data.Identifier.Id : Data.AlternateId;
+        var snapshot = new PlaySnapshot(id, "0", Models.Constants.Bili.VideoType.Video)
+        {
+            Title = Data.Identifier.Title,
+            IsInPrivate = isInPrivate,
+        };
+
+        return snapshot;
     }
 }

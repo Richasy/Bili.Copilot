@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
 using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
@@ -30,11 +31,20 @@ public sealed partial class MediaPlayerViewModel
             return null;
         }
 
-        var fps = Player.decoder?.VideoStream.FPS ?? -1;
-        var width = Player.Video.Width;
-        var height = Player.Video.Height;
-        var videoCodec = Player.Video.Codec;
-        var audioCodec = Player.Audio?.Codec ?? "N/A";
+        var video = Player.Video;
+        var audio = Player.Audio;
+        var fps = video?.FPS ?? -1;
+        var width = video.Width;
+        var height = video.Height;
+        var videoCodec = video.Codec;
+        var audioCodec = audio?.Codec ?? "N/A";
+        var pixelFormat = video?.PixelFormat ?? "--";
+        var bitrate = video?.Streams.FirstOrDefault()?.BitRate ?? 0;
+        var colorSpace = video?.Streams.FirstOrDefault()?.ColorSpace.ToString() ?? "--";
+        var sampleFormat = audio?.SampleFormat ?? "--";
+        var sampleRate = audio?.SampleRate ?? 0;
+        var channels = audio?.Channels ?? 0;
+
         var mediaInfo = new MediaStats
         {
             Fps = Math.Round(fps, 1),
@@ -42,6 +52,12 @@ public sealed partial class MediaPlayerViewModel
             Height = height,
             VideoCodec = videoCodec,
             AudioCodec = audioCodec,
+            PixelFormat = pixelFormat,
+            Bitrate = bitrate,
+            ColorSpace = colorSpace,
+            AudioSampleFormat = sampleFormat,
+            AudioSampleRate = sampleRate,
+            AudioChannels = channels,
         };
 
         return mediaInfo;
