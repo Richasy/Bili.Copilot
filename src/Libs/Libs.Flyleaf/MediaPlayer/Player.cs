@@ -14,6 +14,7 @@ using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
 
 using static Bili.Copilot.Libs.Flyleaf.Utils;
 using static Bili.Copilot.Libs.Flyleaf.Logger;
+using FFmpeg.AutoGen;
 
 namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 
@@ -423,6 +424,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 
             try
             {
+                ffmpeg.avformat_network_deinit();
                 Initialize();
                 Audio.Dispose(); 
                 decoder.Dispose();

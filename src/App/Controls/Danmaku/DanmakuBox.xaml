@@ -39,12 +39,10 @@
             Spacing="8">
             <Button
                 x:Name="DanmakuSendSettingsButton"
-                Height="32"
                 AutomationProperties.Name="{ext:Locale Name=DanmakuSendSettings}"
-                Background="Transparent"
-                BorderThickness="0"
+                Style="{StaticResource IconButtonStyle}"
                 ToolTipService.ToolTip="{ext:Locale Name=DanmakuSendSettings}">
-                <base:FluentIcon Symbol="Options" />
+                <base:FluentIcon FontSize="14" Symbol="Options" />
                 <Button.Flyout>
                     <Flyout>
                         <local:DanmakuSendOptions x:Name="SendOptions" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
@@ -53,12 +51,10 @@
             </Button>
             <Button
                 x:Name="DanmakuOptionButton"
-                Height="32"
                 AutomationProperties.Name="{ext:Locale Name=DanmakuDisplaySettings}"
-                Background="Transparent"
-                BorderThickness="0"
+                Style="{StaticResource IconButtonStyle}"
                 ToolTipService.ToolTip="{ext:Locale Name=DanmakuDisplaySettings}">
-                <base:FluentIcon Symbol="ContentSettings" />
+                <base:FluentIcon FontSize="14" Symbol="ContentSettings" />
                 <Button.Flyout>
                     <Flyout>
                         <local:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel, Mode=OneWay}" />

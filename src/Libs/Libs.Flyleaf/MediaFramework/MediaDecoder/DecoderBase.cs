@@ -92,7 +92,8 @@ public abstract unsafe class DecoderBase : RunThreadBase
 
                 if (Config.Decoder.ShowCorrupted)
                     codecCtx->flags |= AV_CODEC_FLAG_OUTPUT_CORRUPT;
-                    
+
+                codecCtx->flags |= AV_CODEC_PROP_LOSSLESS;
                 try { ret = Setup(codec); } catch(Exception e) { return error = $"[{Type} Setup] {e.Message}"; }
                 if (ret < 0)
                     return error = $"[{Type} Setup] {ret}";

@@ -20,6 +20,14 @@
                 <local:FluentIcon Symbol="Globe" />
             </MenuFlyoutItem.Icon>
         </MenuFlyoutItem>
+        <MenuFlyoutItem
+            Command="{Binding SummarizeContentCommand}"
+            IsEnabled="{Binding IsSummarizeSupported}"
+            Text="{ext:Locale Name=AISummarize}">
+            <MenuFlyoutItem.Icon>
+                <local:FluentIcon Symbol="Wand" />
+            </MenuFlyoutItem.Icon>
+        </MenuFlyoutItem>
     </MenuFlyout>
 
     <Style x:Key="HorizontalVideoItemStyle" TargetType="local:VideoItem">

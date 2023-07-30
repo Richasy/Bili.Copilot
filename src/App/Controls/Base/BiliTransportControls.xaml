@@ -37,7 +37,7 @@
     <Grid
         x:Name="ControlPanel"
         MaxWidth="680"
-        Padding="20,12"
+        Padding="12,12,12,0"
         Background="{ThemeResource MediaTransportBackgroundBrush}"
         CornerRadius="{StaticResource OverlayCornerRadius}"
         RowSpacing="4">

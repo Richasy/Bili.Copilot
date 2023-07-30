@@ -316,7 +316,10 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:UserItemViewModel">
-                                <base:CardPanel AutomationProperties.Name="{x:Bind User.Name}" ToolTipService.ToolTip="{x:Bind User.Name}">
+                                <base:CardPanel
+                                    Width="120"
+                                    AutomationProperties.Name="{x:Bind User.Name}"
+                                    ToolTipService.ToolTip="{x:Bind User.Name}">
                                     <Grid Padding="12">
                                         <StackPanel Spacing="4">
                                             <PersonPicture

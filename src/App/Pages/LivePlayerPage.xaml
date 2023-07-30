@@ -59,6 +59,7 @@
                         <base:BiliPlayerOverlay.SectionContent>
                             <Grid>
                                 <modules:LiveInformationView
+                                    Margin="0,-16,0,0"
                                     DataContext="{x:Bind ViewModel, Mode=OneWay}"
                                     ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                                     Visibility="{x:Bind ViewModel.IsShowInformation, Mode=OneWay}" />

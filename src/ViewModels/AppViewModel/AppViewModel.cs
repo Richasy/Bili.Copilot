@@ -16,6 +16,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -136,6 +137,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestSearch?.Invoke(this, text);
 
     [RelayCommand]
+    private void SummarizeVideoContent(VideoIdentifier video)
+        => RequestSummarizeVideoContent?.Invoke(this, video);
+
+    [RelayCommand]
     private void Back()
     {
         if (!IsBackButtonShown)
@@ -144,6 +149,13 @@ public sealed partial class AppViewModel : ViewModelBase
         }
 
         BackRequest?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private async Task CheckAIFeatureAsync()
+    {
+        var handlers = await Launcher.FindUriSchemeHandlersAsync("fancop").AsTask();
+        IsAISupported = handlers.Any();
     }
 
     private void LoadNavItems()

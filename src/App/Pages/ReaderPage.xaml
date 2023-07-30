@@ -81,6 +81,7 @@
         <WebView2
             x:Name="ReaderView"
             Grid.Row="2"
+            Margin="0,8,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Visibility="{x:Bind ViewModel.IsDetailShown, Mode=OneWay}" />

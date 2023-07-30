@@ -40,7 +40,7 @@
                                         <ToolTip Content="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
                                     </ToolTipService.ToolTip>
                                 </TextBlock>
-                                <Grid Margin="0,4">
+                                <Grid>
                                     <StackPanel
                                         x:Name="SinglePublisherContainer"
                                         HorizontalAlignment="Left"

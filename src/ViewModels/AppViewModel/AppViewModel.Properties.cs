@@ -37,6 +37,9 @@ public sealed partial class AppViewModel
     [ObservableProperty]
     private bool _isEngineStarted;
 
+    [ObservableProperty]
+    private bool _isAISupported;
+
     /// <summary>
     /// 在请求后退时触发.
     /// </summary>
@@ -81,6 +84,11 @@ public sealed partial class AppViewModel
     /// 在有新的阅读请求时触发.
     /// </summary>
     public event EventHandler<ArticleInformation> RequestRead;
+
+    /// <summary>
+    /// 请求视频的AI总结.
+    /// </summary>
+    public event EventHandler<VideoIdentifier> RequestSummarizeVideoContent;
 
     /// <summary>
     /// 激活主窗口.

@@ -35,6 +35,7 @@ public sealed partial class MainWindow : WindowBase
         Height = 800;
         IsResizable = false;
         IsMaximizable = false;
+        Activated += OnActivated;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
@@ -44,6 +45,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
+        _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
     }
 
     /// <summary>
@@ -152,4 +154,21 @@ public sealed partial class MainWindow : WindowBase
 
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
+
+    private void OnActivated(object sender, WindowActivatedEventArgs args)
+    {
+        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        {
+            AppViewModel.Instance.CheckAIFeatureCommand.Execute(default);
+        }
+    }
+
+    private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
+    {
+        var dialog = new AISummarizeDialog(e)
+        {
+            XamlRoot = MainFrame.XamlRoot,
+        };
+        await dialog.ShowAsync();
+    }
 }

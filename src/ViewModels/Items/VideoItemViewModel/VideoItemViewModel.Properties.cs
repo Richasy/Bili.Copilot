@@ -49,6 +49,9 @@ public sealed partial class VideoItemViewModel
     [ObservableProperty]
     private bool _canRemove;
 
+    [ObservableProperty]
+    private bool _isSummarizeSupported;
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is VideoItemViewModel model && EqualityComparer<VideoInformation>.Default.Equals(Data, model.Data);
 

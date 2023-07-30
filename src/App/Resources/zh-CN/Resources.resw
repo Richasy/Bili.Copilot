@@ -141,6 +141,9 @@
   <data name="AdvancedOptions" xml:space="preserve">
     <value>高级选项</value>
   </data>
+  <data name="AISummarize" xml:space="preserve">
+    <value>AI 视频总结</value>
+  </data>
   <data name="Alias" xml:space="preserve">
     <value>别名</value>
   </data>
@@ -725,6 +728,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Generic" xml:space="preserve">
     <value>通用</value>
   </data>
+  <data name="GettingSubtitles" xml:space="preserve">
+    <value>正在获取字幕信息...</value>
+  </data>
+  <data name="GettingVideoInformation" xml:space="preserve">
+    <value>正在获取视频信息...</value>
+  </data>
   <data name="GlobalPlaybackRate" xml:space="preserve">
     <value>全局播放速率</value>
   </data>
@@ -772,6 +781,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="HideWhenCloseDescription" xml:space="preserve">
     <value>关闭窗口时隐藏应用而非退出</value>
+  </data>
+  <data name="Highlights" xml:space="preserve">
+    <value>要点</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>首页</value>
@@ -854,6 +866,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="LastestReply" xml:space="preserve">
     <value>最新评论</value>
+  </data>
+  <data name="LaunchedFantasyCopilot" xml:space="preserve">
+    <value>小幻助理已启动，请保持应用处于开启状态</value>
+  </data>
+  <data name="LaunchingFantasyCopilot" xml:space="preserve">
+    <value>正在启动小幻助理...</value>
   </data>
   <data name="License" xml:space="preserve">
     <value>©2022 Richasy. MIT 许可证</value>
@@ -1043,6 +1061,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="NoStroke" xml:space="preserve">
     <value>无描边</value>
+  </data>
+  <data name="NoSubtitle" xml:space="preserve">
+    <value>没有可用的字幕，无法总结该视频</value>
   </data>
   <data name="NotificationSetting" xml:space="preserve">
     <value>通知设置</value>
@@ -1667,6 +1688,15 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="SubtitleList" xml:space="preserve">
     <value>字幕列表</value>
+  </data>
+  <data name="SummarizeMessage" xml:space="preserve">
+    <value>请总结 《{0}》的内容</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>总结</value>
+  </data>
+  <data name="SummaryMessageSend" xml:space="preserve">
+    <value>已经发送消息，请在小幻助理中查看总结内容</value>
   </data>
   <data name="SwitchToPasswordLogin" xml:space="preserve">
     <value>用密码登录</value>
