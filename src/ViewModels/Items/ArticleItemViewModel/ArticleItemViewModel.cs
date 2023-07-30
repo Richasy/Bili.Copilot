@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
-using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using CommunityToolkit.Mvvm.Input;
 using Windows.System;
@@ -26,35 +25,6 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
         Data = information;
         _additionalAction = action;
         InitializeData();
-        AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand);
-        AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadCommand);
-    }
-
-    /// <summary>
-    /// 获取文章详情内容.
-    /// </summary>
-    /// <returns>文章HTML文本.</returns>
-    public async Task<string> GetDetailAsync()
-    {
-        IsError = false;
-        ErrorText = string.Empty;
-
-        if (string.IsNullOrEmpty(_detailContent))
-        {
-            _detailContent = await ArticleProvider.GetArticleContentAsync(Data.Identifier.Id);
-        }
-
-        return _detailContent;
-    }
-
-    [RelayCommand]
-    private async Task ReloadAsync()
-    {
-        if (!IsReloading)
-        {
-            _detailContent = string.Empty;
-            _ = await GetDetailAsync();
-        }
     }
 
     [RelayCommand]
@@ -76,14 +46,6 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
         {
             _additionalAction?.Invoke(this);
         }
-    }
-
-    private void DisplayException(Exception exception)
-    {
-        IsError = true;
-        var msg = ResourceToolkit.GetLocalizedString(StringNames.RequestArticleFailed);
-        ErrorText = msg;
-        LogException(exception);
     }
 
     private void InitializeData()

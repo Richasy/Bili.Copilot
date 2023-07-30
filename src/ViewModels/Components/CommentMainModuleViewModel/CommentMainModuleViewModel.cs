@@ -44,7 +44,7 @@ public sealed partial class CommentMainModuleViewModel : InformationFlowViewMode
         _commentType = type;
         var sort = SortCollection.First(p => p.Type == defaultSort);
         CurrentSort = sort;
-        _ = InitializeCommand.ExecuteAsync(null);
+        _ = InitializeCommand.ExecuteAsync(default);
     }
 
     /// <summary>
@@ -63,7 +63,8 @@ public sealed partial class CommentMainModuleViewModel : InformationFlowViewMode
         _isEnd = false;
         IsEmpty = false;
         TopComment = null;
-        CommunityProvider.Instance.ResetMainCommentsStatus();
+        CommunityProvider.Instance.ResetMainCommentsStatus(_targetId);
+        CommunityProvider.Instance.ResetDetailCommentsStatus(_targetId);
     }
 
     /// <inheritdoc/>

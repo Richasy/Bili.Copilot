@@ -27,6 +27,8 @@ public partial class CommunityProvider
     /// </summary>
     private CommunityProvider()
     {
+        _mainCommentCursorCache = new Dictionary<string, CursorReq>();
+        _detailCommentCursorCache = new Dictionary<string, CursorReq>();
         ResetMainCommentsStatus();
         ResetDetailCommentsStatus();
         ResetVideoDynamicStatus();
@@ -124,13 +126,19 @@ public partial class CommunityProvider
     /// <returns>评论列表响应.</returns>
     public async Task<CommentView> GetCommentsAsync(string targetId, CommentType type, CommentSortType sort, string rootId)
     {
-        _detailCommentCursor.Mode = sort == CommentSortType.Time
+        var detailCursor = _detailCommentCursorCache.GetValueOrDefault(targetId) ?? new CursorReq
+        {
+            Mode = Mode.Default,
+            Next = 0,
+            Prev = 0,
+        };
+        detailCursor.Mode = sort == CommentSortType.Time
             ? Mode.MainListTime
             : Mode.MainListHot;
         var req = new DetailListReq
         {
             Scene = DetailListScene.Reply,
-            Cursor = _detailCommentCursor,
+            Cursor = detailCursor,
             Oid = Convert.ToInt64(targetId),
             Root = Convert.ToInt64(rootId),
             Type = (int)type,
@@ -140,12 +148,10 @@ public partial class CommunityProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, DetailListReply.Parser);
         var cursor = result.Cursor;
-        _detailCommentCursor = new CursorReq
-        {
-            Mode = cursor.Mode,
-            Next = cursor.Next,
-            Prev = 0,
-        };
+        detailCursor.Mode = cursor.Mode;
+        detailCursor.Next = cursor.Next;
+        detailCursor.Prev = 0;
+        _detailCommentCursorCache[targetId] = detailCursor;
 
         var view = CommentAdapter.ConvertToCommentView(result, targetId);
         foreach (var item in view.Comments)
@@ -166,12 +172,18 @@ public partial class CommunityProvider
     /// <returns>评论列表响应.</returns>
     public async Task<CommentView> GetCommentsAsync(string targetId, CommentType type, CommentSortType sort)
     {
-        _mainCommentCursor.Mode = sort == CommentSortType.Time
+        var mainCursor = _mainCommentCursorCache.GetValueOrDefault(targetId) ?? new CursorReq
+        {
+            Mode = Mode.Default,
+            Next = 0,
+            Prev = 0,
+        };
+        mainCursor.Mode = sort == CommentSortType.Time
             ? Mode.MainListTime
             : Mode.MainListHot;
         var req = new MainListReq
         {
-            Cursor = _mainCommentCursor,
+            Cursor = mainCursor,
             Oid = Convert.ToInt64(targetId),
             Type = (int)type,
             Rpid = 0,
@@ -181,12 +193,11 @@ public partial class CommunityProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, MainListReply.Parser);
         var cursor = result.Cursor;
-        _mainCommentCursor = new CursorReq
-        {
-            Mode = cursor.Mode,
-            Next = cursor.Next,
-            Prev = 0,
-        };
+
+        mainCursor.Mode = cursor.Mode;
+        mainCursor.Next = cursor.Next;
+        mainCursor.Prev = 0;
+        _mainCommentCursorCache[targetId] = mainCursor;
         var view = CommentAdapter.ConvertToCommentView(result, targetId);
         foreach (var item in view.Comments)
         {
@@ -262,26 +273,30 @@ public partial class CommunityProvider
     /// <summary>
     /// 清除评论区请求状态.
     /// </summary>
-    public void ResetMainCommentsStatus()
+    public void ResetMainCommentsStatus(string id = default)
     {
-        _mainCommentCursor = new CursorReq
+        if (string.IsNullOrEmpty(id))
         {
-            Mode = Mode.Default,
-            Next = 0,
-            Prev = 0,
-        };
+            _mainCommentCursorCache.Clear();
+        }
+        else
+        {
+            _mainCommentCursorCache.Remove(id);
+        }
     }
 
     /// <summary>
     /// 清除评论详情请求状态.
     /// </summary>
-    public void ResetDetailCommentsStatus()
+    public void ResetDetailCommentsStatus(string id = default)
     {
-        _detailCommentCursor = new CursorReq
+        if (string.IsNullOrEmpty(id))
         {
-            Mode = Mode.Default,
-            Next = 0,
-            Prev = 0,
-        };
+            _detailCommentCursorCache.Clear();
+        }
+        else
+        {
+            _detailCommentCursorCache.Remove(id);
+        }
     }
 }

@@ -30,8 +30,8 @@ public sealed partial class UserSpaceWindow : WindowBase
         CustomTitleBar.Title = title;
         Title = title;
         CustomTitleBar.AttachedWindow = this;
-        Width = 500;
-        Height = 800;
+        Width = MainWindow.Instance.Width;
+        Height = MainWindow.Instance.Height;
         IsResizable = false;
         IsMaximizable = false;
         MainFrame.Navigate(typeof(UserSpacePage), _viewModel);

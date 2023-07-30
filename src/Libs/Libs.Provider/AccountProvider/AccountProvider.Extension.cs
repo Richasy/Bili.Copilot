@@ -20,13 +20,14 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class AccountProvider
 {
-    private readonly HttpProvider _httpProvider;
     private readonly Dictionary<MessageType, MessageCursor> _messageOffsetCache;
     private readonly Dictionary<RelationType, int> _relationOffsetCache;
     private readonly Dictionary<string, int> _myFollowOffsetCache;
+
+    private readonly Dictionary<string, string> _spaceVideoOffsets;
+    private readonly Dictionary<string, int> _spaceSearchPageNumbers;
+
     private int _viewLaterPageNumber;
-    private string _spaceVideoOffset;
-    private int _spaceSearchPageNumber;
     private Cursor _historyCursor;
 
     /// <summary>

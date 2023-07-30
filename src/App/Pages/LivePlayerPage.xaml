@@ -63,6 +63,7 @@
                                     ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                                     Visibility="{x:Bind ViewModel.IsShowInformation, Mode=OneWay}" />
                                 <modules:LiveMessageView
+                                    Margin="0,0,0,20"
                                     DataContext="{x:Bind ViewModel, Mode=OneWay}"
                                     ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                                     Visibility="{x:Bind ViewModel.IsShowChat, Mode=OneWay}" />

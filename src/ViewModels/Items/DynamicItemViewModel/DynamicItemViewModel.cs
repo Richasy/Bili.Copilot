@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
-using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Community;
@@ -118,13 +117,6 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
         {
             // TODO: Show user detail.
         }
-    }
-
-    [RelayCommand]
-    private void ShowCommentDetail()
-    {
-        var args = new ShowCommentEventArgs(Data.CommentType, CommentSortType.Hot, Data.CommentId);
-        AppViewModel.Instance.ShowCommentsCommand.Execute(args);
     }
 
     [RelayCommand]

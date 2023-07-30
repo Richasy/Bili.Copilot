@@ -51,7 +51,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
         _isSpaceVideoFinished = false;
         IsSpaceVideoEmpty = false;
         ExitSearchMode();
-        AccountProvider.Instance.ResetSpaceVideoStatus();
+        AccountProvider.Instance.ResetSpaceVideoStatus(_userProfile.Id);
     }
 
     /// <inheritdoc/>
@@ -105,7 +105,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
         _requestKeyword = string.Empty;
         _isSearchVideoFinished = false;
         IsSearchVideoEmpty = false;
-        AccountProvider.Instance.ResetSpaceSearchStatus();
+        AccountProvider.Instance.ResetSpaceSearchStatus(_userProfile.Id);
         TryClear(SearchVideos);
     }
 

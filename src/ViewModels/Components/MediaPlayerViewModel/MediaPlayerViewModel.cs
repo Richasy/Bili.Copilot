@@ -58,6 +58,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;
+        config.Video.VSync = 1;
 
         Player = new Player(config);
         Player.PropertyChanged += OnPlayerPropertyChanged;

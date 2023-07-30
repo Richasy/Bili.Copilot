@@ -13,7 +13,6 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class ArticleItemViewModel
 {
     private readonly Action<ArticleItemViewModel> _additionalAction;
-    private string _detailContent;
 
     [ObservableProperty]
     private ArticleInformation _data;

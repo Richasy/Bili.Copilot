@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
@@ -75,6 +76,11 @@ public sealed partial class AppViewModel
     /// 在有新的用户空间请求时触发.
     /// </summary>
     public event EventHandler<UserProfile> RequestShowUserSpace;
+
+    /// <summary>
+    /// 在有新的阅读请求时触发.
+    /// </summary>
+    public event EventHandler<ArticleInformation> RequestRead;
 
     /// <summary>
     /// 激活主窗口.

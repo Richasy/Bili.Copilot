@@ -33,10 +33,11 @@ public sealed partial class AccountProvider
     /// <param name="videoAdapter">视频数据适配器.</param>
     private AccountProvider()
     {
-        _httpProvider = HttpProvider.Instance;
         _messageOffsetCache = new Dictionary<MessageType, MessageCursor>();
         _relationOffsetCache = new Dictionary<RelationType, int>();
         _myFollowOffsetCache = new Dictionary<string, int>();
+        _spaceVideoOffsets = new Dictionary<string, string>();
+        _spaceSearchPageNumbers = new Dictionary<string, int>();
         ResetViewLaterStatus();
         ResetHistoryStatus();
     }
@@ -257,7 +258,7 @@ public sealed partial class AccountProvider
         var videoSet = VideoAdapter.ConvertToVideoSet(result.Data.VideoSet);
         if (videoSet.Items.Any())
         {
-            _spaceVideoOffset = videoSet.Items.Last().Identifier.Id;
+            _spaceVideoOffsets[userId] = videoSet.Items.Last().Identifier.Id;
         }
 
         return new UserSpaceView(accInfo, videoSet);
@@ -270,10 +271,11 @@ public sealed partial class AccountProvider
     /// <returns>视频集.</returns>
     public async Task<VideoSet> GetUserSpaceVideoSetAsync(string userId)
     {
+        var offset = _spaceVideoOffsets.GetValueOrDefault(userId) ?? string.Empty;
         var queryParameters = new Dictionary<string, string>
         {
             { Query.VMid, userId },
-            { Query.Aid, _spaceVideoOffset.ToString() },
+            { Query.Aid, offset },
             { Query.Order, "pubdate" },
         };
 
@@ -283,7 +285,7 @@ public sealed partial class AccountProvider
         var data = VideoAdapter.ConvertToVideoSet(result.Data);
         if (data.Items.Any())
         {
-            _spaceVideoOffset = data.Items.Last().Identifier.Id;
+            _spaceVideoOffsets[userId] = data.Items.Last().Identifier.Id;
         }
 
         return data;
@@ -367,18 +369,19 @@ public sealed partial class AccountProvider
     /// <returns>视频集.</returns>
     public async Task<VideoSet> SearchUserSpaceVideoAsync(string userId, string keyword)
     {
+        var pn = _spaceSearchPageNumbers.GetValueOrDefault(userId);
         var req = new SearchArchiveReq
         {
             Mid = System.Convert.ToInt64(userId),
             Keyword = keyword,
-            Pn = _spaceSearchPageNumber,
+            Pn = pn,
             Ps = 20,
         };
 
         var request = await HttpProvider.GetRequestMessageAsync(Account.SpaceVideoSearch, req, false);
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync(response, SearchArchiveReply.Parser);
-        _spaceSearchPageNumber++;
+        _spaceSearchPageNumbers[userId] = pn + 1;
         var videoSet = VideoAdapter.ConvertToVideoSet(data);
         foreach (var item in videoSet.Items)
         {
@@ -450,14 +453,14 @@ public sealed partial class AccountProvider
     /// <summary>
     /// 重置空间视频请求状态.
     /// </summary>
-    public void ResetSpaceVideoStatus()
-        => _spaceVideoOffset = string.Empty;
+    public void ResetSpaceVideoStatus(string userId)
+        => _spaceVideoOffsets.Remove(userId);
 
     /// <summary>
     /// 重置空间搜索请求状态.
     /// </summary>
-    public void ResetSpaceSearchStatus()
-        => _spaceSearchPageNumber = 1;
+    public void ResetSpaceSearchStatus(string userId)
+        => _spaceSearchPageNumbers[userId] = 1;
 
     /// <summary>
     /// 重置我的关注请求状态.

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.Generic;
 using Bilibili.Main.Community.Reply.V1;
 
 namespace Bili.Copilot.Libs.Provider;
@@ -9,11 +10,10 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class CommunityProvider
 {
+    private readonly Dictionary<string, CursorReq> _mainCommentCursorCache;
+    private readonly Dictionary<string, CursorReq> _detailCommentCursorCache;
     private (string Offset, string Baseline) _videoDynamicOffset;
     private (string Offset, string Baseline) _comprehensiveDynamicOffset;
-
-    private CursorReq _mainCommentCursor;
-    private CursorReq _detailCommentCursor;
 
     /// <summary>
     /// 实例.

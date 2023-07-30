@@ -7,6 +7,7 @@ using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
@@ -42,6 +43,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestSearch += OnRequestSearch;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
+        _appViewModel.RequestRead += OnRequestRead;
     }
 
     /// <summary>
@@ -139,6 +141,12 @@ public sealed partial class MainWindow : WindowBase
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {
         var window = new UserSpaceWindow(e);
+        window.Activate();
+    }
+
+    private void OnRequestRead(object sender, ArticleInformation e)
+    {
+        var window = new ReaderWindow(e);
         window.Activate();
     }
 

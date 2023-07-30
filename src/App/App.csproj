@@ -32,6 +32,7 @@
     <ItemGroup>
         <None Remove="Assets\ERROR_rgba.png" />
         <None Remove="Assets\FluentIcon.ttf" />
+        <None Remove="Assets\ReaderClean.js" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
@@ -98,6 +99,7 @@
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
+        <None Remove="Forms\ReaderWindow.xaml" />
         <None Remove="Forms\UserSpaceWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
@@ -109,6 +111,7 @@
         <None Remove="Pages\LivePlayerPage.xaml" />
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
+        <None Remove="Pages\ReaderPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\UserSpacePage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
@@ -189,6 +192,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Forms\ReaderWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\ReaderPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\UserSpacePage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

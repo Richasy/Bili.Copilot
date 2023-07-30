@@ -10,7 +10,6 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Article;
-using HtmlAgilityPack;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
 namespace Bili.Copilot.Libs.Provider;
@@ -25,21 +24,6 @@ public sealed partial class ArticleProvider
     /// </summary>
     public ArticleProvider()
         => _partitionCache = new Dictionary<string, (ArticleSortType Sort, int PageNumber)>();
-
-    /// <summary>
-    /// 获取文章内容.
-    /// </summary>
-    /// <param name="articleId">文章Id.</param>
-    /// <returns>文章内容.</returns>
-    public static async Task<string> GetArticleContentAsync(string articleId)
-    {
-        var url = ApiConstants.Article.ArticleContent + articleId;
-        var html = await HttpProvider.Instance.HttpClient.GetStringAsync(url);
-        var doc = new HtmlDocument();
-        doc.LoadHtml(html);
-        var node = doc.DocumentNode.SelectNodes("//div[contains(@class, 'article-holder')]").FirstOrDefault();
-        return node?.InnerHtml;
-    }
 
     /// <summary>
     /// 获取专栏的全部分区/标签列表.

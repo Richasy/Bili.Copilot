@@ -110,22 +110,14 @@ public sealed partial class AppViewModel : ViewModelBase
         => ActiveMainWindow?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
-    private static void OpenReader(ArticleInformation article)
-    {
-        // TODO: 打开阅读器.
-    }
-
-    [RelayCommand]
-    private static void ShowComments(ShowCommentEventArgs args)
-    {
-        // TODO: 打开评论.
-    }
-
-    [RelayCommand]
     private static void ShowImages((List<Image> Source, int SelectedIndex) args)
     {
         // TODO: 打开图片.
     }
+
+    [RelayCommand]
+    private void OpenReader(ArticleInformation article)
+        => RequestRead?.Invoke(this, article);
 
     [RelayCommand]
     private void ShowUserDetail(UserProfile user)
