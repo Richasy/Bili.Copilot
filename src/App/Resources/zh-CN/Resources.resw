@@ -141,6 +141,12 @@
   <data name="AdvancedOptions" xml:space="preserve">
     <value>高级选项</value>
   </data>
+  <data name="AIMessageSend" xml:space="preserve">
+    <value>已经发送消息，请在小幻助理中查看总结内容</value>
+  </data>
+  <data name="AIMessageTooLong" xml:space="preserve">
+    <value>尝试发送给模型的字数有 {0}，友情提示：过长的字数可能导致模型无法处理</value>
+  </data>
   <data name="AISummarize" xml:space="preserve">
     <value>AI 视频总结</value>
   </data>
@@ -727,6 +733,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Generic" xml:space="preserve">
     <value>通用</value>
+  </data>
+  <data name="GettingSubtitleDetail" xml:space="preserve">
+    <value>正在获取 "{0}" 字幕</value>
   </data>
   <data name="GettingSubtitles" xml:space="preserve">
     <value>正在获取字幕信息...</value>
@@ -1545,6 +1554,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="SelectSortType" xml:space="preserve">
     <value>选择排序方式</value>
   </data>
+  <data name="SendingMessage" xml:space="preserve">
+    <value>正在发送消息...</value>
+  </data>
   <data name="SetAddressSuccess" xml:space="preserve">
     <value>成功设置地址</value>
   </data>
@@ -1689,14 +1701,14 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="SubtitleList" xml:space="preserve">
     <value>字幕列表</value>
   </data>
+  <data name="SubtitleSelected" xml:space="preserve">
+    <value>已选择字幕："{0}"</value>
+  </data>
   <data name="SummarizeMessage" xml:space="preserve">
     <value>请总结 《{0}》的内容</value>
   </data>
   <data name="Summary" xml:space="preserve">
     <value>总结</value>
-  </data>
-  <data name="SummaryMessageSend" xml:space="preserve">
-    <value>已经发送消息，请在小幻助理中查看总结内容</value>
   </data>
   <data name="SwitchToPasswordLogin" xml:space="preserve">
     <value>用密码登录</value>
@@ -1820,6 +1832,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="VideoInitializing" xml:space="preserve">
     <value>正在加载视频</value>
+  </data>
+  <data name="VideoPartSelected" xml:space="preserve">
+    <value>已选择分P：“{0}”</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>

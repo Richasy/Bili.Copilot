@@ -34,10 +34,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid
+    <base:StatusTip
         x:Name="PopupContainer"
         HorizontalAlignment="Center"
-        VerticalAlignment="Bottom">
+        VerticalAlignment="Bottom"
+        Background="{ThemeResource AppMaskAcrylicBrush}"
+        CornerRadius="{StaticResource OverlayCornerRadius}"
+        Text="{x:Bind Text, Mode=OneWay}">
         <animations:Implicit.ShowAnimations>
             <animations:TranslationAnimation
                 From="0, -12, 0"
@@ -58,49 +61,5 @@
                 To="0"
                 Duration="0:0:0.5" />
         </animations:Implicit.HideAnimations>
-        <Grid
-            x:Name="PopupRootGrid"
-            Padding="12,8,12,12"
-            Background="{ThemeResource AppMaskAcrylicBrush}"
-            ColumnSpacing="12"
-            CornerRadius="{StaticResource OverlayCornerRadius}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid Margin="0,4,0,0" VerticalAlignment="Center">
-                <base:FluentIcon
-                    x:Name="InformationIcon"
-                    FontSize="14"
-                    Foreground="{ThemeResource InfoBarInformationalSeverityIconBackground}"
-                    Symbol="Info"
-                    Visibility="Collapsed" />
-                <base:FluentIcon
-                    x:Name="WarningIcon"
-                    FontSize="14"
-                    Foreground="{ThemeResource InfoBarWarningSeverityIconBackground}"
-                    Symbol="Warning"
-                    Visibility="Collapsed" />
-                <base:FluentIcon
-                    x:Name="SuccessIcon"
-                    FontSize="14"
-                    Foreground="{ThemeResource InfoBarSuccessSeverityIconBackground}"
-                    Symbol="CheckmarkCircle"
-                    Visibility="Collapsed" />
-                <base:FluentIcon
-                    x:Name="ErrorIcon"
-                    FontSize="14"
-                    Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-                    Symbol="DismissCircle"
-                    Visibility="Collapsed" />
-            </Grid>
-            <TextBlock
-                Grid.Column="1"
-                MaxWidth="300"
-                VerticalAlignment="Center"
-                Text="{x:Bind Text, Mode=OneWay}"
-                TextTrimming="CharacterEllipsis"
-                TextWrapping="Wrap" />
-        </Grid>
-    </Grid>
+    </base:StatusTip>
 </UserControl>

@@ -97,7 +97,7 @@ public sealed partial class MainWindow : WindowBase
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
 
-    private void OnAppViewModelRequestShowTip(object sender, AppTipNotificationEventArgs e)
+    private void OnAppViewModelRequestShowTip(object sender, AppTipNotification e)
         => new TipPopup(e.Message).ShowAsync(e.Type);
 
     private async void OnAppViewModelRequestShowMessageAsync(object sender, string e)
@@ -165,7 +165,7 @@ public sealed partial class MainWindow : WindowBase
 
     private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
     {
-        var dialog = new AISummarizeDialog(e)
+        var dialog = new AIFeatureDialog(e, AIFeatureType.VideoSummarize)
         {
             XamlRoot = MainFrame.XamlRoot,
         };
