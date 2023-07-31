@@ -22,6 +22,14 @@
                 <local:FluentIcon Symbol="Globe" />
             </MenuFlyoutItem.Icon>
         </MenuFlyoutItem>
+        <MenuFlyoutItem
+            Command="{Binding SummarizeCommand}"
+            IsEnabled="{Binding IsAISupported}"
+            Text="{ext:Locale Name=AISummarize}">
+            <MenuFlyoutItem.Icon>
+                <local:FluentIcon Symbol="Wand" />
+            </MenuFlyoutItem.Icon>
+        </MenuFlyoutItem>
     </MenuFlyout>
 
     <Style x:Key="HorizontalArticleItemStyle" TargetType="local:ArticleItem">
@@ -40,7 +48,7 @@
                             x:Name="RootCard"
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReadCommand}"
-                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultArticleItemContextFlyout}}"
+                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout}"
                             IsEnableCheck="False">
                             <Grid>
                                 <Grid.ColumnDefinitions>

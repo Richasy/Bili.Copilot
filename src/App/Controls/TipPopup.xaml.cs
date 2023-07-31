@@ -44,7 +44,7 @@ public sealed partial class TipPopup : UserControl
     /// </summary>
     /// <param name="type">信息级别.</param>
     /// <param name="displaySeconds">显示的时间.</param>
-    public async void ShowAsync(InfoType type = InfoType.Information, double displaySeconds = 2)
+    public async void ShowAsync(InfoType type = InfoType.Information, double displaySeconds = 3)
     {
         PopupContainer.Status = type;
         await MainWindow.Instance.ShowTipAsync(this, displaySeconds);

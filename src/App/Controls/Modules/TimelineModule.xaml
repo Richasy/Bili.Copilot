@@ -66,7 +66,10 @@
                         </ItemsRepeater.Layout>
                         <ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="pgc:SeasonInformation">
-                                <base:SeasonItem Information="{x:Bind}" Style="{StaticResource SlimSeasonItemStyle}" />
+                                <base:SeasonItem
+                                    ContextFlyout="{StaticResource DefaultSeasonItemContextFlyout}"
+                                    Information="{x:Bind}"
+                                    Style="{StaticResource SlimSeasonItemStyle}" />
                             </DataTemplate>
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>

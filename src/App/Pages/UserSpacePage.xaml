@@ -16,7 +16,10 @@
     <Grid Grid.Row="1">
         <Grid.Resources>
             <DataTemplate x:Key="VideoItemTemplate" x:DataType="viewmodels:VideoItemViewModel">
-                <base:VideoItem ViewModel="{x:Bind}" />
+                <base:VideoItem
+                    ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
+                    DataContext="{x:Bind}"
+                    ViewModel="{x:Bind}" />
             </DataTemplate>
         </Grid.Resources>
         <Grid RowSpacing="12" Visibility="{x:Bind ViewModel.IsMainShown, Mode=OneWay}">

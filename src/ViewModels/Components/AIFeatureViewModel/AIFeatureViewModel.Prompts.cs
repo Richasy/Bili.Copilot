@@ -2,12 +2,14 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Windows.Globalization;
 using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
@@ -37,6 +39,27 @@ public sealed partial class AIFeatureViewModel
                 Please write in {language} language.
                 """;
 
+        return prompt;
+    }
+
+    private static string GetArticleSummaryPrompt(string content, string title)
+    {
+        var language = ApplicationLanguages.Languages.FirstOrDefault();
+        var prompt = $"""
+                Instructions: Your output should use the following template:
+                ### {ResourceToolkit.GetLocalizedString(StringNames.Summary)}
+                ### {ResourceToolkit.GetLocalizedString(StringNames.Highlights)}
+                - [Emoji] Bulletpoint
+
+                Use more than three brief bullet points to summarize the article below, Choose an appropriate emoji for each bullet point. and summarize a short highlight:
+                
+                Title: {title}
+                Content:
+                {content}
+
+                ---
+                Please write in {language} language.
+                """;
         return prompt;
     }
 

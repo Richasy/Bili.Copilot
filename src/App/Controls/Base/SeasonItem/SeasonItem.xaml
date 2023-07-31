@@ -27,7 +27,7 @@
                         x:Name="RootCard"
                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultSeasonItemContextFlyout}}"
+                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout}"
                         IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                         IsEnableCheck="False">
                         <Grid Padding="12" ColumnSpacing="12">
@@ -149,7 +149,7 @@
                         x:Name="RootCard"
                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultSeasonItemContextFlyout}}"
+                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout}"
                         IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                         IsEnableCheck="False">
                         <Grid Padding="12" RowSpacing="4">
@@ -166,9 +166,9 @@
                                     x:Name="CoverImage"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Stretch="UniformToFill"
                                     CornerRadius="{ThemeResource ControlCornerRadius}"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                    Stretch="UniformToFill" />
                             </Grid>
                             <Grid Grid.Row="1" RowSpacing="4">
                                 <Grid.RowDefinitions>

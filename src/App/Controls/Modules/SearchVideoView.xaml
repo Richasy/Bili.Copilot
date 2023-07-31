@@ -17,7 +17,10 @@
             ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
             <base:VerticalRepeaterView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                    <base:VideoItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                    <base:VideoItem
+                        ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
+                        DataContext="{x:Bind}"
+                        ViewModel="{x:Bind}" />
                 </DataTemplate>
             </base:VerticalRepeaterView.ItemTemplate>
         </base:VerticalRepeaterView>

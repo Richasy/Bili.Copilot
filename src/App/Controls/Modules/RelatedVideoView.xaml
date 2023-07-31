@@ -19,6 +19,7 @@
                 <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
                     <base:VideoItem
                         Height="112"
+                        ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
                         DataContext="{x:Bind}"
                         ViewModel="{x:Bind}" />
                 </DataTemplate>

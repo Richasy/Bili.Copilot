@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
@@ -28,7 +30,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
     public AIFeatureViewModel()
     {
         Tips = new ObservableCollection<AppTipNotification>();
-        AttachExceptionHandlerToAsyncCommand(ShowError, SummarizeVideoCommand);
+        AttachExceptionHandlerToAsyncCommand(ShowError, SummarizeVideoCommand, SummarizeArticleCommand);
     }
 
     private static bool IsFantasyCopilotRunning()
@@ -108,6 +110,18 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         return subtitleDetail;
     }
 
+    private async Task<string> GetArticleContentAsync(ArticleIdentifier article)
+    {
+        ThrowIfCancelled();
+        var gettingArticleContent = new AppTipNotification(
+                       string.Format(ResourceToolkit.GetLocalizedString(StringNames.GettingArticleContent), article.Title),
+                       InfoType.Information);
+        Tips.Add(gettingArticleContent);
+        var articleContent = await ArticleProvider.GetArticleContentAsync(article.Id);
+        var filterArticle = SmartReader.Reader.ParseArticle(ApiConstants.Article.ArticleContent + $"?id={article.Id}", text: articleContent);
+        return filterArticle.TextContent;
+    }
+
     private void ShowError(Exception ex)
     {
         var error = new AppTipNotification(ex.Message, InfoType.Error);
@@ -153,5 +167,16 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         var prompt = GetVideoSummaryPrompt(videoContent, info.Information.Identifier.Title, info.Information.Description, language);
         var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), info.Information.Identifier.Title);
         await SendMessageAsync(message, prompt, tokens: Math.Min(videoContent.Length, 1000));
+    }
+
+    [RelayCommand]
+    private async Task SummarizeArticleAsync(ArticleIdentifier article)
+    {
+        _cancellationTokenSource = new System.Threading.CancellationTokenSource();
+        await LaunchFantasyCopilotAsync();
+        var content = await GetArticleContentAsync(article);
+        var prompt = GetArticleSummaryPrompt(content, article.Title);
+        var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), article.Title);
+        await SendMessageAsync(message, prompt, tokens: Math.Min(content.Length, 1000));
     }
 }

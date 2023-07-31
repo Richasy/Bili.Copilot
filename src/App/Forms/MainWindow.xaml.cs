@@ -46,6 +46,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
+        _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
     }
 
     /// <summary>
@@ -164,8 +165,14 @@ public sealed partial class MainWindow : WindowBase
     }
 
     private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);
+
+    private async void OnRequestSummarizeArticleContentAsync(object sender, ArticleIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.ArticleSummarize);
+
+    private async Task ShowAIDialogAsync(object data, AIFeatureType type)
     {
-        var dialog = new AIFeatureDialog(e, AIFeatureType.VideoSummarize)
+        var dialog = new AIFeatureDialog(data, type)
         {
             XamlRoot = MainFrame.XamlRoot,
         };

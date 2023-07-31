@@ -41,6 +41,9 @@ public sealed partial class ArticleItemViewModel
     [ObservableProperty]
     private bool _isReloading;
 
+    [ObservableProperty]
+    private bool _isAISupported;
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is ArticleItemViewModel model && EqualityComparer<ArticleInformation>.Default.Equals(Data, model.Data);
 

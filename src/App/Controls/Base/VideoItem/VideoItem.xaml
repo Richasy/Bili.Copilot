@@ -20,14 +20,13 @@
                 <local:FluentIcon Symbol="Globe" />
             </MenuFlyoutItem.Icon>
         </MenuFlyoutItem>
-        <MenuFlyoutItem
-            Command="{Binding SummarizeContentCommand}"
-            IsEnabled="{Binding IsSummarizeSupported}"
-            Text="{ext:Locale Name=AISummarize}">
-            <MenuFlyoutItem.Icon>
+        <MenuFlyoutSubItem IsEnabled="{Binding IsAISupported}" Text="{ext:Locale Name=AISummarize}">
+            <MenuFlyoutSubItem.Icon>
                 <local:FluentIcon Symbol="Wand" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
+            </MenuFlyoutSubItem.Icon>
+            <MenuFlyoutItem Command="{Binding SummarizeContentCommand}" Text="{ext:Locale Name=SummarizeContent}" />
+            <MenuFlyoutItem IsEnabled="False" Text="{ext:Locale Name=Evaluation}" />
+        </MenuFlyoutSubItem>
     </MenuFlyout>
 
     <Style x:Key="HorizontalVideoItemStyle" TargetType="local:VideoItem">
@@ -48,7 +47,7 @@
                             MaxHeight="130"
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultVideoItemContextFlyout}}"
+                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout}"
                             DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                             IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                             IsEnableCheck="False">

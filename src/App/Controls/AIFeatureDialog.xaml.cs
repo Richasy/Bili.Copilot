@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -14,7 +15,7 @@ namespace Bili.Copilot.App.Controls;
 public sealed partial class AIFeatureDialog : ContentDialog
 {
     private readonly AIFeatureType _type;
-    private readonly VideoIdentifier? _video;
+    private readonly object _data;
     private readonly AIFeatureViewModel _viewModel;
 
     /// <summary>
@@ -31,18 +32,19 @@ public sealed partial class AIFeatureDialog : ContentDialog
     /// <summary>
     /// Initializes a new instance of the <see cref="AIFeatureDialog"/> class.
     /// </summary>
-    public AIFeatureDialog(VideoIdentifier video, AIFeatureType type)
+    public AIFeatureDialog(object video, AIFeatureType type)
         : this(type)
-        => _video = video;
+        => _data = video;
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (_video != null)
+        if (_type == AIFeatureType.VideoSummarize)
         {
-            if (_type == AIFeatureType.VideoSummarize)
-            {
-                _viewModel.SummarizeVideoCommand.Execute(_video);
-            }
+            _viewModel.SummarizeVideoCommand.Execute((VideoIdentifier)_data);
+        }
+        else if(_type == AIFeatureType.ArticleSummarize)
+        {
+            _viewModel.SummarizeArticleCommand.Execute((ArticleIdentifier)_data);
         }
     }
 

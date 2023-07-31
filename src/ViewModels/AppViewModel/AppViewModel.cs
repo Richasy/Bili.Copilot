@@ -141,6 +141,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestSummarizeVideoContent?.Invoke(this, video);
 
     [RelayCommand]
+    private void SummarizeArticleContent(ArticleIdentifier article)
+        => RequestSummarizeArticleContent?.Invoke(this, article);
+
+    [RelayCommand]
     private void Back()
     {
         if (!IsBackButtonShown)

@@ -47,7 +47,7 @@
             Grid.Column="1"
             MaxWidth="300"
             VerticalAlignment="Center"
-            FontSize="12"
+            FontSize="13"
             Text="{x:Bind Text, Mode=OneWay}"
             TextTrimming="CharacterEllipsis"
             TextWrapping="Wrap" />
