@@ -50,7 +50,6 @@
                         <DataTemplate x:DataType="viewmodels:VideoIdentifierSelectableViewModel">
                             <base:CardPanel
                                 Click="OnPartItemClick"
-                                DataContext="{x:Bind}"
                                 IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                 IsEnableCheck="True">
                                 <Grid Padding="12">

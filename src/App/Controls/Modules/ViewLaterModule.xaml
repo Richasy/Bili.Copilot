@@ -22,7 +22,7 @@
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                        <base:VideoItem DataContext="{x:Bind}" ViewModel="{x:Bind}">
+                        <base:VideoItem ViewModel="{x:Bind}">
                             <base:VideoItem.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem

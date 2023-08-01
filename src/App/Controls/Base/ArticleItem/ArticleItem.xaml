@@ -33,6 +33,7 @@
     </MenuFlyout>
 
     <Style x:Key="HorizontalArticleItemStyle" TargetType="local:ArticleItem">
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleItem">

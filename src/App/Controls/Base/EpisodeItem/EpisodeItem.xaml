@@ -6,6 +6,7 @@
 
     <Style x:Key="HorizontalEpisodeItemStyle" TargetType="local:EpisodeItem">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeItem">

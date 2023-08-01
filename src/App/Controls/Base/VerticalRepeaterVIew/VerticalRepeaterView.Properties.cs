@@ -23,12 +23,6 @@ public sealed partial class VerticalRepeaterView
         DependencyProperty.Register(nameof(ItemTemplate), typeof(object), typeof(VerticalRepeaterView), new PropertyMetadata(null));
 
     /// <summary>
-    /// <see cref="IsAutoFillEnable"/>的依赖属性.
-    /// </summary>
-    public static readonly DependencyProperty IsAutoFillEnableProperty =
-        DependencyProperty.Register(nameof(IsAutoFillEnable), typeof(bool), typeof(VerticalRepeaterView), new PropertyMetadata(true));
-
-    /// <summary>
     /// <see cref="EnableDetectParentScrollViewer"/>的依赖属性.
     /// </summary>
     public static readonly DependencyProperty EnableDetectParentScrollViewerProperty =
@@ -38,7 +32,7 @@ public sealed partial class VerticalRepeaterView
     /// <see cref="VerticalCacheSize"/>的依赖属性.
     /// </summary>
     public static readonly DependencyProperty VerticalCacheSizeProperty =
-        DependencyProperty.Register(nameof(VerticalCacheSize), typeof(int), typeof(VerticalRepeaterView), new PropertyMetadata(10));
+        DependencyProperty.Register(nameof(VerticalCacheSize), typeof(int), typeof(VerticalRepeaterView), new PropertyMetadata(4));
 
     /// <summary>
     /// 在外部的ScrollViewer滚动到接近底部时发生.
@@ -66,15 +60,6 @@ public sealed partial class VerticalRepeaterView
     {
         get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
-    }
-
-    /// <summary>
-    /// 是否允许根据容器剩余空间自行计算视频条目容量，并主动发起请求填满整个容器.
-    /// </summary>
-    public bool IsAutoFillEnable
-    {
-        get => (bool)GetValue(IsAutoFillEnableProperty);
-        set => SetValue(IsAutoFillEnableProperty, value);
     }
 
     /// <summary>

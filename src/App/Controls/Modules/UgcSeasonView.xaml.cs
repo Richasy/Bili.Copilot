@@ -39,7 +39,7 @@ public sealed partial class UgcSeasonView : UgcSeasonViewBase
                 var index = ViewModel.CurrentSeasonVideos.IndexOf(selectedVideo);
                 if (index > 0)
                 {
-                    (sender as VerticalRepeaterView).ScrollToItem(index);
+                    (sender as VerticalRepeaterView).ScrollToItem(selectedVideo);
                 }
             }
         }

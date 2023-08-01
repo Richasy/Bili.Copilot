@@ -18,7 +18,6 @@
             <DataTemplate x:Key="VideoItemTemplate" x:DataType="viewmodels:VideoItemViewModel">
                 <base:VideoItem
                     ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
-                    DataContext="{x:Bind}"
                     ViewModel="{x:Bind}" />
             </DataTemplate>
         </Grid.Resources>

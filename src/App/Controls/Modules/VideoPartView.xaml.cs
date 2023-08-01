@@ -39,7 +39,7 @@ public sealed partial class VideoPartView : VideoPartViewBase
             var index = ViewModel.VideoParts.IndexOf(vm);
             if (index >= 0)
             {
-                PartRepeater.ScrollToItem(index);
+                PartRepeater.ScrollToItem(vm);
                 if (ViewModel.IsOnlyShowIndex)
                 {
                     var ele = IndexRepeater.GetOrCreateElement(index);

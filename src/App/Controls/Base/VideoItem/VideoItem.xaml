@@ -31,6 +31,7 @@
 
     <Style x:Key="HorizontalVideoItemStyle" TargetType="local:VideoItem">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
@@ -48,7 +49,6 @@
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
                             ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout}"
-                            DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                             IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                             IsEnableCheck="False">
 

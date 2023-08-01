@@ -15,9 +15,10 @@ namespace Bili.Copilot.App.Controls.Base;
 /// </summary>
 public sealed partial class VerticalRepeaterView : Control
 {
+    private double _itemHolderHeight = 80d;
     private ScrollViewer _parentScrollViewer;
     private ItemsRepeater _itemsRepeater;
-    private double _itemHolderHeight = 0d;
+    private ItemsControl _itemsControl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VerticalRepeaterView"/> class.
@@ -33,23 +34,24 @@ public sealed partial class VerticalRepeaterView : Control
     /// <summary>
     /// 滚动到条目.
     /// </summary>
-    /// <param name="index">条目索引值.</param>
-    public void ScrollToItem(int index)
+    /// <param name="item">条目.</param>
+    public void ScrollToItem(object item)
     {
-        if (_itemsRepeater != null)
+        var element = _itemsControl.ContainerFromItem(item);
+        if(element is FrameworkElement ele)
         {
-            var element = _itemsRepeater.GetOrCreateElement(index);
             var options = new BringIntoViewOptions
             {
                 VerticalAlignmentRatio = 0f,
             };
-            element.StartBringIntoView(options);
+            ele.StartBringIntoView(options);
         }
     }
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
+        _itemsControl = GetTemplateChild("ItemsControl") as ItemsControl;
         _itemsRepeater = GetTemplateChild("ItemsRepeater") as ItemsRepeater;
 
         if (_itemsRepeater != null)
@@ -111,8 +113,7 @@ public sealed partial class VerticalRepeaterView : Control
     {
         if (args.Element != null)
         {
-            if (IsAutoFillEnable &&
-                args.Element is IRepeaterItem repeaterItem &&
+            if (args.Element is IRepeaterItem repeaterItem &&
                 ItemsSource is ICollection collectionSource &&
                 (_parentScrollViewer != null) &&
                 args.Index >= collectionSource.Count - 1)

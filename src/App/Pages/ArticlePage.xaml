@@ -85,7 +85,6 @@
                     <DataTemplate x:DataType="viewmodels:ArticleItemViewModel">
                         <base:ArticleItem
                             ContextFlyout="{StaticResource DefaultArticleItemContextFlyout}"
-                            DataContext="{x:Bind}"
                             ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </base:VerticalRepeaterView.ItemTemplate>

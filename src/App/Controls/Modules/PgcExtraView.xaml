@@ -24,7 +24,6 @@
                                 <DataTemplate x:DataType="viewmodels:EpisodeItemViewModel">
                                     <base:CardPanel
                                         Click="OnEpisodeItemClick"
-                                        DataContext="{x:Bind}"
                                         IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                         IsEnableCheck="False">
                                         <Grid

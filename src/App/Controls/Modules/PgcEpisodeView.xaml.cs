@@ -45,7 +45,7 @@ public sealed partial class PgcEpisodeView : PgcEpisodeViewBase
             var index = ViewModel.Episodes.IndexOf(vm);
             if (index >= 0)
             {
-                EpisodeRepeater.ScrollToItem(index);
+                EpisodeRepeater.ScrollToItem(vm);
                 if (ViewModel.IsOnlyShowIndex)
                 {
                     var ele = IndexRepeater.GetOrCreateElement(index);
