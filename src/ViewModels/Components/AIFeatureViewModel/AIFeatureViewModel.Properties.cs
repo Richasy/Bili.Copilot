@@ -3,6 +3,8 @@
 using System.Collections.ObjectModel;
 using System.Threading;
 using Bili.Copilot.Models.App.Args;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Windows.ApplicationModel.AppService;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -12,7 +14,14 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class AIFeatureViewModel
 {
     private CancellationTokenSource _cancellationTokenSource;
+    private AppServiceConnection _connection;
     private bool _isTryLaunched;
+
+    [ObservableProperty]
+    private bool _isWaiting;
+
+    [ObservableProperty]
+    private string _responseText;
 
     /// <summary>
     /// 状态提示列表.

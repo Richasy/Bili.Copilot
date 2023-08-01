@@ -171,6 +171,9 @@
   <data name="AppName" xml:space="preserve">
     <value>哔哩助理</value>
   </data>
+  <data name="AppServiceMessageSendFailed" xml:space="preserve">
+    <value>尝试给应用服务发消息，但是挂掉了</value>
+  </data>
   <data name="AppTip" xml:space="preserve">
     <value>应用提示</value>
   </data>
@@ -373,6 +376,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   </data>
   <data name="ConnectAI" xml:space="preserve">
     <value>连接 AI</value>
+  </data>
+  <data name="ConnectingFantasyCopilot" xml:space="preserve">
+    <value>正在连接小幻助理</value>
   </data>
   <data name="ContinuePlayDescription" xml:space="preserve">
     <value>上次应用关闭时您仍在播放视频，你可以继续播放该视频：</value>
@@ -619,11 +625,17 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="FailedToSendDanmaku" xml:space="preserve">
     <value>发送弹幕失败，请稍后再试</value>
   </data>
+  <data name="FailToConnectFantasyCopilot" xml:space="preserve">
+    <value>尝试连接小幻助理失败</value>
+  </data>
   <data name="FansCount" xml:space="preserve">
     <value>粉丝数</value>
   </data>
   <data name="FansSuffix" xml:space="preserve">
     <value>的粉丝</value>
+  </data>
+  <data name="FantasyCopilotConnected" xml:space="preserve">
+    <value>已连接小幻助理</value>
   </data>
   <data name="Favorite" xml:space="preserve">
     <value>收藏</value>
@@ -1871,6 +1883,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Vip" xml:space="preserve">
     <value>大会员</value>
+  </data>
+  <data name="WaitingResponseFromFantasyCopilot" xml:space="preserve">
+    <value>正在等待小幻助理的响应</value>
   </data>
   <data name="WantWatch" xml:space="preserve">
     <value>想看</value>

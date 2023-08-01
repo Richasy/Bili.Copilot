@@ -15,6 +15,7 @@ using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Windows.ApplicationModel.AppService;
 using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
@@ -66,6 +67,36 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         Tips.Add(launchedInfo);
     }
 
+    private async Task ConnectToFantasyCopilotServiceAsync()
+    {
+        if (_connection != null)
+        {
+            _connection?.Dispose();
+            return;
+        }
+
+        var connectingInfo = new AppTipNotification(ResourceToolkit.GetLocalizedString(StringNames.ConnectingFantasyCopilot), InfoType.Information);
+        Tips.Add(connectingInfo);
+        _connection = new AppServiceConnection();
+        _connection.AppServiceName = "com.fantasycopilot.aiservice";
+
+        // 本地调试.
+        // _connection.PackageFamilyName = "Richasy.FantasyCopilot_2r5cjeccfggq0";
+
+        // 实际运行.
+        _connection.PackageFamilyName = "60520B029E250.36001E4C9CEE6_5aa7k9th7aafp";
+        var status = await _connection.OpenAsync();
+        if (status != AppServiceConnectionStatus.Success)
+        {
+            _connection?.Dispose();
+            _connection = null;
+            throw new Exception(ResourceToolkit.GetLocalizedString(StringNames.FailToConnectFantasyCopilot) + $" {status}");
+        }
+
+        var sucInfo = new AppTipNotification(ResourceToolkit.GetLocalizedString(StringNames.FantasyCopilotConnected), InfoType.Success);
+        Tips.Add(sucInfo);
+    }
+
     private void ThrowIfCancelled()
     {
         if (_cancellationTokenSource == null)
@@ -75,6 +106,13 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
 
         if (_cancellationTokenSource.IsCancellationRequested)
         {
+            if (_connection != null)
+            {
+                _connection.Dispose();
+                _connection = null;
+                IsWaiting = false;
+            }
+
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = null;
             throw new TaskCanceledException("Task cancelled");
@@ -124,13 +162,23 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
 
     private void ShowError(Exception ex)
     {
+        IsWaiting = false;
         var error = new AppTipNotification(ex.Message, InfoType.Error);
         Tips.Add(error);
     }
 
     [RelayCommand]
     private void Cancel()
-        => _cancellationTokenSource?.Cancel();
+    {
+        if (_connection != null)
+        {
+            _connection.Dispose();
+            _connection = null;
+        }
+
+        IsWaiting = false;
+        _cancellationTokenSource?.Cancel();
+    }
 
     [RelayCommand]
     private async Task SummarizeVideoAsync(VideoIdentifier video)
@@ -173,7 +221,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
     private async Task SummarizeArticleAsync(ArticleIdentifier article)
     {
         _cancellationTokenSource = new System.Threading.CancellationTokenSource();
-        await LaunchFantasyCopilotAsync();
+        await ConnectToFantasyCopilotServiceAsync();
         var content = await GetArticleContentAsync(article);
         var prompt = GetArticleSummaryPrompt(content, article.Title);
         var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), article.Title);

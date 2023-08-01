@@ -16,25 +16,48 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
-    <ScrollViewer
-        Width="380"
-        MaxHeight="600"
-        HorizontalScrollMode="Disabled"
-        VerticalScrollBarVisibility="Hidden">
-        <ItemsRepeater ItemsSource="{x:Bind _viewModel.Tips, Mode=OneWay}">
-            <ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="args:AppTipNotification">
-                    <base:StatusTip
-                        HorizontalAlignment="Stretch"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        Status="{x:Bind Type}"
-                        Text="{x:Bind Message}" />
-                </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-            <ItemsRepeater.Layout>
-                <StackLayout Spacing="4" />
-            </ItemsRepeater.Layout>
-        </ItemsRepeater>
-    </ScrollViewer>
+    <Grid Width="380" MaxHeight="600">
+        <ScrollViewer
+            HorizontalScrollMode="Disabled"
+            VerticalScrollBarVisibility="Hidden"
+            Visibility="{x:Bind _viewModel.IsWaiting, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Grid>
+                <ItemsRepeater ItemsSource="{x:Bind _viewModel.Tips, Mode=OneWay}" Visibility="{x:Bind _viewModel.ResponseText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="args:AppTipNotification">
+                            <base:StatusTip
+                                HorizontalAlignment="Stretch"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Status="{x:Bind Type}"
+                                Text="{x:Bind Message}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="4" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+                <TextBlock
+                    FontSize="14"
+                    IsTextSelectionEnabled="True"
+                    LineHeight="24"
+                    Text="{x:Bind _viewModel.ResponseText, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind _viewModel.ResponseText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+            </Grid>
+        </ScrollViewer>
+        <StackPanel
+            Padding="0,12"
+            Spacing="8"
+            Visibility="{x:Bind _viewModel.IsWaiting, Mode=OneWay}">
+            <ProgressRing IsActive="{x:Bind _viewModel.IsWaiting, Mode=OneWay}" Style="{StaticResource PageProgressRingStyle}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{ext:Locale Name=WaitingResponseFromFantasyCopilot}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
 </ContentDialog>
