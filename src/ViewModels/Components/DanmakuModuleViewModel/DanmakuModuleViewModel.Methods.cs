@@ -46,8 +46,8 @@ public sealed partial class DanmakuModuleViewModel
 
         TryClear(FontCollection);
 
-        // var fontList = FontToolkit.GetSystemFonts();
-        // fontList.ForEach(p => FontCollection.Add(p));
+        var fontList = FontToolkit.GetFonts();
+        fontList.ToList().ForEach(FontCollection.Add);
         LocationCollection.Add(DanmakuLocation.Scroll);
         LocationCollection.Add(DanmakuLocation.Top);
         LocationCollection.Add(DanmakuLocation.Bottom);

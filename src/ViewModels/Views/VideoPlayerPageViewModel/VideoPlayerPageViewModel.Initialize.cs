@@ -17,6 +17,11 @@ public sealed partial class VideoPlayerPageViewModel
 {
     private void InitializePublisher()
     {
+        if (View == null)
+        {
+            return;
+        }
+
         IsCooperationVideo = View.Information.Collaborators != null;
         if (IsCooperationVideo)
         {
