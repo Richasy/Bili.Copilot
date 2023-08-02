@@ -31,8 +31,6 @@ public sealed partial class MainWindow : WindowBase
         InitializeComponent();
         Instance = this;
         CustomTitleBar.AttachedWindow = this;
-        Width = 500;
-        Height = 800;
         IsResizable = false;
         IsMaximizable = false;
         Activated += OnActivated;
@@ -92,6 +90,7 @@ public sealed partial class MainWindow : WindowBase
             PageType.Article => typeof(ArticlePage),
             PageType.Watchlist => typeof(WatchlistPage),
             PageType.SignIn => typeof(SignInPage),
+            PageType.Settings => typeof(SettingsPage),
             _ => throw new NotImplementedException(),
         };
 

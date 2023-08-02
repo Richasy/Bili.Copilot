@@ -25,7 +25,7 @@ public sealed partial class SettingsPageViewModel
     private bool _disableP2PCdn;
 
     [ObservableProperty]
-    private bool _isContinusPlay;
+    private bool _isContinuePlay;
 
     [ObservableProperty]
     private PreferCodec _preferCodec;
@@ -49,7 +49,10 @@ public sealed partial class SettingsPageViewModel
     private bool _globalPlaybackRate;
 
     [ObservableProperty]
-    private string _version;
+    private string _packageVersion;
+
+    [ObservableProperty]
+    private string _copyright;
 
     [ObservableProperty]
     private bool _isSupportContinuePlay;
@@ -83,6 +86,11 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private bool _isFullTraditionalChinese;
+
+    /// <summary>
+    /// 实例.
+    /// </summary>
+    public static SettingsPageViewModel Instance { get; } = new();
 
     /// <summary>
     /// 播放器显示模式可选集合.

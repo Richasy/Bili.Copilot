@@ -39,7 +39,7 @@ public enum SettingNames
     DanmakuArea,
     DanmakuSpeed,
     DisableP2PCdn,
-    IsContinusPlay,
+    IsContinuePlay,
     IgnoreVersion,
     IsOnlyShowIndex,
     CanContinuePlay,

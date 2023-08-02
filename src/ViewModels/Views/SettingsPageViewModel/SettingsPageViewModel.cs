@@ -18,7 +18,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsPageViewModel"/> class.
     /// </summary>
-    public SettingsPageViewModel()
+    private SettingsPageViewModel()
     {
         PlayerDisplayModeCollection = new ObservableCollection<PlayerDisplayMode>();
         PreferCodecCollection = new ObservableCollection<PreferCodec>();
@@ -38,7 +38,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsAutoPlayWhenLoaded = ReadSetting(SettingNames.IsAutoPlayWhenLoaded, true);
         IsAutoPlayNextRelatedVideo = ReadSetting(SettingNames.IsAutoPlayNextRelatedVideo, false);
         DisableP2PCdn = ReadSetting(SettingNames.DisableP2PCdn, false);
-        IsContinusPlay = ReadSetting(SettingNames.IsContinusPlay, true);
+        IsContinuePlay = ReadSetting(SettingNames.IsContinuePlay, true);
         SingleFastForwardAndRewindSpan = ReadSetting(SettingNames.SingleFastForwardAndRewindSpan, 30d);
         IsSupportContinuePlay = ReadSetting(SettingNames.SupportContinuePlay, true);
         IsCopyScreenshot = ReadSetting(SettingNames.CopyScreenshotAfterSave, true);
@@ -55,7 +55,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         RoamingInit();
         PreferQualityInit();
 
-        Version = AppToolkit.GetPackageVersion();
+        var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
+        Copyright = string.Format(copyrightTemplate, 2023);
+        PackageVersion = AppToolkit.GetPackageVersion();
         PropertyChanged += OnPropertyChanged;
     }
 
@@ -76,8 +78,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(DisableP2PCdn):
                 WriteSetting(SettingNames.DisableP2PCdn, DisableP2PCdn);
                 break;
-            case nameof(IsContinusPlay):
-                WriteSetting(SettingNames.IsContinusPlay, IsContinusPlay);
+            case nameof(IsContinuePlay):
+                WriteSetting(SettingNames.IsContinuePlay, IsContinuePlay);
                 break;
             case nameof(PreferCodec):
                 WriteSetting(SettingNames.PreferCodec, PreferCodec);

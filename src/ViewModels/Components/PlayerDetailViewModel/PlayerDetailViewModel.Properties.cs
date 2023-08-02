@@ -102,9 +102,6 @@ public sealed partial class PlayerDetailViewModel
     private string _fullScreenText;
 
     [ObservableProperty]
-    private string _fullWindowText;
-
-    [ObservableProperty]
     private string _compactOverlayText;
 
     [ObservableProperty]
@@ -142,9 +139,6 @@ public sealed partial class PlayerDetailViewModel
 
     [ObservableProperty]
     private bool _canPlayNextPart;
-
-    [ObservableProperty]
-    private bool _isShowExitFullPlayerButton;
 
     [ObservableProperty]
     private MediaPlayerViewModel _player;

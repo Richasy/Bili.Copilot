@@ -143,14 +143,14 @@ public sealed partial class PgcPlayerPageViewModel
             return;
         }
 
-        var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinusPlay, true);
+        var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinuePlay, true);
         if (isContinue)
         {
             _playNextEpisodeAction?.Invoke();
         }
         else
         {
-            PlayerDetail.ShowNextVideoTipCommand.Execute(null);
+            PlayerDetail.ShowNextVideoTipCommand.Execute(default);
         }
     }
 

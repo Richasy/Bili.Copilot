@@ -146,7 +146,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
         else if (Sections.Any(p => p.Type == PlayerSectionType.UgcSeason))
         {
-            ClearPlaylistCommand.Execute(null);
+            ClearPlaylistCommand.Execute(default);
             var currentVideo = CurrentSeasonVideos.FirstOrDefault(p => p.IsSelected);
             if (currentVideo != null)
             {
@@ -162,7 +162,7 @@ public sealed partial class VideoPlayerPageViewModel
         else if (SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoPlayNextRelatedVideo, false)
             && RelatedVideos.Count > 0)
         {
-            ClearPlaylistCommand.Execute(null);
+            ClearPlaylistCommand.Execute(default);
             nextPart = RelatedVideos.First().Data.Identifier;
             isNewVideo = true;
         }
@@ -213,14 +213,14 @@ public sealed partial class VideoPlayerPageViewModel
             return;
         }
 
-        var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinusPlay, true);
+        var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinuePlay, true);
         if (isContinue)
         {
             _playNextVideoAction?.Invoke();
         }
         else
         {
-            PlayerDetail.ShowNextVideoTipCommand.Execute(null);
+            PlayerDetail.ShowNextVideoTipCommand.Execute(default);
         }
     }
 

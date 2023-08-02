@@ -7,7 +7,6 @@ using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Windowing;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -171,15 +170,6 @@ public sealed partial class PlayerDetailViewModel
         DisplayMode = DisplayMode != PlayerDisplayMode.FullScreen
             ? PlayerDisplayMode.FullScreen
             : PlayerDisplayMode.Default;
-
-        if (DisplayMode == PlayerDisplayMode.FullScreen)
-        {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
-        }
-        else
-        {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
-        }
     }
 
     [RelayCommand]
@@ -188,15 +178,6 @@ public sealed partial class PlayerDetailViewModel
         DisplayMode = DisplayMode != PlayerDisplayMode.CompactOverlay
             ? PlayerDisplayMode.CompactOverlay
             : PlayerDisplayMode.Default;
-
-        if (DisplayMode == PlayerDisplayMode.CompactOverlay)
-        {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
-        }
-        else
-        {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
-        }
     }
 
     [RelayCommand]
@@ -367,11 +348,11 @@ public sealed partial class PlayerDetailViewModel
     {
         if (DisplayMode == PlayerDisplayMode.FullScreen)
         {
-            ToggleFullScreenModeCommand.Execute(null);
+            ToggleFullScreenModeCommand.Execute(default);
         }
         else if (DisplayMode == PlayerDisplayMode.CompactOverlay)
         {
-            ToggleCompactOverlayModeCommand.Execute(null);
+            ToggleCompactOverlayModeCommand.Execute(default);
         }
     }
 }

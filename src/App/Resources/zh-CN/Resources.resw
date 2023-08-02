@@ -141,6 +141,12 @@
   <data name="AdvancedOptions" xml:space="preserve">
     <value>高级选项</value>
   </data>
+  <data name="AIConnectType" xml:space="preserve">
+    <value>AI 连接方式</value>
+  </data>
+  <data name="AIConnectTypeDescription" xml:space="preserve">
+    <value>选择通过何种方式连接小幻助理以提供 AI 功能</value>
+  </data>
   <data name="AIMessageSend" xml:space="preserve">
     <value>已经发送消息，请在小幻助理中查看总结内容</value>
   </data>
@@ -170,6 +176,9 @@
   </data>
   <data name="AppName" xml:space="preserve">
     <value>哔哩助理</value>
+  </data>
+  <data name="AppService" xml:space="preserve">
+    <value>应用服务</value>
   </data>
   <data name="AppServiceMessageSendFailed" xml:space="preserve">
     <value>尝试给应用服务发消息，但是挂掉了</value>
@@ -401,6 +410,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Copied" xml:space="preserve">
     <value>已复制</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© {0} Richasy。GPL 开源许可。</value>
   </data>
   <data name="CopyToClipboard" xml:space="preserve">
     <value>复制到剪切板</value>
@@ -1307,6 +1319,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="ProjectHomePage" xml:space="preserve">
     <value>项目主页</value>
+  </data>
+  <data name="ProtocolLaunch" xml:space="preserve">
+    <value>协议启动</value>
   </data>
   <data name="ProxySearchAddress" xml:space="preserve">
     <value>搜索代理</value>

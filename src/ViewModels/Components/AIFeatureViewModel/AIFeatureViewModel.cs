@@ -167,6 +167,20 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         Tips.Add(error);
     }
 
+    private async Task InitializeAsync()
+    {
+        _cancellationTokenSource = new System.Threading.CancellationTokenSource();
+        var connectType = SettingsToolkit.ReadLocalSetting(SettingNames.AIConnectType, AIConnectType.AppService);
+        if (connectType == AIConnectType.AppService)
+        {
+            await ConnectToFantasyCopilotServiceAsync();
+        }
+        else
+        {
+            await LaunchFantasyCopilotAsync();
+        }
+    }
+
     [RelayCommand]
     private void Cancel()
     {
@@ -183,8 +197,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
     [RelayCommand]
     private async Task SummarizeVideoAsync(VideoIdentifier video)
     {
-        _cancellationTokenSource = new System.Threading.CancellationTokenSource();
-        await LaunchFantasyCopilotAsync();
+        await InitializeAsync();
         var info = await GetVideoInformationAsync(video);
         var aid = info.Information.Identifier.Id;
         var partVideo = info.SubVideos.First();
@@ -220,8 +233,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
     [RelayCommand]
     private async Task SummarizeArticleAsync(ArticleIdentifier article)
     {
-        _cancellationTokenSource = new System.Threading.CancellationTokenSource();
-        await ConnectToFantasyCopilotServiceAsync();
+        await InitializeAsync();
         var content = await GetArticleContentAsync(article);
         var prompt = GetArticleSummaryPrompt(content, article.Title);
         var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), article.Title);
