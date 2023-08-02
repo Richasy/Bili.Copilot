@@ -54,11 +54,16 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         var config = new Config();
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Enabled;
+        config.Decoder.AllowProfileMismatch = true;
+        config.Decoder.MaxVideoFrames = 10;
+        config.Decoder.MaxAudioFrames = 20;
         config.Demuxer.CloseTimeout = TimeSpan.FromSeconds(10).Ticks;
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;
         config.Video.VSync = 1;
+        config.Audio.FiltersEnabled = true;
+        config.Decoder.ShowCorrupted = true;
         config.Player.MinBufferDuration = TimeSpan.FromSeconds(5).Ticks;
 
         Player = new Player(config);
@@ -66,6 +71,8 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         Player.PlaybackStopped += OnPlayerPlaybackStopped;
         Player.OpenPlaylistItemCompleted += OnOpenPlaylistItemCompleted;
         Player.OpenCompleted += OnPlayerOpenCompleted;
+        Player.BufferingStarted += OnPlayerBufferingStarted;
+        Player.BufferingCompleted += OnPlayerBufferingCompleted;
     }
 
     /// <summary>
@@ -84,11 +91,11 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// 设置直播源.
     /// </summary>
     /// <param name="url">直播地址.</param>
-    public void SetLiveSource(string url)
+    public void SetLiveSource(string url, bool audioOnly)
     {
         _video = null;
         _audio = null;
-        LoadDashLiveSource(url);
+        LoadDashLiveSource(url, audioOnly);
     }
 
     /// <summary>

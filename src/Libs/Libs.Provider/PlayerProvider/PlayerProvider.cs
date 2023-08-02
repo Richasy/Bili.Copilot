@@ -453,7 +453,7 @@ public partial class PlayerProvider
             { Query.EdgeId, edgeId },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.InteractionEdge, queryParameters);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.InteractionEdge, queryParameters, clientType: RequestClientType.IOS);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<InteractionEdgeResponse>>(response);
         if (result.Data?.Edges?.Questions?.Any() ?? false)

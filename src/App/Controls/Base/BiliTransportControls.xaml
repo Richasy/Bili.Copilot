@@ -203,39 +203,47 @@
                     Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <local:FluentIcon FontSize="16" Symbol="ArrowStepBack" />
                 </Button>
-                <Button
-                    x:Name="PlayPauseButton"
-                    Width="42"
-                    Height="42"
-                    Padding="0"
-                    VerticalAlignment="Center"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                    BorderThickness="3"
-                    Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
-                    CornerRadius="22"
-                    IsEnabled="{x:Bind ViewModel.Player.Player.CanPlay, Mode=OneWay}">
-                    <Grid>
-                        <local:FluentIcon
-                            x:Name="PauseIcon"
-                            FontSize="20"
-                            FontWeight="Black"
-                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                            Symbol="Pause"
-                            Visibility="Collapsed" />
-                        <local:FluentIcon
-                            x:Name="PlayIcon"
-                            FontSize="20"
-                            FontWeight="Black"
-                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                            Symbol="Play" />
-                    </Grid>
-                    <Button.Resources>
-                        <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource SystemAccentColorLight1}" />
-                        <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{ThemeResource SystemAccentColor}" />
-                    </Button.Resources>
-                </Button>
+                <Grid>
+                    <Button
+                        x:Name="PlayPauseButton"
+                        Width="42"
+                        Height="42"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                        BorderThickness="3"
+                        Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
+                        CornerRadius="22"
+                        IsEnabled="{x:Bind ViewModel.Player.Player.CanPlay, Mode=OneWay}">
+                        <Grid>
+                            <local:FluentIcon
+                                x:Name="PauseIcon"
+                                FontSize="20"
+                                FontWeight="Black"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                Symbol="Pause"
+                                Visibility="Collapsed" />
+                            <local:FluentIcon
+                                x:Name="PlayIcon"
+                                FontSize="20"
+                                FontWeight="Black"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                Symbol="Play" />
+                        </Grid>
+                        <Button.Resources>
+                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource SystemAccentColorLight1}" />
+                            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="{ThemeResource SystemAccentColor}" />
+                        </Button.Resources>
+                    </Button>
+                    <ProgressRing
+                        x:Name="BufferingRing"
+                        Width="40"
+                        Height="40"
+                        IsActive="False" />
+                </Grid>
+
                 <Button
                     x:Name="ForwardButton"
                     VerticalAlignment="Center"
@@ -428,6 +436,7 @@
                         <Setter Target="CompactPauseIcon.Visibility" Value="Collapsed" />
                         <Setter Target="PlayPauseButton.IsEnabled" Value="False" />
                         <Setter Target="CompactPlayPauseButton.IsEnabled" Value="False" />
+                        <Setter Target="BufferingRing.IsActive" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

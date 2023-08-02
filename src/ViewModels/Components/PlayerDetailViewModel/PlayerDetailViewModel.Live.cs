@@ -121,7 +121,7 @@ public sealed partial class PlayerDetailViewModel
 
     private void InitializeLivePlayer(string url)
     {
-        Player.SetLiveSource(url);
+        Player.SetLiveSource(url, IsLiveAudioOnly);
         StartTimers();
     }
 

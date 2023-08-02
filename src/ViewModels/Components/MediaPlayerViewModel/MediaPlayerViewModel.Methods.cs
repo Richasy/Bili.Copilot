@@ -67,6 +67,21 @@ public sealed partial class MediaPlayerViewModel
         return mediaInfo;
     }
 
+    private static PlayerStatus ConvertPlayerStatus(Libs.Flyleaf.MediaPlayer.Status status)
+    {
+        var s = status switch
+        {
+            Libs.Flyleaf.MediaPlayer.Status.Paused => PlayerStatus.Pause,
+            Libs.Flyleaf.MediaPlayer.Status.Playing => PlayerStatus.Playing,
+            Libs.Flyleaf.MediaPlayer.Status.Stopped => PlayerStatus.End,
+            Libs.Flyleaf.MediaPlayer.Status.Opening => PlayerStatus.Buffering,
+            Libs.Flyleaf.MediaPlayer.Status.Failed => PlayerStatus.Failed,
+            _ => PlayerStatus.NotLoad,
+        };
+
+        return s;
+    }
+
     [RelayCommand]
     private async Task TakeScreenshotAsync()
     {
@@ -120,7 +135,7 @@ public sealed partial class MediaPlayerViewModel
         Player.OpenAsync(playItem);
     }
 
-    private void LoadDashLiveSource(string url)
+    private void LoadDashLiveSource(string url, bool onlyAudio)
     {
         try
         {
@@ -135,6 +150,7 @@ public sealed partial class MediaPlayerViewModel
                 playItem.Tag.Add("cookie", cookie);
             }
 
+            playItem.Tag.Add("onlyAudio", onlyAudio);
             Player.OpenAsync(playItem);
         }
         catch (Exception ex)
@@ -161,6 +177,46 @@ public sealed partial class MediaPlayerViewModel
                 StateChanged?.Invoke(this, arg);
                 LogException(new Exception($"播放失败: {e.Error}"));
             }
+        });
+    }
+
+    private void OnPlayerBufferingCompleted(object sender, BufferingCompletedArgs e)
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            if (Player == null)
+            {
+                return;
+            }
+
+            if (e.Success)
+            {
+                Status = ConvertPlayerStatus(Player.Status);
+                var arg = new MediaStateChangedEventArgs(Status, string.Empty);
+                StateChanged?.Invoke(this, arg);
+            }
+            else
+            {
+                Status = PlayerStatus.Failed;
+                var arg = new MediaStateChangedEventArgs(Status, e.Error);
+                StateChanged?.Invoke(this, arg);
+                LogException(new Exception($"缓冲失败: {e.Error}"));
+            }
+        });
+    }
+
+    private void OnPlayerBufferingStarted(object sender, EventArgs e)
+    {
+        _ = _dispatcherQueue.TryEnqueue(() =>
+        {
+            if (Player == null)
+            {
+                return;
+            }
+
+            Status = PlayerStatus.Buffering;
+            var arg = new MediaStateChangedEventArgs(Status, string.Empty);
+            StateChanged?.Invoke(this, arg);
         });
     }
 
@@ -224,15 +280,7 @@ public sealed partial class MediaPlayerViewModel
                 return;
             }
 
-            Status = Player.Status switch
-            {
-                Libs.Flyleaf.MediaPlayer.Status.Paused => PlayerStatus.Pause,
-                Libs.Flyleaf.MediaPlayer.Status.Playing => PlayerStatus.Playing,
-                Libs.Flyleaf.MediaPlayer.Status.Stopped => PlayerStatus.End,
-                Libs.Flyleaf.MediaPlayer.Status.Opening => PlayerStatus.Buffering,
-                Libs.Flyleaf.MediaPlayer.Status.Failed => PlayerStatus.Failed,
-                _ => PlayerStatus.NotLoad,
-            };
+            Status = ConvertPlayerStatus(Player.Status);
 
             var arg = new MediaStateChangedEventArgs(Status, null);
             StateChanged?.Invoke(this, arg);

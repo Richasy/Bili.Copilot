@@ -56,7 +56,7 @@ public partial class App : Application
             {
                 LaunchWindow();
             }
-            else if (_window.Visible)
+            else if (_window.Visible && HandleCloseEvents)
             {
                 _window.Hide();
             }
