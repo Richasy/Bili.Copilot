@@ -2,6 +2,7 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -18,6 +19,10 @@ public sealed partial class SettingsPage : SettingsPageBase
         InitializeComponent();
         ViewModel = SettingsPageViewModel.Instance;
     }
+
+    /// <inheritdoc/>
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+        => AppViewModel.Instance.IsBackButtonShown = false;
 }
 
 /// <summary>

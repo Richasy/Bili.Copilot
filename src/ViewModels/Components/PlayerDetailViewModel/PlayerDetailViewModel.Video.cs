@@ -149,7 +149,7 @@ public sealed partial class PlayerDetailViewModel
 
         try
         {
-            Player.SetSource(_video, _audio);
+            Player.SetSource(_video, _audio, IsAudioOnly);
             StartTimers();
         }
         catch (Exception ex)

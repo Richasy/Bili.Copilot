@@ -96,7 +96,7 @@ public sealed partial class PlayerDetailViewModel
     private string _progressTip;
 
     [ObservableProperty]
-    private bool _isLiveAudioOnly;
+    private bool _isAudioOnly;
 
     [ObservableProperty]
     private string _fullScreenText;

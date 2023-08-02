@@ -113,19 +113,24 @@ public sealed partial class MediaPlayerViewModel
         });
     }
 
-    private void LoadDashVideoSource()
+    private void LoadDashVideoSource(bool onlyAudio)
     {
         var playItem = new PlaylistItem
         {
             Title = "video",
         };
-        playItem.Tag.Add("video", _video);
+
+        if (_video != null)
+        {
+            playItem.Tag.Add("video", _video);
+        }
 
         if (_audio != null)
         {
             playItem.Tag.Add("audio", _audio);
         }
 
+        playItem.Tag.Add("onlyAudio", onlyAudio);
         var cookie = AuthorizeProvider.GetCookieString();
         if (!string.IsNullOrEmpty(cookie))
         {

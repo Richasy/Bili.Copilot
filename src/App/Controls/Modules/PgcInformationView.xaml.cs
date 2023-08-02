@@ -4,6 +4,7 @@ using System;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -70,6 +71,16 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
         }
 
         FavoriteFlyout.ShowAt(FavoriteButton);
+    }
+
+    private void OnOnlyAudioToggledAsync(object sender, RoutedEventArgs e)
+    {
+        var control = sender as ToggleSwitch;
+        var isAudioOnly = control.IsOn;
+        if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
+        {
+            ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);
+        }
     }
 }
 

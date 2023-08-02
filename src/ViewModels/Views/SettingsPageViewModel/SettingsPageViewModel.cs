@@ -46,6 +46,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PlaybackRateEnhancement = ReadSetting(SettingNames.PlaybackRateEnhancement, false);
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
+        HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -131,6 +132,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(PreferQuality):
                 WriteSetting(SettingNames.PreferQuality, PreferQuality);
+                break;
+            case nameof(AIConnectType):
+                WriteSetting(SettingNames.AIConnectType, AIConnectType);
+                break;
+            case nameof(HideWhenCloseWindow):
+                WriteSetting(SettingNames.HideWhenCloseWindow, HideWhenCloseWindow);
                 break;
             default:
                 break;

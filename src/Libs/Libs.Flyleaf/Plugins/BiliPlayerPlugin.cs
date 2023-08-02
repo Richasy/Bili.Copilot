@@ -58,7 +58,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     headers.Add("Cookie", cookieObj.ToString());
                 }
 
-                if (hasVideo)
+                if (hasVideo && !onlyAudio)
                 {
                     var videoStream = new ExternalVideoStream()
                     {

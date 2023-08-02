@@ -16,13 +16,13 @@ public sealed partial class LiveInformationView : LiveInformationViewBase
     /// </summary>
     public LiveInformationView() => InitializeComponent();
 
-    private void OnLiveOnlyAudioToggledAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnOnlyAudioToggledAsync(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         var control = sender as ToggleSwitch;
         var isAudioOnly = control.IsOn;
-        if (ViewModel.PlayerDetail.IsLiveAudioOnly != isAudioOnly)
+        if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
         {
-            ViewModel.PlayerDetail.ChangeLiveAudioOnlyCommand.Execute(isAudioOnly);
+            ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);
         }
     }
 }

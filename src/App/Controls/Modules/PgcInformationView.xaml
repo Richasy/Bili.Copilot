@@ -7,6 +7,7 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
@@ -110,6 +111,10 @@
                     Visibility="{x:Bind ViewModel.IsFavoriteFoldersError}" />
             </Grid>
         </Flyout>
+
+        <x:Double x:Key="SettingsCardWrapThreshold">200</x:Double>
+        <x:Double x:Key="SettingsCardWrapNoIconThreshold">200</x:Double>
+        <Thickness x:Key="SettingsExpanderItemPadding">24,8,24,8</Thickness>
     </UserControl.Resources>
 
     <ScrollViewer Margin="-20,0" Style="{StaticResource PageScrollViewerStyle}">
@@ -233,6 +238,10 @@
                     <base:FluentIcon Symbol="RibbonStar" />
                 </base:ProgressButton>
             </StackPanel>
+
+            <labs:SettingsCard HorizontalAlignment="Stretch" Header="{ext:Locale Name=OnlyAudio}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsAudioOnly, Mode=OneWay}" Toggled="OnOnlyAudioToggledAsync" />
+            </labs:SettingsCard>
 
             <!--  名称  -->
             <Grid

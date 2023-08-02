@@ -100,6 +100,7 @@
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\Settings\AIConnectSettingSection.xaml" />
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
+        <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
         <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
@@ -202,6 +203,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Settings\CloseBehaviorSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Settings\AIConnectSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

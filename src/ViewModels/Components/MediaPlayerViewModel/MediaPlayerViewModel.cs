@@ -42,9 +42,8 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
                 LogLevel = LogLevel.Debug,
                 LogOutput = ":debug",
 #endif
-                UIRefresh = false,    // Required for Activity, BufferedDuration, Stats in combination with Config.Player.Stats = true
-                UIRefreshInterval = 250,      // How often (in ms) to notify the UI
-                UICurTimePerSecond = true,     // Whether to notify UI for CurTime only when it's second changed or by UIRefreshInterval
+                UIRefresh = false,
+                UICurTimePerSecond = true,
             };
             Engine.Start(engineConfig);
 
@@ -55,7 +54,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Enabled;
         config.Decoder.AllowProfileMismatch = true;
-        config.Decoder.MaxVideoFrames = 10;
+        config.Decoder.MaxVideoFrames = 20;
         config.Decoder.MaxAudioFrames = 20;
         config.Demuxer.CloseTimeout = TimeSpan.FromSeconds(10).Ticks;
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
@@ -80,11 +79,11 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// </summary>
     /// <param name="video">视频源.</param>
     /// <param name="audio">音频源.</param>
-    public void SetSource(SegmentInformation video, SegmentInformation audio)
+    public void SetSource(SegmentInformation video, SegmentInformation audio, bool audioOnly)
     {
         _video = video;
         _audio = audio;
-        LoadDashVideoSource();
+        LoadDashVideoSource(audioOnly);
     }
 
     /// <summary>

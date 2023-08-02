@@ -87,6 +87,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _isFullTraditionalChinese;
 
+    [ObservableProperty]
+    private bool _hideWhenCloseWindow;
+
     /// <summary>
     /// 实例.
     /// </summary>
