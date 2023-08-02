@@ -98,4 +98,5 @@ public enum SettingNames
     WindowPositionTop,
     HideWhenCloseWindow,
     ShouldAskBeforeWindowClosed,
+    AIConnectType,
 }
