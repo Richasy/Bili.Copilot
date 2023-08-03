@@ -18,11 +18,6 @@ public enum AIFeatureType
     VideoEvaluation,
 
     /// <summary>
-    /// PGC 内容评价.
-    /// </summary>
-    PgcEvaluation,
-
-    /// <summary>
     /// 文章总结.
     /// </summary>
     ArticleSummarize,

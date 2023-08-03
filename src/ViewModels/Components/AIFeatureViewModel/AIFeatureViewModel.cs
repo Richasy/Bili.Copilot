@@ -39,6 +39,24 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
             EvaluateVideoCommand);
     }
 
+    /// <summary>
+    /// 根据上下文解释词语.
+    /// </summary>
+    /// <param name="word">需要解释的内容.</param>
+    /// <param name="article">文章信息.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    /// <remarks>单纯解释某个词语可能会造成歧义，特别是在尝试解释缩写的时候。所以有必要提供上下文，以便LLM提供更准确的回答.</remarks>
+    public async Task ExplainWordAsync(string word, ArticleIdentifier article)
+    {
+        await InitializeAsync();
+        var content = await GetArticleContentAsync(article);
+        var paragraphs = content.Split("\n", StringSplitOptions.RemoveEmptyEntries);
+        var para = paragraphs.FirstOrDefault(p => p.Contains(word));
+        var prompt = GetExplainWordPrompt(word, para);
+        var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.ExplainWordMessage), word);
+        await SendMessageAsync(message, prompt);
+    }
+
     private static bool IsFantasyCopilotRunning()
     {
         var process = Process.GetProcessesByName("App")

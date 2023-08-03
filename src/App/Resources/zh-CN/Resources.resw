@@ -619,6 +619,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="ExitSearch" xml:space="preserve">
     <value>退出搜索</value>
   </data>
+  <data name="Explain" xml:space="preserve">
+    <value>解释</value>
+  </data>
+  <data name="ExplainWordMessage" xml:space="preserve">
+    <value>请解释 "{0}" 的含义</value>
+  </data>
   <data name="FailedToClearHisotry" xml:space="preserve">
     <value>尝试清空历史记录失败，请稍后重试</value>
   </data>
@@ -1185,6 +1191,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="OriginName" xml:space="preserve">
     <value>原名</value>
   </data>
+  <data name="OtherExplain" xml:space="preserve">
+    <value>其它可能的解释</value>
+  </data>
   <data name="Output" xml:space="preserve">
     <value>输出</value>
   </data>
@@ -1583,6 +1592,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
+  </data>
+  <data name="SearchInWeb" xml:space="preserve">
+    <value>在网页中搜索</value>
   </data>
   <data name="SearchTip" xml:space="preserve">
     <value>搜索视频、番剧或UP主</value>

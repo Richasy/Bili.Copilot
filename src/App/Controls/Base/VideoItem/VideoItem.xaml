@@ -191,6 +191,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
                     <Grid
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="{StaticResource ControlCornerRadius}"
@@ -214,10 +215,21 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
                                     <MenuFlyoutSubItem.Icon>
-                                        <local:FluentIcon Symbol="Wand" />
+                                        <local:FluentIcon Symbol="Sparkle" />
                                     </MenuFlyoutSubItem.Icon>
-                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}" Text="{ext:Locale Name=SummarizeContent}" />
-                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}" />
+                                    <MenuFlyoutItem
+                                        MinWidth="120"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
+                                        Text="{ext:Locale Name=SummarizeContent}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="DocumentOnePageSparkle" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="EmojiSparkle" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                 </MenuFlyoutSubItem>
                             </MenuFlyout>
                         </Grid.ContextFlyout>

@@ -2,8 +2,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -11,6 +14,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Windows.Storage;
+using Windows.System;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -49,10 +53,67 @@ public sealed partial class ReaderPage : ReaderPageBase
         ReaderView.CoreWebView2.Settings.UserAgent = ServiceConstants.DefaultUserAgentString;
         ReaderView.CoreWebView2.NavigationStarting += OnNavigationStarting;
         ReaderView.CoreWebView2.NavigationCompleted += OnNavigationCompletedAsync;
+        ReaderView.CoreWebView2.ContextMenuRequested += OnContextMenuRequested;
 
         var theme = ActualTheme == ElementTheme.Dark ? 2 : 1;
         var url = ApiConstants.Article.ArticleContent + $"?id={_article.Identifier.Id}&theme={theme}";
         ReaderView.CoreWebView2.Navigate(url);
+    }
+
+    private void OnContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
+    {
+        var menuList = args.MenuItems;
+        var def = args.GetDeferral();
+        args.Handled = true;
+        var menuflyout = new MenuFlyout();
+        menuflyout.Closed += (s, e) => def.Complete();
+        var aiItem = new MenuFlyoutItem
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.WordExplain),
+            Icon = new FluentIcon() { Symbol = FluentSymbol.SlideTextSparkle },
+            Tag = args.ContextMenuTarget.SelectionText,
+            IsEnabled = args.ContextMenuTarget.HasSelection && AppViewModel.Instance.IsAISupported,
+            MinWidth = 160,
+        };
+        var webSearchItem = new MenuFlyoutItem
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.SearchInWeb),
+            Icon = new FluentIcon() { Symbol = FluentSymbol.GlobeSearch },
+            Tag = args.ContextMenuTarget.SelectionText,
+            IsEnabled = args.ContextMenuTarget.HasSelection,
+        };
+        aiItem.Click += OnWordExplainItemClickAsync;
+        webSearchItem.Click += OnSearchInWebItemClickAsync;
+        menuflyout.Items.Add(aiItem);
+        menuflyout.Items.Add(webSearchItem);
+        menuflyout.ShowAt(ReaderView, args.Location);
+    }
+
+    private async void OnSearchInWebItemClickAsync(object sender, RoutedEventArgs e)
+    {
+        var text = (sender as MenuFlyoutItem).Tag as string;
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        var url = $"https://www.bing.com/search?q={Uri.EscapeDataString(text)}";
+        await Launcher.LaunchUriAsync(new Uri(url));
+    }
+
+    private async void OnWordExplainItemClickAsync(object sender, RoutedEventArgs e)
+    {
+        var item = (sender as MenuFlyoutItem).Tag as string;
+        if (string.IsNullOrEmpty(item))
+        {
+            return;
+        }
+
+        var dialog = new AIFeatureDialog((item, _article.Identifier), AIFeatureType.WordExplain)
+        {
+            XamlRoot = XamlRoot,
+        };
+        await dialog.ShowAsync();
     }
 
     private async void OnNavigationCompletedAsync(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)

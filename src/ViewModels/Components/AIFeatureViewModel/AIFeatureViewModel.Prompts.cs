@@ -111,6 +111,33 @@ public sealed partial class AIFeatureViewModel
         return prompt;
     }
 
+    private static string GetExplainWordPrompt(string word, string context)
+    {
+        var prompt = $"""
+            Instructions: You are an expert in word interpretation.
+            You need to judge the meaning of the words I give you based on the context content I provide, and explain them in connection with the context.
+            If you really don't know the meaning of this word, please give some possible guesses, but you must indicate the content of your guesses.
+            Your output needs to use the following template:
+            ### {ResourceToolkit.GetLocalizedString(StringNames.Explain)}
+            ### {ResourceToolkit.GetLocalizedString(StringNames.OtherExplain)}
+            (If don't have other explain, do not show this title)
+            
+            Please explain the meaning of word according to the following context:
+
+            === WORD ===
+            {word}
+            === END WORD===
+
+            === CONTEXT ===
+            {context}
+            === END CONTEXT ===
+
+            ---
+            {LanguagePrompt()}
+            """;
+        return prompt;
+    }
+
     private async Task SendMessageAsync(string message, string prompt, double temperature = 0.5, int tokens = 1000, bool chat = true)
     {
         var data = new

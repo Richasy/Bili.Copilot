@@ -26,17 +26,17 @@ public sealed partial class AIFeatureDialog : ContentDialog
         InitializeComponent();
         _type = type;
         _viewModel = new AIFeatureViewModel();
-        Loaded += OnLoaded;
+        Loaded += OnLoadedAsync;
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AIFeatureDialog"/> class.
     /// </summary>
-    public AIFeatureDialog(object video, AIFeatureType type)
+    public AIFeatureDialog(object data, AIFeatureType type)
         : this(type)
-        => _data = video;
+        => _data = data;
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    private async void OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         if (_type == AIFeatureType.VideoSummarize)
         {
@@ -46,9 +46,14 @@ public sealed partial class AIFeatureDialog : ContentDialog
         {
             _viewModel.EvaluateVideoCommand.Execute((VideoIdentifier)_data);
         }
-        else if(_type == AIFeatureType.ArticleSummarize)
+        else if (_type == AIFeatureType.ArticleSummarize)
         {
             _viewModel.SummarizeArticleCommand.Execute((ArticleIdentifier)_data);
+        }
+        else if (_type == AIFeatureType.WordExplain)
+        {
+            var group = ((string, ArticleIdentifier))_data;
+            await _viewModel.ExplainWordAsync(group.Item1, group.Item2);
         }
     }
 

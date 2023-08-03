@@ -46,7 +46,7 @@
                                         IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
                                         Text="{ext:Locale Name=AISummarize}">
                                         <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="Wand" />
+                                            <local:FluentIcon Symbol="ReceiptSparkles" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
@@ -177,7 +177,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleItem">
-                    <Grid RowSpacing="8">
+                    <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" RowSpacing="8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -208,7 +208,7 @@
                                     IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
                                     Text="{ext:Locale Name=AISummarize}">
                                     <MenuFlyoutItem.Icon>
-                                        <local:FluentIcon Symbol="Wand" />
+                                        <local:FluentIcon Symbol="ReceiptSparkles" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
