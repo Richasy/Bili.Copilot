@@ -24,7 +24,6 @@
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:SeasonItemViewModel">
                         <base:SeasonItem
-                            ContextFlyout="{StaticResource DefaultSeasonItemContextFlyout}"
                             DataContext="{x:Bind}"
                             Style="{StaticResource SlimSeasonItemStyle}"
                             ViewModel="{x:Bind}" />

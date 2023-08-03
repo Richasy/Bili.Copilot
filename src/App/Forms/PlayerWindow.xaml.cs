@@ -86,7 +86,7 @@ public sealed partial class PlayerWindow : WindowBase
 
     private void OnClosed(object sender, WindowEventArgs args)
     {
-        MainFrame.Content = null;
+        MainFrame.Navigate(typeof(Page));
         MainWindow.Instance.Activate();
         GC.Collect();
     }

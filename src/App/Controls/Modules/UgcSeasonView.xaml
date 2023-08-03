@@ -42,9 +42,7 @@
                     Loaded="OnRepeaterLoadedAsync">
                     <base:VerticalRepeaterView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                            <base:VideoItem
-                                ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
-                                ViewModel="{x:Bind}" />
+                            <base:VideoItem ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </base:VerticalRepeaterView.ItemTemplate>
                 </base:VerticalRepeaterView>

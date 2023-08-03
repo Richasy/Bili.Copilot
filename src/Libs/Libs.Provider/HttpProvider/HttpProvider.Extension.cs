@@ -22,7 +22,9 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class HttpProvider
 {
-    private static string _buvid;
+    private const int _maxRequestCount = 5;
+    private static int _requestCount = 0;
+    private static string _tempBuvid = string.Empty;
     private bool _disposedValue;
     private CookieContainer _cookieContainer;
 
@@ -75,10 +77,13 @@ public sealed partial class HttpProvider
         HttpResponseMessage response = null;
         try
         {
-            await Task.Run(async () =>
-            {
-                response = await HttpClient.SendAsync(request, cancellationToken);
-            });
+            _requestCount++;
+            await Task.Run(
+                async () =>
+                {
+                    response = await HttpClient.SendAsync(request, cancellationToken);
+                },
+                cancellationToken);
             await ThrowIfHasExceptionAsync(response);
         }
         catch (TaskCanceledException exception)
@@ -112,17 +117,18 @@ public sealed partial class HttpProvider
 
     private static string GetBuvid()
     {
-        if (string.IsNullOrEmpty(_buvid))
+        if (string.IsNullOrEmpty(_tempBuvid) || _requestCount > _maxRequestCount)
         {
             var macAddress = NetworkInterface.GetAllNetworkInterfaces()
-                .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                .Select(nic => nic.GetPhysicalAddress().ToString())
-                .FirstOrDefault();
+                 .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                 .Select(nic => nic.GetPhysicalAddress().ToString())
+                 .FirstOrDefault();
             var buvidObj = new Buvid(macAddress);
-            _buvid = buvidObj.Generate();
+            _tempBuvid = buvidObj.Generate();
+            _requestCount = 0;
         }
 
-        return _buvid;
+        return _tempBuvid;
     }
 
     private static async Task ThrowIfHasExceptionAsync(HttpResponseMessage response)

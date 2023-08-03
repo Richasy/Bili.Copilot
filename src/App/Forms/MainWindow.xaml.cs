@@ -45,6 +45,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
         _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
+        _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
     }
 
     /// <summary>
@@ -165,6 +166,9 @@ public sealed partial class MainWindow : WindowBase
 
     private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
         => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);
+
+    private async void OnRequestEvaluateVideoAsync(object sender, VideoIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.VideoEvaluation);
 
     private async void OnRequestSummarizeArticleContentAsync(object sender, ArticleIdentifier e)
         => await ShowAIDialogAsync(e, AIFeatureType.ArticleSummarize);

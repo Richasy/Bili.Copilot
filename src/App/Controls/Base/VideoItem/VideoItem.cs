@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.ViewModels;
+using Microsoft.UI.Xaml;
 using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -17,4 +18,14 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
 
     /// <inheritdoc/>
     public Size GetHolderSize() => new(400, 180);
+
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
+    {
+        if (ContextFlyout != null)
+        {
+            var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
+            rootCard.ContextFlyout = ContextFlyout;
+        }
+    }
 }

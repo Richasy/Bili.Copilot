@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Community;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
@@ -21,7 +22,13 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AIFeatureViewModel
 {
-    private static string GetVideoSummaryPrompt(string content, string title, string description, string language)
+    private static string LanguagePrompt()
+    {
+        var language = ApplicationLanguages.Languages.FirstOrDefault();
+        return $"---\nPlease write in {language} language.";
+    }
+
+    private static string GetVideoSummaryPrompt(string content, string title, string description)
     {
         var prompt = $"""
                 Instructions: Your output should use the following template:
@@ -37,8 +44,7 @@ public sealed partial class AIFeatureViewModel
                 Transcript:
                 ${content}
 
-                ---
-                Please write in {language} language.
+                {LanguagePrompt()}
                 """;
 
         return prompt;
@@ -46,7 +52,6 @@ public sealed partial class AIFeatureViewModel
 
     private static string GetArticleSummaryPrompt(string content, string title)
     {
-        var language = ApplicationLanguages.Languages.FirstOrDefault();
         var prompt = $"""
                 Instructions: Your output should use the following template:
                 ### {ResourceToolkit.GetLocalizedString(StringNames.Summary)}
@@ -59,8 +64,49 @@ public sealed partial class AIFeatureViewModel
                 Content:
                 {content}
 
-                ---
-                Please write in {language} language.
+                {LanguagePrompt()}
+                """;
+        return prompt;
+    }
+
+    private static string EvaluateVideoPrompt(
+        string title,
+        string description,
+        string commentContent,
+        TimeSpan duration,
+        DateTime publishTime,
+        VideoCommunityInformation communityInfo)
+    {
+        var prompt = $"""
+                Instructions: You are a professional Bilibili video reviewer, and you need to make an evaluation of the video based on the video information.
+                You need to make a comprehensive judgment based on the current popularity, potential, and possible impact of the video based on the video data, and draw conclusions based on the data.
+                Basic evaluation criteria for video popularity: Less than 1,000 views means that the number of viewers is small; around 10,000 views means that some attention has been gained; reaching 100,000 views means that there are many followers; reaching 1 million views means that the video is very popular.
+                The number of views is not the only indicator, you also need to comprehensively judge the popularity, interactive participation and other information of a video based on information such as likes, coins, danmaku, etc.
+                Your output needs to use the following template:
+                ### {ResourceToolkit.GetLocalizedString(StringNames.OverallEvaluation)}
+                ### {ResourceToolkit.GetLocalizedString(StringNames.DataAnalysis)}
+                ### {ResourceToolkit.GetLocalizedString(StringNames.AudienceFeedback)}
+
+                Please analyze and summarize based on the following video information:
+
+                ===
+                Title: {title}
+                Description: {description}
+                Current time: {DateTimeOffset.Now:yyyy/MM/dd HH:mm:ss}
+                Video Publish time: {publishTime:yyyy/MM/dd HH:mm:ss}
+                Duration: {NumberToolkit.GetDurationText(duration)}
+                Like count: {NumberToolkit.GetCountText(communityInfo.LikeCount)}
+                Coin count: {NumberToolkit.GetCountText(communityInfo.CoinCount)}
+                Favorite count: {NumberToolkit.GetCountText(communityInfo.FavoriteCount)}
+                Share count: {NumberToolkit.GetCountText(communityInfo.ShareCount)}
+                View count: {NumberToolkit.GetCountText(communityInfo.PlayCount)}
+                Comment count: {NumberToolkit.GetCountText(communityInfo.CommentCount)}
+                Danmaku count: {NumberToolkit.GetCountText(communityInfo.DanmakuCount)}
+                Excerpt from Popular Reviews:
+                {commentContent}
+                ===
+
+                {LanguagePrompt()}
                 """;
         return prompt;
     }

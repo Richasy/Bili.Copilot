@@ -14,9 +14,7 @@
         <base:VerticalRepeaterView EnableDetectParentScrollViewer="False" ItemsSource="{x:Bind ViewModel.VideoPlaylist, Mode=OneWay}">
             <base:VerticalRepeaterView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                    <base:VideoItem
-                        ContextFlyout="{StaticResource DefaultVideoItemContextFlyout}"
-                        ViewModel="{x:Bind}" />
+                    <base:VideoItem ViewModel="{x:Bind}" />
                 </DataTemplate>
             </base:VerticalRepeaterView.ItemTemplate>
         </base:VerticalRepeaterView>

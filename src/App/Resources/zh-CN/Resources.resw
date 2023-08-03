@@ -204,6 +204,9 @@
   <data name="AtMessageTypeDescription" xml:space="preserve">
     <value>在{0}中@了我</value>
   </data>
+  <data name="AudienceFeedback" xml:space="preserve">
+    <value>观众反馈</value>
+  </data>
   <data name="AudioChannels" xml:space="preserve">
     <value>音频通道数</value>
   </data>
@@ -492,6 +495,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>数据分析</value>
+  </data>
   <data name="DecodeType" xml:space="preserve">
     <value>解码类型</value>
   </data>
@@ -585,6 +591,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Episodes" xml:space="preserve">
     <value>分集</value>
+  </data>
+  <data name="EvaluateVideo" xml:space="preserve">
+    <value>请分析 《{0}》</value>
   </data>
   <data name="Evaluation" xml:space="preserve">
     <value>评价</value>
@@ -767,6 +776,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="GettingArticleContent" xml:space="preserve">
     <value>正在获取 《{0}》 的内容</value>
   </data>
+  <data name="GettingComments" xml:space="preserve">
+    <value>正在获取评论</value>
+  </data>
   <data name="GettingSubtitleDetail" xml:space="preserve">
     <value>正在获取 "{0}" 字幕</value>
   </data>
@@ -787,6 +799,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="GlobeProxyDescription" xml:space="preserve">
     <value>不论是否为地区限制的内容，都使用代理服务器解析</value>
+  </data>
+  <data name="GotHotComments" xml:space="preserve">
+    <value>已选取 {0} 条热门评论</value>
   </data>
   <data name="Grass" xml:space="preserve">
     <value>草绿色</value>
@@ -1172,6 +1187,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Output" xml:space="preserve">
     <value>输出</value>
+  </data>
+  <data name="OverallEvaluation" xml:space="preserve">
+    <value>总体评价</value>
   </data>
   <data name="Partition" xml:space="preserve">
     <value>分区</value>

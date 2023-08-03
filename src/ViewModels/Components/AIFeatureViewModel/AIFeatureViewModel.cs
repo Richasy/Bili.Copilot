@@ -12,6 +12,7 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
+using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
@@ -31,7 +32,11 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
     public AIFeatureViewModel()
     {
         Tips = new ObservableCollection<AppTipNotification>();
-        AttachExceptionHandlerToAsyncCommand(ShowError, SummarizeVideoCommand, SummarizeArticleCommand);
+        AttachExceptionHandlerToAsyncCommand(
+            ShowError,
+            SummarizeVideoCommand,
+            SummarizeArticleCommand,
+            EvaluateVideoCommand);
     }
 
     private static bool IsFantasyCopilotRunning()
@@ -160,6 +165,35 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         return filterArticle.TextContent;
     }
 
+    private async Task<List<CommentInformation>> GetTopCommentsAsync(string aid)
+    {
+        var gettingComments = new AppTipNotification(ResourceToolkit.GetLocalizedString(StringNames.GettingComments), InfoType.Information);
+        Tips.Add(gettingComments);
+        var commentView = await CommunityProvider.Instance.GetCommentsAsync(
+            aid,
+            Models.Constants.Bili.CommentType.Video,
+            Models.Constants.Bili.CommentSortType.Hot,
+            true);
+        var currentLength = 0;
+        var result = new List<CommentInformation>();
+        foreach (var item in commentView.Comments)
+        {
+            // 限制选取的评论长度.
+            if (currentLength > 800)
+            {
+                break;
+            }
+
+            result.Add(item);
+            currentLength += item.Content.Text.Length;
+        }
+
+        var gotHotComments = new AppTipNotification(string.Format(ResourceToolkit.GetLocalizedString(StringNames.GotHotComments), result.Count), InfoType.Success);
+        Tips.Add(gotHotComments);
+
+        return result;
+    }
+
     private void ShowError(Exception ex)
     {
         IsWaiting = false;
@@ -224,8 +258,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         Tips.Add(sendingMessage);
 
         var videoContent = string.Join("\n", subtitleDetail.Select(p => $"{p.Content}"));
-        var language = subtitle.LanguageName;
-        var prompt = GetVideoSummaryPrompt(videoContent, info.Information.Identifier.Title, info.Information.Description, language);
+        var prompt = GetVideoSummaryPrompt(videoContent, info.Information.Identifier.Title, info.Information.Description);
         var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), info.Information.Identifier.Title);
         await SendMessageAsync(message, prompt, tokens: Math.Min(videoContent.Length, 1000));
     }
@@ -238,5 +271,21 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         var prompt = GetArticleSummaryPrompt(content, article.Title);
         var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.SummarizeMessage), article.Title);
         await SendMessageAsync(message, prompt, tokens: Math.Min(content.Length, 1000));
+    }
+
+    [RelayCommand]
+    private async Task EvaluateVideoAsync(VideoIdentifier video)
+    {
+        await InitializeAsync();
+        var info = await GetVideoInformationAsync(video);
+        var aid = info.Information.Identifier.Id;
+        var comments = await GetTopCommentsAsync(aid);
+        var description = info.Information.Description;
+        var title = info.Information.Identifier.Title;
+        var duration = TimeSpan.FromSeconds(info.Information.Identifier.Duration);
+        var commentContent = string.Join("\n---\n", comments.Select(p => $"<|Comment|>{p.Content.Text}<|Comment|>"));
+        var prompt = EvaluateVideoPrompt(title, description, commentContent, duration, info.Information.PublishTime, info.Information.CommunityInformation);
+        var message = string.Format(ResourceToolkit.GetLocalizedString(StringNames.EvaluateVideo), title);
+        await SendMessageAsync(message, prompt, temperature: 1);
     }
 }

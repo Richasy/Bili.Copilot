@@ -91,6 +91,11 @@ public sealed partial class AppViewModel
     public event EventHandler<VideoIdentifier> RequestSummarizeVideoContent;
 
     /// <summary>
+    /// 请求视频的AI评价.
+    /// </summary>
+    public event EventHandler<VideoIdentifier> RequestEvaluateVideo;
+
+    /// <summary>
     /// 请求文章的AI总结.
     /// </summary>
     public event EventHandler<ArticleIdentifier> RequestSummarizeArticleContent;

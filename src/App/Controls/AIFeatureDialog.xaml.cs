@@ -42,6 +42,10 @@ public sealed partial class AIFeatureDialog : ContentDialog
         {
             _viewModel.SummarizeVideoCommand.Execute((VideoIdentifier)_data);
         }
+        else if (_type == AIFeatureType.VideoEvaluation)
+        {
+            _viewModel.EvaluateVideoCommand.Execute((VideoIdentifier)_data);
+        }
         else if(_type == AIFeatureType.ArticleSummarize)
         {
             _viewModel.SummarizeArticleCommand.Execute((ArticleIdentifier)_data);
