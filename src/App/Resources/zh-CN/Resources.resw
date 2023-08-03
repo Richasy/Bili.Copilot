@@ -141,6 +141,9 @@
   <data name="AdvancedOptions" xml:space="preserve">
     <value>高级选项</value>
   </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>AI 助理</value>
+  </data>
   <data name="AIConnectType" xml:space="preserve">
     <value>AI 连接方式</value>
   </data>

@@ -140,9 +140,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     }
 
     /// <inheritdoc/>
-    public async void Dispose()
+    public void Dispose()
     {
-        await ReportViewProgressAsync();
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }

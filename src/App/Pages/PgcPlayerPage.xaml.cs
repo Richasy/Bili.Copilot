@@ -35,6 +35,7 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
     {
+        ViewModel.PlayerDetail.ReportViewProgressCommand.Execute(default);
         ViewModel.PlayerDetail.Player?.Player?.Stop();
         ViewModel.Dispose();
     }

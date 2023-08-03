@@ -8,8 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls"
+    xmlns:markdown="using:Bili.Copilot.Libs.Markdown"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="{ext:Locale Name=AISummarize}"
+    Title="{ext:Locale Name=AIAssistant}"
     CloseButtonClick="OnCloseButtonClick"
     CloseButtonText="{ext:Locale Name=Cancel}"
     DefaultButton="Close"
@@ -37,10 +38,12 @@
                         <StackLayout Spacing="4" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
-                <TextBlock
+                <markdown:MarkdownTextBlock
+                    Background="Transparent"
                     FontSize="14"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                     IsTextSelectionEnabled="True"
-                    LineHeight="24"
+                    ParagraphLineHeight="24"
                     Text="{x:Bind _viewModel.ResponseText, Mode=OneWay}"
                     TextWrapping="Wrap"
                     Visibility="{x:Bind _viewModel.ResponseText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />

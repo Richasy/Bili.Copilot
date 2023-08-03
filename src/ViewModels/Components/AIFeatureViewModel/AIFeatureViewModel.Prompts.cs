@@ -117,22 +117,20 @@ public sealed partial class AIFeatureViewModel
             Instructions: You are an expert in word interpretation.
             You need to judge the meaning of the words I give you based on the context content I provide, and explain them in connection with the context.
             If you really don't know the meaning of this word, please give some possible guesses, but you must indicate the content of your guesses.
+            If there are words that need to be explained when explaining, you should display them in bold(markdown).
             Your output needs to use the following template:
-            ### {ResourceToolkit.GetLocalizedString(StringNames.Explain)}
-            ### {ResourceToolkit.GetLocalizedString(StringNames.OtherExplain)}
-            (If don't have other explain, do not show this title)
-            
-            Please explain the meaning of word according to the following context:
-
-            === WORD ===
-            {word}
-            === END WORD===
-
-            === CONTEXT ===
-            {context}
-            === END CONTEXT ===
 
             ---
+
+            ### {ResourceToolkit.GetLocalizedString(StringNames.Explain)}
+            [EXPLAIN]
+            
+            ---
+
+            Please explain the meaning of `{word}` according to the following context:
+            {context}
+
+            
             {LanguagePrompt()}
             """;
         return prompt;

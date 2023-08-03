@@ -172,6 +172,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj" />
+        <ProjectReference Include="..\Libs\Libs.Markdown\Libs.Markdown.csproj" />
         <ProjectReference Include="..\Libs\Libs.Provider\Libs.Provider.csproj" />
         <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
