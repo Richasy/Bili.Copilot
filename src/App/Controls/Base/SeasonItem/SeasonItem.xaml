@@ -4,18 +4,6 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
-    <MenuFlyout x:Key="DefaultSeasonItemContextFlyout">
-        <MenuFlyoutItem
-            x:Name="OpenInBroswerItem"
-            AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
-            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
-            Text="{ext:Locale Name=OpenInBrowser}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Globe" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-    </MenuFlyout>
-
     <Style x:Key="DefaultSeasonItemStyle" TargetType="local:SeasonItem">
         <Setter Property="CoverWidth" Value="120" />
         <Setter Property="CoverHeight" Value="148" />
@@ -27,9 +15,21 @@
                         x:Name="RootCard"
                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultSeasonItemContextFlyout}}"
                         IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                         IsEnableCheck="False">
+                        <local:CardPanel.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBroswerItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardPanel.ContextFlyout>
                         <Grid Padding="12" ColumnSpacing="12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -149,9 +149,21 @@
                         x:Name="RootCard"
                         AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                        ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultSeasonItemContextFlyout}}"
                         IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                         IsEnableCheck="False">
+                        <local:CardPanel.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBroswerItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardPanel.ContextFlyout>
                         <Grid Padding="12" RowSpacing="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -166,9 +178,9 @@
                                     x:Name="CoverImage"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Stretch="UniformToFill"
                                     CornerRadius="{ThemeResource ControlCornerRadius}"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                    Stretch="UniformToFill" />
                             </Grid>
                             <Grid Grid.Row="1" RowSpacing="4">
                                 <Grid.RowDefinitions>

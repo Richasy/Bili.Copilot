@@ -83,7 +83,7 @@
                 ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:ArticleItemViewModel">
-                        <base:ArticleItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                        <base:ArticleItem ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </base:VerticalRepeaterView.ItemTemplate>
             </base:VerticalRepeaterView>

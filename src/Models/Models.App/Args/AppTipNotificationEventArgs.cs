@@ -1,30 +1,30 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.App.Args;
 
 /// <summary>
-/// Ó¦ÓÃÌáÊ¾Í¨ÖªÊÂ¼ş²ÎÊı.
+/// Ã“Â¦Ã“ÃƒÃŒÃ¡ÃŠÂ¾ÃÂ¨Ã–ÂªÃŠÃ‚Â¼Ã¾Â²ÃÃŠÃ½.
 /// </summary>
-public class AppTipNotificationEventArgs : EventArgs
+public class AppTipNotification : EventArgs
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AppTipNotificationEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="AppTipNotification"/> class.
     /// </summary>
-    /// <param name="msg">ÏûÏ¢ÄÚÈİ.</param>
-    /// <param name="type">ÏûÏ¢ÀàĞÍ.</param>
-    public AppTipNotificationEventArgs(string msg, InfoType type = InfoType.Information)
+    /// <param name="msg">ÃÃ»ÃÂ¢Ã„ÃšÃˆÃ.</param>
+    /// <param name="type">ÃÃ»ÃÂ¢Ã€Ã ÃÃ.</param>
+    public AppTipNotification(string msg, InfoType type = InfoType.Information)
     {
         Message = msg;
         Type = type;
     }
 
     /// <summary>
-    /// ÏûÏ¢ÄÚÈİ.
+    /// ÃÃ»ÃÂ¢Ã„ÃšÃˆÃ.
     /// </summary>
     public string Message { get; set; }
 
     /// <summary>
-    /// ÏûÏ¢ÀàĞÍ.
+    /// ÃÃ»ÃÂ¢Ã€Ã ÃÃ.
     /// </summary>
     public InfoType Type { get; set; }
 }

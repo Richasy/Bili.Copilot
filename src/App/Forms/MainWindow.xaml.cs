@@ -31,8 +31,6 @@ public sealed partial class MainWindow : WindowBase
         InitializeComponent();
         Instance = this;
         CustomTitleBar.AttachedWindow = this;
-        Width = 500;
-        Height = 800;
         IsResizable = false;
         IsMaximizable = false;
         Activated += OnActivated;
@@ -46,6 +44,8 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
+        _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
+        _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
     }
 
     /// <summary>
@@ -91,13 +91,14 @@ public sealed partial class MainWindow : WindowBase
             PageType.Article => typeof(ArticlePage),
             PageType.Watchlist => typeof(WatchlistPage),
             PageType.SignIn => typeof(SignInPage),
+            PageType.Settings => typeof(SettingsPage),
             _ => throw new NotImplementedException(),
         };
 
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
 
-    private void OnAppViewModelRequestShowTip(object sender, AppTipNotificationEventArgs e)
+    private void OnAppViewModelRequestShowTip(object sender, AppTipNotification e)
         => new TipPopup(e.Message).ShowAsync(e.Type);
 
     private async void OnAppViewModelRequestShowMessageAsync(object sender, string e)
@@ -164,8 +165,17 @@ public sealed partial class MainWindow : WindowBase
     }
 
     private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);
+
+    private async void OnRequestEvaluateVideoAsync(object sender, VideoIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.VideoEvaluation);
+
+    private async void OnRequestSummarizeArticleContentAsync(object sender, ArticleIdentifier e)
+        => await ShowAIDialogAsync(e, AIFeatureType.ArticleSummarize);
+
+    private async Task ShowAIDialogAsync(object data, AIFeatureType type)
     {
-        var dialog = new AISummarizeDialog(e)
+        var dialog = new AIFeatureDialog(data, type)
         {
             XamlRoot = MainFrame.XamlRoot,
         };

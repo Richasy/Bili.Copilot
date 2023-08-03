@@ -5,6 +5,7 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Comment">
     <Style x:Key="DefaultCommentItemStyle" TargetType="local:CommentItem">
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CommentItem">

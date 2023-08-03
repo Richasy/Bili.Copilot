@@ -53,7 +53,7 @@ public sealed partial class AppViewModel
     /// <summary>
     /// 在有新的提示请求时触发.
     /// </summary>
-    public event EventHandler<AppTipNotificationEventArgs> RequestShowTip;
+    public event EventHandler<AppTipNotification> RequestShowTip;
 
     /// <summary>
     /// 有新的播放请求时触发.
@@ -89,6 +89,16 @@ public sealed partial class AppViewModel
     /// 请求视频的AI总结.
     /// </summary>
     public event EventHandler<VideoIdentifier> RequestSummarizeVideoContent;
+
+    /// <summary>
+    /// 请求视频的AI评价.
+    /// </summary>
+    public event EventHandler<VideoIdentifier> RequestEvaluateVideo;
+
+    /// <summary>
+    /// 请求文章的AI总结.
+    /// </summary>
+    public event EventHandler<ArticleIdentifier> RequestSummarizeArticleContent;
 
     /// <summary>
     /// 激活主窗口.

@@ -26,7 +26,7 @@
                 ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:CommentItemViewModel">
-                        <local:CommentItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                        <local:CommentItem ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </base:VerticalRepeaterView.ItemTemplate>
             </base:VerticalRepeaterView>

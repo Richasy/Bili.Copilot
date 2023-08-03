@@ -4,34 +4,9 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
-    <MenuFlyout x:Key="DefaultVideoItemContextFlyout">
-        <MenuFlyoutItem Command="{Binding PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="WindowInprivate" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem Command="{Binding AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Add" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem Command="{Binding OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Globe" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem
-            Command="{Binding SummarizeContentCommand}"
-            IsEnabled="{Binding IsSummarizeSupported}"
-            Text="{ext:Locale Name=AISummarize}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Wand" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-    </MenuFlyout>
-
     <Style x:Key="HorizontalVideoItemStyle" TargetType="local:VideoItem">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
@@ -48,10 +23,46 @@
                             MaxHeight="130"
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultVideoItemContextFlyout}}"
-                            DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                             IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
                             IsEnableCheck="False">
+
+                            <local:CardPanel.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="WindowInprivate" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Add" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Globe" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
+                                        <MenuFlyoutSubItem.Icon>
+                                            <local:FluentIcon Symbol="Sparkle" />
+                                        </MenuFlyoutSubItem.Icon>
+                                        <MenuFlyoutItem
+                                            MinWidth="120"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
+                                            Text="{ext:Locale Name=SummarizeContent}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="DocumentOnePageSparkle" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="EmojiSparkle" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyoutSubItem>
+                                </MenuFlyout>
+                            </local:CardPanel.ContextFlyout>
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -191,10 +202,48 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
                     <Grid
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="{StaticResource ControlCornerRadius}"
                         RowSpacing="8">
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="WindowInprivate" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Add" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <local:FluentIcon Symbol="Sparkle" />
+                                    </MenuFlyoutSubItem.Icon>
+                                    <MenuFlyoutItem
+                                        MinWidth="120"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
+                                        Text="{ext:Locale Name=SummarizeContent}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="DocumentOnePageSparkle" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="EmojiSparkle" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
                         <Grid.Resources>
                             <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
                                 <Setter Property="Spacing" Value="4" />

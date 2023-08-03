@@ -13,11 +13,6 @@ public enum PlayerDisplayMode
     Default,
 
     /// <summary>
-    /// 全窗口模式，让播放器充满整个窗口.
-    /// </summary>
-    FullWindow,
-
-    /// <summary>
     /// 全屏模式.
     /// </summary>
     FullScreen,

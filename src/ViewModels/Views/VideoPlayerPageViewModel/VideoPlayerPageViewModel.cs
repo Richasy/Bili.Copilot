@@ -118,6 +118,12 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
         Reset();
         View = await PlayerProvider.GetVideoDetailAsync(_presetVideoId);
 
+        if (View == null)
+        {
+            DisplayException(new Exception("信息获取失败"));
+            return;
+        }
+
         InitializePublisher();
         InitializeOverview();
         InitializeOperation();

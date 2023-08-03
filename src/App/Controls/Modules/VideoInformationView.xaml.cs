@@ -83,6 +83,16 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
 
         FavoriteFlyout.ShowAt(FavoriteButton);
     }
+
+    private void OnOnlyAudioToggledAsync(object sender, RoutedEventArgs e)
+    {
+        var control = sender as ToggleSwitch;
+        var isAudioOnly = control.IsOn;
+        if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
+        {
+            ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);
+        }
+    }
 }
 
 /// <summary>

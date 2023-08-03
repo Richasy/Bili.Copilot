@@ -22,13 +22,12 @@
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                        <base:VideoItem DataContext="{x:Bind}" ViewModel="{x:Bind}">
+                        <base:VideoItem ViewModel="{x:Bind}">
                             <base:VideoItem.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem
                                         MinWidth="160"
                                         Command="{x:Bind RemoveFromHistoryCommand}"
-                                        DataContext="{x:Bind}"
                                         Text="{ext:Locale Name=Delete}">
                                         <MenuFlyoutItem.Icon>
                                             <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />

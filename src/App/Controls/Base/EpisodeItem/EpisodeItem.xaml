@@ -6,6 +6,7 @@
 
     <Style x:Key="HorizontalEpisodeItemStyle" TargetType="local:EpisodeItem">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeItem">
@@ -135,121 +136,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="RankEpisodeItemStyle" TargetType="local:EpisodeItem">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:EpisodeItem">
-                    <Grid>
-                        <Grid.Resources>
-                            <Style TargetType="local:IconTextBlock">
-                                <Setter Property="Spacing" Value="4" />
-                                <Setter Property="IconFontSize" Value="12" />
-                                <Setter Property="FontSize" Value="12" />
-                            </Style>
-                        </Grid.Resources>
-                        <local:CardPanel
-                            x:Name="RootCard"
-                            MaxHeight="128"
-                            AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                            IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
-                            IsEnableCheck="False">
-
-                            <local:CardPanel.ContextFlyout>
-                                <MenuFlyout x:Name="EpisodeFlyout">
-                                    <MenuFlyoutItem
-                                        x:Name="OpenInBrowserItem"
-                                        AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
-                                        Text="{ext:Locale Name=OpenInBrowser}">
-                                        <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="Globe" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </local:CardPanel.ContextFlyout>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid
-                                    x:Name="CoverContainer"
-                                    Margin="8"
-                                    VerticalAlignment="Stretch"
-                                    CornerRadius="{StaticResource ControlCornerRadius}">
-                                    <local:ImageEx
-                                        x:Name="CoverImage"
-                                        Width="120"
-                                        VerticalAlignment="Center"
-                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
-                                        Stretch="UniformToFill" />
-                                </Grid>
-                                <Grid
-                                    x:Name="ContentContainer"
-                                    Grid.Column="1"
-                                    Padding="8"
-                                    RowSpacing="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        x:Name="TitleBlock"
-                                        VerticalAlignment="Top"
-                                        FontWeight="SemiBold"
-                                        MaxLines="1"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="Wrap">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-
-                                    <Grid
-                                        x:Name="BadgeContainer"
-                                        Grid.Row="1"
-                                        Padding="6,4"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Background="{ThemeResource AccentBadgeBackground}"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Highlight, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                        <TextBlock
-                                            FontSize="10"
-                                            Foreground="{ThemeResource AccentFillColorDefaultBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Highlight}" />
-                                    </Grid>
-
-                                    <TextBlock
-                                        x:Name="SubtitleBlock"
-                                        Grid.Row="2"
-                                        VerticalAlignment="Center"
-                                        Opacity="0.6"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}" />
-                                </Grid>
-                            </Grid>
-                        </local:CardPanel>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="HorizontalDynamicEpisodeItemStyle" TargetType="local:EpisodeItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeItem">
                     <Grid
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="{StaticResource ControlCornerRadius}"
@@ -261,6 +153,19 @@
                                 <Setter Property="FontSize" Value="12" />
                             </Style>
                         </Grid.Resources>
+                        <Grid.ContextFlyout>
+                            <MenuFlyout x:Name="EpisodeFlyout">
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBroItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />

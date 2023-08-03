@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.ViewModels;
@@ -44,7 +43,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
     {
-        // 如果是以暂停状态关闭，可能会导致播放器无法释放.
+        ViewModel.PlayerDetail.ReportViewProgressCommand.Execute(default);
         ViewModel.PlayerDetail.Player?.Player?.Stop();
         ViewModel?.Dispose();
     }

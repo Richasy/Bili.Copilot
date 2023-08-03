@@ -142,7 +142,6 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        ReportViewProgressCommand.Execute(default);
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
@@ -288,17 +287,9 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     partial void OnDisplayModeChanged(PlayerDisplayMode value)
     {
         InitializeDisplayModeText();
-        CheckExitFullPlayerButtonVisibility();
-    }
-
-    partial void OnIsShowMediaTransportChanged(bool value)
-    {
-        CheckExitFullPlayerButtonVisibility();
+        CheckCurrentPlayerDisplayMode();
     }
 
     partial void OnIsLoopChanged(bool value)
         => Player.IsLoop = value;
-
-    partial void OnIsErrorChanged(bool value)
-        => CheckExitFullPlayerButtonVisibility();
 }

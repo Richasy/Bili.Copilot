@@ -44,6 +44,18 @@ public sealed partial class ArticleProvider
     }
 
     /// <summary>
+    /// 获取文章内容.
+    /// </summary>
+    /// <param name="articleId">文章 id.</param>
+    /// <returns>文章内容.</returns>
+    public static async Task<string> GetArticleContentAsync(string articleId)
+    {
+        var url = ApiConstants.Article.ArticleContent + $"?id={articleId}";
+        var html = await HttpProvider.Instance.HttpClient.GetStringAsync(url);
+        return html;
+    }
+
+    /// <summary>
     /// 获取推荐的文章.
     /// </summary>
     /// <param name="partitionId">分区标识符.</param>

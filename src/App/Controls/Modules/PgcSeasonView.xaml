@@ -12,7 +12,7 @@
 
     <ScrollViewer Margin="-20,0" Style="{StaticResource DefaultScrollViewerStyle}">
         <base:VerticalRepeaterView
-            Margin="0,0,0,20"
+            Margin="20,0,20,20"
             EnableDetectParentScrollViewer="False"
             ItemsSource="{x:Bind ViewModel.Seasons, Mode=OneWay}"
             Style="{StaticResource PgcSlimVerticalRepeaterViewStyle}">

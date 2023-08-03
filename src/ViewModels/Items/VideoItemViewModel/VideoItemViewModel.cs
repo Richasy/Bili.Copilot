@@ -34,7 +34,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase
         _additionalData = additionalData;
         CanRemove = true;
         InitializeData();
-        IsSummarizeSupported = AppViewModel.Instance.IsAISupported;
+        IsAISupported = AppViewModel.Instance.IsAISupported;
     }
 
     [RelayCommand]
@@ -176,6 +176,10 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     [RelayCommand]
     private void SummarizeContent()
         => AppViewModel.Instance.SummarizeVideoContentCommand.Execute(Data.Identifier);
+
+    [RelayCommand]
+    private void Evaluate()
+        => AppViewModel.Instance.EvaluateVideoContentCommand.Execute(Data.Identifier);
 
     private void InitializeData()
     {

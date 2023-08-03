@@ -96,12 +96,12 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
     private async Task ReloadAsync()
     {
         Reset();
-        View = await LiveProvider.GetLiveRoomDetailAsync(_presetRoomId);
 
+        InitializeTimers();
         var isEnterSuccess = await LiveProvider.Instance.EnterLiveRoomAsync(_presetRoomId);
         if (isEnterSuccess)
         {
-            InitializeTimers();
+            View = await LiveProvider.GetLiveRoomDetailAsync(_presetRoomId);
             InitializePublisher();
             InitializeOverview();
 
@@ -109,6 +109,7 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
         }
         else
         {
+            ResetTimers();
             DisplayException(new Exception("进入直播间失败"));
         }
     }

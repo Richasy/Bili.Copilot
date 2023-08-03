@@ -39,7 +39,7 @@ public enum SettingNames
     DanmakuArea,
     DanmakuSpeed,
     DisableP2PCdn,
-    IsContinusPlay,
+    IsContinuePlay,
     IgnoreVersion,
     IsOnlyShowIndex,
     CanContinuePlay,
@@ -98,4 +98,5 @@ public enum SettingNames
     WindowPositionTop,
     HideWhenCloseWindow,
     ShouldAskBeforeWindowClosed,
+    AIConnectType,
 }

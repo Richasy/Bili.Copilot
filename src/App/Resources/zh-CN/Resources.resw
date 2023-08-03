@@ -141,8 +141,23 @@
   <data name="AdvancedOptions" xml:space="preserve">
     <value>高级选项</value>
   </data>
+  <data name="AIAssistant" xml:space="preserve">
+    <value>AI 助理</value>
+  </data>
+  <data name="AIConnectType" xml:space="preserve">
+    <value>AI 连接方式</value>
+  </data>
+  <data name="AIConnectTypeDescription" xml:space="preserve">
+    <value>选择通过何种方式连接小幻助理以提供 AI 功能</value>
+  </data>
+  <data name="AIMessageSend" xml:space="preserve">
+    <value>已经发送消息，请在小幻助理中查看总结内容</value>
+  </data>
+  <data name="AIMessageTooLong" xml:space="preserve">
+    <value>尝试发送给模型的字数有 {0}，友情提示：过长的字数可能导致模型无法处理</value>
+  </data>
   <data name="AISummarize" xml:space="preserve">
-    <value>AI 视频总结</value>
+    <value>AI 总结</value>
   </data>
   <data name="Alias" xml:space="preserve">
     <value>别名</value>
@@ -165,6 +180,12 @@
   <data name="AppName" xml:space="preserve">
     <value>哔哩助理</value>
   </data>
+  <data name="AppService" xml:space="preserve">
+    <value>应用服务</value>
+  </data>
+  <data name="AppServiceMessageSendFailed" xml:space="preserve">
+    <value>尝试给应用服务发消息，但是挂掉了</value>
+  </data>
   <data name="AppTip" xml:space="preserve">
     <value>应用提示</value>
   </data>
@@ -185,6 +206,9 @@
   </data>
   <data name="AtMessageTypeDescription" xml:space="preserve">
     <value>在{0}中@了我</value>
+  </data>
+  <data name="AudienceFeedback" xml:space="preserve">
+    <value>观众反馈</value>
   </data>
   <data name="AudioChannels" xml:space="preserve">
     <value>音频通道数</value>
@@ -365,6 +389,12 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
+  <data name="ConnectAI" xml:space="preserve">
+    <value>连接 AI</value>
+  </data>
+  <data name="ConnectingFantasyCopilot" xml:space="preserve">
+    <value>正在连接小幻助理</value>
+  </data>
   <data name="ContinuePlayDescription" xml:space="preserve">
     <value>上次应用关闭时您仍在播放视频，你可以继续播放该视频：</value>
   </data>
@@ -386,6 +416,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Copied" xml:space="preserve">
     <value>已复制</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© {0} Richasy。GPL 开源许可。</value>
   </data>
   <data name="CopyToClipboard" xml:space="preserve">
     <value>复制到剪切板</value>
@@ -464,6 +497,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
+  </data>
+  <data name="DataAnalysis" xml:space="preserve">
+    <value>数据分析</value>
   </data>
   <data name="DecodeType" xml:space="preserve">
     <value>解码类型</value>
@@ -559,6 +595,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Episodes" xml:space="preserve">
     <value>分集</value>
   </data>
+  <data name="EvaluateVideo" xml:space="preserve">
+    <value>请分析 《{0}》</value>
+  </data>
+  <data name="Evaluation" xml:space="preserve">
+    <value>评价</value>
+  </data>
   <data name="Exit" xml:space="preserve">
     <value>退出</value>
   </data>
@@ -579,6 +621,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="ExitSearch" xml:space="preserve">
     <value>退出搜索</value>
+  </data>
+  <data name="Explain" xml:space="preserve">
+    <value>解释</value>
+  </data>
+  <data name="ExplainWordMessage" xml:space="preserve">
+    <value>请解释 "{0}" 的含义</value>
   </data>
   <data name="FailedToClearHisotry" xml:space="preserve">
     <value>尝试清空历史记录失败，请稍后重试</value>
@@ -607,11 +655,17 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="FailedToSendDanmaku" xml:space="preserve">
     <value>发送弹幕失败，请稍后再试</value>
   </data>
+  <data name="FailToConnectFantasyCopilot" xml:space="preserve">
+    <value>尝试连接小幻助理失败</value>
+  </data>
   <data name="FansCount" xml:space="preserve">
     <value>粉丝数</value>
   </data>
   <data name="FansSuffix" xml:space="preserve">
     <value>的粉丝</value>
+  </data>
+  <data name="FantasyCopilotConnected" xml:space="preserve">
+    <value>已连接小幻助理</value>
   </data>
   <data name="Favorite" xml:space="preserve">
     <value>收藏</value>
@@ -728,6 +782,15 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Generic" xml:space="preserve">
     <value>通用</value>
   </data>
+  <data name="GettingArticleContent" xml:space="preserve">
+    <value>正在获取 《{0}》 的内容</value>
+  </data>
+  <data name="GettingComments" xml:space="preserve">
+    <value>正在获取评论</value>
+  </data>
+  <data name="GettingSubtitleDetail" xml:space="preserve">
+    <value>正在获取 "{0}" 字幕</value>
+  </data>
   <data name="GettingSubtitles" xml:space="preserve">
     <value>正在获取字幕信息...</value>
   </data>
@@ -745,6 +808,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="GlobeProxyDescription" xml:space="preserve">
     <value>不论是否为地区限制的内容，都使用代理服务器解析</value>
+  </data>
+  <data name="GotHotComments" xml:space="preserve">
+    <value>已选取 {0} 条热门评论</value>
   </data>
   <data name="Grass" xml:space="preserve">
     <value>草绿色</value>
@@ -1128,8 +1194,14 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="OriginName" xml:space="preserve">
     <value>原名</value>
   </data>
+  <data name="OtherExplain" xml:space="preserve">
+    <value>其它可能的解释</value>
+  </data>
   <data name="Output" xml:space="preserve">
     <value>输出</value>
+  </data>
+  <data name="OverallEvaluation" xml:space="preserve">
+    <value>总体评价</value>
   </data>
   <data name="Partition" xml:space="preserve">
     <value>分区</value>
@@ -1277,6 +1349,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="ProjectHomePage" xml:space="preserve">
     <value>项目主页</value>
+  </data>
+  <data name="ProtocolLaunch" xml:space="preserve">
+    <value>协议启动</value>
   </data>
   <data name="ProxySearchAddress" xml:space="preserve">
     <value>搜索代理</value>
@@ -1521,6 +1596,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
   </data>
+  <data name="SearchInWeb" xml:space="preserve">
+    <value>在网页中搜索</value>
+  </data>
   <data name="SearchTip" xml:space="preserve">
     <value>搜索视频、番剧或UP主</value>
   </data>
@@ -1544,6 +1622,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="SelectSortType" xml:space="preserve">
     <value>选择排序方式</value>
+  </data>
+  <data name="SendingMessage" xml:space="preserve">
+    <value>正在发送消息...</value>
   </data>
   <data name="SetAddressSuccess" xml:space="preserve">
     <value>成功设置地址</value>
@@ -1689,14 +1770,17 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="SubtitleList" xml:space="preserve">
     <value>字幕列表</value>
   </data>
+  <data name="SubtitleSelected" xml:space="preserve">
+    <value>已选择字幕："{0}"</value>
+  </data>
+  <data name="SummarizeContent" xml:space="preserve">
+    <value>总结内容</value>
+  </data>
   <data name="SummarizeMessage" xml:space="preserve">
     <value>请总结 《{0}》的内容</value>
   </data>
   <data name="Summary" xml:space="preserve">
     <value>总结</value>
-  </data>
-  <data name="SummaryMessageSend" xml:space="preserve">
-    <value>已经发送消息，请在小幻助理中查看总结内容</value>
   </data>
   <data name="SwitchToPasswordLogin" xml:space="preserve">
     <value>用密码登录</value>
@@ -1821,6 +1905,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="VideoInitializing" xml:space="preserve">
     <value>正在加载视频</value>
   </data>
+  <data name="VideoPartSelected" xml:space="preserve">
+    <value>已选择分P：“{0}”</value>
+  </data>
   <data name="Videos" xml:space="preserve">
     <value>视频</value>
   </data>
@@ -1845,6 +1932,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Vip" xml:space="preserve">
     <value>大会员</value>
   </data>
+  <data name="WaitingResponseFromFantasyCopilot" xml:space="preserve">
+    <value>正在等待小幻助理的响应</value>
+  </data>
   <data name="WantWatch" xml:space="preserve">
     <value>想看</value>
   </data>
@@ -1865,6 +1955,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="WholePartitions" xml:space="preserve">
     <value>全区</value>
+  </data>
+  <data name="WordExplain" xml:space="preserve">
+    <value>词语解释</value>
   </data>
   <data name="Yellow" xml:space="preserve">
     <value>黄色</value>

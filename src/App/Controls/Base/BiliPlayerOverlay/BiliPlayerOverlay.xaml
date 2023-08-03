@@ -47,7 +47,7 @@
                             </Grid>
                         </SplitView.Pane>
                         <Grid>
-                            <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiveAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <local:ImageEx Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" Stretch="UniformToFill" />
                                 <Border
                                     HorizontalAlignment="Stretch"

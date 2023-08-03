@@ -5,6 +5,7 @@
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
     <Style x:Key="DefaultMessageItemStyle" TargetType="local:MessageItem">
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MessageItem">

@@ -14,9 +14,9 @@ using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Windows.Media;
-using Windows.UI.ViewManagement;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -73,7 +73,7 @@ public sealed partial class PlayerDetailViewModel
         IsInteractionEnd = false;
         IsInteractionVideo = false;
         IsShowInteractionChoices = false;
-        DanmakuViewModel.ResetCommand.Execute(null);
+        DanmakuViewModel.ResetCommand.Execute(default);
     }
 
     private void InitializePlaybackRates()
@@ -160,10 +160,6 @@ public sealed partial class PlayerDetailViewModel
             ? ResourceToolkit.GetLocalizedString(StringNames.ExitFullScreen)
             : ResourceToolkit.GetLocalizedString(StringNames.EnterFullScreen);
 
-        FullWindowText = DisplayMode == PlayerDisplayMode.FullWindow
-            ? ResourceToolkit.GetLocalizedString(StringNames.ExitFullWindow)
-            : ResourceToolkit.GetLocalizedString(StringNames.EnterFullWindow);
-
         CompactOverlayText = DisplayMode == PlayerDisplayMode.CompactOverlay
             ? ResourceToolkit.GetLocalizedString(StringNames.ExitCompactOverlay)
             : ResourceToolkit.GetLocalizedString(StringNames.EnterCompactOverlay);
@@ -224,10 +220,20 @@ public sealed partial class PlayerDetailViewModel
         }
     }
 
-    private void CheckExitFullPlayerButtonVisibility()
+    private void CheckCurrentPlayerDisplayMode()
     {
-        var isFullPlayer = DisplayMode != PlayerDisplayMode.Default;
-        IsShowExitFullPlayerButton = isFullPlayer && (IsError || IsShowMediaTransport);
+        if (DisplayMode == PlayerDisplayMode.FullScreen && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.FullScreen)
+        {
+            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+        }
+        else if (DisplayMode == PlayerDisplayMode.CompactOverlay && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.CompactOverlay)
+        {
+            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+        }
+        else if (DisplayMode == PlayerDisplayMode.Default && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.Default)
+        {
+            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
+        }
     }
 
     private void OnMediaStateChanged(object sender, MediaStateChangedEventArgs e)
@@ -339,38 +345,8 @@ public sealed partial class PlayerDetailViewModel
         }
     }
 
-    private void OnViewVisibleBoundsChanged(ApplicationView sender, object args)
-    {
-        // 如果用户通过窗口按钮手动退出全屏状态，则播放器调整为默认模式.
-        if (!sender.IsFullScreenMode && DisplayMode == PlayerDisplayMode.FullScreen)
-        {
-            DisplayMode = PlayerDisplayMode.Default;
-        }
-    }
-
     private void OnInteractionModuleNoMoreChoices(object sender, EventArgs e)
         => IsInteractionEnd = true;
-
-    private void OnSystemControlsButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
-    {
-        switch (args.Button)
-        {
-            case SystemMediaTransportControlsButton.Play:
-                _ = _dispatcherQueue.TryEnqueue(() =>
-                {
-                    Player?.Play();
-                });
-                break;
-            case SystemMediaTransportControlsButton.Pause:
-                _ = _dispatcherQueue.TryEnqueue(() =>
-                {
-                    Player?.Pause();
-                });
-                break;
-            default:
-                break;
-        }
-    }
 
     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {

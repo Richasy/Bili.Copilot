@@ -4,27 +4,8 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
-    <MenuFlyout x:Key="DefaultArticleItemContextFlyout">
-        <MenuFlyoutItem
-            Command="{Binding Publisher.ShowDetailCommand}"
-            IsEnabled="{Binding Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
-            Text="{ext:Locale Name=EnterUserSpace}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Person" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-        <MenuFlyoutItem
-            x:Name="OpenInBrowserItem"
-            AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
-            Command="{Binding OpenInBrowserCommand}"
-            Text="{ext:Locale Name=OpenInBrowser}">
-            <MenuFlyoutItem.Icon>
-                <local:FluentIcon Symbol="Globe" />
-            </MenuFlyoutItem.Icon>
-        </MenuFlyoutItem>
-    </MenuFlyout>
-
     <Style x:Key="HorizontalArticleItemStyle" TargetType="local:ArticleItem">
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleItem">
@@ -40,8 +21,36 @@
                             x:Name="RootCard"
                             AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReadCommand}"
-                            ContextFlyout="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContextFlyout, TargetNullValue={StaticResource DefaultArticleItemContextFlyout}}"
                             IsEnableCheck="False">
+                            <local:CardPanel.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
+                                        Text="{ext:Locale Name=EnterUserSpace}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Person" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        x:Name="OpenInBrowserItem"
+                                        AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                        Text="{ext:Locale Name=OpenInBrowser}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Globe" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeCommand}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
+                                        Text="{ext:Locale Name=AISummarize}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="ReceiptSparkles" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </local:CardPanel.ContextFlyout>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -168,12 +177,42 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleItem">
-                    <Grid RowSpacing="8">
+                    <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" RowSpacing="8">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
+
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
+                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
+                                    Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBrowserItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeCommand}"
+                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
+                                    Text="{ext:Locale Name=AISummarize}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="ReceiptSparkles" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
 
                         <StackPanel>
                             <TextBlock

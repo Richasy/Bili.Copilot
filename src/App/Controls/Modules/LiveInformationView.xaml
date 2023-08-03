@@ -81,7 +81,7 @@
                         HorizontalAlignment="Stretch"
                         Description="{ext:Locale Name=OnlyAudioDescription}"
                         Header="{ext:Locale Name=OnlyAudio}">
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsLiveAudioOnly, Mode=OneWay}" Toggled="OnLiveOnlyAudioToggledAsync" />
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsAudioOnly, Mode=OneWay}" Toggled="OnOnlyAudioToggledAsync" />
                     </labs:SettingsCard>
                 </StackPanel>
 

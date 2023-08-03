@@ -9,7 +9,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:VerticalRepeaterView">
                     <Grid>
-                        <ItemsRepeater
+                        <!--<ItemsRepeater
                             x:Name="ItemsRepeater"
                             ItemTemplate="{TemplateBinding ItemTemplate}"
                             ItemsSource="{TemplateBinding ItemsSource}"
@@ -18,7 +18,18 @@
                             <ItemsRepeater.Layout>
                                 <StackLayout Spacing="4" />
                             </ItemsRepeater.Layout>
-                        </ItemsRepeater>
+                        </ItemsRepeater>-->
+                        <ItemsControl
+                            x:Name="ItemsControl"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            XYFocusKeyboardNavigation="Auto">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel CacheLength="{TemplateBinding VerticalCacheSize}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -44,26 +44,9 @@ public sealed partial class TipPopup : UserControl
     /// </summary>
     /// <param name="type">信息级别.</param>
     /// <param name="displaySeconds">显示的时间.</param>
-    public async void ShowAsync(InfoType type = InfoType.Information, double displaySeconds = 2)
+    public async void ShowAsync(InfoType type = InfoType.Information, double displaySeconds = 3)
     {
-        switch (type)
-        {
-            case InfoType.Information:
-                InformationIcon.Visibility = Visibility.Visible;
-                break;
-            case InfoType.Success:
-                SuccessIcon.Visibility = Visibility.Visible;
-                break;
-            case InfoType.Warning:
-                WarningIcon.Visibility = Visibility.Visible;
-                break;
-            case InfoType.Error:
-                ErrorIcon.Visibility = Visibility.Visible;
-                break;
-            default:
-                break;
-        }
-
+        PopupContainer.Status = type;
         await MainWindow.Instance.ShowTipAsync(this, displaySeconds);
     }
 }

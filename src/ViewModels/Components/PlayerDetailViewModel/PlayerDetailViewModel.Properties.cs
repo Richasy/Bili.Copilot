@@ -96,13 +96,10 @@ public sealed partial class PlayerDetailViewModel
     private string _progressTip;
 
     [ObservableProperty]
-    private bool _isLiveAudioOnly;
+    private bool _isAudioOnly;
 
     [ObservableProperty]
     private string _fullScreenText;
-
-    [ObservableProperty]
-    private string _fullWindowText;
 
     [ObservableProperty]
     private string _compactOverlayText;
@@ -142,9 +139,6 @@ public sealed partial class PlayerDetailViewModel
 
     [ObservableProperty]
     private bool _canPlayNextPart;
-
-    [ObservableProperty]
-    private bool _isShowExitFullPlayerButton;
 
     [ObservableProperty]
     private MediaPlayerViewModel _player;

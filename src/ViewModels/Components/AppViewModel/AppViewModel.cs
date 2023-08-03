@@ -95,7 +95,7 @@ public sealed partial class AppViewModel : ViewModelBase
     /// <param name="message">提示内容.</param>
     /// <param name="type">提示类型.</param>
     public void ShowTip(string message, InfoType type = InfoType.Information)
-        => RequestShowTip?.Invoke(this, new AppTipNotificationEventArgs(message, type));
+        => RequestShowTip?.Invoke(this, new AppTipNotification(message, type));
 
     /// <summary>
     /// 显示消息.
@@ -139,6 +139,14 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void SummarizeVideoContent(VideoIdentifier video)
         => RequestSummarizeVideoContent?.Invoke(this, video);
+
+    [RelayCommand]
+    private void SummarizeArticleContent(ArticleIdentifier article)
+        => RequestSummarizeArticleContent?.Invoke(this, article);
+
+    [RelayCommand]
+    private void EvaluateVideoContent(VideoIdentifier video)
+        => RequestEvaluateVideo?.Invoke(this, video);
 
     [RelayCommand]
     private void Back()

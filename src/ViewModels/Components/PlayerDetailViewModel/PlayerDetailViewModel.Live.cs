@@ -56,7 +56,7 @@ public sealed partial class PlayerDetailViewModel
 
         Cover = view.Information.Identifier.Cover.GetSourceUri().ToString();
         DanmakuViewModel.SetData(view.Information.Identifier.Id, default, _videoType);
-        _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsLiveAudioOnly);
+        _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsAudioOnly);
 
         _currentPlayLine ??= _liveMediaInformation.Lines.FirstOrDefault(p => p.Quality == quality) ?? _liveMediaInformation.Lines.First();
     }
@@ -92,7 +92,7 @@ public sealed partial class PlayerDetailViewModel
         var view = _viewData as LivePlayerView;
         var codecId = GetLivePreferCodecId();
         var quality = format.Quality;
-        _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsLiveAudioOnly);
+        _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(view.Information.Identifier.Id, quality, IsAudioOnly);
         if (_liveMediaInformation.Lines != null)
         {
             var playLines = _liveMediaInformation.Lines.Where(p => p.Name == codecId);
@@ -121,18 +121,26 @@ public sealed partial class PlayerDetailViewModel
 
     private void InitializeLivePlayer(string url)
     {
-        Player.SetLiveSource(url);
+        Player.SetLiveSource(url, IsAudioOnly);
         StartTimers();
     }
 
     [RelayCommand]
-    private async Task ChangeLiveAudioOnlyAsync(bool isAudioOnly)
+    private async Task ChangeAudioOnlyAsync(bool isAudioOnly)
     {
-        IsLiveAudioOnly = isAudioOnly;
+        IsAudioOnly = isAudioOnly;
         SettingsToolkit.WriteLocalSetting(SettingNames.IsLiveAudioOnly, isAudioOnly);
         if (CurrentFormat != null)
         {
-            await SelectLiveFormatAsync(CurrentFormat);
+            if (_videoType == Models.Constants.Bili.VideoType.Video
+                || _videoType == Models.Constants.Bili.VideoType.Pgc)
+            {
+                SelectVideoFormat(CurrentFormat);
+            }
+            else
+            {
+                await SelectLiveFormatAsync(CurrentFormat);
+            }
         }
     }
 }

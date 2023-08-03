@@ -33,7 +33,7 @@
         <None Remove="Assets\ERROR_rgba.png" />
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Assets\ReaderClean.js" />
-        <None Remove="Controls\AISummarizeDialog.xaml" />
+        <None Remove="Controls\AIFeatureDialog.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
@@ -42,6 +42,7 @@
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\MediaStatsPanel.xaml" />
+        <None Remove="Controls\Base\StatusTip.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
         <None Remove="Controls\Base\EpisodeItem\EpisodeItem.xaml" />
@@ -97,6 +98,14 @@
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
+        <None Remove="Controls\Settings\AIConnectSettingSection.xaml" />
+        <None Remove="Controls\Settings\CacheSettingSection.xaml" />
+        <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
+        <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
+        <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
+        <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
+        <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
+        <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
@@ -113,6 +122,7 @@
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\ReaderPage.xaml" />
+        <None Remove="Pages\SettingsPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\UserSpacePage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
@@ -162,6 +172,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj" />
+        <ProjectReference Include="..\Libs\Libs.Markdown\Libs.Markdown.csproj" />
         <ProjectReference Include="..\Libs\Libs.Provider\Libs.Provider.csproj" />
         <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
@@ -193,7 +204,37 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Page Update="Controls\AISummarizeDialog.xaml">
+      <Page Update="Controls\Settings\CloseBehaviorSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\AIConnectSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\TraditionalChineseSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\RoamingSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\PlayerModeSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\PlayerControlSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\LoggerSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\SettingsPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\CacheSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\StatusTip.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\AIFeatureDialog.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Forms\ReaderWindow.xaml">

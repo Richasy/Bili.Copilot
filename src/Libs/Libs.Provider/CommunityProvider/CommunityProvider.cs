@@ -169,15 +169,23 @@ public partial class CommunityProvider
     /// <param name="targetId">目标Id.</param>
     /// <param name="type">评论区类型.</param>
     /// <param name="sort">排序方式.</param>
+    /// <param name="isOneShot">是否是一次性请求（该请求的指针将不会被记录）.</param>
     /// <returns>评论列表响应.</returns>
-    public async Task<CommentView> GetCommentsAsync(string targetId, CommentType type, CommentSortType sort)
+    public async Task<CommentView> GetCommentsAsync(string targetId, CommentType type, CommentSortType sort, bool isOneShot = false)
     {
-        var mainCursor = _mainCommentCursorCache.GetValueOrDefault(targetId) ?? new CursorReq
-        {
-            Mode = Mode.Default,
-            Next = 0,
-            Prev = 0,
-        };
+        var mainCursor = isOneShot
+            ? new CursorReq
+            {
+                Mode = Mode.Default,
+                Next = 0,
+                Prev = 0,
+            }
+            : _mainCommentCursorCache.GetValueOrDefault(targetId) ?? new CursorReq
+            {
+                Mode = Mode.Default,
+                Next = 0,
+                Prev = 0,
+            };
         mainCursor.Mode = sort == CommentSortType.Time
             ? Mode.MainListTime
             : Mode.MainListHot;
@@ -197,7 +205,12 @@ public partial class CommunityProvider
         mainCursor.Mode = cursor.Mode;
         mainCursor.Next = cursor.Next;
         mainCursor.Prev = 0;
-        _mainCommentCursorCache[targetId] = mainCursor;
+
+        if (!isOneShot)
+        {
+            _mainCommentCursorCache[targetId] = mainCursor;
+        }
+
         var view = CommentAdapter.ConvertToCommentView(result, targetId);
         foreach (var item in view.Comments)
         {

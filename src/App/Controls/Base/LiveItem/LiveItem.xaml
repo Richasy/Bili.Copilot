@@ -6,6 +6,7 @@
 
     <Style x:Key="HorizontalLiveItemStyle" TargetType="local:LiveItem">
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Margin" Value="0,0,0,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveItem">

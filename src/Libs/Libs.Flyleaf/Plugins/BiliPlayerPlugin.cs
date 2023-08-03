@@ -45,10 +45,12 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                 var hasAudio = _playItem.Tag.TryGetValue("audio", out var audioObj);
                 var hasLive = _playItem.Tag.TryGetValue("live", out var liveObj);
                 var hasCookie = _playItem.Tag.TryGetValue("cookie", out var cookieObj);
+                var hasOnlyAudio = _playItem.Tag.TryGetValue("onlyAudio", out var onlyAudioObj);
 
                 var videoData = videoObj as SegmentInformation;
                 var audioData = audioObj as SegmentInformation;
                 var liveData = liveObj as string;
+                var onlyAudio = hasOnlyAudio && (bool)onlyAudioObj;
 
                 var headers = new Dictionary<string, string>();
                 if (hasCookie)
@@ -56,7 +58,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     headers.Add("Cookie", cookieObj.ToString());
                 }
 
-                if (hasVideo)
+                if (hasVideo && !onlyAudio)
                 {
                     var videoStream = new ExternalVideoStream()
                     {
@@ -93,15 +95,23 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                 {
                     headers.Add("Origin", "https://live.bilibili.com");
                     headers.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
-                    var videoStream = new ExternalVideoStream()
-                    {
-                        Url = liveData,
-                        Referrer = "https://live.bilibili.com",
-                        HTTPHeaders = headers,
-                        HasAudio = true,
-                    };
 
-                    AddExternalStream(videoStream, liveData, _playItem);
+                    ExternalStream externalStream = onlyAudio
+                        ? new ExternalAudioStream()
+                        {
+                            Url = liveData,
+                            Referrer = "https://live.bilibili.com",
+                            HTTPHeaders = headers,
+                        }
+                        : new ExternalVideoStream()
+                        {
+                            Url = liveData,
+                            Referrer = "https://live.bilibili.com",
+                            HTTPHeaders = headers,
+                            HasAudio = true,
+                        };
+
+                    AddExternalStream(externalStream, liveData, _playItem);
                 }
             }
         }

@@ -67,6 +67,16 @@ public sealed class SeasonItem : ReactiveControl<SeasonItemViewModel>, IRepeater
     public Size GetHolderSize()
         => new(200, 240);
 
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
+    {
+        if (ContextFlyout != null)
+        {
+            var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
+            rootCard.ContextFlyout = ContextFlyout;
+        }
+    }
+
     private static void OnInformationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as SeasonItem;
