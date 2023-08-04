@@ -46,6 +46,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
         _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
         _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
+        _appViewModel.RequestShowImages += OnRequestShowImages;
     }
 
     /// <summary>
@@ -150,6 +151,12 @@ public sealed partial class MainWindow : WindowBase
     private void OnRequestRead(object sender, ArticleInformation e)
     {
         var window = new ReaderWindow(e);
+        window.Activate();
+    }
+
+    private void OnRequestShowImages(object sender, ShowImageEventArgs e)
+    {
+        var window = new GalleryWindow(e);
         window.Activate();
     }
 

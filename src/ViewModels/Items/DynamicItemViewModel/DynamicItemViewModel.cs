@@ -115,7 +115,7 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
     {
         if (Data.User != null)
         {
-            // TODO: Show user detail.
+            AppViewModel.Instance.ShowUserDetailCommand.Execute(Data.User);
         }
     }
 

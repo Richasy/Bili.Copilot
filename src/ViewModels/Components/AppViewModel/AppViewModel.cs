@@ -10,7 +10,6 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
@@ -111,10 +110,8 @@ public sealed partial class AppViewModel : ViewModelBase
         => ActiveMainWindow?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
-    private static void ShowImages((List<Image> Source, int SelectedIndex) args)
-    {
-        // TODO: 打开图片.
-    }
+    private void ShowImages(ShowImageEventArgs args)
+        => RequestShowImages?.Invoke(this, args);
 
     [RelayCommand]
     private void OpenReader(ArticleInformation article)

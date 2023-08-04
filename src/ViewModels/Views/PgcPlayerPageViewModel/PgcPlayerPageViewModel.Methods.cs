@@ -22,12 +22,6 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PgcPlayerPageViewModel
 {
-    [RelayCommand]
-    private static void ShowSeasonDetail()
-    {
-        // TODO: 展示剧集详情.
-    }
-
     private void DisplayException(Exception exception)
     {
         IsError = true;

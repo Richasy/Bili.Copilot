@@ -65,6 +65,7 @@
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnDynamicViewIncrementalTriggered"
                 ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                Style="{StaticResource RepeaterStackStyle}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:DynamicItemViewModel">
