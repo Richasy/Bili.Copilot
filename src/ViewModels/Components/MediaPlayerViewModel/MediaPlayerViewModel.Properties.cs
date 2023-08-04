@@ -20,11 +20,16 @@ public sealed partial class MediaPlayerViewModel
     private SegmentInformation _video;
     private SegmentInformation _audio;
 
+    private string _recordingFileName;
+
     [ObservableProperty]
     private bool _isLoop;
 
     [ObservableProperty]
     private Player _player;
+
+    [ObservableProperty]
+    private bool _isRecording;
 
     /// <summary>
     /// 媒体打开时触发的事件.

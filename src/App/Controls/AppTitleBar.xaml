@@ -30,6 +30,9 @@
                 Click="OnBackButtonClick"
                 Visibility="{x:Bind BackButtonVisibility, Mode=OneWay}">
                 <base:FluentIcon FontSize="12" Symbol="ArrowLeft" />
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Back" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
             </Button>
             <Image
                 Grid.Column="1"
@@ -42,10 +45,10 @@
                 Grid.Column="2"
                 Margin="0,0,140,0"
                 VerticalAlignment="Center"
-                TextWrapping="NoWrap"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind Title, Mode=OneWay}"
-                TextTrimming="CharacterEllipsis" />
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
         </Grid>
     </Grid>
 </UserControl>

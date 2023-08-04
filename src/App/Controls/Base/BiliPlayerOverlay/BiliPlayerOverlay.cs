@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Models.Constants.App;
@@ -75,6 +76,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
             oldViewModel.DanmakuViewModel.SendDanmakuSucceeded -= OnSendDanmakuSucceeded;
             oldViewModel.DanmakuViewModel.PropertyChanged -= OnDanmakuViewModelPropertyChanged;
             oldViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+            oldViewModel.RequestShowTempMessage -= OnRequestShowTempMessage;
         }
 
         if (e.NewValue is PlayerDetailViewModel newViewModel)
@@ -85,6 +87,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
             newViewModel.DanmakuViewModel.SendDanmakuSucceeded += OnSendDanmakuSucceeded;
             newViewModel.DanmakuViewModel.PropertyChanged += OnDanmakuViewModelPropertyChanged;
             newViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            newViewModel.RequestShowTempMessage += OnRequestShowTempMessage;
         }
     }
 

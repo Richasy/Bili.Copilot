@@ -21,17 +21,6 @@
             <Setter Property="Padding" Value="0" />
             <Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
         </Style>
-        <Style x:Key="HiddenButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Width" Value="1" />
-            <Setter Property="Height" Value="1" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="TabFocusNavigation" Value="Once" />
-            <Setter Property="TabNavigation" Value="Once" />
-            <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
-            <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
-        </Style>
     </UserControl.Resources>
 
     <Grid
@@ -49,51 +38,7 @@
         <Grid.RenderTransform>
             <TranslateTransform x:Name="TranslateVertical" />
         </Grid.RenderTransform>
-        <Grid x:Name="HiddenControlsContainer">
-            <Button
-                x:Name="IncreaseVolumeButton"
-                Command="{x:Bind ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
-                Style="{StaticResource HiddenButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
-                </Button.KeyboardAccelerators>
-            </Button>
-            <Button
-                x:Name="DecreaseVolumeButton"
-                Command="{x:Bind ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
-                Style="{StaticResource HiddenButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
-                </Button.KeyboardAccelerators>
-            </Button>
-            <Button
-                x:Name="HiddenMiniViewButton"
-                Command="{x:Bind ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
-                Style="{StaticResource HiddenButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator
-                        Key="M"
-                        IsEnabled="True"
-                        Modifiers="Control" />
-                </Button.KeyboardAccelerators>
-            </Button>
-            <Button
-                x:Name="HiddenFullScreenButton"
-                Command="{x:Bind ViewModel.ToggleFullScreenModeCommand, Mode=OneWay}"
-                Style="{StaticResource HiddenButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
-                </Button.KeyboardAccelerators>
-            </Button>
-            <Button
-                x:Name="BackToDefaultButton"
-                Command="{x:Bind ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
-                Style="{StaticResource HiddenButtonStyle}">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
-                </Button.KeyboardAccelerators>
-            </Button>
-        </Grid>
+        
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
