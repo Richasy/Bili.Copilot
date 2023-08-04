@@ -49,6 +49,7 @@ public sealed partial class PlayerDetailViewModel
         var view = _viewData as VideoPlayerView;
         SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
         DanmakuViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id, _videoType);
+        DownloadViewModel.SetData("av" + view.Information.Identifier.Id, view.SubVideos);
     }
 
     private void CheckVideoHistory()

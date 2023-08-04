@@ -78,6 +78,22 @@
                                     </Button.KeyboardAccelerators>
                                 </Button>
                                 <Button
+                                    x:Name="ForwardSkipButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Right" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
+                                    x:Name="BackwardSkipButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackwardSkipCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Left" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
                                     x:Name="HiddenMiniViewButton"
                                     Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
                                     Style="{StaticResource HiddenButtonStyle}">

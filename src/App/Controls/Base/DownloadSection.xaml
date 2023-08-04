@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DownloadSectionBase
+    x:Class="Bili.Copilot.App.Controls.Base.DownloadSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Bili.Copilot.ViewModels"
+    mc:Ignorable="d">
+
+    <labs:SettingsExpander
+        HorizontalAlignment="Stretch"
+        Header="{ext:Locale Name=Download}"
+        IsEnabled="{x:Bind ViewModel.IsSupported, Mode=OneWay}">
+        <Button
+            Command="{x:Bind ViewModel.DownloadCommand, Mode=OneWay}"
+            Content="{ext:Locale Name=StartDownload}"
+            IsEnabled="{x:Bind ViewModel.IsDownloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+        <labs:SettingsExpander.Items>
+            <labs:SettingsCard Description="{ext:Locale Name=DownloadTip}" />
+            <labs:SettingsCard Description="{ext:Locale Name=BBDownConfigDescription}" Header="{ext:Locale Name=BBDownConfig}">
+                <Button Command="{x:Bind ViewModel.OpenConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenConfig}" />
+            </labs:SettingsCard>
+            <labs:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.IsMultiPartShown, Mode=OneWay}">
+                <StackPanel Spacing="4">
+                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=Parts}" />
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Parts, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                MinColumnSpacing="4"
+                                MinItemHeight="32"
+                                MinItemWidth="32"
+                                MinRowSpacing="4" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:VideoIdentifierSelectableViewModel">
+                                <local:CardPanel
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Click="OnPartItemClick"
+                                    DataContext="{x:Bind}"
+                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                    ToolTipService.ToolTip="{x:Bind Data.Title}">
+                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Index}" />
+                                </local:CardPanel>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+            </labs:SettingsCard>
+        </labs:SettingsExpander.Items>
+    </labs:SettingsExpander>
+</local:DownloadSectionBase>

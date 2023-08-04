@@ -57,6 +57,7 @@ public sealed partial class PlayerDetailViewModel
 
         SubtitleViewModel.SetData(_currentEpisode.VideoId, _currentEpisode.PartId);
         DanmakuViewModel.SetData(_currentEpisode.VideoId, _currentEpisode.PartId, _videoType);
+        DownloadViewModel.SetData("ss" + view.Information.Identifier.Id, view.Episodes.Select(p => p.Identifier));
         await InitializeEpisodeMediaInformationAsync();
         CheckEpisodeHistory();
         InitializeOriginalVideoSource();

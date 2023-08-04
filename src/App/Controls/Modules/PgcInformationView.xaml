@@ -243,6 +243,8 @@
                 <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsAudioOnly, Mode=OneWay}" Toggled="OnOnlyAudioToggledAsync" />
             </labs:SettingsCard>
 
+            <base:DownloadSection Margin="0,8,0,0" ViewModel="{x:Bind ViewModel.PlayerDetail.DownloadViewModel, Mode=OneWay}" />
+
             <!--  名称  -->
             <Grid
                 Margin="0,8,0,0"

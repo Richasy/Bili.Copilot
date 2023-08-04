@@ -8,6 +8,8 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="LazyLoadingThreshold" Value="300" />
+        <Setter Property="PlaceholderStretch" Value="Uniform" />
+        <Setter Property="PlaceholderSource" Value="ms-appx:///Assets/img_holder_rect.png" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ImageEx">

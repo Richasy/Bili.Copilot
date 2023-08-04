@@ -99,4 +99,5 @@ public enum SettingNames
     HideWhenCloseWindow,
     ShouldAskBeforeWindowClosed,
     AIConnectType,
+    OpenFolderWhenDownloaded,
 }
