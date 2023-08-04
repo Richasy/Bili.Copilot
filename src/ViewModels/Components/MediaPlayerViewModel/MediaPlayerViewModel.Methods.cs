@@ -96,7 +96,7 @@ public sealed partial class MediaPlayerViewModel
             _ = Directory.CreateDirectory(folderPath);
         }
 
-        var fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}_{Player.CurTime}.png";
+        var fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.png";
         var path = Path.Combine(folderPath, fileName);
         await Task.Run(() =>
         {
@@ -111,6 +111,41 @@ public sealed partial class MediaPlayerViewModel
                 _ = await Launcher.LaunchFileAsync(storageFile);
             }
         });
+    }
+
+    [RelayCommand]
+    private void StartRecording()
+    {
+        if (Player == null || IsRecording)
+        {
+            return;
+        }
+
+        var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "哔哩录屏");
+        if (!Directory.Exists(folderPath))
+        {
+            _ = Directory.CreateDirectory(folderPath);
+        }
+
+        var fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}";
+        _recordingFileName = Path.Combine(folderPath, fileName);
+        Player.StartRecording(ref _recordingFileName);
+    }
+
+    [RelayCommand]
+    private async Task StopRecordingAsync()
+    {
+        if (Player == null || !IsRecording)
+        {
+            return;
+        }
+
+        Player.StopRecording();
+        if (File.Exists(_recordingFileName))
+        {
+            var file = await StorageFile.GetFileFromPathAsync(_recordingFileName).AsTask();
+            await Launcher.LaunchFileAsync(file);
+        }
     }
 
     private void LoadDashVideoSource(bool onlyAudio)
@@ -293,6 +328,18 @@ public sealed partial class MediaPlayerViewModel
         else if (e.PropertyName == nameof(Player.CurTime))
         {
             PositionChanged?.Invoke(this, new MediaPositionChangedEventArgs(Position, TimeSpan.FromTicks(Player?.Duration ?? 0)));
+        }
+        else if (e.PropertyName == nameof(Player.IsRecording))
+        {
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                IsRecording = Player.IsRecording;
+
+                if (!IsRecording)
+                {
+                    _recordingFileName = string.Empty;
+                }
+            });
         }
     }
 

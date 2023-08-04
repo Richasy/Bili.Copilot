@@ -5,6 +5,19 @@
     xmlns:danmaku="using:Bili.Copilot.App.Controls.Danmaku"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
+
+    <Style x:Key="HiddenButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TabFocusNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
+        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+    </Style>
+
     <Style TargetType="local:BiliPlayerOverlay">
         <Setter Property="Template">
             <Setter.Value>
@@ -47,6 +60,51 @@
                             </Grid>
                         </SplitView.Pane>
                         <Grid>
+                            <Grid x:Name="HiddenControlsContainer">
+                                <Button
+                                    x:Name="IncreaseVolumeButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
+                                    x:Name="DecreaseVolumeButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
+                                    x:Name="HiddenMiniViewButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator
+                                            Key="M"
+                                            IsEnabled="True"
+                                            Modifiers="Control" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
+                                    x:Name="HiddenFullScreenButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullScreenModeCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                <Button
+                                    x:Name="BackToDefaultButton"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                                    Style="{StaticResource HiddenButtonStyle}">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                            </Grid>
                             <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <local:ImageEx Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" Stretch="UniformToFill" />
                                 <Border
@@ -85,6 +143,22 @@
                                             Text="{ext:Locale Name=Screenshot}">
                                             <MenuFlyoutItem.Icon>
                                                 <local:FluentIcon Symbol="Screenshot" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StartRecordingCommand}"
+                                            Text="{ext:Locale Name=StartRecording}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="Record" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StopRecordingCommand}"
+                                            Text="{ext:Locale Name=StopRecording}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="RecordStop" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RefreshCommand}" Text="{ext:Locale Name=Refresh}">
@@ -226,6 +300,16 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
+                            <Rectangle
+                                x:Name="RecordingBorder"
+                                Margin="1"
+                                RadiusX="8"
+                                RadiusY="8"
+                                Stroke="{ThemeResource SystemFillColorCriticalBrush}"
+                                StrokeDashArray="1,2"
+                                StrokeDashCap="Round"
+                                StrokeThickness="1"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Grid>
                     </SplitView>
                 </ControlTemplate>

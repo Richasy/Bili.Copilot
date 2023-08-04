@@ -22,8 +22,6 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class HttpProvider
 {
-    private const int _maxRequestCount = 5;
-    private static int _requestCount = 0;
     private static string _tempBuvid = string.Empty;
     private bool _disposedValue;
     private CookieContainer _cookieContainer;
@@ -49,7 +47,7 @@ public sealed partial class HttpProvider
             catch (InvalidOperationException exception)
             {
                 throw new ServiceException(
-                    new Models.BiliBili.ServerResponse
+                    new ServerResponse
                     {
                         Message = ServiceConstants.Messages.OverallTimeoutCannotBeSet,
                     },
@@ -77,7 +75,6 @@ public sealed partial class HttpProvider
         HttpResponseMessage response = null;
         try
         {
-            _requestCount++;
             await Task.Run(
                 async () =>
                 {
@@ -99,6 +96,7 @@ public sealed partial class HttpProvider
         }
         catch (ServiceException)
         {
+            InitHttpClient();
             throw;
         }
         catch (Exception exception)
@@ -117,7 +115,7 @@ public sealed partial class HttpProvider
 
     private static string GetBuvid()
     {
-        if (string.IsNullOrEmpty(_tempBuvid) || _requestCount > _maxRequestCount)
+        if (string.IsNullOrEmpty(_tempBuvid))
         {
             var macAddress = NetworkInterface.GetAllNetworkInterfaces()
                  .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
@@ -125,7 +123,6 @@ public sealed partial class HttpProvider
                  .FirstOrDefault();
             var buvidObj = new Buvid(macAddress);
             _tempBuvid = buvidObj.Generate();
-            _requestCount = 0;
         }
 
         return _tempBuvid;
@@ -234,6 +231,7 @@ public sealed partial class HttpProvider
 
     private void InitHttpClient()
     {
+        HttpClient?.Dispose();
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         _cookieContainer = new CookieContainer();
         var handler = new HttpClientHandler
@@ -246,6 +244,7 @@ public sealed partial class HttpProvider
         var client = new HttpClient(handler);
         client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue { NoCache = false, NoStore = false };
         client.DefaultRequestHeaders.Add("accept", ServiceConstants.DefaultAcceptString);
+        client.DefaultRequestHeaders.Add("user-agent", ServiceConstants.DefaultUserAgentString);
         HttpClient = client;
     }
 }

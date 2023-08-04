@@ -392,4 +392,7 @@ public partial class BiliPlayerOverlay
         var item = args.InvokedItem as PlayerSectionHeader;
         SectionHeaderItemInvoked?.Invoke(this, item);
     }
+
+    private void OnRequestShowTempMessage(object sender, string e)
+        => ShowTempMessage(e);
 }
