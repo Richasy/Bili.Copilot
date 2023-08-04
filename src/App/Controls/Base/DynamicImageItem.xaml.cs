@@ -53,7 +53,7 @@ public sealed partial class DynamicImageItem : UserControl
         var image = sender as ImageEx;
         var sources = ItemsSource as List<Models.Data.Appearance.Image>;
         var index = sources.ToList().IndexOf(image.DataContext as Models.Data.Appearance.Image);
-        AppViewModel.Instance.ShowImagesCommand.Execute((sources, index));
+        AppViewModel.Instance.ShowImagesCommand.Execute(new Models.App.Args.ShowImageEventArgs(sources, index));
     }
 
     private void LimitHeight()

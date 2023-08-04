@@ -108,6 +108,7 @@
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
+        <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="Forms\ReaderWindow.xaml" />
         <None Remove="Forms\UserSpaceWindow.xaml" />
@@ -116,6 +117,7 @@
         <None Remove="Pages\ArticlePage.xaml" />
         <None Remove="Pages\DynamicPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
+        <None Remove="Pages\GalleryPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
@@ -204,6 +206,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Pages\GalleryPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Forms\GalleryWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Settings\CloseBehaviorSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

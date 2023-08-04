@@ -872,6 +872,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="IgnoreVersion" xml:space="preserve">
     <value>忽略该版本</value>
   </data>
+  <data name="ImageGallery" xml:space="preserve">
+    <value>图片展示</value>
+  </data>
   <data name="Index" xml:space="preserve">
     <value>索引</value>
   </data>

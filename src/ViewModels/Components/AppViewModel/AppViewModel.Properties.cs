@@ -101,6 +101,11 @@ public sealed partial class AppViewModel
     public event EventHandler<ArticleIdentifier> RequestSummarizeArticleContent;
 
     /// <summary>
+    /// 请求显示图片.
+    /// </summary>
+    public event EventHandler<ShowImageEventArgs> RequestShowImages;
+
+    /// <summary>
     /// 激活主窗口.
     /// </summary>
     public event EventHandler ActiveMainWindow;
