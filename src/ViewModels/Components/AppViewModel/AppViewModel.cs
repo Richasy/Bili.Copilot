@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -15,7 +16,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
-using Windows.System;
+using Microsoft.UI.Dispatching;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -28,7 +29,10 @@ public sealed partial class AppViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="AppViewModel"/> class.
     /// </summary>
     private AppViewModel()
-        => NavigateItems = new ObservableCollection<NavigateItem>();
+    {
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        NavigateItems = new ObservableCollection<NavigateItem>();
+    }
 
     /// <summary>
     /// 初始化.
@@ -159,8 +163,24 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private async Task CheckAIFeatureAsync()
     {
-        var handlers = await Launcher.FindUriSchemeHandlersAsync("fancop").AsTask();
+        var handlers = await Windows.System.Launcher.FindUriSchemeHandlersAsync("fancop").AsTask();
         IsAISupported = handlers.Any();
+    }
+
+    [RelayCommand]
+    private void CheckBBDownExist()
+    {
+        var process = new Process();
+        process.StartInfo.FileName = "BBDown";
+        process.StartInfo.Arguments = "-h";
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.CreateNoWindow = true;
+        process.Start();
+        process.WaitForExit();
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            IsDownloadSupported = process.ExitCode == 0;
+        });
     }
 
     private void LoadNavItems()

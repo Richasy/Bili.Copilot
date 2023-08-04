@@ -187,4 +187,9 @@ public sealed partial class PlayerDetailViewModel
     /// 交互模块的视图模型.
     /// </summary>
     public InteractionModuleViewModel InteractionViewModel { get; }
+
+    /// <summary>
+    /// 下载模块的视图模型.
+    /// </summary>
+    public DownloadModuleViewModel DownloadViewModel { get; }
 }

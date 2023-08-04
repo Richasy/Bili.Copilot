@@ -272,6 +272,15 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   <data name="Bangumi" xml:space="preserve">
     <value>番剧</value>
   </data>
+  <data name="BBDown" xml:space="preserve">
+    <value>BBDown</value>
+  </data>
+  <data name="BBDownConfig" xml:space="preserve">
+    <value>BBDown 配置文件</value>
+  </data>
+  <data name="BBDownConfigDescription" xml:space="preserve">
+    <value>可以编辑该配置文件以添加自定义配置</value>
+  </data>
   <data name="BeLikeCount" xml:space="preserve">
     <value>点赞数</value>
   </data>
@@ -555,17 +564,8 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Download" xml:space="preserve">
     <value>下载</value>
   </data>
-  <data name="DownloadDanmaku" xml:space="preserve">
-    <value>下载弹幕</value>
-  </data>
-  <data name="DownloadFolder" xml:space="preserve">
-    <value>下载文件夹</value>
-  </data>
   <data name="DownloadTip" xml:space="preserve">
-    <value>应用本身不提供下载功能，但支持生成 BBDown 命令，具体的使用方法参见 帮助&amp;支持</value>
-  </data>
-  <data name="DownloadType" xml:space="preserve">
-    <value>下载类型</value>
+    <value>应用的下载功能依赖于 BBDown，需要你手动安装后才能正常使用下载功能</value>
   </data>
   <data name="DynamicCount" xml:space="preserve">
     <value>动态数</value>
@@ -1176,6 +1176,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="OnlyVideo" xml:space="preserve">
     <value>仅视频</value>
   </data>
+  <data name="OpenConfig" xml:space="preserve">
+    <value>打开配置</value>
+  </data>
   <data name="OpenDownloadPage" xml:space="preserve">
     <value>前往下载</value>
   </data>
@@ -1184,6 +1187,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="OpenFolder" xml:space="preserve">
     <value>打开文件夹</value>
+  </data>
+  <data name="OpenFolderWhenDownloaded" xml:space="preserve">
+    <value>下载完成后打开文件夹</value>
   </data>
   <data name="OpenInBrowser" xml:space="preserve">
     <value>在浏览器中打开</value>
@@ -1736,6 +1742,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Standard" xml:space="preserve">
     <value>标准</value>
+  </data>
+  <data name="StartDownload" xml:space="preserve">
+    <value>开始下载</value>
   </data>
   <data name="StartMethod" xml:space="preserve">
     <value>启动方式</value>

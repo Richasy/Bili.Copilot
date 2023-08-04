@@ -34,6 +34,7 @@
                                 </Grid.ColumnDefinitions>
                                 <base:ImageEx
                                     Width="100"
+                                    Height="60"
                                     VerticalAlignment="Stretch"
                                     CornerRadius="{StaticResource ControlCornerRadius}"
                                     DecodePixelWidth="200"

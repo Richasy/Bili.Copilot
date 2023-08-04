@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -19,6 +20,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AppViewModel
 {
+    private readonly DispatcherQueue _dispatcherQueue;
+
     [ObservableProperty]
     private bool _isBackButtonShown;
 
@@ -39,6 +42,9 @@ public sealed partial class AppViewModel
 
     [ObservableProperty]
     private bool _isAISupported;
+
+    [ObservableProperty]
+    private bool _isDownloadSupported;
 
     /// <summary>
     /// 在请求后退时触发.

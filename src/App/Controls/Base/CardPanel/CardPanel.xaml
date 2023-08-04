@@ -29,6 +29,7 @@
         <Setter Property="CheckedDisabledBorderBrush" Value="{ThemeResource ControlStrokeColorSecondaryBrush}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="FocusVisualMargin" Value="-3" />
         <Setter Property="FocusVisualPrimaryThickness" Value="2" />
@@ -36,6 +37,22 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:CardPanel">
                     <Grid x:Name="RootContainer" TabFocusNavigation="Once">
+                        <Rectangle
+                            x:Name="HostContainer"
+                            Fill="{TemplateBinding Background}"
+                            RadiusX="4"
+                            RadiusY="4"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding StrokeThickness}" />
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Canvas.ZIndex="1"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
@@ -121,22 +138,6 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Rectangle
-                            x:Name="HostContainer"
-                            Fill="{TemplateBinding Background}"
-                            RadiusX="4"
-                            RadiusY="4"
-                            Stroke="{TemplateBinding BorderBrush}"
-                            StrokeThickness="{TemplateBinding StrokeThickness}" />
-                        <ContentPresenter
-                            x:Name="ContentPresenter"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Canvas.ZIndex="1"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -168,6 +168,7 @@ public sealed partial class MainWindow : WindowBase
         if (args.WindowActivationState != WindowActivationState.Deactivated)
         {
             AppViewModel.Instance.CheckAIFeatureCommand.Execute(default);
+            AppViewModel.Instance.CheckBBDownExistCommand.Execute(default);
         }
     }
 
