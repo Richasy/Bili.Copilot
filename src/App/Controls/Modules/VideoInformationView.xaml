@@ -351,10 +351,10 @@
                 <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsAudioOnly, Mode=OneWay}" Toggled="OnOnlyAudioToggledAsync" />
             </labs:SettingsCard>
 
-            <base:DownloadSection ViewModel="{x:Bind ViewModel.PlayerDetail.DownloadViewModel, Mode=OneWay}" />
+            <base:DownloadSection Margin="0,-4,0,0" ViewModel="{x:Bind ViewModel.PlayerDetail.DownloadViewModel, Mode=OneWay}" />
 
             <!--  视频参数  -->
-            <base:MediaStatsPanel Margin="0,12,0,0" ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}">
+            <base:MediaStatsPanel Margin="0,8,0,0" ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}">
                 <base:MediaStatsPanel.AdditionalContent>
                     <StackPanel Spacing="4">
                         <TextBlock

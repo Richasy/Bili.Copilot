@@ -60,6 +60,18 @@
                             </Grid>
                         </SplitView.Pane>
                         <Grid>
+                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                <Rectangle
+                                    x:Name="RecordingBorder"
+                                    Margin="1"
+                                    RadiusX="8"
+                                    RadiusY="8"
+                                    Stroke="{ThemeResource SystemFillColorCriticalBrush}"
+                                    StrokeDashArray="1,2"
+                                    StrokeDashCap="Round"
+                                    StrokeThickness="1"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
                             <Grid x:Name="HiddenControlsContainer">
                                 <Button
                                     x:Name="IncreaseVolumeButton"
@@ -316,16 +328,6 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
-                            <Rectangle
-                                x:Name="RecordingBorder"
-                                Margin="1"
-                                RadiusX="8"
-                                RadiusY="8"
-                                Stroke="{ThemeResource SystemFillColorCriticalBrush}"
-                                StrokeDashArray="1,2"
-                                StrokeDashCap="Round"
-                                StrokeThickness="1"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}" />
                         </Grid>
                     </SplitView>
                 </ControlTemplate>

@@ -11,46 +11,56 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <labs:SettingsExpander
-        HorizontalAlignment="Stretch"
-        Header="{ext:Locale Name=Download}"
-        IsEnabled="{x:Bind ViewModel.IsSupported, Mode=OneWay}">
-        <Button
-            Command="{x:Bind ViewModel.DownloadCommand, Mode=OneWay}"
-            Content="{ext:Locale Name=StartDownload}"
-            IsEnabled="{x:Bind ViewModel.IsDownloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
-        <labs:SettingsExpander.Items>
-            <labs:SettingsCard Description="{ext:Locale Name=DownloadTip}" />
-            <labs:SettingsCard Description="{ext:Locale Name=BBDownConfigDescription}" Header="{ext:Locale Name=BBDownConfig}">
-                <Button Command="{x:Bind ViewModel.OpenConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenConfig}" />
-            </labs:SettingsCard>
-            <labs:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.IsMultiPartShown, Mode=OneWay}">
-                <StackPanel Spacing="4">
-                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=Parts}" />
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Parts, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout
-                                MinColumnSpacing="4"
-                                MinItemHeight="32"
-                                MinItemWidth="32"
-                                MinRowSpacing="4" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:VideoIdentifierSelectableViewModel">
-                                <local:CardPanel
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    Click="OnPartItemClick"
-                                    DataContext="{x:Bind}"
-                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
-                                    ToolTipService.ToolTip="{x:Bind Data.Title}">
-                                    <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Index}" />
-                                </local:CardPanel>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </StackPanel>
-            </labs:SettingsCard>
-        </labs:SettingsExpander.Items>
-    </labs:SettingsExpander>
+    <Grid>
+        <TextBlock
+            Foreground="{ThemeResource TextFillColorDisabledBrush}"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            Text="{ext:Locale Name=DownloadTip}"
+            TextWrapping="Wrap"
+            Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <labs:SettingsExpander
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Download}"
+            Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay}">
+            <Button
+                Command="{x:Bind ViewModel.DownloadCommand, Mode=OneWay}"
+                Content="{ext:Locale Name=StartDownload}"
+                IsEnabled="{x:Bind ViewModel.IsDownloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+            <labs:SettingsExpander.Items>
+                <labs:SettingsCard Description="{ext:Locale Name=BBDownConfigDescription}" Header="{ext:Locale Name=BBDownConfig}">
+                    <Button Command="{x:Bind ViewModel.OpenConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenConfig}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderWhenDownloaded, Mode=TwoWay}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.IsMultiPartShown, Mode=OneWay}">
+                    <StackPanel Spacing="4">
+                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=Parts}" />
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Parts, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    MinColumnSpacing="4"
+                                    MinItemHeight="32"
+                                    MinItemWidth="32"
+                                    MinRowSpacing="4" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="viewmodels:VideoIdentifierSelectableViewModel">
+                                    <local:CardPanel
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Click="OnPartItemClick"
+                                        DataContext="{x:Bind}"
+                                        IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                        ToolTipService.ToolTip="{x:Bind Data.Title}">
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind Index}" />
+                                    </local:CardPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </labs:SettingsCard>
+            </labs:SettingsExpander.Items>
+        </labs:SettingsExpander>
+    </Grid>
 </local:DownloadSectionBase>

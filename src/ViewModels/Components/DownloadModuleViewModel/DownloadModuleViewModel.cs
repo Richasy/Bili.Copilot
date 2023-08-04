@@ -92,5 +92,14 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
 
         process.Start();
         await process.WaitForExitAsync();
+
+        if (process.ExitCode == 0 && OpenFolderWhenDownloaded)
+        {
+            var folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
+            await Windows.System.Launcher.LaunchFolderAsync(folder);
+        }
     }
+
+    partial void OnOpenFolderWhenDownloadedChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.OpenFolderWhenDownloaded, value);
 }
