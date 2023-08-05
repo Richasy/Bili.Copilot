@@ -116,7 +116,6 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         }
 
         Player?.Stop();
-        Player.CurTime = 0;
         _isStopped = true;
     }
 
@@ -130,7 +129,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        if (Math.Abs(Player.Duration - Player.CurTime) < 1000)
+        if (Math.Abs(Player.Duration - Player.CurTime) < 3 * 1000 * 10000)
         {
             SeekTo(TimeSpan.Zero);
         }
@@ -143,7 +142,15 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// </summary>
     /// <param name="time">指定的时间.</param>
     public void SeekTo(TimeSpan time)
-        => Player?.Seek(Convert.ToInt32(time.TotalMilliseconds));
+    {
+        if (time.TotalMilliseconds >= Duration.TotalMilliseconds
+            || time.TotalSeconds - Position.TotalSeconds < 1)
+        {
+            return;
+        }
+
+        Player?.Seek(Convert.ToInt32(time.TotalMilliseconds));
+    }
 
     /// <summary>
     /// 设置播放速率.

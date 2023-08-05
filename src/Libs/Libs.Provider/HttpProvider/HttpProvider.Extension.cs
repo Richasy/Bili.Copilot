@@ -72,15 +72,10 @@ public sealed partial class HttpProvider
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        HttpResponseMessage response = null;
+        HttpResponseMessage response;
         try
         {
-            await Task.Run(
-                async () =>
-                {
-                    response = await HttpClient.SendAsync(request, cancellationToken);
-                },
-                cancellationToken);
+            response = await HttpClient.SendAsync(request, cancellationToken);
             await ThrowIfHasExceptionAsync(response);
         }
         catch (TaskCanceledException exception)
@@ -236,7 +231,7 @@ public sealed partial class HttpProvider
     private void InitHttpClient()
     {
         HttpClient?.Dispose();
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         _cookieContainer = new CookieContainer();
         var handler = new HttpClientHandler
         {
@@ -246,7 +241,7 @@ public sealed partial class HttpProvider
             CookieContainer = _cookieContainer,
         };
         var client = new HttpClient(handler);
-        client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue { NoCache = false, NoStore = false };
+        client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue { NoCache = true, NoStore = true };
         client.DefaultRequestHeaders.Add("accept", ServiceConstants.DefaultAcceptString);
         client.DefaultRequestHeaders.Add("user-agent", ServiceConstants.DefaultUserAgentString);
         HttpClient = client;

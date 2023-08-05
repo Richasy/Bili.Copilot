@@ -49,6 +49,7 @@
                     <base:VerticalRepeaterView.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:VideoIdentifierSelectableViewModel">
                             <base:CardPanel
+                                Margin="0,0,0,4"
                                 Click="OnPartItemClick"
                                 IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                 IsEnableCheck="True">

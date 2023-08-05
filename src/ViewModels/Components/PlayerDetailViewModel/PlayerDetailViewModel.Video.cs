@@ -31,6 +31,7 @@ public sealed partial class PlayerDetailViewModel
         }
 
         _currentPart = part;
+        _shouldMarkProgress = false;
         ResetMediaData();
         await LoadVideoAsync();
         StartTimers();
