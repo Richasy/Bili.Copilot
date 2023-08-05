@@ -182,6 +182,7 @@
         <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
         <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
+        <ProjectReference Include="..\Tasks\Tasks.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
     <ItemGroup>

@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Provider", "src\Libs\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Flyleaf", "src\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj", "{2B1FB1C6-BD03-4DF6-90DB-B77CEEA51CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Markdown", "src\Libs\Libs.Markdown\Libs.Markdown.csproj", "{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Markdown", "src\Libs\Libs.Markdown\Libs.Markdown.csproj", "{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks", "src\Tasks\Tasks.csproj", "{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -261,6 +263,22 @@ Global
 		{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}.Release|x64.Build.0 = Release|Any CPU
 		{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}.Release|x86.ActiveCfg = Release|Any CPU
 		{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}.Release|x86.Build.0 = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|x64.ActiveCfg = Debug|x64
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|x64.Build.0 = Debug|x64
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Debug|x86.Build.0 = Debug|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|ARM64.Build.0 = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|x64.ActiveCfg = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|x64.Build.0 = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|x86.ActiveCfg = Release|Any CPU
+		{E8365E57-DEF8-416B-BCDB-5F6657CAAE0D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
