@@ -24,6 +24,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferCodecCollection = new ObservableCollection<PreferCodec>();
         DecodeTypeCollection = new ObservableCollection<DecodeType>();
         PreferQualities = new ObservableCollection<PreferQuality>();
+        PreferAudioQualities = new ObservableCollection<PreferAudio>();
         AIConnectTypes = new ObservableCollection<AIConnectType>();
 
         InitializeSettings();
@@ -55,6 +56,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         // BackgroundTaskInitAsync();
         RoamingInit();
         PreferQualityInit();
+        PreferAudioInit();
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2023);
@@ -133,6 +135,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(PreferQuality):
                 WriteSetting(SettingNames.PreferQuality, PreferQuality);
                 break;
+            case nameof(PreferAudioQuality):
+                WriteSetting(SettingNames.PreferAudioQuality, PreferAudioQuality);
+                break;
             case nameof(AIConnectType):
                 WriteSetting(SettingNames.AIConnectType, AIConnectType);
                 break;
@@ -207,6 +212,18 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         PreferQuality = ReadSetting(SettingNames.PreferQuality, PreferQuality.HDFirst);
+    }
+
+    private void PreferAudioInit()
+    {
+        if (PreferAudioQualities.Count == 0)
+        {
+            PreferAudioQualities.Add(PreferAudio.Standard);
+            PreferAudioQualities.Add(PreferAudio.HighQuality);
+            PreferAudioQualities.Add(PreferAudio.Near);
+        }
+
+        PreferAudioQuality = ReadSetting(SettingNames.PreferAudioQuality, PreferAudio.Standard);
     }
 
     private void RoamingInit()

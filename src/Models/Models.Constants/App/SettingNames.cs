@@ -100,4 +100,5 @@ public enum SettingNames
     ShouldAskBeforeWindowClosed,
     AIConnectType,
     OpenFolderWhenDownloaded,
+    PreferAudioQuality,
 }

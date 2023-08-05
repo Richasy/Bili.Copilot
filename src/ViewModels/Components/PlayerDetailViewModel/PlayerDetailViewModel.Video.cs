@@ -136,9 +136,21 @@ public sealed partial class PlayerDetailViewModel
 
         if (_mediaInformation.AudioSegments != null)
         {
-            // 音频直接上最大码率.
-            var maxBandWidth = _mediaInformation.AudioSegments.Max(p => p.Bandwidth);
-            _audio = _mediaInformation.AudioSegments.First(p => p.Bandwidth == maxBandWidth);
+            var audioQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferAudioQuality, PreferAudio.Standard);
+            if (audioQuality == PreferAudio.HighQuality)
+            {
+                var maxBandWidth = _mediaInformation.AudioSegments.Max(p => p.Bandwidth);
+                _audio = _mediaInformation.AudioSegments.First(p => p.Bandwidth == maxBandWidth);
+            }
+            else if (audioQuality == PreferAudio.Near)
+            {
+                _audio = _mediaInformation.AudioSegments.OrderBy(p => Math.Abs(p.Bandwidth - _video.Bandwidth)).First();
+            }
+            else if (audioQuality == PreferAudio.Standard)
+            {
+                _audio = _mediaInformation.AudioSegments.Where(p => p.Bandwidth < 100000).FirstOrDefault()
+                    ?? _mediaInformation.AudioSegments.OrderBy(p => p.Bandwidth).First();
+            }
         }
 
         if (_video == null)
