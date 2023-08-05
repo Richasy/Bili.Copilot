@@ -60,7 +60,7 @@ public sealed partial class PlayerDetailViewModel
         DownloadViewModel.SetData("ss" + view.Information.Identifier.Id, view.Episodes.Select(p => p.Identifier));
         await InitializeEpisodeMediaInformationAsync();
         CheckEpisodeHistory();
-        InitializeOriginalVideoSource();
+        await InitializeOriginalVideoSourceAsync();
     }
 
     private void CheckEpisodeHistory()

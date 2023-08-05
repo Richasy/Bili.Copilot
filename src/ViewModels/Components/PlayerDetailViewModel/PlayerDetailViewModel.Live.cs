@@ -135,7 +135,7 @@ public sealed partial class PlayerDetailViewModel
             if (_videoType == Models.Constants.Bili.VideoType.Video
                 || _videoType == Models.Constants.Bili.VideoType.Pgc)
             {
-                SelectVideoFormat(CurrentFormat);
+                await SelectVideoFormatAsync(CurrentFormat);
             }
             else
             {

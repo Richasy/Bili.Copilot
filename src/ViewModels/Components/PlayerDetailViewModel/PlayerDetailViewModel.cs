@@ -154,11 +154,11 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             CurrentFormat = null;
         }
 
+        ResetPlayer();
         ResetMediaData();
         ResetVideoData();
         ResetLiveData();
         InitializePlaybackRates();
-        ResetPlayer();
     }
 
     [RelayCommand]
@@ -218,7 +218,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         if (_videoType is VideoType.Video
             or VideoType.Pgc)
         {
-            SelectVideoFormat(information);
+            await SelectVideoFormatAsync(information);
         }
         else if (_videoType == VideoType.Live)
         {

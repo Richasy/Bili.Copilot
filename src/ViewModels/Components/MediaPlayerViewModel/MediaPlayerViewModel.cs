@@ -83,6 +83,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     {
         _video = video;
         _audio = audio;
+        _isStopped = false;
         LoadDashVideoSource(audioOnly);
     }
 
@@ -94,6 +95,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     {
         _video = null;
         _audio = null;
+        _isStopped = false;
         LoadDashLiveSource(url, audioOnly);
     }
 
@@ -107,7 +109,16 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     /// 停止.
     /// </summary>
     public void Stop()
-        => Player?.Stop();
+    {
+        if (_isStopped)
+        {
+            return;
+        }
+
+        Player?.Stop();
+        Player.CurTime = 0;
+        _isStopped = true;
+    }
 
     /// <summary>
     /// 播放.
@@ -119,7 +130,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        if (Math.Abs(Player.Duration - Player.CurTime) < 100)
+        if (Math.Abs(Player.Duration - Player.CurTime) < 1000)
         {
             SeekTo(TimeSpan.Zero);
         }
@@ -161,7 +172,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         {
             if (disposing)
             {
-                Player?.Stop();
+                Stop();
                 Player?.Dispose();
             }
 
