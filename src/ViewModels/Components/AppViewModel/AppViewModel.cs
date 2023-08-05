@@ -183,6 +183,19 @@ public sealed partial class AppViewModel : ViewModelBase
         });
     }
 
+    [RelayCommand]
+    private async Task CheckUpdateAsync()
+    {
+        var data = await UpdateProvider.GetGitHubLatestReleaseAsync();
+        var currentVersion = AppToolkit.GetPackageVersion();
+        var ignoreVersion = SettingsToolkit.ReadLocalSetting(SettingNames.IgnoreVersion, string.Empty);
+        var args = new UpdateEventArgs(data);
+        if (args.Version != currentVersion && args.Version != ignoreVersion)
+        {
+            RequestShowUpdateDialog?.Invoke(this, args);
+        }
+    }
+
     private void LoadNavItems()
     {
         TryClear(NavigateItems);

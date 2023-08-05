@@ -101,7 +101,9 @@ public abstract class ViewModelBase : ObservableObject
     /// <param name="exception">错误信息.</param>
     protected void LogException(Exception exception)
     {
+#if DEBUG
         Debug.WriteLine(exception.StackTrace);
+#endif
         Logger.Error(exception);
     }
 }

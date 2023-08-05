@@ -18,10 +18,10 @@ public static class UpdateProvider
     private const string LatestReleaseUrl = "https://api.github.com/repos/Richasy/Bili.Copilot/releases/latest";
 
     /// <summary>
-    /// 获取Github最新的发布版本.
+    /// 获取GitHub最新的发布版本.
     /// </summary>
     /// <returns>最新发布版本.</returns>
-    public static async Task<GithubReleaseResponse> GetGithubLatestReleaseAsync()
+    public static async Task<GitHubReleaseResponse> GetGitHubLatestReleaseAsync()
     {
         using var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add(ServiceConstants.Headers.UserAgent, ServiceConstants.DefaultUserAgentString);
@@ -29,6 +29,6 @@ public static class UpdateProvider
         var response = await httpClient.SendAsync(request, new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token);
         _ = response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<GithubReleaseResponse>(content);
+        return JsonSerializer.Deserialize<GitHubReleaseResponse>(content);
     }
 }

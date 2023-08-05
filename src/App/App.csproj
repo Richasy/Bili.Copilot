@@ -109,6 +109,7 @@
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
+        <None Remove="Controls\UpdateDialog.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="Forms\ReaderWindow.xaml" />
@@ -215,6 +216,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\UpdateDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Base\DownloadSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
