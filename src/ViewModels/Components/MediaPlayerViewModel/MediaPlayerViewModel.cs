@@ -104,6 +104,12 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         => Player?.Pause();
 
     /// <summary>
+    /// 停止.
+    /// </summary>
+    public void Stop()
+        => Player?.Stop();
+
+    /// <summary>
     /// 播放.
     /// </summary>
     public void Play()
@@ -155,6 +161,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         {
             if (disposing)
             {
+                Player?.Stop();
                 Player?.Dispose();
             }
 

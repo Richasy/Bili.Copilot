@@ -35,7 +35,6 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
     {
-        ViewModel.PlayerDetail.Player?.Player?.Stop();
         ViewModel?.Dispose();
     }
 

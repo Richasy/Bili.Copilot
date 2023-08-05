@@ -87,13 +87,6 @@ public sealed partial class VideoPlayerPageViewModel
         }
     }
 
-    private void Share()
-    {
-        var dataTransferManager = DataTransferManager.GetForCurrentView();
-        dataTransferManager.DataRequested += OnShareDataRequested;
-        DataTransferManager.ShowShareUI();
-    }
-
     [RelayCommand]
     private void ChangeVideoPart(VideoIdentifier identifier)
     {
@@ -104,7 +97,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         CurrentVideoPart = VideoParts.FirstOrDefault(p => p.IsSelected).Data;
         CreatePlayNextAction();
-        _ = PlayerDetail.ChangePartCommand.ExecuteAsync(identifier);
+        PlayerDetail.ChangePartCommand.Execute(identifier);
     }
 
     private void CreatePlayNextAction()

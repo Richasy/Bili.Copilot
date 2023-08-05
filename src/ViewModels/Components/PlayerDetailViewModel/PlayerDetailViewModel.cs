@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
-using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
@@ -178,8 +177,6 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         {
             await LoadLiveAsync();
         }
-
-        // InitializeSmtc();
     }
 
     /// <summary>
@@ -217,7 +214,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             _initializeProgress = Player.Position;
         }
 
-        Player.Pause();
+        Player.Stop();
         if (_videoType is VideoType.Video
             or VideoType.Pgc)
         {
@@ -253,7 +250,6 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
     private void InitializePlayer()
     {
-        var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         InitializeDisplayModeText();
 
         if (Player == null)

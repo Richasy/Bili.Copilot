@@ -16,7 +16,6 @@ using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Windows.Media;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -112,6 +111,7 @@ public sealed partial class PlayerDetailViewModel
 
         if (Player != null)
         {
+            Player?.Stop();
             Player.MediaOpened -= OnMediaOpened;
             Player.MediaEnded -= OnMediaEnded;
             Player.PositionChanged -= OnMediaPositionChanged;

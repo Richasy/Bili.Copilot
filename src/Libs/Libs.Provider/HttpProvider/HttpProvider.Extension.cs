@@ -96,11 +96,15 @@ public sealed partial class HttpProvider
         }
         catch (ServiceException)
         {
-            InitHttpClient();
             throw;
         }
         catch (Exception exception)
         {
+            if (exception.InnerException is System.Net.Sockets.SocketException)
+            {
+                InitHttpClient();
+            }
+
             throw new ServiceException(
                     new ServerResponse
                     {

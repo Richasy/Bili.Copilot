@@ -44,7 +44,6 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     protected override void OnPageUnloaded()
     {
         ViewModel.PlayerDetail.ReportViewProgressCommand.Execute(default);
-        ViewModel.PlayerDetail.Player?.Player?.Stop();
         ViewModel?.Dispose();
     }
 

@@ -22,7 +22,16 @@ public sealed partial class AccountModule : AccountModuleBase
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-        => ViewModel.InitializeCommand.Execute(default);
+    {
+        if (string.IsNullOrEmpty(ViewModel.Name))
+        {
+            ViewModel.InitializeCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.InitializeUnreadCommand.Execute(default);
+        }
+    }
 
     private void OnSignOutItemClick(object sender, RoutedEventArgs e)
         => TraceLogger.LogSignOut();
