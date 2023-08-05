@@ -18,6 +18,8 @@
         <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
     </Style>
 
+    <Visibility x:Key="Collasped">Collapsed</Visibility>
+
     <Style TargetType="local:BiliPlayerOverlay">
         <Setter Property="Template">
             <Setter.Value>
@@ -60,239 +62,241 @@
                             </Grid>
                         </SplitView.Pane>
                         <Grid>
-                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                                <Rectangle
-                                    x:Name="RecordingBorder"
-                                    Margin="1"
-                                    RadiusX="8"
-                                    RadiusY="8"
-                                    Stroke="{ThemeResource SystemFillColorCriticalBrush}"
-                                    StrokeDashArray="1,2"
-                                    StrokeDashCap="Round"
-                                    StrokeThickness="1"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            </Grid>
-                            <Grid x:Name="HiddenControlsContainer">
-                                <Button
-                                    x:Name="IncreaseVolumeButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="Up" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="DecreaseVolumeButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="Down" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="ForwardSkipButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ForwardSkipCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="Right" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="BackwardSkipButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackwardSkipCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="Left" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="HiddenMiniViewButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator
-                                            Key="M"
-                                            IsEnabled="True"
-                                            Modifiers="Control" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="HiddenFullScreenButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullScreenModeCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="F11" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <Button
-                                    x:Name="BackToDefaultButton"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
-                                    Style="{StaticResource HiddenButtonStyle}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="Escape" IsEnabled="True" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                            </Grid>
-                            <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <local:ImageEx Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" Stretch="UniformToFill" />
-                                <Border
+                            <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                <Grid Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}, TargetNullValue={StaticResource Collasped}}">
+                                    <Rectangle
+                                        x:Name="RecordingBorder"
+                                        Margin="1"
+                                        RadiusX="8"
+                                        RadiusY="8"
+                                        Stroke="{ThemeResource SystemFillColorCriticalBrush}"
+                                        StrokeDashArray="1,2"
+                                        StrokeDashCap="Round"
+                                        StrokeThickness="1"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}, TargetNullValue={StaticResource Collasped}}" />
+                                </Grid>
+                                <Grid x:Name="HiddenControlsContainer">
+                                    <Button
+                                        x:Name="IncreaseVolumeButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="DecreaseVolumeButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="ForwardSkipButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Right" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="BackwardSkipButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackwardSkipCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Left" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="HiddenMiniViewButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayModeCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator
+                                                Key="M"
+                                                IsEnabled="True"
+                                                Modifiers="Control" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="HiddenFullScreenButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullScreenModeCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="BackToDefaultButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                </Grid>
+                                <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <local:ImageEx Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" Stretch="UniformToFill" />
+                                    <Border
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
+                                    <local:ImageEx
+                                        Width="120"
+                                        Height="120"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        CornerRadius="60"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}"
+                                        Stretch="UniformToFill" />
+                                </Grid>
+                                <danmaku:DanmakuView
+                                    x:Name="DanmakuView"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
-                                <local:ImageEx
-                                    Width="120"
-                                    Height="120"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    CornerRadius="60"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}"
-                                    Stretch="UniformToFill" />
-                            </Grid>
-                            <danmaku:DanmakuView
-                                x:Name="DanmakuView"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                DanmakuArea="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuArea}"
-                                DanmakuBold="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsDanmakuBold}"
-                                DanmakuFontFamily="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuFont}"
-                                DanmakuStyle="Shadow"
-                                Opacity="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuOpacity}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsShowDanmaku}" />
-                            <Rectangle
-                                x:Name="InteractionControl"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Fill="Transparent">
-                                <Rectangle.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            x:Name="TakeScreenshotItem"
-                                            MinWidth="200"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.TakeScreenshotCommand}"
-                                            Text="{ext:Locale Name=Screenshot}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="Screenshot" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem
-                                            x:Name="StartRecordingItem"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StartRecordingCommand}"
-                                            Text="{ext:Locale Name=StartRecording}"
-                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="Record" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StopRecordingCommand}"
-                                            Text="{ext:Locale Name=StopRecording}"
-                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="RecordStop" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RefreshCommand}" Text="{ext:Locale Name=Refresh}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="ArrowSync" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </Rectangle.ContextFlyout>
-                            </Rectangle>
-                            <Grid RowSpacing="8" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Grid
-                                    Padding="12,0"
-                                    VerticalAlignment="Bottom"
-                                    ColumnSpacing="12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid
-                                        x:Name="TempMessageContainer"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Visibility="Collapsed">
-                                        <Grid
-                                            x:Name="TempMessageGrid"
-                                            Padding="16,8"
-                                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
-                                            CornerRadius="{StaticResource ControlCornerRadius}">
-                                            <TextBlock
-                                                x:Name="TempMessageBlock"
-                                                MaxWidth="320"
-                                                TextWrapping="Wrap" />
-                                        </Grid>
-                                    </Grid>
-                                    <local:BiliPlayerTip
-                                        x:Name="PreviousViewInformer"
-                                        Title="{ext:Locale Name=ViewHistory}"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        ActionContent="{ext:Locale Name=ContinuePreviousView}"
-                                        AdditionalTitle="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressTipCountdown}"
-                                        CloseCommand="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ClearSourceProgressCommand}"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.JumpToLastProgressCommand}"
-                                        IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowProgressTip, Mode=TwoWay}"
-                                        Message="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressTip}" />
-
-                                    <local:BiliPlayerTip
-                                        x:Name="NextVideoInformer"
-                                        Title="{ext:Locale Name=PlayNextVideo}"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        ActionContent="{ext:Locale Name=PlayNow}"
-                                        AdditionalTitle="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextVideoCountdown}"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextVideoCommand}"
-                                        IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowNextVideoTip, Mode=TwoWay}"
-                                        Message="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextVideoTipText}" />
-                                </Grid>
-
-                                <local:InteractionChoicePanel
-                                    x:Name="ChoiceContainer"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInteractionVideo, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                                <Grid Grid.Row="2" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.HasSubtitles}">
-                                    <Grid
-                                        x:Name="SubtitleContainer"
-                                        Margin="24,4"
-                                        HorizontalAlignment="Center"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CanShowSubtitle}">
-                                        <Grid
-                                            Background="{ThemeResource MediaTransportControlsPanelBackground}"
-                                            CornerRadius="{StaticResource OverlayCornerRadius}"
-                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                            <TextBlock
-                                                x:Name="SubtitleBlock"
-                                                MaxWidth="1200"
-                                                Margin="16,8"
-                                                HorizontalAlignment="Center"
-                                                FontSize="22"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle}"
-                                                TextTrimming="CharacterEllipsis"
-                                                TextWrapping="Wrap" />
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                                <local:BiliTransportControls
-                                    x:Name="TransportControls"
-                                    Grid.Row="3"
-                                    Margin="12"
+                                    DanmakuArea="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuArea}"
+                                    DanmakuBold="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsDanmakuBold}"
+                                    DanmakuFontFamily="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuFont}"
+                                    DanmakuStyle="Shadow"
+                                    Opacity="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.DanmakuOpacity}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuViewModel.IsShowDanmaku}" />
+                                <Rectangle
+                                    x:Name="InteractionControl"
                                     HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Bottom"
-                                    DetailContent="{TemplateBinding MediaPresenter}"
-                                    IsLive="{TemplateBinding IsLive}"
-                                    ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
+                                    VerticalAlignment="Stretch"
+                                    Fill="Transparent">
+                                    <Rectangle.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                x:Name="TakeScreenshotItem"
+                                                MinWidth="200"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.TakeScreenshotCommand}"
+                                                Text="{ext:Locale Name=Screenshot}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <local:FluentIcon Symbol="Screenshot" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                x:Name="StartRecordingItem"
+                                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StartRecordingCommand}"
+                                                Text="{ext:Locale Name=StartRecording}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityReverseConverter}, TargetNullValue={StaticResource Collasped}}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <local:FluentIcon Symbol="Record" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StopRecordingCommand}"
+                                                Text="{ext:Locale Name=StopRecording}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}, TargetNullValue={StaticResource Collasped}}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <local:FluentIcon Symbol="RecordStop" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RefreshCommand}" Text="{ext:Locale Name=Refresh}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <local:FluentIcon Symbol="ArrowSync" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Rectangle.ContextFlyout>
+                                </Rectangle>
+                                <Grid RowSpacing="8" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsError, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid
+                                        Padding="12,0"
+                                        VerticalAlignment="Bottom"
+                                        ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid
+                                            x:Name="TempMessageContainer"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Visibility="Collapsed">
+                                            <Grid
+                                                x:Name="TempMessageGrid"
+                                                Padding="16,8"
+                                                Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                                <TextBlock
+                                                    x:Name="TempMessageBlock"
+                                                    MaxWidth="320"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </Grid>
+                                        <local:BiliPlayerTip
+                                            x:Name="PreviousViewInformer"
+                                            Title="{ext:Locale Name=ViewHistory}"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            ActionContent="{ext:Locale Name=ContinuePreviousView}"
+                                            AdditionalTitle="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressTipCountdown}"
+                                            CloseCommand="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ClearSourceProgressCommand}"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.JumpToLastProgressCommand}"
+                                            IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowProgressTip, Mode=TwoWay}"
+                                            Message="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressTip}" />
+
+                                        <local:BiliPlayerTip
+                                            x:Name="NextVideoInformer"
+                                            Title="{ext:Locale Name=PlayNextVideo}"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            ActionContent="{ext:Locale Name=PlayNow}"
+                                            AdditionalTitle="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextVideoCountdown}"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextVideoCommand}"
+                                            IsOpen="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowNextVideoTip, Mode=TwoWay}"
+                                            Message="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextVideoTipText}" />
+                                    </Grid>
+
+                                    <local:InteractionChoicePanel
+                                        x:Name="ChoiceContainer"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInteractionVideo, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                    <Grid Grid.Row="2" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.HasSubtitles}">
+                                        <Grid
+                                            x:Name="SubtitleContainer"
+                                            Margin="24,4"
+                                            HorizontalAlignment="Center"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CanShowSubtitle}">
+                                            <Grid
+                                                Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                                                CornerRadius="{StaticResource OverlayCornerRadius}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                                <TextBlock
+                                                    x:Name="SubtitleBlock"
+                                                    MaxWidth="1200"
+                                                    Margin="16,8"
+                                                    HorizontalAlignment="Center"
+                                                    FontSize="22"
+                                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="Wrap" />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <local:BiliTransportControls
+                                        x:Name="TransportControls"
+                                        Grid.Row="3"
+                                        Margin="12"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Bottom"
+                                        DetailContent="{TemplateBinding MediaPresenter}"
+                                        IsLive="{TemplateBinding IsLive}"
+                                        ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
