@@ -364,3 +364,4 @@ tools/Prompt.txt
 
 # Plugin package
 *.fcpkg
+/src/App/Assets/AppCenterSecret.txt
