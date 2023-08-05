@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap rescap">
 
     <Identity
-      Name="87453f96-70e8-4a9a-84af-8856d0327480"
-      Publisher="CN=richasy"
+      Name="Richasy.Bili.Copilot"
+      Publisher="CN=Richasy"
       Version="1.0.0.0" />
 
     <mp:PhoneIdentity PhoneProductId="87453f96-70e8-4a9a-84af-8856d0327480" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
     <Properties>
         <DisplayName>ms-resource:AppName</DisplayName>
-        <PublisherDisplayName>zrich</PublisherDisplayName>
+        <PublisherDisplayName>Richasy</PublisherDisplayName>
         <Logo>Assets\Logo\StoreLogo.png</Logo>
     </Properties>
 

@@ -40,7 +40,7 @@
 - [ ] 新组件
   - [ ] 已经准备了关于新组件的说明文档，文档链接：[link]()
   - [ ] 对于控件，已将控件放在主项目的 Controls 文件夹内
-- [ ] 主要的功能修改已经添加至 [Wiki](https://github.com/Richasy/BiliCopilot/wiki)
+- [ ] 主要的功能修改已经添加至 [Wiki](https://github.com/Richasy/Bili.Copilot/wiki)
 - [ ] 文件头已经被添加至所有源文件中
 - [ ] **不**包含破坏式更新
 

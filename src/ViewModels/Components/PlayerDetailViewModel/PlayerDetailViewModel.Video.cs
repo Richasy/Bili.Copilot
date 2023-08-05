@@ -35,8 +35,6 @@ public sealed partial class PlayerDetailViewModel
         ResetMediaData();
         await LoadVideoAsync();
         StartTimers();
-
-        // InitializeSmtc();
     }
 
     private async Task LoadVideoAsync()
