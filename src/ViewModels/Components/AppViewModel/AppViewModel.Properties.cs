@@ -77,6 +77,11 @@ public sealed partial class AppViewModel
     public event EventHandler<string> RequestShowMessage;
 
     /// <summary>
+    /// 请求显示升级提示.
+    /// </summary>
+    public event EventHandler<UpdateEventArgs> RequestShowUpdateDialog;
+
+    /// <summary>
     /// 在有搜索请求时触发.
     /// </summary>
     public event EventHandler<string> RequestSearch;

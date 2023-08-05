@@ -1,44 +1,44 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.App.Other;
 
 /// <summary>
-/// GithubµÄ·¢²¼ÏìÓ¦½á¹û.
+/// GitHubçš„å‘å¸ƒå“åº”ç»“æœ.
 /// </summary>
-public class GithubReleaseResponse
+public class GitHubReleaseResponse
 {
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("html_url")]
     public string Url { get; set; }
 
     /// <summary>
-    /// °æ±¾±êÇ©.
+    /// ç‰ˆæœ¬æ ‡ç­¾.
     /// </summary>
     [JsonPropertyName("tag_name")]
     public string TagName { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÔ¤·¢²¼°æ±¾.
+    /// æ˜¯å¦ä¸ºé¢„å‘å¸ƒç‰ˆæœ¬.
     /// </summary>
     [JsonPropertyName("prerelease")]
     public bool IsPreRelease { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä.
+    /// å‘å¸ƒæ—¶é—´.
     /// </summary>
     [JsonPropertyName("published_at")]
     public DateTime PublishTime { get; set; }
 
     /// <summary>
-    /// ·¢²¼ËµÃ÷.
+    /// å‘å¸ƒè¯´æ˜.
     /// </summary>
     [JsonPropertyName("body")]
     public string Description { get; set; }

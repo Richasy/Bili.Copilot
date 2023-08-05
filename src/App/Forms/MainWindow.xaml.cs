@@ -22,6 +22,7 @@ namespace Bili.Copilot.App.Forms;
 public sealed partial class MainWindow : WindowBase
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
+    private bool _isInitialized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -37,6 +38,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
+        _appViewModel.RequestShowUpdateDialog += OnAppViewModelRequestShowUpdateDialogAsync;
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
         _appViewModel.RequestSearch += OnRequestSearch;
@@ -75,7 +77,19 @@ public sealed partial class MainWindow : WindowBase
     }
 
     private async void OnTitleBarLoadedAsync(object sender, RoutedEventArgs e)
-        => await _appViewModel.InitializeAsync();
+    {
+        if (_isInitialized)
+        {
+            return;
+        }
+
+        await _appViewModel.InitializeAsync();
+
+#if !DEBUG
+        _appViewModel.CheckUpdateCommand.Execute(default);
+#endif
+        _isInitialized = true;
+    }
 
     private void OnAppViewModelNavigateRequest(object sender, AppNavigationEventArgs e)
     {
@@ -106,6 +120,15 @@ public sealed partial class MainWindow : WindowBase
     private async void OnAppViewModelRequestShowMessageAsync(object sender, string e)
     {
         var dialog = new TipDialog(e)
+        {
+            XamlRoot = Content.XamlRoot,
+        };
+        _ = await dialog.ShowAsync();
+    }
+
+    private async void OnAppViewModelRequestShowUpdateDialogAsync(object sender, UpdateEventArgs e)
+    {
+        var dialog = new UpdateDialog(e)
         {
             XamlRoot = Content.XamlRoot,
         };

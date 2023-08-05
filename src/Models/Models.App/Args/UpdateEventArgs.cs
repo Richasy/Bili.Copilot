@@ -13,7 +13,7 @@ public class UpdateEventArgs : EventArgs
     /// Initializes a new instance of the <see cref="UpdateEventArgs"/> class.
     /// </summary>
     /// <param name="response">ÏìÓ¦½á¹û.</param>
-    public UpdateEventArgs(GithubReleaseResponse response)
+    public UpdateEventArgs(GitHubReleaseResponse response)
     {
         Version = response.TagName.Replace("v", string.Empty)
             .Replace(".pre-release", string.Empty);
