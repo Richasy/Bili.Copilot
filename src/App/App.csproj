@@ -13,11 +13,8 @@
         <AssemblyName>Bili.Copilot.App</AssemblyName>
         <DefaultLanguage>zh-CN</DefaultLanguage>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
-        <PublishTrimmed>true</PublishTrimmed>
-        <TrimMode>partial</TrimMode>
+        <PackageCertificateKeyFile>App_TemporaryKey.pfx</PackageCertificateKeyFile>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     </PropertyGroup>
     <ItemGroup>
       <Content Remove="Assets\ffmpeg\avcodec-60.dll" />

@@ -23,6 +23,7 @@
                             <base:VerticalRepeaterView.ItemTemplate>
                                 <DataTemplate x:DataType="viewmodels:EpisodeItemViewModel">
                                     <base:CardPanel
+                                        Margin="0,0,0,4"
                                         Click="OnEpisodeItemClick"
                                         IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                         IsEnableCheck="False">

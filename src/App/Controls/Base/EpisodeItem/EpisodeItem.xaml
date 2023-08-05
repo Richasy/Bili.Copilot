@@ -53,7 +53,9 @@
                                     <local:ImageEx
                                         x:Name="CoverImage"
                                         Width="180"
+                                        Height="80"
                                         VerticalAlignment="Stretch"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                         Stretch="UniformToFill" />
 
@@ -170,15 +172,15 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Grid
-                            x:Name="CoverContainer"
-                            Width="120"
-                            VerticalAlignment="Stretch"
-                            CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Grid x:Name="CoverContainer" VerticalAlignment="Stretch">
                             <local:ImageEx
                                 x:Name="CoverImage"
+                                Width="120"
+                                Height="80"
                                 VerticalAlignment="Stretch"
-                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                Stretch="UniformToFill" />
 
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Ellipse

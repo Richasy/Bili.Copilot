@@ -20,7 +20,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="Container" Background="{ThemeResource SystemFillColorSolidNeutralBackgroundBrush}">
+    <Grid x:Name="Container">
         <Button
             x:Name="NextButton"
             Width="0"

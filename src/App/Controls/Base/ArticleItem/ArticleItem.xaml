@@ -239,7 +239,8 @@
                             Grid.Row="1"
                             Height="100"
                             CornerRadius="{StaticResource ControlCornerRadius}"
-                            Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                            Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                            Stretch="UniformToFill" />
 
                         <TextBlock
                             x:Name="AdditionalBlock"
