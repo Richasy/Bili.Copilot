@@ -28,6 +28,7 @@ public sealed partial class SearchBoxModule : SearchBoxModuleBase
     private void OnHotSearchClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement).DataContext as SearchSuggest;
+        TraceLogger.LogHotSearchClick();
         ViewModel.SearchBySuggestCommand.Execute(data);
     }
 

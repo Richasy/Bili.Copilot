@@ -77,6 +77,7 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
     {
         var control = sender as ToggleSwitch;
         var isAudioOnly = control.IsOn;
+        TraceLogger.LogOnlyAudioChanged(isAudioOnly, "Pgc");
         if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
         {
             ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);

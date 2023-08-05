@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Collections.Generic;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Models.Constants.App;
@@ -104,6 +103,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
         _rootSplitView = GetTemplateChild("RootSplitView") as SplitView;
         var sectionView = GetTemplateChild("SectionNavigationView") as NavigationView;
+        var takeScreenshotItem = GetTemplateChild("TakeScreenshotItem") as MenuFlyoutItem;
+        var startRecordingItem = GetTemplateChild("StartRecordingItem") as MenuFlyoutItem;
 
         _gestureRecognizer = new GestureRecognizer
         {
@@ -126,6 +127,8 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
         _transportControls.DetailButtonClicked += OnDetailButtonClicked;
         sectionView.ItemInvoked += OnSectionViewItemInvoked;
+        takeScreenshotItem.Click += OnTakeScreenshotItemClick;
+        startRecordingItem.Click += OnStartRecordingItemClick;
 
         CheckDanmakuZoom();
         ResizeSubtitle();

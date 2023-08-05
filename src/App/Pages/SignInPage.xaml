@@ -24,6 +24,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel
             x:Name="GuidePanel"
@@ -143,5 +144,15 @@
                 </Button>
             </StackPanel>
         </StackPanel>
+
+        <TextBlock
+            Grid.Row="2"
+            MaxWidth="320"
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center"
+            Foreground="{ThemeResource TextFillColorDisabledBrush}"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            Text="{ext:Locale Name=DataCollectWarning}"
+            TextAlignment="Center" />
     </Grid>
 </base:PageBase>

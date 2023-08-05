@@ -48,6 +48,7 @@ public sealed partial class SignInPage : PageBase
                 break;
             case QRCodeStatus.Success:
                 _authorizeProvider.StopQRLoginListener();
+                TraceLogger.LogSignIn();
                 await CoreViewModel.InitializeAsync();
                 break;
             case QRCodeStatus.Failed:

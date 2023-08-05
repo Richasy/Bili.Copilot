@@ -30,6 +30,7 @@
                     Height="36"
                     VerticalAlignment="Center"
                     Avatar="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.Author.ShowDetailCommand, Mode=OneWay}"
                     DecodeSize="100"
                     IsEnabled="False"
                     UserName="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />

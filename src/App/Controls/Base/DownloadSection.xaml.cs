@@ -20,6 +20,9 @@ public sealed partial class DownloadSection : DownloadSectionBase
         var context = (sender as FrameworkElement)?.DataContext as VideoIdentifierSelectableViewModel;
         context.IsSelected = !context.IsSelected;
     }
+
+    private void OnDownloadButtonClick(object sender, RoutedEventArgs e)
+        => TraceLogger.LogDownload(ViewModel.VideoType.ToString());
 }
 
 /// <summary>

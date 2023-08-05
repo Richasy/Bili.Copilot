@@ -28,7 +28,10 @@
 
                             <local:CardPanel.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
+                                    <MenuFlyoutItem
+                                        x:Name="PrivatePlayItem"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
+                                        Text="{ext:Locale Name=PlayInPrivate}">
                                         <MenuFlyoutItem.Icon>
                                             <local:FluentIcon Symbol="WindowInprivate" />
                                         </MenuFlyoutItem.Icon>

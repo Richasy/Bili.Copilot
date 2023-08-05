@@ -88,6 +88,7 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
     {
         var control = sender as ToggleSwitch;
         var isAudioOnly = control.IsOn;
+        TraceLogger.LogOnlyAudioChanged(isAudioOnly, "Video");
         if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
         {
             ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);

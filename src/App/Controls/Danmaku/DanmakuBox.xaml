@@ -21,6 +21,7 @@
                 MinWidth="0"
                 AutomationProperties.Name="{ext:Locale Name=DanmakuSwitch}"
                 IsOn="{x:Bind ViewModel.IsShowDanmaku, Mode=TwoWay}"
+                Toggled="OnDanmakuVisibilityToggled"
                 ToolTipService.ToolTip="{ext:Locale Name=DanmakuSwitch}" />
         </StackPanel>
         <AutoSuggestBox

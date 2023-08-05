@@ -166,6 +166,7 @@
                                 <Rectangle.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
+                                            x:Name="TakeScreenshotItem"
                                             MinWidth="200"
                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.TakeScreenshotCommand}"
                                             Text="{ext:Locale Name=Screenshot}">
@@ -174,6 +175,7 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
+                                            x:Name="StartRecordingItem"
                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StartRecordingCommand}"
                                             Text="{ext:Locale Name=StartRecording}"
                                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityReverseConverter}}">

@@ -96,6 +96,7 @@ public sealed partial class MainWindow : WindowBase
             _ => throw new NotImplementedException(),
         };
 
+        TraceLogger.LogMainPageNavigation(e.PageId.ToString());
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
 

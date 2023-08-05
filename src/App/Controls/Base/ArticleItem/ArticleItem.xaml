@@ -64,7 +64,9 @@
                                     <local:ImageEx
                                         x:Name="CoverImage"
                                         Width="180"
+                                        Height="120"
                                         VerticalAlignment="Stretch"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
                                         Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                         Stretch="UniformToFill" />
                                 </Grid>

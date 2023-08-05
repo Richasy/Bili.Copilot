@@ -221,6 +221,12 @@ public partial class BiliPlayerOverlay
         }
     }
 
+    private void OnStartRecordingItemClick(object sender, RoutedEventArgs e)
+        => TraceLogger.LogRecordingStart();
+
+    private void OnTakeScreenshotItemClick(object sender, RoutedEventArgs e)
+        => TraceLogger.LogTakeScreenshot();
+
     private void OnInteractionControlTapped(object sender, TappedRoutedEventArgs e)
     {
         if (_isHolding)
@@ -382,7 +388,10 @@ public partial class BiliPlayerOverlay
     }
 
     private void OnOpenInBrowserButtonClick(object sender, RoutedEventArgs e)
-        => ViewModel.OpenInBrowserCommand.Execute(default);
+    {
+        TraceLogger.LogPlayerOpenInBrowser();
+        ViewModel.OpenInBrowserCommand.Execute(default);
+    }
 
     private void OnDetailButtonClicked(object sender, EventArgs e)
         => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;

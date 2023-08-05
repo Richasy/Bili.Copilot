@@ -20,6 +20,7 @@ public sealed partial class LiveInformationView : LiveInformationViewBase
     {
         var control = sender as ToggleSwitch;
         var isAudioOnly = control.IsOn;
+        TraceLogger.LogOnlyAudioChanged(isAudioOnly, "Live");
         if (ViewModel.PlayerDetail.IsAudioOnly != isAudioOnly)
         {
             ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);

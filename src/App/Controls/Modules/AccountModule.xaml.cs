@@ -23,6 +23,9 @@ public sealed partial class AccountModule : AccountModuleBase
 
     private void OnLoaded(object sender, RoutedEventArgs e)
         => ViewModel.InitializeCommand.Execute(default);
+
+    private void OnSignOutItemClick(object sender, RoutedEventArgs e)
+        => TraceLogger.LogSignOut();
 }
 
 /// <summary>

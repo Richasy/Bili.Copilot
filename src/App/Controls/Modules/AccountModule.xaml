@@ -90,7 +90,10 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.SignOutCommand}" Text="{ext:Locale Name=SignOut}">
+                            <MenuFlyoutItem
+                                Click="OnSignOutItemClick"
+                                Command="{x:Bind ViewModel.SignOutCommand}"
+                                Text="{ext:Locale Name=SignOut}">
                                 <MenuFlyoutItem.Icon>
                                     <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="SignOut" />
                                 </MenuFlyoutItem.Icon>

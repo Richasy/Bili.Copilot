@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Video;
@@ -38,6 +39,8 @@ public sealed partial class AIFeatureDialog : ContentDialog
 
     private async void OnLoadedAsync(object sender, RoutedEventArgs e)
     {
+        var connectType = SettingsToolkit.ReadLocalSetting(SettingNames.AIConnectType, AIConnectType.AppService);
+        TraceLogger.LogAIOpen(_type.ToString(), connectType.ToString());
         if (_type == AIFeatureType.VideoSummarize)
         {
             _viewModel.SummarizeVideoCommand.Execute((VideoIdentifier)_data);

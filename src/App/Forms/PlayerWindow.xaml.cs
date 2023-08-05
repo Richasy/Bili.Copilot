@@ -8,8 +8,10 @@ using Bili.Copilot.App.Pages;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -40,6 +42,7 @@ public sealed partial class PlayerWindow : WindowBase
         Height = 720;
         MinWidth = 560;
         MinHeight = 320;
+        AppWindow.Changed += OnAppWindowChanged;
     }
 
     /// <summary>
@@ -66,6 +69,12 @@ public sealed partial class PlayerWindow : WindowBase
         {
             _ = MainFrame.Navigate(typeof(PgcPlayerPage), navArgs);
         }
+
+        TraceLogger.LogPlayerOpen(
+            snapshot.VideoType.ToString(),
+            SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264).ToString(),
+            SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQuality.HDFirst).ToString(),
+            SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString());
     }
 
     /// <summary>
@@ -89,6 +98,15 @@ public sealed partial class PlayerWindow : WindowBase
         MainFrame.Navigate(typeof(Page));
         MainWindow.Instance.Activate();
         GC.Collect();
+    }
+
+    private void OnAppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)
+    {
+        if (args.DidPresenterChange)
+        {
+            var kind = sender.Presenter.Kind;
+            TraceLogger.LogPlayerDisplayModeChanged(kind.ToString());
+        }
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)

@@ -30,6 +30,7 @@
       <Content Remove="Assets\ffmpeg\swscale-7.dll" />
     </ItemGroup>
     <ItemGroup>
+        <None Remove="Assets\AppCenterSecret.txt" />
         <None Remove="Assets\BBDown.config" />
         <None Remove="Assets\ERROR_rgba.png" />
         <None Remove="Assets\FluentIcon.ttf" />
@@ -154,6 +155,8 @@
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.112" />
+        <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.2" />
+        <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.2" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.18-beta">
             <PrivateAssets>all</PrivateAssets>
@@ -186,6 +189,9 @@
     </ItemGroup>
     <ItemGroup>
       <Content Update="Assets\BBDown.config">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Content>
+      <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
       <None Update="Assets\ffmpeg\avcodec-60.dll">

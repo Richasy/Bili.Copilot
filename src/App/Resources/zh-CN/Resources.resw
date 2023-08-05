@@ -510,6 +510,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="DataAnalysis" xml:space="preserve">
     <value>数据分析</value>
   </data>
+  <data name="DataCollectWarning" xml:space="preserve">
+    <value>应用会采集一些使用数据（不包含隐私信息）用以进行功能分析，您使用本软件将被视作同意采集数据</value>
+  </data>
   <data name="DecodeType" xml:space="preserve">
     <value>解码类型</value>
   </data>

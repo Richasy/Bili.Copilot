@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -27,5 +29,15 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
             var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
             rootCard.ContextFlyout = ContextFlyout;
         }
+        else
+        {
+            var privatePlayItem = GetTemplateChild("PrivatePlayItem") as MenuFlyoutItem;
+            if(privatePlayItem != null)
+            {
+                privatePlayItem.Click += OnPrivatePlayItemClick;
+            }
+        }
     }
+
+    private void OnPrivatePlayItemClick(object sender, RoutedEventArgs e) => throw new NotImplementedException();
 }

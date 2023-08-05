@@ -1,11 +1,15 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.IO;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using H.NotifyIcon;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
@@ -13,6 +17,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using NLog;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Storage;
 using WinRT.Interop;
@@ -37,6 +42,17 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        // 初始化 App Center.
+        var appCenterFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppCenterSecret.txt");
+        if (File.Exists(appCenterFilePath))
+        {
+            var id = File.ReadAllText(appCenterFilePath);
+            if (!string.IsNullOrEmpty(id))
+            {
+                AppCenter.Start(id, typeof(Analytics), typeof(Crashes));
+            }
+        }
+
         InitializeComponent();
         UnhandledException += OnUnhandledException;
     }
@@ -78,7 +94,9 @@ public partial class App : Application
         var rootFolder = ApplicationData.Current.LocalFolder;
         var fullPath = $"{rootFolder.Path}\\Logger\\";
         NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
+
         LaunchWindow();
+        TraceLogger.Instance.LogAppLaunched();
     }
 
     private static RectInt32 GetRenderRect(DisplayArea displayArea, IntPtr windowHandle)
@@ -168,6 +186,8 @@ public partial class App : Application
                 }
 
                 var shouldHide = result == ContentDialogResult.Secondary;
+                var type = shouldHide ? "Hide" : "Quit";
+                TraceLogger.LogCloseWindowTip(dialog.IsNeverAskChecked, type);
                 if (dialog.IsNeverAskChecked)
                 {
                     SettingsToolkit.WriteLocalSetting(SettingNames.ShouldAskBeforeWindowClosed, false);
@@ -221,6 +241,7 @@ public partial class App : Application
     {
         var logger = LogManager.GetCurrentClassLogger();
         logger.Error(e.Exception, "An exception occurred while the application was running");
+        TraceLogger.Instance.LogUnhandledException(e.Exception);
         e.Handled = true;
     }
 

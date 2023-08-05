@@ -23,6 +23,7 @@
             Header="{ext:Locale Name=Download}"
             Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay}">
             <Button
+                Click="OnDownloadButtonClick"
                 Command="{x:Bind ViewModel.DownloadCommand, Mode=OneWay}"
                 Content="{ext:Locale Name=StartDownload}"
                 IsEnabled="{x:Bind ViewModel.IsDownloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />

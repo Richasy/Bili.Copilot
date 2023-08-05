@@ -49,7 +49,8 @@ public sealed partial class ReaderPage : ReaderPageBase
         ViewModel.InitializeCommand.Execute(_article);
         Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--disable-web-security");
         await ReaderView.EnsureCoreWebView2Async().AsTask();
-        ReaderView.CoreWebView2.Settings.AreDevToolsEnabled = true;
+        ReaderView.CoreWebView2.Settings.AreDevToolsEnabled = false;
+        ReaderView.CoreWebView2.Settings.IsPinchZoomEnabled = false;
         ReaderView.CoreWebView2.Settings.UserAgent = ServiceConstants.DefaultUserAgentString;
         ReaderView.CoreWebView2.NavigationStarting += OnNavigationStarting;
         ReaderView.CoreWebView2.NavigationCompleted += OnNavigationCompletedAsync;
@@ -62,31 +63,33 @@ public sealed partial class ReaderPage : ReaderPageBase
 
     private void OnContextMenuRequested(CoreWebView2 sender, CoreWebView2ContextMenuRequestedEventArgs args)
     {
-        var menuList = args.MenuItems;
-        var def = args.GetDeferral();
-        args.Handled = true;
-        var menuflyout = new MenuFlyout();
-        menuflyout.Closed += (s, e) => def.Complete();
-        var aiItem = new MenuFlyoutItem
+        if (args.ContextMenuTarget.HasSelection)
         {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.WordExplain),
-            Icon = new FluentIcon() { Symbol = FluentSymbol.SlideTextSparkle },
-            Tag = args.ContextMenuTarget.SelectionText,
-            IsEnabled = args.ContextMenuTarget.HasSelection && AppViewModel.Instance.IsAISupported,
-            MinWidth = 160,
-        };
-        var webSearchItem = new MenuFlyoutItem
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.SearchInWeb),
-            Icon = new FluentIcon() { Symbol = FluentSymbol.GlobeSearch },
-            Tag = args.ContextMenuTarget.SelectionText,
-            IsEnabled = args.ContextMenuTarget.HasSelection,
-        };
-        aiItem.Click += OnWordExplainItemClickAsync;
-        webSearchItem.Click += OnSearchInWebItemClickAsync;
-        menuflyout.Items.Add(aiItem);
-        menuflyout.Items.Add(webSearchItem);
-        menuflyout.ShowAt(ReaderView, args.Location);
+            var def = args.GetDeferral();
+            args.Handled = true;
+            var menuFlyout = new MenuFlyout();
+            menuFlyout.Closed += (s, e) => def.Complete();
+            var aiItem = new MenuFlyoutItem
+            {
+                Text = ResourceToolkit.GetLocalizedString(StringNames.WordExplain),
+                Icon = new FluentIcon() { Symbol = FluentSymbol.SlideTextSparkle },
+                Tag = args.ContextMenuTarget.SelectionText,
+                IsEnabled = args.ContextMenuTarget.HasSelection && AppViewModel.Instance.IsAISupported,
+                MinWidth = 160,
+            };
+            var webSearchItem = new MenuFlyoutItem
+            {
+                Text = ResourceToolkit.GetLocalizedString(StringNames.SearchInWeb),
+                Icon = new FluentIcon() { Symbol = FluentSymbol.GlobeSearch },
+                Tag = args.ContextMenuTarget.SelectionText,
+                IsEnabled = args.ContextMenuTarget.HasSelection,
+            };
+            aiItem.Click += OnWordExplainItemClickAsync;
+            webSearchItem.Click += OnSearchInWebItemClickAsync;
+            menuFlyout.Items.Add(aiItem);
+            menuFlyout.Items.Add(webSearchItem);
+            menuFlyout.ShowAt(ReaderView, args.Location);
+        }
     }
 
     private async void OnSearchInWebItemClickAsync(object sender, RoutedEventArgs e)
