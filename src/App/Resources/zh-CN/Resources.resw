@@ -854,6 +854,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Highlights" xml:space="preserve">
     <value>要点</value>
   </data>
+  <data name="HighQuality" xml:space="preserve">
+    <value>高质量</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>首页</value>
   </data>
@@ -1070,6 +1073,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Navigation" xml:space="preserve">
     <value>导航</value>
+  </data>
+  <data name="NearVideo" xml:space="preserve">
+    <value>与视频匹配</value>
   </data>
   <data name="NeedLoginFirst" xml:space="preserve">
     <value>你需要先登录</value>
@@ -1328,6 +1334,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Prefer4KDescription" xml:space="preserve">
     <value>在用户已登录并有权限获取4K播放源的情况下，优先播放4K片源</value>
+  </data>
+  <data name="PreferAudioQuality" xml:space="preserve">
+    <value>音质偏好</value>
   </data>
   <data name="PreferCodec" xml:space="preserve">
     <value>解码器偏好</value>

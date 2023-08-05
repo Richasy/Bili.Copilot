@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Provider", "src\Libs\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Flyleaf", "src\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj", "{2B1FB1C6-BD03-4DF6-90DB-B77CEEA51CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libs.Markdown", "src\Libs\Libs.Markdown\Libs.Markdown.csproj", "{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libs.Markdown", "src\Libs\Libs.Markdown\Libs.Markdown.csproj", "{174EC53A-5C44-4F74-9DA3-499F05CEF7CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

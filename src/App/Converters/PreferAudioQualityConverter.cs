@@ -9,18 +9,18 @@ using Microsoft.UI.Xaml.Data;
 namespace Bili.Copilot.App.Converters;
 
 /// <summary>
-/// 偏好画质的可读文本转换器.
+/// 音质偏好转换器.
 /// </summary>
-internal sealed class PreferQualityConverter : IValueConverter
+internal sealed class PreferAudioQualityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return value is PreferQuality quality
+        return value is PreferAudio quality
             ? quality switch
             {
-                PreferQuality.HDFirst => ResourceToolkit.GetLocalizedString(StringNames.HDFirst),
-                PreferQuality.HighQuality => ResourceToolkit.GetLocalizedString(StringNames.PreferHighQuality),
-                _ => ResourceToolkit.GetLocalizedString(StringNames.Automatic),
+                PreferAudio.HighQuality => ResourceToolkit.GetLocalizedString(StringNames.HighQuality),
+                PreferAudio.Near => ResourceToolkit.GetLocalizedString(StringNames.NearVideo),
+                _ => ResourceToolkit.GetLocalizedString(StringNames.Standard),
             }
             : (object)string.Empty;
     }

@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <converters:PlayerDisplayModeConverter x:Key="PlayerDisplayModeConverter" />
         <converters:PreferQualityConverter x:Key="PreferQualityConverter" />
+        <converters:PreferAudioQualityConverter x:Key="AudioQualityConverter" />
     </UserControl.Resources>
 
     <labs:SettingsExpander Description="{ext:Locale Name=PlayerModeDescription}" Header="{ext:Locale Name=PlayerMode}">
@@ -44,6 +45,18 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="player:PreferQuality">
                             <TextBlock Text="{x:Bind Converter={StaticResource PreferQualityConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </labs:SettingsCard>
+            <labs:SettingsCard Header="{ext:Locale Name=PreferAudioQuality}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferAudioQualities}"
+                    SelectedItem="{x:Bind ViewModel.PreferAudioQuality, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="player:PreferAudio">
+                            <TextBlock Text="{Binding Converter={StaticResource AudioQualityConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
