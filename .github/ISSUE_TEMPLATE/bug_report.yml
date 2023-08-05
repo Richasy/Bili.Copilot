@@ -51,23 +51,22 @@ body:
   id: environment-package-source
   attributes:
      label: 应用来源
-     description: 你是从哪里下载的哔哩呢？
+     description: 你是从哪里下载的哔哩助理呢？
      options:
-       - label: Microsoft Store
        - label: Github
+       - label: AppCenter
        - label: 其它
 - type: input
   id: environment-package-other-source
   attributes:
      label: 其它来源
-     description: 如果你是从其它地方下载的哔哩，请注明来源
+     description: 如果你是从其它地方下载的哔哩助理，请注明来源
 - type: checkboxes
   id: environment-app-target-version
   attributes:
      label: 系统版本
      description: 选择一个你发现问题的系统版本
      options:
-       - label: Windows 10 21H1 (Build 19043)
        - label: Windows 11 21H2 (Build 22000)
        - label: Windows 11 22H2 (Build 22621)
        - label: 其它 (需注明)
@@ -81,11 +80,10 @@ body:
   attributes: 
      multiple: true
      label: 运行设备
-     description: 选择你当前运行哔哩的设备类型
+     description: 选择你当前运行哔哩助理的设备类型
      options:
        - 桌面/台式机
        - 桌面/平板或笔记本
-       - Xbox
        - ARM64 设备
 - type: textarea
   id: log-info
@@ -104,5 +102,5 @@ body:
      label: 人人为我，我为人人
      description: 哔哩助理变得更好，我们所有参与者都将受益，如果可以的话，你是否愿意帮忙解决这个问题？
      options:
-       - 是的，我希望我的代码出现在哔哩中
+       - 是的，我希望我的代码出现在哔哩助理中
        - 我更擅长发现问题
