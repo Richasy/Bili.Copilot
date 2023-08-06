@@ -34,7 +34,7 @@ public partial class App : Application
     /// </summary>
     public const string Id = "643E7C9C-F215-4883-B5B5-97D5FC3622A5";
     private DispatcherQueue _dispatcherQueue;
-    private Window _window;
+    private WindowBase _window;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -103,8 +103,9 @@ public partial class App : Application
     {
         var workArea = displayArea.WorkArea;
         var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
+        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.WindowHeight, 800d);
         var width = Convert.ToInt32(500 * scaleFactor);
-        var height = Convert.ToInt32(800 * scaleFactor);
+        var height = Convert.ToInt32(previousHeight * scaleFactor);
 
         // Ensure the window is not larger than the work area.
         if (height > workArea.Height - 20)
@@ -165,7 +166,7 @@ public partial class App : Application
 
     private async void OnMainWindowClosedAsync(object sender, WindowEventArgs args)
     {
-        SaveCurrentWindowPosition();
+        SaveCurrentWindowStats();
         HandleCloseEvents = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, true);
         if (HandleCloseEvents)
         {
@@ -217,16 +218,20 @@ public partial class App : Application
         if (displayArea != null)
         {
             var rect = GetRenderRect(displayArea, hwnd);
+            _window.MinWidth = 500;
+            _window.MaxWidth = 500;
+            _window.MinHeight = 400;
             _window.AppWindow.MoveAndResize(rect);
         }
     }
 
-    private void SaveCurrentWindowPosition()
+    private void SaveCurrentWindowStats()
     {
         var left = _window.AppWindow.Position.X;
         var top = _window.AppWindow.Position.Y;
         SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionLeft, left);
         SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionTop, top);
+        SettingsToolkit.WriteLocalSetting(SettingNames.WindowHeight, _window.Height > 400 ? _window.Height : 800);
     }
 
     private void ExitApp()
