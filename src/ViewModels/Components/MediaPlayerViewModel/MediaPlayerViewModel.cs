@@ -144,7 +144,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
     public void SeekTo(TimeSpan time)
     {
         if (time.TotalMilliseconds >= Duration.TotalMilliseconds
-            || time.TotalSeconds - Position.TotalSeconds < 1)
+            || Math.Abs(time.TotalSeconds - Position.TotalSeconds) < 1)
         {
             return;
         }
