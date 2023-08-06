@@ -7,11 +7,11 @@ tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 功能'
     labels:
-      - '功能 💡'
+      - 'enhancement'
   - title: '🐛 Bug 修复'
     labels:
-      - 'bug 🐛'
+      - 'bug'
   - title: '🧰 管理与维护'
-    label: '维护 ⚒️'
+    label: 'maintain'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
