@@ -170,17 +170,27 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void CheckBBDownExist()
     {
-        var process = new Process();
-        process.StartInfo.FileName = "BBDown";
-        process.StartInfo.Arguments = "-h";
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.CreateNoWindow = true;
-        process.Start();
-        process.WaitForExit();
-        _dispatcherQueue.TryEnqueue(() =>
+        try
         {
-            IsDownloadSupported = process.ExitCode == 0;
-        });
+            var process = new Process();
+            process.StartInfo.FileName = "BBDown";
+            process.StartInfo.Arguments = "-h";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+            process.WaitForExit();
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                IsDownloadSupported = process.ExitCode == 0;
+            });
+        }
+        catch (Exception)
+        {
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                IsDownloadSupported = false;
+            });
+        }
     }
 
     [RelayCommand]

@@ -32,7 +32,6 @@ public sealed partial class MainWindow : WindowBase
         InitializeComponent();
         Instance = this;
         CustomTitleBar.AttachedWindow = this;
-        IsResizable = false;
         IsMaximizable = false;
         Activated += OnActivated;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
@@ -189,7 +188,7 @@ public sealed partial class MainWindow : WindowBase
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
-        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        if (args.WindowActivationState == WindowActivationState.PointerActivated)
         {
             AppViewModel.Instance.CheckAIFeatureCommand.Execute(default);
             AppViewModel.Instance.CheckBBDownExistCommand.Execute(default);

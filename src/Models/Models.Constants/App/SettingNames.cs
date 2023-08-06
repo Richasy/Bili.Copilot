@@ -101,4 +101,5 @@ public enum SettingNames
     AIConnectType,
     OpenFolderWhenDownloaded,
     PreferAudioQuality,
+    WindowHeight,
 }
