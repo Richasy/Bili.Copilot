@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -15,7 +16,6 @@ using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Live;
-using Websocket.Client;
 
 namespace Bili.Copilot.Libs.Provider;
 
@@ -27,10 +27,9 @@ public partial class LiveProvider
     /// <summary>
     /// 直播间套接字.
     /// </summary>
-    private WebsocketClient _liveWebSocket;
+    private ClientWebSocket _liveWebSocket;
     private CancellationTokenSource _liveCancellationToken;
     private bool _isLiveSocketConnected;
-    private Task _liveConnectionTask;
 
     private int _feedPageNumber;
     private int _partitionPageNumber;
@@ -96,11 +95,11 @@ public partial class LiveProvider
     private static byte[] DecompressData(byte[] data)
     {
         using var outBuffer = new MemoryStream();
-        using var compressedzipStream = new DeflateStream(new MemoryStream(data, 2, data.Length - 2), CompressionMode.Decompress);
+        using var compressedZipStream = new DeflateStream(new MemoryStream(data, 2, data.Length - 2), CompressionMode.Decompress);
         var block = new byte[1024];
         while (true)
         {
-            var bytesRead = compressedzipStream.Read(block, 0, block.Length);
+            var bytesRead = compressedZipStream.Read(block, 0, block.Length);
             if (bytesRead <= 0)
             {
                 break;
@@ -111,62 +110,33 @@ public partial class LiveProvider
             }
         }
 
-        compressedzipStream.Close();
+        compressedZipStream.Close();
         return outBuffer.ToArray();
     }
 
     private void InitializeLiveSocket()
     {
         ResetLiveConnection();
-
-        if (_liveWebSocket == null)
-        {
-            _liveWebSocket = new WebsocketClient(new Uri(ApiConstants.Live.ChatSocket))
-            {
-                IsReconnectionEnabled = false,
-            };
-            _ = _liveWebSocket.DisconnectionHappened.Subscribe(OnLiveSocketDisconnected);
-            _ = _liveWebSocket.MessageReceived.Subscribe(OnLiveSocketMessageReceived);
-        }
+        _liveWebSocket = new ClientWebSocket();
     }
 
-    private void ConnectLiveSocket()
+    private async Task ConnectLiveSocketAsync()
     {
         if (_isLiveSocketConnected)
         {
             return;
         }
 
-        if (_liveWebSocket == null || (_liveConnectionTask != null && !_liveConnectionTask.IsCompleted))
-        {
-            InitializeLiveSocket();
-        }
-
-        _liveConnectionTask = _liveWebSocket.Start();
-        _ = _liveConnectionTask.ContinueWith((result) =>
-        {
-            try
-            {
-                if (result.IsCompleted)
-                {
-                    _isLiveSocketConnected = true;
-                }
-                else if (result.IsFaulted)
-                {
-                    throw result.Exception;
-                }
-            }
-            catch (Exception)
-            {
-            }
-        });
+        InitializeLiveSocket();
+        await _liveWebSocket.ConnectAsync(new Uri(ApiConstants.Live.ChatSocket), _liveCancellationToken.Token);
+        _isLiveSocketConnected = _liveWebSocket?.State == WebSocketState.Open;
     }
 
     private async Task SendLiveMessageAsync(object data, int action)
     {
         var messageText = data is string str ? str : JsonSerializer.Serialize(data);
         var messageData = EncodeLiveData(messageText, action);
-        await _liveWebSocket.SendInstant(messageData);
+        await _liveWebSocket.SendAsync(messageData, WebSocketMessageType.Binary, true, _liveCancellationToken.Token);
     }
 
     private void ParseLiveData(byte[] data)
@@ -278,47 +248,6 @@ public partial class LiveProvider
         catch (Exception)
         {
             // TODO: 记录错误.
-        }
-    }
-
-    private void OnLiveSocketMessageReceived(ResponseMessage msg)
-    {
-        try
-        {
-            switch (msg.MessageType)
-            {
-                case System.Net.WebSockets.WebSocketMessageType.Binary:
-                    ParseLiveData(msg.Binary);
-                    break;
-                case System.Net.WebSockets.WebSocketMessageType.Close:
-                    if (_isLiveSocketConnected)
-                    {
-                        InitializeLiveSocket();
-                        ConnectLiveSocket();
-                    }
-
-                    break;
-                case System.Net.WebSockets.WebSocketMessageType.Text:
-                    ParseMessage(msg.Text);
-                    break;
-                default:
-                    break;
-            }
-        }
-        catch (Exception)
-        {
-            InitializeLiveSocket();
-            ConnectLiveSocket();
-        }
-    }
-
-    private void OnLiveSocketDisconnected(DisconnectionInfo info)
-    {
-        if (_isLiveSocketConnected)
-        {
-            _isLiveSocketConnected = false;
-            _ = _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
-            ConnectLiveSocket();
         }
     }
 }

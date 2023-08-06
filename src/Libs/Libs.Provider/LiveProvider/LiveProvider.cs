@@ -181,22 +181,18 @@ public partial class LiveProvider
         var data = await HttpProvider.ParseAsync<ServerResponse>(response);
         if (data.IsSuccess())
         {
-            ConnectLiveSocket();
-            if (_liveConnectionTask != null)
+            await ConnectLiveSocketAsync();
+            if (_isLiveSocketConnected)
             {
-                _ = await _liveConnectionTask.ContinueWith(async result =>
-                {
-                    if (result.IsCompleted)
-                    {
-                        await SendLiveMessageAsync(
+                await SendLiveMessageAsync(
                             new
                             {
                                 roomid = Convert.ToInt32(roomId),
                                 uid = AccountProvider.Instance.UserId,
                             },
                             7);
-                    }
-                });
+
+                await SendHeartBeatAsync();
             }
 
             return true;
@@ -251,6 +247,27 @@ public partial class LiveProvider
     }
 
     /// <summary>
+    /// 接收直播消息.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    public async Task LoopLiveMessageAsync()
+    {
+        while (!_liveCancellationToken.IsCancellationRequested && _liveWebSocket?.State == System.Net.WebSockets.WebSocketState.Open)
+        {
+            try
+            {
+                var buffer = new byte[4096];
+                var result = await _liveWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), _liveCancellationToken.Token);
+                ParseLiveData(buffer.Take(result.Count).ToArray());
+            }
+            catch (Exception)
+            {
+                // Log data.
+            }
+        }
+    }
+
+    /// <summary>
     /// 重置推荐信息流.
     /// </summary>
     public void ResetPartitionDetailState()
@@ -270,7 +287,6 @@ public partial class LiveProvider
         _liveCancellationToken?.Cancel();
         _liveCancellationToken = new CancellationTokenSource();
         _isLiveSocketConnected = false;
-        _ = _liveWebSocket?.Stop(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, string.Empty);
         _liveWebSocket?.Dispose();
         _liveWebSocket = null;
     }
