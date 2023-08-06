@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -39,5 +38,6 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
         }
     }
 
-    private void OnPrivatePlayItemClick(object sender, RoutedEventArgs e) => throw new NotImplementedException();
+    private void OnPrivatePlayItemClick(object sender, RoutedEventArgs e)
+        => TraceLogger.LogPlayInPrivate();
 }

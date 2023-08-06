@@ -20,6 +20,7 @@ public sealed partial class PgcPlayerPageViewModel
     private bool _needBiliPlus;
     private Action _playNextEpisodeAction;
     private Window _attachedWindow;
+    private bool _isStatsUpdated;
 
     [ObservableProperty]
     private bool _isReloading;

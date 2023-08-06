@@ -22,6 +22,7 @@ public sealed partial class VideoPlayerPageViewModel
     private Action _playNextVideoAction;
     private bool _isInPrivate;
     private Window _attachedWindow;
+    private bool _isStatsUpdated;
 
     [ObservableProperty]
     private VideoPlayerView _view;

@@ -228,7 +228,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(PlayerDetail.Status))
+        if (e.PropertyName == nameof(PlayerDetail.Status)
+            && PlayerDetail.Status == PlayerStatus.Playing
+            && !_isStatsUpdated)
         {
             var info = PlayerDetail.Player?.GetMediaInformation();
             if (info == null)
@@ -242,6 +244,8 @@ public sealed partial class VideoPlayerPageViewModel
                 AudioUrl = PlayerDetail.GetAudioPlayUrl(),
             };
             Stats = media;
+
+            _isStatsUpdated = true;
         }
     }
 }

@@ -64,10 +64,19 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
         var sb = new StringBuilder();
 
         sb.Append(_id);
-        var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
-        if (selectedParts.Any())
+
+        var packageFolder = Package.Current.InstalledPath;
+        var configPath = Path.Combine(packageFolder, "Assets", "BBDown.config");
+
+        var configs = await File.ReadAllLinesAsync(configPath);
+        var hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
+        if (!hasPartParams)
         {
-            sb.Append($" -p {string.Join(",", selectedParts)} ");
+            var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
+            if (selectedParts.Any())
+            {
+                sb.Append($" -p {string.Join(",", selectedParts)} ");
+            }
         }
 
         var token = await AuthorizeProvider.Instance.GetTokenAsync();
@@ -81,8 +90,6 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
 
         sb.Append($" --work-dir \"{folderPath}\"");
 
-        var packageFolder = Package.Current.InstalledPath;
-        var configPath = Path.Combine(packageFolder, "Assets", "BBDown.config");
         sb.Append($" --config-file \"{configPath}\"");
 
         var process = new Process();

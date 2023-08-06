@@ -239,7 +239,10 @@
                 </base:ProgressButton>
             </StackPanel>
 
-            <labs:SettingsCard HorizontalAlignment="Stretch" Header="{ext:Locale Name=OnlyAudio}">
+            <labs:SettingsCard
+                HorizontalAlignment="Stretch"
+                Description="{ext:Locale Name=OnlyAudioDescription}"
+                Header="{ext:Locale Name=OnlyAudio}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerDetail.IsAudioOnly, Mode=OneWay}" Toggled="OnOnlyAudioToggledAsync" />
             </labs:SettingsCard>
 
