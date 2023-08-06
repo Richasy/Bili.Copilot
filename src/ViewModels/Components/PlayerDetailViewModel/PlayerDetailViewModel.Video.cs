@@ -31,7 +31,7 @@ public sealed partial class PlayerDetailViewModel
         }
 
         _currentPart = part;
-        ResetPlayer();
+        _shouldMarkProgress = false;
         ResetMediaData();
         await LoadVideoAsync();
         StartTimers();
@@ -42,7 +42,7 @@ public sealed partial class PlayerDetailViewModel
         InitializeVideoInformation();
         await InitializeVideoMediaInformationAsync();
         CheckVideoHistory();
-        InitializeOriginalVideoSource();
+        await InitializeOriginalVideoSourceAsync();
 
         var view = _viewData as VideoPlayerView;
         SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
@@ -85,7 +85,7 @@ public sealed partial class PlayerDetailViewModel
         CheckVideoP2PUrls();
     }
 
-    private void InitializeOriginalVideoSource()
+    private async Task InitializeOriginalVideoSourceAsync()
     {
         var isVip = AccountViewModel.Instance.IsVip;
         if (isVip)
@@ -105,14 +105,15 @@ public sealed partial class PlayerDetailViewModel
         }
 
         var formatId = GetFormatId();
-        SelectVideoFormat(Formats.First(p => p.Quality == formatId));
+        await SelectVideoFormatAsync(Formats.First(p => p.Quality == formatId));
     }
 
-    private void SelectVideoFormat(FormatInformation format)
+    private async Task SelectVideoFormatAsync(FormatInformation format)
     {
         MarkProgressBreakpoint();
         var codecId = GetVideoPreferCodecId();
         ResetPlayer();
+        await Task.Delay(400);
         InitializePlayer();
         if (_mediaInformation.VideoSegments != null)
         {

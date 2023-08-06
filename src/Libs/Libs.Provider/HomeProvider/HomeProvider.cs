@@ -150,8 +150,10 @@ public sealed partial class HomeProvider
             .Where(p => p.ItemCase == Bilibili.App.Card.V1.Card.ItemOneofCase.SmallCoverV5)
             .Where(p => p.SmallCoverV5 != null)
             .Where(p => p.SmallCoverV5.Base.CardGoto == Av)
+            .Where(p => !p.SmallCoverV5.Base.Uri.Contains("bangumi"))
             .Select(VideoAdapter.ConvertToVideoInformation);
         _hotOffsetId = data.Items.Where(p => p.SmallCoverV5 != null).Last().SmallCoverV5.Base.Idx;
+
         return result;
     }
 

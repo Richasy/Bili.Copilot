@@ -106,7 +106,9 @@ public sealed partial class LivePlayerPageViewModel
 
     private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName.Equals(nameof(PlayerDetail.Status)))
+        if (e.PropertyName.Equals(nameof(PlayerDetail.Status))
+            && PlayerDetail.Status == PlayerStatus.Playing
+            && !_isStatsUpdated)
         {
             UpdateLiveMediaInformation();
         }
@@ -125,5 +127,6 @@ public sealed partial class LivePlayerPageViewModel
             PlayUrl = PlayerDetail.GetLivePlayUrl(),
         };
         Stats = media;
+        _isStatsUpdated = true;
     }
 }

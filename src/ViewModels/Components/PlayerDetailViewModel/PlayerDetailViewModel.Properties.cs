@@ -43,6 +43,7 @@ public sealed partial class PlayerDetailViewModel
     private double _originalPlayRate;
     private double _originalDanmakuSpeed;
     private double _presetVolumeHoldTime;
+    private bool _shouldMarkProgress;
 
     [ObservableProperty]
     private bool _isReloading;

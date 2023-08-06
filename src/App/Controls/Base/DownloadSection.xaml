@@ -20,6 +20,7 @@
             Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <labs:SettingsExpander
             HorizontalAlignment="Stretch"
+            Description="{ext:Locale Name=BasedOnBBDown}"
             Header="{ext:Locale Name=Download}"
             Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay}">
             <Button

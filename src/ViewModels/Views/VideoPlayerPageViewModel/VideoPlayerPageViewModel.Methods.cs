@@ -87,13 +87,6 @@ public sealed partial class VideoPlayerPageViewModel
         }
     }
 
-    private void Share()
-    {
-        var dataTransferManager = DataTransferManager.GetForCurrentView();
-        dataTransferManager.DataRequested += OnShareDataRequested;
-        DataTransferManager.ShowShareUI();
-    }
-
     [RelayCommand]
     private void ChangeVideoPart(VideoIdentifier identifier)
     {
@@ -104,7 +97,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         CurrentVideoPart = VideoParts.FirstOrDefault(p => p.IsSelected).Data;
         CreatePlayNextAction();
-        _ = PlayerDetail.ChangePartCommand.ExecuteAsync(identifier);
+        PlayerDetail.ChangePartCommand.Execute(identifier);
     }
 
     private void CreatePlayNextAction()
@@ -235,7 +228,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void OnPlayerDetailPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(PlayerDetail.Status))
+        if (e.PropertyName == nameof(PlayerDetail.Status)
+            && PlayerDetail.Status == PlayerStatus.Playing
+            && !_isStatsUpdated)
         {
             var info = PlayerDetail.Player?.GetMediaInformation();
             if (info == null)
@@ -249,6 +244,8 @@ public sealed partial class VideoPlayerPageViewModel
                 AudioUrl = PlayerDetail.GetAudioPlayUrl(),
             };
             Stats = media;
+
+            _isStatsUpdated = true;
         }
     }
 }

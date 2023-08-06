@@ -63,6 +63,12 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
                 break;
             case PopularType.Hot:
                 videos = await HomeProvider.Instance.RequestHotVideosAsync();
+                if (videos?.Count() < 7)
+                {
+                    var nextVideos = await HomeProvider.Instance.RequestHotVideosAsync();
+                    videos = videos.Concat(nextVideos);
+                }
+
                 break;
             case PopularType.Rank:
                 videos = await HomeProvider.GetRankDetailAsync("0");

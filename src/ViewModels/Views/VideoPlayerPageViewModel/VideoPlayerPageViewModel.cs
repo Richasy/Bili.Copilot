@@ -104,6 +104,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
     private void Reset()
     {
         View = null;
+        _isStatsUpdated = false;
         ResetPublisher();
         ResetOverview();
         ResetOperation();

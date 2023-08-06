@@ -21,6 +21,7 @@ public sealed partial class MediaPlayerViewModel
     private SegmentInformation _audio;
 
     private string _recordingFileName;
+    private bool _isStopped;
 
     [ObservableProperty]
     private bool _isLoop;

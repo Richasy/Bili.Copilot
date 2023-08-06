@@ -56,7 +56,8 @@
                                     x:Name="MoreButton"
                                     Grid.Column="2"
                                     VerticalAlignment="Top"
-                                    Style="{StaticResource SmallIconButtonStyle}">
+                                    Style="{StaticResource SmallIconButtonStyle}"
+                                    Visibility="Collapsed">
                                     <local:FluentIcon FontSize="14" Symbol="MoreHorizontal" />
                                     <Button.Flyout>
                                         <MenuFlyout Placement="Bottom">
@@ -137,12 +138,15 @@
                                         Symbol="Comment"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCountText}" />
                                 </Grid>
+
+                                <!--  尚不支持分享  -->
                                 <Button
                                     x:Name="ShareButton"
                                     Grid.Column="3"
                                     Height="28"
                                     BorderThickness="0"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShareCommand}">
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShareCommand}"
+                                    Visibility="Collapsed">
                                     <local:FluentIcon FontSize="14" Symbol="Share" />
                                 </Button>
                             </Grid>

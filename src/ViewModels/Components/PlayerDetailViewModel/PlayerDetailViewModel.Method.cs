@@ -16,7 +16,6 @@ using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Windows.Media;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -62,10 +61,10 @@ public sealed partial class PlayerDetailViewModel
         _audio = null;
         CurrentFormat = null;
         IsLoop = false;
-        DurationSeconds = 0;
         DurationText = "--";
-        ProgressSeconds = 0;
         ProgressText = "--";
+        DurationSeconds = 0;
+        ProgressSeconds = 0;
         Volume = SettingsToolkit.ReadLocalSetting(SettingNames.Volume, 100);
         _lastReportProgress = TimeSpan.Zero;
         _initializeProgress = TimeSpan.Zero;
@@ -112,6 +111,7 @@ public sealed partial class PlayerDetailViewModel
 
         if (Player != null)
         {
+            Player?.Stop();
             Player.MediaOpened -= OnMediaOpened;
             Player.MediaEnded -= OnMediaEnded;
             Player.PositionChanged -= OnMediaPositionChanged;
@@ -146,6 +146,11 @@ public sealed partial class PlayerDetailViewModel
     /// </summary>
     private void MarkProgressBreakpoint()
     {
+        if(!_shouldMarkProgress)
+        {
+            return;
+        }
+
         var progress = TimeSpan.FromSeconds(ProgressSeconds);
 
         if (progress > TimeSpan.FromSeconds(1))

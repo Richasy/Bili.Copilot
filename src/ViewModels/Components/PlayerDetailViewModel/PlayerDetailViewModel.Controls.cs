@@ -32,11 +32,6 @@ public sealed partial class PlayerDetailViewModel
             }
             else if (Status == PlayerStatus.End)
             {
-                if (Math.Abs(Player.Position.TotalSeconds - Player.Duration.TotalSeconds) < 1)
-                {
-                    Player.SeekTo(TimeSpan.Zero);
-                }
-
                 Player.Play();
             }
         });

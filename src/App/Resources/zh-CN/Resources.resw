@@ -272,6 +272,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   <data name="Bangumi" xml:space="preserve">
     <value>番剧</value>
   </data>
+  <data name="BasedOnBBDown" xml:space="preserve">
+    <value>由 BBDown 提供下载支持</value>
+  </data>
   <data name="BBDown" xml:space="preserve">
     <value>BBDown</value>
   </data>
@@ -1174,7 +1177,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>仅音频</value>
   </data>
   <data name="OnlyAudioDescription" xml:space="preserve">
-    <value>尝试在视频支持的情况下仅播放音频流</value>
+    <value>尝试仅播放音频流以节省流量</value>
   </data>
   <data name="OnlyIndex" xml:space="preserve">
     <value>仅显示序号</value>
