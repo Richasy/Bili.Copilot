@@ -21,7 +21,7 @@ public sealed partial class DanmakuModuleViewModel
     /// <returns>颜色字符串.</returns>
     private static string ToDanmakuColor(string hexColor)
     {
-        var color = AppToolkit.HexToColor(hexColor);
+        var color = CommunityToolkit.WinUI.Helpers.ColorHelper.ToColor(hexColor);
         var num = (color.R * 256 * 256) + (color.G * 256) + (color.B * 1);
         return num.ToString();
     }
