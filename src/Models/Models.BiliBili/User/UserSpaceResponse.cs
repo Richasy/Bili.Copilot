@@ -1,290 +1,284 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äĞÅÏ¢ÏìÓ¦½á¹û.
+/// ç”¨æˆ·ç©ºé—´ä¿¡æ¯å“åº”ç»“æœ.
 /// </summary>
 public class UserSpaceResponse
 {
     /// <summary>
-    /// ÓÃ»§ĞÅÏ¢.
+    /// ç”¨æˆ·ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("card")]
     public UserSpaceInformation User { get; set; }
 
     /// <summary>
-    /// Ö±²¥ĞÅÏ¢.
+    /// ç›´æ’­ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("live")]
     public UserSpaceLive Live { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ¼¯.
+    /// è§†é¢‘é›†.
     /// </summary>
     [JsonPropertyName("archive")]
     public UserSpaceVideoSet VideoSet { get; set; }
 
     /// <summary>
-    /// ÎÄÕÂ¼¯.
+    /// æ–‡ç« é›†.
     /// </summary>
     [JsonPropertyName("article")]
     public UserSpaceArticleSet ArticleSet { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äĞÅÏ¢.
+/// ç”¨æˆ·ç©ºé—´ä¿¡æ¯.
 /// </summary>
 public class UserSpaceInformation
 {
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
     public string UserId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("name")]
     public string UserName { get; set; }
 
     /// <summary>
-    /// ĞÔ±ğ.
+    /// æ€§åˆ«.
     /// </summary>
     [JsonPropertyName("sex")]
     public string Sex { get; set; }
 
     /// <summary>
-    /// Í·Ïñ.
+    /// å¤´åƒ.
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// ·ÛË¿Êı.
+    /// ç²‰ä¸æ•°.
     /// </summary>
     [JsonPropertyName("fans")]
     public int FollowerCount { get; set; }
 
     /// <summary>
-    /// ¹Ø×¢Êı.
+    /// å…³æ³¨æ•°.
     /// </summary>
     [JsonPropertyName("attention")]
     public int FollowCount { get; set; }
 
     /// <summary>
-    /// ¸öĞÔÇ©Ãû.
+    /// ä¸ªæ€§ç­¾å.
     /// </summary>
     [JsonPropertyName("sign")]
     public string Sign { get; set; }
 
     /// <summary>
-    /// µÈ¼¶ĞÅÏ¢.
+    /// ç­‰çº§ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("level_info")]
     public UserSpaceLevelInformation LevelInformation { get; set; }
 
     /// <summary>
-    /// ´ó»áÔ±ĞÅÏ¢.
+    /// å¤§ä¼šå‘˜ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("vip")]
     public Vip Vip { get; set; }
 
     /// <summary>
-    /// ¹ØÏµ.
+    /// å…³ç³».
     /// </summary>
     [JsonPropertyName("relation")]
     public UserRelation Relation { get; set; }
 
     /// <summary>
-    /// µãÔŞĞÅÏ¢.
+    /// ç‚¹èµä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("likes")]
     public UserSpaceLikeInformation LikeInformation { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼ä»ñÔŞĞÅÏ¢.
+/// ç”¨æˆ·ç©ºé—´è·èµä¿¡æ¯.
 /// </summary>
 public class UserSpaceLikeInformation
 {
     /// <summary>
-    /// µãÔŞÊı.
+    /// ç‚¹èµæ•°.
     /// </summary>
     [JsonPropertyName("like_num")]
     public int LikeCount { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äµÄµÈ¼¶ĞÅÏ¢.
+/// ç”¨æˆ·ç©ºé—´çš„ç­‰çº§ä¿¡æ¯.
 /// </summary>
 public class UserSpaceLevelInformation
 {
     /// <summary>
-    /// ÓÃ»§µ±Ç°µÈ¼¶.
+    /// ç”¨æˆ·å½“å‰ç­‰çº§.
     /// </summary>
     [JsonPropertyName("current_level")]
     public int CurrentLevel { get; set; }
 
     /// <summary>
-    /// µ±Ç°¾­ÑéÖµ.
+    /// å½“å‰ç»éªŒå€¼.
     /// </summary>
     [JsonPropertyName("current_exp")]
     public int CurrentExperience { get; set; }
-
-    /// <summary>
-    /// ´ïµ½ÏÂÒ»µÈ¼¶ËùĞè¾­ÑéÖµ.
-    /// </summary>
-    [JsonPropertyName("next_exp")]
-    public string NextExperience { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äµÄÖ±²¥ĞÅÏ¢.
+/// ç”¨æˆ·ç©ºé—´çš„ç›´æ’­ä¿¡æ¯.
 /// </summary>
 public class UserSpaceLive
 {
     /// <summary>
-    /// Ö±²¥¼ä×´Ì¬£¬0-Î´¿ª²¥£¬1-ÕıÔÚÖ±²¥.
+    /// ç›´æ’­é—´çŠ¶æ€ï¼Œ0-æœªå¼€æ’­ï¼Œ1-æ­£åœ¨ç›´æ’­.
     /// </summary>
     [JsonPropertyName("roomStatus")]
     public int RoomStatus { get; set; }
 
     /// <summary>
-    /// Ö±²¥×´Ì¬£¬0-Î´¿ª²¥£¬1-ÕıÔÚÖ±²¥£¬2-ÂÖ²¥.
+    /// ç›´æ’­çŠ¶æ€ï¼Œ0-æœªå¼€æ’­ï¼Œ1-æ­£åœ¨ç›´æ’­ï¼Œ2-è½®æ’­.
     /// </summary>
     [JsonPropertyName("liveStatus")]
     public int LiveStatus { get; set; }
 
     /// <summary>
-    /// Ö±²¥µØÖ·.
+    /// ç›´æ’­åœ°å€.
     /// </summary>
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
     /// <summary>
-    /// Ö±²¥±êÌâ.
+    /// ç›´æ’­æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ÔÚÏß¹Û¿´ÈËÊı.
+    /// åœ¨çº¿è§‚çœ‹äººæ•°.
     /// </summary>
     [JsonPropertyName("online")]
     public int ViewerCount { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("roomid")]
     public int RoomId { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äÊÓÆµ¼¯.
+/// ç”¨æˆ·ç©ºé—´è§†é¢‘é›†.
 /// </summary>
 public class UserSpaceVideoSet
 {
     /// <summary>
-    /// ÊÓÆµ×ÜÊı.
+    /// è§†é¢‘æ€»æ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÁĞ±í.
+    /// è§†é¢‘åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("item")]
     public List<UserSpaceVideoItem> List { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äÊÓÆµÌõÄ¿.
+/// ç”¨æˆ·ç©ºé—´è§†é¢‘æ¡ç›®.
 /// </summary>
 public class UserSpaceVideoItem
 {
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÃû.
+    /// åˆ†åŒºå.
     /// </summary>
     [JsonPropertyName("tname")]
     public string PartitionName { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ·âÃæ.
+    /// è§†é¢‘å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ÊÓÆµId.
+    /// è§†é¢‘Id.
     /// </summary>
     [JsonPropertyName("param")]
     public string Id { get; set; }
 
     /// <summary>
-    /// Ä¿±êÀàĞÍ.
+    /// ç›®æ ‡ç±»å‹.
     /// </summary>
     [JsonPropertyName("goto")]
     public string Goto { get; set; }
 
     /// <summary>
-    /// Ê±³¤.
+    /// æ—¶é•¿.
     /// </summary>
     [JsonPropertyName("duration")]
     public int Duration { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªºÏ×÷ÊÓÆµ.
+    /// æ˜¯å¦ä¸ºåˆä½œè§†é¢‘.
     /// </summary>
     [JsonPropertyName("is_cooperation")]
     public bool IsCooperation { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªPGCÄÚÈİ.
+    /// æ˜¯å¦ä¸ºPGCå†…å®¹.
     /// </summary>
     [JsonPropertyName("is_pgc")]
     public bool IsPgc { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÖ±²¥»Ø·Å.
+    /// æ˜¯å¦ä¸ºç›´æ’­å›æ”¾.
     /// </summary>
     [JsonPropertyName("is_live_playback")]
     public bool IsLivePlayback { get; set; }
 
     /// <summary>
-    /// ²¥·Å´ÎÊı.
+    /// æ’­æ”¾æ¬¡æ•°.
     /// </summary>
     [JsonPropertyName("play")]
     public int PlayCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmaku")]
     public int DanmakuCount { get; set; }
 
     /// <summary>
-    /// ´´½¨Ê±¼ä.
+    /// åˆ›å»ºæ—¶é—´.
     /// </summary>
     [JsonPropertyName("ctime")]
     public int CreateTime { get; set; }
 
     /// <summary>
-    /// ·¢²¼ÕßÃû³Æ.
+    /// å‘å¸ƒè€…åç§°.
     /// </summary>
     [JsonPropertyName("author")]
     public string PublisherName { get; set; }
@@ -296,25 +290,25 @@ public class UserSpaceVideoItem
     public string Bvid { get; set; }
 
     /// <summary>
-    /// Ê×¸ö·ÖPµÄId.
+    /// é¦–ä¸ªåˆ†Pçš„Id.
     /// </summary>
     [JsonPropertyName("first_cid")]
     public int FirstCid { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¿Õ¼äÎÄÕÂ¼¯.
+/// ç”¨æˆ·ç©ºé—´æ–‡ç« é›†.
 /// </summary>
 public class UserSpaceArticleSet
 {
     /// <summary>
-    /// ÎÄÕÂ¸öÊı.
+    /// æ–‡ç« ä¸ªæ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// ÎÄÕÂÁĞ±í.
+    /// æ–‡ç« åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("item")]
     public List<Article> List { get; set; }

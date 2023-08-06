@@ -20,6 +20,7 @@
                                 Height="40"
                                 HorizontalAlignment="Center"
                                 Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Avatar.Uri}"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowDetailCommand}"
                                 DecodeSize="40"
                                 UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Name}" />
                             <StackPanel Grid.Row="1">
