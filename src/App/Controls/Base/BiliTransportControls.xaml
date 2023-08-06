@@ -38,7 +38,7 @@
         <Grid.RenderTransform>
             <TranslateTransform x:Name="TranslateVertical" />
         </Grid.RenderTransform>
-        
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -161,7 +161,8 @@
                         BorderThickness="3"
                         Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
                         CornerRadius="22"
-                        IsEnabled="{x:Bind ViewModel.Player.Player.CanPlay, Mode=OneWay}">
+                        IsEnabled="{x:Bind ViewModel.Player.Player.CanPlay, Mode=OneWay}"
+                        UseLayoutRounding="False">
                         <Grid>
                             <local:FluentIcon
                                 x:Name="PauseIcon"
