@@ -102,4 +102,5 @@ public enum SettingNames
     OpenFolderWhenDownloaded,
     PreferAudioQuality,
     WindowHeight,
+    BBDownConfigPath,
 }

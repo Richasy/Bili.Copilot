@@ -3,6 +3,7 @@
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.Bili;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -11,7 +12,9 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class DownloadModuleViewModel
 {
+    private readonly Window _attachedWindow;
     private string _id;
+    private string _configPath;
 
     [ObservableProperty]
     private bool _isSupported;
@@ -24,6 +27,9 @@ public sealed partial class DownloadModuleViewModel
 
     [ObservableProperty]
     private bool _openFolderWhenDownloaded;
+
+    [ObservableProperty]
+    private bool _isBBDownConfigLinked;
 
     /// <summary>
     /// 视频类型.
