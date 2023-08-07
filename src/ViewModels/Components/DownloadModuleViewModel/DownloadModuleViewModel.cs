@@ -12,6 +12,7 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -25,8 +26,9 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
     /// <summary>
     /// Initializes a new instance of the <see cref="DownloadModuleViewModel"/> class.
     /// </summary>
-    public DownloadModuleViewModel()
+    public DownloadModuleViewModel(Window attachedWindow)
     {
+        _attachedWindow = attachedWindow;
         Parts = new ObservableCollection<VideoIdentifierSelectableViewModel>();
         OpenFolderWhenDownloaded = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.OpenFolderWhenDownloaded, true);
         AttachIsRunningToAsyncCommand(p => IsDownloading = p, DownloadCommand);
@@ -40,6 +42,8 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
     public void SetData(string id, IEnumerable<VideoIdentifier> parts = default)
     {
         _id = id;
+        _configPath = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.BBDownConfigPath, string.Empty);
+        IsBBDownConfigLinked = !string.IsNullOrEmpty(_configPath) && File.Exists(_configPath);
         IsSupported = AppViewModel.Instance.IsDownloadSupported;
         TryClear(Parts);
         parts?.Select(p => new VideoIdentifierSelectableViewModel(p)).ToList().ForEach(Parts.Add);
@@ -52,10 +56,52 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static async Task OpenConfigAsync()
+    private async Task OpenConfigAsync()
     {
-        var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/BBDown.config")).AsTask();
+        if (!File.Exists(_configPath))
+        {
+            return;
+        }
+
+        var file = await StorageFile.GetFileFromPathAsync(_configPath).AsTask();
         await Windows.System.Launcher.LaunchFileAsync(file);
+    }
+
+    [RelayCommand]
+    private async Task CreateDefaultConfigAsync()
+    {
+        var docFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        var configPath = Path.Combine(docFolder, "BBDown.config");
+        if (!File.Exists(configPath))
+        {
+            var stream = File.Create(configPath);
+            stream.Dispose();
+        }
+
+        await File.WriteAllTextAsync(configPath, "-mt");
+        _configPath = configPath;
+        IsBBDownConfigLinked = true;
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.BBDownConfigPath, _configPath);
+    }
+
+    [RelayCommand]
+    private async Task LinkConfigFileAsync()
+    {
+        var file = await FileToolkit.PickFileAsync(".config", _attachedWindow);
+        if (file != null)
+        {
+            _configPath = file.Path;
+            SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.BBDownConfigPath, _configPath);
+            IsBBDownConfigLinked = true;
+        }
+    }
+
+    [RelayCommand]
+    private void ResetConfig()
+    {
+        _configPath = string.Empty;
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.BBDownConfigPath, string.Empty);
+        IsBBDownConfigLinked = false;
     }
 
     [RelayCommand]

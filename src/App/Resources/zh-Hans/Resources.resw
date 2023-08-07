@@ -447,6 +447,12 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="CoverDownloaderIntroduce" xml:space="preserve">
     <value>输入视频的 AV 或 BV 号，应用会尝试获取其封面并提供预览，确认后请点击下载按钮，应用会将其下载到图库并打开</value>
   </data>
+  <data name="CreateConfig" xml:space="preserve">
+    <value>创建配置</value>
+  </data>
+  <data name="CreateOrLinkBBdownConfig" xml:space="preserve">
+    <value>创建或者关联 BBDown 配置文件</value>
+  </data>
   <data name="CurrentPlaybackRate" xml:space="preserve">
     <value>当前播放速率</value>
   </data>
@@ -974,6 +980,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="LikeMessageSingleDescription" xml:space="preserve">
     <value>{0} 赞了我的{1}</value>
+  </data>
+  <data name="LinkConfig" xml:space="preserve">
+    <value>关联配置</value>
   </data>
   <data name="Live" xml:space="preserve">
     <value>直播</value>
@@ -1574,6 +1583,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="RequestViewLaterFailed" xml:space="preserve">
     <value>请求稍后再看列表失败</value>
+  </data>
+  <data name="ResetConfig" xml:space="preserve">
+    <value>重置配置</value>
   </data>
   <data name="RestartWarning" xml:space="preserve">
     <value>您更改了静态资源，需要重启应用才能生效</value>

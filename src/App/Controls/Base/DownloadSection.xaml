@@ -29,8 +29,29 @@
                 Content="{ext:Locale Name=StartDownload}"
                 IsEnabled="{x:Bind ViewModel.IsDownloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
             <labs:SettingsExpander.Items>
-                <labs:SettingsCard Description="{ext:Locale Name=BBDownConfigDescription}" Header="{ext:Locale Name=BBDownConfig}">
-                    <Button Command="{x:Bind ViewModel.OpenConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenConfig}" />
+                <labs:SettingsCard
+                    Description="{ext:Locale Name=BBDownConfigDescription}"
+                    Header="{ext:Locale Name=BBDownConfig}"
+                    Visibility="{x:Bind ViewModel.IsBBDownConfigLinked, Mode=OneWay}">
+                    <SplitButton Command="{x:Bind ViewModel.OpenConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenConfig}">
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.ResetConfigCommand, Mode=OneWay}" Text="{ext:Locale Name=ResetConfig}" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                </labs:SettingsCard>
+                <labs:SettingsCard
+                    Description="{ext:Locale Name=CreateOrLinkBBdownConfig}"
+                    Header="{ext:Locale Name=BBDown}"
+                    Visibility="{x:Bind ViewModel.IsBBDownConfigLinked, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <SplitButton Command="{x:Bind ViewModel.CreateDefaultConfigCommand, Mode=OneWay}" Content="{ext:Locale Name=CreateConfig}">
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.LinkConfigFileCommand, Mode=OneWay}" Text="{ext:Locale Name=LinkConfig}" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
                 </labs:SettingsCard>
                 <labs:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
                     <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderWhenDownloaded, Mode=TwoWay}" />

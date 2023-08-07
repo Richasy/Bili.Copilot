@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace Bili.Copilot.Libs.Toolkit;
 
@@ -149,5 +150,21 @@ public static class FileToolkit
         {
             return string.Empty;
         }
+    }
+
+    /// <summary>
+    /// 选择文件.
+    /// </summary>
+    /// <param name="extension">扩展名.</param>
+    /// <param name="windowInstance">窗口对象.</param>
+    /// <returns>文件对象（可能为空）.</returns>
+    public static async Task<StorageFile> PickFileAsync(string extension, object windowInstance)
+    {
+        var picker = new FileOpenPicker();
+        InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(windowInstance));
+        picker.FileTypeFilter.Add(extension);
+        picker.SuggestedStartLocation = PickerLocationId.Desktop;
+        var file = await picker.PickSingleFileAsync().AsTask();
+        return file;
     }
 }

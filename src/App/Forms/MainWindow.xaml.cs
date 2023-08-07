@@ -33,7 +33,6 @@ public sealed partial class MainWindow : WindowBase
         Instance = this;
         CustomTitleBar.AttachedWindow = this;
         IsMaximizable = false;
-        Activated += OnActivated;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
@@ -87,6 +86,8 @@ public sealed partial class MainWindow : WindowBase
 #if !DEBUG
         _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
+        _appViewModel.CheckAIFeatureCommand.Execute(default);
+        _appViewModel.CheckBBDownExistCommand.Execute(default);
         _isInitialized = true;
     }
 
@@ -185,15 +186,6 @@ public sealed partial class MainWindow : WindowBase
 
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
-
-    private void OnActivated(object sender, WindowActivatedEventArgs args)
-    {
-        if (args.WindowActivationState == WindowActivationState.PointerActivated)
-        {
-            AppViewModel.Instance.CheckAIFeatureCommand.Execute(default);
-            AppViewModel.Instance.CheckBBDownExistCommand.Execute(default);
-        }
-    }
 
     private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
         => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);

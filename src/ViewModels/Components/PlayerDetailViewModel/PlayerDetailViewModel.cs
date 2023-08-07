@@ -33,7 +33,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         SubtitleViewModel = new SubtitleModuleViewModel();
         DanmakuViewModel = new DanmakuModuleViewModel();
         InteractionViewModel = new InteractionModuleViewModel();
-        DownloadViewModel = new DownloadModuleViewModel();
+        DownloadViewModel = new DownloadModuleViewModel(attachedWindow);
 
         InteractionViewModel.NoMoreChoices += OnInteractionModuleNoMoreChoices;
         PropertyChanged += OnPropertyChanged;
