@@ -162,16 +162,24 @@ public partial class BiliPlayerOverlay
 
                 if (ViewModel.DanmakuViewModel.IsDanmakuMerge)
                 {
-                    data = data.Distinct().ToList();
+                    data = data.Distinct().Where(p => !p.IsSend).ToList();
                 }
 
-                _ = DispatcherQueue.TryEnqueue(() =>
+                if (data.Count > 0)
                 {
                     foreach (var item in data)
                     {
-                        _danmakuView.AddScreenDanmaku(item, false);
+                        if (item.IsSend)
+                        {
+                            continue;
+                        }
+
+                        _ = DispatcherQueue.TryEnqueue(() =>
+                        {
+                            _danmakuView.AddScreenDanmaku(item, false);
+                        });
                     }
-                });
+                }
             }
         }
         catch (Exception)
