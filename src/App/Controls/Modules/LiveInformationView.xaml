@@ -117,6 +117,7 @@
                     <TextBlock
                         x:Name="DescriptionBlock"
                         HorizontalAlignment="Left"
+                        IsTextSelectionEnabled="True"
                         Text="{x:Bind ViewModel.View.Information.Description, Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>
