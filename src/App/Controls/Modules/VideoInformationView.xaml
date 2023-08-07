@@ -273,6 +273,7 @@
                     HorizontalAlignment="Left"
                     FontSize="13"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.View.Information.Description, Mode=OneWay}"
                     TextWrapping="Wrap" />
                 <StackPanel

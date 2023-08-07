@@ -185,6 +185,7 @@
                         x:Name="DescriptionBlock"
                         HorizontalAlignment="Left"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{x:Bind ViewModel.View.Information.Tags, Mode=OneWay}" />
                 </StackPanel>
