@@ -161,7 +161,7 @@ public sealed partial class PlayerDetailViewModel
 
         try
         {
-            Player.SetSource(_video, _audio, IsAudioOnly);
+            await Player.SetSourceAsync(_video, _audio, IsAudioOnly);
             StartTimers();
         }
         catch (Exception ex)

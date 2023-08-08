@@ -6,6 +6,7 @@ using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Windows.Media.Playback;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -74,10 +75,7 @@ public sealed partial class BiliPlayer : BiliPlayerBase
 
     private void ReloadPlayer()
     {
-        if (ViewModel.Player is FFmpegPlayerViewModel)
-        {
-            IsFFmpeg = true;
-        }
+        IsFFmpeg = ViewModel.Player is FFmpegPlayerViewModel;
     }
 }
 
@@ -92,6 +90,14 @@ internal sealed class FFmpegPlayerConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
         => value is Player player ? player : (object)default;
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+}
+
+internal sealed class NativePlayerConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, string language)
+        => value is MediaPlayer player ? player : (object)default;
 
     public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
 }

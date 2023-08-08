@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
@@ -126,7 +127,8 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     /// <param name="video">视频源.</param>
     /// <param name="audio">音频源.</param>
     /// <param name="audioOnly">是否仅音频.</param>
-    void SetSource(SegmentInformation video, SegmentInformation audio, bool audioOnly);
+    /// <returns><see cref="Task"/>.</returns>
+    Task SetSourceAsync(SegmentInformation video, SegmentInformation audio, bool audioOnly);
 
     /// <summary>
     /// 设置直播源.

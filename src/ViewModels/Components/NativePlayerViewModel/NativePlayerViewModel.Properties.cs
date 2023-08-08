@@ -1,26 +1,28 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
-using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
-/// 使用 FFmpeg 的播放器视图模型.
+/// 原生播放器视图模型.
 /// </summary>
-public sealed partial class FFmpegPlayerViewModel
+public sealed partial class NativePlayerViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
 
     private SegmentInformation _video;
     private SegmentInformation _audio;
+    private MediaSource _videoSource;
+    private MediaPlaybackItem _videoPlaybackItem;
 
-    private string _recordingFileName;
     private bool _isStopped;
 
     [ObservableProperty]
@@ -28,9 +30,6 @@ public sealed partial class FFmpegPlayerViewModel
 
     [ObservableProperty]
     private object _player;
-
-    [ObservableProperty]
-    private bool _isRecording;
 
     /// <inheritdoc/>
     public event EventHandler MediaOpened;
@@ -45,29 +44,32 @@ public sealed partial class FFmpegPlayerViewModel
     public event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
 
     /// <inheritdoc/>
-    public TimeSpan Position => Player == null ? TimeSpan.Zero : TimeSpan.FromTicks(((Player)Player).CurTime);
+    public bool IsRecording => false;
 
     /// <inheritdoc/>
-    public TimeSpan Duration => Player == null ? TimeSpan.Zero : TimeSpan.FromTicks(((Player)Player).Duration);
+    public TimeSpan Position => Player == null ? TimeSpan.Zero : ((MediaPlayer)Player).Position;
 
     /// <inheritdoc/>
-    public double Volume => ((Player)Player).Audio.Volume;
+    public TimeSpan Duration => Player == null ? TimeSpan.Zero : ((MediaPlayer)Player).NaturalDuration;
 
     /// <inheritdoc/>
-    public double PlayRate => ((Player)Player).Speed;
+    public double Volume => Player == null ? 100 : ((MediaPlayer)Player).Volume;
 
     /// <inheritdoc/>
-    public string LastError => Player == null ? string.Empty : ((Player)Player).LastError;
+    public double PlayRate => Player == null ? 1 : ((MediaPlayer)Player).PlaybackRate;
+
+    /// <inheritdoc/>
+    public string LastError { get; private set; }
 
     /// <inheritdoc/>
     public PlayerStatus Status { get; set; }
 
     /// <inheritdoc/>
-    public bool IsPlayerReady => Player is Player player && player.CanPlay;
+    public bool IsPlayerReady => Player is MediaPlayer player && player.CanSeek;
 
     /// <inheritdoc/>
-    public bool IsRecordingSupported => true;
+    public bool IsRecordingSupported => false;
 
     /// <inheritdoc/>
-    public bool IsMediaStatsSupported => true;
+    public bool IsMediaStatsSupported => false;
 }

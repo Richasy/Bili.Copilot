@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Threading.Tasks;
 using Bili.Copilot.Libs.Flyleaf;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.Libs.Toolkit;
@@ -76,12 +77,13 @@ public sealed partial class FFmpegPlayerViewModel : ViewModelBase, IPlayerViewMo
     }
 
     /// <inheritdoc/>
-    public void SetSource(SegmentInformation video, SegmentInformation audio, bool audioOnly)
+    public Task SetSourceAsync(SegmentInformation video, SegmentInformation audio, bool audioOnly)
     {
         _video = video;
         _audio = audio;
         _isStopped = false;
         LoadDashVideoSource(audioOnly);
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>

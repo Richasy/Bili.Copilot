@@ -69,6 +69,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Base/VerticalRepeaterView/VerticalRepeaterView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Danmaku/DanmakuView/DanmakuView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/FFmpegPlayer/FFmpegPlayer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Base/NativePlayer/NativePlayer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayerOverlay/BiliPlayerOverlay.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BubbleView/BubbleView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/ProgressButton/ProgressButton.xaml" />

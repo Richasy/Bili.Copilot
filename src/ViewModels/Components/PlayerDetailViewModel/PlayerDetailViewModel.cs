@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
@@ -254,7 +255,9 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
         if (Player == null)
         {
-            Player = new FFmpegPlayerViewModel();
+            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+            var isFFmpeg = preferPlayer == PlayerType.FFmpeg || _videoType == VideoType.Live;
+            Player = isFFmpeg ? new FFmpegPlayerViewModel() : new NativePlayerViewModel();
             Player.Initialize();
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;

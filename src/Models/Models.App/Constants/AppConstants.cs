@@ -1,9 +1,9 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.App.Constants;
 
 /// <summary>
-/// Ó¦ÓÃ³£Á¿.
+/// åº”ç”¨å¸¸é‡.
 /// </summary>
 public static class AppConstants
 {
@@ -31,7 +31,8 @@ public static class AppConstants
     public const int PgcCoverHeight = 240;
 
     public const string DashVideoMPDFile = "ms-appx:///Assets/DashVideoTemplate.xml";
-    public const string DashVideoWithoudAudioMPDFile = "ms-appx:///Assets/DashVideoWithoutAudioTemplate.xml";
+    public const string DashVideoWithoutAudioMPDFile = "ms-appx:///Assets/DashVideoWithoutAudioTemplate.xml";
+    public const string DashAudioWithoutVideoMPDFile = "ms-appx:///Assets/DashAudioWithoutVideoTemplate.xml";
 
     public const string ImageClickEvent = "ImageClick";
     public const string LinkClickEvent = "LinkClick";
@@ -50,12 +51,12 @@ public static class AppConstants
     public const string MediumWindowThresholdWidthKey = "MediumWindowThresholdWidth";
 
     /// <summary>
-    /// ßÙÁ¨ßÙÁ¨·¬¾ç³ö²îÕË»§Id.
+    /// å“”å“©å“”å“©ç•ªå‰§å‡ºå·®è´¦æˆ·Id.
     /// </summary>
     public const int RegionalAnimeUserId = 11783021;
 
     /// <summary>
-    /// Î±¼ÓÔØÊ±¼ä.
+    /// ä¼ªåŠ è½½æ—¶é—´.
     /// </summary>
     public const int FakeLoadingMilliseconds = 300;
 

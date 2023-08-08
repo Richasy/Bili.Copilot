@@ -10,13 +10,19 @@
 
     <UserControl.Resources>
         <local:FFmpegPlayerConverter x:Key="FFmpegPlayerConverter" />
+        <local:NativePlayerConverter x:Key="NativePlayerConverter" />
     </UserControl.Resources>
 
     <Grid>
         <local:FFmpegPlayer
             x:Name="FFmpegPlayer"
+            x:Load="{x:Bind IsFFmpeg, Mode=OneWay}"
             Content="{x:Bind Overlay, Mode=OneWay}"
-            Player="{x:Bind ViewModel.Player.Player, Mode=OneWay, Converter={StaticResource FFmpegPlayerConverter}}"
-            Visibility="{x:Bind IsFFmpeg, Mode=OneWay}" />
+            Player="{x:Bind ViewModel.Player.Player, Mode=OneWay, Converter={StaticResource FFmpegPlayerConverter}}" />
+        <local:NativePlayer
+            x:Name="NativePlayer"
+            x:Load="{x:Bind IsFFmpeg, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+            Content="{x:Bind Overlay, Mode=OneWay}"
+            Player="{x:Bind ViewModel.Player.Player, Mode=OneWay, Converter={StaticResource NativePlayerConverter}}" />
     </Grid>
 </local:BiliPlayerBase>
