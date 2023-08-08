@@ -161,7 +161,7 @@
                         BorderThickness="3"
                         Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
                         CornerRadius="22"
-                        IsEnabled="{x:Bind ViewModel.Player.Player.CanPlay, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.Player.IsPlayerReady, Mode=OneWay}"
                         UseLayoutRounding="False">
                         <Grid>
                             <local:FluentIcon

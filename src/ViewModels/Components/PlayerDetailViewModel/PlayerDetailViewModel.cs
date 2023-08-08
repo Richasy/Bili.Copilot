@@ -254,8 +254,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
         if (Player == null)
         {
-            Player = new MediaPlayerViewModel();
-            Player.Initialize(_videoType == VideoType.Live);
+            Player = new FFmpegPlayerViewModel();
+            Player.Initialize();
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;
             Player.PositionChanged += OnMediaPositionChanged;

@@ -220,11 +220,11 @@ public partial class BiliPlayerOverlay
         {
             if (ViewModel.Status == PlayerStatus.Playing)
             {
-                _danmakuView.ResumeDanmaku();
+                _danmakuView?.ResumeDanmaku();
             }
             else if (!IsLive)
             {
-                _danmakuView.PauseDanmaku();
+                _danmakuView?.PauseDanmaku();
             }
         }
     }

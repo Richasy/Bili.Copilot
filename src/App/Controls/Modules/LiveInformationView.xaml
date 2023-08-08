@@ -85,7 +85,7 @@
                     </labs:SettingsCard>
                 </StackPanel>
 
-                <base:MediaStatsPanel ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}">
+                <base:MediaStatsPanel ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}" Visibility="{x:Bind ViewModel.PlayerDetail.Player.IsMediaStatsSupported, Mode=OneWay}">
                     <base:MediaStatsPanel.AdditionalContent>
                         <StackPanel Spacing="4">
                             <TextBlock

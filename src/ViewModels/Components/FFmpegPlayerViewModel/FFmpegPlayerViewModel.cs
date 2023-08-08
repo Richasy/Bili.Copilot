@@ -14,20 +14,20 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 使用 FFmpeg 的播放器视图模型.
 /// </summary>
-public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
+public sealed partial class FFmpegPlayerViewModel : ViewModelBase, IPlayerViewModel
 {
     private bool _disposedValue;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MediaPlayerViewModel"/> class.
+    /// Initializes a new instance of the <see cref="FFmpegPlayerViewModel"/> class.
     /// </summary>
-    public MediaPlayerViewModel()
+    public FFmpegPlayerViewModel()
         => _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
     /// <summary>
     /// 初始化.
     /// </summary>
-    public void Initialize(bool isLive)
+    public void Initialize()
     {
         if (!AppViewModel.Instance.IsEngineStarted)
         {
@@ -65,20 +65,17 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         config.Decoder.ShowCorrupted = true;
         config.Player.MinBufferDuration = TimeSpan.FromSeconds(5).Ticks;
 
-        Player = new Player(config);
-        Player.PropertyChanged += OnPlayerPropertyChanged;
-        Player.PlaybackStopped += OnPlayerPlaybackStopped;
-        Player.OpenPlaylistItemCompleted += OnOpenPlaylistItemCompleted;
-        Player.OpenCompleted += OnPlayerOpenCompleted;
-        Player.BufferingStarted += OnPlayerBufferingStarted;
-        Player.BufferingCompleted += OnPlayerBufferingCompleted;
+        var player = new Player(config);
+        player.PropertyChanged += OnPlayerPropertyChanged;
+        player.PlaybackStopped += OnPlayerPlaybackStopped;
+        player.OpenPlaylistItemCompleted += OnOpenPlaylistItemCompleted;
+        player.OpenCompleted += OnPlayerOpenCompleted;
+        player.BufferingStarted += OnPlayerBufferingStarted;
+        player.BufferingCompleted += OnPlayerBufferingCompleted;
+        Player = player;
     }
 
-    /// <summary>
-    /// 设置音频、视频源.
-    /// </summary>
-    /// <param name="video">视频源.</param>
-    /// <param name="audio">音频源.</param>
+    /// <inheritdoc/>
     public void SetSource(SegmentInformation video, SegmentInformation audio, bool audioOnly)
     {
         _video = video;
@@ -87,10 +84,7 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         LoadDashVideoSource(audioOnly);
     }
 
-    /// <summary>
-    /// 设置直播源.
-    /// </summary>
-    /// <param name="url">直播地址.</param>
+    /// <inheritdoc/>
     public void SetLiveSource(string url, bool audioOnly)
     {
         _video = null;
@@ -99,15 +93,16 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
         LoadDashLiveSource(url, audioOnly);
     }
 
-    /// <summary>
-    /// 暂停.
-    /// </summary>
+    /// <inheritdoc/>
     public void Pause()
-        => Player?.Pause();
+    {
+        if (Player is Player player)
+        {
+            player.Pause();
+        }
+    }
 
-    /// <summary>
-    /// 停止.
-    /// </summary>
+    /// <inheritdoc/>
     public void Stop()
     {
         if (_isStopped)
@@ -115,32 +110,31 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        Player?.Stop();
+        if (Player is Player player)
+        {
+            player.Stop();
+        }
+
         _isStopped = true;
     }
 
-    /// <summary>
-    /// 播放.
-    /// </summary>
+    /// <inheritdoc/>
     public void Play()
     {
-        if (Player == null)
+        if (Player is not Player player)
         {
             return;
         }
 
-        if (Math.Abs(Player.Duration - Player.CurTime) < 3 * 1000 * 10000)
+        if (Math.Abs(player.Duration - player.CurTime) < 3 * 1000 * 10000)
         {
             SeekTo(TimeSpan.Zero);
         }
 
-        Player?.Play();
+        player.Play();
     }
 
-    /// <summary>
-    /// 跳转至.
-    /// </summary>
-    /// <param name="time">指定的时间.</param>
+    /// <inheritdoc/>
     public void SeekTo(TimeSpan time)
     {
         if (time.TotalMilliseconds >= Duration.TotalMilliseconds
@@ -149,22 +143,19 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        Player?.Seek(Convert.ToInt32(time.TotalMilliseconds));
+        if (Player is Player player)
+        {
+            player.Seek(Convert.ToInt32(time.TotalMilliseconds));
+        }
     }
 
-    /// <summary>
-    /// 设置播放速率.
-    /// </summary>
-    /// <param name="rate">播放速率.</param>
+    /// <inheritdoc/>
     public void SetPlayRate(double rate)
-        => Player.Speed = rate;
+        => ((Player)Player).Speed = rate;
 
-    /// <summary>
-    /// 设置音量.
-    /// </summary>
-    /// <param name="volume">音量.</param>
+    /// <inheritdoc/>
     public void SetVolume(int volume)
-        => Player.Audio.Volume = Convert.ToInt32(volume);
+        => ((Player)Player).Audio.Volume = Convert.ToInt32(volume);
 
     /// <inheritdoc/>
     public void Dispose()
@@ -180,7 +171,11 @@ public sealed partial class MediaPlayerViewModel : ViewModelBase, IDisposable
             if (disposing)
             {
                 Stop();
-                Player?.Dispose();
+
+                if (Player is IDisposable player)
+                {
+                    player.Dispose();
+                }
             }
 
             Player = null;

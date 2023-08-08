@@ -14,18 +14,18 @@ namespace Bili.Copilot.App.Controls.Base;
 /// <summary>
 /// 哔哩播放器.
 /// </summary>
-public sealed class BiliPlayer : ContentControl, IMediaTransportControls
+public sealed class FFmpegPlayer : ContentControl, IMediaTransportControls
 {
     /// <summary>
     /// <see cref="Player"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty PlayerProperty =
-        DependencyProperty.Register(nameof(Player), typeof(Player), typeof(BiliPlayer), new PropertyMetadata(default, new PropertyChangedCallback(OnPlayerChanged)));
+        DependencyProperty.Register(nameof(Player), typeof(Player), typeof(FFmpegPlayer), new PropertyMetadata(default, new PropertyChangedCallback(OnPlayerChanged)));
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
+    /// Initializes a new instance of the <see cref="FFmpegPlayer"/> class.
     /// </summary>
-    public BiliPlayer() => DefaultStyleKey = typeof(BiliPlayer);
+    public FFmpegPlayer() => DefaultStyleKey = typeof(FFmpegPlayer);
 
     /// <summary>
     /// 图像播放面板.
@@ -82,7 +82,7 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
 
     private static void OnPlayerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is BiliPlayer instance && e.NewValue is Player)
+        if (d is FFmpegPlayer instance && e.NewValue is Player)
         {
             instance.ReplacePlayer(e.OldValue as Player);
         }
@@ -119,6 +119,11 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
 
     private void SwapChainClbk(IDXGISwapChain2 swapChain)
     {
+        if (Panel == null)
+        {
+            return;
+        }
+
         using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(Panel))
         {
             _ = nativeObject.SetSwapChain(swapChain);

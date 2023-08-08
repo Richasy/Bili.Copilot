@@ -245,7 +245,7 @@ public sealed partial class PlayerDetailViewModel
     {
         _ = _dispatcherQueue.TryEnqueue(() =>
         {
-            IsError = e.Status == PlayerStatus.Failed || !string.IsNullOrEmpty(Player.Player.LastError);
+            IsError = e.Status == PlayerStatus.Failed || !string.IsNullOrEmpty(Player.LastError);
             Status = e.Status;
             IsMediaPause = e.Status != PlayerStatus.Playing;
             IsBuffering = e.Status == PlayerStatus.Buffering;

@@ -17,10 +17,9 @@
             <base:BiliPlayer
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Black"
-                Player="{x:Bind ViewModel.PlayerDetail.Player.Player, Mode=OneWay}"
+                ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <Grid>
+                <base:BiliPlayer.Overlay>
                     <base:BiliPlayerOverlay
                         SectionHeaderItemInvoked="OnSectionHeaderItemInvoked"
                         SectionHeaderItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
@@ -95,7 +94,7 @@
                             </Grid>
                         </base:BiliPlayerOverlay.SectionContent>
                     </base:BiliPlayerOverlay>
-                </Grid>
+                </base:BiliPlayer.Overlay>
             </base:BiliPlayer>
             <StackPanel
                 HorizontalAlignment="Center"

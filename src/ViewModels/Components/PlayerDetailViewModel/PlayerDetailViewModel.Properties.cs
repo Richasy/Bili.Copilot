@@ -142,7 +142,7 @@ public sealed partial class PlayerDetailViewModel
     private bool _canPlayNextPart;
 
     [ObservableProperty]
-    private MediaPlayerViewModel _player;
+    private IPlayerViewModel _player;
 
     /// <summary>
     /// 当需要显示临时消息时触发的事件.

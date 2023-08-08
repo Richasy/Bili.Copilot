@@ -22,7 +22,7 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 使用 FFmpeg 的播放器视图模型.
 /// </summary>
-public sealed partial class MediaPlayerViewModel
+public sealed partial class FFmpegPlayerViewModel
 {
     /// <summary>
     /// 获取当前正在播放的媒体信息.
@@ -30,13 +30,13 @@ public sealed partial class MediaPlayerViewModel
     /// <returns><see cref="MediaStats"/>.</returns>
     public MediaStats GetMediaInformation()
     {
-        if (Player == null || !Player.CanPlay)
+        if (Player == null || !((Player)Player).CanPlay)
         {
             return null;
         }
 
-        var video = Player.Video;
-        var audio = Player.Audio;
+        var video = ((Player)Player).Video;
+        var audio = ((Player)Player).Audio;
         var fps = video?.FPS ?? -1;
         var width = video.Width;
         var height = video.Height;
@@ -100,7 +100,7 @@ public sealed partial class MediaPlayerViewModel
         var path = Path.Combine(folderPath, fileName);
         await Task.Run(() =>
         {
-            Player.TakeSnapshotToFile(path);
+            ((Player)Player).TakeSnapshotToFile(path);
         });
 
         _ = _dispatcherQueue.TryEnqueue(async () =>
@@ -129,7 +129,7 @@ public sealed partial class MediaPlayerViewModel
 
         var fileName = $"{DateTime.Now:yyyy_MM_dd_HH_mm_ss}";
         _recordingFileName = Path.Combine(folderPath, fileName);
-        Player.StartRecording(ref _recordingFileName);
+        ((Player)Player).StartRecording(ref _recordingFileName);
     }
 
     [RelayCommand]
@@ -140,7 +140,7 @@ public sealed partial class MediaPlayerViewModel
             return;
         }
 
-        Player.StopRecording();
+        ((Player)Player).StopRecording();
         if (File.Exists(_recordingFileName))
         {
             var file = await StorageFile.GetFileFromPathAsync(_recordingFileName).AsTask();
@@ -172,7 +172,7 @@ public sealed partial class MediaPlayerViewModel
             playItem.Tag.Add("cookie", cookie);
         }
 
-        Player.OpenAsync(playItem);
+        ((Player)Player).OpenAsync(playItem);
     }
 
     private void LoadDashLiveSource(string url, bool onlyAudio)
@@ -191,7 +191,7 @@ public sealed partial class MediaPlayerViewModel
             }
 
             playItem.Tag.Add("onlyAudio", onlyAudio);
-            Player.OpenAsync(playItem);
+            ((Player)Player).OpenAsync(playItem);
         }
         catch (Exception ex)
         {
@@ -231,7 +231,7 @@ public sealed partial class MediaPlayerViewModel
 
             if (e.Success)
             {
-                Status = ConvertPlayerStatus(Player.Status);
+                Status = ConvertPlayerStatus(((Player)Player).Status);
                 var arg = new MediaStateChangedEventArgs(Status, string.Empty);
                 StateChanged?.Invoke(this, arg);
             }
@@ -271,7 +271,7 @@ public sealed partial class MediaPlayerViewModel
 
             if (e.Success)
             {
-                Status = Player.Status == Libs.Flyleaf.MediaPlayer.Status.Paused ? PlayerStatus.Pause : PlayerStatus.End;
+                Status = ((Player)Player).Status == Libs.Flyleaf.MediaPlayer.Status.Paused ? PlayerStatus.Pause : PlayerStatus.End;
                 if (Status == PlayerStatus.End)
                 {
                     MediaEnded?.Invoke(this, EventArgs.Empty);
@@ -311,7 +311,7 @@ public sealed partial class MediaPlayerViewModel
 
     private void OnPlayerPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(Player.Status))
+        if (e.PropertyName == "Status")
         {
             if (Player == null)
             {
@@ -320,20 +320,21 @@ public sealed partial class MediaPlayerViewModel
                 return;
             }
 
-            Status = ConvertPlayerStatus(Player.Status);
+            Status = ConvertPlayerStatus(((Player)Player).Status);
 
             var arg = new MediaStateChangedEventArgs(Status, null);
             StateChanged?.Invoke(this, arg);
         }
-        else if (e.PropertyName == nameof(Player.CurTime))
+        else if (e.PropertyName == "CurTime")
         {
-            PositionChanged?.Invoke(this, new MediaPositionChangedEventArgs(Position, TimeSpan.FromTicks(Player?.Duration ?? 0)));
+            var duration = Player is Player player ? player.Duration : 0;
+            PositionChanged?.Invoke(this, new MediaPositionChangedEventArgs(Position, TimeSpan.FromTicks(duration)));
         }
-        else if (e.PropertyName == nameof(Player.IsRecording))
+        else if (e.PropertyName == "IsRecording")
         {
             _dispatcherQueue.TryEnqueue(() =>
             {
-                IsRecording = Player.IsRecording;
+                IsRecording = ((Player)Player).IsRecording;
 
                 if (!IsRecording)
                 {
@@ -341,12 +342,20 @@ public sealed partial class MediaPlayerViewModel
                 }
             });
         }
+        else if (e.PropertyName == "CanPlay")
+        {
+            OnPropertyChanged(nameof(IsPlayerReady));
+        }
     }
 
     [RelayCommand]
     private void Clear()
     {
-        Player?.Dispose();
+        if (Player is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
         Status = PlayerStatus.NotLoad;
     }
 }
