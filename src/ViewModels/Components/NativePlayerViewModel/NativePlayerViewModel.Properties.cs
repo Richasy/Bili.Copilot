@@ -53,7 +53,7 @@ public sealed partial class NativePlayerViewModel
     public TimeSpan Duration => Player == null ? TimeSpan.Zero : ((MediaPlayer)Player).NaturalDuration;
 
     /// <inheritdoc/>
-    public double Volume => Player == null ? 100 : ((MediaPlayer)Player).Volume;
+    public double Volume => Player == null ? 100 : ((MediaPlayer)Player).Volume * 100;
 
     /// <inheritdoc/>
     public double PlayRate => Player == null ? 1 : ((MediaPlayer)Player).PlaybackRate;

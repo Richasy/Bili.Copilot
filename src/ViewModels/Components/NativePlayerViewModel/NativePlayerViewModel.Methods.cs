@@ -91,7 +91,7 @@ public sealed partial class NativePlayerViewModel
             : _audio == null
                 ? AppConstants.DashVideoWithoutAudioMPDFile
                 : AppConstants.DashVideoMPDFile;
-        var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/{mpdFilePath}"));
+        var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mpdFilePath));
         var mpdStr = await FileIO.ReadTextAsync(file);
 
         var videoStr =
@@ -136,8 +136,9 @@ public sealed partial class NativePlayerViewModel
         _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
 
-        var player = (MediaPlayer)Player;
+        var player = GetVideoPlayer();
         player.Source = _videoPlaybackItem;
+        Player = player;
     }
 
     private MediaPlayer GetVideoPlayer()
@@ -222,6 +223,7 @@ public sealed partial class NativePlayerViewModel
                 Status = PlayerStatus.Failed;
             }
 
+            OnPropertyChanged(nameof(IsPlayerReady));
             StateChanged?.Invoke(this, new MediaStateChangedEventArgs(Status, string.Empty));
         });
     }
@@ -299,6 +301,5 @@ public sealed partial class NativePlayerViewModel
         player.MediaFailed -= OnMediaPlayerFailed;
 
         player.Source = null;
-        player.Dispose();
     }
 }

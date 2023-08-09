@@ -23,7 +23,9 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
 
     /// <inheritdoc/>
     public void Initialize()
-        => Player = GetVideoPlayer();
+    {
+        return;
+    }
 
     /// <inheritdoc/>
     public async Task SetSourceAsync(SegmentInformation video, SegmentInformation audio, bool audioOnly)

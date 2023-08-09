@@ -21,7 +21,7 @@
             Player="{x:Bind ViewModel.Player.Player, Mode=OneWay, Converter={StaticResource FFmpegPlayerConverter}}" />
         <local:NativePlayer
             x:Name="NativePlayer"
-            x:Load="{x:Bind IsFFmpeg, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+            x:Load="{x:Bind IsFFmpeg, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             Content="{x:Bind Overlay, Mode=OneWay}"
             Player="{x:Bind ViewModel.Player.Player, Mode=OneWay, Converter={StaticResource NativePlayerConverter}}" />
     </Grid>
