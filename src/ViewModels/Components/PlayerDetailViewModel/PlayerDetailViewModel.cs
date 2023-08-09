@@ -291,5 +291,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     }
 
     partial void OnIsLoopChanged(bool value)
-        => Player.IsLoop = value;
+    {
+        if (Player != null)
+        {
+            Player.IsLoop = value;
+        }
+    }
 }

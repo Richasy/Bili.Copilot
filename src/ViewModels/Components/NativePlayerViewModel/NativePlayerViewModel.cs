@@ -132,4 +132,12 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
             _disposedValue = true;
         }
     }
+
+    partial void OnIsLoopChanged(bool value)
+    {
+        if (Player is MediaPlayer player)
+        {
+            player.IsLoopingEnabled = value;
+        }
+    }
 }
