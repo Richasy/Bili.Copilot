@@ -37,13 +37,13 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     }
 
     /// <inheritdoc/>
-    public void SetLiveSource(string url, bool audioOnly)
+    public async void SetLiveSource(string url, bool audioOnly)
     {
         _video = null;
         _audio = null;
         _isStopped = false;
-
-        // TODO: 支持直播.
+        Clear();
+        await LoadLiveSourceAsync(url);
     }
 
     /// <inheritdoc/>

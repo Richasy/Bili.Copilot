@@ -3,13 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
-    <Style TargetType="local:FFmpegPlayer">
+    <Style TargetType="local:BiliPlayer">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:FFmpegPlayer">
+                <ControlTemplate TargetType="local:BiliPlayer">
                     <Grid Background="Black">
+                        <MediaPlayerElement x:Name="MediaElement" AreTransportControlsEnabled="False" />
                         <SwapChainPanel x:Name="SwapChainPanel" />
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ContentPresenter Content="{TemplateBinding Overlay}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

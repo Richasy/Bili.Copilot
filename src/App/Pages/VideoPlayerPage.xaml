@@ -18,7 +18,7 @@
             <base:BiliPlayer
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}"
+                ViewModel="{x:Bind ViewModel.PlayerDetail.Player, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:BiliPlayer.Overlay>
                     <base:BiliPlayerOverlay

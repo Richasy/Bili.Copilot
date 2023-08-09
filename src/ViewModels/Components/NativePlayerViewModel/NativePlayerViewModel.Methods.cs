@@ -48,6 +48,14 @@ public sealed partial class NativePlayerViewModel
         return httpClient;
     }
 
+    private static HttpClient GetLiveClient()
+    {
+        var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("Referer", "https://live.bilibili.com/");
+        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
+        return httpClient;
+    }
+
     [RelayCommand]
     private async Task TakeScreenshotAsync()
     {
@@ -133,6 +141,18 @@ public sealed partial class NativePlayerViewModel
             }
         };
 
+        _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
+        _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
+
+        var player = GetVideoPlayer();
+        player.Source = _videoPlaybackItem;
+        Player = player;
+    }
+
+    private async Task LoadLiveSourceAsync(string url)
+    {
+        var httpClient = GetLiveClient();
+        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(url), httpClient);
         _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
 

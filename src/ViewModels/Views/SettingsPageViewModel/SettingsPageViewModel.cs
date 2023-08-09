@@ -26,6 +26,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferQualities = new ObservableCollection<PreferQuality>();
         PreferAudioQualities = new ObservableCollection<PreferAudio>();
         AIConnectTypes = new ObservableCollection<AIConnectType>();
+        PlayerTypes = new ObservableCollection<PlayerType>();
 
         InitializeSettings();
     }
@@ -51,6 +52,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
+        PlayerTypeInit();
         AIConnectTypeInit();
 
         // BackgroundTaskInitAsync();
@@ -144,6 +146,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(HideWhenCloseWindow):
                 WriteSetting(SettingNames.HideWhenCloseWindow, HideWhenCloseWindow);
                 break;
+            case nameof(PlayerType):
+                WriteSetting(SettingNames.PlayerType, PlayerType);
+                break;
             default:
                 break;
         }
@@ -189,6 +194,17 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         AIConnectType = ReadSetting(SettingNames.AIConnectType, AIConnectType.AppService);
+    }
+
+    private void PlayerTypeInit()
+    {
+        if (PlayerTypes.Count == 0)
+        {
+            PlayerTypes.Add(PlayerType.Native);
+            PlayerTypes.Add(PlayerType.FFmpeg);
+        }
+
+        PlayerType = ReadSetting(SettingNames.PlayerType, PlayerType.Native);
     }
 
     private void DecodeInit()

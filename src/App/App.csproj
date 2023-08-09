@@ -37,7 +37,7 @@
         <None Remove="Assets\ReaderClean.js" />
         <None Remove="Controls\AIFeatureDialog.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
-        <None Remove="Controls\Base\BiliPlayer.xaml" />
+        <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
@@ -46,7 +46,6 @@
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\MediaStatsPanel.xaml" />
-        <None Remove="Controls\Base\NativePlayer\NativePlayer.xaml" />
         <None Remove="Controls\Base\StatusTip.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
@@ -60,7 +59,6 @@
         <None Remove="Controls\Base\EmoteTextBlock\EmoteTextBlock.xaml" />
         <None Remove="Controls\Base\DynamicItem\DynamicItem.xaml" />
         <None Remove="Controls\Base\LiveItem\LiveItem.xaml" />
-        <None Remove="Controls\Base\FFmpegPlayer\FFmpegItem.xaml" />
         <None Remove="Controls\CloseWindowTipDialog.xaml" />
         <None Remove="Controls\Comment\CommentBox.xaml" />
         <None Remove="Controls\Comment\CommentModule.xaml" />
@@ -218,10 +216,7 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Page Update="Controls\Base\NativePlayer\NativePlayer.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\Base\BiliPlayer.xaml">
+      <Page Update="Controls\Base\BiliPlayer\BiliPlayer.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\UpdateDialog.xaml">
@@ -626,11 +621,6 @@
       <Page Update="Controls\Base\SeasonItem\SeasonItem.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-    </ItemGroup>
-    <ItemGroup>
-        <Page Update="Controls\Base\FFmpegPlayer\FFmpegPlayer.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Base\LiveItem\LiveItem.xaml">
