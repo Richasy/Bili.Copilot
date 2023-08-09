@@ -45,11 +45,13 @@ public partial class SearchProvider
     private static async Task<SubModuleSearchResultResponse<T>> GetSubModuleResultAsync<T>(int typeId, string keyword, string orderType, int pageNumber, Dictionary<string, string> additionalParameters = null)
     {
         var proxy = string.Empty;
+        var area = string.Empty;
         var isOpenRoaming = SettingsToolkit.ReadLocalSetting(SettingNames.IsOpenRoaming, false);
         var localProxy = SettingsToolkit.ReadLocalSetting(SettingNames.RoamingSearchAddress, string.Empty);
         if (isOpenRoaming && !string.IsNullOrEmpty(localProxy))
         {
             proxy = localProxy;
+            area = "area=hk";
         }
 
         var queryParameters = GetSearchBasicQueryParameters(keyword, orderType, pageNumber);
@@ -62,7 +64,7 @@ public partial class SearchProvider
             }
         }
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Models.App.Constants.ApiConstants.Search.SubModuleSearch(proxy), queryParameters, RequestClientType.IOS, additionalQuery: "area=hk");
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Models.App.Constants.ApiConstants.Search.SubModuleSearch(proxy), queryParameters, RequestClientType.IOS, additionalQuery: area);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<SubModuleSearchResultResponse<T>>>(response);
         return result.Data;
