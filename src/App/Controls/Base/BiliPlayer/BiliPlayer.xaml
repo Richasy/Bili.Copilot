@@ -7,9 +7,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BiliPlayer">
-                    <Grid>
+                    <Grid Background="Black">
+                        <MediaPlayerElement x:Name="MediaElement" AreTransportControlsEnabled="False" />
                         <SwapChainPanel x:Name="SwapChainPanel" />
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ContentPresenter Content="{TemplateBinding Overlay}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

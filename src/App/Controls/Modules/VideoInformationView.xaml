@@ -358,7 +358,10 @@
             <base:DownloadSection Margin="0,-4,0,0" ViewModel="{x:Bind ViewModel.PlayerDetail.DownloadViewModel, Mode=OneWay}" />
 
             <!--  视频参数  -->
-            <base:MediaStatsPanel Margin="0,8,0,0" ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}">
+            <base:MediaStatsPanel
+                Margin="0,8,0,0"
+                ViewModel="{x:Bind ViewModel.Stats, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.PlayerDetail.Player.IsMediaStatsSupported, Mode=OneWay}">
                 <base:MediaStatsPanel.AdditionalContent>
                     <StackPanel Spacing="4">
                         <TextBlock

@@ -96,6 +96,7 @@
             <converters:PgcFollowTextConverter x:Key="FollowTextConverter" />
             <converters:UserLevelConverter x:Key="UserLevelConverter" />
             <converters:DanmakuLocationConverter x:Key="DanmakuLocationConverter" />
+            <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

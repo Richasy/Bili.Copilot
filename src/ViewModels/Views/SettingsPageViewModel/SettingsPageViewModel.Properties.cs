@@ -43,6 +43,9 @@ public sealed partial class SettingsPageViewModel
     private AIConnectType _aIConnectType;
 
     [ObservableProperty]
+    private PlayerType _playerType;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]
@@ -127,4 +130,9 @@ public sealed partial class SettingsPageViewModel
     /// AI连接方式集合.
     /// </summary>
     public ObservableCollection<AIConnectType> AIConnectTypes { get; }
+
+    /// <summary>
+    /// 播放器类型集合.
+    /// </summary>
+    public ObservableCollection<PlayerType> PlayerTypes { get; }
 }

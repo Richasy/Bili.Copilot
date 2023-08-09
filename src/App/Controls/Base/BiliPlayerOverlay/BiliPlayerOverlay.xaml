@@ -182,6 +182,7 @@
                                             <MenuFlyoutItem
                                                 x:Name="StartRecordingItem"
                                                 Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StartRecordingCommand}"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecordingSupported}"
                                                 Text="{ext:Locale Name=StartRecording}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityReverseConverter}, TargetNullValue={StaticResource Collasped}}">
                                                 <MenuFlyoutItem.Icon>
@@ -190,6 +191,7 @@
                                             </MenuFlyoutItem>
                                             <MenuFlyoutItem
                                                 Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.StopRecordingCommand}"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecordingSupported}"
                                                 Text="{ext:Locale Name=StopRecording}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Player.IsRecording, Converter={StaticResource BoolToVisibilityConverter}, TargetNullValue={StaticResource Collasped}}">
                                                 <MenuFlyoutItem.Icon>

@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>Bili.Copilot.ViewModels</RootNamespace>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <Platforms>x86;x64;ARM64</Platforms>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
 
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.1" />
       <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+      <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
       <PackageReference Include="NLog" Version="5.2.3" />

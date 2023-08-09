@@ -192,9 +192,11 @@ public sealed partial class PgcPlayerPageViewModel
     {
         if (e.PropertyName == nameof(PlayerDetail.Status)
             && PlayerDetail.Status == PlayerStatus.Playing
-            && !_isStatsUpdated)
+            && !_isStatsUpdated
+            && PlayerDetail.Player != null
+            && PlayerDetail.Player.IsMediaStatsSupported)
         {
-            var info = PlayerDetail.Player?.GetMediaInformation();
+            var info = PlayerDetail.Player.GetMediaInformation();
             if (info == null)
             {
                 return;

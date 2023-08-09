@@ -1,44 +1,48 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.ComponentModel;
 using System.Diagnostics;
 using Bili.Copilot.Libs.Flyleaf.Controls;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+using Bili.Copilot.ViewModels;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Vortice.DXGI;
+using Windows.Media.Playback;
 
 namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// 哔哩播放器.
 /// </summary>
-public sealed class BiliPlayer : ContentControl, IMediaTransportControls
+public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
 {
     /// <summary>
-    /// <see cref="Player"/> 的依赖属性.
+    /// <see cref="Overlay"/> 的依赖属性.
     /// </summary>
-    public static readonly DependencyProperty PlayerProperty =
-        DependencyProperty.Register(nameof(Player), typeof(Player), typeof(BiliPlayer), new PropertyMetadata(default, new PropertyChangedCallback(OnPlayerChanged)));
+    public static readonly DependencyProperty OverlayProperty =
+        DependencyProperty.Register(nameof(Overlay), typeof(object), typeof(BiliPlayer), new PropertyMetadata(default));
+
+    private MediaPlayerElement _mediaElement;
+    private SwapChainPanel _swapChainPanel;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
     /// </summary>
-    public BiliPlayer() => DefaultStyleKey = typeof(BiliPlayer);
-
-    /// <summary>
-    /// 图像播放面板.
-    /// </summary>
-    public SwapChainPanel Panel { get; set; }
-
-    /// <summary>
-    /// 播放器.
-    /// </summary>
-    public Player Player
+    public BiliPlayer()
     {
-        get => (Player)GetValue(PlayerProperty);
-        set => SetValue(PlayerProperty, value);
+        DefaultStyleKey = typeof(BiliPlayer);
+    }
+
+    /// <summary>
+    /// 覆盖层.
+    /// </summary>
+    public object Overlay
+    {
+        get => (object)GetValue(OverlayProperty);
+        set => SetValue(OverlayProperty, value);
     }
 
     /// <inheritdoc/>
@@ -46,7 +50,9 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
         => Player_GetFullScreen();
 
     /// <inheritdoc/>
-    public void Player_Disposed() => Player = null;
+    public void Player_Disposed()
+    {
+    }
 
     /// <inheritdoc/>
     public bool Player_GetFullScreen()
@@ -65,65 +71,107 @@ public sealed class BiliPlayer : ContentControl, IMediaTransportControls
         }
     }
 
+    internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
+    {
+        if (e.OldValue is IPlayerViewModel oldVM)
+        {
+            oldVM.PropertyChanged -= OnViewModelPropertyChanged;
+        }
+
+        if (e.NewValue is IPlayerViewModel newVM)
+        {
+            newVM.PropertyChanged += OnViewModelPropertyChanged;
+        }
+
+        ReloadPlayer();
+    }
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         if (GetTemplateChild("SwapChainPanel") is SwapChainPanel panel)
         {
-            Panel = panel;
-            Panel.SizeChanged += OnPanelSizeChanged;
+            _swapChainPanel = panel;
+            _swapChainPanel.SizeChanged += OnPanelSizeChanged;
         }
 
-        if (Player != null)
+        if (GetTemplateChild("MediaElement") is MediaPlayerElement element)
         {
-            ReplacePlayer(default);
+            _mediaElement = element;
         }
-    }
 
-    private static void OnPlayerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is BiliPlayer instance && e.NewValue is Player)
+        if (ViewModel?.Player != null)
         {
-            instance.ReplacePlayer(e.OldValue as Player);
+            ReloadPlayer();
         }
     }
 
     private void OnPanelSizeChanged(object sender, SizeChangedEventArgs e)
-        => Player?.renderer.ResizeBuffers((int)e.NewSize.Width, (int)e.NewSize.Height);
-
-    private void ReplacePlayer(Player oldPlayer = default)
     {
-        if (oldPlayer != null)
+        if (ViewModel?.Player is Player player)
         {
-            Debug.WriteLine($"取消链接播放器 {oldPlayer.PlayerId}");
-            oldPlayer.VideoDecoder.DestroySwapChain();
-            oldPlayer.Host = default;
+            player?.renderer.ResizeBuffers((int)e.NewSize.Width, (int)e.NewSize.Height);
         }
-
-        if (Player == null)
-        {
-            return;
-        }
-
-        Player.Host?.Player_Disposed();
-        if (Player == null)
-        {
-            return;
-        }
-
-        Debug.WriteLine($"链接播放器 {Player.PlayerId}");
-        Player.Host = this;
-        Background = new SolidColorBrush(new() { A = Player.Config.Video.BackgroundColor.A, R = Player.Config.Video.BackgroundColor.R, G = Player.Config.Video.BackgroundColor.G, B = Player.Config.Video.BackgroundColor.B });
-        Player.VideoDecoder.CreateSwapChain(SwapChainClbk);
     }
 
     private void SwapChainClbk(IDXGISwapChain2 swapChain)
     {
-        using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(Panel))
+        if (_swapChainPanel == null)
+        {
+            return;
+        }
+
+        using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(_swapChainPanel))
         {
             _ = nativeObject.SetSwapChain(swapChain);
         }
 
-        Player?.renderer.ResizeBuffers((int)ActualWidth, (int)ActualHeight);
+        var player = ViewModel?.Player as Player;
+        player?.renderer.ResizeBuffers((int)ActualWidth, (int)ActualHeight);
     }
+
+    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.Player))
+        {
+            ReloadPlayer();
+        }
+    }
+
+    private void ReloadPlayer()
+    {
+        if (ViewModel?.Player is Player)
+        {
+            _mediaElement.Visibility = Visibility.Collapsed;
+            ReplaceFFmpegPlayer();
+        }
+        else if (ViewModel?.Player is MediaPlayer mp)
+        {
+            _swapChainPanel.Visibility = Visibility.Collapsed;
+            _mediaElement.SetMediaPlayer(mp);
+        }
+    }
+
+    private void ReplaceFFmpegPlayer()
+    {
+        if (ViewModel?.Player == null)
+        {
+            return;
+        }
+
+        var player = (Player)ViewModel.Player;
+        player.Host?.Player_Disposed();
+
+        Debug.WriteLine($"链接播放器 {player.PlayerId}");
+        player.Host = this;
+        Background = new SolidColorBrush(new() { A = player.Config.Video.BackgroundColor.A, R = player.Config.Video.BackgroundColor.R, G = player.Config.Video.BackgroundColor.G, B = player.Config.Video.BackgroundColor.B });
+        player.VideoDecoder.CreateSwapChain(SwapChainClbk);
+    }
+}
+
+/// <summary>
+/// <see cref="BiliPlayer"/> 的基类.
+/// </summary>
+public abstract class BiliPlayerBase : ReactiveControl<IPlayerViewModel>
+{
 }

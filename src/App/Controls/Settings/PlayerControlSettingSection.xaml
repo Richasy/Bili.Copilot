@@ -11,6 +11,7 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Controls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:Bili.Copilot.Models.Constants.Player"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -23,6 +24,18 @@
             <base:FluentIcon Symbol="VideoPlayPause" />
         </labs:SettingsExpander.HeaderIcon>
         <labs:SettingsExpander.Items>
+            <labs:SettingsCard Description="{ext:Locale Name=PlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="player:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </labs:SettingsCard>
             <labs:SettingsCard Description="{ext:Locale Name=DecodeTypeDescription}" Header="{ext:Locale Name=DecodeType}">
                 <ComboBox
                     MinWidth="120"

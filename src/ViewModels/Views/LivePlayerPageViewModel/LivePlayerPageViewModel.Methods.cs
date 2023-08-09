@@ -108,7 +108,9 @@ public sealed partial class LivePlayerPageViewModel
     {
         if (e.PropertyName.Equals(nameof(PlayerDetail.Status))
             && PlayerDetail.Status == PlayerStatus.Playing
-            && !_isStatsUpdated)
+            && !_isStatsUpdated
+            && PlayerDetail.Player != null
+            && PlayerDetail.Player.IsMediaStatsSupported)
         {
             UpdateLiveMediaInformation();
         }
@@ -116,7 +118,7 @@ public sealed partial class LivePlayerPageViewModel
 
     private void UpdateLiveMediaInformation()
     {
-        var info = PlayerDetail.Player?.GetMediaInformation();
+        var info = PlayerDetail.Player.GetMediaInformation();
         if (info == null)
         {
             return;
