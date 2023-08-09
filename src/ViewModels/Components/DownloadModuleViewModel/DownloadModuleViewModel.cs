@@ -120,7 +120,7 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
 
         sb.Append($" --work-dir \"{folderPath}\"");
 
-        if (!string.IsNullOrEmpty(_configPath))
+        if (!string.IsNullOrEmpty(_configPath) && File.Exists(_configPath))
         {
             var configs = await File.ReadAllLinesAsync(_configPath);
             var hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
