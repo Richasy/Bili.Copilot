@@ -115,9 +115,24 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
     [RelayCommand]
     private async Task ReloadModuleAsync()
     {
-        ClearException();
-        ClearCurrentModule();
-        await RequestDataAsync();
+        if (_isRequesting)
+        {
+            return;
+        }
+
+        try
+        {
+            _isRequesting = true;
+            ClearException();
+            ClearCurrentModule();
+            await RequestDataAsync();
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+
+        _isRequesting = false;
     }
 
     private void InitializeSearchModules()

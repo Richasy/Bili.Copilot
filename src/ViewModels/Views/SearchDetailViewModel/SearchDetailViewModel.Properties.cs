@@ -14,6 +14,7 @@ public sealed partial class SearchDetailViewModel
 {
     private readonly Dictionary<SearchModuleType, bool> _requestStatusCache;
     private readonly Dictionary<SearchModuleType, IEnumerable<SearchFilterViewModel>> _filters;
+    private bool _isRequesting;
 
     [ObservableProperty]
     private SearchModuleItemViewModel _currentModule;
