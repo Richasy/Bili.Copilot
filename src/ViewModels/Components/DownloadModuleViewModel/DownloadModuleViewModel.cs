@@ -13,7 +13,6 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace Bili.Copilot.ViewModels;
@@ -108,22 +107,7 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
     private async Task DownloadAsync()
     {
         var sb = new StringBuilder();
-
         sb.Append(_id);
-
-        var packageFolder = Package.Current.InstalledPath;
-        var configPath = Path.Combine(packageFolder, "Assets", "BBDown.config");
-
-        var configs = await File.ReadAllLinesAsync(configPath);
-        var hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
-        if (!hasPartParams)
-        {
-            var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
-            if (selectedParts.Any())
-            {
-                sb.Append($" -p {string.Join(",", selectedParts)} ");
-            }
-        }
 
         var token = await AuthorizeProvider.Instance.GetTokenAsync();
         sb.Append($" -token {token}");
@@ -136,7 +120,21 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
 
         sb.Append($" --work-dir \"{folderPath}\"");
 
-        sb.Append($" --config-file \"{configPath}\"");
+        if (!string.IsNullOrEmpty(_configPath) && File.Exists(_configPath))
+        {
+            var configs = await File.ReadAllLinesAsync(_configPath);
+            var hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
+            if (!hasPartParams)
+            {
+                var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
+                if (selectedParts.Any())
+                {
+                    sb.Append($" -p {string.Join(",", selectedParts)} ");
+                }
+            }
+
+            sb.Append($" --config-file \"{_configPath}\"");
+        }
 
         var process = new Process();
         process.StartInfo.FileName = "BBDown";
