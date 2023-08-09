@@ -279,6 +279,12 @@ public sealed partial class FFmpegPlayerViewModel
 
                 var arg = new MediaStateChangedEventArgs(Status, string.Empty);
                 StateChanged?.Invoke(this, arg);
+
+                if (IsLoop && Status != PlayerStatus.Pause)
+                {
+                    SeekTo(TimeSpan.Zero);
+                    Play();
+                }
             }
             else
             {
