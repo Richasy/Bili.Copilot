@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.ComponentModel;
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml.Navigation;
 
@@ -12,12 +14,15 @@ namespace Bili.Copilot.App.Pages;
 /// </summary>
 public sealed partial class HomePage : HomePageBase
 {
+    private readonly FixModuleViewModel _fixModuleViewModel;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="HomePage"/> class.
     /// </summary>
     public HomePage()
     {
         InitializeComponent();
+        _fixModuleViewModel = FixModuleViewModel.Instance;
         ViewModel = HomePageViewModel.Instance;
     }
 
@@ -46,6 +51,8 @@ public sealed partial class HomePage : HomePageBase
     {
         CoreViewModel.IsBackButtonShown = !ViewModel.IsHomeShown;
         CoreViewModel.BackRequest += OnBackRequest;
+        CustomModuleTypeSelection.SelectedIndex = ViewModel.CustomModule.GetHashCode();
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
 
     /// <inheritdoc/>
@@ -54,6 +61,25 @@ public sealed partial class HomePage : HomePageBase
 
     private void OnBackRequest(object sender, EventArgs e)
         => ViewModel.ResetCommand.Execute(default);
+
+    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.CustomModule))
+        {
+            if (ViewModel.CustomModule.GetHashCode() != CustomModuleTypeSelection.SelectedIndex)
+            {
+                CustomModuleTypeSelection.SelectedIndex = ViewModel.CustomModule.GetHashCode();
+            }
+        }
+    }
+
+    private void OnCustomModuleTypeSegmentedSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
+    {
+        if (ViewModel.CustomModule.GetHashCode() != CustomModuleTypeSelection.SelectedIndex)
+        {
+            ViewModel.CustomModule = (HomeCustomModuleType)CustomModuleTypeSelection.SelectedIndex;
+        }
+    }
 }
 
 /// <summary>

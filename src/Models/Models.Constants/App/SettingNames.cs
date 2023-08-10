@@ -103,4 +103,5 @@ public enum SettingNames
     PreferAudioQuality,
     WindowHeight,
     BBDownConfigPath,
+    HomeCustomModuleType,
 }

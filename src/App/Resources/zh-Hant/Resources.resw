@@ -716,6 +716,9 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="FixContent" xml:space="preserve">
     <value>固定內容</value>
   </data>
+  <data name="Fixed" xml:space="preserve">
+    <value>已固定</value>
+  </data>
   <data name="FixedContent" xml:space="preserve">
     <value>固定的內容</value>
   </data>

@@ -62,6 +62,8 @@ public sealed partial class AppViewModel : ViewModelBase
             {
                 AccountViewModel.Instance.InitializeCommand.Execute(default);
             }
+
+            FixModuleViewModel.Instance.InitializeCommand.Execute(default);
         }
     }
 

@@ -1,80 +1,80 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÊÓÆµËÑË÷½á¹ûÌõÄ¿.
+/// è§†é¢‘æœç´¢ç»“æœæ¡ç›®.
 /// </summary>
 public class VideoSearchItem : SearchItemBase
 {
     /// <summary>
-    /// ²¥·ÅÊı.
+    /// æ’­æ”¾æ•°.
     /// </summary>
     [JsonPropertyName("play")]
     public int PlayCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmaku")]
     public int DanmakuCount { get; set; }
 
     /// <summary>
-    /// ×÷Õß.
+    /// ä½œè€….
     /// </summary>
     [JsonPropertyName("author")]
     public string Author { get; set; }
 
     /// <summary>
-    /// ËµÃ÷ÎÄ±¾.
+    /// è¯´æ˜æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// Ê±³¤.
+    /// æ—¶é•¿.
     /// </summary>
     [JsonPropertyName("duration")]
     public string Duration { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
-    /// Í·Ïñ.
+    /// å¤´åƒ.
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÊı¾İ.
+    /// åˆ†äº«æ•°æ®.
     /// </summary>
     [JsonPropertyName("share")]
     public ShareData Share { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÊı¾İ.
+    /// åˆ†äº«æ•°æ®.
     /// </summary>
     public class ShareData
     {
         /// <summary>
-        /// ÀàĞÍ.
+        /// ç±»å‹.
         /// </summary>
         [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// ÊÓÆµÊı¾İ.
+        /// è§†é¢‘æ•°æ®.
         /// </summary>
         [JsonPropertyName("video")]
         public Video Video { get; set; }
     }
 
     /// <summary>
-    /// ÊÓÆµ»ù±¾Êı¾İ.
+    /// è§†é¢‘åŸºæœ¬æ•°æ®.
     /// </summary>
     public class Video
     {
@@ -85,13 +85,13 @@ public class VideoSearchItem : SearchItemBase
         public string BvId { get; set; }
 
         /// <summary>
-        /// ·ÖP Id.
+        /// åˆ†P Id.
         /// </summary>
         [JsonPropertyName("cid")]
         public int Cid { get; set; }
 
         /// <summary>
-        /// ¶ÌÁ´½Ó.
+        /// çŸ­é“¾æ¥.
         /// </summary>
         [JsonPropertyName("short_link")]
         public string ShortLink { get; set; }

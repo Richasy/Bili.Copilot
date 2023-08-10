@@ -1,68 +1,68 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÓÃ»§ËÑË÷ÌõÄ¿.
+/// ç”¨æˆ·æœç´¢æ¡ç›®.
 /// </summary>
 public class UserSearchItem : SearchItemBase
 {
     /// <summary>
-    /// Ç©Ãû/¸öÈË½éÉÜ.
+    /// ç­¾å/ä¸ªäººä»‹ç».
     /// </summary>
     [JsonPropertyName("sign")]
     public string Sign { get; set; }
 
     /// <summary>
-    /// ·ÛË¿Êı.
+    /// ç²‰ä¸æ•°.
     /// </summary>
     [JsonPropertyName("fans")]
     public int FollowerCount { get; set; }
 
     /// <summary>
-    /// µÈ¼¶.
+    /// ç­‰çº§.
     /// </summary>
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
     /// <summary>
-    /// ´ó»áÔ±ĞÅÏ¢.
+    /// å¤§ä¼šå‘˜ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("vip")]
     public Vip Vip { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÊÇUPÖ÷.
+    /// æ˜¯å¦æ˜¯UPä¸».
     /// </summary>
     [JsonPropertyName("is_up")]
     public bool IsUp { get; set; }
 
     /// <summary>
-    /// Í¶¸åÊı.
+    /// æŠ•ç¨¿æ•°.
     /// </summary>
     [JsonPropertyName("archives")]
     public int ArchiveCount { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("roomid")]
     public int RoomId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼äÍøÖ·.
+    /// ç›´æ’­é—´ç½‘å€.
     /// </summary>
     [JsonPropertyName("live_link")]
     public string LiveLink { get; set; }
 
     /// <summary>
-    /// ÓÃ»§¹ØÏµ.
+    /// ç”¨æˆ·å…³ç³».
     /// </summary>
     [JsonPropertyName("relation")]
     public UserRelation Relation { get; set; }

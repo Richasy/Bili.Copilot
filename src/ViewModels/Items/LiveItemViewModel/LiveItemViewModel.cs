@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Local;
@@ -38,5 +39,16 @@ public sealed partial class LiveItemViewModel : ViewModelBase
     {
         var uri = $"https://live.bilibili.com/{Data.Identifier.Id}";
         _ = await Launcher.LaunchUriAsync(new Uri(uri));
+    }
+
+    [RelayCommand]
+    private void Fix()
+    {
+        var cover = string.IsNullOrEmpty(Data.User?.Avatar.Uri) ? Data.Identifier.Cover.Uri : Data.User.Avatar.Uri;
+        FixModuleViewModel.Instance.AddFixedItemCommand.Execute(new FixedItem(
+            cover,
+            Data.Identifier.Title,
+            Data.Identifier.Id,
+            FixedType.Live));
     }
 }

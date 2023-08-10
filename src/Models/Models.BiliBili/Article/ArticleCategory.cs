@@ -11,7 +11,7 @@ public class ArticleCategory
     /// 分区Id.
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
     /// 父分区Id.

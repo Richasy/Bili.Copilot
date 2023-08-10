@@ -1,286 +1,286 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÍÆ¼ö¿¨Æ¬µÄ¶¨Òå.
+/// æ¨èå¡ç‰‡çš„å®šä¹‰.
 /// </summary>
 public class RecommendCard
 {
     /// <summary>
-    /// ¿¨Æ¬ÀàĞÍ.
+    /// å¡ç‰‡ç±»å‹.
     /// </summary>
     [JsonPropertyName("card_type")]
     public string CardType { get; set; }
 
     /// <summary>
-    /// ´¦Àí¿¨Æ¬µÄ³ÌĞò.
+    /// å¤„ç†å¡ç‰‡çš„ç¨‹åº.
     /// </summary>
     [JsonPropertyName("card_goto")]
     public string CardGoto { get; set; }
 
     /// <summary>
-    /// ¿¨Æ¬²ÎÊı.
+    /// å¡ç‰‡å‚æ•°.
     /// </summary>
     [JsonPropertyName("args")]
     public RecommendCardArgs CardArgs { get; set; }
 
     /// <summary>
-    /// Æ«ÒÆÖµ±êÊ¶·û.
+    /// åç§»å€¼æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("idx")]
     public long Index { get; set; }
 
     /// <summary>
-    /// ÉÏÏÂÎÄ²Ëµ¥ÏîÁĞ±í.
+    /// ä¸Šä¸‹æ–‡èœå•é¡¹åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("three_point_v2")]
     public List<RecommendContextMenuItem> ContextMenuItems { get; set; }
 
     /// <summary>
-    /// ĞèÒª²¥·ÅµÄÀàĞÍ.
+    /// éœ€è¦æ’­æ”¾çš„ç±»å‹.
     /// </summary>
     [JsonPropertyName("goto")]
     public string Goto { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// µ¼º½µØÖ·.
+    /// å¯¼èˆªåœ°å€.
     /// </summary>
     [JsonPropertyName("uri")]
     public string NavigateUri { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ»ò·¬¾çµÄId.
+    /// è§†é¢‘æˆ–ç•ªå‰§çš„Id.
     /// </summary>
     [JsonPropertyName("param")]
     public string Parameter { get; set; }
 
     /// <summary>
-    /// ²¥·Å²ÎÊı.
+    /// æ’­æ”¾å‚æ•°.
     /// </summary>
     [JsonPropertyName("player_args")]
     public PlayerArgs PlayerArgs { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÊıÎÄ±¾.
+    /// æ’­æ”¾æ•°æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("cover_left_text_2")]
     public string PlayCountText { get; set; }
 
     /// <summary>
-    /// ×´Ì¬¸±ÎÄ±¾£¬¶ÔÓÚÊÓÆµÀ´ËµÊÇµ¯Ä»Êı£¬¶ÔÓÚ·¬¾çÀ´ËµÊÇµãÔŞÊı.
+    /// çŠ¶æ€å‰¯æ–‡æœ¬ï¼Œå¯¹äºè§†é¢‘æ¥è¯´æ˜¯å¼¹å¹•æ•°ï¼Œå¯¹äºç•ªå‰§æ¥è¯´æ˜¯ç‚¹èµæ•°.
     /// </summary>
     [JsonPropertyName("cover_left_text_3")]
     public string SubStatusText { get; set; }
 
     /// <summary>
-    /// Ê±³¤ÎÄ±¾.
+    /// æ—¶é•¿æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("cover_left_text_1")]
     public string DurationText { get; set; }
 
     /// <summary>
-    /// ÍÆ¼öÔ­Òò.
+    /// æ¨èåŸå› .
     /// </summary>
     [JsonPropertyName("top_rcmd_reason")]
     public string RecommendReason { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñ¿ÉÒÔ²¥·Å£¬1-¿ÉÒÔ.
+    /// æ˜¯å¦å¯ä»¥æ’­æ”¾ï¼Œ1-å¯ä»¥.
     /// </summary>
     [JsonPropertyName("can_play")]
     public int CanPlay { get; set; }
 
     /// <summary>
-    /// ËµÃ÷ÎÄ±¾.
+    /// è¯´æ˜æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ÕÚÕÖÄÚÈİ.
+    /// é®ç½©å†…å®¹.
     /// </summary>
     [JsonPropertyName("mask")]
     public RecommendCardMask Mask { get; set; }
 }
 
 /// <summary>
-/// ÍÆ¼ö¿¨Æ¬µÄ²ÎÊı.
+/// æ¨èå¡ç‰‡çš„å‚æ•°.
 /// </summary>
 public class RecommendCardArgs
 {
     /// <summary>
-    /// ·¢²¼ÕßId.
+    /// å‘å¸ƒè€…Id.
     /// </summary>
     [JsonPropertyName("up_id")]
     public int PublisherId { get; set; }
 
     /// <summary>
-    /// ·¢²¼ÕßÃû³Æ.
+    /// å‘å¸ƒè€…åç§°.
     /// </summary>
     [JsonPropertyName("up_name")]
     public string PublisherName { get; set; }
 
     /// <summary>
-    /// ·ÖÇøId.
+    /// åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("rid")]
     public int PartitionId { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÃû³Æ.
+    /// åˆ†åŒºåç§°.
     /// </summary>
     [JsonPropertyName("rname")]
     public string PartitionName { get; set; }
 
     /// <summary>
-    /// ×Ó·ÖÇøId.
+    /// å­åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("tid")]
     public int SubPartitionId { get; set; }
 
     /// <summary>
-    /// ×Ó·ÖÇøÃû³Æ.
+    /// å­åˆ†åŒºåç§°.
     /// </summary>
     [JsonPropertyName("tname")]
     public string SubPartitionName { get; set; }
 
     /// <summary>
-    /// ÊÓÆµAid.
+    /// è§†é¢‘Aid.
     /// </summary>
     [JsonPropertyName("aid")]
     public int Aid { get; set; }
 }
 
 /// <summary>
-/// ²¥·ÅÆ÷²ÎÊı.
+/// æ’­æ”¾å™¨å‚æ•°.
 /// </summary>
 public class PlayerArgs
 {
     /// <summary>
-    /// ÊÓÆµµÄAid.
+    /// è§†é¢‘çš„Aid.
     /// </summary>
     [JsonPropertyName("aid")]
     public int Aid { get; set; }
 
     /// <summary>
-    /// ÊÓÆµµÚÒ»¸ö·ÖPµÄId.
+    /// è§†é¢‘ç¬¬ä¸€ä¸ªåˆ†Pçš„Id.
     /// </summary>
     [JsonPropertyName("cid")]
     public int Cid { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÀàĞÍ£¬Ò»°ãÎªav.
+    /// è§†é¢‘ç±»å‹ï¼Œä¸€èˆ¬ä¸ºav.
     /// </summary>
     [JsonPropertyName("type")]
     public string Type { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÊ±³¤ (Ãë).
+    /// è§†é¢‘æ—¶é•¿ (ç§’).
     /// </summary>
     [JsonPropertyName("duration")]
     public int Duration { get; set; }
 }
 
 /// <summary>
-/// ÍÆ¼öÊÓÆµµÄÉÏÏÂÎÄ²Ëµ¥ÄÚÈİ.
+/// æ¨èè§†é¢‘çš„ä¸Šä¸‹æ–‡èœå•å†…å®¹.
 /// </summary>
 public class RecommendContextMenuItem
 {
     /// <summary>
-    /// ÏÔÊ¾±êÌâ.
+    /// æ˜¾ç¤ºæ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ²Ëµ¥ÏîÀàĞÍ¡£watch_later:ÉÔºóÔÙ¿´. feedback:·´À¡. dislike:²»Ï²»¶.
+    /// èœå•é¡¹ç±»å‹ã€‚watch_later:ç¨åå†çœ‹. feedback:åé¦ˆ. dislike:ä¸å–œæ¬¢.
     /// </summary>
     [JsonPropertyName("type")]
     public string Type { get; set; }
 
     /// <summary>
-    /// ¸±±êÌâ.
+    /// å‰¯æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("subtitle")]
     public string Subtitle { get; set; }
 
     /// <summary>
-    /// Ô­ÒòÁĞ±í.
+    /// åŸå› åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("reasons")]
     public List<RecommendDislikeReason> Reasons { get; set; }
 }
 
 /// <summary>
-/// ÍÆ¼öÊÓÆµµÄ²»Ï²»¶Ô­Òò.
+/// æ¨èè§†é¢‘çš„ä¸å–œæ¬¢åŸå› .
 /// </summary>
 public class RecommendDislikeReason
 {
     /// <summary>
-    /// Ô­Òò±êÊ¶·û.
+    /// åŸå› æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾µÄÎÄ±¾.
+    /// æ˜¾ç¤ºçš„æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ÌáÊ¾ÎÄ±¾.
+    /// æç¤ºæ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("toast")]
     public string Tip { get; set; }
 }
 
 /// <summary>
-/// ÍÆ¼ö¿¨Æ¬µÄÕÚÕÖÄÚÈİ.
+/// æ¨èå¡ç‰‡çš„é®ç½©å†…å®¹.
 /// </summary>
 public class RecommendCardMask
 {
     /// <summary>
-    /// ÍÆ¼ö¿¨Æ¬µÄÍ·Ïñ.
+    /// æ¨èå¡ç‰‡çš„å¤´åƒ.
     /// </summary>
     [JsonPropertyName("avatar")]
     public RecommendAvatar Avatar { get; set; }
 }
 
 /// <summary>
-/// ÍÆ¼ö¿¨Æ¬µÄÍ·Ïñ.
+/// æ¨èå¡ç‰‡çš„å¤´åƒ.
 /// </summary>
 public class RecommendAvatar
 {
     /// <summary>
-    /// Í·Ïñ.
+    /// å¤´åƒ.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("Text")]
     public string UserName { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("up_id")]
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 }
 

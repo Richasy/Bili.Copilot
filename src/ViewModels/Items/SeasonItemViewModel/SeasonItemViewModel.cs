@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Pgc;
@@ -61,6 +62,16 @@ public sealed partial class SeasonItemViewModel : ViewModelBase
         {
             _additionalAction?.Invoke(this);
         }
+    }
+
+    [RelayCommand]
+    private void Fix()
+    {
+        FixModuleViewModel.Instance.AddFixedItemCommand.Execute(new FixedItem(
+            Data.Identifier.Cover.Uri,
+            Data.Identifier.Title,
+            Data.Identifier.Id,
+            FixedType.Pgc));
     }
 
     private void InitializeData()

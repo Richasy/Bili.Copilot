@@ -1,62 +1,62 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥¼ä·ÖÇøÏêÇéÏìÓ¦½á¹û.
+/// ç›´æ’­é—´åˆ†åŒºè¯¦æƒ…å“åº”ç»“æœ.
 /// </summary>
 public class LiveAreaDetailResponse
 {
     /// <summary>
-    /// ×Ó±êÇ©.
+    /// å­æ ‡ç­¾.
     /// </summary>
     [JsonPropertyName("new_tags")]
     public List<LiveAreaDetailTag> Tags { get; set; }
 
     /// <summary>
-    /// ×ÜÊı.
+    /// æ€»æ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼äÁĞ±í.
+    /// ç›´æ’­é—´åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("list")]
     public List<LiveFeedRoom> List { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥¼äÏêÇéµÄ×Ó±êÇ©.
+/// ç›´æ’­é—´è¯¦æƒ…çš„å­æ ‡ç­¾.
 /// </summary>
 public class LiveAreaDetailTag
 {
     /// <summary>
-    /// ±êÇ©Id.
+    /// æ ‡ç­¾Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// ±êÇ©Ãû.
+    /// æ ‡ç­¾å.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ÅÅĞò·½Ê½.
+    /// æ’åºæ–¹å¼.
     /// </summary>
     [JsonPropertyName("sort_type")]
     public string SortType { get; set; }
 
     /// <summary>
-    /// ÀàĞÍ.
+    /// ç±»å‹.
     /// </summary>
     [JsonPropertyName("type")]
     public int Type { get; set; }
 
     /// <summary>
-    /// ÅÅĞò.
+    /// æ’åº.
     /// </summary>
     [JsonPropertyName("sort")]
     public int Sort { get; set; }
