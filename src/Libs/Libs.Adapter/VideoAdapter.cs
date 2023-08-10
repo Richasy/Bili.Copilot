@@ -306,10 +306,11 @@ public static class VideoAdapter
         }
 
         var video = historyVideo.CardUgc;
+        var viewTime = DateTimeOffset.FromUnixTimeSeconds(historyVideo.ViewAt).ToLocalTime();
         var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(historyVideo.Title);
         var id = historyVideo.Kid.ToString();
         var bvid = video.Bvid;
-        var subtitle = $"{video.Name} · {TimeSpan.FromSeconds(video.Progress)}";
+        var subtitle = $"{video.Name} · {TimeSpan.FromSeconds(video.Progress)} · {viewTime:MM/dd HH:mm}";
         var duration = video.Duration;
         var cover = ImageAdapter.ConvertToVideoCardCover(video.Cover);
 
