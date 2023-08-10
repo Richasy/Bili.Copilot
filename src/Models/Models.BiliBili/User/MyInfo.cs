@@ -1,92 +1,92 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// �ҵ���Ϣ.
+/// ÎÒµÄÐÅÏ¢.
 /// </summary>
 public class MyInfo
 {
     /// <summary>
-    /// �û�ID.
+    /// ÓÃ»§ID.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int Mid { get; set; }
+    public long Mid { get; set; }
 
     /// <summary>
-    /// �û���.
+    /// ÓÃ»§Ãû.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// �û�ǩ��.
+    /// ÓÃ»§Ç©Ãû.
     /// </summary>
     [JsonPropertyName("sign")]
     public string Sign { get; set; }
 
     /// <summary>
-    /// Ӳ����.
+    /// Ó²±ÒÊý.
     /// </summary>
     [JsonPropertyName("coins")]
     public double Coins { get; set; }
 
     /// <summary>
-    /// ���գ���ʽΪYYYY-MM-DD.
+    /// ÉúÈÕ£¬¸ñÊ½ÎªYYYY-MM-DD.
     /// </summary>
     [JsonPropertyName("birthday")]
     public string Birthday { get; set; }
 
     /// <summary>
-    /// ͷ��.
+    /// Í·Ïñ.
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// �Ա�0-���ܣ�1-���ԣ�2-Ů��.
+    /// ÐÔ±ð£¬0-±£ÃÜ£¬1-ÄÐÐÔ£¬2-Å®ÐÔ.
     /// </summary>
     [JsonPropertyName("sex")]
     public int Sex { get; set; }
 
     /// <summary>
-    /// �˻��ȼ�.
+    /// ÕË»§µÈ¼¶.
     /// </summary>
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
     /// <summary>
-    /// ���״̬��0-������1-����.
+    /// ·â½û×´Ì¬£¬0-Õý³££¬1-±»·â.
     /// </summary>
     [JsonPropertyName("silence")]
     public int IsBlocking { get; set; }
 
     /// <summary>
-    /// ���Ա��Ϣ.
+    /// ´ó»áÔ±ÐÅÏ¢.
     /// </summary>
     [JsonPropertyName("vip")]
     public Vip VIP { get; set; }
 }
 
 /// <summary>
-/// ���Ա��Ϣ.
+/// ´ó»áÔ±ÐÅÏ¢.
 /// </summary>
 public class Vip
 {
     /// <summary>
-    /// ���Ա���ͣ�0-�ǻ�Ա��1-�¶ȴ��Ա��2-��ȼ����ϴ��Ա.
+    /// ´ó»áÔ±ÀàÐÍ£¬0-·Ç»áÔ±£¬1-ÔÂ¶È´ó»áÔ±£¬2-Äê¶È¼°ÒÔÉÏ´ó»áÔ±.
     /// </summary>
     [JsonPropertyName("type")]
     public int Type { get; set; }
 
     /// <summary>
-    /// ��Ա״̬��0-�ޣ�1-��.
+    /// »áÔ±×´Ì¬£¬0-ÎÞ£¬1-ÓÐ.
     /// </summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
     /// <summary>
-    /// ��Ա����ʱ�䣨����Unixʱ�����.
+    /// »áÔ±¹ýÆÚÊ±¼ä£¨ºÁÃëUnixÊ±¼ä´Á£©.
     /// </summary>
     [JsonPropertyName("due_date")]
     public long DueDate { get; set; }
