@@ -218,9 +218,13 @@ public partial class App : Application
         if (displayArea != null)
         {
             var rect = GetRenderRect(displayArea, hwnd);
+            var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(hwnd)) / 96d;
             _window.MinWidth = 500;
             _window.MaxWidth = 500;
             _window.MinHeight = 400;
+
+            var maxHeight = displayArea.WorkArea.Height / scaleFactor;
+            _window.MaxHeight = maxHeight < 400 ? 400 : maxHeight;
             _window.AppWindow.MoveAndResize(rect);
         }
     }
