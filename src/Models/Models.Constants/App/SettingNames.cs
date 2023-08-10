@@ -104,4 +104,6 @@ public enum SettingNames
     WindowHeight,
     BBDownConfigPath,
     HomeCustomModuleType,
+    PlayerWindowWidth,
+    PlayerWindowHeight,
 }

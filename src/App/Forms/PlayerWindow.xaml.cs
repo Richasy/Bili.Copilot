@@ -38,8 +38,8 @@ public sealed partial class PlayerWindow : WindowBase
         InitializeComponent();
         Activated += OnActivated;
         Closed += OnClosed;
-        Width = 1280;
-        Height = 720;
+        Width = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1280d);
+        Height = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 720d);
         MinWidth = 560;
         MinHeight = 320;
         AppWindow.Changed += OnAppWindowChanged;
@@ -95,6 +95,13 @@ public sealed partial class PlayerWindow : WindowBase
 
     private void OnClosed(object sender, WindowEventArgs args)
     {
+        // 保存当前窗口大小.
+        if (AppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
+        }
+
         MainFrame.Navigate(typeof(Page));
         MainWindow.Instance.Activate();
         GC.Collect();
