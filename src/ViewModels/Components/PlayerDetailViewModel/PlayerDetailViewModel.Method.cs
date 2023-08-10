@@ -328,6 +328,10 @@ public sealed partial class PlayerDetailViewModel
         {
             MediaEnded?.Invoke(this, EventArgs.Empty);
         }
+        else
+        {
+            Player.SeekTo(TimeSpan.Zero);
+        }
     }
 
     private void OnUnitTimerTick(object sender, object e)

@@ -109,7 +109,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
 
     /// <inheritdoc/>
     public void SetVolume(int volume)
-        => ((MediaPlayer)Player).Volume = Convert.ToInt32(volume);
+        => ((MediaPlayer)Player).Volume = volume / 100.0;
 
     /// <inheritdoc/>
     public void Dispose()
