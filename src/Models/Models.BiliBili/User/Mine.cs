@@ -1,68 +1,68 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÎÒµÄ»ù±¾Êı¾İ.
+/// æˆ‘çš„åŸºæœ¬æ•°æ®.
 /// </summary>
 public class Mine
 {
     /// <summary>
-    /// ÓÃ»§ID.
+    /// ç”¨æˆ·ID.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int Mid { get; set; }
+    public long Mid { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Í·Ïñ.
+    /// ç”¨æˆ·å¤´åƒ.
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// Ó²±ÒÊı.
+    /// ç¡¬å¸æ•°.
     /// </summary>
     [JsonPropertyName("coin")]
     public double CoinNumber { get; set; }
 
     /// <summary>
-    /// B±ÒÊı.
+    /// Bå¸æ•°.
     /// </summary>
     [JsonPropertyName("bcoin")]
     public double BcoinCount { get; set; }
 
     /// <summary>
-    /// ĞÔ±ğ£¬0-±£ÃÜ£¬1-ÄĞĞÔ£¬2-Å®ĞÔ.
+    /// æ€§åˆ«ï¼Œ0-ä¿å¯†ï¼Œ1-ç”·æ€§ï¼Œ2-å¥³æ€§.
     /// </summary>
     [JsonPropertyName("sex")]
     public int Sex { get; set; }
 
     /// <summary>
-    /// µÈ¼¶.
+    /// ç­‰çº§.
     /// </summary>
     [JsonPropertyName("level")]
     public int Level { get; set; }
 
     /// <summary>
-    /// ¶¯Ì¬Êı.
+    /// åŠ¨æ€æ•°.
     /// </summary>
     [JsonPropertyName("dynamic")]
     public int DynamicCount { get; set; }
 
     /// <summary>
-    /// ¹Ø×¢Êı.
+    /// å…³æ³¨æ•°.
     /// </summary>
     [JsonPropertyName("following")]
     public int FollowCount { get; set; }
 
     /// <summary>
-    /// ·ÛË¿Êı.
+    /// ç²‰ä¸æ•°.
     /// </summary>
     [JsonPropertyName("follower")]
     public int FollowerCount { get; set; }

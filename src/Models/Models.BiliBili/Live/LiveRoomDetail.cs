@@ -1,244 +1,232 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥¼äÏêÇé.
+/// ç›´æ’­é—´è¯¦æƒ….
 /// </summary>
 public class LiveRoomDetail
 {
     /// <summary>
-    /// ·¿¼äĞÅÏ¢.
+    /// æˆ¿é—´ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("room_info")]
     public LiveRoomInformation RoomInformation { get; set; }
 
     /// <summary>
-    /// ÃªµãĞÅÏ¢.
+    /// é”šç‚¹ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("anchor_info")]
     public LiveAnchorInformation AnchorInformation { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥¼äĞÅÏ¢.
+/// ç›´æ’­é—´ä¿¡æ¯.
 /// </summary>
 public class LiveRoomInformation
 {
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("uid")]
     public long UserId { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("room_id")]
     public int RoomId { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ±êÇ©.
+    /// æ ‡ç­¾.
     /// </summary>
     [JsonPropertyName("tags")]
     public string Tags { get; set; }
 
     /// <summary>
-    /// ÃèÊöÎÄ±¾.
+    /// æè¿°æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("description")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ÔÚÏß¹Û¿´ÈËÊı.
+    /// åœ¨çº¿è§‚çœ‹äººæ•°.
     /// </summary>
     [JsonPropertyName("online")]
     public int ViewerCount { get; set; }
 
     /// <summary>
-    /// Ö±²¥×´Ì¬£º0-Î´¿ª²¥£¬1-ÕıÔÚÖ±²¥£¬2-ÂÖ²¥.
+    /// ç›´æ’­çŠ¶æ€ï¼š0-æœªå¼€æ’­ï¼Œ1-æ­£åœ¨ç›´æ’­ï¼Œ2-è½®æ’­.
     /// </summary>
     [JsonPropertyName("live_status")]
     public int LiveStatus { get; set; }
 
     /// <summary>
-    /// Ö±²¥¿ªÊ¼Ê±¼ä.
+    /// ç›´æ’­å¼€å§‹æ—¶é—´.
     /// </summary>
     [JsonPropertyName("live_start_time")]
     public int LiveStartTime { get; set; }
 
     /// <summary>
-    /// Ö±²¥¼ä·â½û×´Ì¬£¬0-Î´·â½û£¬1-ÒÑ·â½û.
+    /// ç›´æ’­é—´å°ç¦çŠ¶æ€ï¼Œ0-æœªå°ç¦ï¼Œ1-å·²å°ç¦.
     /// </summary>
     [JsonPropertyName("lock_status")]
     public int LockStatus { get; set; }
 
     /// <summary>
-    /// ·â½ûÊ±¼ä.
+    /// å°ç¦æ—¶é—´.
     /// </summary>
     [JsonPropertyName("lock_time")]
     public int LockTime { get; set; }
 
     /// <summary>
-    /// Òş²Ø×´Ì¬£¬0-Î´Òş²Ø£¬1-ÒÑÒş²Ø.
+    /// éšè—çŠ¶æ€ï¼Œ0-æœªéšè—ï¼Œ1-å·²éšè—.
     /// </summary>
     [JsonPropertyName("hidden_status")]
     public int HiddenStatus { get; set; }
 
     /// <summary>
-    /// Òş²ØÊ±¼ä.
+    /// éšè—æ—¶é—´.
     /// </summary>
     [JsonPropertyName("hidden_time")]
     public int HiddenTime { get; set; }
 
     /// <summary>
-    /// ËùÊôÇøÓòId.
+    /// æ‰€å±åŒºåŸŸId.
     /// </summary>
     [JsonPropertyName("area_id")]
     public int AreaId { get; set; }
 
     /// <summary>
-    /// ËùÊôÇøÓòÃû³Æ.
+    /// æ‰€å±åŒºåŸŸåç§°.
     /// </summary>
     [JsonPropertyName("area_name")]
     public string AreaName { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøId.
+    /// çˆ¶åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("parent_area_id")]
     public int ParentAreaId { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøÃû³Æ.
+    /// çˆ¶åˆ†åŒºåç§°.
     /// </summary>
     [JsonPropertyName("parent_area_name")]
     public string ParentAreaName { get; set; }
 
     /// <summary>
-    /// ¹Ø¼üÖ¡£¨½ØÍ¼£©.
+    /// å…³é”®å¸§ï¼ˆæˆªå›¾ï¼‰.
     /// </summary>
     [JsonPropertyName("keyframe")]
     public string Keyframe { get; set; }
 
     /// <summary>
-    /// ÌØ±ğ¹Ø×¢ÀàĞÍ£¬0-·ÇÌØ±ğ¹Ø×¢£¬1-ÌØ±ğ¹Ø×¢.
+    /// ç‰¹åˆ«å…³æ³¨ç±»å‹ï¼Œ0-éç‰¹åˆ«å…³æ³¨ï¼Œ1-ç‰¹åˆ«å…³æ³¨.
     /// </summary>
     [JsonPropertyName("special_type")]
     public int SpecialFollowType { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥¼äÃªµãĞÅÏ¢.
+/// ç›´æ’­é—´é”šç‚¹ä¿¡æ¯.
 /// </summary>
 public class LiveAnchorInformation
 {
     /// <summary>
-    /// ·¿Ö÷»ù±¾ĞÅÏ¢.
+    /// æˆ¿ä¸»åŸºæœ¬ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("base_info")]
     public LiveUserBasicInformation UserBasicInformation { get; set; }
 
     /// <summary>
-    /// Ö±²¥µÈ¼¶ĞÅÏ¢.
+    /// ç›´æ’­ç­‰çº§ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("live_info")]
     public LiveLevelInformation LevelInformation { get; set; }
 
     /// <summary>
-    /// Ö±²¥¹Ø×¢ĞÅÏ¢.
+    /// ç›´æ’­å…³æ³¨ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("relation_info")]
     public LiveRelationInformation RelationInformation { get; set; }
 
     /// <summary>
-    /// Ñ«ÕÂĞÅÏ¢.
+    /// å‹‹ç« ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("metal_info")]
     public LiveMedalInformation MedalInformation { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥ÓÃ»§»ù±¾ĞÅÏ¢.
+/// ç›´æ’­ç”¨æˆ·åŸºæœ¬ä¿¡æ¯.
 /// </summary>
 public class LiveUserBasicInformation
 {
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("uname")]
     public string UserName { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Í·Ïñ.
+    /// ç”¨æˆ·å¤´åƒ.
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
 
     /// <summary>
-    /// ĞÔ±ğ.
+    /// æ€§åˆ«.
     /// </summary>
     [JsonPropertyName("gender")]
     public string Gender { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥µÈ¼¶ĞÅÏ¢.
+/// ç›´æ’­ç­‰çº§ä¿¡æ¯.
 /// </summary>
 public class LiveLevelInformation
 {
     /// <summary>
-    /// µÈ¼¶.
+    /// ç­‰çº§.
     /// </summary>
     [JsonPropertyName("level")]
     public int Level { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥¹Ø×¢ĞÅÏ¢.
+/// ç›´æ’­å…³æ³¨ä¿¡æ¯.
 /// </summary>
 public class LiveRelationInformation
 {
     /// <summary>
-    /// ¹Ø×¢ÈËÊı.
+    /// å…³æ³¨äººæ•°.
     /// </summary>
     [JsonPropertyName("attention")]
     public int AttentionCount { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥Ñ«ÕÂĞÅÏ¢.
+/// ç›´æ’­å‹‹ç« ä¿¡æ¯.
 /// </summary>
 public class LiveMedalInformation
 {
     /// <summary>
-    /// Ñ«ÕÂÃû.
+    /// å‹‹ç« å.
     /// </summary>
     [JsonPropertyName("medal_name")]
     public string Name { get; set; }
-
-    /// <summary>
-    /// Ñ«ÕÂId.
-    /// </summary>
-    [JsonPropertyName("medal_id")]
-    public int Id { get; set; }
-
-    /// <summary>
-    /// ·ÛË¿¾ãÀÖ²¿£¨ÒÑÓĞ¶àÉÙÁìÈ¡ÁËÑ«ÕÂµÄ·ÛË¿£©.
-    /// </summary>
-    [JsonPropertyName("fansclub")]
-    public int FansClub { get; set; }
 }
 

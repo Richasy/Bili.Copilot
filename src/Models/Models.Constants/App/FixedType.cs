@@ -10,7 +10,7 @@ public enum FixedType
     /// <summary>
     /// 用户.
     /// </summary>
-    Publisher,
+    User,
 
     /// <summary>
     /// PGC 内容.

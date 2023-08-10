@@ -181,6 +181,16 @@ public sealed partial class VideoItemViewModel : ViewModelBase
     private void Evaluate()
         => AppViewModel.Instance.EvaluateVideoContentCommand.Execute(Data.Identifier);
 
+    [RelayCommand]
+    private void Fix()
+    {
+        FixModuleViewModel.Instance.AddFixedItemCommand.Execute(new FixedItem(
+            Data.Identifier.Cover.Uri,
+            Data.Identifier.Title,
+            Data.Identifier.Id,
+            FixedType.Video));
+    }
+
     private void InitializeData()
     {
         IsShowCommunity = Data.CommunityInformation != null;

@@ -1,62 +1,62 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÎÄÕÂËÑË÷ÌõÄ¿.
+/// æ–‡ç« æœç´¢æ¡ç›®.
 /// </summary>
 public class ArticleSearchItem : SearchItemBase
 {
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ÃèÊö.
+    /// æè¿°.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Ãû.
+    /// ç”¨æˆ·å.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
-    /// ÎÄÕÂId.
+    /// æ–‡ç« Id.
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
-    /// Í¼Æ¬Á´½Ó.
+    /// å›¾ç‰‡é“¾æ¥.
     /// </summary>
     [JsonPropertyName("image_urls")]
     public List<string> CoverUrls { get; set; }
 
     /// <summary>
-    /// ÔÄ¶Á´ÎÊı.
+    /// é˜…è¯»æ¬¡æ•°.
     /// </summary>
     [JsonPropertyName("view")]
     public int ViewCount { get; set; }
 
     /// <summary>
-    /// µãÔŞ´ÎÊı.
+    /// ç‚¹èµæ¬¡æ•°.
     /// </summary>
     [JsonPropertyName("like")]
     public int LikeCount { get; set; }
 
     /// <summary>
-    /// ÆÀÂÛÊı.
+    /// è¯„è®ºæ•°.
     /// </summary>
     [JsonPropertyName("reply")]
     public int ReplyCount { get; set; }
 
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// å¾½ç« æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }

@@ -1,86 +1,86 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÎÄÕÂÊÕ²Ø¼ĞÏìÓ¦½á¹û.
+/// æ–‡ç« æ”¶è—å¤¹å“åº”ç»“æœ.
 /// </summary>
 public class ArticleFavoriteListResponse
 {
     /// <summary>
-    /// ×ÜÌõÄ¿Êı.
+    /// æ€»æ¡ç›®æ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// ÎÄÕÂÁĞ±í.
+    /// æ–‡ç« åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("items")]
     public List<FavoriteArticleItem> Items { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²ØµÄÎÄÕÂ.
+/// æ”¶è—çš„æ–‡ç« .
 /// </summary>
 public class FavoriteArticleItem
 {
     /// <summary>
-    /// ÎÄÕÂId.
+    /// æ–‡ç« Id.
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ºá·ùÍ¼Æ¬.
+    /// æ¨ªå¹…å›¾ç‰‡.
     /// </summary>
     [JsonPropertyName("banner_url")]
     public string Banner { get; set; }
 
     /// <summary>
-    /// ·¢²¼ÕßÃû³Æ.
+    /// å‘å¸ƒè€…åç§°.
     /// </summary>
     [JsonPropertyName("name")]
     public string PublisherName { get; set; }
 
     /// <summary>
-    /// Í¼Æ¬Á´½Ó.
+    /// å›¾ç‰‡é“¾æ¥.
     /// </summary>
     [JsonPropertyName("image_urls")]
     public List<string> Images { get; set; }
 
     /// <summary>
-    /// ÌáÒª.
+    /// æè¦.
     /// </summary>
     [JsonPropertyName("summary")]
     public string Summary { get; set; }
 
     /// <summary>
-    /// ÊÕ²ØÊ±¼ä.
+    /// æ”¶è—æ—¶é—´.
     /// </summary>
     [JsonPropertyName("favorite_time")]
     public int CollectTime { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("uri")]
     public string Url { get; set; }
 
     /// <summary>
-    /// ·¢²¼ÕßÃû³Æ.
+    /// å‘å¸ƒè€…åç§°.
     /// </summary>
     [JsonPropertyName("up_mid")]
     public int PublisherId { get; set; }
 
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// å¾½ç« æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }

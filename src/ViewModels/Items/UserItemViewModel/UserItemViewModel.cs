@@ -6,6 +6,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Community;
+using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.Input;
 
@@ -106,4 +107,14 @@ public sealed partial class UserItemViewModel : ViewModelBase
     [RelayCommand]
     private void ShowDetail()
         => AppViewModel.Instance.ShowUserDetailCommand.Execute(User);
+
+    [RelayCommand]
+    private void Fix()
+    {
+        FixModuleViewModel.Instance.AddFixedItemCommand.Execute(new FixedItem(
+            User.Avatar.Uri,
+            User.Name,
+            User.Id,
+            FixedType.User));
+    }
 }

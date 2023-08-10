@@ -1,52 +1,52 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÓÃ»§¹ØÏµ.
+/// ç”¨æˆ·å…³ç³».
 /// </summary>
 public class UserRelation
 {
     /// <summary>
-    /// ÓÃ»§¹ØÏµ×´Ì¬£¬1:Î´¹Ø×¢ 2:ÒÑ¹Ø×¢ 3:±»¹Ø×¢ 4:»¥Ïà¹Ø×¢.
+    /// ç”¨æˆ·å…³ç³»çŠ¶æ€ï¼Œ1:æœªå…³æ³¨ 2:å·²å…³æ³¨ 3:è¢«å…³æ³¨ 4:äº’ç›¸å…³æ³¨.
     /// </summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 }
 
 /// <summary>
-/// ÓÃ»§¹ØÏµÏìÓ¦½á¹û.
+/// ç”¨æˆ·å…³ç³»å“åº”ç»“æœ.
 /// </summary>
 public class UserRelationResponse
 {
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
-    /// ¹Ø×¢Ê±¼ä£¬Î´¹Ø×¢ÔòÎª0.
+    /// å…³æ³¨æ—¶é—´ï¼Œæœªå…³æ³¨åˆ™ä¸º0.
     /// </summary>
     [JsonPropertyName("mtime")]
     public long FollowTime { get; set; }
 
     /// <summary>
-    /// ¹Ø×¢ÀàĞÍ,0-Î´¹Ø×¢£¬2-ÒÑ¹Ø×¢£¬6-ÒÑ»¥¹Ø£¬128-À­ºÚ.
+    /// å…³æ³¨ç±»å‹,0-æœªå…³æ³¨ï¼Œ2-å·²å…³æ³¨ï¼Œ6-å·²äº’å…³ï¼Œ128-æ‹‰é»‘.
     /// </summary>
     [JsonPropertyName("attribute")]
     public int Type { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÌØ±ğ¹Ø×¢£¬0-·ñ£¬1-ÊÇ.
+    /// æ˜¯å¦ä¸ºç‰¹åˆ«å…³æ³¨ï¼Œ0-å¦ï¼Œ1-æ˜¯.
     /// </summary>
     [JsonPropertyName("special")]
     public int IsSpecialFollow { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñ¹Ø×¢.
+    /// æ˜¯å¦å…³æ³¨.
     /// </summary>
-    /// <returns>¹Ø×¢½á¹û.</returns>
+    /// <returns>å…³æ³¨ç»“æœ.</returns>
     public bool IsFollow() => Type is 2 or 6;
 }
 

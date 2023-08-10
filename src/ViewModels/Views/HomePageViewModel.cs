@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -26,6 +28,18 @@ public sealed partial class HomePageViewModel : ViewModelBase
     private bool _isInFollows;
 
     [ObservableProperty]
+    private HomeCustomModuleType _customModule;
+
+    [ObservableProperty]
+    private string _customModuleTitle;
+
+    [ObservableProperty]
+    private bool _isHotSearchModuleShown;
+
+    [ObservableProperty]
+    private bool _isFixedModuleShown;
+
+    [ObservableProperty]
     private SearchDetailViewModel _search;
 
     [ObservableProperty]
@@ -47,6 +61,8 @@ public sealed partial class HomePageViewModel : ViewModelBase
         Fans = new FansDetailViewModel();
         Follows = MyFollowsDetailViewModel.Instance;
         IsHomeShown = true;
+        CustomModule = SettingsToolkit.ReadLocalSetting(SettingNames.HomeCustomModuleType, HomeCustomModuleType.HotSearch);
+        CheckCustomModule();
     }
 
     /// <summary>
@@ -100,6 +116,18 @@ public sealed partial class HomePageViewModel : ViewModelBase
     private void CheckIsHomeShown()
         => IsHomeShown = !IsInSearch && !IsInMessage && !IsInFans && !IsInFollows;
 
+    private void CheckCustomModule()
+    {
+        IsFixedModuleShown = CustomModule == HomeCustomModuleType.Fixed;
+        IsHotSearchModuleShown = CustomModule == HomeCustomModuleType.HotSearch;
+        CustomModuleTitle = CustomModule switch
+        {
+            HomeCustomModuleType.HotSearch => ResourceToolkit.GetLocalizedString(StringNames.HotSearch),
+            HomeCustomModuleType.Fixed => ResourceToolkit.GetLocalizedString(StringNames.FixedContent),
+            _ => string.Empty
+        };
+    }
+
     partial void OnIsInSearchChanged(bool value)
         => CheckIsHomeShown();
 
@@ -114,4 +142,10 @@ public sealed partial class HomePageViewModel : ViewModelBase
 
     partial void OnIsHomeShownChanged(bool value)
         => AppViewModel.Instance.IsBackButtonShown = !value;
+
+    partial void OnCustomModuleChanged(HomeCustomModuleType value)
+    {
+        CheckCustomModule();
+        SettingsToolkit.WriteLocalSetting(SettingNames.HomeCustomModuleType, value);
+    }
 }

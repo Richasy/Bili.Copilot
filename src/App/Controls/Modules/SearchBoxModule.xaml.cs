@@ -25,13 +25,6 @@ public sealed partial class SearchBoxModule : SearchBoxModuleBase
     private void OnLoaded(object sender, RoutedEventArgs e)
         => ViewModel.InitializeCommand.Execute(default);
 
-    private void OnHotSearchClick(object sender, RoutedEventArgs e)
-    {
-        var data = (sender as FrameworkElement).DataContext as SearchSuggest;
-        TraceLogger.LogHotSearchClick();
-        ViewModel.SearchBySuggestCommand.Execute(data);
-    }
-
     private void OnSearchBoxSubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (args.ChosenSuggestion is SearchSuggest ss)
