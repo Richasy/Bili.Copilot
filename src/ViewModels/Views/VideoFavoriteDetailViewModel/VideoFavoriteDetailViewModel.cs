@@ -71,6 +71,11 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         var data = await FavoriteProvider.Instance.GetVideoFavoriteFolderDetailAsync(CurrentFolder.Id);
         foreach (var item in data.VideoSet.Items)
         {
+            if (Items.Any(p => p.Data.Identifier.Id == item.Identifier.Id))
+            {
+                continue;
+            }
+
             var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo, additionalData: CurrentFolder.Id)
             {
                 CanRemove = IsMine,
