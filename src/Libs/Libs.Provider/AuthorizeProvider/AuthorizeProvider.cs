@@ -12,8 +12,8 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Microsoft.UI.Xaml;
+using QRCoder;
 using Windows.Web.Http.Filters;
-using ZXing;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
@@ -191,20 +191,12 @@ public sealed partial class AuthorizeProvider
             var result = await HttpProvider.ParseAsync<ServerResponse<QRInfo>>(response);
 
             _internalQRAuthCode = result.Data.AuthCode;
-            var barcodeWriter = new ZXing.Windows.Compatibility.BarcodeWriter
-            {
-                Format = BarcodeFormat.QR_CODE,
-                Options = new ZXing.Common.EncodingOptions()
-                {
-                    Margin = 1,
-                    Height = 200,
-                    Width = 200,
-                },
-            };
-
-            var bitmap = barcodeWriter.Write(result.Data.Url);
+            var generator = new QRCodeGenerator();
+            var data = generator.CreateQrCode(result.Data.Url, QRCodeGenerator.ECCLevel.Q);
+            var code = new QRCode(data);
+            var image = code.GetGraphic(20);
             var ms = new MemoryStream();
-            bitmap.Save(ms, ImageFormat.Png);
+            image.Save(ms, ImageFormat.Png);
             _ = ms.Seek(0, SeekOrigin.Begin);
             return ms;
         }
