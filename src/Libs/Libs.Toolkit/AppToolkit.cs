@@ -93,7 +93,10 @@ public static class AppToolkit
             hexCode = hexCode[1..];
         }
 
-        hexCode = Convert.ToInt32(hexCode).ToString("X2");
+        if(int.TryParse(hexCode, out var intValue))
+        {
+            hexCode = intValue.ToString("X2");
+        }
 
         var color = default(Color);
         if (hexCode.Length == 4)
