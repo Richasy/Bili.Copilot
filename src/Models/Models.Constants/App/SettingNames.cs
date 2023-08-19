@@ -106,4 +106,6 @@ public enum SettingNames
     HomeCustomModuleType,
     PlayerWindowWidth,
     PlayerWindowHeight,
+    PlayerWindowLeft,
+    PlayerWindowTop,
 }
