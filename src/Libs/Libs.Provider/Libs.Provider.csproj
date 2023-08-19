@@ -9,10 +9,9 @@
 
   <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230628000-preview1" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230811000-preview2" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-      <PackageReference Include="ZXing.Net" Version="0.16.9" />
-      <PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+      <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
   <ItemGroup>
