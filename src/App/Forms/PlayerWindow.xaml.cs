@@ -15,6 +15,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Windows.Graphics;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -28,8 +29,6 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class PlayerWindow : WindowBase
 {
-    private bool _isActivated;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
     /// </summary>
@@ -38,8 +37,7 @@ public sealed partial class PlayerWindow : WindowBase
         InitializeComponent();
         Activated += OnActivated;
         Closed += OnClosed;
-        Width = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1280d);
-        Height = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 720d);
+        RestoreWindowState();
         MinWidth = 560;
         MinHeight = 320;
         AppWindow.Changed += OnAppWindowChanged;
@@ -95,11 +93,15 @@ public sealed partial class PlayerWindow : WindowBase
 
     private void OnClosed(object sender, WindowEventArgs args)
     {
-        // 保存当前窗口大小.
+        // 保存当前窗口大小和位置.
         if (AppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
         {
+            var left = AppWindow.Position.X;
+            var top = AppWindow.Position.Y;
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowLeft, left);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowTop, top);
         }
 
         MainFrame.Navigate(typeof(Page));
@@ -125,14 +127,6 @@ public sealed partial class PlayerWindow : WindowBase
             KeyboardHook.Start();
             KeyboardHook.KeyDown += OnWindowKeyDown;
         }
-
-        if (_isActivated)
-        {
-            return;
-        }
-
-        this.CenterOnScreen();
-        _isActivated = true;
     }
 
     private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
@@ -158,6 +152,27 @@ public sealed partial class PlayerWindow : WindowBase
             {
                 pgcPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
+        }
+    }
+
+    private void RestoreWindowState()
+    {
+        var width = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1280d);
+        var height = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 720d);
+
+        var left = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowLeft, 0);
+        var top = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowTop, 0);
+        var area = DisplayArea.GetFromPoint(new PointInt32(Convert.ToInt32(left), Convert.ToInt32(top)), DisplayAreaFallback.Nearest);
+        var isValidPosition = left > 0 && top > 0 && left + Width < area.WorkArea.Width && top + height < area.WorkArea.Height;
+        if (!isValidPosition)
+        {
+            Width = width;
+            Height = height;
+            this.CenterOnScreen();
+        }
+        else
+        {
+            this.MoveAndResize(left, top, width, height);
         }
     }
 
