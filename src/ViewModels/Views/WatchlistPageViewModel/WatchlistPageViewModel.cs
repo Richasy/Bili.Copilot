@@ -73,6 +73,10 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
         {
             ViewLaterDetailViewModel.Instance.PlayAllCommand.Execute(default);
         }
+        else if (IsFavoriteShown)
+        {
+            VideoFavoriteDetailViewModel.Instance.PlayAllCommand.Execute(default);
+        }
     }
 
     private async Task InitializeCurrentModuleAsync()

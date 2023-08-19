@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 
@@ -102,6 +104,21 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         _isEnd = false;
         TryClear(Items);
         await GetDataAsync();
+    }
+
+    [RelayCommand]
+    private void PlayAll()
+    {
+        var filteredItems = Items.Where(x => x.Data.Identifier.Title != "已失效视频").Select(p => p.Data).ToList();
+        if (filteredItems.Count > 1)
+        {
+            AppViewModel.Instance.OpenPlaylistCommand.Execute(filteredItems);
+        }
+        else if (filteredItems.Count > 0)
+        {
+            var info = filteredItems.First();
+            AppViewModel.Instance.OpenPlayerCommand.Execute(new PlaySnapshot(info.Identifier.Id, "0", VideoType.Video));
+        }
     }
 
     private void RemoveVideo(VideoItemViewModel vm)
