@@ -112,28 +112,45 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
         var token = await AuthorizeProvider.Instance.GetTokenAsync();
         sb.Append($" -token {token}");
 
-        var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "哔哩下载");
-        if (!Directory.Exists(folderPath))
-        {
-            _ = Directory.CreateDirectory(folderPath);
-        }
-
-        sb.Append($" --work-dir \"{folderPath}\"");
-
+        var hasPartParams = false;
+        var hasWorkDirParams = false;
+        var folderPath = string.Empty;
         if (!string.IsNullOrEmpty(_configPath) && File.Exists(_configPath))
         {
             var configs = await File.ReadAllLinesAsync(_configPath);
-            var hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
-            if (!hasPartParams)
+            hasPartParams = configs.Any(c => c.StartsWith("-p") || c.StartsWith("--select-page"));
+            hasWorkDirParams = configs.Any(c => c.StartsWith("--work-dir"));
+
+            if (hasWorkDirParams)
             {
-                var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
-                if (selectedParts.Any())
-                {
-                    sb.Append($" -p {string.Join(",", selectedParts)} ");
-                }
+                folderPath = configs.First(c => c.StartsWith("--work-dir")).Replace("--work-dir", string.Empty)
+                    .Trim()
+                    .TrimStart('\"')
+                    .TrimEnd('\"')
+                    .Replace("\\\\", "\\");
             }
 
             sb.Append($" --config-file \"{_configPath}\"");
+        }
+
+        if (!hasPartParams)
+        {
+            var selectedParts = Parts.Where(p => p.IsSelected).Select(p => p.Index);
+            if (selectedParts.Any())
+            {
+                sb.Append($" -p {string.Join(",", selectedParts)} ");
+            }
+        }
+
+        if (!hasWorkDirParams)
+        {
+            folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "哔哩下载");
+            if (!Directory.Exists(folderPath))
+            {
+                _ = Directory.CreateDirectory(folderPath);
+            }
+
+            sb.Append($" --work-dir \"{folderPath}\"");
         }
 
         var process = new Process();
@@ -146,8 +163,13 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
 
         if (process.ExitCode == 0 && OpenFolderWhenDownloaded)
         {
-            var folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
-            await Windows.System.Launcher.LaunchFolderAsync(folder);
+            try
+            {
+                Process.Start("explorer.exe", $" \"{folderPath}\"");
+            }
+            catch
+            {
+            }
         }
     }
 
