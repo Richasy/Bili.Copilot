@@ -43,7 +43,7 @@
                     Command="{x:Bind ViewModel.PlayAllCommand}"
                     Style="{StaticResource SmallIconButtonStyle}"
                     ToolTipService.ToolTip="{ext:Locale Name=PlayAll}"
-                    Visibility="{x:Bind ViewModel.IsViewLaterShown, Mode=OneWay}">
+                    Visibility="{x:Bind ViewModel.IsHistoryShown, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <base:FluentIcon FontSize="12" Symbol="NavigationPlay" />
                 </Button>
                 <Button
