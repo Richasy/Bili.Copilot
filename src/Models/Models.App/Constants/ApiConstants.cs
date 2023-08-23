@@ -627,7 +627,7 @@ public static class ApiConstants
         /// <summary>
         /// 点赞/取消点赞动态.
         /// </summary>
-        public const string LikeDynamic = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynThumb";
+        public const string LikeDynamic = _grpcBase + "/bilibili.main.dynamic.feed.v1.Feed/DynamicThumb";
     }
 }
 #pragma warning restore SA1600 // Elements should be documented
