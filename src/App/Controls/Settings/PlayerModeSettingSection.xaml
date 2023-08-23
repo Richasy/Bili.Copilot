@@ -92,6 +92,20 @@
                 </labs:SettingsCard.Header>
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsContinuePlay, Mode=TwoWay}" />
             </labs:SettingsCard>
+            <labs:SettingsCard>
+                <labs:SettingsCard.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=AutoCloseWhenEnded}" />
+                        <base:FluentIcon
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{ThemeResource SystemFillColorAttentionBrush}"
+                            Symbol="QuestionCircle"
+                            ToolTipService.ToolTip="{ext:Locale Name=AutoCloseWhenEndedDescription}" />
+                    </StackPanel>
+                </labs:SettingsCard.Header>
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoCloseWhenEnded, Mode=TwoWay}" />
+            </labs:SettingsCard>
             <labs:SettingsCard Description="{ext:Locale Name=DisableP2PCdnDescription}" Header="{ext:Locale Name=DisableP2PCdn}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.DisableP2PCdn, Mode=TwoWay}" />
             </labs:SettingsCard>

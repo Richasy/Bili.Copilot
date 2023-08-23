@@ -40,6 +40,7 @@ public enum SettingNames
     DanmakuSpeed,
     DisableP2PCdn,
     IsContinuePlay,
+    IsAutoCloseWhenEnded,
     IgnoreVersion,
     IsOnlyShowIndex,
     CanContinuePlay,
