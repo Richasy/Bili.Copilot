@@ -65,6 +65,11 @@ public sealed class VideoFavoriteFolder
     /// </summary>
     public int TotalCount { get; }
 
+    /// <summary>
+    /// 收藏夹标题和内容总数.
+    /// </summary>
+    public string TitleAndTotalCount => $"{Title} ({TotalCount})";
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is VideoFavoriteFolder folder && Id == folder.Id;
 
