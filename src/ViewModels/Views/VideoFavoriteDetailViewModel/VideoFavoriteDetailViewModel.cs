@@ -48,8 +48,8 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         {
             var folders = await FavoriteProvider.Instance.GetVideoFavoriteViewAsync(AuthorizeProvider.Instance.CurrentUserId);
             _view = folders;
-            Folders.Add(folders.DefaultFolder.Folder);
             var folderList = folders.Groups.SelectMany(p => p.FavoriteSet.Items).ToList();
+            folderList.Insert(0, folders.DefaultFolder.Folder);
             foreach (var folder in folderList)
             {
                 if (Folders.Any(p => p.Equals(folder)))
