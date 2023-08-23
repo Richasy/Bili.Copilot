@@ -110,7 +110,8 @@
                                     x:Name="LikeButton"
                                     Height="28"
                                     BorderThickness="0"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}">
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
                                         <local:FluentIcon
                                             VerticalAlignment="Center"

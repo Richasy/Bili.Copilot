@@ -65,15 +65,15 @@ public partial class CommunityProvider
     /// <param name="dynamicId">动态Id.</param>
     /// <param name="isLike">是否点赞.</param>
     /// <param name="userId">用户Id.</param>
-    /// <param name="rid">扩展数据标识.</param>
     /// <returns>是否操作成功.</returns>
-    public static async Task<bool> LikeDynamicAsync(string dynamicId, bool isLike, string userId, string rid)
+    public static async Task<bool> LikeDynamicAsync(string dynamicId, bool isLike, string userId)
     {
         var req = new DynThumbReq
         {
             Type = isLike ? ThumbType.Thumb : ThumbType.Cancel,
-            DynId = dynamicId.ToString(),
-            Rid = rid,
+            DynId = Convert.ToInt64(dynamicId),
+            DynId2 = Convert.ToInt64(dynamicId),
+            DynType = 2,
             Uid = Convert.ToInt64(userId),
         };
 

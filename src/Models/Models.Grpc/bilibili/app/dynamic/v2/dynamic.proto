@@ -2148,15 +2148,15 @@ message DynTabReq {
 // 动态点赞-请求
 message DynThumbReq {
     // 用户uid
-    int64 uid = 1;
+    int64 dyn_id = 1;
     // 动态id
-    string dyn_id = 2;
+    int64 dyn_id_2 = 2;
     // 动态类型(透传extend中的dyn_type)
     int64 dyn_type = 3;
     // 业务方资源id
-    string rid = 4;
+    int64 uid = 4;
     // 点赞类型
-    ThumbType type = 5;
+    ThumbType type = 6;
 }
 
 // 最近访问-个人feed流列表-响应
