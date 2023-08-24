@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -23,6 +26,13 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
         AttachIsRunningToAsyncCommand(p => IsClearing = p, ClearAllCommand);
     }
+
+    /// <summary>
+    /// 设置 XamlRoot.
+    /// </summary>
+    /// <param name="xamlRoot">XamlRoot.</param>
+    public void SetXamlRoot(object xamlRoot)
+        => _xamlRoot = xamlRoot as XamlRoot;
 
     [RelayCommand]
     private async Task ReloadAsync()
@@ -56,6 +66,26 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task ClearAllAsync()
     {
+        var dialog = new ContentDialog
+        {
+            Title = IsHistoryShown
+                ? ResourceToolkit.GetLocalizedString(StringNames.ClearHistory)
+                : ResourceToolkit.GetLocalizedString(StringNames.ClearViewLater),
+            Content = IsHistoryShown
+                ? ResourceToolkit.GetLocalizedString(StringNames.ClearHistoryWarning)
+                : ResourceToolkit.GetLocalizedString(StringNames.ClearViewLaterWarning),
+            PrimaryButtonText = ResourceToolkit.GetLocalizedString(StringNames.Confirm),
+            CloseButtonText = ResourceToolkit.GetLocalizedString(StringNames.Cancel),
+            XamlRoot = _xamlRoot,
+        };
+
+        var result = await dialog.ShowAsync();
+
+        if (result == ContentDialogResult.None)
+        {
+            return;
+        }
+
         if (IsHistoryShown)
         {
             await HistoryDetailViewModel.Instance.ClearAllCommand.ExecuteAsync(default);

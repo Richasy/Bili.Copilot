@@ -26,6 +26,7 @@ public sealed partial class WatchlistPage : WatchlistPageBase
         CoreViewModel.IsBackButtonShown = false;
         WatchlistTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
         ViewModel.InitializeCommand.Execute(default);
+        ViewModel.SetXamlRoot(XamlRoot);
     }
 
     private void OnWatchlistTypeSegmentedSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
