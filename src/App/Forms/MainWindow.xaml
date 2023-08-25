@@ -13,6 +13,7 @@
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -70,6 +71,7 @@
                 <NavigationView.PaneFooter>
                     <StackPanel Orientation="Horizontal">
                         <Button
+                            x:Name="SettingButton"
                             Margin="6,0,0,0"
                             HorizontalAlignment="Center"
                             AccessKey="S"
@@ -92,5 +94,11 @@
             Grid.Column="1"
             IsActive="{x:Bind _appViewModel.IsSigningIn, Mode=OneWay}"
             Style="{StaticResource PageProgressRingStyle}" />
+
+        <TeachingTip
+            x:Name="SettingsTip"
+            IsLightDismissEnabled="True"
+            Subtitle="{ext:Locale Name=MenuPositionTip}"
+            Target="{x:Bind SettingButton}" />
     </Grid>
 </local:WindowBase>

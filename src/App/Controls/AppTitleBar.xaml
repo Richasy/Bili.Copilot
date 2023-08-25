@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="BackButton"
-                Padding="10,8"
+                Padding="12,8"
                 Background="Transparent"
                 BorderThickness="0"
                 Click="OnBackButtonClick"

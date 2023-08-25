@@ -23,6 +23,7 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class MainWindow : WindowBase
 {
+    private const string _settingsTipVersion = "1";
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
     private bool _isInitialized;
 
@@ -131,6 +132,14 @@ public sealed partial class MainWindow : WindowBase
 #endif
         _appViewModel.CheckAIFeatureCommand.Execute(default);
         _appViewModel.CheckBBDownExistCommand.Execute(default);
+
+        var localSettingsTipVersion = SettingsToolkit.ReadLocalSetting(SettingNames.SettingsTipVersion, "0");
+        if (localSettingsTipVersion != _settingsTipVersion)
+        {
+            SettingsTip.IsOpen = true;
+            SettingsToolkit.WriteLocalSetting(SettingNames.SettingsTipVersion, _settingsTipVersion);
+        }
+
         _isInitialized = true;
     }
 

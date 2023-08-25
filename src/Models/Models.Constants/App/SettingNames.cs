@@ -109,4 +109,5 @@ public enum SettingNames
     PlayerWindowLeft,
     PlayerWindowTop,
     MenuPosition,
+    SettingsTipVersion,
 }

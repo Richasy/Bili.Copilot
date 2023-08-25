@@ -37,6 +37,7 @@ public sealed partial class MenuPositionSettingSection : SettingSection
         }
 
         ViewModel.MenuPosition = (MenuPosition)index;
+        TraceLogger.LogMenuPositionChanged(ViewModel.MenuPosition);
         MainWindow.Instance.ChangeMenuLayout();
     }
 }
