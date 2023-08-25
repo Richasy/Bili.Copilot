@@ -299,6 +299,9 @@ BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</v
   <data name="Blue" xml:space="preserve">
     <value>青色</value>
   </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>底部</value>
+  </data>
   <data name="BottomDanmaku" xml:space="preserve">
     <value>底部弹幕</value>
   </data>
@@ -960,6 +963,9 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="LaunchingFantasyCopilot" xml:space="preserve">
     <value>正在启动小幻助理...</value>
   </data>
+  <data name="Left" xml:space="preserve">
+    <value>左侧</value>
+  </data>
   <data name="License" xml:space="preserve">
     <value>©2022 Richasy. MIT 许可证</value>
   </data>
@@ -1037,6 +1043,15 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="Menu" xml:space="preserve">
     <value>菜单</value>
+  </data>
+  <data name="MenuPosition" xml:space="preserve">
+    <value>菜单位置</value>
+  </data>
+  <data name="MenuPositionDescription" xml:space="preserve">
+    <value>应用导航菜单的显示位置</value>
+  </data>
+  <data name="MenuPositionTip" xml:space="preserve">
+    <value>我们添加了新的导航菜单设置，如果你喜欢，你可以将导航菜单调整到左侧</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>消息</value>

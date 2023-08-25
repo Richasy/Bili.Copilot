@@ -108,4 +108,5 @@ public enum SettingNames
     PlayerWindowHeight,
     PlayerWindowLeft,
     PlayerWindowTop,
+    MenuPosition,
 }

@@ -12,26 +12,36 @@
     xmlns:other="using:Bili.Copilot.Models.App.Other"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid x:Name="RootGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <controls:AppTitleBar
             x:Name="CustomTitleBar"
             Title="{ext:Locale Name=AppName}"
+            Grid.ColumnSpan="2"
             BackButtonClick="OnBackButtonClick"
             BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
+            HasBackground="True"
             Loaded="OnTitleBarLoadedAsync" />
         <Frame
             x:Name="MainFrame"
             Grid.Row="1"
+            Grid.Column="1"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
             BorderThickness="0,0,0,1" />
         <Grid
+            x:Name="NavContainer"
             Grid.Row="2"
+            Grid.RowSpan="1"
+            Grid.Column="1"
             Height="56"
             Padding="4,0"
             Visibility="{x:Bind _appViewModel.IsNavigationMenuShown, Mode=OneWay}">
@@ -39,8 +49,9 @@
                 x:Name="MainNavView"
                 Height="48"
                 Margin="0,-4,0,0"
+                CompactPaneLength="48"
                 IsBackButtonVisible="Collapsed"
-                IsPaneOpen="True"
+                IsPaneOpen="False"
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
@@ -49,7 +60,7 @@
                 SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=TwoWay}">
                 <NavigationView.MenuItemTemplate>
                     <DataTemplate x:DataType="other:NavigateItem">
-                        <NavigationViewItem ToolTipService.ToolTip="{x:Bind Title}">
+                        <NavigationViewItem AccessKey="{x:Bind Index}" ToolTipService.ToolTip="{x:Bind Title}">
                             <NavigationViewItem.Icon>
                                 <base:FluentIcon Symbol="{x:Bind Icon}" />
                             </NavigationViewItem.Icon>
@@ -59,6 +70,9 @@
                 <NavigationView.PaneFooter>
                     <StackPanel Orientation="Horizontal">
                         <Button
+                            Margin="6,0,0,0"
+                            HorizontalAlignment="Center"
+                            AccessKey="S"
                             Click="OnSettingsButtonClick"
                             Style="{StaticResource IconButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Settings}">
@@ -71,9 +85,11 @@
         <Grid
             x:Name="TipContainer"
             Grid.RowSpan="3"
+            Grid.ColumnSpan="2"
             Visibility="Collapsed" />
         <ProgressRing
             Grid.Row="1"
+            Grid.Column="1"
             IsActive="{x:Bind _appViewModel.IsSigningIn, Mode=OneWay}"
             Style="{StaticResource PageProgressRingStyle}" />
     </Grid>

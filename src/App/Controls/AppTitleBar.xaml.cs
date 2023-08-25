@@ -34,6 +34,12 @@ public sealed partial class AppTitleBar : UserControl
         DependencyProperty.Register(nameof(Title), typeof(string), typeof(AppTitleBar), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="HasBackground"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty HasBackgroundProperty =
+        DependencyProperty.Register(nameof(HasBackground), typeof(bool), typeof(AppTitleBar), new PropertyMetadata(true));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="AppTitleBar"/> class.
     /// </summary>
     public AppTitleBar()
@@ -73,6 +79,15 @@ public sealed partial class AppTitleBar : UserControl
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+
+    /// <summary>
+    /// 是否有背景.
+    /// </summary>
+    public bool HasBackground
+    {
+        get => (bool)GetValue(HasBackgroundProperty);
+        set => SetValue(HasBackgroundProperty, value);
     }
 
     private static void OnBackButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

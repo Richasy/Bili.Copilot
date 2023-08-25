@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
@@ -13,6 +14,7 @@ using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -74,6 +76,46 @@ public sealed partial class MainWindow : WindowBase
         }
     }
 
+    /// <summary>
+    /// 更改菜单布局.
+    /// </summary>
+    public void ChangeMenuLayout()
+    {
+        var currentPosition = SettingsToolkit.ReadLocalSetting(SettingNames.MenuPosition, MenuPosition.Bottom);
+        if (currentPosition == MenuPosition.Bottom)
+        {
+            Grid.SetRow(NavContainer, 2);
+            Grid.SetRowSpan(NavContainer, 1);
+            Grid.SetColumn(NavContainer, 1);
+            NavContainer.Padding = new Thickness(4, 0, 4, 0);
+            NavContainer.Height = 56;
+            MainNavView.Height = 48;
+            NavContainer.Width = double.NaN;
+            MainNavView.Width = double.NaN;
+            MainNavView.Margin = new Thickness(0, -4, 0, 0);
+            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
+            MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
+            CustomTitleBar.HasBackground = true;
+            MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
+        }
+        else
+        {
+            Grid.SetRow(NavContainer, 1);
+            Grid.SetRowSpan(NavContainer, 2);
+            Grid.SetColumn(NavContainer, 0);
+            NavContainer.Padding = new Thickness(0, 0, 0, 0);
+            NavContainer.Height = double.NaN;
+            MainNavView.Height = double.NaN;
+            NavContainer.Width = 52;
+            MainNavView.Width = 48;
+            MainNavView.Margin = new Thickness(0);
+            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+            MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
+            CustomTitleBar.HasBackground = false;
+            MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
+        }
+    }
+
     private async void OnTitleBarLoadedAsync(object sender, RoutedEventArgs e)
     {
         if (_isInitialized)
@@ -81,6 +123,7 @@ public sealed partial class MainWindow : WindowBase
             return;
         }
 
+        ChangeMenuLayout();
         await _appViewModel.InitializeAsync();
 
 #if !DEBUG

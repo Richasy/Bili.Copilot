@@ -66,6 +66,12 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task ClearAllAsync()
     {
+        if ((IsHistoryShown && HistoryDetailViewModel.Instance.IsEmpty)
+            || (IsViewLaterShown && ViewLaterDetailViewModel.Instance.IsEmpty))
+        {
+            return;
+        }
+
         var dialog = new ContentDialog
         {
             Title = IsHistoryShown
@@ -76,6 +82,7 @@ public sealed partial class WatchlistPageViewModel : ViewModelBase
                 : ResourceToolkit.GetLocalizedString(StringNames.ClearViewLaterWarning),
             PrimaryButtonText = ResourceToolkit.GetLocalizedString(StringNames.Confirm),
             CloseButtonText = ResourceToolkit.GetLocalizedString(StringNames.Cancel),
+            DefaultButton = ContentDialogButton.Primary,
             XamlRoot = _xamlRoot,
         };
 
