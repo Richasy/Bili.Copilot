@@ -41,7 +41,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsAutoPlayNextRelatedVideo = ReadSetting(SettingNames.IsAutoPlayNextRelatedVideo, false);
         DisableP2PCdn = ReadSetting(SettingNames.DisableP2PCdn, false);
         IsContinuePlay = ReadSetting(SettingNames.IsContinuePlay, true);
-        IsAutoCloseWhenEnded = ReadSetting(SettingNames.IsAutoCloseWhenEnded, false);
+        IsAutoCloseWindowWhenEnded = ReadSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
         SingleFastForwardAndRewindSpan = ReadSetting(SettingNames.SingleFastForwardAndRewindSpan, 30d);
         IsSupportContinuePlay = ReadSetting(SettingNames.SupportContinuePlay, true);
         IsCopyScreenshot = ReadSetting(SettingNames.CopyScreenshotAfterSave, true);
@@ -87,8 +87,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(IsContinuePlay):
                 WriteSetting(SettingNames.IsContinuePlay, IsContinuePlay);
                 break;
-            case nameof(IsAutoCloseWhenEnded):
-                WriteSetting(SettingNames.IsAutoCloseWhenEnded, IsAutoCloseWhenEnded);
+            case nameof(IsAutoCloseWindowWhenEnded):
+                WriteSetting(SettingNames.IsAutoCloseWindowWhenEnded, IsAutoCloseWindowWhenEnded);
                 break;
             case nameof(PreferCodec):
                 WriteSetting(SettingNames.PreferCodec, PreferCodec);
