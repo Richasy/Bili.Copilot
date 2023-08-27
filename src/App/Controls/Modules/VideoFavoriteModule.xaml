@@ -26,7 +26,21 @@
             SelectionChanged="OnFolderComboBoxSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="video:VideoFavoriteFolder">
-                    <TextBlock Text="{x:Bind Title}" />
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}">
+                            <Run FontWeight="Bold" FontSize="16" Text="·"></Run>
+                            <Run Text="{x:Bind TotalCount}"></Run>
+                        </TextBlock>
+                    </Grid>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
