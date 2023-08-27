@@ -84,7 +84,8 @@ internal sealed class TraceLogger
         string videoType,
         string preferCodec,
         string preferQuality,
-        string decodeType)
+        string decodeType,
+        string playerType)
     {
         var data = new Dictionary<string, string>
         {
@@ -92,6 +93,7 @@ internal sealed class TraceLogger
             { "PreferCodec", preferCodec },
             { "PreferQuality", preferQuality },
             { "DecodeType", decodeType },
+            { "PlayerType", playerType },
         };
 
         Analytics.TrackEvent(PlayerOpenEvent, data);

@@ -72,7 +72,8 @@ public sealed partial class PlayerWindow : WindowBase
             snapshot.VideoType.ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264).ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQuality.HDFirst).ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString());
+            SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString(),
+            SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native).ToString());
     }
 
     /// <summary>
