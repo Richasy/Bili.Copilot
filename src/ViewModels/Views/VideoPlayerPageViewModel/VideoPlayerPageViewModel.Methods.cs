@@ -201,15 +201,20 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void OnMediaEnded(object sender, EventArgs e)
     {
-        if (_playNextVideoAction == null)
+        if (_playNextVideoAction != null)
         {
-            return;
+            var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinuePlay, true);
+            if (isContinue)
+            {
+                _playNextVideoAction?.Invoke();
+                return;
+            }
         }
 
-        var isContinue = SettingsToolkit.ReadLocalSetting(SettingNames.IsContinuePlay, true);
-        if (isContinue)
+        var isAutoCloseWindowWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
+        if (isAutoCloseWindowWhenEnded)
         {
-            _playNextVideoAction?.Invoke();
+            _attachedWindow.Close();
         }
         else
         {
