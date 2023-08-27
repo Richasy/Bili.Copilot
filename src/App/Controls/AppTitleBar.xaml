@@ -12,7 +12,7 @@
         MinHeight="36"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch">
-        <Rectangle Fill="{ThemeResource LayerFillColorDefaultBrush}" />
+        <Rectangle Fill="{ThemeResource LayerFillColorDefaultBrush}" Visibility="{x:Bind HasBackground, Mode=OneWay}" />
         <Grid
             Padding="4"
             Background="{x:Bind Background, Mode=OneWay}"
@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="BackButton"
-                Padding="10,8"
+                Padding="12,8"
                 Background="Transparent"
                 BorderThickness="0"
                 Click="OnBackButtonClick"

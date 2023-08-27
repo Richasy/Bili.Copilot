@@ -211,15 +211,15 @@ public sealed partial class AppViewModel : ViewModelBase
     private void LoadNavItems()
     {
         TryClear(NavigateItems);
-        NavigateItems.Add(new NavigateItem(PageType.Home, ResourceToolkit.GetLocalizedString(StringNames.Home), FluentSymbol.Home));
-        NavigateItems.Add(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition), FluentSymbol.Apps));
-        NavigateItems.Add(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed), FluentSymbol.DesignIdeas));
-        NavigateItems.Add(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Rocket));
-        NavigateItems.Add(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video));
-        NavigateItems.Add(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust));
-        NavigateItems.Add(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay));
-        NavigateItems.Add(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn), FluentSymbol.DocumentBulletList));
-        NavigateItems.Add(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple));
+        NavigateItems.Add(new NavigateItem(PageType.Home, ResourceToolkit.GetLocalizedString(StringNames.Home), FluentSymbol.Home, 1));
+        NavigateItems.Add(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition), FluentSymbol.Apps, 2));
+        NavigateItems.Add(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed), FluentSymbol.DesignIdeas, 3));
+        NavigateItems.Add(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Rocket, 4));
+        NavigateItems.Add(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video, 5));
+        NavigateItems.Add(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust, 6));
+        NavigateItems.Add(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay, 7));
+        NavigateItems.Add(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn), FluentSymbol.DocumentBulletList, 8));
+        NavigateItems.Add(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple, 9));
     }
 
     partial void OnCurrentNavigateItemChanged(NavigateItem value)

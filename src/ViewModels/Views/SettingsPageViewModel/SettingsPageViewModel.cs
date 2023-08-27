@@ -50,6 +50,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
+        MenuPosition = ReadSetting(SettingNames.MenuPosition, MenuPosition.Bottom);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -152,6 +153,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(PlayerType):
                 WriteSetting(SettingNames.PlayerType, PlayerType);
+                break;
+            case nameof(MenuPosition):
+                WriteSetting(SettingNames.MenuPosition, MenuPosition);
                 break;
             default:
                 break;

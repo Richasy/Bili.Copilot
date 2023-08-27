@@ -13,11 +13,12 @@ public sealed class NavigateItem
     /// <param name="id">页面 Id.</param>
     /// <param name="title">标题.</param>
     /// <param name="icon">图标.</param>
-    public NavigateItem(PageType id, string title, FluentSymbol icon)
+    public NavigateItem(PageType id, string title, FluentSymbol icon, int index)
     {
         Id = id;
         Title = title;
         Icon = icon;
+        Index = index;
     }
 
     /// <summary>
@@ -34,6 +35,11 @@ public sealed class NavigateItem
     /// 图标.
     /// </summary>
     public FluentSymbol Icon { get; }
+
+    /// <summary>
+    /// 索引.
+    /// </summary>
+    public int Index { get; }
 
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is NavigateItem item && Id == item.Id;

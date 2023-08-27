@@ -2,6 +2,7 @@
 
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -11,6 +12,7 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class WatchlistPageViewModel
 {
     private bool _isInitialized;
+    private XamlRoot _xamlRoot;
 
     [ObservableProperty]
     private WatchlistType _currentType;
