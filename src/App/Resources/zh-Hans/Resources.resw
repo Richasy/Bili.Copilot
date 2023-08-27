@@ -225,11 +225,11 @@
   <data name="AudioSourceUrl" xml:space="preserve">
     <value>音频源地址</value>
   </data>
-  <data name="AutoCloseWhenEnded" xml:space="preserve">
-    <value>播放结束后自动关闭</value>
+  <data name="AutoCloseWindowWhenEnded" xml:space="preserve">
+    <value>播放结束后自动关闭视频</value>
   </data>
-  <data name="AutoCloseWhenEndedDescription" xml:space="preserve">
-    <value>在视频播放结束后，如果没有连续播放和关联播放任务，则自动关闭播放器</value>
+  <data name="AutoCloseWindowWhenEndedDescription" xml:space="preserve">
+    <value>在视频播放结束后，如果没有连续播放和关联播放任务，则自动关闭视频播放窗口</value>
   </data>
   <data name="Automatic" xml:space="preserve">
     <value>自动</value>

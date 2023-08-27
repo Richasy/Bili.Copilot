@@ -211,8 +211,8 @@ public sealed partial class VideoPlayerPageViewModel
             }
         }
 
-        var isAutoCloseWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWhenEnded, false);
-        if (isAutoCloseWhenEnded)
+        var isAutoCloseWindowWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
+        if (isAutoCloseWindowWhenEnded)
         {
             _attachedWindow.Close();
         }

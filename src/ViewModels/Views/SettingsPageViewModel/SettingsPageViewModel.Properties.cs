@@ -28,7 +28,7 @@ public sealed partial class SettingsPageViewModel
     private bool _isContinuePlay;
 
     [ObservableProperty]
-    private bool _isAutoCloseWhenEnded;
+    private bool _isAutoCloseWindowWhenEnded;
 
     [ObservableProperty]
     private PreferCodec _preferCodec;

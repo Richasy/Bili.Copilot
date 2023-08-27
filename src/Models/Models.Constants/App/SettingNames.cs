@@ -40,7 +40,6 @@ public enum SettingNames
     DanmakuSpeed,
     DisableP2PCdn,
     IsContinuePlay,
-    IsAutoCloseWhenEnded,
     IgnoreVersion,
     IsOnlyShowIndex,
     CanContinuePlay,
@@ -109,6 +108,7 @@ public enum SettingNames
     PlayerWindowHeight,
     PlayerWindowLeft,
     PlayerWindowTop,
+    IsAutoCloseWindowWhenEnded,
     MenuPosition,
     SettingsTipVersion,
 }
