@@ -214,7 +214,7 @@ public sealed partial class VideoPlayerPageViewModel
         var isAutoCloseWindowWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
         if (isAutoCloseWindowWhenEnded)
         {
-            _attachedWindow.Close();
+            PlayerDetail.ShowAutoCloseWindowTipCommand.Execute(default);
         }
         else
         {

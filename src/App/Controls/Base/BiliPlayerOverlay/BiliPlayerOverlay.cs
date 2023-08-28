@@ -38,6 +38,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private double _transportStayTime;
     private double _nextVideoStayTime;
     private double _progressTipStayTime;
+    private double _autoCloseWindowStayTime;
 
     private double _manipulationDeltaX = 0d;
     private double _manipulationDeltaY = 0d;

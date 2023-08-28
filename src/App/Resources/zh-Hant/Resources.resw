@@ -231,6 +231,12 @@
     <data name="AutoCloseWindowWhenEndedDescription" xml:space="preserve">
     <value>在視頻播放結束後，如果沒有連續播放和關聯播放任務，則自動關閉視頻播放窗體</value>
   </data>
+  <data name="AutoCloseWindow" xml:space="preserve">
+    <value>即將關閉視頻播放窗體</value>
+  </data>
+  <data name="CloseNow" xml:space="preserve">
+    <value>立即關閉</value>
+  </data>
   <data name="Automatic" xml:space="preserve">
     <value>自動</value>
   </data>

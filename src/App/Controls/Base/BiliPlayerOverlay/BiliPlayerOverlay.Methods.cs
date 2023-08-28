@@ -198,6 +198,21 @@ public partial class BiliPlayerOverlay
         }
     }
 
+    private void HandleAutoCloseWindowAutoHide()
+    {
+        if (_autoCloseWindowStayTime > 5)
+        {
+            _autoCloseWindowStayTime = 0;
+            ViewModel.AutoCloseWindowCountdown = 0;
+            ViewModel.IsShowAutoCloseWindowTip = false;
+            ViewModel.AutoCloseWindowCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.AutoCloseWindowCountdown = Math.Ceiling(5 - _autoCloseWindowStayTime);
+        }
+    }
+
     private void ShowAndResetMediaTransport(bool isMouse)
     {
         ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);

@@ -56,6 +56,7 @@ public sealed partial class PlayerDetailViewModel
         TryClear(PlaybackRates);
         IsShowProgressTip = false;
         IsShowMediaTransport = false;
+        IsShowAutoCloseWindowTip = false;
         ProgressTip = default;
         _video = null;
         _audio = null;
@@ -211,6 +212,14 @@ public sealed partial class PlayerDetailViewModel
     [RelayCommand]
     private void PlayNextVideo()
         => _playNextAction?.Invoke();
+
+    [RelayCommand]
+    private void ShowAutoCloseWindowTip()
+        => IsShowAutoCloseWindowTip = true;
+
+    [RelayCommand]
+    private void AutoCloseWindow()
+        => _attachedWindow.Close();
 
     [RelayCommand]
     private void ClearSourceProgress()

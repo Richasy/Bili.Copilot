@@ -207,11 +207,17 @@ public partial class BiliPlayerOverlay
             _progressTipStayTime += 0.5;
         }
 
+        if (ViewModel.IsShowAutoCloseWindowTip)
+        {
+            _autoCloseWindowStayTime += 0.5;
+        }
+
         HandleTransportAutoHide();
         HandleCursorAutoHide();
         HandleTempMessageAutoHide();
         HandleNextVideoAutoHide();
         HandleProgressTipAutoHide();
+        HandleAutoCloseWindowAutoHide();
     }
 
     private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
