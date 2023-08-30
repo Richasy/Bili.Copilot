@@ -116,6 +116,7 @@
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
+        <None Remove="Forms\CommentWindow.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="Forms\ReaderWindow.xaml" />
@@ -286,6 +287,9 @@
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Forms\UserSpaceWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Forms\CommentWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\MyFollowDetailModule.xaml">

@@ -92,6 +92,11 @@ public sealed partial class AppViewModel
     public event EventHandler<UserProfile> RequestShowUserSpace;
 
     /// <summary>
+    /// 在有新的视频动态评论请求时触发.
+    /// </summary>
+    public event EventHandler<ShowCommentEventArgs> RequestShowCommentWindow;
+
+    /// <summary>
     /// 在有新的阅读请求时触发.
     /// </summary>
     public event EventHandler<ArticleInformation> RequestRead;

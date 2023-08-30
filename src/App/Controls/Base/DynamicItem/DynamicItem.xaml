@@ -125,12 +125,13 @@
                                             TextLineBounds="Tight" />
                                     </StackPanel>
                                 </ToggleButton>
-                                <Grid
+                                <Button
                                     x:Name="ReplyButton"
                                     Grid.Column="1"
                                     Height="28"
                                     Padding="8,0"
-                                    BorderThickness="0">
+                                    BorderThickness="0"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowCommentWindowCommand}">
                                     <local:IconTextBlock
                                         x:Name="ReplyCountBlock"
                                         VerticalAlignment="Center"
@@ -138,7 +139,7 @@
                                         IconFontSize="12"
                                         Symbol="Comment"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCountText}" />
-                                </Grid>
+                                </Button>
 
                                 <!--  尚不支持分享  -->
                                 <Button
