@@ -121,6 +121,12 @@ public sealed partial class PlayerDetailViewModel
     private double _progressTipCountdown;
 
     [ObservableProperty]
+    private double _autoCloseWindowCountdown;
+
+    [ObservableProperty]
+    private bool _isShowAutoCloseWindowTip;
+
+    [ObservableProperty]
     private bool _isInteractionVideo;
 
     [ObservableProperty]
