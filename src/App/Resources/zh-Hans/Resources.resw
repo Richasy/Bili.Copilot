@@ -231,8 +231,8 @@
   <data name="AutoCloseWindowWhenEndedDescription" xml:space="preserve">
     <value>在视频播放结束后，如果没有连续播放和关联播放任务，则自动关闭视频播放窗口</value>
   </data>
-  <data name="AutoCloseWindow" xml:space="preserve">
-    <value>即将关闭视频播放窗口</value>
+  <data name="AutoClosePlayerWindow" xml:space="preserve">
+    <value>自动关闭当前播放窗口</value>
   </data>
   <data name="CloseNow" xml:space="preserve">
     <value>立即关闭</value>
@@ -2042,5 +2042,8 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="ZoomOut" xml:space="preserve">
     <value>缩小</value>
+  </data>
+  <data name="AutoClosePlayerWindowDescription" xml:space="preserve">
+    <value>当前播放窗口即将关闭，您可以关闭此提示以保留窗口</value>
   </data>
 </root>

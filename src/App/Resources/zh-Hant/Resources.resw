@@ -228,11 +228,11 @@
   <data name="AutoCloseWindowWhenEnded" xml:space="preserve">
     <value>播放結束後自動關閉視頻</value>
   </data>
-    <data name="AutoCloseWindowWhenEndedDescription" xml:space="preserve">
+  <data name="AutoCloseWindowWhenEndedDescription" xml:space="preserve">
     <value>在視頻播放結束後，如果沒有連續播放和關聯播放任務，則自動關閉視頻播放窗體</value>
   </data>
-  <data name="AutoCloseWindow" xml:space="preserve">
-    <value>即將關閉視頻播放窗體</value>
+  <data name="AutoClosePlayerWindow" xml:space="preserve">
+    <value>自動關閉目前播放視窗</value>
   </data>
   <data name="CloseNow" xml:space="preserve">
     <value>立即關閉</value>
@@ -2042,5 +2042,8 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   </data>
   <data name="ZoomOut" xml:space="preserve">
     <value>縮小</value>
+  </data>
+  <data name="AutoClosePlayerWindowDescription" xml:space="preserve">
+    <value>當前播放視窗即將關閉，您可以關閉此提示以保留視窗</value>
   </data>
 </root>
