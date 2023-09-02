@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
-using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using WinUIEx;
@@ -14,7 +12,7 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class CommentWindow : WindowBase
 {
-    private readonly CommentViewModel _viewModel = new();
+    private readonly CommentModuleViewModel _viewModel = new();
     private bool _isActivated;
 
     /// <summary>
@@ -23,7 +21,7 @@ public sealed partial class CommentWindow : WindowBase
     public CommentWindow(ShowCommentEventArgs commentEventArgs)
     {
         InitializeComponent();
-        _viewModel.Comments.SetData(commentEventArgs.SourceId, commentEventArgs.Type);
+        _viewModel.SetData(commentEventArgs.SourceId, commentEventArgs.Type);
         Title = commentEventArgs.Title;
         TitleBlock.Text = commentEventArgs.Title;
         Width = MainWindow.Instance?.Width ?? 500;
