@@ -162,18 +162,13 @@ public partial class BiliPlayerOverlay
 
                 if (ViewModel.DanmakuViewModel.IsDanmakuMerge)
                 {
-                    data = data.Distinct().Where(p => !p.IsSend).ToList();
+                    data = data.Distinct().ToList();
                 }
 
                 if (data.Count > 0)
                 {
                     foreach (var item in data)
                     {
-                        if (item.IsSend)
-                        {
-                            continue;
-                        }
-
                         _ = DispatcherQueue.TryEnqueue(() =>
                         {
                             _danmakuView.AddScreenDanmaku(item, false);
