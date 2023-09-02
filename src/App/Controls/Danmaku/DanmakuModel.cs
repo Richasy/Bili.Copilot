@@ -47,11 +47,6 @@ public class DanmakuModel
     /// </summary>
     public SolidColorBrush Foreground => new(Color);
 
-    /// <summary>
-    /// 该弹幕是否已发送.
-    /// </summary>
-    public bool IsSend { get; set; }
-
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is DanmakuModel model && Text == model.Text;
 

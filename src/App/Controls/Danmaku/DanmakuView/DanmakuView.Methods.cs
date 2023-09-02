@@ -106,7 +106,6 @@ public sealed partial class DanmakuView
     /// <param name="isOwn">是否是自己所发.</param>
     public void AddScreenDanmaku(DanmakuModel m, bool isOwn)
     {
-        m.IsSend = true;
         switch (m.Location)
         {
             case DanmakuLocation.Scroll:

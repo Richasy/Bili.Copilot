@@ -69,6 +69,9 @@ public partial class BiliPlayerOverlay
             list.Add(newDm);
         }
 
+        list = list.GroupBy(p => p.Id)
+            .Select(g => g.First())
+            .ToList();
         var group = list.GroupBy(p => p.Time).ToDictionary(x => x.Key, x => x.ToList());
         foreach (var g in group)
         {
