@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Community;
@@ -117,6 +118,22 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
         if (Data.User != null)
         {
             AppViewModel.Instance.ShowUserDetailCommand.Execute(Data.User);
+        }
+    }
+
+    [RelayCommand]
+    private void ShowCommentWindow()
+    {
+        if (!string.IsNullOrEmpty(Data.CommentId))
+        {
+            var titleTemplate = ResourceToolkit.GetLocalizedString(StringNames.DynamicReplyTitle);
+            var title = string.Format(titleTemplate, Data.User.Name);
+            AppViewModel.Instance.ShowCommentWindowCommand.Execute(
+                new ShowCommentEventArgs(
+                    Data.CommentType,
+                    CommentSortType.Hot,
+                    Data.CommentId,
+                    title));
         }
     }
 

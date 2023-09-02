@@ -128,6 +128,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestShowUserSpace.Invoke(this, user);
 
     [RelayCommand]
+    private void ShowCommentWindow(ShowCommentEventArgs args)
+        => RequestShowCommentWindow.Invoke(this, args);
+
+    [RelayCommand]
     private void OpenPlayer(PlaySnapshot snapshot)
         => RequestPlay?.Invoke(this, snapshot);
 

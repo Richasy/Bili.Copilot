@@ -44,6 +44,7 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
         _appViewModel.RequestSearch += OnRequestSearch;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
+        _appViewModel.RequestShowCommentWindow += OnRequestShowCommentWindow;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
@@ -221,6 +222,12 @@ public sealed partial class MainWindow : WindowBase
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {
         var window = new UserSpaceWindow(e);
+        window.Activate();
+    }
+
+    private void OnRequestShowCommentWindow(object sender, ShowCommentEventArgs e)
+    {
+        var window = new CommentWindow(e);
         window.Activate();
     }
 
