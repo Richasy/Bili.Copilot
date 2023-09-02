@@ -126,7 +126,14 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
     {
         if (!string.IsNullOrEmpty(Data.CommentId))
         {
-            AppViewModel.Instance.ShowCommentWindowCommand.Execute(new ShowCommentEventArgs(Data.CommentType, CommentSortType.Hot, Data.CommentId));
+            var titleTemplate = ResourceToolkit.GetLocalizedString(StringNames.DynamicReplyTitle);
+            var title = string.Format(titleTemplate, Data.User.Name);
+            AppViewModel.Instance.ShowCommentWindowCommand.Execute(
+                new ShowCommentEventArgs(
+                    Data.CommentType,
+                    CommentSortType.Hot,
+                    Data.CommentId,
+                    title));
         }
     }
 

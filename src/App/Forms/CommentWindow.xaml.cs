@@ -24,11 +24,8 @@ public sealed partial class CommentWindow : WindowBase
     {
         InitializeComponent();
         _viewModel.Comments.SetData(commentEventArgs.SourceId, commentEventArgs.Type);
-        var title = ResourceToolkit.GetLocalizedString(StringNames.Reply);
-        Title = title;
-        CustomTitleBar.Title = title;
-        CustomTitleBar.AttachedWindow = this;
-        CustomTitleBar.BackButtonVisibility = Visibility.Visible;
+        Title = commentEventArgs.Title;
+        TitleBlock.Text = commentEventArgs.Title;
         Width = MainWindow.Instance?.Width ?? 500;
         Height = MainWindow.Instance?.Height ?? 700;
         MinWidth = 400;
