@@ -207,18 +207,19 @@ public sealed partial class VideoPlayerPageViewModel
             if (isContinue)
             {
                 _playNextVideoAction?.Invoke();
-                return;
             }
+            else
+            {
+                PlayerDetail.ShowNextVideoTipCommand.Execute(default);
+            }
+
+            return;
         }
 
         var isAutoCloseWindowWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
         if (isAutoCloseWindowWhenEnded)
         {
             PlayerDetail.ShowAutoCloseWindowTipCommand.Execute(default);
-        }
-        else
-        {
-            PlayerDetail.ShowNextVideoTipCommand.Execute(default);
         }
     }
 
