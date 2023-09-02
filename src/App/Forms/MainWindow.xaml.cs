@@ -34,6 +34,7 @@ public sealed partial class MainWindow : WindowBase
     {
         InitializeComponent();
         Instance = this;
+        SetTitleBar(CustomTitleBar);
         CustomTitleBar.AttachedWindow = this;
         IsMaximizable = false;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;

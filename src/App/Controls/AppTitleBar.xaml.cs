@@ -111,12 +111,12 @@ public sealed partial class AppTitleBar : UserControl
         var windowHandle = WindowNative.GetWindowHandle(AttachedWindow);
         var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
         var leftInset = AttachedWindow.AppWindow.TitleBar.LeftInset;
-        var leftPadding = BackButtonVisibility == Visibility.Visible ? 48 * scaleFactor : 0;
+        var leftPadding = BackButtonVisibility == Visibility.Visible ? BackButton.ActualWidth : 0;
         var dragRect = default(RectInt32);
-        dragRect.X = Convert.ToInt32(leftInset + leftPadding);
+        dragRect.X = Convert.ToInt32((leftInset + leftPadding + 4) * scaleFactor);
         dragRect.Y = 0;
         dragRect.Height = Convert.ToInt32(ActualHeight * scaleFactor);
-        dragRect.Width = Convert.ToInt32((ActualWidth * scaleFactor) - leftPadding);
+        dragRect.Width = Convert.ToInt32((ActualWidth * scaleFactor) - dragRect.X);
         AttachedWindow.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
     }
 

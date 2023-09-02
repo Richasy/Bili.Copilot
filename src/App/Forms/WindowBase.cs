@@ -20,6 +20,7 @@ public class WindowBase : WindowEx
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        AppWindow.TitleBar.IconShowOptions = Microsoft.UI.Windowing.IconShowOptions.HideIconAndSystemMenu;
         SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
         Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         this.SetIcon("Assets/logo.ico");
