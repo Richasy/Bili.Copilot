@@ -134,6 +134,12 @@ public sealed partial class PgcPlayerPageViewModel
     {
         if (_playNextEpisodeAction == null)
         {
+            var isAutoCloseWindowWhenEnded = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
+            if (isAutoCloseWindowWhenEnded)
+            {
+                PlayerDetail.ShowAutoCloseWindowTipCommand.Execute(default);
+            }
+
             return;
         }
 
