@@ -186,7 +186,7 @@ public sealed partial class AuthorizeProvider
                 { Query.LocalId, _guid },
             };
             var httpProvider = HttpProvider.Instance;
-            var request = await HttpProvider.GetRequestMessageAsync(System.Net.Http.HttpMethod.Post, Passport.QRCode, queryParameters, needToken: false);
+            var request = await HttpProvider.GetRequestMessageAsync(System.Net.Http.HttpMethod.Post, Passport.QRCode, queryParameters, clientType: RequestClientType.Login, needToken: false);
             var response = await httpProvider.SendAsync(request);
             var result = await HttpProvider.ParseAsync<ServerResponse<QRInfo>>(response);
 
