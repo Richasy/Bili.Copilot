@@ -221,6 +221,10 @@ public partial class BiliPlayerOverlay
         {
             if (ViewModel.Status == PlayerStatus.Playing)
             {
+                // 如果处于播放状态，则停止自动关闭计时.
+                _autoCloseWindowStayTime = 0;
+                ViewModel.IsShowAutoCloseWindowTip = false;
+
                 _danmakuView?.ResumeDanmaku();
             }
             else if (!IsLive)

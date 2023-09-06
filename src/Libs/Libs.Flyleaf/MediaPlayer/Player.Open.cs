@@ -101,6 +101,18 @@ unsafe partial class Player
         Config.Subtitles.SetDelay(0);
         Subtitles.Refresh();
         UIAll();
+
+        if (IsPlaying && Subtitles.isOpened && Config.Subtitles.Enabled) // TBR (First run mainly with -from DecoderContext->OpenSuggestedSubtitles-> Task.Run causes late open, possible resync?)
+        {
+            lock (lockSubtitles)
+                if (SubtitlesDecoder.OnVideoDemuxer)
+                    SubtitlesDecoder.Start();
+                else// if (!decoder.RequiresResync)
+                {
+                    SubtitlesDemuxer.Start();
+                    SubtitlesDecoder.Start();
+                }
+        }
     }
 
     private void Decoder_OpenExternalAudioStreamCompleted(object sender, OpenExternalAudioStreamCompletedArgs e)

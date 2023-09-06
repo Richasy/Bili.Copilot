@@ -79,7 +79,19 @@ public unsafe class Downloader : RunThreadBase
     /// <param name="defaultVideo">Whether to open the default video stream from plugin suggestions</param>
     /// <param name="defaultAudio">Whether to open the default audio stream from plugin suggestions</param>
     /// <returns></returns>
-    public string Open(string url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true)
+    public string Open(string url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object)url, defaultPlaylistItem, defaultVideo, defaultAudio);
+
+    /// <summary>
+    /// Opens a new media file (audio/video) and prepares it for download (blocking)
+    /// </summary>
+    /// <param name="stream">Media Stream/param>
+    /// <param name="defaultPlaylistItem">Whether to open the default input (in case of multiple inputs eg. from bitswarm/youtube-dl, you might want to choose yours)</param>
+    /// <param name="defaultVideo">Whether to open the default video stream from plugin suggestions</param>
+    /// <param name="defaultAudio">Whether to open the default audio stream from plugin suggestions</param>
+    /// <returns></returns>
+    public string Open(Stream stream, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object)stream, defaultPlaylistItem, defaultVideo, defaultAudio);
+
+    internal string Open(object url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true)
     {
         lock (lockActions)
         {

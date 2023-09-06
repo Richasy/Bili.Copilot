@@ -2,7 +2,6 @@
 
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -15,24 +14,17 @@ namespace Bili.Copilot.App;
 /// </summary>
 public static class Program
 {
-    private static App _app;
-
     // Note that [STAThread] doesn't work with "async Task Main(string[] args)"
     // https://github.com/dotnet/roslyn/issues/22112
     [STAThread]
     private static void Main(string[] args)
     {
+        var actArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
         var mainAppInstance = AppInstance.FindOrRegisterForKey(App.Id);
         if (!mainAppInstance.IsCurrent)
         {
-            var current = AppInstance.GetCurrent();
-            var actArgs = current.GetActivatedEventArgs();
-            RedirectActivationTo(actArgs, mainAppInstance);
+            mainAppInstance.RedirectActivationToAsync(actArgs).AsTask().Wait();
             return;
-        }
-        else
-        {
-            mainAppInstance.Activated += OnAppActivated;
         }
 
         WinRT.ComWrappersSupport.InitializeComWrappers();
@@ -41,22 +33,7 @@ public static class Program
         {
             var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
             SynchronizationContext.SetSynchronizationContext(context);
-            _app = new App();
+            new App();
         });
-    }
-
-    private static void OnAppActivated(object sender, AppActivationArguments e)
-        => _app.ActivateWindow();
-
-    private static void RedirectActivationTo(
-       AppActivationArguments args, AppInstance keyInstance)
-    {
-        var redirectSemaphore = new Semaphore(0, 1);
-        Task.Run(() =>
-        {
-            keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-            redirectSemaphore.Release();
-        });
-        redirectSemaphore.WaitOne();
     }
 }

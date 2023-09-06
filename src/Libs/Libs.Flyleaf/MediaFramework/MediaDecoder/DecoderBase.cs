@@ -74,8 +74,10 @@ public abstract unsafe class DecoderBase : RunThreadBase
                 Disposed= false;
                 Stream  = stream;
                 demuxer = stream.Demuxer;
-                    
-                var codec = avcodec_find_decoder(stream.CodecID);
+
+                // avcodec_find_decoder will use libdav1d which does not support hardware decoding (software fallback with openStream = false from av1 to default:libdav1d) [#340]
+                var codec = stream.CodecID == AVCodecID.AV_CODEC_ID_AV1 && openStream ? avcodec_find_decoder_by_name("av1") : avcodec_find_decoder(stream.CodecID);
+
                 if (codec == null)
                     return error = $"[{Type} avcodec_find_decoder] No suitable codec found";
 

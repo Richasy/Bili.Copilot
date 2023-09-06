@@ -72,7 +72,23 @@ public static partial class Utils
     /// <param name="action"></param>
     public static void UI(Action action)
     {
-        DispatcherQueue.TryEnqueue(()=> { action(); });
+        DispatcherQueue.TryEnqueue(() => { action(); });
+    }
+
+    /// <summary>
+    /// Invokes the UI thread if required to execute the specified action
+    /// </summary>
+    /// <param name="action"></param>
+    public static void UIInvokeIfRequired(Action action)
+    {
+        if (DispatcherQueue.HasThreadAccess)
+        {
+            action();
+        }
+        else
+        {
+            DispatcherQueue.TryEnqueue(() => { action(); });
+        }
     }
 
     public static int Align(int num, int align)
@@ -176,7 +192,7 @@ public static partial class Utils
         return moviesSorted;
     }
     public sealed class NaturalStringComparer : IComparer<string>
-        { public int Compare(string a, string b) => NativeMethods.StrCmpLogicalW(a, b); }
+    { public int Compare(string a, string b) => NativeMethods.StrCmpLogicalW(a, b); }
 
     public static string GetRecInnerException(Exception e)
     {
@@ -185,7 +201,8 @@ public static partial class Utils
 
         for (int i = 0; i < 4; i++)
         {
-            if (cur == null) break;
+            if (cur == null)
+                break;
             dump += "\r\n - " + cur.Message;
             cur = cur.InnerException;
         }
@@ -265,7 +282,8 @@ public static partial class Utils
 
     public static string FindNextAvailableFile(string fileName)
     {
-        if (!File.Exists(fileName)) return fileName;
+        if (!File.Exists(fileName))
+            return fileName;
 
         string tmp = Path.Combine(Path.GetDirectoryName(fileName), Regex.Replace(Path.GetFileNameWithoutExtension(fileName), @"(.*) (\([0-9]+)\)$", "$1"));
         string newName;
@@ -273,7 +291,8 @@ public static partial class Utils
         for (int i = 1; i < 101; i++)
         {
             newName = tmp + " (" + i + ")" + Path.GetExtension(fileName);
-            if (!File.Exists(newName)) return newName;
+            if (!File.Exists(newName))
+                return newName;
         }
 
         return null;
@@ -447,7 +466,8 @@ public static partial class Utils
 
         try
         {
-            if (gpuCounters == null) GetGPUCounters();
+            if (gpuCounters == null)
+                GetGPUCounters();
 
             gpuCounters.ForEach(x => { _ = x.NextValue(); });
             Thread.Sleep(1000);
@@ -478,7 +498,7 @@ public static partial class Utils
 
     public unsafe static string BytePtrToStringUTF8(byte* bytePtr)
     {
-        #if NETFRAMEWORK
+#if NETFRAMEWORK
         if (bytePtr == null) return null;
         if (*bytePtr == 0) return string.Empty;
 
@@ -496,9 +516,9 @@ public static partial class Utils
         }
 
         return Encoding.UTF8.GetString(byteBuffer.ToArray());
-        #else
+#else
         return Marshal.PtrToStringUTF8((nint)bytePtr);
-        #endif
+#endif
     }
 
     public static Color VorticeToWinUIColor(Vortice.Mathematics.Color sColor)
@@ -506,7 +526,7 @@ public static partial class Utils
     public static Vortice.Mathematics.Color WinUIToVorticeColor(Color wColor)
         => new Vortice.Mathematics.Color(wColor.R, wColor.G, wColor.B, wColor.A);
 
-    public static double SWFREQ_TO_TICKS =  10000000.0 / Stopwatch.Frequency;
+    public static double SWFREQ_TO_TICKS = 10000000.0 / Stopwatch.Frequency;
     public static string ToHexadecimal(byte[] bytes)
     {
         StringBuilder hexBuilder = new();

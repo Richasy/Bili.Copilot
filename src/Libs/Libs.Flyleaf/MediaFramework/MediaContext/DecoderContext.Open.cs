@@ -927,10 +927,8 @@ public partial class DecoderContext
             if (demuxerInput.Url != null)
             {
                 error = demuxer.Open(demuxerInput.Url);
-                if (error != null)
-                    return error;
 
-                if (!string.IsNullOrEmpty(demuxerInput.UrlFallback))
+                if (error != null && !string.IsNullOrEmpty(demuxerInput.UrlFallback))
                 {
                     Log.Warn($"Fallback to {demuxerInput.UrlFallback}");
                     error = demuxer.Open(demuxerInput.UrlFallback);

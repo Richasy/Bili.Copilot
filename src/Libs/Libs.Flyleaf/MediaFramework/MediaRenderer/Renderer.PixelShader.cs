@@ -114,7 +114,13 @@ unsafe public partial class Renderer
             }
 
             var oldVP = videoProcessor;
-            VideoProcessor = !VideoDecoder.VideoAccelerated || D3D11VPFailed || Config.Video.VideoProcessor == VideoProcessors.Flyleaf || (Config.Video.VideoProcessor == VideoProcessors.Auto && isHDR && !Config.Video.Deinterlace) ? VideoProcessors.Flyleaf : VideoProcessors.D3D11;
+            // Defaults to D3D11VP
+            //VideoProcessor = !VideoDecoder.VideoAccelerated || D3D11VPFailed || Config.Video.VideoProcessor == VideoProcessors.Flyleaf || (Config.Video.VideoProcessor == VideoProcessors.Auto && isHDR && !Config.Video.Deinterlace) ? VideoProcessors.Flyleaf : VideoProcessors.D3D11;
+
+            // Defaults to FlyleafVP
+            VideoProcessor = !D3D11VPFailed && VideoDecoder.VideoAccelerated &&
+                (Config.Video.Deinterlace || Config.Video.VideoProcessor == VideoProcessors.D3D11) ?
+                VideoProcessors.D3D11 : VideoProcessors.Flyleaf;
 
             textDesc[0].BindFlags &= ~BindFlags.RenderTarget; // Only D3D11VP without ZeroCopy requires it
             curPSCase = PSCase.None;

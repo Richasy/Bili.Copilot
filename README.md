@@ -27,6 +27,20 @@
 
 ## 安装
 
+### 商店下载（推荐）
+
+<p align="left">
+  <a title="从 Microsoft Store 中获取" href="https://www.microsoft.com/store/apps/9MVFJLPH517M?launch=true&mode=full" target="_blank">
+    <picture>
+      <source srcset="https://get.microsoft.com/images/en-US%20light.svg" media="(prefers-color-scheme: dark)" />
+      <source srcset="https://get.microsoft.com/images/en-US%20dark.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" />
+      <img src="https://get.microsoft.com/images/en-US%20dark.svg" width=144 />
+    </picture>
+  </a>
+</p>
+
+### 侧加载
+
 1. 打开系统设置，依次选择 `系统` -> `开发者选项`，打开 `开发人员模式`。滚动到页面底部，展开 `PowerShell` 区块，开启 `更改执行策略...` 选项
 2. 打开 [Release](https://github.com/Richasy/Bili.Copilot/releases) 页面
 3. 在最新版本的 **Assets** 中找到应用包下载。命名格式为：`Bili.Copilot_{version}.zip`
@@ -40,23 +54,17 @@
 - 哔哩助理保留了常用的B站功能，但在开始使用前，你必须扫码登录自己的B站账户
 - 对于 ARM64 设备，如果你使用 Win11，可以直接下载 x64 安装包使用
 - 对于 Windows 10 设备，未来会逐步放弃支持
-- 应用主窗口大小固定，不可调整。其它子窗口如播放窗口、图片窗口等则可以自由调整。
+- 应用主窗口大小宽度固定，不可调整。其它子窗口如播放窗口、图片窗口等则可以自由调整。
 - 应用采用卡片式设计，对于卡片，右键单击也许会有惊喜
 - 其他的懒得写了，自己把玩吧
 
 ### 播放器
 
-哔哩助理放弃了原生的 MediaPlayer 播放解决方案，因为在哔哩中验证了该方案并不能取得非常好的效果，特别是在面对哔哩哔哩这种流媒体时总有掣肘。
+哔哩助理支持 Windows 原生的 MediaPlayer 播放解决方案，但是对于直播流的支持有限。
 
 于是在哔哩助理中使用了基于 ffmpeg 的 [Flyleaf](https://github.com/SuRGeoNix/Flyleaf) 作为播放器，并根据实际情况进行了代码优化。
 
-在播放同一条 4K 120fps 的视频时，哔哩、哔哩哔哩和哔哩助理的资源占用如下：
-
-<img src="assets/4k120compare.png" style="max-width:600px">
-
-*测试视频：[【4K 120帧 Hi-Res】一首《スパークル(火花）》，能否让你回想起她的名字](https://www.bilibili.com/video/BV14X4y1m7CQ)*
-
-**以上测试很不严谨，结果仅供参考**
+你可以在设置中根据自己的需要切换播放器类型。对于直播，将强制使用 ffmpeg 进行播放。
 
 ### AI
 

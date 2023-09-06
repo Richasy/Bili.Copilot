@@ -82,14 +82,37 @@ unsafe partial class Player
             UI(() => UpdateCurTime());
         }
     }
+
+    // Whether video queue should be flushed as it could have opposite direction frames
+    bool shouldFlushNext;
+    bool shouldFlushPrev;
     public void ShowFrameNext()
     {
-        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive) return;
+        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive)
+            return;
 
         lock (lockActions)
         {
             Pause();
-            ReversePlayback = false;
+
+            if (Status == Status.Ended)
+            {
+                status = Status.Paused;
+                UI(() => Status = Status);
+            }
+
+            shouldFlushPrev = true;
+
+            if (shouldFlushNext)
+            {
+                decoder.StopThreads();
+                decoder.Flush();
+                shouldFlushNext = false;
+
+                var vFrame = VideoDecoder.GetFrame(VideoDecoder.GetFrameNumber(CurTime));
+                VideoDecoder.DisposeFrame(vFrame);
+            }
+
             if (Subtitles._SubsText != "")
             {
                 sFrame = null;
@@ -97,54 +120,65 @@ unsafe partial class Player
                 Subtitles.SubsText = Subtitles.SubsText;
             }
 
-            if (VideoDecoder.Frames.Count == 0)
+            if (VideoDecoder.Frames.IsEmpty)
                 vFrame = VideoDecoder.GetFrameNext();
             else
                 VideoDecoder.Frames.TryDequeue(out vFrame);
 
-            if (vFrame == null) return;
+            if (vFrame == null)
+                return;
 
-            if (CanDebug) Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
+            if (CanDebug)
+                Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
 
             curTime = curTime = vFrame.timestamp;
             renderer.Present(vFrame);
             reversePlaybackResync = true;
             vFrame = null;
-
             UI(() => UpdateCurTime());
         }
     }
+
     public void ShowFramePrev()
     {
-        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive) return;
+        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive)
+            return;
 
         lock (lockActions)
         {
             Pause();
 
-            if (!ReversePlayback)
+            if (Status == Status.Ended)
             {
-                Set(ref _ReversePlayback, true, false);
-                Speed = 1;
-                if (Subtitles._SubsText != "")
-                {
-                    sFrame = null;
-                    Subtitles.subsText = "";
-                    Subtitles.SubsText = Subtitles.SubsText;
-                }
-                decoder.StopThreads();
-                decoder.Flush();
+                status = Status.Paused;
+                UI(() => Status = Status);
             }
 
-            if (VideoDecoder.Frames.Count == 0)
+            shouldFlushNext = true;
+
+            if (shouldFlushPrev)
+            {
+                decoder.StopThreads();
+                decoder.Flush();
+                shouldFlushPrev = false;
+            }
+
+            if (Subtitles._SubsText != "")
+            {
+                sFrame = null;
+                Subtitles.subsText = "";
+                Subtitles.SubsText = Subtitles.SubsText;
+            }
+
+            if (VideoDecoder.Frames.IsEmpty)
             {
                 // Temp fix for previous timestamps until we seperate GetFrame for Extractor and the Player
                 reversePlaybackResync = true;
                 int askedFrame = VideoDecoder.GetFrameNumber(CurTime) - 1;
                 //Log.Debug($"CurTime1: {TicksToTime(CurTime)}, Asked: {askedFrame}");
                 vFrame = VideoDecoder.GetFrame(askedFrame);
-                if (vFrame == null) return;
-
+                if (vFrame == null)
+                    return;
                 int recvFrame = VideoDecoder.GetFrameNumber(vFrame.timestamp);
                 //Log.Debug($"CurTime2: {TicksToTime(vFrame.timestamp)}, Got: {recvFrame}");
                 if (askedFrame != recvFrame)
@@ -159,9 +193,11 @@ unsafe partial class Player
             else
                 VideoDecoder.Frames.TryDequeue(out vFrame);
 
-            if (vFrame == null) return;
+            if (vFrame == null)
+                return;
 
-            if (CanDebug) Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
+            if (CanDebug)
+                Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
 
             curTime = vFrame.timestamp;
             renderer.Present(vFrame);

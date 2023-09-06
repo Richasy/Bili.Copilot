@@ -15,6 +15,7 @@ using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.ApplicationModel.Activation;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -23,16 +24,17 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class MainWindow : WindowBase
 {
-    private const string _settingsTipVersion = "1";
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
+    private readonly IActivatedEventArgs _launchArgs;
     private bool _isInitialized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public MainWindow()
+    public MainWindow(IActivatedEventArgs args = default)
     {
         InitializeComponent();
+        _launchArgs = args;
         Instance = this;
         SetTitleBar(CustomTitleBar);
         CustomTitleBar.AttachedWindow = this;
@@ -80,6 +82,19 @@ public sealed partial class MainWindow : WindowBase
     }
 
     /// <summary>
+    /// 处理激活事件.
+    /// </summary>
+    /// <param name="e">激活事件参数.</param>
+    public void ActivateArgumentsAsync(IActivatedEventArgs e = default)
+    {
+        e ??= _launchArgs;
+        if (e.Kind == ActivationKind.Protocol)
+        {
+            // TODO: Handle protocol activation.
+        }
+    }
+
+    /// <summary>
     /// 更改菜单布局.
     /// </summary>
     public void ChangeMenuLayout()
@@ -119,30 +134,31 @@ public sealed partial class MainWindow : WindowBase
         }
     }
 
-    private async void OnTitleBarLoadedAsync(object sender, RoutedEventArgs e)
+    private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
     {
         if (_isInitialized)
         {
             return;
         }
 
-        ChangeMenuLayout();
-        await _appViewModel.InitializeAsync();
+        DispatcherQueue.TryEnqueue(async () =>
+        {
+            ChangeMenuLayout();
+            await _appViewModel.InitializeAsync();
+
+            if (_launchArgs != null)
+            {
+                ActivateArgumentsAsync();
+            }
 
 #if !DEBUG
         _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
-        _appViewModel.CheckAIFeatureCommand.Execute(default);
-        _appViewModel.CheckBBDownExistCommand.Execute(default);
+            _appViewModel.CheckAIFeatureCommand.Execute(default);
+            _appViewModel.CheckBBDownExistCommand.Execute(default);
 
-        var localSettingsTipVersion = SettingsToolkit.ReadLocalSetting(SettingNames.SettingsTipVersion, "0");
-        if (localSettingsTipVersion != _settingsTipVersion)
-        {
-            SettingsTip.IsOpen = true;
-            SettingsToolkit.WriteLocalSetting(SettingNames.SettingsTipVersion, _settingsTipVersion);
-        }
-
-        _isInitialized = true;
+            _isInitialized = true;
+        });
     }
 
     private void OnAppViewModelNavigateRequest(object sender, AppNavigationEventArgs e)
