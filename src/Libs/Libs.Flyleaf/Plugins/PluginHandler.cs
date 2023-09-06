@@ -283,7 +283,10 @@ public class PluginHandler
             Playlist.ExpectingItems = Playlist.Items.Count;
 
         if (Playlist.Items.Count > 1)
+        {
             Log.Debug("Playlist Completed");
+            Playlist.UpdatePrevNextItem();
+        }
     }
 
     public void ScrapeItem(PlaylistItem item)

@@ -532,7 +532,8 @@ public class Config : NotifyPropertyChanged
         /// <summary>
         /// Custom max vertical resolution that will be used from the input/stream suggester plugins
         /// </summary>
-        public int              MaxVerticalResolutionCustom { get; set; }
+        public int MaxVerticalResolutionCustom { get => _MaxVerticalResolutionCustom; set => Set(ref _MaxVerticalResolutionCustom, value); }
+        int _MaxVerticalResolutionCustom;
 
         /// <summary>
         /// The max resolution that is currently used (based on Auto/Custom)

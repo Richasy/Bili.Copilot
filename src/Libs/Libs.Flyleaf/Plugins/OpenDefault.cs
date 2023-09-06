@@ -183,7 +183,11 @@ public class OpenDefault : PluginBase, IOpen, IScrapeItem
         {
             item.Season  = mp.Season;
             item.Episode = mp.Episode;
-            item.Title  += $" S{item.Season}E{item.Episode}";
+
+            item.Title += " S";
+            item.Title += item.Season > 9 ? item.Season : $"0{item.Season}";
+            item.Title += "E";
+            item.Title += item.Episode > 9 ? item.Episode : $"0{item.Episode}";
         }
     }
 }

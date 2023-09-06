@@ -16,8 +16,10 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Windows.AppLifecycle;
 using NLog;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.Graphics;
 using Windows.Storage;
 using WinRT.Interop;
@@ -54,6 +56,8 @@ public partial class App : Application
         }
 
         InitializeComponent();
+        var mainAppInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
+        mainAppInstance.Activated += OnAppInstanceActivated;
         UnhandledException += OnUnhandledException;
     }
 
@@ -64,7 +68,7 @@ public partial class App : Application
     /// <summary>
     /// Try activating the window and bringing it to the foreground.
     /// </summary>
-    public void ActivateWindow()
+    public void ActivateWindow(AppActivationArguments arguments = default)
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
@@ -81,6 +85,11 @@ public partial class App : Application
                 _window.Activate();
                 Windows.Win32.PInvoke.SetForegroundWindow(new Windows.Win32.Foundation.HWND(WindowNative.GetWindowHandle(_window)));
             }
+
+            if (arguments.Data is IActivatedEventArgs args)
+            {
+                MainWindow.Instance.ActivateArgumentsAsync(args);
+            }
         });
     }
 
@@ -88,14 +97,20 @@ public partial class App : Application
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         var rootFolder = ApplicationData.Current.LocalFolder;
         var fullPath = $"{rootFolder.Path}\\Logger\\";
         NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
 
-        LaunchWindow();
+        var instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
+        var eventArgs = instance.GetActivatedEventArgs();
+        var data = eventArgs.Data is IActivatedEventArgs
+            ? eventArgs.Data as IActivatedEventArgs
+            : args.UWPLaunchActivatedEventArgs;
+
+        LaunchWindow(data);
         TraceLogger.Instance.LogAppLaunched();
     }
 
@@ -149,9 +164,9 @@ public partial class App : Application
         TrayIcon.ForceCreate();
     }
 
-    private void LaunchWindow()
+    private void LaunchWindow(IActivatedEventArgs args = default)
     {
-        _window = new MainWindow();
+        _window = new MainWindow(args);
         MoveAndResize();
         _window.Closed += OnMainWindowClosedAsync;
 
@@ -223,7 +238,7 @@ public partial class App : Application
             _window.MaxWidth = 500;
             _window.MinHeight = 400;
 
-            var maxHeight = displayArea.WorkArea.Height / scaleFactor;
+            var maxHeight = (displayArea.WorkArea.Height / scaleFactor) + 16;
             _window.MaxHeight = maxHeight < 400 ? 400 : maxHeight;
             _window.AppWindow.MoveAndResize(rect);
         }
@@ -259,4 +274,7 @@ public partial class App : Application
 
     private void OnShowHideWindowCommandExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
         => ActivateWindow();
+
+    private void OnAppInstanceActivated(object sender, AppActivationArguments e)
+        => ActivateWindow(e);
 }

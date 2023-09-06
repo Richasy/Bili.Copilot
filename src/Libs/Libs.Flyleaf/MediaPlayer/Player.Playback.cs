@@ -70,9 +70,15 @@ partial class Player
                 else
                 {
                     if (ReversePlayback)
+                    {
+                        shouldFlushNext = true;
                         ScreamerReverse();
+                    }
                     else
+                    {
+                        shouldFlushPrev = true;
                         Screamer();
+                    }
                 }
 
             } catch (Exception e)

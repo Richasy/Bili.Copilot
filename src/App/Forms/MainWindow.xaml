@@ -30,7 +30,7 @@
             BackButtonClick="OnBackButtonClick"
             BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
             HasBackground="True"
-            Loaded="OnTitleBarLoadedAsync" />
+            Loaded="OnTitleBarLoaded" />
         <Frame
             x:Name="MainFrame"
             Grid.Row="1"
@@ -94,11 +94,5 @@
             Grid.Column="1"
             IsActive="{x:Bind _appViewModel.IsSigningIn, Mode=OneWay}"
             Style="{StaticResource PageProgressRingStyle}" />
-
-        <TeachingTip
-            x:Name="SettingsTip"
-            IsLightDismissEnabled="True"
-            Subtitle="{ext:Locale Name=MenuPositionTip}"
-            Target="{x:Bind SettingButton}" />
     </Grid>
 </local:WindowBase>
