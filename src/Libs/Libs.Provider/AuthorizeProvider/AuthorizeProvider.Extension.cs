@@ -254,7 +254,7 @@ public partial class AuthorizeProvider
         try
         {
             var httpProvider = HttpProvider.Instance;
-            var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.QRCodeCheck, queryParameters, needToken: false);
+            var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.QRCodeCheck, queryParameters, clientType: RequestClientType.Login, needToken: false);
             var response = await httpProvider.SendAsync(request, _qrPollCancellationTokenSource.Token);
             var result = await HttpProvider.ParseAsync<ServerResponse<TokenInfo>>(response);
 
