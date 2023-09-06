@@ -338,7 +338,7 @@ public static class VideoAdapter
         var duration = video.Duration;
         var cover = ImageAdapter.ConvertToVideoCardCover(video.Cover);
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(video);
-        var collectTime = DateTimeOffset.FromUnixTimeSeconds(video.FavoriteTime).ToLocalTime().DateTime;
+        var collectTime = DateTimeOffset.FromUnixTimeSeconds(video.FavoriteTime).DateTime;
         var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded($"{collectTime.Humanize(culture: new System.Globalization.CultureInfo("zh-CN"))}收藏");
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
