@@ -229,7 +229,7 @@ public sealed partial class AIFeatureViewModel : ViewModelBase
         }
         else
         {
-            await LaunchFantasyCopilotAsync();
+            // await LaunchFantasyCopilotAsync();
         }
     }
 
