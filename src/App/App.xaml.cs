@@ -76,7 +76,7 @@ public partial class App : Application
             {
                 LaunchWindow();
             }
-            else if (_window.Visible && HandleCloseEvents)
+            else if (_window.Visible && HandleCloseEvents && arguments?.Data == null)
             {
                 _window.Hide();
             }
@@ -86,9 +86,15 @@ public partial class App : Application
                 Windows.Win32.PInvoke.SetForegroundWindow(new Windows.Win32.Foundation.HWND(WindowNative.GetWindowHandle(_window)));
             }
 
-            if (arguments?.Data is IActivatedEventArgs args)
+            try
             {
-                MainWindow.Instance.ActivateArgumentsAsync(args);
+                if (arguments?.Data is IActivatedEventArgs args)
+                {
+                    MainWindow.Instance.ActivateArgumentsAsync(args);
+                }
+            }
+            catch (Exception)
+            {
             }
         });
     }
