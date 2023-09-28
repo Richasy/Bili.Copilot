@@ -549,7 +549,15 @@ unsafe public partial class Renderer
     void UpdateRotation(uint angle, bool refresh = true)
     {
         _RotationAngle = angle;
-        var newRotation = (_RotationAngle + (VideoStream != null ? (uint)VideoStream.Rotation : 0)) % 360;
+        uint newRotation = _RotationAngle;
+
+        if (VideoStream != null)
+            newRotation += (uint)VideoStream.Rotation;
+
+        if (rotationLinesize)
+            newRotation += 180;
+
+        newRotation %= 360;
         if (actualRotation == newRotation || Disposed)
             return;
 

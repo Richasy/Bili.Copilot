@@ -5,7 +5,6 @@ using System.Diagnostics;
 using Bili.Copilot.Libs.Flyleaf.Controls;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -56,19 +55,14 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
 
     /// <inheritdoc/>
     public bool Player_GetFullScreen()
-        => Window.Current.AppWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen;
+    {
+        return true;
+    }
 
     /// <inheritdoc/>
     public void Player_SetFullScreen(bool value)
     {
-        if (value)
-        {
-            Window.Current.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
-        }
-        else
-        {
-            Window.Current.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
-        }
+        return;
     }
 
     internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)

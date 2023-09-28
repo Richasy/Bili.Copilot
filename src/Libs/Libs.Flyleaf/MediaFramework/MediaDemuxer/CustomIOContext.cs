@@ -62,13 +62,22 @@ public unsafe class CustomIOContext
         if (demuxer.Interrupter.ShouldInterrupt(null) != 0) return AVERROR_EXIT;
 #if NETFRAMEWORK
         ret = demuxer.CustomIOContext.stream.Read(demuxer.CustomIOContext.buffer, 0, bufferSize);
-        if (ret < 0) { demuxer.Log.Warn("CustomIOContext Interrupted"); return AVERROR_EXIT; }
-        Marshal.Copy(demuxer.CustomIOContext.buffer, 0, (IntPtr) buffer, ret);
+        if (ret > 0)
+        {
+            Marshal.Copy(demuxer.CustomIOContext.buffer, 0, (IntPtr) buffer, ret);
+            return ret;
+        }
 #else
         ret = demuxer.CustomIOContext.stream.Read(new Span<byte>(buffer, bufferSize));
+        if (ret > 0)
+            return ret;
 #endif
-        if (ret < 0) { demuxer.Log.Warn("CustomIOContext Interrupted"); return AVERROR_EXIT; }
-        return ret;
+        if (ret == 0)
+            return AVERROR_EOF;
+
+        demuxer.Log.Warn("CustomIOContext Interrupted");
+
+        return AVERROR_EXIT;
     }
 
     long IOSeek(void* opaque, long offset, int whence)

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Flyleaf;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
@@ -33,7 +34,8 @@ public sealed partial class FFmpegPlayerViewModel : ViewModelBase, IPlayerViewMo
         if (!AppViewModel.Instance.IsEngineStarted)
         {
             var currentFolder = Package.Current.InstalledPath;
-            var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg");
+            var arch = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x64";
+            var ffmpegFolder = System.IO.Path.Combine(currentFolder, "Assets", "ffmpeg", arch);
             var engineConfig = new EngineConfig()
             {
                 FFmpegPath = ffmpegFolder,
