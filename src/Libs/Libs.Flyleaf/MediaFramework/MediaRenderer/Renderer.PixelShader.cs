@@ -73,7 +73,7 @@ unsafe public partial class Renderer
         }
     }
 
-    internal bool ConfigPlanes(bool isNewInput = true)
+    internal bool ConfigPlanes() //bool isNewInput = true) // currently not used
     {
         bool error = false;
 
@@ -89,29 +89,30 @@ unsafe public partial class Renderer
 
             VideoDecoder.DisposeFrame(LastFrame);
 
-            if (isNewInput)
+            //if (isNewInput) {
+            if ((VideoStream.PixelFormatDesc->flags & AV_PIX_FMT_FLAG_BE) != 0)
             {
-                if ((VideoStream.PixelFormatDesc->flags & AV_PIX_FMT_FLAG_BE) != 0)
-                {
-                    Log.Error($"{VideoStream.PixelFormatStr} not supported (BE)");
-                    return false;
-                }
-
-                curRatio    = VideoStream.AspectRatio.Value;
-                IsHDR       = VideoStream.ColorSpace == ColorSpace.BT2020;
-                VideoRect   = new RawRect(0, 0, VideoStream.Width, VideoStream.Height);
-                UpdateRotation(_RotationAngle, false);
-
-                if (IsHDR)
-                {
-                    hdrPlusData = null;
-                    displayData = new();
-                    lightData   = new();
-                    checkHDR    = true;
-                }
-                else
-                    checkHDR = false;
+                Log.Error($"{VideoStream.PixelFormatStr} not supported (BE)");
+                return false;
             }
+
+            curRatio = VideoStream.AspectRatio.Value;
+            IsHDR = VideoStream.ColorSpace == ColorSpace.BT2020;
+            VideoRect = new RawRect(0, 0, VideoStream.Width, VideoStream.Height);
+            rotationLinesize
+                        = false;
+            UpdateRotation(_RotationAngle, false);
+
+            if (IsHDR)
+            {
+                hdrPlusData = null;
+                displayData = new();
+                lightData = new();
+                checkHDR = true;
+            }
+            else
+                checkHDR = false;
+            //}
 
             var oldVP = videoProcessor;
             // Defaults to D3D11VP
@@ -630,23 +631,7 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 }
             }
 
-            if (curPSCase == PSCase.HWD3D11VPZeroCopy)
-            {
-                mFrame.subresource  = (int) frame->data[1];
-                mFrame.bufRef       = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
-            }
-
-            else if (curPSCase == PSCase.HWD3D11VP)
-            {
-                mFrame.textures     = new ID3D11Texture2D[1];
-                mFrame.textures[0]  = Device.CreateTexture2D(textDesc[0]);
-                context.CopySubresourceRegion(
-                    mFrame.textures[0], 0, 0, 0, 0, // dst
-                    VideoDecoder.textureFFmpeg, (int) frame->data[1],  // src
-                    cropBox); // crop decoder's padding
-            }
-
-            else if (curPSCase == PSCase.HWZeroCopy)
+            if (curPSCase == PSCase.HWZeroCopy)
             {
                 mFrame.srvs         = new ID3D11ShaderResourceView[2];
                 mFrame.bufRef       = av_buffer_ref(frame->buf[0]);
@@ -671,6 +656,22 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 mFrame.srvs[1]      = Device.CreateShaderResourceView(mFrame.textures[0], srvDesc[1]);
             }
 
+            else if (curPSCase == PSCase.HWD3D11VPZeroCopy)
+            {
+                mFrame.subresource = (int)frame->data[1];
+                mFrame.bufRef = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
+            }
+
+            else if (curPSCase == PSCase.HWD3D11VP)
+            {
+                mFrame.textures = new ID3D11Texture2D[1];
+                mFrame.textures[0] = Device.CreateTexture2D(textDesc[0]);
+                context.CopySubresourceRegion(
+                    mFrame.textures[0], 0, 0, 0, 0, // dst
+                    VideoDecoder.textureFFmpeg, (int)frame->data[1],  // src
+                    cropBox); // crop decoder's padding
+            }
+
             else if (curPSCase == PSCase.SwsScale)
             {
                 mFrame.textures     = new ID3D11Texture2D[1];
@@ -690,13 +691,33 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 mFrame.textures = new ID3D11Texture2D[VideoStream.PixelPlanes];
                 mFrame.srvs     = new ID3D11ShaderResourceView[VideoStream.PixelPlanes];
 
+                bool newRotationLinesize = false;
                 for (uint i = 0; i < VideoStream.PixelPlanes; i++)
                 {
-                    subData[0].DataPointer  = (IntPtr) frame->data[i];
-                    subData[0].RowPitch     = frame->linesize[i];
+                    if (frame->linesize[i] < 0)
+                    {
+                        // Negative linesize for vertical flipping [TBR: might required for HW as well? (SwsScale does that)] http://ffmpeg.org/doxygen/trunk/structAVFrame.html#aa52bfc6605f6a3059a0c3226cc0f6567
+                        newRotationLinesize = true;
+                        subData[0].RowPitch = -1 * frame->linesize[i];
+                        subData[0].DataPointer = (IntPtr)frame->data[i];
+                        subData[0].DataPointer -= (subData[0].RowPitch * (VideoStream.Height - 1));
 
-                    mFrame.textures[i]  = Device.CreateTexture2D(textDesc[i], subData);
-                    mFrame.srvs[i]      = Device.CreateShaderResourceView(mFrame.textures[i], srvDesc[i]);
+                    }
+                    else
+                    {
+                        newRotationLinesize = false;
+                        subData[0].RowPitch = frame->linesize[i];
+                        subData[0].DataPointer = (IntPtr)frame->data[i];
+                    }
+
+                    mFrame.textures[i] = Device.CreateTexture2D(textDesc[i], subData);
+                    mFrame.srvs[i] = Device.CreateShaderResourceView(mFrame.textures[i], srvDesc[i]);
+                }
+
+                if (newRotationLinesize != rotationLinesize)
+                {
+                    rotationLinesize = newRotationLinesize;
+                    UpdateRotation(_RotationAngle);
                 }
             }
 
