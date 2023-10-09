@@ -13,7 +13,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer x:Name="ContentScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer
+            x:Name="ContentScrollViewer"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
+            Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="SeasonView"
                 Margin="0,0,0,12"

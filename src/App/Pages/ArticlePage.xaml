@@ -14,13 +14,13 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -30,6 +30,7 @@
                 x:Name="PartitionName"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Text="{ext:Locale Name=SpecialColumn}" />
             <Button
@@ -59,7 +60,7 @@
         <NavigationView
             x:Name="PartitionNavigationView"
             Grid.Row="1"
-            Margin="20,8,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnPartitionNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.Partitions}"
             SelectedItem="{x:Bind ViewModel.CurrentPartition, Mode=OneWay}"
@@ -74,6 +75,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}"
             Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <base:VerticalRepeaterView

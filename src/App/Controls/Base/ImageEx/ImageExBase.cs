@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
@@ -226,6 +225,16 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
         ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
     }
 
+    private static bool IntersectsWith(Rect rect1, Rect rect2)
+    {
+        return rect1.IsEmpty || rect2.IsEmpty
+            ? false
+            : (rect1.Left <= rect2.Right) &&
+               (rect1.Right >= rect2.Left) &&
+               (rect1.Top <= rect2.Bottom) &&
+               (rect1.Bottom >= rect2.Top);
+    }
+
     private void ImageExBase_LayoutUpdated(object sender, object e) => InvalidateLazyLoading();
 
     private void InvalidateLazyLoading()
@@ -263,7 +272,7 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
             hostElement.ActualWidth + (2 * lazyLoadingThreshold),
             hostElement.ActualHeight + (2 * lazyLoadingThreshold));
 
-        if (controlRect.IntersectsWith(hostRect))
+        if (IntersectsWith(controlRect, hostRect))
         {
             _isInViewport = true;
 

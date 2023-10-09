@@ -19,7 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <ComboBox
-            Margin="20,0"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.Folders}"
             SelectedItem="{x:Bind ViewModel.CurrentFolder, Mode=OneWay}"

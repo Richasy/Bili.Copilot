@@ -9,10 +9,11 @@
     mc:Ignorable="d">
 
     <Grid
+        x:Name="RootGrid"
         MinHeight="36"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch">
-        <Rectangle Fill="{ThemeResource LayerFillColorDefaultBrush}" Visibility="{x:Bind HasBackground, Mode=OneWay}" />
+        <Rectangle x:Name="BackgroundRect" Fill="{ThemeResource LayerFillColorDefaultBrush}" />
         <Grid
             Padding="4"
             Background="{x:Bind Background, Mode=OneWay}"
@@ -29,12 +30,16 @@
                 BorderThickness="0"
                 Click="OnBackButtonClick"
                 Visibility="{x:Bind BackButtonVisibility, Mode=OneWay}">
-                <base:FluentIcon FontSize="12" Symbol="ArrowLeft" />
+                <base:FluentIcon
+                    x:Name="BackIcon"
+                    FontSize="12"
+                    Symbol="ArrowLeft" />
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Back" IsEnabled="True" />
                 </Button.KeyboardAccelerators>
             </Button>
             <Image
+                x:Name="Logo"
                 Grid.Column="1"
                 Width="16"
                 Height="16"
@@ -50,5 +55,23 @@
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap" />
         </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="CompactState" />
+                <VisualState x:Name="FullState">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.MinHeight" Value="48" />
+                        <Setter Target="BackgroundRect.Visibility" Value="Collapsed" />
+                        <Setter Target="BackButton.Height" Value="40" />
+                        <Setter Target="BackButton.Width" Value="40" />
+                        <Setter Target="BackIcon.FontSize" Value="14" />
+                        <Setter Target="Logo.Width" Value="20" />
+                        <Setter Target="Logo.Height" Value="20" />
+                        <Setter Target="Logo.Margin" Value="4,0,8,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

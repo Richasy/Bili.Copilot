@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Args;
-using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
 
@@ -29,7 +29,7 @@ public sealed partial class AppViewModel
     private bool _isNavigationMenuShown;
 
     [ObservableProperty]
-    private NavigateItem _currentNavigateItem;
+    private NavigateItemViewModel _currentNavigateItem;
 
     [ObservableProperty]
     private PageType _currentPage;
@@ -45,6 +45,12 @@ public sealed partial class AppViewModel
 
     [ObservableProperty]
     private bool _isDownloadSupported;
+
+    [ObservableProperty]
+    private double _pagePadding;
+
+    [ObservableProperty]
+    private double _headerFontSize;
 
     /// <summary>
     /// 在请求后退时触发.
@@ -134,5 +140,5 @@ public sealed partial class AppViewModel
     /// <summary>
     /// 导航条目列表.
     /// </summary>
-    public ObservableCollection<NavigateItem> NavigateItems { get; }
+    public ObservableCollection<NavigateItemViewModel> NavigateItems { get; }
 }

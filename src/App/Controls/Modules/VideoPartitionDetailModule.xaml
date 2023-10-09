@@ -15,13 +15,13 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -34,12 +34,14 @@
                 Spacing="12">
                 <base:ImageEx
                     x:Name="PartitionLogo"
-                    Width="32"
-                    Height="32"
+                    Width="34"
+                    Height="34"
+                    VerticalAlignment="Center"
                     Source="{x:Bind ViewModel.OriginPartition.Image.Uri, Mode=OneWay}" />
                 <TextBlock
                     x:Name="PartitionName"
                     VerticalAlignment="Center"
+                    FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
             </StackPanel>
@@ -74,7 +76,7 @@
         <NavigationView
             x:Name="SubPartitionNavigationView"
             Grid.Row="1"
-            Margin="20,12,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.SubPartitions}"
             SelectedItem="{x:Bind ViewModel.CurrentSubPartition, Mode=OneWay}"
@@ -112,7 +114,7 @@
         <NavigationView
             x:Name="RecommendNavigationView"
             Grid.Row="1"
-            Margin="20,12,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.RecommendPartitions}"
             SelectedItem="{x:Bind ViewModel.CurrentRecommendPartition, Mode=OneWay}"
@@ -134,6 +136,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid x:Name="ContentGrid" Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid.RowDefinitions>

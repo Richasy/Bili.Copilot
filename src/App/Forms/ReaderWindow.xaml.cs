@@ -4,7 +4,6 @@ using Bili.Copilot.App.Pages;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -31,7 +30,7 @@ public sealed partial class ReaderWindow : WindowBase
         CustomTitleBar.AttachedWindow = this;
         CustomTitleBar.BackButtonVisibility = Visibility.Collapsed;
         var theme = new ThemeListener(DispatcherQueue);
-        var color = theme.CurrentTheme == ApplicationTheme.Dark ? "#2f3239".ToColor() : "#faf9fa".ToColor();
+        var color = theme.CurrentTheme == ApplicationTheme.Dark ? AppToolkit.HexToColor("#2f3239") : AppToolkit.HexToColor("#faf9fa");
         CustomTitleBar.Background = new SolidColorBrush(color);
         MainFrame.Background = new SolidColorBrush(color);
         Width = MainWindow.Instance.Width;

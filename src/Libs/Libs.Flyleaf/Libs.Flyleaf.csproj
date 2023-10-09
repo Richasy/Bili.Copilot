@@ -14,12 +14,12 @@
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
       <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="7.0.0" />
       <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-      <PackageReference Include="Vortice.D3DCompiler" Version="3.3.1-beta" />
-      <PackageReference Include="Vortice.Direct3D11" Version="3.3.1-beta" />
-      <PackageReference Include="Vortice.DirectComposition" Version="3.3.1-beta" />
+      <PackageReference Include="Vortice.D3DCompiler" Version="3.3.3-beta" />
+      <PackageReference Include="Vortice.Direct3D11" Version="3.3.3-beta" />
+      <PackageReference Include="Vortice.DirectComposition" Version="3.3.3-beta" />
       <PackageReference Include="Vortice.Mathematics" Version="1.7.2" />
-      <PackageReference Include="Vortice.MediaFoundation" Version="3.3.1-beta" />
-      <PackageReference Include="Vortice.XAudio2" Version="3.3.1-beta" />
+      <PackageReference Include="Vortice.MediaFoundation" Version="3.3.3-beta" />
+      <PackageReference Include="Vortice.XAudio2" Version="3.3.3-beta" />
   </ItemGroup>
 
   <ItemGroup>

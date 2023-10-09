@@ -7,9 +7,9 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
     xmlns:local="using:Bili.Copilot.App.Forms"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:other="using:Bili.Copilot.Models.App.Other"
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
@@ -29,12 +29,12 @@
             Grid.ColumnSpan="2"
             BackButtonClick="OnBackButtonClick"
             BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
-            HasBackground="True"
             Loaded="OnTitleBarLoaded" />
         <Frame
             x:Name="MainFrame"
             Grid.Row="1"
             Grid.Column="1"
+            Padding="0,12,0,0"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
             BorderThickness="0,0,0,1" />
@@ -56,20 +56,26 @@
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
+                ItemInvoked="OnMainNavViewItemInvoked"
                 MenuItemsSource="{x:Bind _appViewModel.NavigateItems}"
+                OpenPaneLength="240"
                 PaneDisplayMode="Top"
-                SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=TwoWay}">
+                SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=OneWay}">
                 <NavigationView.MenuItemTemplate>
-                    <DataTemplate x:DataType="other:NavigateItem">
-                        <NavigationViewItem AccessKey="{x:Bind Index}" ToolTipService.ToolTip="{x:Bind Title}">
+                    <DataTemplate x:DataType="items:NavigateItemViewModel">
+                        <NavigationViewItem
+                            AccessKey="{x:Bind Data.Index}"
+                            Content="{x:Bind DisplayTitle, Mode=OneWay}"
+                            DataContext="{x:Bind}"
+                            ToolTipService.ToolTip="{x:Bind Data.Title}">
                             <NavigationViewItem.Icon>
-                                <base:FluentIcon Symbol="{x:Bind Icon}" />
+                                <base:FluentIcon Symbol="{x:Bind Data.Icon}" />
                             </NavigationViewItem.Icon>
                         </NavigationViewItem>
                     </DataTemplate>
                 </NavigationView.MenuItemTemplate>
                 <NavigationView.PaneFooter>
-                    <StackPanel Orientation="Horizontal">
+                    <Grid>
                         <Button
                             x:Name="SettingButton"
                             Margin="6,0,0,0"
@@ -80,7 +86,7 @@
                             ToolTipService.ToolTip="{ext:Locale Name=Settings}">
                             <base:FluentIcon FontSize="17" Symbol="Settings" />
                         </Button>
-                    </StackPanel>
+                    </Grid>
                 </NavigationView.PaneFooter>
             </NavigationView>
         </Grid>

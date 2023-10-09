@@ -23,17 +23,21 @@
             Orientation="Horizontal" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-            Margin="{StaticResource PageMargin}"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             HorizontalAlignment="Left"
+            FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
             Style="{StaticResource SubtitleTextBlockStyle}"
             Text="{ext:Locale Name=Partition}" />
-        <ScrollViewer Grid.Row="1" Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer
+            Grid.Row="1"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
+            Style="{StaticResource PageScrollViewerStyle}">
             <Grid>
                 <ItemsRepeater
                     Margin="0,0,0,20"

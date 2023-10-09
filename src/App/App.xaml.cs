@@ -124,8 +124,9 @@ public partial class App : Application
     {
         var workArea = displayArea.WorkArea;
         var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
+        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.WindowWidth, 500d);
         var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.WindowHeight, 800d);
-        var width = Convert.ToInt32(500 * scaleFactor);
+        var width = Convert.ToInt32(previousWidth * scaleFactor);
         var height = Convert.ToInt32(previousHeight * scaleFactor);
 
         // Ensure the window is not larger than the work area.
@@ -241,7 +242,6 @@ public partial class App : Application
             var rect = GetRenderRect(displayArea, hwnd);
             var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(hwnd)) / 96d;
             _window.MinWidth = 500;
-            _window.MaxWidth = 500;
             _window.MinHeight = 400;
 
             var maxHeight = (displayArea.WorkArea.Height / scaleFactor) + 16;
@@ -257,6 +257,7 @@ public partial class App : Application
         SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionLeft, left);
         SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionTop, top);
         SettingsToolkit.WriteLocalSetting(SettingNames.WindowHeight, _window.Height > 400 ? _window.Height : 800);
+        SettingsToolkit.WriteLocalSetting(SettingNames.WindowWidth, _window.Width > 500 ? _window.Width : 500);
     }
 
     private void ExitApp()

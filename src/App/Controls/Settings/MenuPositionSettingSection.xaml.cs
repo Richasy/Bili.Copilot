@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.App.Forms;
 using Bili.Copilot.Models.Constants.App;
 using Microsoft.UI.Xaml;
 
@@ -38,6 +37,5 @@ public sealed partial class MenuPositionSettingSection : SettingSection
 
         ViewModel.MenuPosition = (MenuPosition)index;
         TraceLogger.LogMenuPositionChanged(ViewModel.MenuPosition);
-        MainWindow.Instance.ChangeMenuLayout();
     }
 }

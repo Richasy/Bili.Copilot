@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -39,6 +39,7 @@
                 <TextBlock
                     x:Name="PartitionName"
                     VerticalAlignment="Center"
+                    FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
             </StackPanel>
