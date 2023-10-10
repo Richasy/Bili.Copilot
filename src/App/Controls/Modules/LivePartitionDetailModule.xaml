@@ -15,7 +15,16 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid>
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalLiveStyle" x:DataType="viewmodels:LiveItemViewModel">
+            <base:LiveItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalLiveStyle" x:DataType="viewmodels:LiveItemViewModel">
+            <base:LiveItem Style="{StaticResource VerticalLiveItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -56,7 +65,7 @@
         <NavigationView
             x:Name="SubPartitionNavigationView"
             Grid.Row="1"
-            Margin="20,8,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.Tags}"
             SelectedItem="{x:Bind ViewModel.CurrentTag, Mode=OneWay}"
@@ -77,6 +86,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}"
             Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <base:VerticalRepeaterView
@@ -84,13 +94,8 @@
                 Grid.Row="1"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnLiveViewIncrementalTriggered"
-                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:LiveItemViewModel">
-                        <base:LiveItem ViewModel="{x:Bind}" />
-                    </DataTemplate>
-                </base:VerticalRepeaterView.ItemTemplate>
-            </base:VerticalRepeaterView>
+                ItemTemplate="{StaticResource HorizontalLiveStyle}"
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
         </ScrollViewer>
 
         <controls:OverlayLoadingPanel
@@ -113,5 +118,27 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LiveView.Style" Value="{StaticResource LiveGridRepeaterViewStyle}" />
+                        <Setter Target="LiveView.ItemTemplate" Value="{StaticResource VerticalLiveStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:LivePartitionDetailModuleBase>

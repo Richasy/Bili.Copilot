@@ -33,10 +33,10 @@ public sealed partial class ReaderWindow : WindowBase
         var color = theme.CurrentTheme == ApplicationTheme.Dark ? AppToolkit.HexToColor("#2f3239") : AppToolkit.HexToColor("#faf9fa");
         CustomTitleBar.Background = new SolidColorBrush(color);
         MainFrame.Background = new SolidColorBrush(color);
-        Width = MainWindow.Instance.Width;
+        Width = 500;
         Height = MainWindow.Instance.Height;
-        MinWidth = MainWindow.Instance.Width;
-        MinHeight = MainWindow.Instance.Height;
+        MinWidth = MainWindow.Instance.MinWidth;
+        MinHeight = MainWindow.Instance.MinHeight;
         MainFrame.Navigate(typeof(ReaderPage), info);
         Activated += OnActivated;
     }

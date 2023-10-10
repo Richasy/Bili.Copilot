@@ -9,12 +9,22 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="8">
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
+            <base:ArticleItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
+            <base:ArticleItem Style="{StaticResource VerticalArticleItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -82,13 +92,8 @@
                 x:Name="ArticleView"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnArticleViewIncrementalTriggered"
-                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:ArticleItemViewModel">
-                        <base:ArticleItem ViewModel="{x:Bind}" />
-                    </DataTemplate>
-                </base:VerticalRepeaterView.ItemTemplate>
-            </base:VerticalRepeaterView>
+                ItemTemplate="{StaticResource HorizontalArticleStyle}"
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
         </ScrollViewer>
 
         <controls:OverlayLoadingPanel
@@ -103,5 +108,27 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleView.Style" Value="{StaticResource ArticleGridRepeaterViewStyle}" />
+                        <Setter Target="ArticleView.ItemTemplate" Value="{StaticResource VerticalArticleStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:ArticlePageBase>
