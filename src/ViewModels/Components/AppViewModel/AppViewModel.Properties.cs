@@ -12,6 +12,7 @@ using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -141,4 +142,9 @@ public sealed partial class AppViewModel
     /// 导航条目列表.
     /// </summary>
     public ObservableCollection<NavigateItemViewModel> NavigateItems { get; }
+
+    /// <summary>
+    /// 上次打开的播放器窗口.
+    /// </summary>
+    public Window LastPlayerWindow { get; set; }
 }

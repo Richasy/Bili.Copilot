@@ -2049,4 +2049,13 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="AutoClosePlayerWindowDescription" xml:space="preserve">
     <value>当前播放窗口即将关闭，您可以关闭此提示以保留窗口</value>
   </data>
+  <data name="MultipleWindow" xml:space="preserve">
+    <value>多窗口</value>
+  </data>
+  <data name="PlayerWindowBehavior" xml:space="preserve">
+    <value>播放器窗口新建行为</value>
+  </data>
+  <data name="SingleWindow" xml:space="preserve">
+    <value>单窗口</value>
+  </data>
 </root>

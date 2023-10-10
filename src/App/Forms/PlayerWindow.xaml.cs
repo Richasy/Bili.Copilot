@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -41,6 +42,13 @@ public sealed partial class PlayerWindow : WindowBase
         MinWidth = 560;
         MinHeight = 320;
         AppWindow.Changed += OnAppWindowChanged;
+
+        var behavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior.Multiple);
+        if (behavior == PlayerWindowBehavior.Single)
+        {
+            AppViewModel.Instance.LastPlayerWindow?.Close();
+            AppViewModel.Instance.LastPlayerWindow = this;
+        }
     }
 
     /// <summary>
@@ -105,6 +113,7 @@ public sealed partial class PlayerWindow : WindowBase
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowTop, top);
         }
 
+        AppViewModel.Instance.LastPlayerWindow = null;
         MainFrame.Navigate(typeof(Page));
         MainWindow.Instance.Activate();
         GC.Collect();
