@@ -27,7 +27,7 @@ public sealed partial class MainWindow : WindowBase
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
     private readonly IActivatedEventArgs _launchArgs;
     private bool _isInitialized;
-    private MenuPosition? _currentPosition;
+    private string _currentPosition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -101,7 +101,7 @@ public sealed partial class MainWindow : WindowBase
     /// </summary>
     public void CheckMenuLayout()
     {
-        var position = CustomTitleBar.ActualWidth > 900 ? MenuPosition.Left : MenuPosition.Bottom;
+        var position = CustomTitleBar.ActualWidth > 900 ? "left" : "bottom";
         if (_currentPosition == position || !_isInitialized)
         {
             return;
@@ -109,7 +109,7 @@ public sealed partial class MainWindow : WindowBase
 
         _currentPosition = position;
 
-        if (position == MenuPosition.Bottom)
+        if (position == "bottom")
         {
             Grid.SetRow(NavContainer, 2);
             Grid.SetRowSpan(NavContainer, 1);

@@ -109,7 +109,6 @@ public enum SettingNames
     PlayerWindowLeft,
     PlayerWindowTop,
     IsAutoCloseWindowWhenEnded,
-    MenuPosition,
     SettingsTipVersion,
     WindowWidth,
 }

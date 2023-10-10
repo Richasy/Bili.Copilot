@@ -50,7 +50,6 @@
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
                 <settings:AIConnectSettingSection />
-                <settings:MenuPositionSettingSection />
                 <settings:CloseBehaviorSettingSection />
                 <settings:LoggerSettingSection />
                 <settings:CacheSettingSection />

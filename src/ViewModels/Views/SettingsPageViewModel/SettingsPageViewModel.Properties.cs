@@ -99,9 +99,6 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _hideWhenCloseWindow;
 
-    [ObservableProperty]
-    private MenuPosition _menuPosition;
-
     /// <summary>
     /// 实例.
     /// </summary>
