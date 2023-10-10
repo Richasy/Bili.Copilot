@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
@@ -182,24 +183,42 @@ public sealed partial class PlayerDetailViewModel
         // 剔除 P2P CDN URL
         if (_mediaInformation.AudioSegments != null)
         {
-            var filteredAudios = _mediaInformation.AudioSegments.Where(p => !(p.BaseUrl?.Contains("bilivideo.com") ?? false));
-            if (filteredAudios.Any())
+            var cdnUrl = _mediaInformation.AudioSegments.Select(p => p.BaseUrl)
+                .Concat(_mediaInformation.AudioSegments.SelectMany(p => p.BackupUrls))
+                .FirstOrDefault(p => Regex.IsMatch(p, "up[\\w-]+\\.bilivideo\\.com"));
+            var cdn = string.IsNullOrEmpty(cdnUrl) ? "upos-sz-mirrorcoso1.bilivideo.com" : new Uri(cdnUrl).Host;
+
+            for (var i = 0; i < _mediaInformation.AudioSegments.Count(); i++)
             {
-                foreach (var item in filteredAudios)
+                var seg = _mediaInformation.AudioSegments[i];
+                var url = new Uri(seg.BaseUrl);
+                if (url.Host.Contains(".mcdn.bilivideo.cn"))
                 {
-                    item.BaseUrl = item.BackupUrls?.FirstOrDefault(p => p?.Contains("bilivideo.com") ?? false) ?? item.BaseUrl;
+                    var replacedUrl = seg.BaseUrl.Replace(url.Host, cdn)
+                        .Replace($":{url.Port}", ":443");
+
+                    seg.BaseUrl = replacedUrl;
                 }
             }
         }
 
         if (_mediaInformation.VideoSegments != null)
         {
-            var filteredVideos = _mediaInformation.VideoSegments.Where(p => !(p.BaseUrl?.Contains("bilivideo.com") ?? false));
-            if (filteredVideos.Any())
+            var cdnUrl = _mediaInformation.VideoSegments.Select(p => p.BaseUrl)
+                .Concat(_mediaInformation.VideoSegments.SelectMany(p => p.BackupUrls))
+                .FirstOrDefault(p => Regex.IsMatch(p, "up[\\w-]+\\.bilivideo\\.com"));
+            var cdn = string.IsNullOrEmpty(cdnUrl) ? "upos-sz-mirrorcoso1.bilivideo.com" : new Uri(cdnUrl).Host;
+
+            for (var i = 0; i < _mediaInformation.VideoSegments.Count(); i++)
             {
-                foreach (var item in filteredVideos)
+                var seg = _mediaInformation.VideoSegments[i];
+                var url = new Uri(seg.BaseUrl);
+                if (url.Host.Contains(".mcdn.bilivideo.cn"))
                 {
-                    item.BaseUrl = item.BackupUrls?.FirstOrDefault(p => p?.Contains("bilivideo.com") ?? false) ?? item.BaseUrl;
+                    var replacedUrl = seg.BaseUrl.Replace(url.Host, cdn)
+                        .Replace($":{url.Port}", ":443");
+
+                    seg.BaseUrl = replacedUrl;
                 }
             }
         }
