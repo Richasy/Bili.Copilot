@@ -17,8 +17,8 @@ public sealed class LivePlaylineInformation
     public LivePlaylineInformation(
         string name,
         int quality,
-        IEnumerable<int> acceptQualities,
-        IEnumerable<LivePlayUrl> urls)
+        List<int> acceptQualities,
+        List<LivePlayUrl> urls)
     {
         Name = name;
         Quality = quality;
@@ -39,10 +39,10 @@ public sealed class LivePlaylineInformation
     /// <summary>
     /// 支持的清晰度标识.
     /// </summary>
-    public IEnumerable<int> AcceptQualities { get; }
+    public List<int> AcceptQualities { get; }
 
     /// <summary>
     /// 播放地址列表.
     /// </summary>
-    public IEnumerable<LivePlayUrl> Urls { get; }
+    public List<LivePlayUrl> Urls { get; }
 }

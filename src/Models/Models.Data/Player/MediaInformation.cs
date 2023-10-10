@@ -16,9 +16,9 @@ public sealed class MediaInformation
     /// <param name="formats">格式列表.</param>
     public MediaInformation(
         double minBufferTime,
-        IEnumerable<SegmentInformation> videoSegments,
-        IEnumerable<SegmentInformation> audioSegments,
-        IEnumerable<FormatInformation> formats)
+        List<SegmentInformation> videoSegments,
+        List<SegmentInformation> audioSegments,
+        List<FormatInformation> formats)
     {
         MinBufferTime = minBufferTime;
         VideoSegments = videoSegments;
@@ -34,15 +34,15 @@ public sealed class MediaInformation
     /// <summary>
     /// 不同清晰度的视频列表.
     /// </summary>
-    public IEnumerable<SegmentInformation> VideoSegments { get; }
+    public List<SegmentInformation> VideoSegments { get; }
 
     /// <summary>
     /// 不同码率的音频列表.
     /// </summary>
-    public IEnumerable<SegmentInformation> AudioSegments { get; }
+    public List<SegmentInformation> AudioSegments { get; }
 
     /// <summary>
     /// 格式列表.
     /// </summary>
-    public IEnumerable<FormatInformation> Formats { get; }
+    public List<FormatInformation> Formats { get; }
 }

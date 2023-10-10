@@ -61,10 +61,10 @@ public static class PlayerAdapter
 
         var minBuffer = dash.MinBufferTime;
         var videos = dash.Video?.Count > 0
-            ? dash.Video.Select(ConvertToSegmentInformation)
+            ? dash.Video.Select(ConvertToSegmentInformation).ToList()
             : null;
         var audios = dash.Audio?.Count > 0
-            ? dash.Audio.Select(ConvertToSegmentInformation)
+            ? dash.Audio.Select(ConvertToSegmentInformation).ToList()
             : null;
         var formats = information.SupportFormats.Select(ConvertToFormatInformation).ToList();
         return new MediaInformation(minBuffer, videos, audios, formats);

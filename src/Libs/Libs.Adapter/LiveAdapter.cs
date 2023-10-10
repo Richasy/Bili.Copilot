@@ -178,7 +178,7 @@ public static class LiveAdapter
                 foreach (var codec in format.CodecList)
                 {
                     var name = codec.CodecName;
-                    var urls = codec.Urls.Select(p => new LivePlayUrl(stream.ProtocolName, p.Host, codec.BaseUrl, p.Extra));
+                    var urls = codec.Urls.Select(p => new LivePlayUrl(stream.ProtocolName, p.Host, codec.BaseUrl, p.Extra)).ToList();
                     lines.Add(new LivePlaylineInformation(name, codec.CurrentQuality, codec.AcceptQualities, urls));
                 }
             }

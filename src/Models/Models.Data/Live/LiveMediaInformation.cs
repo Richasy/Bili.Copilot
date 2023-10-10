@@ -17,8 +17,8 @@ public sealed class LiveMediaInformation
     /// <param name="lines">直播线路.</param>
     public LiveMediaInformation(
         string id,
-        IEnumerable<FormatInformation> formats,
-        IEnumerable<LivePlaylineInformation> lines)
+        List<FormatInformation> formats,
+        List<LivePlaylineInformation> lines)
     {
         Id = id;
         Formats = formats;
@@ -33,10 +33,10 @@ public sealed class LiveMediaInformation
     /// <summary>
     /// 格式列表.
     /// </summary>
-    public IEnumerable<FormatInformation> Formats { get; }
+    public List<FormatInformation> Formats { get; }
 
     /// <summary>
     /// 播放线路列表.
     /// </summary>
-    public IEnumerable<LivePlaylineInformation> Lines { get; }
+    public List<LivePlaylineInformation> Lines { get; }
 }
