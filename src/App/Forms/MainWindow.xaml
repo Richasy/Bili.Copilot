@@ -56,11 +56,10 @@
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
-                ItemInvoked="OnMainNavViewItemInvoked"
                 MenuItemsSource="{x:Bind _appViewModel.NavigateItems}"
                 OpenPaneLength="240"
                 PaneDisplayMode="Top"
-                SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=OneWay}">
+                SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=TwoWay}">
                 <NavigationView.MenuItemTemplate>
                     <DataTemplate x:DataType="items:NavigateItemViewModel">
                         <NavigationViewItem
@@ -77,7 +76,7 @@
                 <NavigationView.PaneFooter>
                     <Grid>
                         <Button
-                            x:Name="SettingButton"
+                            x:Name="SettingIconButton"
                             Margin="6,0,0,0"
                             HorizontalAlignment="Center"
                             AccessKey="S"
@@ -85,6 +84,28 @@
                             Style="{StaticResource IconButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Settings}">
                             <base:FluentIcon FontSize="17" Symbol="Settings" />
+                        </Button>
+                        <Button
+                            x:Name="SettingFullButton"
+                            Margin="4,0,4,-4"
+                            Padding="12,10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            AccessKey="S"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Click="OnSettingsButtonClick"
+                            Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <base:FluentIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    Symbol="Settings" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="{ext:Locale Name=Settings}"
+                                    TextLineBounds="Tight" />
+                            </StackPanel>
                         </Button>
                     </Grid>
                 </NavigationView.PaneFooter>

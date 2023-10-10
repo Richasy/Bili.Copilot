@@ -12,7 +12,6 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
-using Bili.Copilot.ViewModels.Items;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Activation;
@@ -117,7 +116,6 @@ public sealed partial class MainWindow : WindowBase
             NavContainer.Padding = new Thickness(4, 0, 4, 0);
             NavContainer.Height = 56;
             MainNavView.Height = 48;
-            MainNavView.IsSettingsVisible = false;
             NavContainer.Width = double.NaN;
             MainNavView.Width = double.NaN;
             MainNavView.Margin = new Thickness(0, -4, 0, 0);
@@ -127,7 +125,8 @@ public sealed partial class MainWindow : WindowBase
             MainNavView.IsPaneOpen = false;
             MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 12, 0, 0);
-            SettingButton.Visibility = Visibility.Visible;
+            SettingIconButton.Visibility = Visibility.Visible;
+            SettingFullButton.Visibility = Visibility.Collapsed;
             AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
 
             _appViewModel.PagePadding = 20;
@@ -145,7 +144,6 @@ public sealed partial class MainWindow : WindowBase
             NavContainer.Padding = new Thickness(0, 0, 0, 0);
             NavContainer.Height = double.NaN;
             MainNavView.Height = double.NaN;
-            MainNavView.IsSettingsVisible = true;
             NavContainer.Width = 240;
             MainNavView.Width = 240;
             MainNavView.Margin = new Thickness(0);
@@ -155,7 +153,8 @@ public sealed partial class MainWindow : WindowBase
             CustomTitleBar.IsCompact = false;
             MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 30, 0, 0);
-            SettingButton.Visibility = Visibility.Collapsed;
+            SettingIconButton.Visibility = Visibility.Collapsed;
+            SettingFullButton.Visibility = Visibility.Visible;
             AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
 
             _appViewModel.PagePadding = 44;
@@ -316,18 +315,5 @@ public sealed partial class MainWindow : WindowBase
             XamlRoot = MainFrame.XamlRoot,
         };
         await dialog.ShowAsync();
-    }
-
-    private void OnMainNavViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-    {
-        if (args.IsSettingsInvoked)
-        {
-            _appViewModel.CurrentNavigateItem = default;
-            _appViewModel.Navigate(PageType.Settings);
-            return;
-        }
-
-        var data = args.InvokedItemContainer.DataContext as NavigateItemViewModel;
-        _appViewModel.CurrentNavigateItem = data;
     }
 }
