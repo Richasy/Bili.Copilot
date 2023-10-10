@@ -99,6 +99,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _hideWhenCloseWindow;
 
+    [ObservableProperty]
+    private PlayerWindowBehavior _playerWindowBehavior;
+
     /// <summary>
     /// 实例.
     /// </summary>

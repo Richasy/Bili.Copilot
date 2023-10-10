@@ -37,6 +37,15 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </labs:SettingsCard>
+            <labs:SettingsCard Header="{ext:Locale Name=PlayerWindowBehavior}">
+                <ComboBox
+                    x:Name="PlayerWindowBehaviorComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnPlayerWindowBehaviorComboBoxSelectionChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=SingleWindow}" />
+                    <ComboBoxItem Content="{ext:Locale Name=MultipleWindow}" />
+                </ComboBox>
+            </labs:SettingsCard>
             <labs:SettingsCard Header="{ext:Locale Name=PreferQuality}">
                 <ComboBox
                     MinWidth="120"

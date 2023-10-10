@@ -111,4 +111,5 @@ public enum SettingNames
     IsAutoCloseWindowWhenEnded,
     SettingsTipVersion,
     WindowWidth,
+    PlayerWindowBehavior,
 }
