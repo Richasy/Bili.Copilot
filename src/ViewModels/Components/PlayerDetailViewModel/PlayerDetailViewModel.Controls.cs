@@ -119,12 +119,7 @@ public sealed partial class PlayerDetailViewModel
             if (PlaybackRate != rate)
             {
                 PlaybackRate = rate;
-
-                var isGlobal = SettingsToolkit.ReadLocalSetting(SettingNames.GlobalPlaybackRate, false);
-                if (isGlobal)
-                {
-                    SettingsToolkit.WriteLocalSetting(SettingNames.PlaybackRate, rate);
-                }
+                SettingsToolkit.WriteLocalSetting(SettingNames.PlaybackRate, rate);
             }
 
             Player.SetPlayRate(rate);
