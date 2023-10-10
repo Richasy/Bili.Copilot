@@ -119,6 +119,7 @@ public sealed partial class PlayerDetailViewModel
             if (PlaybackRate != rate)
             {
                 PlaybackRate = rate;
+                SettingsToolkit.WriteLocalSetting(SettingNames.PlaybackRate, rate);
             }
 
             Player.SetPlayRate(rate);
