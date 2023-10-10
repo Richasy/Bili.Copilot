@@ -15,14 +15,14 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
+    <Page.Resources>
         <DataTemplate x:Key="HorizontalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
             <base:ArticleItem ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Key="VerticalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
             <base:ArticleItem Style="{StaticResource VerticalArticleItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
-    </UserControl.Resources>
+    </Page.Resources>
 
     <Grid x:Name="RootGrid" RowSpacing="8">
         <Grid.RowDefinitions>

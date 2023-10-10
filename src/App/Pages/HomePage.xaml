@@ -66,12 +66,10 @@
             ViewModel="{x:Bind ViewModel.Message, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInMessage, Mode=OneWay}" />
         <modules:RelationDetailModule
-            Margin="0,12,0,0"
             DataContext="{x:Bind ViewModel.Fans, Mode=OneWay}"
             ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
         <modules:MyFollowDetailModule
-            Margin="0,12,0,0"
             DataContext="{x:Bind ViewModel.Follows, Mode=OneWay}"
             ViewModel="{x:Bind ViewModel.Follows, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInFollows, Mode=OneWay}" />

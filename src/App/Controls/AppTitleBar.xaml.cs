@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Threading.Tasks;
 using Bili.Copilot.App.Forms;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -25,7 +26,7 @@ public sealed partial class AppTitleBar : UserControl
     /// <see cref="BackButtonVisibility"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty BackButtonVisibilityProperty =
-        DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(AppTitleBar), new PropertyMetadata(default, new PropertyChangedCallback(OnBackButtonVisibilityChanged)));
+        DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(AppTitleBar), new PropertyMetadata(default, new PropertyChangedCallback(OnBackButtonVisibilityChangedAsync)));
 
     /// <summary>
     /// <see cref="Title"/> 的依赖属性.
@@ -90,9 +91,11 @@ public sealed partial class AppTitleBar : UserControl
         set => SetValue(IsCompactProperty, value);
     }
 
-    private static void OnBackButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static async void OnBackButtonVisibilityChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as AppTitleBar;
+
+        await Task.Delay(200);
         instance.SetDragRegion();
     }
 
@@ -105,7 +108,8 @@ public sealed partial class AppTitleBar : UserControl
         }
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => SetDragRegion();
+    private void OnLoaded(object sender, RoutedEventArgs e)
+        => SetDragRegion();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         => SetDragRegion();

@@ -82,10 +82,7 @@
             </ItemsRepeater>
         </Grid>
 
-        <Grid
-            x:Name="ContentContainer"
-            Grid.Row="3"
-            Margin="0,8,0,0">
+        <Grid x:Name="ContentContainer" Grid.Row="3">
             <Grid>
                 <local:SearchVideoView
                     x:Name="VideoView"
