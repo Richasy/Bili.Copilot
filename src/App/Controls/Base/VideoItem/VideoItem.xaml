@@ -85,7 +85,7 @@
                                     <local:ImageEx
                                         x:Name="CoverImage"
                                         VerticalAlignment="Stretch"
-                                        DecodePixelWidth="200"
+                                        DecodePixelWidth="400"
                                         Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                         Stretch="UniformToFill" />
 
