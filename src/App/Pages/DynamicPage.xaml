@@ -13,12 +13,12 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="12">
+    <Grid x:Name="RootGrid" RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -26,6 +26,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock
                 VerticalAlignment="Center"
+                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Text="{ext:Locale Name=DynamicFeed}" />
             <Button
@@ -59,6 +60,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="DynamicView"
@@ -95,5 +97,26 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DynamicView.Style" Value="{StaticResource DynamicGridRepeaterViewStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:DynamicPageBase>

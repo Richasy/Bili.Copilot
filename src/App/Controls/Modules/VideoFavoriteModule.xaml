@@ -7,19 +7,57 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:video="using:Bili.Copilot.Models.Data.Video"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="12">
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem ViewModel="{x:Bind}">
+                <base:VideoItem.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            MinWidth="160"
+                            Command="{x:Bind RemoveFromFavoriteCommand}"
+                            IsEnabled="{x:Bind CanRemove, Mode=OneWay}"
+                            Text="{ext:Locale Name=Remove}">
+                            <MenuFlyoutItem.Icon>
+                                <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </base:VideoItem.ContextFlyout>
+            </base:VideoItem>
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem Style="{StaticResource VerticalVideoItemStyle}" ViewModel="{x:Bind}">
+                <base:VideoItem.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            MinWidth="160"
+                            Command="{x:Bind RemoveFromFavoriteCommand}"
+                            IsEnabled="{x:Bind CanRemove, Mode=OneWay}"
+                            Text="{ext:Locale Name=Remove}">
+                            <MenuFlyoutItem.Icon>
+                                <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </base:VideoItem.ContextFlyout>
+            </base:VideoItem>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <ComboBox
-            Margin="20,0"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.Folders}"
             SelectedItem="{x:Bind ViewModel.CurrentFolder, Mode=OneWay}"
@@ -46,33 +84,15 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="VideoView"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnVideoViewIncrementalTriggered"
+                ItemTemplate="{StaticResource HorizontalVideoStyle}"
                 ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                        <base:VideoItem ViewModel="{x:Bind}">
-                            <base:VideoItem.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem
-                                        MinWidth="160"
-                                        Command="{x:Bind RemoveFromFavoriteCommand}"
-                                        IsEnabled="{x:Bind CanRemove, Mode=OneWay}"
-                                        Text="{ext:Locale Name=Remove}">
-                                        <MenuFlyoutItem.Icon>
-                                            <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </base:VideoItem.ContextFlyout>
-                        </base:VideoItem>
-                    </DataTemplate>
-                </base:VerticalRepeaterView.ItemTemplate>
-            </base:VerticalRepeaterView>
+                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         </ScrollViewer>
 
         <controls:OverlayLoadingPanel
@@ -95,5 +115,27 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VideoView.Style" Value="{StaticResource VideoGridRepeaterViewStyle}" />
+                        <Setter Target="VideoView.ItemTemplate" Value="{StaticResource VerticalVideoStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:VideoFavoriteModuleBase>

@@ -97,6 +97,8 @@
             <converters:UserLevelConverter x:Key="UserLevelConverter" />
             <converters:DanmakuLocationConverter x:Key="DanmakuLocationConverter" />
             <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
+            <converters:PagePaddingConverter x:Key="BodyPaddingConverter" />
+            <converters:PagePaddingConverter x:Key="HeaderPaddingConverter" IsHeader="True" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

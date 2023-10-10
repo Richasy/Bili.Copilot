@@ -12,20 +12,21 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="20,8,20,0">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 HorizontalAlignment="Left"
+                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Text="{ext:Locale Name=Message}" />
             <Button
@@ -41,7 +42,7 @@
         <NavigationView
             x:Name="Nav"
             Grid.Row="1"
-            Margin="8,0,8,8"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnNavItemInvokedAsync"
             MenuItemsSource="{x:Bind ViewModel.MessageTypes}"
             SelectedItem="{x:Bind ViewModel.CurrentType, Mode=OneWay}"
@@ -72,6 +73,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}"
             Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <base:VerticalRepeaterView

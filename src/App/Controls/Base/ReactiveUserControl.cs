@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -23,12 +24,27 @@ public class ReactiveUserControl<TViewModel> : UserControl
             })));
 
     /// <summary>
+    /// Dependency property for <see cref="CoreViewModel"/>.
+    /// </summary>
+    public static readonly DependencyProperty CoreViewModelProperty =
+        DependencyProperty.Register(nameof(CoreViewModel), typeof(AppViewModel), typeof(ReactiveUserControl<TViewModel>), new PropertyMetadata(AppViewModel.Instance));
+
+    /// <summary>
     /// 视图模型.
     /// </summary>
     public TViewModel ViewModel
     {
         get => (TViewModel)GetValue(ViewModelProperty);
         set => SetValue(ViewModelProperty, value);
+    }
+
+    /// <summary>
+    /// 核心视图模型.
+    /// </summary>
+    public AppViewModel CoreViewModel
+    {
+        get => (AppViewModel)GetValue(CoreViewModelProperty);
+        set => SetValue(CoreViewModelProperty, value);
     }
 
     /// <summary>

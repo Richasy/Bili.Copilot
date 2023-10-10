@@ -5,21 +5,51 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
-        <base:VerticalRepeaterView
-            Margin="0,0,0,20"
-            IncrementalTriggered="OnIncrementalTriggered"
-            ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
-            <base:VerticalRepeaterView.ItemTemplate>
-                <DataTemplate x:DataType="viewmodels:ArticleItemViewModel">
-                    <base:ArticleItem ViewModel="{x:Bind}" />
-                </DataTemplate>
-            </base:VerticalRepeaterView.ItemTemplate>
-        </base:VerticalRepeaterView>
-    </ScrollViewer>
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
+            <base:ArticleItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalArticleStyle" x:DataType="viewmodels:ArticleItemViewModel">
+            <base:ArticleItem Style="{StaticResource VerticalArticleItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid">
+        <ScrollViewer Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" Style="{StaticResource PageScrollViewerStyle}">
+            <base:VerticalRepeaterView
+                x:Name="ArticleView"
+                Margin="0,0,0,20"
+                IncrementalTriggered="OnIncrementalTriggered"
+                ItemTemplate="{StaticResource HorizontalArticleStyle}"
+                ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" />
+        </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleView.Style" Value="{StaticResource ArticleSearchGridRepeaterViewStyle}" />
+                        <Setter Target="ArticleView.ItemTemplate" Value="{StaticResource VerticalArticleStyle}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
 </base:SearchComponent>

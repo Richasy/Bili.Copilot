@@ -12,13 +12,13 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="8">
+    <Grid RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="20,0">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -26,6 +26,7 @@
             <TextBlock
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 TextTrimming="CharacterEllipsis">
                 <Run
@@ -47,6 +48,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 Margin="0,0,0,12"

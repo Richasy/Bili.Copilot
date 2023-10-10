@@ -15,13 +15,22 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid>
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem Style="{StaticResource VerticalVideoItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="20,12,20,0" ColumnSpacing="8">
+        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -34,12 +43,14 @@
                 Spacing="12">
                 <base:ImageEx
                     x:Name="PartitionLogo"
-                    Width="32"
-                    Height="32"
+                    Width="34"
+                    Height="34"
+                    VerticalAlignment="Center"
                     Source="{x:Bind ViewModel.OriginPartition.Image.Uri, Mode=OneWay}" />
                 <TextBlock
                     x:Name="PartitionName"
                     VerticalAlignment="Center"
+                    FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
             </StackPanel>
@@ -74,7 +85,7 @@
         <NavigationView
             x:Name="SubPartitionNavigationView"
             Grid.Row="1"
-            Margin="20,12,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.SubPartitions}"
             SelectedItem="{x:Bind ViewModel.CurrentSubPartition, Mode=OneWay}"
@@ -112,7 +123,7 @@
         <NavigationView
             x:Name="RecommendNavigationView"
             Grid.Row="1"
-            Margin="20,12,20,4"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.RecommendPartitions}"
             SelectedItem="{x:Bind ViewModel.CurrentRecommendPartition, Mode=OneWay}"
@@ -134,6 +145,7 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
+            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid x:Name="ContentGrid" Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid.RowDefinitions>
@@ -141,37 +153,33 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <FlipView
-                    Height="128"
-                    Margin="0,0,0,4"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    ItemsSource="{x:Bind ViewModel.Banners}"
-                    Visibility="{x:Bind ViewModel.IsShowBanner, Mode=OneWay}">
-                    <FlipView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:BannerViewModel">
-                            <base:BannerItem
-                                Title="{x:Bind Description, Mode=OneWay}"
-                                IsTooltipEnabled="{x:Bind IsTooltipEnabled, Mode=OneWay}"
-                                Source="{x:Bind Cover, Mode=OneWay}"
-                                Uri="{x:Bind Uri, Mode=OneWay}" />
-                        </DataTemplate>
-                    </FlipView.ItemTemplate>
-                </FlipView>
+                <Grid x:Name="BannerContainer" VerticalAlignment="Top">
+                    <FlipView
+                        Height="128"
+                        Margin="0,0,0,4"
+                        Background="Transparent"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        ItemsSource="{x:Bind ViewModel.Banners}"
+                        Visibility="{x:Bind ViewModel.IsShowBanner, Mode=OneWay}">
+                        <FlipView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:BannerViewModel">
+                                <base:BannerItem
+                                    Title="{x:Bind Description, Mode=OneWay}"
+                                    IsTooltipEnabled="{x:Bind IsTooltipEnabled, Mode=OneWay}"
+                                    Source="{x:Bind Cover, Mode=OneWay}"
+                                    Uri="{x:Bind Uri, Mode=OneWay}" />
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+                </Grid>
 
                 <base:VerticalRepeaterView
                     x:Name="VideoView"
                     Grid.Row="1"
                     Margin="0,0,0,12"
                     IncrementalTriggered="OnVideoViewIncrementalTriggered"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                    <base:VerticalRepeaterView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                            <base:VideoItem ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </base:VerticalRepeaterView.ItemTemplate>
-                </base:VerticalRepeaterView>
+                    ItemTemplate="{StaticResource HorizontalVideoStyle}"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
             </Grid>
         </ScrollViewer>
 
@@ -195,5 +203,28 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VideoView.Style" Value="{StaticResource VideoGridRepeaterViewStyle}" />
+                        <Setter Target="VideoView.ItemTemplate" Value="{StaticResource VerticalVideoStyle}" />
+                        <Setter Target="BannerContainer.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:VideoPartitionDetailModuleBase>

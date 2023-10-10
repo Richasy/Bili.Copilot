@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Threading.Tasks;
 using Bili.Copilot.App.Forms;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
@@ -25,7 +26,7 @@ public sealed partial class AppTitleBar : UserControl
     /// <see cref="BackButtonVisibility"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty BackButtonVisibilityProperty =
-        DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(AppTitleBar), new PropertyMetadata(default, new PropertyChangedCallback(OnBackButtonVisibilityChanged)));
+        DependencyProperty.Register(nameof(BackButtonVisibility), typeof(Visibility), typeof(AppTitleBar), new PropertyMetadata(default, new PropertyChangedCallback(OnBackButtonVisibilityChangedAsync)));
 
     /// <summary>
     /// <see cref="Title"/> 的依赖属性.
@@ -34,10 +35,10 @@ public sealed partial class AppTitleBar : UserControl
         DependencyProperty.Register(nameof(Title), typeof(string), typeof(AppTitleBar), new PropertyMetadata(default));
 
     /// <summary>
-    /// <see cref="HasBackground"/> 的依赖属性.
+    /// <see cref="IsCompact"/> 的依赖属性.
     /// </summary>
-    public static readonly DependencyProperty HasBackgroundProperty =
-        DependencyProperty.Register(nameof(HasBackground), typeof(bool), typeof(AppTitleBar), new PropertyMetadata(true));
+    public static readonly DependencyProperty IsCompactProperty =
+        DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(AppTitleBar), new PropertyMetadata(true, new PropertyChangedCallback(OnIsCompactChanged)));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppTitleBar"/> class.
@@ -82,21 +83,33 @@ public sealed partial class AppTitleBar : UserControl
     }
 
     /// <summary>
-    /// 是否有背景.
+    /// 是否为简化模式.
     /// </summary>
-    public bool HasBackground
+    public bool IsCompact
     {
-        get => (bool)GetValue(HasBackgroundProperty);
-        set => SetValue(HasBackgroundProperty, value);
+        get => (bool)GetValue(IsCompactProperty);
+        set => SetValue(IsCompactProperty, value);
     }
 
-    private static void OnBackButtonVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static async void OnBackButtonVisibilityChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as AppTitleBar;
+
+        await Task.Delay(200);
         instance.SetDragRegion();
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => SetDragRegion();
+    private static void OnIsCompactChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var instance = d as AppTitleBar;
+        if (e.NewValue is bool isCompact)
+        {
+            VisualStateManager.GoToState(instance, isCompact ? nameof(CompactState) : nameof(FullState), false);
+        }
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+        => SetDragRegion();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         => SetDragRegion();

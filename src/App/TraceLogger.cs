@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bili.Copilot.Libs.Toolkit;
-using Bili.Copilot.Models.Constants.App;
 using Microsoft.AppCenter.Analytics;
 using Windows.Globalization;
 
@@ -35,7 +34,6 @@ internal sealed class TraceLogger
     private const string DownloadEvent = "Download";
     private const string DanmakuStatusChangedEvent = "DanmakuStatusChanged";
     private const string PlayerDisplayModeChangedEvent = "PlayerDisplayModeChanged";
-    private const string MenuPositionChangedEvent = "MenuPositionChanged";
 
     private readonly string _version;
     private readonly string _language;
@@ -186,16 +184,6 @@ internal sealed class TraceLogger
         };
 
         Analytics.TrackEvent(PlayerDisplayModeChangedEvent, data);
-    }
-
-    public static void LogMenuPositionChanged(MenuPosition position)
-    {
-        var data = new Dictionary<string, string>
-        {
-            { "Position", position.ToString() },
-        };
-
-        Analytics.TrackEvent(MenuPositionChangedEvent, data);
     }
 
     public void LogAppLaunched()

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
-using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
@@ -13,6 +12,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
+using Bili.Copilot.ViewModels.Items;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Activation;
@@ -27,6 +27,7 @@ public sealed partial class MainWindow : WindowBase
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
     private readonly IActivatedEventArgs _launchArgs;
     private bool _isInitialized;
+    private string _currentPosition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -38,7 +39,6 @@ public sealed partial class MainWindow : WindowBase
         Instance = this;
         SetTitleBar(CustomTitleBar);
         CustomTitleBar.AttachedWindow = this;
-        IsMaximizable = false;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
         _appViewModel.RequestShowMessage += OnAppViewModelRequestShowMessageAsync;
@@ -54,6 +54,8 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
         _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
         _appViewModel.RequestShowImages += OnRequestShowImages;
+
+        RootGrid.SizeChanged += OnRootGridSizeChanged;
     }
 
     /// <summary>
@@ -97,10 +99,17 @@ public sealed partial class MainWindow : WindowBase
     /// <summary>
     /// 更改菜单布局.
     /// </summary>
-    public void ChangeMenuLayout()
+    public void CheckMenuLayout()
     {
-        var currentPosition = SettingsToolkit.ReadLocalSetting(SettingNames.MenuPosition, MenuPosition.Bottom);
-        if (currentPosition == MenuPosition.Bottom)
+        var position = CustomTitleBar.ActualWidth > 900 ? "left" : "bottom";
+        if (_currentPosition == position || !_isInitialized)
+        {
+            return;
+        }
+
+        _currentPosition = position;
+
+        if (position == "bottom")
         {
             Grid.SetRow(NavContainer, 2);
             Grid.SetRowSpan(NavContainer, 1);
@@ -108,13 +117,25 @@ public sealed partial class MainWindow : WindowBase
             NavContainer.Padding = new Thickness(4, 0, 4, 0);
             NavContainer.Height = 56;
             MainNavView.Height = 48;
+            MainNavView.IsSettingsVisible = false;
             NavContainer.Width = double.NaN;
             MainNavView.Width = double.NaN;
             MainNavView.Margin = new Thickness(0, -4, 0, 0);
             MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
             MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
-            CustomTitleBar.HasBackground = true;
+            CustomTitleBar.IsCompact = true;
+            MainNavView.IsPaneOpen = false;
             MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
+            MainFrame.Padding = new Thickness(0, 12, 0, 0);
+            SettingButton.Visibility = Visibility.Visible;
+            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
+
+            _appViewModel.PagePadding = 20;
+            _appViewModel.HeaderFontSize = 20;
+            foreach (var item in _appViewModel.NavigateItems)
+            {
+                item.DisplayTitle = default;
+            }
         }
         else
         {
@@ -124,13 +145,25 @@ public sealed partial class MainWindow : WindowBase
             NavContainer.Padding = new Thickness(0, 0, 0, 0);
             NavContainer.Height = double.NaN;
             MainNavView.Height = double.NaN;
-            NavContainer.Width = 52;
-            MainNavView.Width = 48;
+            MainNavView.IsSettingsVisible = true;
+            NavContainer.Width = 240;
+            MainNavView.Width = 240;
             MainNavView.Margin = new Thickness(0);
-            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
+            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
+            MainNavView.IsPaneOpen = true;
             MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
-            CustomTitleBar.HasBackground = false;
+            CustomTitleBar.IsCompact = false;
             MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
+            MainFrame.Padding = new Thickness(0, 30, 0, 0);
+            SettingButton.Visibility = Visibility.Collapsed;
+            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
+
+            _appViewModel.PagePadding = 44;
+            _appViewModel.HeaderFontSize = 28;
+            foreach (var item in _appViewModel.NavigateItems)
+            {
+                item.DisplayTitle = item.Data.Title;
+            }
         }
     }
 
@@ -143,7 +176,6 @@ public sealed partial class MainWindow : WindowBase
 
         DispatcherQueue.TryEnqueue(async () =>
         {
-            ChangeMenuLayout();
             await _appViewModel.InitializeAsync();
 
             if (_launchArgs != null)
@@ -152,12 +184,14 @@ public sealed partial class MainWindow : WindowBase
             }
 
 #if !DEBUG
-        _appViewModel.CheckUpdateCommand.Execute(default);
+            _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
             _appViewModel.CheckAIFeatureCommand.Execute(default);
             _appViewModel.CheckBBDownExistCommand.Execute(default);
 
             _isInitialized = true;
+
+            CheckMenuLayout();
         });
     }
 
@@ -183,6 +217,9 @@ public sealed partial class MainWindow : WindowBase
         TraceLogger.LogMainPageNavigation(e.PageId.ToString());
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
+
+    private void OnRootGridSizeChanged(object sender, SizeChangedEventArgs e)
+        => CheckMenuLayout();
 
     private void OnAppViewModelRequestShowTip(object sender, AppTipNotification e)
         => new TipPopup(e.Message).ShowAsync(e.Type);
@@ -279,5 +316,18 @@ public sealed partial class MainWindow : WindowBase
             XamlRoot = MainFrame.XamlRoot,
         };
         await dialog.ShowAsync();
+    }
+
+    private void OnMainNavViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        if (args.IsSettingsInvoked)
+        {
+            _appViewModel.CurrentNavigateItem = default;
+            _appViewModel.Navigate(PageType.Settings);
+            return;
+        }
+
+        var data = args.InvokedItemContainer.DataContext as NavigateItemViewModel;
+        _appViewModel.CurrentNavigateItem = data;
     }
 }

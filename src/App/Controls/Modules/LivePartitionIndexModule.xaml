@@ -13,13 +13,13 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid RowSpacing="8" Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+        <Grid RowSpacing="12" Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <NavigationView
-                Margin="20,0,20,4"
+                Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
                 ItemInvoked="OnParentItemInvoked"
                 MenuItemsSource="{x:Bind ViewModel.ParentPartitions}"
                 SelectedItem="{x:Bind ViewModel.CurrentParentPartition, Mode=OneWay}"
@@ -39,6 +39,7 @@
             <ScrollViewer
                 x:Name="ContentScrollViewer"
                 Grid.Row="1"
+                Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
                 Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.DisplayPartitions}">
                     <ItemsRepeater.Layout>

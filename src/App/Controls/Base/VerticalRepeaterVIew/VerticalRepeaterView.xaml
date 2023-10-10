@@ -3,7 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
-    <Style TargetType="local:VerticalRepeaterView">
+    <Style BasedOn="{StaticResource DefaultVerticalRepeaterViewStyle}" TargetType="local:VerticalRepeaterView" />
+
+    <Style x:Key="DefaultVerticalRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -104,6 +106,139 @@
                                     MinItemHeight="200"
                                     MinItemWidth="140"
                                     MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VideoGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="232"
+                                    MinItemWidth="216"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LiveGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="212"
+                                    MinItemWidth="200"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ArticleGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="270"
+                                    MinItemWidth="212"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ArticleSearchGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="8"
+                                    MinItemHeight="232"
+                                    MinItemWidth="212"
+                                    MinRowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DynamicGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <local:StaggeredLayout
+                                    ColumnSpacing="8"
+                                    DesiredColumnWidth="340"
+                                    RowSpacing="8" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </Grid>

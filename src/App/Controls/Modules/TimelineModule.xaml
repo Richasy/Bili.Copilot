@@ -19,7 +19,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <NavigationView
-                Margin="20,0"
+                Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
                 ItemInvoked="OnTimelineNavigationViewItemInvoked"
                 MenuItemsSource="{x:Bind ViewModel.TimelineCollection}"
                 SelectedItem="{x:Bind ViewModel.SelectedTimeline, Mode=OneWay}"
@@ -49,6 +49,7 @@
             <ScrollViewer
                 x:Name="TimelineScrollViewer"
                 Grid.Row="1"
+                Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
                 Style="{StaticResource PageScrollViewerStyle}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid>
