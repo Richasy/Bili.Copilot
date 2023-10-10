@@ -9,7 +9,7 @@ namespace Bili.Copilot.App.Controls.Base;
 /// <summary>
 /// 搜索组件.
 /// </summary>
-public abstract class SearchComponent : UserControl
+public abstract class SearchComponent : ReactiveUserControl<ViewModelBase>
 {
     /// <summary>
     /// <see cref="ItemsSource"/> 的依赖属性.

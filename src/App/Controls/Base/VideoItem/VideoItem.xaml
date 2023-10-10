@@ -4,6 +4,205 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Base">
 
+    <Style x:Key="VerticalVideoItemStyle" TargetType="local:VideoItem">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VideoItem">
+                    <Grid>
+                        <Grid.Resources>
+                            <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
+                                <Setter Property="Spacing" Value="4" />
+                                <Setter Property="IconFontSize" Value="12" />
+                                <Setter Property="FontSize" Value="11" />
+                            </Style>
+                        </Grid.Resources>
+                        <local:CardPanel
+                            x:Name="RootCard"
+                            AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                            IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
+                            IsEnableCheck="False">
+
+                            <local:CardPanel.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        x:Name="PrivatePlayItem"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
+                                        Text="{ext:Locale Name=PlayInPrivate}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="WindowInprivate" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Add" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Globe" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FixCommand}" Text="{ext:Locale Name=FixContent}">
+                                        <MenuFlyoutItem.Icon>
+                                            <local:FluentIcon Symbol="Pin" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
+                                        <MenuFlyoutSubItem.Icon>
+                                            <local:FluentIcon Symbol="Sparkle" />
+                                        </MenuFlyoutSubItem.Icon>
+                                        <MenuFlyoutItem
+                                            MinWidth="120"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
+                                            Text="{ext:Locale Name=SummarizeContent}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="DocumentOnePageSparkle" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
+                                            <MenuFlyoutItem.Icon>
+                                                <local:FluentIcon Symbol="EmojiSparkle" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyoutSubItem>
+                                </MenuFlyout>
+                            </local:CardPanel.ContextFlyout>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid
+                                    x:Name="CoverContainer"
+                                    Height="128"
+                                    Margin="8"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                    <local:ImageEx
+                                        x:Name="CoverImage"
+                                        VerticalAlignment="Stretch"
+                                        DecodePixelWidth="200"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                        Stretch="UniformToFill" />
+
+                                    <Grid
+                                        x:Name="DurationContainer"
+                                        Margin="4,0,0,4"
+                                        Padding="8,4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Background="{ThemeResource AppMaskBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        RequestedTheme="Dark"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationText, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        <TextBlock
+                                            FontSize="10"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationText}" />
+                                    </Grid>
+
+                                    <Grid
+                                        x:Name="BadgeContainer"
+                                        Margin="4,4,0,0"
+                                        Padding="8,4"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        Background="{ThemeResource AccentMaskBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Highlight, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        <TextBlock
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Highlight}" />
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                    x:Name="ContentContainer"
+                                    Grid.Row="1"
+                                    Padding="12,0,12,4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        x:Name="SubtitleBlock"
+                                        Margin="0,0,0,4"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.6"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}" />
+
+                                    <TextBlock
+                                        x:Name="TitleBlock"
+                                        Grid.Row="1"
+                                        Margin="0,0,0,4"
+                                        VerticalAlignment="Top"
+                                        FontSize="14"
+                                        MaxLines="2"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
+
+                                    <StackPanel
+                                        Grid.Row="2"
+                                        Margin="0,0,0,4"
+                                        Orientation="Horizontal"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowCommunity, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <local:IconTextBlock
+                                            Margin="0,0,12,0"
+                                            Opacity="0.6"
+                                            Symbol="PlayCircle"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCountText}"
+                                            ToolTipService.ToolTip="{ext:Locale Name=PlayCount}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCountText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <local:IconTextBlock
+                                            Margin="0,0,12,0"
+                                            Opacity="0.6"
+                                            Symbol="SlideText"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCountText}"
+                                            ToolTipService.ToolTip="{ext:Locale Name=DanmakuCount}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCountText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <local:IconTextBlock
+                                            Margin="0,0,12,0"
+                                            Opacity="0.6"
+                                            Symbol="ThumbLike"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCountText}"
+                                            ToolTipService.ToolTip="{ext:Locale Name=BeLikeCount}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCountText, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                    </StackPanel>
+                                    <Grid Grid.Row="3">
+                                        <TextBlock
+                                            FontSize="11"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowScore}">
+                                            <Run Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{ext:Locale Name=Score}" />
+                                            <Run
+                                                FontWeight="Bold"
+                                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ScoreText}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </local:CardPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="HorizontalVideoItemStyle" TargetType="local:VideoItem">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Margin" Value="0,0,0,4" />

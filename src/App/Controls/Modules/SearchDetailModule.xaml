@@ -35,7 +35,7 @@
         <NavigationView
             x:Name="Nav"
             Grid.Row="1"
-            Margin="8,0"
+            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             ItemInvoked="OnNavItemInvokedAsync"
             MenuItemsSource="{x:Bind ViewModel.Items}"
             SelectedItem="{x:Bind ViewModel.CurrentModule, Mode=OneWay}"

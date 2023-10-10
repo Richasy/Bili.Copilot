@@ -15,7 +15,16 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="8">
+    <UserControl.Resources>
+        <DataTemplate x:Key="HorizontalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VerticalVideoStyle" x:DataType="viewmodels:VideoItemViewModel">
+            <base:VideoItem Style="{StaticResource VerticalVideoItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -144,37 +153,33 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <FlipView
-                    Height="128"
-                    Margin="0,0,0,4"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    ItemsSource="{x:Bind ViewModel.Banners}"
-                    Visibility="{x:Bind ViewModel.IsShowBanner, Mode=OneWay}">
-                    <FlipView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:BannerViewModel">
-                            <base:BannerItem
-                                Title="{x:Bind Description, Mode=OneWay}"
-                                IsTooltipEnabled="{x:Bind IsTooltipEnabled, Mode=OneWay}"
-                                Source="{x:Bind Cover, Mode=OneWay}"
-                                Uri="{x:Bind Uri, Mode=OneWay}" />
-                        </DataTemplate>
-                    </FlipView.ItemTemplate>
-                </FlipView>
+                <Grid x:Name="BannerContainer" VerticalAlignment="Top">
+                    <FlipView
+                        Height="128"
+                        Margin="0,0,0,4"
+                        Background="Transparent"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        ItemsSource="{x:Bind ViewModel.Banners}"
+                        Visibility="{x:Bind ViewModel.IsShowBanner, Mode=OneWay}">
+                        <FlipView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:BannerViewModel">
+                                <base:BannerItem
+                                    Title="{x:Bind Description, Mode=OneWay}"
+                                    IsTooltipEnabled="{x:Bind IsTooltipEnabled, Mode=OneWay}"
+                                    Source="{x:Bind Cover, Mode=OneWay}"
+                                    Uri="{x:Bind Uri, Mode=OneWay}" />
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+                </Grid>
 
                 <base:VerticalRepeaterView
                     x:Name="VideoView"
                     Grid.Row="1"
                     Margin="0,0,0,12"
                     IncrementalTriggered="OnVideoViewIncrementalTriggered"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                    <base:VerticalRepeaterView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:VideoItemViewModel">
-                            <base:VideoItem ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </base:VerticalRepeaterView.ItemTemplate>
-                </base:VerticalRepeaterView>
+                    ItemTemplate="{StaticResource HorizontalVideoStyle}"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
             </Grid>
         </ScrollViewer>
 
@@ -198,5 +203,28 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger
+                            MinWidth="0"
+                            MaxWidth="600"
+                            TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VideoView.Style" Value="{StaticResource VideoGridRepeaterViewStyle}" />
+                        <Setter Target="VideoView.ItemTemplate" Value="{StaticResource VerticalVideoStyle}" />
+                        <Setter Target="BannerContainer.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:VideoPartitionDetailModuleBase>

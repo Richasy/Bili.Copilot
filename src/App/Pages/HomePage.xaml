@@ -17,7 +17,10 @@
             Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}"
             Visibility="{x:Bind ViewModel.IsHomeShown, Mode=OneWay}">
-            <StackPanel Margin="0,0,0,12" Spacing="12">
+            <StackPanel
+                MaxWidth="800"
+                Margin="0,0,0,12"
+                Spacing="12">
                 <modules:AccountModule />
                 <modules:SearchBoxModule />
                 <Grid>
