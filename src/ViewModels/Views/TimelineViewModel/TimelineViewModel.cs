@@ -68,7 +68,7 @@ public sealed partial class TimelineViewModel : ViewModelBase
             }
 
             var domesticTimeline = domesticTimelines.Timelines.FirstOrDefault(p => p.Date == bangumiTimeline.Date);
-            if (domesticTimeline != null && domesticTimeline.Seasons.Count() > 0)
+            if (domesticTimeline != null && domesticTimeline.Seasons != null && domesticTimeline.Seasons.Count() > 0)
             {
                 seasons.AddRange(domesticTimeline.Seasons);
             }

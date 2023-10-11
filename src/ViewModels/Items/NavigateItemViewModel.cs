@@ -18,11 +18,26 @@ public sealed partial class NavigateItemViewModel : ViewModelBase
     [ObservableProperty]
     private string _displayTitle;
 
+    [ObservableProperty]
+    private bool _isHeader;
+
+    [ObservableProperty]
+    private bool _isVisible;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigateItemViewModel"/> class.
     /// </summary>
     public NavigateItemViewModel(NavigateItem data)
         => Data = data;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NavigateItemViewModel"/> class.
+    /// </summary>
+    public NavigateItemViewModel(string header)
+    {
+        DisplayTitle = header;
+        IsHeader = true;
+    }
 
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is NavigateItemViewModel model && EqualityComparer<NavigateItem>.Default.Equals(Data, model.Data);
