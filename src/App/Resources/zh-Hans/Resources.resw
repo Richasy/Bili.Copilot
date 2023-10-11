@@ -2058,4 +2058,13 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="SingleWindow" xml:space="preserve">
     <value>单窗口</value>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>我的</value>
+  </data>
+  <data name="VideoPartition" xml:space="preserve">
+    <value>视频分区</value>
+  </data>
 </root>

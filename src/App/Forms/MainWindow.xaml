@@ -38,79 +38,11 @@
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
             BorderThickness="0,0,0,1" />
-        <Grid
+        <controls:AppNavView
             x:Name="NavContainer"
             Grid.Row="2"
             Grid.RowSpan="1"
-            Grid.Column="1"
-            Height="56"
-            Padding="4,0"
-            Visibility="{x:Bind _appViewModel.IsNavigationMenuShown, Mode=OneWay}">
-            <NavigationView
-                x:Name="MainNavView"
-                Height="48"
-                Margin="0,-4,0,0"
-                CompactPaneLength="48"
-                IsBackButtonVisible="Collapsed"
-                IsPaneOpen="False"
-                IsPaneToggleButtonVisible="False"
-                IsSettingsVisible="False"
-                IsTitleBarAutoPaddingEnabled="False"
-                MenuItemsSource="{x:Bind _appViewModel.NavigateItems}"
-                OpenPaneLength="240"
-                PaneDisplayMode="Top"
-                SelectedItem="{x:Bind _appViewModel.CurrentNavigateItem, Mode=TwoWay}">
-                <NavigationView.MenuItemTemplate>
-                    <DataTemplate x:DataType="items:NavigateItemViewModel">
-                        <NavigationViewItem
-                            AccessKey="{x:Bind Data.Index}"
-                            Content="{x:Bind DisplayTitle, Mode=OneWay}"
-                            DataContext="{x:Bind}"
-                            ToolTipService.ToolTip="{x:Bind Data.Title}">
-                            <NavigationViewItem.Icon>
-                                <base:FluentIcon Symbol="{x:Bind Data.Icon}" />
-                            </NavigationViewItem.Icon>
-                        </NavigationViewItem>
-                    </DataTemplate>
-                </NavigationView.MenuItemTemplate>
-                <NavigationView.PaneFooter>
-                    <Grid>
-                        <Button
-                            x:Name="SettingIconButton"
-                            Margin="6,0,0,0"
-                            HorizontalAlignment="Center"
-                            AccessKey="S"
-                            Click="OnSettingsButtonClick"
-                            Style="{StaticResource IconButtonStyle}"
-                            ToolTipService.ToolTip="{ext:Locale Name=Settings}">
-                            <base:FluentIcon FontSize="17" Symbol="Settings" />
-                        </Button>
-                        <Button
-                            x:Name="SettingFullButton"
-                            Margin="4,0,4,-4"
-                            Padding="12,10"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Left"
-                            AccessKey="S"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Click="OnSettingsButtonClick"
-                            Visibility="Collapsed">
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <base:FluentIcon
-                                    VerticalAlignment="Center"
-                                    FontSize="15"
-                                    Symbol="Settings" />
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Text="{ext:Locale Name=Settings}"
-                                    TextLineBounds="Tight" />
-                            </StackPanel>
-                        </Button>
-                    </Grid>
-                </NavigationView.PaneFooter>
-            </NavigationView>
-        </Grid>
+            Grid.Column="1" />
         <Grid
             x:Name="TipContainer"
             Grid.RowSpan="3"

@@ -36,6 +36,7 @@
         <None Remove="Assets\not_login.png" />
         <None Remove="Assets\ReaderClean.js" />
         <None Remove="Controls\AIFeatureDialog.xaml" />
+        <None Remove="Controls\AppNavView.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
@@ -162,11 +163,11 @@
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.46-beta">
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
         <PackageReference Include="NLog" Version="5.2.4" />
         <PackageReference Include="Vortice.WinUI" Version="3.3.3-beta" />
@@ -219,6 +220,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\AppNavView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\FixModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

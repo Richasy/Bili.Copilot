@@ -107,62 +107,34 @@ public sealed partial class MainWindow : WindowBase
         }
 
         _currentPosition = position;
-
+        NavContainer.ChangeLayout(position);
         if (position == "bottom")
         {
             Grid.SetRow(NavContainer, 2);
             Grid.SetRowSpan(NavContainer, 1);
             Grid.SetColumn(NavContainer, 1);
-            NavContainer.Padding = new Thickness(4, 0, 4, 0);
-            NavContainer.Height = 56;
-            MainNavView.Height = 48;
-            NavContainer.Width = double.NaN;
-            MainNavView.Width = double.NaN;
-            MainNavView.Margin = new Thickness(0, -4, 0, 0);
-            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Top;
             MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
             CustomTitleBar.IsCompact = true;
-            MainNavView.IsPaneOpen = false;
             MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 12, 0, 0);
-            SettingIconButton.Visibility = Visibility.Visible;
-            SettingFullButton.Visibility = Visibility.Collapsed;
             AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
 
             _appViewModel.PagePadding = 20;
             _appViewModel.HeaderFontSize = 20;
-            foreach (var item in _appViewModel.NavigateItems)
-            {
-                item.DisplayTitle = default;
-            }
         }
         else
         {
             Grid.SetRow(NavContainer, 1);
             Grid.SetRowSpan(NavContainer, 2);
             Grid.SetColumn(NavContainer, 0);
-            NavContainer.Padding = new Thickness(0, 0, 0, 0);
-            NavContainer.Height = double.NaN;
-            MainNavView.Height = double.NaN;
-            NavContainer.Width = 240;
-            MainNavView.Width = 240;
-            MainNavView.Margin = new Thickness(0);
-            MainNavView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
-            MainNavView.IsPaneOpen = true;
             MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
             CustomTitleBar.IsCompact = false;
             MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 30, 0, 0);
-            SettingIconButton.Visibility = Visibility.Collapsed;
-            SettingFullButton.Visibility = Visibility.Visible;
             AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
 
             _appViewModel.PagePadding = 44;
             _appViewModel.HeaderFontSize = 28;
-            foreach (var item in _appViewModel.NavigateItems)
-            {
-                item.DisplayTitle = item.Data.Title;
-            }
         }
     }
 
@@ -265,9 +237,6 @@ public sealed partial class MainWindow : WindowBase
             _appViewModel.Navigate(PageType.Home, e);
         }
     }
-
-    private void OnSettingsButtonClick(object sender, RoutedEventArgs e)
-        => _appViewModel.Navigate(PageType.Settings);
 
     private void OnBackButtonClick(object sender, EventArgs e)
         => _appViewModel.BackCommand.Execute(default);

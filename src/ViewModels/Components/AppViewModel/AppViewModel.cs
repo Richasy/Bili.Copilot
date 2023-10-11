@@ -53,9 +53,9 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             LoadNavItems();
             var lastOpenPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastOpenPageType, PageType.Home);
-            if (!NavigateItems.Any(p => p.Data.Id == lastOpenPage))
+            if (!NavigateItems.Any(p => p.Data?.Id == lastOpenPage))
             {
-                lastOpenPage = NavigateItems.First().Data.Id;
+                lastOpenPage = NavigateItems.First(p => p.Data != null).Data.Id;
             }
 
             Navigate(lastOpenPage);
@@ -85,7 +85,7 @@ public sealed partial class AppViewModel : ViewModelBase
         CurrentPage = page;
         if (CurrentNavigateItem?.Data?.Id != page)
         {
-            CurrentNavigateItem = NavigateItems.FirstOrDefault(p => p.Data.Id == CurrentPage);
+            CurrentNavigateItem = NavigateItems.FirstOrDefault(p => p.Data?.Id == CurrentPage);
         }
 
         IsNavigationMenuShown = page != PageType.SignIn;
@@ -216,15 +216,20 @@ public sealed partial class AppViewModel : ViewModelBase
     private void LoadNavItems()
     {
         TryClear(NavigateItems);
+        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.My)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Home, ResourceToolkit.GetLocalizedString(StringNames.Home), FluentSymbol.Home, 1)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition), FluentSymbol.Apps, 2)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed), FluentSymbol.DesignIdeas, 3)));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple, 9)));
+
+        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.Video)));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.VideoPartition), FluentSymbol.Apps, 2)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Rocket, 4)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video, 5)));
+
+        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.Content)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust, 6)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay, 7)));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn), FluentSymbol.DocumentBulletList, 8)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple, 9)));
     }
 
     partial void OnCurrentNavigateItemChanged(NavigateItemViewModel value)

@@ -368,4 +368,100 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="SmallNavigationViewItemHeaderStyle" TargetType="NavigationViewItemHeader">
+        <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemHeaderForeground}" />
+        <Setter Property="IsEnabled" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="NavigationViewItemHeader">
+                    <Grid x:Name="NavigationViewItemHeaderRootGrid">
+                        <Grid
+                            x:Name="InnerHeaderGrid"
+                            Height="40"
+                            Margin="{ThemeResource NavigationViewItemInnerHeaderMargin}"
+                            HorizontalAlignment="Left">
+                            <TextBlock
+                                x:Name="HeaderText"
+                                Margin="0,-1,0,-1"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                                OpticalMarginAlignment="TrimSideBearings"
+                                Text="{TemplateBinding Content}"
+                                TextWrapping="NoWrap" />
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="PaneStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="HeaderTextCollapsed" To="HeaderTextVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerHeaderGrid" Storyboard.TargetProperty="Height">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="40" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderText" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderText" Storyboard.TargetProperty="Opacity">
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0.1" Value="0.0" />
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0.0,0.35 0.15,1.0"
+                                                    KeyTime="0:0:0.2"
+                                                    Value="1.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+
+                                    <VisualTransition From="HeaderTextVisible" To="HeaderTextCollapsed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerHeaderGrid" Storyboard.TargetProperty="Height">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="0" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderText" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeaderText" Storyboard.TargetProperty="Opacity">
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                                <SplineDoubleKeyFrame
+                                                    KeySpline="0.0,0.35 0.15,1.0"
+                                                    KeyTime="0:0:0.1"
+                                                    Value="0.0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+
+                                <VisualState x:Name="HeaderTextVisible" />
+                                <VisualState x:Name="HeaderTextCollapsed">
+                                    <VisualState.Setters>
+                                        <Setter Target="HeaderText.Visibility" Value="Collapsed" />
+                                        <Setter Target="InnerHeaderGrid.Height" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                            <VisualStateGroup x:Name="DisplayModeStates">
+                                <VisualState x:Name="LeftMode" />
+                                <VisualState x:Name="TopMode">
+                                    <VisualState.Setters>
+                                        <Setter Target="InnerHeaderGrid.Margin" Value="{ThemeResource TopNavigationViewItemInnerHeaderMargin}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

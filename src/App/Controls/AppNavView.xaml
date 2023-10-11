@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:AppNavViewBase
+    x:Class="Bili.Copilot.App.Controls.AppNavView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:converters="using:Bili.Copilot.App.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
+    xmlns:local="using:Bili.Copilot.App.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="ItemTemplate" x:DataType="items:NavigateItemViewModel">
+            <NavigationViewItem
+                AccessKey="{x:Bind Data.Index}"
+                Content="{x:Bind DisplayTitle, Mode=OneWay}"
+                DataContext="{x:Bind}"
+                ToolTipService.ToolTip="{x:Bind Data.Title}">
+                <NavigationViewItem.Icon>
+                    <base:FluentIcon Symbol="{x:Bind Data.Icon}" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </DataTemplate>
+        <DataTemplate x:Key="HeaderTemplate" x:DataType="items:NavigateItemViewModel">
+            <NavigationViewItemHeader
+                Content="{x:Bind DisplayTitle, Mode=OneWay}"
+                Style="{StaticResource SmallNavigationViewItemHeaderStyle}"
+                Visibility="{x:Bind IsVisible, Mode=OneWay}" />
+        </DataTemplate>
+        <converters:NavigateItemTemplateSelector
+            x:Key="TemplateSelector"
+            Header="{StaticResource HeaderTemplate}"
+            Item="{StaticResource ItemTemplate}" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="NavContainer"
+        Height="56"
+        Padding="4,0"
+        Visibility="{x:Bind ViewModel.IsNavigationMenuShown, Mode=OneWay}">
+        <NavigationView
+            x:Name="MainNavView"
+            Height="48"
+            Margin="0,-4,0,0"
+            CompactPaneLength="48"
+            IsBackButtonVisible="Collapsed"
+            IsPaneOpen="False"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            MenuItemTemplateSelector="{StaticResource TemplateSelector}"
+            MenuItemsSource="{x:Bind ViewModel.NavigateItems}"
+            OpenPaneLength="240"
+            PaneDisplayMode="Top"
+            SelectedItem="{x:Bind ViewModel.CurrentNavigateItem, Mode=TwoWay}">
+            <NavigationView.PaneFooter>
+                <Grid>
+                    <Button
+                        x:Name="SettingIconButton"
+                        Margin="6,0,0,0"
+                        HorizontalAlignment="Center"
+                        AccessKey="S"
+                        Click="OnSettingsButtonClick"
+                        Style="{StaticResource IconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=Settings}">
+                        <base:FluentIcon FontSize="17" Symbol="Settings" />
+                    </Button>
+                    <Button
+                        x:Name="SettingFullButton"
+                        Margin="4,0,4,-4"
+                        Padding="12,10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        AccessKey="S"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="OnSettingsButtonClick"
+                        Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <base:FluentIcon
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                Symbol="Settings" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{ext:Locale Name=Settings}"
+                                TextLineBounds="Tight" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </NavigationView.PaneFooter>
+        </NavigationView>
+    </Grid>
+
+</local:AppNavViewBase>
