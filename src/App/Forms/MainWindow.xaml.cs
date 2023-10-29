@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Models.App.Args;
@@ -89,9 +90,23 @@ public sealed partial class MainWindow : WindowBase
     public void ActivateArgumentsAsync(IActivatedEventArgs e = default)
     {
         e ??= _launchArgs;
-        if (e.Kind == ActivationKind.Protocol)
+        if (e is IProtocolActivatedEventArgs protocolArgs)
         {
-            // TODO: Handle protocol activation.
+            if (protocolArgs.Uri.Host == "search")
+            {
+                var query = protocolArgs.Uri.Query;
+                var queryItems = HttpUtility.ParseQueryString(query);
+                var keyword = queryItems["keyword"];
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    if (_appViewModel.CurrentPage != PageType.Home)
+                    {
+                        _appViewModel.Navigate(PageType.Home);
+                    }
+
+                    SearchBoxViewModel.Instance.SearchByTextCommand.Execute(keyword);
+                }
+            }
         }
     }
 
