@@ -50,12 +50,12 @@ public static class ApiConstants
         /// <summary>
         /// 获取登录二维码.
         /// </summary>
-        public const string QRCode = _passSnmBase + "/x/passport-tv-login/qrcode/auth_code";
+        public const string QRCode = _passBase + "/x/passport-tv-login/qrcode/auth_code";
 
         /// <summary>
         /// 登录二维码轮询状态.
         /// </summary>
-        public const string QRCodeCheck = _passSnmBase + "/x/passport-tv-login/qrcode/poll";
+        public const string QRCodeCheck = _passBase + "/x/passport-tv-login/qrcode/poll";
 
         /// <summary>
         /// cookie转访问令牌.

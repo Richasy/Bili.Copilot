@@ -7,10 +7,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
-using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.Authorize;
@@ -196,45 +194,6 @@ public partial class AuthorizeProvider
         _ = await httpProvider.SendAsync(request);
     }
 
-    private static async Task<string> GetCookieToAccessKeyConfirmUrlAsync()
-    {
-        var httpProvider = HttpProvider.Instance;
-        var query = new Dictionary<string, string>
-            {
-                { "api", ApiConstants.Passport.LoginAppThirdApi },
-            };
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Passport.LoginAppThird, query, RequestClientType.IOS, needCookie: true, needAppKey: true);
-        var response = await httpProvider.SendAsync(request);
-        var result = await HttpProvider.ParseAsync<ServerResponse<LoginAppThird>>(response);
-        return result.Data.ConfirmUri;
-    }
-
-    private static async Task<string> GetAccessKeyAsync(string confirmUri)
-    {
-        try
-        {
-            var httpProvider = HttpProvider.Instance;
-            var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, confirmUri, needCookie: true, needToken: false);
-            var response = await httpProvider.SendAsync(request);
-            var success = response.Headers.TryGetValues("location", out var locations);
-            if (!success)
-            {
-                return default;
-            }
-
-            var redirectUrl = locations.FirstOrDefault();
-            var uri = new Uri(redirectUrl);
-            var queries = HttpUtility.ParseQueryString(uri.Query);
-            var accessKey = queries.Get("access_key");
-            return accessKey;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            throw;
-        }
-    }
-
     private async void OnQRTimerTickAsync(object sender, object e)
     {
         if (await IsTokenValidAsync())
@@ -249,6 +208,7 @@ public partial class AuthorizeProvider
         {
             { Query.AuthCode, _internalQRAuthCode },
             { Query.LocalId, _guid },
+            { Query.Guid, Guid.NewGuid().ToString() },
         };
 
         try
@@ -260,13 +220,6 @@ public partial class AuthorizeProvider
 
             // 保存cookie
             SaveCookie(result.Data.CookieInfo);
-
-            // 获取确认链接
-            var confirmUrl = await GetCookieToAccessKeyConfirmUrlAsync();
-
-            // 获取新的访问令牌
-            var accessKey = await GetAccessKeyAsync(confirmUrl);
-            result.Data.AccessToken = accessKey;
             SaveAuthorizeResult(result.Data);
             QRCodeStatusChanged?.Invoke(this, new Tuple<QRCodeStatus, TokenInfo>(QRCodeStatus.Success, result.Data));
         }
@@ -279,7 +232,7 @@ public partial class AuthorizeProvider
 
             if (se.Error != null)
             {
-                var qrStatus = se.Error.Code == 86039
+                var qrStatus = se.Error.Code is 86090 or 86039
                     ? QRCodeStatus.NotConfirm
                     : se.Error.Code is 86038 or -3 ? QRCodeStatus.Expired : QRCodeStatus.Failed;
 

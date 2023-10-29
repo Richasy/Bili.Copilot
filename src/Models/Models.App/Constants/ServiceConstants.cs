@@ -37,14 +37,14 @@ public static class ServiceConstants
 
     public static class Keys
     {
-        public const string AndroidKey = "4409e2ce8ffd12b8";
-        public const string AndroidSecret = "59b43e04ad6965f34319062b478f83dd";
+        public const string AndroidKey = "27eb53fc9058f8c3";
+        public const string AndroidSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
         public const string IOSKey = "27eb53fc9058f8c3";
         public const string IOSSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
         public const string WebKey = "84956560bc028eb7";
         public const string WebSecret = "94aba54af9065f71de72f5508f1cd42e";
-        public const string LoginKey = "4409e2ce8ffd12b8";
-        public const string LoginSecret = "59b43e04ad6965f34319062b478f83dd";
+        public const string LoginKey = "27eb53fc9058f8c3";
+        public const string LoginSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
     }
 
     public static class Query
@@ -64,6 +64,7 @@ public static class ServiceConstants
         public const string Sign = "sign";
         public const string GeeType = "gee_type";
         public const string LocalId = "local_id";
+        public const string Guid = "guid";
         public const string AuthCode = "auth_code";
         public const string PartitionId = "rid";
         public const string CreateTime = "ctime";

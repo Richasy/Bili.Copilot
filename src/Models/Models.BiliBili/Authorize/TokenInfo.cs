@@ -1,32 +1,32 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÁîÅÆĞÅÏ¢.
+/// ä»¤ç‰Œä¿¡æ¯.
 /// </summary>
 public class TokenInfo
 {
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
     public long Mid { get; set; }
 
     /// <summary>
-    /// ·ÃÎÊÁîÅÆ.
+    /// è®¿é—®ä»¤ç‰Œ.
     /// </summary>
     [JsonPropertyName("access_token")]
     public string AccessToken { get; set; }
 
     /// <summary>
-    /// Ë¢ĞÂÁîÅÆ.
+    /// åˆ·æ–°ä»¤ç‰Œ.
     /// </summary>
     [JsonPropertyName("refresh_token")]
     public string RefreshToken { get; set; }
 
     /// <summary>
-    /// ¹ıÆÚÊ±¼ä.
+    /// è¿‡æœŸæ—¶é—´.
     /// </summary>
     [JsonPropertyName("expires_in")]
     public int ExpiresIn { get; set; }
@@ -37,4 +37,3 @@ public class TokenInfo
     [JsonPropertyName("cookie_info")]
     public CookieInfo CookieInfo { get; set; }
 }
-
