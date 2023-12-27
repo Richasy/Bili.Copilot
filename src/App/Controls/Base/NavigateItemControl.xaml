@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:NavigateItemControlBase
+    x:Class="Bili.Copilot.App.Controls.Base.NavigateItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Bili.Copilot.App.Controls.Base"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <local:CardPanel
+        Background="Transparent"
+        Click="OnNavItemClick"
+        IsChecked="{x:Bind ViewModel.IsSelected, Mode=OneWay}"
+        IsEnableCheck="False"
+        StrokeThickness="0">
+        <ToolTipService.ToolTip>
+            <ToolTip Content="{x:Bind ViewModel.Data.Title, Mode=OneWay}" IsEnabled="{x:Bind ViewModel.IsSelected, Mode=OneWay}" />
+        </ToolTipService.ToolTip>
+        <Grid
+            Width="56"
+            Height="56"
+            Padding="8,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <local:FluentIcon
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Symbol="{x:Bind ViewModel.DefaultIcon, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation
+                        From="0, -4, 0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                    <animations:OpacityAnimation
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+            </local:FluentIcon>
+            <local:FluentIcon
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="24"
+                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                Symbol="{x:Bind ViewModel.SelectedIcon, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsSelected, Mode=OneWay}">
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation
+                        From="0, 4, 0"
+                        To="0,0,0"
+                        Duration="0:0:0.5" />
+                    <animations:OpacityAnimation
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+            </local:FluentIcon>
+            <TextBlock
+                x:Name="TitleBlock"
+                Grid.Row="1"
+                Margin="0,0,0,8"
+                HorizontalAlignment="Center"
+                FontSize="11"
+                MaxLines="1"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.Data.Title, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                Visibility="{x:Bind ViewModel.IsSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <animations:Implicit.HideAnimations>
+                    <animations:TranslationAnimation
+                        From="0, 0, 0"
+                        To="0,6,0"
+                        Duration="0:0:0.15" />
+                    <animations:OpacityAnimation
+                        From="1"
+                        To="0"
+                        Duration="0:0:0.15" />
+                </animations:Implicit.HideAnimations>
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation
+                        From="0, -4, 0"
+                        To="0,0,0"
+                        Duration="0:0:0.15" />
+                    <animations:OpacityAnimation
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.15" />
+                </animations:Implicit.ShowAnimations>
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind ViewModel.Data.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+        </Grid>
+    </local:CardPanel>
+</local:NavigateItemControlBase>

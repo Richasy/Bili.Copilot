@@ -97,25 +97,18 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         }
 
         _currentPosition = position;
-        NavContainer.ChangeLayout(position);
         if (position == "bottom")
         {
-            Grid.SetRow(NavContainer, 2);
-            Grid.SetRowSpan(NavContainer, 1);
-            Grid.SetColumn(NavContainer, 1);
             MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
             MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 12, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
 
             _appViewModel.PagePadding = 20;
             _appViewModel.HeaderFontSize = 20;
         }
         else
         {
-            Grid.SetRow(NavContainer, 1);
-            Grid.SetRowSpan(NavContainer, 2);
-            Grid.SetColumn(NavContainer, 0);
             MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
             MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 30, 0, 0);
@@ -161,7 +154,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         Activate();
         var pageType = e.PageId switch
         {
-            PageType.Home => typeof(HomePage),
             PageType.Partition => typeof(VideoPartitionPage),
             PageType.Popular => typeof(PopularPage),
             PageType.Dynamic => typeof(DynamicPage),
@@ -169,8 +161,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
             PageType.Anime => typeof(AnimePage),
             PageType.Film => typeof(FilmPage),
             PageType.Article => typeof(ArticlePage),
-            PageType.Watchlist => typeof(WatchlistPage),
-            PageType.SignIn => typeof(SignInPage),
             PageType.Settings => typeof(SettingsPage),
             _ => throw new NotImplementedException(),
         };
@@ -221,10 +211,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         if (MainFrame.Content is HomePage homePage)
         {
             homePage.ViewModel.OpenSearchCommand.Execute(e);
-        }
-        else
-        {
-            _appViewModel.Navigate(PageType.Home, e);
         }
     }
 

@@ -12,18 +12,19 @@
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
-        <Setter Property="PointerOverBackground" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
-        <Setter Property="PointerOverBorderBrush" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+        <Setter Property="PointerOverBackground" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+        <Setter Property="PointerOverBorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <Setter Property="PressedBackground" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
         <Setter Property="PressedBorderBrush" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
         <Setter Property="DisabledBackground" Value="{ThemeResource ControlFillColorDisabledBrush}" />
         <Setter Property="DisabledBorderBrush" Value="{ThemeResource ControlStrokeColorSecondaryBrush}" />
         <Setter Property="CheckedBorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-        <Setter Property="CheckedBackground" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
-        <Setter Property="CheckedPointerOverBackground" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+        <Setter Property="CheckedBackground" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+        <Setter Property="CheckedPointerOverBackground" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
         <Setter Property="CheckedPointerOverBorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
-        <Setter Property="CheckedPressedBackground" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+        <Setter Property="CheckedPressedBackground" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
         <Setter Property="CheckedPressedBorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
         <Setter Property="CheckedDisabledBackground" Value="{ThemeResource ControlFillColorDisabledBrush}" />
         <Setter Property="CheckedDisabledBorderBrush" Value="{ThemeResource ControlStrokeColorSecondaryBrush}" />
@@ -63,6 +64,9 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Fill">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=PointerOverBackground, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                             </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Stroke">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=PointerOverBorderBrush, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                             </ObjectAnimationUsingKeyFrames>
@@ -101,6 +105,9 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedBackground, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                         </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Stroke">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedBorderBrush, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -110,6 +117,9 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedPointerOverBackground, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorPrimaryBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Stroke">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedPointerOverBorderBrush, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
@@ -130,6 +140,9 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedDisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorDisabledBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HostContainer" Storyboard.TargetProperty="Stroke">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=CheckedDisabledBorderBrush, RelativeSource={RelativeSource Mode=TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />

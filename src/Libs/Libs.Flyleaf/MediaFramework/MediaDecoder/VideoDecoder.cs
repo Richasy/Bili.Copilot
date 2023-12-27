@@ -535,9 +535,9 @@ public unsafe class VideoDecoder : DecoderBase
 
                     if (keyFrameRequired)
                     {
-                        if (frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && frame->key_frame != 1)
+                        if (frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && AV_FRAME_FLAG_KEY != 1)
                         {
-                            if (CanWarn) Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {frame->key_frame}]");
+                            if (CanWarn) Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {AV_FRAME_FLAG_KEY}]");
                             av_frame_unref(frame);
                             continue;
                         }
@@ -978,10 +978,10 @@ public unsafe class VideoDecoder : DecoderBase
 
             if (keyFrameRequired)
             {
-                if (frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && frame->key_frame != 1)
+                if (frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && AV_FRAME_FLAG_KEY != 1)
                 {
                     if (CanWarn)
-                        Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {frame->key_frame}]");
+                        Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {AV_FRAME_FLAG_KEY}]");
                     av_frame_unref(frame);
                     continue;
                 }

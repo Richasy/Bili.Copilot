@@ -103,8 +103,12 @@ public sealed partial class AppTitleBar : UserControl
         var searchBounds = transform.TransformBounds(new Rect(0, 0, SearchModule.ActualWidth, SearchModule.ActualHeight));
         var searchBoxRect = AppToolkit.GetRectInt32(searchBounds, scaleFactor);
 
+        transform = AccountModule.TransformToVisual(default);
+        var accountBounds = transform.TransformBounds(new Rect(0, 0, AccountModule.ActualWidth, AccountModule.ActualHeight));
+        var accountRect = AppToolkit.GetRectInt32(accountBounds, scaleFactor);
+
         var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Win32Interop.GetWindowIdFromWindow(AttachedWindow.GetWindowHandle()));
-        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { backButtonRect, searchBoxRect });
+        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { backButtonRect, searchBoxRect, accountRect });
     }
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)

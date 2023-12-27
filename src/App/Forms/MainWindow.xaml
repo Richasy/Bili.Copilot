@@ -17,7 +17,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -38,14 +37,10 @@
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
             BorderThickness="0,0,0,1" />
-        <controls:AppNavView
-            x:Name="NavContainer"
-            Grid.Row="2"
-            Grid.RowSpan="1"
-            Grid.Column="1" />
+        <base:NavigationPanel x:Name="NavContainer" Grid.Row="1" />
         <Grid
             x:Name="TipContainer"
-            Grid.RowSpan="3"
+            Grid.RowSpan="2"
             Grid.ColumnSpan="2"
             Visibility="Collapsed" />
         <ProgressRing

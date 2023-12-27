@@ -18,132 +18,179 @@
             <Setter Property="Height" Value="40" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        <Style
+            x:Key="ItemButtonStyle"
+            BasedOn="{StaticResource DefaultButtonStyle}"
+            TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
     </UserControl.Resources>
 
     <Grid>
-        <labs:Shimmer
-            Height="64"
-            HorizontalAlignment="Stretch"
-            Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
-        <Grid
-            HorizontalAlignment="Stretch"
-            RowSpacing="20"
+        <Button
+            Width="40"
+            Height="40"
+            Padding="0"
+            VerticalAlignment="Center"
+            AutomationProperties.Name="{x:Bind ViewModel.Name, Mode=OneWay}"
+            Background="Transparent"
+            BorderThickness="0"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            ToolTipService.ToolTip="{x:Bind ViewModel.Name, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid ColumnSpacing="12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <Grid>
                 <base:ImageEx
-                    Width="48"
-                    Height="48"
-                    VerticalAlignment="Center"
-                    CornerRadius="24"
-                    DecodePixelWidth="96"
-                    Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"
-                    Stretch="UniformToFill" />
-                <StackPanel
-                    Grid.Column="1"
-                    VerticalAlignment="Center"
-                    Spacing="4">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Name, Mode=OneWay}"
-                            TextTrimming="CharacterEllipsis" />
-                        <base:ImageEx
-                            Height="10"
-                            VerticalAlignment="Center"
-                            Source="{x:Bind ViewModel.LevelImage, Mode=OneWay}"
-                            Stretch="Uniform" />
-                    </StackPanel>
-                    <TextBlock
-                        x:Name="IntroduceBlock"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Introduce, Mode=OneWay}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="NoWrap">
-                        <ToolTipService.ToolTip>
-                            <ToolTip Content="{x:Bind ViewModel.Introduce, Mode=OneWay}" IsEnabled="{x:Bind IntroduceBlock.IsTextTrimmed, Mode=OneWay}" />
-                        </ToolTipService.ToolTip>
-                    </TextBlock>
-                </StackPanel>
-                <Button
-                    x:Name="MoreButton"
-                    Grid.Column="2"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource IconButtonStyle}">
-                    <base:FluentIcon Symbol="MoreCircle" />
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem Command="{x:Bind ViewModel.OpenPersonalSiteCommand}" Text="{ext:Locale Name=Personal}">
-                                <MenuFlyoutItem.Icon>
-                                    <base:FluentIcon Symbol="Person" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutSeparator />
-                            <MenuFlyoutItem
-                                Click="OnSignOutItemClick"
-                                Command="{x:Bind ViewModel.SignOutCommand}"
-                                Text="{ext:Locale Name=SignOut}">
-                                <MenuFlyoutItem.Icon>
-                                    <base:FluentIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="SignOut" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
+                    Width="28"
+                    Height="28"
+                    CornerRadius="18"
+                    Source="{x:Bind ViewModel.Avatar, Mode=OneWay}" />
             </Grid>
-            <Grid Grid.Row="1" ColumnSpacing="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <base:TwoLineButton
-                    x:Name="DynamicButton"
-                    Command="{x:Bind ViewModel.OpenDynamicCommand}"
-                    FirstLineText="{x:Bind ViewModel.DynamicCount, Mode=OneWay}"
-                    SecondLineText="{ext:Locale Name=DynamicCount}" />
-                <Rectangle Grid.Column="1" Style="{StaticResource StateSeparatorStyle}" />
-                <base:TwoLineButton
-                    Grid.Column="2"
-                    Command="{x:Bind ViewModel.OpenFollowsCommand}"
-                    FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
-                    SecondLineText="{ext:Locale Name=FollowCount}" />
-                <Rectangle Grid.Column="3" Style="{StaticResource StateSeparatorStyle}" />
-                <base:TwoLineButton
-                    Grid.Column="4"
-                    Command="{x:Bind ViewModel.OpenFansCommand}"
-                    FirstLineText="{x:Bind ViewModel.FansCount, Mode=OneWay}"
-                    SecondLineText="{ext:Locale Name=FansCount}" />
-                <Rectangle Grid.Column="5" Style="{StaticResource StateSeparatorStyle}" />
-                <base:TwoLineButton
-                    Grid.Column="6"
-                    Command="{x:Bind ViewModel.OpenMessageCommand}"
-                    FirstLineText="{x:Bind ViewModel.MessageCount, Mode=OneWay}"
-                    SecondLineText="{ext:Locale Name=Message}" />
-                <Rectangle Grid.Column="7" Style="{StaticResource StateSeparatorStyle}" />
-                <base:TwoLineButton
-                    Grid.Column="8"
-                    FirstLineText="{x:Bind ViewModel.CoinCount, Mode=OneWay}"
-                    IsEnabled="False"
-                    SecondLineText="{ext:Locale Name=CoinCount}" />
-            </Grid>
-        </Grid>
+            <Button.Flyout>
+                <Flyout LightDismissOverlayMode="On" Placement="Bottom">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Width" Value="360" />
+                            <Setter Property="Padding" Value="8,8,8,4" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <Grid MaxWidth="300" RowSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Padding="12,12,12,0" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <base:ImageEx
+                                Width="48"
+                                Height="48"
+                                VerticalAlignment="Center"
+                                CornerRadius="24"
+                                DecodePixelWidth="96"
+                                Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"
+                                Stretch="UniformToFill" />
+                            <StackPanel
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Spacing="4">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                                        Text="{x:Bind ViewModel.Name, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <base:ImageEx
+                                        Height="10"
+                                        VerticalAlignment="Center"
+                                        Source="{x:Bind ViewModel.LevelImage, Mode=OneWay}"
+                                        Stretch="Uniform" />
+                                </StackPanel>
+                                <TextBlock
+                                    x:Name="IntroduceBlock"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind ViewModel.Introduce, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="{x:Bind ViewModel.Introduce, Mode=OneWay}" IsEnabled="{x:Bind IntroduceBlock.IsTextTrimmed, Mode=OneWay}" />
+                                    </ToolTipService.ToolTip>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="1" ColumnSpacing="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <base:TwoLineButton
+                                x:Name="DynamicButton"
+                                Command="{x:Bind ViewModel.OpenDynamicCommand}"
+                                FirstLineText="{x:Bind ViewModel.DynamicCount, Mode=OneWay}"
+                                SecondLineText="{ext:Locale Name=DynamicCount}" />
+                            <base:TwoLineButton
+                                Grid.Column="1"
+                                Command="{x:Bind ViewModel.OpenFollowsCommand}"
+                                FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
+                                SecondLineText="{ext:Locale Name=FollowCount}" />
+                            <base:TwoLineButton
+                                Grid.Column="2"
+                                Command="{x:Bind ViewModel.OpenFansCommand}"
+                                FirstLineText="{x:Bind ViewModel.FansCount, Mode=OneWay}"
+                                SecondLineText="{ext:Locale Name=FansCount}" />
+                        </Grid>
+                        <StackPanel
+                            Grid.Row="2"
+                            Padding="0,4"
+                            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                            BorderThickness="0,1,0,0"
+                            Spacing="4">
+                            <Button Command="{x:Bind ViewModel.OpenPersonalSiteCommand}" Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    IconFontSize="16"
+                                    Symbol="Person"
+                                    Text="{ext:Locale Name=Personal}" />
+                            </Button>
+                            <Button Command="{x:Bind ViewModel.OpenMessageCommand}" Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    IconFontSize="16"
+                                    Symbol="Chat"
+                                    Text="{ext:Locale Name=Message}" />
+                            </Button>
+                            <Button Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    IconFontSize="16"
+                                    Symbol="StarLineHorizontal3"
+                                    Text="{ext:Locale Name=MyFavorite}" />
+                            </Button>
+                            <Button Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    IconFontSize="16"
+                                    Symbol="CalendarClock"
+                                    Text="{ext:Locale Name=ViewLater}" />
+                            </Button>
+                            <Button Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    IconFontSize="16"
+                                    Symbol="History"
+                                    Text="{ext:Locale Name=ViewHistory}" />
+                            </Button>
+                            <Rectangle
+                                Height="1"
+                                HorizontalAlignment="Stretch"
+                                Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                            <Button Style="{StaticResource ItemButtonStyle}">
+                                <base:IconTextBlock
+                                    FontSize="14"
+                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                    IconFontSize="16"
+                                    Symbol="SignOut"
+                                    Text="{ext:Locale Name=SignOut}" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <labs:Shimmer
+            Width="28"
+            Height="28"
+            VerticalAlignment="Center"
+            CornerRadius="18"
+            Visibility="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
     </Grid>
 </local:AccountModuleBase>

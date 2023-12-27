@@ -523,10 +523,10 @@ public unsafe partial class DecoderContext : PluginHandler
                                 else if (frame->pts == AV_NOPTS_VALUE)
                                 { av_frame_unref(frame); continue; }
 
-                                if (VideoDecoder.keyFrameRequired && frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && frame->key_frame != 1)
+                                if (VideoDecoder.keyFrameRequired && frame->pict_type != AVPictureType.AV_PICTURE_TYPE_I && AV_FRAME_FLAG_KEY != 1)
                                 {
                                     if (CanWarn)
-                                        Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {frame->key_frame}] [{(packet->flags & AV_PKT_FLAG_KEY) == 0}]");
+                                        Log.Warn($"Seek to keyframe failed [{frame->pict_type} | {AV_FRAME_FLAG_KEY}] [{(packet->flags & AV_PKT_FLAG_KEY) == 0}]");
                                     av_frame_unref(frame);
                                     continue;
                                 }

@@ -36,7 +36,6 @@
         <None Remove="Assets\not_login.png" />
         <None Remove="Assets\ReaderClean.js" />
         <None Remove="Controls\AIFeatureDialog.xaml" />
-        <None Remove="Controls\AppNavView.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
@@ -47,6 +46,8 @@
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
         <None Remove="Controls\Base\MediaStatsPanel.xaml" />
+        <None Remove="Controls\Base\NavigateItemControl.xaml" />
+        <None Remove="Controls\Base\NavigationPanel.xaml" />
         <None Remove="Controls\Base\StatusTip.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
@@ -160,7 +161,7 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.118" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.123" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
@@ -168,11 +169,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-        <PackageReference Include="NLog" Version="5.2.4" />
-        <PackageReference Include="Vortice.WinUI" Version="3.3.3-beta" />
-        <PackageReference Include="WinUIEx" Version="2.3.1" />
+        <PackageReference Include="NLog" Version="5.2.7" />
+        <PackageReference Include="Vortice.WinUI" Version="3.4.1-beta" />
+        <PackageReference Include="WinUIEx" Version="2.3.3" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
@@ -221,10 +222,13 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Page Update="Forms\SignInWindow.xaml">
+      <Page Update="Controls\Base\NavigationPanel.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Controls\AppNavView.xaml">
+      <Page Update="Controls\Base\NavigateItemControl.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Forms\SignInWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\FixModule.xaml">

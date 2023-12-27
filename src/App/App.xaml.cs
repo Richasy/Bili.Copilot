@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Provider;
@@ -13,14 +10,10 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.Windows.AppLifecycle;
 using NLog;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using WinUIEx;
 
 namespace Bili.Copilot.App;
 

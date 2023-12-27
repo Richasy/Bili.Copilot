@@ -13,16 +13,6 @@ public enum PageType
     None,
 
     /// <summary>
-    /// 登录页面.
-    /// </summary>
-    SignIn,
-
-    /// <summary>
-    /// 首页.
-    /// </summary>
-    Home,
-
-    /// <summary>
     /// 分区（包括分区推荐和热门视频）.
     /// </summary>
     Partition,
@@ -56,11 +46,6 @@ public enum PageType
     /// 专栏.
     /// </summary>
     Article,
-
-    /// <summary>
-    /// 观看列表，包括历史记录、稍后再看、收藏夹.
-    /// </summary>
-    Watchlist,
 
     /// <summary>
     /// 设置页面.

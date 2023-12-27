@@ -38,6 +38,7 @@
         <Button
             Width="32"
             Height="32"
+            Margin="2,0,0,0"
             VerticalAlignment="Center"
             Style="{StaticResource SmallIconButtonStyle}"
             ToolTipService.ToolTip="{ext:Locale Name=HotSearch}">

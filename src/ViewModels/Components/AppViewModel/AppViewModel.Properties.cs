@@ -27,12 +27,6 @@ public sealed partial class AppViewModel
     private bool _isBackButtonShown;
 
     [ObservableProperty]
-    private bool _isNavigationMenuShown;
-
-    [ObservableProperty]
-    private NavigateItemViewModel _currentNavigateItem;
-
-    [ObservableProperty]
     private PageType _currentPage;
 
     [ObservableProperty]
@@ -55,6 +49,9 @@ public sealed partial class AppViewModel
 
     [ObservableProperty]
     private Window _activatedWindow;
+
+    [ObservableProperty]
+    private NavigateItemViewModel _settingsItem;
 
     /// <summary>
     /// 在请求后退时触发.
