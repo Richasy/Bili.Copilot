@@ -21,4 +21,9 @@ public enum PopularType
     /// 排行榜.
     /// </summary>
     Rank,
+
+    /// <summary>
+    /// 分区.
+    /// </summary>
+    Partition,
 }

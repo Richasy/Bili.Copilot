@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
 
@@ -22,17 +21,7 @@ public sealed partial class VideoPartitionPage : VideoPartitionPageBase
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
-    {
-        CoreViewModel.IsBackButtonShown = ViewModel.IsInDetail;
-        CoreViewModel.BackRequest += OnCoreViewModelBackRequest;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnPageUnloaded()
-        => CoreViewModel.BackRequest -= OnCoreViewModelBackRequest;
-
-    private void OnCoreViewModelBackRequest(object sender, EventArgs e)
-        => ViewModel.ClosePartitionDetailCommand.Execute(default);
+        => ViewModel.InitializeCommand.Execute(default);
 }
 
 /// <summary>

@@ -42,9 +42,11 @@
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
         <None Remove="Controls\Base\DynamicPresenter.xaml" />
+        <None Remove="Controls\Base\EmptyHolder.xaml" />
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
+        <None Remove="Controls\Base\LoadingOverlapper.xaml" />
         <None Remove="Controls\Base\MediaStatsPanel.xaml" />
         <None Remove="Controls\Base\NavigateItemControl.xaml" />
         <None Remove="Controls\Base\NavigationPanel.xaml" />
@@ -87,6 +89,7 @@
         <None Remove="Controls\Modules\PgcInformationView.xaml" />
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
         <None Remove="Controls\Modules\PgcSeasonView.xaml" />
+        <None Remove="Controls\Modules\PopularNavListModule.xaml" />
         <None Remove="Controls\Modules\RelatedVideoView.xaml" />
         <None Remove="Controls\Modules\RelationDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchArticleView.xaml" />
@@ -101,7 +104,7 @@
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\VideoInformationView.xaml" />
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
-        <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartitionNavListModule.xaml" />
         <None Remove="Controls\Modules\VideoPartView.xaml" />
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
@@ -159,6 +162,7 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.231214-build.795" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.123" />
@@ -222,6 +226,18 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\VideoPartitionNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\LoadingOverlapper.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PopularNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\EmptyHolder.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Base\NavigationPanel.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -518,11 +534,6 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\VideoPartitionPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Page Update="Controls\Modules\VideoPartitionIndexModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

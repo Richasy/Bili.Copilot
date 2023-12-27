@@ -8,7 +8,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:PartitionItem">
-                    <local:CardPanel x:Name="RootCard">
+                    <local:CardPanel
+                        x:Name="RootCard"
+                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
+                        IsEnableCheck="False">
                         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid
                                 x:Name="ContentContainer"
@@ -29,7 +32,7 @@
                                         Height="44"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Image.Uri}"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Image.Uri}"
                                         Stretch="Uniform" />
                                 </Grid>
                                 <TextBlock
@@ -37,7 +40,48 @@
                                     Grid.Row="1"
                                     HorizontalAlignment="Center"
                                     MaxLines="1"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}"
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                        </Grid>
+                    </local:CardPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PartitionLineStyle" TargetType="local:PartitionItem">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PartitionItem">
+                    <local:CardPanel
+                        x:Name="RootCard"
+                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
+                        IsEnableCheck="False">
+                        <Grid HorizontalAlignment="Left">
+                            <Grid
+                                x:Name="ContentContainer"
+                                Margin="12"
+                                ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <local:ImageEx
+                                    x:Name="PartitionLogo"
+                                    Width="18"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Image.Uri}"
+                                    Stretch="Uniform" />
+                                <TextBlock
+                                    x:Name="PartitionName"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    MaxLines="1"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}"
                                     TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis" />
                             </Grid>

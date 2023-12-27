@@ -45,7 +45,7 @@ public sealed partial class AppViewModel
     private double _pagePadding;
 
     [ObservableProperty]
-    private double _headerFontSize;
+    private double _headerFontSize = 28;
 
     [ObservableProperty]
     private Window _activatedWindow;

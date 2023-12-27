@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PopularNavListModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.PopularNavListModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:community="using:Bili.Copilot.Models.Data.Community"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid
+            Height="56"
+            Padding="16,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="{ext:Locale Name=Popular}" />
+        </Grid>
+        <Grid Grid.Row="1" RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Spacing="8">
+                <base:CardPanel
+                    Margin="16,0"
+                    Click="OnRecommendItemClick"
+                    IsChecked="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}"
+                    IsEnableCheck="False">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <base:FluentIcon
+                            Margin="0,2,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Symbol="Balloon" />
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Recommend}" />
+                    </StackPanel>
+                </base:CardPanel>
+                <base:CardPanel
+                    Margin="16,0"
+                    Click="OnHotItemClick"
+                    IsChecked="{x:Bind ViewModel.IsHotShown, Mode=OneWay}"
+                    IsEnableCheck="False">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <base:FluentIcon
+                            Margin="0,2,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Symbol="Fire" />
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Hot}" />
+                    </StackPanel>
+                </base:CardPanel>
+                <base:CardPanel
+                    Margin="16,0"
+                    Click="OnRankItemClick"
+                    IsChecked="{x:Bind ViewModel.IsRankShown, Mode=OneWay}"
+                    IsEnableCheck="False">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <base:FluentIcon
+                            Margin="0,2,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Symbol="RibbonStar" />
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Rank}" />
+                    </StackPanel>
+                </base:CardPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <ScrollViewer Padding="16,0" Style="{StaticResource PageScrollViewerStyle}">
+                    <Grid>
+                        <ItemsRepeater Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.Partitions}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="8" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="items:PartitionItemViewModel">
+                                    <base:PartitionItem
+                                        Click="OnPartitionClick"
+                                        Style="{StaticResource PartitionLineStyle}"
+                                        ViewModel="{x:Bind}" />
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Grid>
+                </ScrollViewer>
+                <base:LoadingOverlapper IsOpen="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" Text="{ext:Locale Name=PartitionLoading}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</local:PopularNavListModuleBase>

@@ -1369,7 +1369,7 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>請登錄</value>
   </data>
   <data name="Popular" xml:space="preserve">
-    <value>流行</value>
+    <value>流行視頻</value>
   </data>
   <data name="Prefer4K" xml:space="preserve">
     <value>4K優先</value>
@@ -2062,13 +2062,16 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>我的</value>
   </data>
   <data name="VideoPartition" xml:space="preserve">
-    <value>分區</value>
+    <value>視頻分區</value>
   </data>
   <data name="DataUsage" xml:space="preserve">
     <value>數據使用</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>版本</value>
+  </data>
+  <data name="PopularSlim" xml:space="preserve">
+    <value>流行</value>
   </data>
   <data name="WelcomeUse" xml:space="preserve">
     <value>歡迎使用嗶哩助理</value>

@@ -30,62 +30,81 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
+        <Grid
+            Height="56"
+            Padding="16,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1"
+            ColumnSpacing="12">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel
                 x:Name="PartitionHeader"
                 HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="12">
                 <base:ImageEx
                     x:Name="PartitionLogo"
-                    Width="34"
-                    Height="34"
+                    Width="20"
+                    Height="20"
                     VerticalAlignment="Center"
                     Source="{x:Bind ViewModel.OriginPartition.Image.Uri, Mode=OneWay}" />
                 <TextBlock
                     x:Name="PartitionName"
                     VerticalAlignment="Center"
-                    FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
+                <Grid VerticalAlignment="Center">
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=Recommend}"
+                        Visibility="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}" />
+                    <TextBlock
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=ChildPartition}"
+                        Visibility="{x:Bind ViewModel.IsSubPartitionShown, Mode=OneWay}" />
+                </Grid>
             </StackPanel>
-            <Button
+            <StackPanel
                 Grid.Column="1"
-                VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ReloadCommand}"
-                IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                Style="{StaticResource SmallIconButtonStyle}">
-                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
-            </Button>
-            <labs:Segmented
-                x:Name="DetailTypeSelection"
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                SelectionChanged="OnShowTypeSegmentedSelectionChanged"
-                SelectionMode="Single">
-                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Recommend}">
-                    <labs:SegmentedItem.Icon>
-                        <base:FluentIcon Symbol="ArrowTrendingLines" />
-                    </labs:SegmentedItem.Icon>
-                </labs:SegmentedItem>
-                <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=ChildPartition}">
-                    <labs:SegmentedItem.Icon>
-                        <base:FluentIcon Symbol="Grid" />
-                    </labs:SegmentedItem.Icon>
-                </labs:SegmentedItem>
-            </labs:Segmented>
+                Orientation="Horizontal"
+                Spacing="8">
+                <Button
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.ReloadCommand}"
+                    IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                    Style="{StaticResource SmallIconButtonStyle}">
+                    <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+                </Button>
+                <labs:Segmented
+                    x:Name="DetailTypeSelection"
+                    VerticalAlignment="Center"
+                    IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                    SelectionChanged="OnShowTypeSegmentedSelectionChanged"
+                    SelectionMode="Single">
+                    <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Recommend}">
+                        <labs:SegmentedItem.Icon>
+                            <base:FluentIcon Symbol="ThumbLike" />
+                        </labs:SegmentedItem.Icon>
+                    </labs:SegmentedItem>
+                    <labs:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=ChildPartition}">
+                        <labs:SegmentedItem.Icon>
+                            <base:FluentIcon Symbol="Grid" />
+                        </labs:SegmentedItem.Icon>
+                    </labs:SegmentedItem>
+                </labs:Segmented>
+            </StackPanel>
         </Grid>
 
         <NavigationView
             x:Name="SubPartitionNavigationView"
             Grid.Row="1"
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
+            Margin="16,0"
             ItemInvoked="OnDetailNavigationViewItemInvoked"
             MenuItemsSource="{x:Bind ViewModel.SubPartitions}"
             SelectedItem="{x:Bind ViewModel.CurrentSubPartition, Mode=OneWay}"
@@ -120,62 +139,13 @@
             </NavigationView.PaneFooter>
         </NavigationView>
 
-        <NavigationView
-            x:Name="RecommendNavigationView"
-            Grid.Row="1"
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            ItemInvoked="OnDetailNavigationViewItemInvoked"
-            MenuItemsSource="{x:Bind ViewModel.RecommendPartitions}"
-            SelectedItem="{x:Bind ViewModel.CurrentRecommendPartition, Mode=OneWay}"
-            Style="{StaticResource TopNavigationViewStyle}"
-            Visibility="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}">
-            <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="community:Partition">
-                    <NavigationViewItem Content="{x:Bind}">
-                        <NavigationViewItem.ContentTemplate>
-                            <DataTemplate x:DataType="community:Partition">
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
-                            </DataTemplate>
-                        </NavigationViewItem.ContentTemplate>
-                    </NavigationViewItem>
-                </DataTemplate>
-            </NavigationView.MenuItemTemplate>
-        </NavigationView>
-
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="2"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid x:Name="ContentGrid" Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Grid x:Name="BannerContainer" VerticalAlignment="Top">
-                    <FlipView
-                        Height="128"
-                        Margin="0,0,0,4"
-                        Background="Transparent"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        ItemsSource="{x:Bind ViewModel.Banners}"
-                        Visibility="{x:Bind ViewModel.IsShowBanner, Mode=OneWay}">
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:BannerViewModel">
-                                <base:BannerItem
-                                    Title="{x:Bind Description, Mode=OneWay}"
-                                    IsTooltipEnabled="{x:Bind IsTooltipEnabled, Mode=OneWay}"
-                                    Source="{x:Bind Cover, Mode=OneWay}"
-                                    Uri="{x:Bind Uri, Mode=OneWay}" />
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
-                </Grid>
-
                 <base:VerticalRepeaterView
                     x:Name="VideoView"
-                    Grid.Row="1"
                     Margin="0,0,0,12"
                     IncrementalTriggered="OnVideoViewIncrementalTriggered"
                     ItemTemplate="{StaticResource HorizontalVideoStyle}"
@@ -221,7 +191,6 @@
                     <VisualState.Setters>
                         <Setter Target="VideoView.Style" Value="{StaticResource VideoGridRepeaterViewStyle}" />
                         <Setter Target="VideoView.ItemTemplate" Value="{StaticResource VerticalVideoStyle}" />
-                        <Setter Target="BannerContainer.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

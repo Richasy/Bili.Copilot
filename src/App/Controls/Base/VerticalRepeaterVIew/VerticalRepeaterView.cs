@@ -1,12 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Collections;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Extensions;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Bili.Copilot.App.Controls.Base;
 

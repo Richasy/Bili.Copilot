@@ -114,4 +114,7 @@ public enum SettingNames
     MainWindowPositionTop,
     MainWindowHeight,
     MainWindowWidth,
+    PopularNavListColumnWidth,
+    LastPopularPartitionId,
+    VideoPartitionNavListColumnWidth,
 }

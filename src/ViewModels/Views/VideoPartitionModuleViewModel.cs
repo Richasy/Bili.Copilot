@@ -1,6 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.Models.Data.Community;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Bili.Copilot.Libs.Provider;
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -11,25 +17,69 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class VideoPartitionModuleViewModel : ViewModelBase
 {
+    private bool _isInitialized;
+
     [ObservableProperty]
-    private bool _isInDetail;
+    private bool _isInitializing;
+
+    [ObservableProperty]
+    private double _navListColumnWidth;
+
+    [ObservableProperty]
+    private PartitionItemViewModel _currentPartition;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VideoPartitionModuleViewModel"/> class.
+    /// </summary>
+    private VideoPartitionModuleViewModel()
+    {
+        Partitions = new ObservableCollection<PartitionItemViewModel>();
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.VideoPartitionNavListColumnWidth, 240d);
+        AttachIsRunningToAsyncCommand(p => IsInitializing = p, InitializeCommand);
+        AttachExceptionHandlerToAsyncCommand(LogException, InitializeCommand);
+    }
 
     /// <summary>
     /// 实例.
     /// </summary>
     public static VideoPartitionModuleViewModel Instance { get; } = new();
 
+    /// <summary>
+    /// 分区集合.
+    /// </summary>
+    public ObservableCollection<PartitionItemViewModel> Partitions { get; }
+
     [RelayCommand]
-    private void OpenPartitionDetail(Partition partition)
+    private async Task InitializeAsync()
     {
-        IsInDetail = true;
-        VideoPartitionDetailViewModel.Instance.LoadPartitionCommand.Execute(partition);
+        if (_isInitialized || IsInitializing)
+        {
+            return;
+        }
+
+        var data = await HomeProvider.GetVideoPartitionIndexAsync();
+        data.ToList().ForEach(p => Partitions.Add(new PartitionItemViewModel(p)));
+
+        _isInitialized = true;
     }
 
     [RelayCommand]
-    private void ClosePartitionDetail()
-        => IsInDetail = false;
+    private void OpenPartitionDetail(PartitionItemViewModel partition)
+    {
+        CurrentPartition = partition;
+        foreach (var item in Partitions)
+        {
+            item.IsSelected = item.Data.Id == CurrentPartition.Data.Id;
+        }
 
-    partial void OnIsInDetailChanged(bool value)
-        => AppViewModel.Instance.IsBackButtonShown = value;
+        VideoPartitionDetailViewModel.Instance.LoadPartitionCommand.Execute(partition.Data);
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.VideoPartitionNavListColumnWidth, value);
+        }
+    }
 }

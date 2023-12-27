@@ -253,9 +253,9 @@ public sealed partial class AppViewModel : ViewModelBase
     private void LoadNavItems()
     {
         TryClear(NavigateItems);
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.PopularSlim))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed))));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.VideoPartition))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film))));

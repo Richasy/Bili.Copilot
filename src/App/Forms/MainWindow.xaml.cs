@@ -22,7 +22,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
     private bool _isInitialized;
-    private string _currentPosition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -51,8 +50,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
         MinWidth = 800;
         MinHeight = 640;
-
-        RootGrid.SizeChanged += OnRootGridSizeChanged;
 
         Activated += OnActivatedAsync;
         Closed += OnClosed;
@@ -85,40 +82,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         }
     }
 
-    /// <summary>
-    /// 更改菜单布局.
-    /// </summary>
-    public void CheckMenuLayout()
-    {
-        var position = CustomTitleBar.ActualWidth > 900 ? "left" : "bottom";
-        if (_currentPosition == position || !_isInitialized)
-        {
-            return;
-        }
-
-        _currentPosition = position;
-        if (position == "bottom")
-        {
-            MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
-            MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
-            MainFrame.Padding = new Thickness(0, 12, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
-
-            _appViewModel.PagePadding = 20;
-            _appViewModel.HeaderFontSize = 20;
-        }
-        else
-        {
-            MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
-            MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            MainFrame.Padding = new Thickness(0, 30, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
-
-            _appViewModel.PagePadding = 44;
-            _appViewModel.HeaderFontSize = 28;
-        }
-    }
-
     private static PointInt32 GetSavedWindowPosition()
     {
         var left = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionLeft, 0);
@@ -144,8 +107,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
             _appViewModel.CheckBBDownExistCommand.Execute(default);
 
             _isInitialized = true;
-
-            CheckMenuLayout();
         });
     }
 
@@ -168,9 +129,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         TraceLogger.LogMainPageNavigation(e.PageId.ToString());
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
-
-    private void OnRootGridSizeChanged(object sender, SizeChangedEventArgs e)
-        => CheckMenuLayout();
 
     private void OnAppViewModelRequestShowTip(object sender, AppTipNotification e)
         => new TipPopup(e.Message).ShowAsync(e.Type);

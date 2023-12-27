@@ -8,6 +8,7 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -51,7 +52,7 @@
                             MinRowSpacing="8" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="community:Partition">
+                        <DataTemplate x:DataType="items:PartitionItemViewModel">
                             <base:PartitionItem
                                 Click="OnPartitionItemClick"
                                 DataContext="{x:Bind}"

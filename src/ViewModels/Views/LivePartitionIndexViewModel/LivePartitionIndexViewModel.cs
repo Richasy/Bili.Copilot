@@ -9,6 +9,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -23,8 +24,8 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
     /// </summary>
     public LivePartitionIndexViewModel()
     {
-        ParentPartitions = new ObservableCollection<Partition>();
-        DisplayPartitions = new ObservableCollection<Partition>();
+        ParentPartitions = new ObservableCollection<PartitionItemViewModel>();
+        DisplayPartitions = new ObservableCollection<PartitionItemViewModel>();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadCommand, InitializeCommand);
@@ -65,8 +66,8 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
         TryClear(DisplayPartitions);
         CurrentParentPartition = default;
         var partitions = await LiveProvider.GetLiveAreaIndexAsync();
-        partitions.ToList().ForEach(ParentPartitions.Add);
-        await SelectPartitionAsync(ParentPartitions.First());
+        partitions.ToList().ForEach(p => ParentPartitions.Add(new PartitionItemViewModel(p)));
+        await SelectPartitionAsync(ParentPartitions.First().Data);
     }
 
     [RelayCommand]
@@ -75,7 +76,7 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
         await Task.Delay(100);
         CurrentParentPartition = partition;
         TryClear(DisplayPartitions);
-        partition.Children.ToList().ForEach(DisplayPartitions.Add);
+        partition.Children.ToList().ForEach(p => DisplayPartitions.Add(new PartitionItemViewModel(p)));
     }
 
     private void DisplayException(Exception exception)
