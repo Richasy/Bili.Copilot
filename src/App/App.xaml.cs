@@ -2,27 +2,25 @@
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Forms;
+using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using H.NotifyIcon;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.UI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Windows.AppLifecycle;
 using NLog;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Graphics;
 using Windows.Storage;
-using WinRT.Interop;
+using WinUIEx;
 
 namespace Bili.Copilot.App;
 
@@ -45,7 +43,7 @@ public partial class App : Application
     public App()
     {
         // 初始化 App Center.
-        var appCenterFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Assets/AppCenterSecret.txt");
+        var appCenterFilePath = Path.Combine(Windows.ApplicationModel.Package.Current.InstalledLocation.Path, "Assets/AppCenterSecret.txt");
         if (File.Exists(appCenterFilePath))
         {
             var id = File.ReadAllText(appCenterFilePath);
@@ -56,7 +54,7 @@ public partial class App : Application
         }
 
         InitializeComponent();
-        var mainAppInstance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
+        var mainAppInstance = AppInstance.FindOrRegisterForKey(Id);
         mainAppInstance.Activated += OnAppInstanceActivated;
         UnhandledException += OnUnhandledException;
     }
@@ -66,15 +64,39 @@ public partial class App : Application
     private bool HandleCloseEvents { get; set; }
 
     /// <summary>
+    /// Invoked when the application is launched.
+    /// </summary>
+    /// <param name="args">Details about the launch request and process.</param>
+    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    {
+        var instance = AppInstance.FindOrRegisterForKey(Id);
+        if (instance.IsCurrent)
+        {
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            var rootFolder = ApplicationData.Current.LocalFolder;
+            var fullPath = $"{rootFolder.Path}\\Logger\\";
+            NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
+        }
+
+        var eventArgs = instance.GetActivatedEventArgs();
+        var data = eventArgs.Data is IActivatedEventArgs
+            ? eventArgs.Data as IActivatedEventArgs
+            : args.UWPLaunchActivatedEventArgs;
+
+        await LaunchWindowAsync(data);
+        TraceLogger.Instance.LogAppLaunched();
+    }
+
+    /// <summary>
     /// Try activating the window and bringing it to the foreground.
     /// </summary>
-    public void ActivateWindow(AppActivationArguments arguments = default)
+    private void ActivateWindow(AppActivationArguments arguments = default)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _dispatcherQueue.TryEnqueue(async () =>
         {
             if (_window == null)
             {
-                LaunchWindow();
+                await LaunchWindowAsync();
             }
             else if (_window.Visible && HandleCloseEvents && arguments?.Data == null)
             {
@@ -83,75 +105,9 @@ public partial class App : Application
             else
             {
                 _window.Activate();
-                Windows.Win32.PInvoke.SetForegroundWindow(new Windows.Win32.Foundation.HWND(WindowNative.GetWindowHandle(_window)));
-            }
-
-            try
-            {
-                if (arguments?.Data is IActivatedEventArgs args)
-                {
-                    MainWindow.Instance.ActivateArgumentsAsync(args);
-                }
-            }
-            catch (Exception)
-            {
+                _window.SetForegroundWindow();
             }
         });
-    }
-
-    /// <summary>
-    /// Invoked when the application is launched.
-    /// </summary>
-    /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-    {
-        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        var rootFolder = ApplicationData.Current.LocalFolder;
-        var fullPath = $"{rootFolder.Path}\\Logger\\";
-        NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
-
-        var instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
-        var eventArgs = instance.GetActivatedEventArgs();
-        var data = eventArgs.Data is IActivatedEventArgs
-            ? eventArgs.Data as IActivatedEventArgs
-            : args.UWPLaunchActivatedEventArgs;
-
-        LaunchWindow(data);
-        TraceLogger.Instance.LogAppLaunched();
-    }
-
-    private static RectInt32 GetRenderRect(DisplayArea displayArea, IntPtr windowHandle)
-    {
-        var workArea = displayArea.WorkArea;
-        var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
-        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.WindowWidth, 500d);
-        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.WindowHeight, 800d);
-        var width = Convert.ToInt32(previousWidth * scaleFactor);
-        var height = Convert.ToInt32(previousHeight * scaleFactor);
-
-        // Ensure the window is not larger than the work area.
-        if (height > workArea.Height - 20)
-        {
-            height = workArea.Height - 20;
-        }
-
-        var lastPoint = GetSavedWindowPosition();
-        var isZeroPoint = lastPoint.X == 0 && lastPoint.Y == 0;
-        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y;
-        var left = isZeroPoint || !isValidPosition
-            ? (workArea.Width - width) / 2d
-            : lastPoint.X - workArea.X;
-        var top = isZeroPoint || !isValidPosition
-            ? (workArea.Height - height) / 2d
-            : lastPoint.Y - workArea.Y;
-        return new RectInt32(Convert.ToInt32(left), Convert.ToInt32(top), width, height);
-    }
-
-    private static PointInt32 GetSavedWindowPosition()
-    {
-        var left = SettingsToolkit.ReadLocalSetting(SettingNames.WindowPositionLeft, 0);
-        var top = SettingsToolkit.ReadLocalSetting(SettingNames.WindowPositionTop, 0);
-        return new PointInt32(left, top);
     }
 
     private void InitializeTrayIcon()
@@ -167,28 +123,66 @@ public partial class App : Application
         var exitApplicationCommand = (XamlUICommand)Resources["QuitCommand"];
         exitApplicationCommand.ExecuteRequested += OnQuitCommandExecuteRequested;
 
-        TrayIcon = (TaskbarIcon)Resources["TrayIcon"];
-        TrayIcon.ForceCreate();
+        try
+        {
+            TrayIcon = (TaskbarIcon)Resources["TrayIcon"];
+            TrayIcon.ForceCreate();
+        }
+        catch (Exception)
+        {
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Error("Failed to initialize tray icon");
+        }
     }
 
-    private void LaunchWindow(IActivatedEventArgs args = default)
+    private async Task LaunchWindowAsync(IActivatedEventArgs args = default)
     {
-        _window = new MainWindow(args);
-        MoveAndResize();
-        _window.Closed += OnMainWindowClosedAsync;
-
-        HandleCloseEvents = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, true);
-        if (HandleCloseEvents)
+        if (args is IProtocolActivatedEventArgs protocolArgs
+            && !string.IsNullOrEmpty(protocolArgs.Uri.Host))
         {
-            InitializeTrayIcon();
+            // 处理协议启动.
         }
+        else
+        {
+            var instance = AppInstance.FindOrRegisterForKey(Id);
 
-        _window.Activate();
+            // If the current instance is not the previously registered instance
+            if (!instance.IsCurrent)
+            {
+                var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+
+                // Redirect to the existing instance
+                await instance.RedirectActivationToAsync(activatedArgs);
+
+                // Kill the current instance
+                Current.Exit();
+                return;
+            }
+
+            var isSignedIn = await AuthorizeProvider.Instance.IsTokenValidAsync();
+            if (!isSignedIn)
+            {
+                var window = new SignInWindow();
+                window.Activate();
+            }
+            else
+            {
+                _window = new MainWindow();
+                _window.Closed += OnMainWindowClosedAsync;
+
+                HandleCloseEvents = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, true);
+                if (HandleCloseEvents)
+                {
+                    InitializeTrayIcon();
+                }
+
+                _window.Activate();
+            }
+        }
     }
 
     private async void OnMainWindowClosedAsync(object sender, WindowEventArgs args)
     {
-        SaveCurrentWindowStats();
         HandleCloseEvents = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, true);
         if (HandleCloseEvents)
         {
@@ -227,37 +221,6 @@ public partial class App : Application
             InitializeTrayIcon();
             _window.Hide();
         }
-    }
-
-    private void MoveAndResize()
-    {
-        var hwnd = WindowNative.GetWindowHandle(_window);
-        var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-        var lastPoint = GetSavedWindowPosition();
-        var displayArea = lastPoint.X == 0 && lastPoint.Y == 0
-            ? DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Nearest)
-            : DisplayArea.GetFromPoint(lastPoint, DisplayAreaFallback.Nearest);
-        if (displayArea != null)
-        {
-            var rect = GetRenderRect(displayArea, hwnd);
-            var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(hwnd)) / 96d;
-            _window.MinWidth = 500;
-            _window.MinHeight = 400;
-
-            var maxHeight = (displayArea.WorkArea.Height / scaleFactor) + 16;
-            _window.MaxHeight = maxHeight < 400 ? 400 : maxHeight;
-            _window.AppWindow.MoveAndResize(rect);
-        }
-    }
-
-    private void SaveCurrentWindowStats()
-    {
-        var left = _window.AppWindow.Position.X;
-        var top = _window.AppWindow.Position.Y;
-        SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionLeft, left);
-        SettingsToolkit.WriteLocalSetting(SettingNames.WindowPositionTop, top);
-        SettingsToolkit.WriteLocalSetting(SettingNames.WindowHeight, _window.Height > 400 ? _window.Height : 800);
-        SettingsToolkit.WriteLocalSetting(SettingNames.WindowWidth, _window.Width > 500 ? _window.Width : 500);
     }
 
     private void ExitApp()

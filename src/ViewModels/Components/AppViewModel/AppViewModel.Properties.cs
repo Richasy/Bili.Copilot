@@ -53,6 +53,9 @@ public sealed partial class AppViewModel
     [ObservableProperty]
     private double _headerFontSize;
 
+    [ObservableProperty]
+    private Window _activatedWindow;
+
     /// <summary>
     /// 在请求后退时触发.
     /// </summary>
@@ -147,4 +150,9 @@ public sealed partial class AppViewModel
     /// 上次打开的播放器窗口.
     /// </summary>
     public Window LastPlayerWindow { get; set; }
+
+    /// <summary>
+    /// 显示的窗口列表.
+    /// </summary>
+    public List<Window> DisplayWindows { get; }
 }

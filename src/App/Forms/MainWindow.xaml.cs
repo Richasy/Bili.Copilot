@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
@@ -12,29 +10,26 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Windows.ApplicationModel.Activation;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace Bili.Copilot.App.Forms;
 
 /// <summary>
 /// 应用主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase
+public sealed partial class MainWindow : WindowBase, ITipWindow
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
-    private readonly IActivatedEventArgs _launchArgs;
     private bool _isInitialized;
     private string _currentPosition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public MainWindow(IActivatedEventArgs args = default)
+    public MainWindow()
     {
         InitializeComponent();
-        _launchArgs = args;
         Instance = this;
         SetTitleBar(CustomTitleBar);
         CustomTitleBar.AttachedWindow = this;
@@ -54,7 +49,15 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
         _appViewModel.RequestShowImages += OnRequestShowImages;
 
+        MinWidth = 800;
+        MinHeight = 640;
+
         RootGrid.SizeChanged += OnRootGridSizeChanged;
+
+        Activated += OnActivatedAsync;
+        Closed += OnClosed;
+
+        MoveAndResize();
     }
 
     /// <summary>
@@ -83,19 +86,6 @@ public sealed partial class MainWindow : WindowBase
     }
 
     /// <summary>
-    /// 处理激活事件.
-    /// </summary>
-    /// <param name="e">激活事件参数.</param>
-    public void ActivateArgumentsAsync(IActivatedEventArgs e = default)
-    {
-        e ??= _launchArgs;
-        if (e.Kind == ActivationKind.Protocol)
-        {
-            // TODO: Handle protocol activation.
-        }
-    }
-
-    /// <summary>
     /// 更改菜单布局.
     /// </summary>
     public void CheckMenuLayout()
@@ -114,7 +104,6 @@ public sealed partial class MainWindow : WindowBase
             Grid.SetRowSpan(NavContainer, 1);
             Grid.SetColumn(NavContainer, 1);
             MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
-            CustomTitleBar.IsCompact = true;
             MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 12, 0, 0);
             AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
@@ -128,14 +117,20 @@ public sealed partial class MainWindow : WindowBase
             Grid.SetRowSpan(NavContainer, 2);
             Grid.SetColumn(NavContainer, 0);
             MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
-            CustomTitleBar.IsCompact = false;
             MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
             MainFrame.Padding = new Thickness(0, 30, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
             _appViewModel.PagePadding = 44;
             _appViewModel.HeaderFontSize = 28;
         }
+    }
+
+    private static PointInt32 GetSavedWindowPosition()
+    {
+        var left = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionLeft, 0);
+        var top = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionTop, 0);
+        return new PointInt32(left, top);
     }
 
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
@@ -148,11 +143,6 @@ public sealed partial class MainWindow : WindowBase
         DispatcherQueue.TryEnqueue(async () =>
         {
             await _appViewModel.InitializeAsync();
-
-            if (_launchArgs != null)
-            {
-                ActivateArgumentsAsync();
-            }
 
 #if !DEBUG
             _appViewModel.CheckUpdateCommand.Execute(default);
@@ -284,5 +274,92 @@ public sealed partial class MainWindow : WindowBase
             XamlRoot = MainFrame.XamlRoot,
         };
         await dialog.ShowAsync();
+    }
+
+    private void OnClosed(object sender, WindowEventArgs args)
+        => SaveCurrentWindowStats();
+
+    private void OnActivatedAsync(object sender, WindowActivatedEventArgs args)
+    {
+        if (!_isInitialized)
+        {
+            var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
+            if (isMaximized)
+            {
+                (AppWindow.Presenter as OverlappedPresenter).Maximize();
+            }
+
+            var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+            AppViewModel.Instance.ChangeTheme(localTheme);
+        }
+    }
+
+    private RectInt32 GetRenderRect(RectInt32 workArea)
+    {
+        var scaleFactor = this.GetDpiForWindow() / 96d;
+        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowWidth, 1000d);
+        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowHeight, 700d);
+        var width = Convert.ToInt32(previousWidth * scaleFactor);
+        var height = Convert.ToInt32(previousHeight * scaleFactor);
+
+        // Ensure the window is not larger than the work area.
+        if (height > workArea.Height - 20)
+        {
+            height = workArea.Height - 20;
+        }
+
+        var lastPoint = GetSavedWindowPosition();
+        var isZeroPoint = lastPoint.X == 0 && lastPoint.Y == 0;
+        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y;
+        var left = isZeroPoint || !isValidPosition
+            ? (workArea.Width - width) / 2d
+            : lastPoint.X;
+        var top = isZeroPoint || !isValidPosition
+            ? (workArea.Height - height) / 2d
+            : lastPoint.Y;
+        return new RectInt32(Convert.ToInt32(left), Convert.ToInt32(top), width, height);
+    }
+
+    private void MoveAndResize()
+    {
+        var lastPoint = GetSavedWindowPosition();
+        var areas = DisplayArea.FindAll();
+        var workArea = default(RectInt32);
+        for (var i = 0; i < areas.Count; i++)
+        {
+            var area = areas[i];
+            if (area.WorkArea.X < lastPoint.X && area.WorkArea.X + area.WorkArea.Width > lastPoint.X)
+            {
+                workArea = area.WorkArea;
+                break;
+            }
+        }
+
+        if (workArea == default)
+        {
+            workArea = DisplayArea.Primary.WorkArea;
+        }
+
+        var rect = GetRenderRect(workArea);
+        MinWidth = 800;
+        MinHeight = 640;
+
+        AppWindow.MoveAndResize(rect);
+    }
+
+    private void SaveCurrentWindowStats()
+    {
+        var left = AppWindow.Position.X;
+        var top = AppWindow.Position.Y;
+        var isMaximized = Windows.Win32.PInvoke.IsZoomed(new HWND(this.GetWindowHandle()));
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsMainWindowMaximized, (bool)isMaximized);
+
+        if (!isMaximized)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowPositionLeft, left);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowPositionTop, top);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowHeight, Height < 640 ? 640d : Height);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowWidth, Width);
+        }
     }
 }

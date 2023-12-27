@@ -20,104 +20,125 @@
         </Style>
     </Page.Resources>
 
-    <Grid RowSpacing="40">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
-            x:Name="GuidePanel"
-            Margin="0,60,0,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            Spacing="8">
-            <Image
-                Width="80"
-                Height="80"
-                Margin="0,0,0,8"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Source="ms-appx:///Assets/StoreLogo.png" />
-            <TextBlock
-                HorizontalAlignment="Center"
-                FontSize="20"
-                Style="{StaticResource BodyStrongTextBlockStyle}"
-                Text="{ext:Locale Name=AppName}"
-                TextAlignment="Center" />
-            <TextBlock
-                MaxWidth="280"
-                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{ext:Locale Name=AppDescription}"
-                TextAlignment="Center"
-                TextWrapping="Wrap" />
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" MinHeight="280">
-            <Grid
-                x:Name="QRLoginContainer"
-                Grid.Row="2"
-                Margin="20,8,20,0"
-                HorizontalAlignment="Stretch"
-                RowSpacing="12">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid Width="240" CornerRadius="{StaticResource ControlCornerRadius}">
-                    <Image
-                        x:Name="QRCodeImage"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Stretch="Uniform" />
-                </Grid>
-                <Grid
-                    x:Name="QRMaskContainer"
-                    Width="248"
-                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                    CornerRadius="{ThemeResource ControlCornerRadius}"
-                    Visibility="Collapsed">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock
-                            x:Name="QRTipBlock"
-                            MaxWidth="200"
-                            HorizontalAlignment="Center"
-                            Style="{StaticResource BodyTextBlockStyle}"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap" />
-                    </StackPanel>
-                </Grid>
-
-                <labs:Shimmer
-                    x:Name="QRLoadingShimmer"
-                    Width="240"
-                    Height="240"
-                    HorizontalAlignment="Center"
+        <Grid Background="{ThemeResource LayerFillColorDefaultBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Spacing="8">
+                <base:ImageEx
+                    Width="148"
                     VerticalAlignment="Center"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    Visibility="Collapsed" />
-                <HyperlinkButton
-                    x:Name="RefreshQRButton"
-                    Grid.Row="1"
-                    Width="240"
-                    HorizontalAlignment="Stretch"
-                    Click="OnRefreshQRButtonClickAsync"
-                    Content="{ext:Locale Name=Refresh}"
-                    Style="{StaticResource DefaultHyperlinkButtonStyle}" />
-            </Grid>
-            <TextBlock
-                x:Name="TipBlock"
-                Margin="0,8,0,0"
-                HorizontalAlignment="Center"
-                Opacity="0.7"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{ext:Locale Name=QRLoginTip}"
-                TextWrapping="Wrap" />
+                    PlaceholderSource="{x:Null}"
+                    Source="ms-appx:///Assets/StoreLogo.png" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="{ext:Locale Name=AppName}" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{ext:Locale Name=AppDescription}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
 
+            <Grid
+                Grid.Column="1"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="1,0,0,0">
+                <StackPanel VerticalAlignment="Center" Spacing="12">
+                    <TextBlock
+                        x:Name="TipBlock"
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=QRLoginTip}"
+                        TextWrapping="Wrap" />
+                    <Grid
+                        x:Name="QRLoginContainer"
+                        Width="220"
+                        HorizontalAlignment="Center"
+                        RowSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid CornerRadius="{StaticResource ControlCornerRadius}">
+                            <Image
+                                x:Name="QRCodeImage"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Stretch="Uniform" />
+                        </Grid>
+                        <Grid
+                            x:Name="QRMaskContainer"
+                            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                            Visibility="Collapsed">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock
+                                    x:Name="QRTipBlock"
+                                    MaxWidth="200"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Grid>
+
+                        <labs:Shimmer
+                            x:Name="QRLoadingShimmer"
+                            Width="220"
+                            Height="220"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="Collapsed" />
+                        <HyperlinkButton
+                            x:Name="RefreshQRButton"
+                            Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            Click="OnRefreshQRButtonClickAsync"
+                            Content="{ext:Locale Name=Refresh}"
+                            Style="{StaticResource DefaultHyperlinkButtonStyle}" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Padding="28,16"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=Version}" />
+                <Run Text=":" />
+                <Run x:Name="VersionBlock" />
+            </TextBlock>
             <StackPanel
-                Margin="0,24,0,0"
+                Grid.Column="1"
+                Margin="0,0,8,0"
+                Padding="0,0,8,0"
                 HorizontalAlignment="Center"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="0,0,1,0"
                 Orientation="Horizontal"
                 Spacing="4">
                 <Button
@@ -132,7 +153,7 @@
                         Symbol="BranchFork" />
                 </Button>
                 <Button
-                    x:Name="BiliButton"
+                    x:Name="DocsButton"
                     BorderThickness="1"
                     Click="OnBiliButtonClickAsync"
                     Style="{StaticResource IconButtonStyle}"
@@ -143,16 +164,31 @@
                         Symbol="Tv" />
                 </Button>
             </StackPanel>
-        </StackPanel>
-
-        <TextBlock
-            Grid.Row="2"
-            MaxWidth="320"
-            Margin="0,0,0,20"
-            HorizontalAlignment="Center"
-            Foreground="{ThemeResource TextFillColorDisabledBrush}"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{ext:Locale Name=DataCollectWarning}"
-            TextAlignment="Center" />
+            <HyperlinkButton
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                Click="OnDataUsageButtonClick">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <base:FluentIcon
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Symbol="Info" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Text="{ext:Locale Name=DataUsage}" />
+                </StackPanel>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout>
+                        <TextBlock
+                            MaxWidth="280"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{ext:Locale Name=DataCollectWarning}" />
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </HyperlinkButton>
+        </Grid>
     </Grid>
 </base:PageBase>

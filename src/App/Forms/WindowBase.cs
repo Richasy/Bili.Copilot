@@ -2,8 +2,7 @@
 
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI;
-using WinUIEx;
+using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -24,5 +23,20 @@ public class WindowBase : WindowEx
         SystemBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
         Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         this.SetIcon("Assets/logo.ico");
+
+        Activated += OnActivated;
+        Closed += OnClosed;
+        AppViewModel.Instance.DisplayWindows.Add(this);
     }
+
+    private void OnActivated(object sender, WindowActivatedEventArgs args)
+    {
+        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        {
+            AppViewModel.Instance.ActivatedWindow = this;
+        }
+    }
+
+    private void OnClosed(object sender, WindowEventArgs args)
+        => AppViewModel.Instance.DisplayWindows.Remove(this);
 }

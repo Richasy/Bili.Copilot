@@ -17,7 +17,10 @@ using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -33,6 +36,7 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         NavigateItems = new ObservableCollection<NavigateItemViewModel>();
+        DisplayWindows = new List<Window>();
     }
 
     /// <summary>
@@ -47,7 +51,8 @@ public sealed partial class AppViewModel : ViewModelBase
         IsSigningIn = false;
         if (!isSignedIn)
         {
-            Navigate(PageType.SignIn);
+            AuthorizeProvider.Instance.SignOut();
+            RestartCommand.Execute(default);
         }
         else
         {
@@ -115,6 +120,42 @@ public sealed partial class AppViewModel : ViewModelBase
     /// </summary>
     public void ActivateMainWindow()
         => ActiveMainWindow?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>
+    /// 修改主题.
+    /// </summary>
+    /// <param name="theme">主题类型.</param>
+    public void ChangeTheme(ElementTheme theme)
+    {
+        if (DisplayWindows.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var window in DisplayWindows)
+        {
+            (window.Content as FrameworkElement).RequestedTheme = theme;
+            if (theme == ElementTheme.Dark)
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+            }
+            else if (theme == ElementTheme.Light)
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+            }
+            else
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = default;
+            }
+        }
+    }
+
+    [RelayCommand]
+    private static void Restart()
+    {
+        AppInstance.GetCurrent().UnregisterKey();
+        _ = AppInstance.Restart(default);
+    }
 
     [RelayCommand]
     private void ShowImages(ShowImageEventArgs args)
