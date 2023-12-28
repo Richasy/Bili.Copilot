@@ -90,7 +90,6 @@ public enum SettingNames
     LastWatchlistType,
     LastFilmType,
     LastAnimeType,
-    IsLiveFollowsVisible,
     LastLiveDisplayType,
     DanmakuZoom,
     VideoAcceleration,
@@ -117,4 +116,5 @@ public enum SettingNames
     PopularNavListColumnWidth,
     LastPopularPartitionId,
     VideoPartitionNavListColumnWidth,
+    LiveNavListColumnWidth,
 }

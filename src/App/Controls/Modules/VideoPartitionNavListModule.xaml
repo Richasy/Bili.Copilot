@@ -3,6 +3,7 @@
     x:Class="Bili.Copilot.App.Controls.Modules.VideoPartitionNavListModule"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
@@ -48,6 +49,17 @@
                         </ItemsRepeater.ItemTemplate>
                     </ItemsRepeater>
                 </Grid>
+
+                <animations:Implicit.ShowAnimations>
+                    <animations:TranslationAnimation
+                        From="0,20,0"
+                        To="0,0,0"
+                        Duration="0:0:0.5" />
+                    <animations:OpacityAnimation
+                        From="0"
+                        To="1.0"
+                        Duration="0:0:0.5" />
+                </animations:Implicit.ShowAnimations>
             </ScrollViewer>
             <base:LoadingOverlapper IsOpen="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" Text="{ext:Locale Name=PartitionLoading}" />
         </Grid>

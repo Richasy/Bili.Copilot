@@ -78,8 +78,8 @@
         <None Remove="Controls\Modules\HotSearchModule.xaml" />
         <None Remove="Controls\Modules\LiveInformationView.xaml" />
         <None Remove="Controls\Modules\LiveMessageView.xaml" />
+        <None Remove="Controls\Modules\LiveNavListModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
-        <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\MessageDetailModule.xaml" />
         <None Remove="Controls\Modules\MyFollowDetailModule.xaml" />
@@ -226,6 +226,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\LiveNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\VideoPartitionNavListModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -464,11 +467,6 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Controls\Modules\LivePartitionDetailModule.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Page Update="Controls\Modules\LivePartitionIndexModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>

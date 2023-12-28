@@ -2077,7 +2077,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>点击分区</value>
   </data>
   <data name="OpenPartitionDescription" xml:space="preserve">
-    <value>点击分区后可以查看推荐视频及子分区视频</value>
+    <value>点击分区后可以查看推荐内容及子分区内容</value>
   </data>
   <data name="PopularSlim" xml:space="preserve">
     <value>流行</value>

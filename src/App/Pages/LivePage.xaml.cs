@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Pages;
@@ -23,22 +21,7 @@ public sealed partial class LivePage : LivePageBase
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
-    {
-        CoreViewModel.IsBackButtonShown = ViewModel.IsPartitionDetailShown;
-        CoreViewModel.BackRequest += OnCoreViewModelBackRequest;
-        LiveTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
-        ViewModel.InitializeCommand.Execute(default);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnPageUnloaded()
-        => CoreViewModel.BackRequest -= OnCoreViewModelBackRequest;
-
-    private void OnCoreViewModelBackRequest(object sender, EventArgs e)
-        => ViewModel.ClosePartitionDetailCommand.Execute(default);
-
-    private void OnLiveTypeSegmentedSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
-        => ViewModel.CurrentType = (LiveDisplayType)LiveTypeSelection.SelectedIndex;
+        => ViewModel.InitializeCommand.Execute(default);
 }
 
 /// <summary>

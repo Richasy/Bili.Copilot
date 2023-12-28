@@ -31,6 +31,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         InitializeComponent();
         Instance = this;
         SetTitleBar(CustomTitleBar);
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         CustomTitleBar.AttachedWindow = this;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;

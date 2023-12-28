@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Data.Community;
 
 namespace Bili.Copilot.ViewModels.Items;
@@ -15,5 +16,18 @@ public sealed partial class PartitionItemViewModel : SelectableViewModel<Partiti
     public PartitionItemViewModel(Partition data)
         : base(data)
     {
+        if (data.Children != null)
+        {
+            Children = new ObservableCollection<PartitionItemViewModel>();
+            foreach (var child in data.Children)
+            {
+                Children.Add(new PartitionItemViewModel(child));
+            }
+        }
     }
+
+    /// <summary>
+    /// 子分区集合.
+    /// </summary>
+    public ObservableCollection<PartitionItemViewModel> Children { get; }
 }

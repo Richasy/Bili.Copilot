@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -33,7 +31,7 @@ public sealed partial class LivePartitionDetailModule : LivePartitionDetailModul
     private void OnRequestScrollToTop(object sender, EventArgs e)
         => ContentScrollViewer.ChangeView(default, 0, default, true);
 
-    private void OnDetailNavigationViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+    private void OnDetailNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         var data = args.InvokedItem as LiveTag;
         _ = ContentScrollViewer.ChangeView(default, 0, default, true);

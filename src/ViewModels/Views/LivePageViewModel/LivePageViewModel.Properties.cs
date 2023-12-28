@@ -22,13 +22,13 @@ public sealed partial class LivePageViewModel
     private bool _isPartitionShown;
 
     [ObservableProperty]
-    private bool _isPartitionDetailShown;
-
-    [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
     private bool _isReloading;
+
+    [ObservableProperty]
+    private double _navListColumnWidth;
 
     /// <summary>
     /// 实例.

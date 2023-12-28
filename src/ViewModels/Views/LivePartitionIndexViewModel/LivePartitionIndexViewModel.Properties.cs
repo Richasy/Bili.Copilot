@@ -13,9 +13,6 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class LivePartitionIndexViewModel
 {
     [ObservableProperty]
-    private Partition _currentParentPartition;
-
-    [ObservableProperty]
     private string _errorText;
 
     [ObservableProperty]
@@ -33,9 +30,4 @@ public sealed partial class LivePartitionIndexViewModel
     /// 父级分区集合.
     /// </summary>
     public ObservableCollection<PartitionItemViewModel> ParentPartitions { get; }
-
-    /// <summary>
-    /// 显示的分区集合.
-    /// </summary>
-    public ObservableCollection<PartitionItemViewModel> DisplayPartitions { get; }
 }

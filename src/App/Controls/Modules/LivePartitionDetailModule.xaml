@@ -25,99 +25,110 @@
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid" RowSpacing="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel
-                x:Name="PartitionHeader"
-                HorizontalAlignment="Left"
-                Orientation="Horizontal"
-                Spacing="12">
-                <base:ImageEx
-                    x:Name="PartitionLogo"
-                    Width="32"
-                    Height="32"
-                    Source="{x:Bind ViewModel.OriginPartition.Image.Uri, Mode=OneWay}" />
-                <TextBlock
-                    x:Name="PartitionName"
+        <Grid Visibility="{x:Bind ViewModel.OriginPartition, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid
+                Height="56"
+                Padding="16,0"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1"
+                ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    x:Name="PartitionHeader"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <base:ImageEx
+                        x:Name="PartitionLogo"
+                        Width="32"
+                        Height="32"
+                        Margin="0,4,0,0"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind ViewModel.OriginPartition.Image.Uri, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="PartitionName"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
+                </StackPanel>
+                <Button
+                    Grid.Column="1"
                     VerticalAlignment="Center"
-                    FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{x:Bind ViewModel.OriginPartition.Name, Mode=OneWay}" />
-            </StackPanel>
-            <Button
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ReloadCommand}"
-                IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                Style="{StaticResource SmallIconButtonStyle}">
-                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
-            </Button>
-        </Grid>
+                    Command="{x:Bind ViewModel.ReloadCommand}"
+                    Style="{StaticResource IconButtonStyle}">
+                    <base:FluentIcon FontSize="14" Symbol="ArrowSync" />
+                </Button>
+            </Grid>
 
-        <NavigationView
-            x:Name="SubPartitionNavigationView"
-            Grid.Row="1"
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            ItemInvoked="OnDetailNavigationViewItemInvoked"
-            MenuItemsSource="{x:Bind ViewModel.Tags}"
-            SelectedItem="{x:Bind ViewModel.CurrentTag, Mode=OneWay}"
-            Style="{StaticResource TopNavigationViewStyle}">
-            <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="live:LiveTag">
-                    <NavigationViewItem Content="{x:Bind}">
-                        <NavigationViewItem.ContentTemplate>
-                            <DataTemplate x:DataType="live:LiveTag">
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
-                            </DataTemplate>
-                        </NavigationViewItem.ContentTemplate>
-                    </NavigationViewItem>
-                </DataTemplate>
-            </NavigationView.MenuItemTemplate>
-        </NavigationView>
-
-        <ScrollViewer
-            x:Name="ContentScrollViewer"
-            Grid.Row="2"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            Style="{StaticResource PageScrollViewerStyle}"
-            Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <base:VerticalRepeaterView
-                x:Name="LiveView"
+            <NavigationView
+                x:Name="SubPartitionNavigationView"
                 Grid.Row="1"
-                Margin="0,0,0,12"
-                IncrementalTriggered="OnLiveViewIncrementalTriggered"
-                ItemTemplate="{StaticResource HorizontalLiveStyle}"
-                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
-        </ScrollViewer>
+                Margin="12,0"
+                ItemInvoked="OnDetailNavigationViewItemInvoked"
+                MenuItemsSource="{x:Bind ViewModel.Tags}"
+                SelectedItem="{x:Bind ViewModel.CurrentTag, Mode=OneWay}"
+                Style="{StaticResource TopNavigationViewStyle}">
+                <NavigationView.MenuItemTemplate>
+                    <DataTemplate x:DataType="live:LiveTag">
+                        <NavigationViewItem Content="{x:Bind}">
+                            <NavigationViewItem.ContentTemplate>
+                                <DataTemplate x:DataType="live:LiveTag">
+                                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
+                                </DataTemplate>
+                            </NavigationViewItem.ContentTemplate>
+                        </NavigationViewItem>
+                    </DataTemplate>
+                </NavigationView.MenuItemTemplate>
+            </NavigationView>
 
-        <controls:OverlayLoadingPanel
-            Grid.Row="2"
-            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
-            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
-        <controls:ErrorPanel
-            x:Name="ErrorPanel"
-            Grid.Row="2"
-            VerticalAlignment="Center"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand}"
-            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
-        <controls:ErrorPanel
-            x:Name="EmptyPanel"
-            Grid.Row="2"
-            VerticalAlignment="Center"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand}"
-            Text="{ext:Locale Name=NoSpecificData}"
-            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+            <ScrollViewer
+                x:Name="ContentScrollViewer"
+                Grid.Row="2"
+                Style="{StaticResource PageScrollViewerStyle}"
+                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <base:VerticalRepeaterView
+                    x:Name="LiveView"
+                    Grid.Row="1"
+                    Margin="0,0,0,12"
+                    IncrementalTriggered="OnLiveViewIncrementalTriggered"
+                    ItemTemplate="{StaticResource HorizontalLiveStyle}"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" />
+            </ScrollViewer>
+
+            <controls:OverlayLoadingPanel
+                Grid.Row="2"
+                IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
+                IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+            <controls:ErrorPanel
+                x:Name="ErrorPanel"
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                ActionContent="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+            <controls:ErrorPanel
+                x:Name="EmptyPanel"
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                ActionContent="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.ReloadCommand}"
+                Text="{ext:Locale Name=NoSpecificData}"
+                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+        </Grid>
+        <base:EmptyHolder
+            Title="{ext:Locale Name=OpenPartition}"
+            Description="{ext:Locale Name=OpenPartitionDescription}"
+            Emoji="&#x1F6F8;"
+            Visibility="{x:Bind ViewModel.OriginPartition, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

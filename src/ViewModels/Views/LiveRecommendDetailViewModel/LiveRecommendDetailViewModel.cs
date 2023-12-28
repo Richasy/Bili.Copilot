@@ -19,10 +19,7 @@ public sealed partial class LiveRecommendDetailViewModel : InformationFlowViewMo
     /// Initializes a new instance of the <see cref="LiveRecommendDetailViewModel"/> class.
     /// </summary>
     private LiveRecommendDetailViewModel()
-    {
-        Follows = new ObservableCollection<LiveItemViewModel>();
-        IsFollowsVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsLiveFollowsVisible, true);
-    }
+        => Follows = new ObservableCollection<LiveItemViewModel>();
 
     /// <inheritdoc/>
     protected override void BeforeReload()
@@ -65,11 +62,4 @@ public sealed partial class LiveRecommendDetailViewModel : InformationFlowViewMo
 
         IsFollowsEmpty = Follows.Count == 0;
     }
-
-    [RelayCommand]
-    private void ToggleFollowsVisibility()
-        => IsFollowsVisible = !IsFollowsVisible;
-
-    partial void OnIsFollowsVisibleChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.IsLiveFollowsVisible, value);
 }
