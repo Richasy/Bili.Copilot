@@ -17,7 +17,8 @@ public sealed partial class FilmPageViewModel : ViewModelBase
     /// </summary>
     private FilmPageViewModel()
     {
-        CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastFilmType, FilmType.Movie);
+        CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastFilmModuleType, FilmType.Movie);
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.AnimeNavListColumnWidth, 280d);
         CheckModuleStateAsync();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
@@ -37,10 +38,6 @@ public sealed partial class FilmPageViewModel : ViewModelBase
         else if (IsDocumentaryShown)
         {
             await DocumentaryRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
-        }
-        else if (IsFavoriteShown)
-        {
-            await FilmFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
         }
     }
 
@@ -70,10 +67,6 @@ public sealed partial class FilmPageViewModel : ViewModelBase
         {
             await DocumentaryRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
         }
-        else if (IsFavoriteShown)
-        {
-            await FilmFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
-        }
     }
 
     private async void CheckModuleStateAsync()
@@ -81,14 +74,12 @@ public sealed partial class FilmPageViewModel : ViewModelBase
         IsMovieShown = CurrentType == FilmType.Movie;
         IsTvShown = CurrentType == FilmType.Tv;
         IsDocumentaryShown = CurrentType == FilmType.Documentary;
-        IsFavoriteShown = CurrentType == FilmType.Favorite;
 
         Title = CurrentType switch
         {
             FilmType.Movie => ResourceToolkit.GetLocalizedString(StringNames.Movie),
             FilmType.Tv => ResourceToolkit.GetLocalizedString(StringNames.TV),
             FilmType.Documentary => ResourceToolkit.GetLocalizedString(StringNames.Documentary),
-            FilmType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteFilm),
             _ => string.Empty,
         };
 
@@ -98,6 +89,14 @@ public sealed partial class FilmPageViewModel : ViewModelBase
     partial void OnCurrentTypeChanged(FilmType value)
     {
         CheckModuleStateAsync();
-        SettingsToolkit.WriteLocalSetting(SettingNames.LastFilmType, value);
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastFilmModuleType, value);
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.AnimeNavListColumnWidth, value);
+        }
     }
 }

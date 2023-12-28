@@ -73,6 +73,8 @@
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
+        <None Remove="Controls\Modules\FilmNavListModule.xaml" />
         <None Remove="Controls\Modules\FixModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
         <None Remove="Controls\Modules\HotSearchModule.xaml" />
@@ -226,6 +228,12 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\FilmNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\AnimeNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\LiveNavListModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

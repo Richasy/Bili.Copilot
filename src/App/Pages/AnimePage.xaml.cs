@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -25,12 +23,8 @@ public sealed partial class AnimePage : AnimePageBase
     protected override void OnPageLoaded()
     {
         CoreViewModel.IsBackButtonShown = false;
-        AnimeTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
         ViewModel.InitializeCommand.Execute(default);
     }
-
-    private void OnAnimeTypeSegmentedSelectionChanged(object sender, SelectionChangedEventArgs e)
-        => ViewModel.CurrentType = (AnimeDisplayType)AnimeTypeSelection.SelectedIndex;
 }
 
 /// <summary>

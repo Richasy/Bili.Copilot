@@ -17,7 +17,8 @@ public sealed partial class AnimePageViewModel : ViewModelBase
     /// </summary>
     private AnimePageViewModel()
     {
-        CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastAnimeType, AnimeDisplayType.Timeline);
+        CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastAnimeModuleType, AnimeDisplayType.Timeline);
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.AnimeNavListColumnWidth, 280d);
         CheckModuleStateAsync();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
@@ -37,10 +38,6 @@ public sealed partial class AnimePageViewModel : ViewModelBase
         else if (IsDomesticShown)
         {
             await DomesticRecommendDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
-        }
-        else if (IsFavoriteShown)
-        {
-            await AnimeFavoriteDetailViewModel.Instance.ReloadCommand.ExecuteAsync(default);
         }
     }
 
@@ -70,10 +67,6 @@ public sealed partial class AnimePageViewModel : ViewModelBase
         {
             await DomesticRecommendDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
         }
-        else if (IsFavoriteShown)
-        {
-            await AnimeFavoriteDetailViewModel.Instance.InitializeCommand.ExecuteAsync(default);
-        }
     }
 
     private async void CheckModuleStateAsync()
@@ -81,14 +74,12 @@ public sealed partial class AnimePageViewModel : ViewModelBase
         IsTimelineShown = CurrentType == AnimeDisplayType.Timeline;
         IsBangumiShown = CurrentType == AnimeDisplayType.Bangumi;
         IsDomesticShown = CurrentType == AnimeDisplayType.Domestic;
-        IsFavoriteShown = CurrentType == AnimeDisplayType.Favorite;
 
         Title = CurrentType switch
         {
             AnimeDisplayType.Timeline => ResourceToolkit.GetLocalizedString(StringNames.TimeChart),
             AnimeDisplayType.Bangumi => ResourceToolkit.GetLocalizedString(StringNames.Bangumi),
             AnimeDisplayType.Domestic => ResourceToolkit.GetLocalizedString(StringNames.DomesticAnime),
-            AnimeDisplayType.Favorite => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteAnime),
             _ => string.Empty,
         };
 
@@ -98,6 +89,14 @@ public sealed partial class AnimePageViewModel : ViewModelBase
     partial void OnCurrentTypeChanged(AnimeDisplayType value)
     {
         CheckModuleStateAsync();
-        SettingsToolkit.WriteLocalSetting(SettingNames.LastAnimeType, value);
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastAnimeModuleType, value);
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.AnimeNavListColumnWidth, value);
+        }
     }
 }

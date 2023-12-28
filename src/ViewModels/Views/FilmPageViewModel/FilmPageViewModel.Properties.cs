@@ -25,13 +25,13 @@ public sealed partial class FilmPageViewModel
     private bool _isDocumentaryShown;
 
     [ObservableProperty]
-    private bool _isFavoriteShown;
-
-    [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
     private bool _isReloading;
+
+    [ObservableProperty]
+    private double _navListColumnWidth;
 
     /// <summary>
     /// 实例.

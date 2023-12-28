@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Controls.Modules;
@@ -19,9 +18,6 @@ public sealed partial class TimelineModule : TimelineModuleBase
         InitializeComponent();
         ViewModel = TimelineViewModel.Instance;
     }
-
-    private void OnTimelineNavigationViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
-        => ViewModel.SelectedTimeline = (TimelineInformation)args.InvokedItem;
 }
 
 /// <summary>

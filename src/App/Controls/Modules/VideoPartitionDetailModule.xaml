@@ -78,7 +78,8 @@
                     VerticalAlignment="Center"
                     Command="{x:Bind ViewModel.ReloadCommand}"
                     IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                    Style="{StaticResource SmallIconButtonStyle}">
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
                     <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
                 </Button>
                 <labs:Segmented
