@@ -10,7 +10,7 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <ScrollViewer Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" Style="{StaticResource PageScrollViewerStyle}">
+    <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
         <base:VerticalRepeaterView
             Margin="0,0,0,20"
             IncrementalTriggered="OnIncrementalTriggered"

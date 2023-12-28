@@ -37,6 +37,10 @@ public sealed partial class AppViewModel : ViewModelBase
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         NavigateItems = new ObservableCollection<NavigateItemViewModel>();
         DisplayWindows = new List<Window>();
+        Search = new SearchDetailViewModel();
+        Message = MessageDetailViewModel.Instance;
+        Fans = new FansDetailViewModel();
+        Follows = MyFollowsDetailViewModel.Instance;
     }
 
     /// <summary>
@@ -178,8 +182,38 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
-    private void Search(string text)
-        => RequestSearch?.Invoke(this, text);
+    private void SearchContent(string text)
+    {
+        IsOverlayShown = true;
+        Search.SetKeyword(text);
+        Search.InitializeCommand.Execute(default);
+        RequestSearch?.Invoke(this, text);
+    }
+
+    [RelayCommand]
+    private void ShowFans(UserProfile user)
+    {
+        IsOverlayShown = true;
+        Fans.SetProfile(user);
+        Fans.InitializeCommand.Execute(default);
+        RequestShowFans?.Invoke(this, user);
+    }
+
+    [RelayCommand]
+    private void ShowFollows()
+    {
+        IsOverlayShown = true;
+        Follows.InitializeCommand.Execute(default);
+        RequestShowFollows?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void ShowMyMessages()
+    {
+        IsOverlayShown = true;
+        Message.InitializeCommand.Execute(default);
+        RequestShowMyMessages?.Invoke(this, EventArgs.Empty);
+    }
 
     [RelayCommand]
     private void SummarizeVideoContent(VideoIdentifier video)
@@ -199,6 +233,11 @@ public sealed partial class AppViewModel : ViewModelBase
         if (!IsBackButtonShown)
         {
             return;
+        }
+
+        if (IsOverlayShown)
+        {
+            IsOverlayShown = false;
         }
 
         BackRequest?.Invoke(this, EventArgs.Empty);
@@ -267,5 +306,10 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             item.IsSelected = CurrentPage == item.Data.Id;
         }
+    }
+
+    partial void OnIsOverlayShownChanged(bool value)
+    {
+        IsBackButtonShown = value;
     }
 }

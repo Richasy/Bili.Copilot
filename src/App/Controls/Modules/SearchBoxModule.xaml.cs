@@ -3,7 +3,6 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -37,6 +36,9 @@ public sealed partial class SearchBoxModule : SearchBoxModuleBase
             ViewModel.SearchByTextCommand.Execute(sender.Text);
         }
     }
+
+    private void OnHotSearchItemClick(object sender, EventArgs e)
+        => HotSearchFlyout.Hide();
 }
 
 /// <summary>

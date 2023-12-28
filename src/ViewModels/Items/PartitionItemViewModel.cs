@@ -30,4 +30,8 @@ public sealed partial class PartitionItemViewModel : SelectableViewModel<Partiti
     /// 子分区集合.
     /// </summary>
     public ObservableCollection<PartitionItemViewModel> Children { get; }
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => Data.Name;
 }

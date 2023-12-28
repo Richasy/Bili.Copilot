@@ -2,7 +2,6 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -35,6 +34,9 @@ public sealed partial class AccountModule : AccountModuleBase
 
     private void OnSignOutItemClick(object sender, RoutedEventArgs e)
         => TraceLogger.LogSignOut();
+
+    private void OnItemButtonClick(object sender, RoutedEventArgs e)
+        => AccountFlyout.Hide();
 }
 
 /// <summary>

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -14,10 +15,16 @@ public sealed partial class SearchModuleItemViewModel : ViewModelBase
     private SearchModuleType _type;
 
     [ObservableProperty]
+    private FluentSymbol _symbol;
+
+    [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
     private bool _isEnabled;
+
+    [ObservableProperty]
+    private bool _isSelected;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SearchModuleItemViewModel"/> class.
@@ -27,6 +34,16 @@ public sealed partial class SearchModuleItemViewModel : ViewModelBase
         Type = type;
         Title = title;
         IsEnabled = isEnabled;
+        Symbol = type switch
+        {
+            SearchModuleType.Video => FluentSymbol.VideoClip,
+            SearchModuleType.Anime => FluentSymbol.Dust,
+            SearchModuleType.Movie => FluentSymbol.FilmstripPlay,
+            SearchModuleType.Article => FluentSymbol.DocumentBulletList,
+            SearchModuleType.Live => FluentSymbol.Video,
+            SearchModuleType.User => FluentSymbol.People,
+            _ => FluentSymbol.Globe
+        };
     }
 
     /// <inheritdoc/>

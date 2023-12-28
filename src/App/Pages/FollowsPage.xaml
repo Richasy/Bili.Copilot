@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:FollowsPageBase
+    x:Class="Bili.Copilot.App.Pages.FollowsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Bili.Copilot.App.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
+    mc:Ignorable="d">
+
+    <Grid>
+        <modules:MyFollowDetailModule ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+    </Grid>
+</local:FollowsPageBase>

@@ -118,4 +118,6 @@ public enum SettingNames
     VideoPartitionNavListColumnWidth,
     LiveNavListColumnWidth,
     AnimeNavListColumnWidth,
+    ArticleNavListColumnWidth,
+    FilmNavListColumnWidth,
 }

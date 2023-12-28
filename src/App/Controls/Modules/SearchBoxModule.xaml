@@ -44,13 +44,16 @@
             ToolTipService.ToolTip="{ext:Locale Name=HotSearch}">
             <base:FluentIcon FontSize="12" Symbol="Reward" />
             <Button.Flyout>
-                <Flyout LightDismissOverlayMode="On" Placement="Bottom">
+                <Flyout
+                    x:Name="HotSearchFlyout"
+                    LightDismissOverlayMode="On"
+                    Placement="Bottom">
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="MinWidth" Value="320" />
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
-                    <local:HotSearchModule />
+                    <local:HotSearchModule ItemClick="OnHotSearchItemClick" />
                 </Flyout>
             </Button.Flyout>
         </Button>

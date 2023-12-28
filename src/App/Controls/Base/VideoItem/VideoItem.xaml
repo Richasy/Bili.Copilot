@@ -469,11 +469,15 @@
                         </Grid.ColumnDefinitions>
                         <Grid
                             x:Name="CoverContainer"
-                            Width="120"
-                            Height="80"
+                            Width="128"
+                            Height="90"
                             VerticalAlignment="Stretch"
                             CornerRadius="{StaticResource ControlCornerRadius}">
-                            <local:ImageEx x:Name="CoverImage" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}" />
+                            <local:ImageEx
+                                x:Name="CoverImage"
+                                VerticalAlignment="Stretch"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                Stretch="UniformToFill" />
 
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Ellipse
@@ -503,7 +507,7 @@
                             <TextBlock
                                 x:Name="TitleBlock"
                                 VerticalAlignment="Top"
-                                FontSize="12"
+                                FontSize="14"
                                 MaxLines="2"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                                 TextTrimming="CharacterEllipsis"

@@ -18,7 +18,7 @@ public sealed partial class FilmPageViewModel : ViewModelBase
     private FilmPageViewModel()
     {
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastFilmModuleType, FilmType.Movie);
-        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.AnimeNavListColumnWidth, 280d);
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.FilmNavListColumnWidth, 280d);
         CheckModuleStateAsync();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
@@ -96,7 +96,7 @@ public sealed partial class FilmPageViewModel : ViewModelBase
     {
         if (value >= 240)
         {
-            SettingsToolkit.WriteLocalSetting(SettingNames.AnimeNavListColumnWidth, value);
+            SettingsToolkit.WriteLocalSetting(SettingNames.FilmNavListColumnWidth, value);
         }
     }
 }

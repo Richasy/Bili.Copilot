@@ -40,6 +40,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
         _appViewModel.RequestSearch += OnRequestSearch;
+        _appViewModel.RequestShowFans += OnRequestShowFans;
+        _appViewModel.RequestShowFollows += OnRequestShowFollows;
+        _appViewModel.RequestShowMyMessages += OnRequestShowMyMessages;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
         _appViewModel.RequestShowCommentWindow += OnRequestShowCommentWindow;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
@@ -82,6 +85,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
             TipContainer.Visibility = Visibility.Collapsed;
         }
     }
+
+    internal static Visibility IsMainContentShown(bool isOverlayShown)
+        => isOverlayShown ? Visibility.Collapsed : Visibility.Visible;
 
     private static PointInt32 GetSavedWindowPosition()
     {
@@ -167,14 +173,58 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     private void OnRequestSearch(object sender, string e)
     {
         Activate();
-        if (MainFrame.Content is HomePage homePage)
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not SearchPage)
         {
-            homePage.ViewModel.OpenSearchCommand.Execute(e);
+            OverlayFrame.Navigate(typeof(SearchPage), _appViewModel.Search);
         }
     }
 
-    private void OnBackButtonClick(object sender, EventArgs e)
-        => _appViewModel.BackCommand.Execute(default);
+    private void OnRequestShowMyMessages(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not MessagePage)
+        {
+            OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
+        }
+    }
+
+    private void OnRequestShowFollows(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FollowsPage)
+        {
+            OverlayFrame.Navigate(typeof(FollowsPage), _appViewModel.Follows);
+        }
+    }
+
+    private void OnRequestShowFans(object sender, UserProfile e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FansPage)
+        {
+            OverlayFrame.Navigate(typeof(FansPage), _appViewModel.Fans);
+        }
+    }
+
+    private async void OnBackButtonClickAsync(object sender, EventArgs e)
+    {
+        _appViewModel.BackCommand.Execute(default);
+        if (OverlayFrame.Content is not null)
+        {
+            OverlayFrame.Navigate(typeof(Page));
+
+            await Task.Delay(200);
+            OverlayFrame.Content = null;
+        }
+    }
 
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {

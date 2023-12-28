@@ -74,6 +74,7 @@
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
+        <None Remove="Controls\Modules\ArticleNavListModule.xaml" />
         <None Remove="Controls\Modules\FilmNavListModule.xaml" />
         <None Remove="Controls\Modules\FixModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
@@ -98,6 +99,7 @@
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\SearchDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchLiveView.xaml" />
+        <None Remove="Controls\Modules\SearchNavListModule.xaml" />
         <None Remove="Controls\Modules\SearchPgcView.xaml" />
         <None Remove="Controls\Modules\SearchUserView.xaml" />
         <None Remove="Controls\Modules\SearchVideoView.xaml" />
@@ -132,14 +134,18 @@
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
         <None Remove="Pages\DynamicPage.xaml" />
+        <None Remove="Pages\FansPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
+        <None Remove="Pages\FollowsPage.xaml" />
         <None Remove="Pages\GalleryPage.xaml" />
         <None Remove="Pages\HomePage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
+        <None Remove="Pages\MessagePage.xaml" />
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\ReaderPage.xaml" />
+        <None Remove="Pages\SearchPage.xaml" />
         <None Remove="Pages\SettingsPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\UserSpacePage.xaml" />
@@ -228,6 +234,24 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Pages\MessagePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FollowsPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FansPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\SearchPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\ArticleNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\FilmNavListModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

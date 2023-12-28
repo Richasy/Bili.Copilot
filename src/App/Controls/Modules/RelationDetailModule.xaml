@@ -18,7 +18,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}">
+        <Grid
+            Height="56"
+            Padding="20,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -26,8 +30,7 @@
             <TextBlock
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-                Style="{StaticResource SubtitleTextBlockStyle}"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
                 TextTrimming="CharacterEllipsis">
                 <Run
                     FontWeight="Bold"
@@ -48,7 +51,6 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 Margin="0,0,0,12"

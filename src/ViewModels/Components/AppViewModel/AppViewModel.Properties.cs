@@ -42,16 +42,25 @@ public sealed partial class AppViewModel
     private bool _isDownloadSupported;
 
     [ObservableProperty]
-    private double _pagePadding;
-
-    [ObservableProperty]
-    private double _headerFontSize = 28;
-
-    [ObservableProperty]
     private Window _activatedWindow;
 
     [ObservableProperty]
     private NavigateItemViewModel _settingsItem;
+
+    [ObservableProperty]
+    private bool _isOverlayShown;
+
+    [ObservableProperty]
+    private SearchDetailViewModel _search;
+
+    [ObservableProperty]
+    private MessageDetailViewModel _message;
+
+    [ObservableProperty]
+    private FansDetailViewModel _fans;
+
+    [ObservableProperty]
+    private MyFollowsDetailViewModel _follows;
 
     /// <summary>
     /// 在请求后退时触发.
@@ -92,6 +101,21 @@ public sealed partial class AppViewModel
     /// 在有搜索请求时触发.
     /// </summary>
     public event EventHandler<string> RequestSearch;
+
+    /// <summary>
+    /// 在有新的粉丝请求时触发.
+    /// </summary>
+    public event EventHandler<UserProfile> RequestShowFans;
+
+    /// <summary>
+    /// 在有新的关注请求时触发.
+    /// </summary>
+    public event EventHandler RequestShowFollows;
+
+    /// <summary>
+    /// 在有消息页面请求时触发.
+    /// </summary>
+    public event EventHandler RequestShowMyMessages;
 
     /// <summary>
     /// 在有新的用户空间请求时触发.

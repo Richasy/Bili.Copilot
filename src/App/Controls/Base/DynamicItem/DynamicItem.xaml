@@ -80,7 +80,7 @@
                                 x:Name="DescriptionBlock"
                                 Grid.Row="1"
                                 Margin="0,0,0,4"
-                                FontSize="13"
+                                FontSize="14"
                                 MaxLines="8"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Description}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
@@ -181,7 +181,7 @@
                             x:Name="DescriptionBlock"
                             Grid.Row="1"
                             Margin="12,0,12,12"
-                            FontSize="13"
+                            FontSize="14"
                             MaxLines="8"
                             Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Description}"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />

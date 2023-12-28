@@ -19,7 +19,6 @@
         </Grid.RowDefinitions>
         <ComboBox
             x:Name="StatusComboBox"
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             HorizontalAlignment="Stretch"
             SelectedIndex="{x:Bind ViewModel.Status, Mode=OneWay}"
             SelectionChanged="OnStatusSelectionChanged">
@@ -30,7 +29,6 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="SeasonView"

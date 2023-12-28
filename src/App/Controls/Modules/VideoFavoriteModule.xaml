@@ -57,7 +57,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <ComboBox
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.Folders}"
             SelectedItem="{x:Bind ViewModel.CurrentFolder, Mode=OneWay}"
@@ -84,7 +83,6 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="VideoView"

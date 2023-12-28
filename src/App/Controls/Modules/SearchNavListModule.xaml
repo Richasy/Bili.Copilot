@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SearchNavListModuleBase
+    x:Class="Bili.Copilot.App.Controls.Modules.SearchNavListModule"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Bili.Copilot.ViewModels"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid
+            Height="56"
+            Padding="16,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="{ext:Locale Name=Search}" />
+        </Grid>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Padding="12,0"
+            Style="{StaticResource PageScrollViewerStyle}">
+            <Grid>
+                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:SearchModuleItemViewModel">
+                            <base:CardPanel
+                                Click="OnModuleItemClick"
+                                DataContext="{x:Bind}"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                IsEnableCheck="False"
+                                IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
+                                <StackPanel
+                                    Margin="12"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                                    <base:FluentIcon
+                                        Margin="0,2,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Symbol="{x:Bind Symbol}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
+                                </StackPanel>
+                            </base:CardPanel>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</local:SearchNavListModuleBase>

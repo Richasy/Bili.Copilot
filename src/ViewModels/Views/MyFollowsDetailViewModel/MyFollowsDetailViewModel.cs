@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -24,7 +24,7 @@ public sealed partial class MyFollowsDetailViewModel : InformationFlowViewModel<
     public MyFollowsDetailViewModel()
     {
         _cache = new Dictionary<string, IEnumerable<UserItemViewModel>>();
-        Groups = new ObservableCollection<FollowGroup>();
+        Groups = new ObservableCollection<FollowGroupViewModel>();
         AttachIsRunningToAsyncCommand(p => IsSwitching = p, SelectGroupCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, SelectGroupCommand);
     }
@@ -48,18 +48,23 @@ public sealed partial class MyFollowsDetailViewModel : InformationFlowViewModel<
         {
             // 加载分组.
             var groups = await AccountProvider.GetMyFollowingGroupsAsync();
-            groups.ToList().ForEach(p => Groups.Add(p));
-            CurrentGroup = Groups.FirstOrDefault(p => p.TotalCount > 0) ?? Groups.FirstOrDefault();
+            groups.ToList().ForEach(p => Groups.Add(new FollowGroupViewModel(p)));
+            CurrentGroup = Groups.FirstOrDefault(p => p.Data.TotalCount > 0) ?? Groups.FirstOrDefault();
+
+            if (CurrentGroup != null)
+            {
+                CurrentGroup.IsSelected = true;
+            }
         }
 
         if (CurrentGroup == null
-            || CurrentGroup.TotalCount <= Items.Count)
+            || CurrentGroup.Data.TotalCount <= Items.Count)
         {
             IsCurrentGroupEmpty = Items.Count == 0;
             return;
         }
 
-        var data = await AccountProvider.Instance.GetMyFollowingGroupDetailAsync(CurrentGroup.Id);
+        var data = await AccountProvider.Instance.GetMyFollowingGroupDetailAsync(CurrentGroup.Data.Id);
         foreach (var item in data)
         {
             if (Items.Any(p => p.User.Equals(item.User)))
@@ -72,8 +77,8 @@ public sealed partial class MyFollowsDetailViewModel : InformationFlowViewModel<
         }
 
         IsCurrentGroupEmpty = Items.Count == 0;
-        _cache.Remove(CurrentGroup.Id);
-        _cache.Add(CurrentGroup.Id, Items.ToList());
+        _cache.Remove(CurrentGroup.Data.Id);
+        _cache.Add(CurrentGroup.Data.Id, Items.ToList());
     }
 
     /// <inheritdoc/>
@@ -81,11 +86,17 @@ public sealed partial class MyFollowsDetailViewModel : InformationFlowViewModel<
         => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestFollowsFailed)}\n{errorMsg}";
 
     [RelayCommand]
-    private async Task SelectGroupAsync(FollowGroup group)
+    private async Task SelectGroupAsync(FollowGroupViewModel group)
     {
         CurrentGroup = group;
         TryClear(Items);
-        if (_cache.TryGetValue(group.Id, out var cache))
+
+        foreach (var item in Groups)
+        {
+            item.IsSelected = item.Equals(group);
+        }
+
+        if (_cache.TryGetValue(group.Data.Id, out var cache))
         {
             cache.ToList().ForEach(p => Items.Add(p));
             IsCurrentGroupEmpty = Items.Count == 0;

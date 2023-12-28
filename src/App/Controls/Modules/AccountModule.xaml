@@ -50,7 +50,10 @@
                     Source="{x:Bind ViewModel.Avatar, Mode=OneWay}" />
             </Grid>
             <Button.Flyout>
-                <Flyout LightDismissOverlayMode="On" Placement="Bottom">
+                <Flyout
+                    x:Name="AccountFlyout"
+                    LightDismissOverlayMode="On"
+                    Placement="Bottom">
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="Width" Value="360" />
@@ -114,16 +117,19 @@
                             </Grid.ColumnDefinitions>
                             <base:TwoLineButton
                                 x:Name="DynamicButton"
+                                Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.OpenDynamicCommand}"
                                 FirstLineText="{x:Bind ViewModel.DynamicCount, Mode=OneWay}"
                                 SecondLineText="{ext:Locale Name=DynamicCount}" />
                             <base:TwoLineButton
                                 Grid.Column="1"
+                                Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.OpenFollowsCommand}"
                                 FirstLineText="{x:Bind ViewModel.FollowCount, Mode=OneWay}"
                                 SecondLineText="{ext:Locale Name=FollowCount}" />
                             <base:TwoLineButton
                                 Grid.Column="2"
+                                Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.OpenFansCommand}"
                                 FirstLineText="{x:Bind ViewModel.FansCount, Mode=OneWay}"
                                 SecondLineText="{ext:Locale Name=FansCount}" />
@@ -134,35 +140,41 @@
                             BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
                             BorderThickness="0,1,0,0"
                             Spacing="4">
-                            <Button Command="{x:Bind ViewModel.OpenPersonalSiteCommand}" Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.OpenPersonalSiteCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="Person"
                                     Text="{ext:Locale Name=Personal}" />
                             </Button>
-                            <Button Command="{x:Bind ViewModel.OpenMessageCommand}" Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.OpenMessageCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="Chat"
                                     Text="{ext:Locale Name=Message}" />
                             </Button>
-                            <Button Style="{StaticResource ItemButtonStyle}">
+                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="StarLineHorizontal3"
                                     Text="{ext:Locale Name=MyFavorite}" />
                             </Button>
-                            <Button Style="{StaticResource ItemButtonStyle}">
+                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="CalendarClock"
                                     Text="{ext:Locale Name=ViewLater}" />
                             </Button>
-                            <Button Style="{StaticResource ItemButtonStyle}">
+                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
@@ -173,7 +185,10 @@
                                 Height="1"
                                 HorizontalAlignment="Stretch"
                                 Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-                            <Button Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.SignOutCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"

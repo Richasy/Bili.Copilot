@@ -21,7 +21,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid">
-        <ScrollViewer Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="ArticleView"
                 Margin="0,0,0,20"

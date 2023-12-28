@@ -2,7 +2,6 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -19,11 +18,9 @@ public sealed partial class MessageDetailModule : MessageDetailModuleBase
     private void OnIncrementalTriggered(object sender, System.EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
 
-    private void OnNavItemInvokedAsync(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    private void OnHeaderItemClick(object sender, RoutedEventArgs e)
     {
-        ContentScrollViewer.ChangeView(0, 0, 1, true);
-        var data = args.InvokedItem as MessageHeaderViewModel;
-
+        var data = (sender as FrameworkElement).DataContext as MessageHeaderViewModel;
         if (data != ViewModel.CurrentType)
         {
             ViewModel.SelectTypeCommand.Execute(data);

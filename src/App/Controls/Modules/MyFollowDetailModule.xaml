@@ -8,91 +8,142 @@
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                HorizontalAlignment="Left"
-                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                TextTrimming="CharacterEllipsis">
-                <Run
-                    FontWeight="Bold"
-                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                    Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
-                <Run Text="{ext:Locale Name=FollowsSuffix}" />
-            </TextBlock>
-            <Button
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
-                Style="{StaticResource IconButtonStyle}"
-                ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
-                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
-            </Button>
-        </Grid>
-
-        <NavigationView
-            Grid.Row="1"
-            Margin="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            ItemInvoked="OnNavItemInvoked"
-            MenuItemsSource="{x:Bind ViewModel.Groups}"
-            SelectedItem="{x:Bind ViewModel.CurrentGroup, Mode=OneWay}"
-            Style="{StaticResource TopNavigationViewStyle}">
-            <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="community:FollowGroup">
-                    <NavigationViewItem Content="{x:Bind}">
-                        <NavigationViewItem.ContentTemplate>
-                            <DataTemplate x:DataType="community:FollowGroup">
-                                <TextBlock Text="{x:Bind Name}" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Width="280" RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Height="56"
+                Padding="16,0"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap">
+                    <Run
+                        FontWeight="Bold"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                    <Run Text="{ext:Locale Name=FollowsSuffix}" />
+                </TextBlock>
+            </Grid>
+            <ScrollViewer
+                Grid.Row="1"
+                Padding="12,0"
+                Style="{StaticResource PageScrollViewerStyle}">
+                <Grid>
+                    <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:FollowGroupViewModel">
+                                <base:CardPanel
+                                    Click="OnGroupItemClick"
+                                    DataContext="{x:Bind}"
+                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                    IsEnableCheck="False">
+                                    <Grid Margin="12" ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind Data.Name}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind Data.TotalCount}" />
+                                    </Grid>
+                                </base:CardPanel>
                             </DataTemplate>
-                        </NavigationViewItem.ContentTemplate>
-                    </NavigationViewItem>
-                </DataTemplate>
-            </NavigationView.MenuItemTemplate>
-        </NavigationView>
+                        </ItemsRepeater.ItemTemplate>
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <Border
+            Grid.Column="1"
+            Width="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <Grid
+            Grid.Column="2"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            RowSpacing="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid
+                Height="56"
+                Padding="16,0"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="{x:Bind ViewModel.CurrentGroup.Data.Name, Mode=OneWay}" />
+                <Button
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
+                    <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+                </Button>
+            </Grid>
 
-        <ScrollViewer
-            x:Name="ContentScrollViewer"
-            Grid.Row="2"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            Style="{StaticResource PageScrollViewerStyle}">
-            <base:VerticalRepeaterView
-                Margin="0,0,0,12"
-                IncrementalTriggered="OnIncrementalTriggered"
-                ItemsSource="{x:Bind ViewModel.Items}"
-                Style="{StaticResource UserVerticalRepeaterViewStyle}">
-                <base:VerticalRepeaterView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:UserItemViewModel">
-                        <base:UserItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
-                    </DataTemplate>
-                </base:VerticalRepeaterView.ItemTemplate>
-            </base:VerticalRepeaterView>
-        </ScrollViewer>
+            <ScrollViewer
+                x:Name="ContentScrollViewer"
+                Grid.Row="1"
+                Style="{StaticResource PageScrollViewerStyle}">
+                <base:VerticalRepeaterView
+                    Margin="0,0,0,12"
+                    IncrementalTriggered="OnIncrementalTriggered"
+                    ItemsSource="{x:Bind ViewModel.Items}"
+                    Style="{StaticResource UserVerticalRepeaterViewStyle}">
+                    <base:VerticalRepeaterView.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:UserItemViewModel">
+                            <base:UserItem DataContext="{x:Bind}" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </base:VerticalRepeaterView.ItemTemplate>
+                </base:VerticalRepeaterView>
+            </ScrollViewer>
 
-        <Grid Grid.Row="2">
-            <controls:OverlayLoadingPanel IsBarActive="False" IsRingActive="{x:Bind ViewModel.IsSwitching, Mode=OneWay}" />
-            <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
-            <controls:ErrorPanel
-                ActionContent="{ext:Locale Name=Refresh}"
-                Command="{x:Bind ViewModel.ReloadCommand}"
-                Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
-            <controls:ErrorPanel Text="{ext:Locale Name=NoFollows}" Visibility="{x:Bind ViewModel.IsCurrentGroupEmpty, Mode=OneWay}" />
+            <Grid Grid.Row="1">
+                <controls:OverlayLoadingPanel IsBarActive="False" IsRingActive="{x:Bind ViewModel.IsSwitching, Mode=OneWay}" />
+                <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+                <controls:ErrorPanel
+                    ActionContent="{ext:Locale Name=Refresh}"
+                    Command="{x:Bind ViewModel.ReloadCommand}"
+                    Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+                <controls:ErrorPanel Text="{ext:Locale Name=NoFollows}" Visibility="{x:Bind ViewModel.IsCurrentGroupEmpty, Mode=OneWay}" />
+            </Grid>
         </Grid>
     </Grid>
 </local:MyFollowDetailModuleBase>

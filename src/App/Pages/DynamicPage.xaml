@@ -18,23 +18,44 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" ColumnSpacing="8">
+        <Grid
+            Height="56"
+            Padding="16,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1"
+            ColumnSpacing="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{ext:Locale Name=DynamicFeed}" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="{ext:Locale Name=DynamicFeed}" />
+                <Grid>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=Video}"
+                        Visibility="{x:Bind ViewModel.IsVideoShown, Mode=OneWay}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=ComprehensiveDynamics}"
+                        Visibility="{x:Bind ViewModel.IsAllShown, Mode=OneWay}" />
+                </Grid>
+            </StackPanel>
+
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Command="{x:Bind ViewModel.ReloadCommand}"
                 IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                Style="{StaticResource SmallIconButtonStyle}">
+                Style="{StaticResource IconButtonStyle}">
                 <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
             </Button>
             <labs:Segmented
@@ -60,7 +81,6 @@
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
             Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="DynamicView"

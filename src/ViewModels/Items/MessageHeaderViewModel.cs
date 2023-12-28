@@ -20,6 +20,9 @@ public sealed partial class MessageHeaderViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isShowBadge;
 
+    [ObservableProperty]
+    private bool _isSelected;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MessageHeaderViewModel"/> class.
     /// </summary>

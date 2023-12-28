@@ -56,7 +56,7 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
     private void SearchByText(string text)
     {
         QueryText = text;
-        AppViewModel.Instance.SearchCommand.Execute(text);
+        AppViewModel.Instance.SearchContentCommand.Execute(text);
     }
 
     private void InitializeSuggestionCancellationTokenSource()
