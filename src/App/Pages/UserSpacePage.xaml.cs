@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -42,6 +39,12 @@ public sealed partial class UserSpacePage : UserSpacePageBase
         }
 
         ViewModel.SearchCommand.Execute(default);
+    }
+
+    private void OnBackButtonClick(object sender, EventArgs e)
+    {
+        ViewModel.IsInFans = false;
+        ViewModel.IsInFollows = false;
     }
 }
 

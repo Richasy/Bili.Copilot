@@ -24,10 +24,21 @@
             BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
             BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            <Button
+                Margin="-8,0,8,0"
+                VerticalAlignment="Center"
+                Click="OnBackButtonClick"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                Visibility="{x:Bind IsBackButtonShown, Mode=OneWay}">
+                <base:FluentIcon FontSize="14" Symbol="ArrowLeft" />
+            </Button>
             <TextBlock
+                Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Style="{StaticResource BodyStrongTextBlockStyle}"
@@ -39,12 +50,12 @@
                 <Run Text="{x:Bind ViewModel.TitleSuffix, Mode=OneWay}" />
             </TextBlock>
             <Button
-                Grid.Column="1"
+                Grid.Column="2"
                 VerticalAlignment="Center"
                 Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
                 Style="{StaticResource IconButtonStyle}"
                 ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
-                <base:FluentIcon FontSize="12" Symbol="ArrowSync" />
+                <base:FluentIcon FontSize="14" Symbol="ArrowSync" />
             </Button>
         </Grid>
 

@@ -19,7 +19,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Padding="20,12,20,4" ColumnSpacing="12">
+        <Grid Padding="20,20,20,4" ColumnSpacing="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -82,14 +82,13 @@
         <WebView2
             x:Name="ReaderView"
             Grid.Row="2"
-            Margin="0,8,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Visibility="{x:Bind ViewModel.IsDetailShown, Mode=OneWay}" />
 
         <modules:CommentModule
             Grid.Row="2"
-            Margin="20,4,20,12"
+            Margin="20,8,20,12"
             ViewModel="{x:Bind ViewModel.Comments, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.IsCommentShown, Mode=OneWay}" />
     </Grid>

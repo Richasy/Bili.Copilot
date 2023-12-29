@@ -55,7 +55,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         MinWidth = 800;
         MinHeight = 640;
 
-        Activated += OnActivatedAsync;
+        Activated += OnActivated;
         Closed += OnClosed;
 
         MoveAndResize();
@@ -228,20 +228,27 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {
-        var window = new UserSpaceWindow(e);
-        window.Activate();
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var userVM = new UserSpaceViewModel();
+        userVM.SetUserProfile(e);
+        SplitFrame.Navigate(typeof(UserSpacePage), userVM);
     }
 
     private void OnRequestShowCommentWindow(object sender, ShowCommentEventArgs e)
     {
-        var window = new CommentWindow(e);
-        window.Activate();
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var vm = new CommentModuleViewModel();
+        vm.SetData(e.SourceId, e.Type);
+        SplitFrame.Navigate(typeof(CommentPage), vm);
     }
 
     private void OnRequestRead(object sender, ArticleInformation e)
     {
-        var window = new ReaderWindow(e);
-        window.Activate();
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        SplitFrame.Navigate(typeof(ReaderPage), e);
     }
 
     private void OnRequestShowImages(object sender, ShowImageEventArgs e)
@@ -274,7 +281,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     private void OnClosed(object sender, WindowEventArgs args)
         => SaveCurrentWindowStats();
 
-    private void OnActivatedAsync(object sender, WindowActivatedEventArgs args)
+    private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
         if (!_isInitialized)
         {

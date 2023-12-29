@@ -124,15 +124,13 @@
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
-        <None Remove="Forms\CommentWindow.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
-        <None Remove="Forms\ReaderWindow.xaml" />
         <None Remove="Forms\SignInWindow.xaml" />
-        <None Remove="Forms\UserSpaceWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
+        <None Remove="Pages\CommentPage.xaml" />
         <None Remove="Pages\DynamicPage.xaml" />
         <None Remove="Pages\FansPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
@@ -234,6 +232,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Pages\CommentPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\MessagePage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -336,19 +337,10 @@
       <Page Update="Controls\AIFeatureDialog.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Forms\ReaderWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
       <Page Update="Pages\ReaderPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Pages\UserSpacePage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Forms\UserSpaceWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Forms\CommentWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\MyFollowDetailModule.xaml">

@@ -32,7 +32,7 @@
             CompactPaneLength="0"
             DisplayMode="CompactOverlay"
             IsPaneOpen="False"
-            OpenPaneLength="360"
+            OpenPaneLength="400"
             PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
             PanePlacement="Right">
             <SplitView.Pane>

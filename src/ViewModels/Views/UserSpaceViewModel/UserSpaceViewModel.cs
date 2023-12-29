@@ -210,7 +210,4 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
 
     partial void OnIsInFollowsChanged(bool value)
         => CheckMainShown();
-
-    partial void OnIsMainShownChanged(bool value)
-        => IsBackButtonShown = !value;
 }

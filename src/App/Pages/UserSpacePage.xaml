@@ -13,7 +13,7 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid Grid.Row="1">
+    <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="VideoItemTemplate" x:DataType="viewmodels:VideoItemViewModel">
                 <base:VideoItem ViewModel="{x:Bind}" />
@@ -25,7 +25,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid Margin="20,0" RowSpacing="8">
+            <Grid Margin="20,12,20,0" RowSpacing="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -190,7 +190,15 @@
                 </Grid>
             </Grid>
         </Grid>
-        <modules:RelationDetailModule ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
-        <modules:RelationDetailModule ViewModel="{x:Bind ViewModel.Follows, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsInFollows, Mode=OneWay}" />
+        <modules:RelationDetailModule
+            BackButtonClick="OnBackButtonClick"
+            IsBackButtonShown="True"
+            ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
+        <modules:RelationDetailModule
+            BackButtonClick="OnBackButtonClick"
+            IsBackButtonShown="True"
+            ViewModel="{x:Bind ViewModel.Follows, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInFollows, Mode=OneWay}" />
     </Grid>
 </local:UserSpacePageBase>

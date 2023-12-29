@@ -175,8 +175,8 @@
                         <Grid x:Name="CoverContainer" VerticalAlignment="Stretch">
                             <local:ImageEx
                                 x:Name="CoverImage"
-                                Width="120"
-                                Height="80"
+                                Width="128"
+                                Height="90"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
@@ -210,7 +210,7 @@
                             <TextBlock
                                 x:Name="TitleBlock"
                                 VerticalAlignment="Top"
-                                FontSize="12"
+                                FontSize="14"
                                 MaxLines="2"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                                 TextTrimming="CharacterEllipsis"

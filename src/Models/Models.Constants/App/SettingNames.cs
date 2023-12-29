@@ -120,4 +120,9 @@ public enum SettingNames
     AnimeNavListColumnWidth,
     ArticleNavListColumnWidth,
     FilmNavListColumnWidth,
+    GalleryWindowPositionLeft,
+    GalleryWindowPositionTop,
+    IsGalleryWindowMaximized,
+    GalleryWindowWidth,
+    GalleryWindowHeight,
 }
