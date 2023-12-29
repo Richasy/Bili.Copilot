@@ -130,7 +130,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         {
             await _appViewModel.InitializeAsync();
 
-#if !DEBUG
+#if DEBUG
             _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
             _appViewModel.CheckBBDownExistCommand.Execute(default);

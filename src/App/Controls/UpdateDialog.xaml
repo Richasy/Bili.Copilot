@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls"
-    xmlns:markdown="using:Bili.Copilot.Libs.Markdown"
+    xmlns:markdown="using:Bili.Copilot.App.Controls.Markdown"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{ext:Locale Name=HasUpdate}"
     CloseButtonText="{ext:Locale Name=Cancel}"
@@ -59,9 +59,7 @@
             <markdown:MarkdownTextBlock
                 x:Name="MarkdownBlock"
                 Background="Transparent"
-                FontSize="12"
-                Header2FontSize="16"
-                TextWrapping="Wrap" />
+                Foreground="{ThemeResource TextFillColorPrimaryBrush}" />
         </ScrollViewer>
     </Grid>
 </ContentDialog>
