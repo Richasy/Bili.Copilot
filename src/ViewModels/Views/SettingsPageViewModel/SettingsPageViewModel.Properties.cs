@@ -29,9 +29,6 @@ public sealed partial class SettingsPageViewModel
     private PlayerDisplayMode _defaultPlayerDisplayMode;
 
     [ObservableProperty]
-    private bool _disableP2PCdn;
-
-    [ObservableProperty]
     private bool _isContinuePlay;
 
     [ObservableProperty]

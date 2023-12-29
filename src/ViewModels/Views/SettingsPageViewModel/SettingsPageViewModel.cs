@@ -41,7 +41,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         CheckTheme();
         IsAutoPlayWhenLoaded = ReadSetting(SettingNames.IsAutoPlayWhenLoaded, true);
         IsAutoPlayNextRelatedVideo = ReadSetting(SettingNames.IsAutoPlayNextRelatedVideo, false);
-        DisableP2PCdn = ReadSetting(SettingNames.DisableP2PCdn, false);
         IsContinuePlay = ReadSetting(SettingNames.IsContinuePlay, true);
         IsAutoCloseWindowWhenEnded = ReadSetting(SettingNames.IsAutoCloseWindowWhenEnded, false);
         SingleFastForwardAndRewindSpan = ReadSetting(SettingNames.SingleFastForwardAndRewindSpan, 30d);
@@ -82,9 +81,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(DefaultPlayerDisplayMode):
                 WriteSetting(SettingNames.DefaultPlayerDisplayMode, DefaultPlayerDisplayMode);
-                break;
-            case nameof(DisableP2PCdn):
-                WriteSetting(SettingNames.DisableP2PCdn, DisableP2PCdn);
                 break;
             case nameof(IsContinuePlay):
                 WriteSetting(SettingNames.IsContinuePlay, IsContinuePlay);
