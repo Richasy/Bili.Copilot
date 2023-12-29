@@ -38,7 +38,6 @@ public enum SettingNames
     PlaybackRate,
     DanmakuArea,
     DanmakuSpeed,
-    DisableP2PCdn,
     IsContinuePlay,
     IgnoreVersion,
     IsOnlyShowIndex,

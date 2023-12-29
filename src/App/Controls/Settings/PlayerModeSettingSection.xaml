@@ -115,9 +115,6 @@
                 </labs:SettingsCard.Header>
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoCloseWindowWhenEnded, Mode=TwoWay}" />
             </labs:SettingsCard>
-            <labs:SettingsCard Description="{ext:Locale Name=DisableP2PCdnDescription}" Header="{ext:Locale Name=DisableP2PCdn}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.DisableP2PCdn, Mode=TwoWay}" />
-            </labs:SettingsCard>
         </labs:SettingsExpander.Items>
     </labs:SettingsExpander>
 </local:SettingSection>
