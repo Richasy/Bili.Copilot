@@ -21,7 +21,7 @@
 
 ## 概述
 
-哔哩助理在 [哔哩](https://github.com/Richasy/Bili.Uwp) 的基础上通过 Windows App SDK 进行了重构，并通过 [小幻助理](https://github.com/Richasy/FantasyCopilot) 提供了 AI 功能.
+哔哩助理在 [哔哩](https://github.com/Richasy/Bili.Uwp) 的基础上通过 Windows App SDK 进行了重构.
 
 哔哩助理将以更开放的态度进行开发，借助社区力量，共同构建一个有意思的 UGC 客户端。
 
@@ -66,20 +66,6 @@
 
 你可以在设置中根据自己的需要切换播放器类型。对于直播，将强制使用 ffmpeg 进行播放。
 
-### AI
-
-哔哩助理本身不提供 AI 接口，AI 功能的实现依赖于我的另一个应用 [小幻助理](https://github.com/Richasy/FantasyCopilot)。
-
-所以如果你想要使用哔哩助理的 AI 功能，你需要先安装小幻助理，然后添加模型相关的配置。
-
-在哔哩助理内，提供了两种连接方式：`应用服务` 与 `协议启动`。
-
-应用服务可以在不启动小幻助理的情况下获取数据，但仅支持 Azure Open AI 和 Open AI。
-
-协议启动就是把需要总结的内容发送给小幻助理，在小幻助理中显示内容。这种方式支持自定义连接器，但是用户体验没有应用服务好。
-
-所以请根据自己的情况选择合适的连接方式。
-
 ## 模块
 
 哔哩助理集成了多个功能模块：
@@ -91,10 +77,6 @@
 - [BBDown](https://github.com/nilaoda/BBDown)
 
   一个用于哔哩哔哩视频下载的命令行工具，效果很好。在迁移到 WinAppSDK 后，哔哩助理简化了 BBDown 的调用，如果你的设备安装了 BBDown，可以直接点击视频内的下载按钮进行下载。视频内容会被下载至视频文件夹的 `哔哩下载` 目录中。
-
-- [小幻助理](https://github.com/Richasy/FantasyCopilot)
-
-  我制作的 AI 应用，支持 Azure Open AI 与 Open AI 及几乎所有大模型（理论上），哔哩助理的 AI 功能将由小幻助理提供支持。
 
 哔哩助理也许会在未来集成更多的功能模块。
 
