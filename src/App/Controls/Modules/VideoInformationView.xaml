@@ -356,6 +356,11 @@
             </labs:SettingsCard>
 
             <base:DownloadSection Margin="0,-4,0,0" ViewModel="{x:Bind ViewModel.PlayerDetail.DownloadViewModel, Mode=OneWay}" />
+            <HyperlinkButton
+                HorizontalAlignment="Left"
+                Click="OnCopyVideoUrlButtonClick"
+                Content="{ext:Locale Name=CopyVideoUrl}"
+                FontSize="12" />
 
             <!--  视频参数  -->
             <base:MediaStatsPanel

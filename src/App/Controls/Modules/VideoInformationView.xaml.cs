@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -88,6 +91,15 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
         {
             ViewModel.PlayerDetail.ChangeAudioOnlyCommand.Execute(isAudioOnly);
         }
+    }
+
+    private void OnCopyVideoUrlButtonClick(object sender, RoutedEventArgs e)
+    {
+        var url = $"https://www.bilibili.com/video/av{ViewModel.View.Information.Identifier.Id}";
+        var dp = new DataPackage();
+        dp.SetText(url);
+        Clipboard.SetContent(dp);
+        AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
     }
 }
 

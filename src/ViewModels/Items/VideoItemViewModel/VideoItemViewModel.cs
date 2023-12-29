@@ -9,6 +9,7 @@ using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
@@ -180,6 +181,16 @@ public sealed partial class VideoItemViewModel : ViewModelBase
             Data.Identifier.Title,
             Data.Identifier.Id,
             FixedType.Video));
+    }
+
+    [RelayCommand]
+    private void CopyUrl()
+    {
+        var url = $"https://www.bilibili.com/video/av{Data.Identifier.Id}";
+        var dp = new DataPackage();
+        dp.SetText(url);
+        Clipboard.SetContent(dp);
+        AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
     }
 
     private void InitializeData()

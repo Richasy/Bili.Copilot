@@ -19,6 +19,16 @@
             <base:VideoItem ViewModel="{x:Bind}">
                 <base:VideoItem.ContextFlyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                            <MenuFlyoutItem.Icon>
+                                <base:FluentIcon Symbol="Globe" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind CopyUrlCommand}" Text="{ext:Locale Name=CopyVideoUrl}">
+                            <MenuFlyoutItem.Icon>
+                                <base:FluentIcon Symbol="Copy" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             MinWidth="160"
                             Command="{x:Bind RemoveFromFavoriteCommand}"

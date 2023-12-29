@@ -74,14 +74,14 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
             }
         }
 
-        IsEmpty = CurrentFolder.Data.TotalCount == 0;
-        if (IsEmpty)
-        {
-            return;
-        }
-
         if (CurrentFolder != null)
         {
+            IsEmpty = CurrentFolder.Data.TotalCount == 0;
+            if (IsEmpty)
+            {
+                return;
+            }
+
             var data = await FavoriteProvider.Instance.GetVideoFavoriteFolderDetailAsync(CurrentFolder.Data.Id);
             foreach (var item in data.VideoSet.Items)
             {
