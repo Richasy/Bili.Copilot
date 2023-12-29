@@ -2091,4 +2091,19 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="Back" xml:space="preserve">
     <value>返回</value>
   </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>应用程序主题</value>
+  </data>
+  <data name="AppThemeDescription" xml:space="preserve">
+    <value>选择要显示的应用主题</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+    <value>使用系统设置</value>
+  </data>
 </root>

@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Bili.Copilot.Models.Constants.App;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Graphics;
@@ -137,4 +138,14 @@ public static class AppToolkit
               Convert.ToInt32(rect.Y * scaleFactor),
               Convert.ToInt32(rect.Width * scaleFactor),
               Convert.ToInt32(rect.Height * scaleFactor));
+
+    /// <summary>
+    /// 重置控件主题.
+    /// </summary>
+    /// <param name="element">控件.</param>
+    public static void ResetControlTheme(FrameworkElement element)
+    {
+        var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+        element.RequestedTheme = localTheme;
+    }
 }

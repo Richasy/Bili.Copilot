@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.Background;
 
 namespace Bili.Copilot.ViewModels;
@@ -36,6 +37,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     public void InitializeSettings()
     {
         PropertyChanged -= OnPropertyChanged;
+        AppTheme = ReadSetting(SettingNames.AppTheme, ElementTheme.Default);
+        CheckTheme();
         IsAutoPlayWhenLoaded = ReadSetting(SettingNames.IsAutoPlayWhenLoaded, true);
         IsAutoPlayNextRelatedVideo = ReadSetting(SettingNames.IsAutoPlayNextRelatedVideo, false);
         DisableP2PCdn = ReadSetting(SettingNames.DisableP2PCdn, false);
@@ -241,5 +244,21 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         RoamingVideoAddress = ReadSetting(SettingNames.RoamingVideoAddress, string.Empty);
         RoamingViewAddress = ReadSetting(SettingNames.RoamingViewAddress, string.Empty);
         RoamingSearchAddress = ReadSetting(SettingNames.RoamingSearchAddress, string.Empty);
+    }
+
+    private void CheckTheme()
+    {
+        AppThemeText = AppTheme switch
+        {
+            ElementTheme.Light => ResourceToolkit.GetLocalizedString(StringNames.LightTheme),
+            ElementTheme.Dark => ResourceToolkit.GetLocalizedString(StringNames.DarkTheme),
+            _ => ResourceToolkit.GetLocalizedString(StringNames.SystemDefault),
+        };
+    }
+
+    partial void OnAppThemeChanged(ElementTheme value)
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.AppTheme, value);
+        CheckTheme();
     }
 }

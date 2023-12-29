@@ -19,11 +19,11 @@
             <TreeViewItem
                 Padding="0,6"
                 Content="{x:Bind Data.Name}"
-                ItemsSource="{x:Bind Children}"
-                Tapped="OnParentPartitionTapped" />
+                IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                ItemsSource="{x:Bind Children}" />
         </DataTemplate>
         <DataTemplate x:Key="ChildPartitionTemplate" x:DataType="items:PartitionItemViewModel">
-            <TreeViewItem Padding="0,4" Tapped="OnPartitionItemTapped">
+            <TreeViewItem Padding="0,4">
                 <StackPanel Orientation="Horizontal" Spacing="20">
                     <base:ImageEx
                         Width="24"
@@ -152,6 +152,7 @@
             <Grid>
                 <TreeView
                     Margin="0,0,0,12"
+                    ItemInvoked="OnPartitionItemInvoked"
                     ItemTemplateSelector="{StaticResource PartitionItemTemplateSelector}"
                     ItemsSource="{x:Bind _partition.ParentPartitions}"
                     SelectionMode="None" />

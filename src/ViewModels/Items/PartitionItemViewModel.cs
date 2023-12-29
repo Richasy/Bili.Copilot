@@ -14,6 +14,9 @@ public sealed partial class PartitionItemViewModel : SelectableViewModel<Partiti
     [ObservableProperty]
     private string _additionalText;
 
+    [ObservableProperty]
+    private bool _isExpanded;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PartitionItemViewModel"/> class.
     /// </summary>

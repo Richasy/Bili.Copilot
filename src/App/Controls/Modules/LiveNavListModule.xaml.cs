@@ -4,6 +4,7 @@ using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Items;
+using static Bilibili.Api.Ticket.V1.GetTicketResponse.Types;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -33,16 +34,18 @@ public sealed partial class LiveNavListModule : LiveNavListModuleBase
     private void OnLiveTypeSegmentedSelectionChanged(object sender, SelectionChangedEventArgs e)
         => ViewModel.CurrentType = (LiveDisplayType)LiveTypeSelection.SelectedIndex;
 
-    private void OnPartitionItemTapped(object sender, TappedRoutedEventArgs e)
+    private void OnPartitionItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
     {
-        var context = (PartitionItemViewModel)((FrameworkElement)sender).DataContext;
-        _partition.OpenPartitionCommand.Execute(context.Data);
-    }
-
-    private void OnParentPartitionTapped(object sender, TappedRoutedEventArgs e)
-    {
-        var item = sender as TreeViewItem;
-        item.IsExpanded = !item.IsExpanded;
+        _ = this;
+        var vm = args.InvokedItem as PartitionItemViewModel;
+        if (vm.Children != null)
+        {
+            vm.IsExpanded = !vm.IsExpanded;
+        }
+        else
+        {
+            _partition.OpenPartitionCommand.Execute(vm.Data);
+        }
     }
 }
 

@@ -22,6 +22,7 @@ public sealed partial class UpdateDialog : ContentDialog
         InitializeComponent();
         _eventArgs = args;
         Initialize();
+        AppToolkit.ResetControlTheme(this);
     }
 
     private void Initialize()

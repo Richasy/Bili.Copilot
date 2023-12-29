@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -12,6 +13,12 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class SettingsPageViewModel
 {
+    [ObservableProperty]
+    private ElementTheme _appTheme;
+
+    [ObservableProperty]
+    private string _appThemeText;
+
     [ObservableProperty]
     private bool _isAutoPlayWhenLoaded;
 

@@ -11,12 +11,6 @@
     xmlns:settings="using:Bili.Copilot.App.Controls.Settings"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <x:Double x:Key="SettingsCardWrapThreshold">280</x:Double>
-        <x:Double x:Key="SettingsCardWrapNoIconThreshold">200</x:Double>
-        <Thickness x:Key="SettingsExpanderItemPadding">24,8,24,8</Thickness>
-    </UserControl.Resources>
-
     <Grid RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -45,6 +39,7 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
+                <settings:ThemeSettingSection />
                 <settings:CloseBehaviorSettingSection />
                 <settings:LoggerSettingSection />
                 <settings:CacheSettingSection />

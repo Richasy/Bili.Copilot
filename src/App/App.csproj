@@ -119,6 +119,7 @@
         <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
         <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
+        <None Remove="Controls\Settings\ThemeSettingSection.xaml" />
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
@@ -231,6 +232,9 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Settings\ThemeSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\FavoritesNavListModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
