@@ -52,7 +52,7 @@ public sealed partial class AnimeNavListModule : AnimeNavListModuleBase
             if (index >= 0 && index != source.SelectedIndex)
             {
                 source.SelectedIndex = index;
-                _bangumi.ReloadCommand.ExecuteAsync(null);
+                _ = _bangumi.ReloadCommand.ExecuteAsync(null);
             }
         }
     }
@@ -67,7 +67,7 @@ public sealed partial class AnimeNavListModule : AnimeNavListModuleBase
             if (index >= 0 && index != source.SelectedIndex)
             {
                 source.SelectedIndex = index;
-                _domestic.ReloadCommand.ExecuteAsync(null);
+                _ = _domestic.ReloadCommand.ExecuteAsync(null);
             }
         }
     }

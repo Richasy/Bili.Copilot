@@ -3,7 +3,6 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Navigation;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -33,10 +32,7 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnPageUnloaded()
-    {
-        ViewModel?.Dispose();
-    }
+    protected override void OnPageUnloaded() => ViewModel?.Dispose();
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)
     {

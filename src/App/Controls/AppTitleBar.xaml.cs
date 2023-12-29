@@ -103,14 +103,24 @@ public sealed partial class AppTitleBar : UserControl
         var searchBounds = transform.TransformBounds(new Rect(0, 0, SearchModule.ActualWidth, SearchModule.ActualHeight));
         var searchBoxRect = AppToolkit.GetRectInt32(searchBounds, scaleFactor);
 
+        transform = FixModule.TransformToVisual(default);
+        var fixBounds = transform.TransformBounds(new Rect(0, 0, FixModule.ActualWidth, FixModule.ActualHeight));
+        var fixRect = AppToolkit.GetRectInt32(fixBounds, scaleFactor);
+
         transform = AccountModule.TransformToVisual(default);
         var accountBounds = transform.TransformBounds(new Rect(0, 0, AccountModule.ActualWidth, AccountModule.ActualHeight));
         var accountRect = AppToolkit.GetRectInt32(accountBounds, scaleFactor);
 
         var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Win32Interop.GetWindowIdFromWindow(AttachedWindow.GetWindowHandle()));
-        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { backButtonRect, searchBoxRect, accountRect });
+        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { backButtonRect, searchBoxRect, fixRect, accountRect });
     }
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)
         => BackButtonClick?.Invoke(this, EventArgs.Empty);
+
+    private async void OnFixModuleVisibilityChangedAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(200);
+        SetDragRegion();
+    }
 }

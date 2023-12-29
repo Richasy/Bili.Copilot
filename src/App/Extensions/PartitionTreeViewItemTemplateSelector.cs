@@ -22,12 +22,9 @@ public sealed class PartitionTreeViewItemTemplateSelector : DataTemplateSelector
     /// <inheritdoc/>
     protected override DataTemplate SelectTemplateCore(object item)
     {
-        if (item is PartitionItemViewModel vm)
-        {
-            return vm.Children == null ? ChildTemplate : ParentTemplate;
-        }
-
-        throw new NotImplementedException();
+        return item is PartitionItemViewModel vm
+            ? vm.Children == null ? ChildTemplate : ParentTemplate
+            : throw new NotImplementedException();
     }
 
     /// <inheritdoc/>

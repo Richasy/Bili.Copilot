@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml;
-
 namespace Bili.Copilot.App.Forms;
 
 /// <summary>

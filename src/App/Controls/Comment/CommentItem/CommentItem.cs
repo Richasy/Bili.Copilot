@@ -2,7 +2,6 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Comment;
 

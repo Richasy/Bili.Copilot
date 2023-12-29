@@ -47,7 +47,7 @@ public sealed partial class FilmNavListModule : FilmNavListModuleBase
             if (index >= 0 && index != source.SelectedIndex)
             {
                 source.SelectedIndex = index;
-                _documentaryRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
+                _ = _documentaryRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
             }
         }
     }
@@ -62,7 +62,7 @@ public sealed partial class FilmNavListModule : FilmNavListModuleBase
             if (index >= 0 && index != source.SelectedIndex)
             {
                 source.SelectedIndex = index;
-                _tvRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
+                _ = _tvRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
             }
         }
     }
@@ -77,7 +77,7 @@ public sealed partial class FilmNavListModule : FilmNavListModuleBase
             if (index >= 0 && index != source.SelectedIndex)
             {
                 source.SelectedIndex = index;
-                _movieRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
+                _ = _movieRecommendDetailViewModel.ReloadCommand.ExecuteAsync(null);
             }
         }
     }

@@ -1,11 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Pages;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using WinUIEx;
 
 namespace Bili.Copilot.App.Forms;
 

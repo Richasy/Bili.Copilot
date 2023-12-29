@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -57,8 +52,8 @@ public class StaggeredLayout : VirtualizingLayout
     /// </remarks>
     public double DesiredColumnWidth
     {
-        get { return (double)GetValue(DesiredColumnWidthProperty); }
-        set { SetValue(DesiredColumnWidthProperty, value); }
+        get => (double)GetValue(DesiredColumnWidthProperty);
+        set => SetValue(DesiredColumnWidthProperty, value);
     }
 
     /// <summary>
@@ -66,8 +61,8 @@ public class StaggeredLayout : VirtualizingLayout
     /// </summary>
     public double ColumnSpacing
     {
-        get { return (double)GetValue(ColumnSpacingProperty); }
-        set { SetValue(ColumnSpacingProperty, value); }
+        get => (double)GetValue(ColumnSpacingProperty);
+        set => SetValue(ColumnSpacingProperty, value);
     }
 
     /// <summary>
@@ -75,8 +70,8 @@ public class StaggeredLayout : VirtualizingLayout
     /// </summary>
     public double RowSpacing
     {
-        get { return (double)GetValue(RowSpacingProperty); }
-        set { SetValue(RowSpacingProperty, value); }
+        get => (double)GetValue(RowSpacingProperty);
+        set => SetValue(RowSpacingProperty, value);
     }
 
     /// <inheritdoc/>
@@ -143,9 +138,10 @@ public class StaggeredLayout : VirtualizingLayout
         var availableWidth = availableSize.Width;
         var availableHeight = availableSize.Height;
 
-        // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
-        var columnWidth = 0d;
         var numColumns = 1;
+
+        // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
+        double columnWidth;
         if (double.IsNaN(DesiredColumnWidth))
         {
             columnWidth = availableWidth;
@@ -236,7 +232,7 @@ public class StaggeredLayout : VirtualizingLayout
                     item.Element = null;
                 }
 
-                deadColumns.Add(columnIndex);
+                _ = deadColumns.Add(columnIndex);
             }
             else if (measured == false)
             {

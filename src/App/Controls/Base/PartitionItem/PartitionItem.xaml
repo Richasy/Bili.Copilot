@@ -40,9 +40,14 @@
                                     Grid.Row="1"
                                     HorizontalAlignment="Center"
                                     MaxLines="1"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}"
                                     TextAlignment="Center"
-                                    TextTrimming="CharacterEllipsis" />
+                                    TextTrimming="CharacterEllipsis">
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}" />
+                                    <Run
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AdditionalText}" />
+                                </TextBlock>
                             </Grid>
                         </Grid>
                     </local:CardPanel>
@@ -81,9 +86,14 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     MaxLines="1"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}"
                                     TextAlignment="Center"
-                                    TextTrimming="CharacterEllipsis" />
+                                    TextTrimming="CharacterEllipsis">
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}" />
+                                    <Run
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AdditionalText}" />
+                                </TextBlock>
                             </Grid>
                         </Grid>
                     </local:CardPanel>

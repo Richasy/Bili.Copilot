@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -134,7 +135,13 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
 
         var data = await HomeProvider.GetVideoPartitionIndexAsync();
-        data.ToList().ForEach(p => Partitions.Add(new PartitionItemViewModel(p)));
+        data.ToList().ForEach(p =>
+        {
+            Partitions.Add(new PartitionItemViewModel(p)
+            {
+                AdditionalText = TextToolkit.ConvertToTraditionalChineseIfNeeded("排行榜"),
+            });
+        });
 
         if (!string.IsNullOrEmpty(PartitionId))
         {
@@ -199,6 +206,8 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
                 _ = InitializeCommand.ExecuteAsync(default);
             }
         }
+
+        RequestScrollToTop?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]

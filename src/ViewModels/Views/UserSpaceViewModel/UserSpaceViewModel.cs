@@ -126,8 +126,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
     {
         if (IsMe)
         {
-            AppViewModel.Instance.ActivateMainWindow();
-            HomePageViewModel.Instance.OpenFansCommand.Execute(default);
+            AppViewModel.Instance.ShowFansCommand.Execute(_userProfile);
         }
         else
         {
@@ -141,8 +140,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
     {
         if (IsMe)
         {
-            AppViewModel.Instance.ActivateMainWindow();
-            HomePageViewModel.Instance.OpenFollowsCommand.Execute(default);
+            AppViewModel.Instance.ShowFollowsCommand.Execute(default);
         }
         else
         {

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.Constants.Community;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Data;
 
 namespace Bili.Copilot.App.Converters;
 

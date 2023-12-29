@@ -30,17 +30,24 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Spacing="12">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <base:UserAvatar
-                        Width="64"
-                        Height="64"
+                        Width="56"
+                        Height="56"
                         VerticalAlignment="Center"
                         Avatar="{x:Bind ViewModel.UserViewModel.User.Avatar.Uri, Mode=OneWay}"
                         AvatarRadius="32"
                         DecodeSize="100"
                         IsEnabled="False"
                         UserName="{x:Bind ViewModel.UserViewModel.User.Name, Mode=OneWay}" />
-                    <StackPanel VerticalAlignment="Center" Spacing="4">
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Spacing="4">
                         <StackPanel
                             Grid.Row="1"
                             Margin="0,12,0,0"
@@ -62,7 +69,6 @@
                                 Source="{x:Bind ViewModel.UserViewModel.Level, Mode=OneWay, Converter={StaticResource UserLevelConverter}}" />
                         </StackPanel>
                         <TextBlock
-                            MaxWidth="380"
                             HorizontalAlignment="Left"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             MaxLines="3"
@@ -81,7 +87,7 @@
                             </TextBlock>
                         </Border>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
 
                 <Grid
                     x:Name="InteractionContainer"

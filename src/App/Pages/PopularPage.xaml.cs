@@ -17,6 +17,7 @@ public sealed partial class PopularPage : PopularPageBase
     {
         InitializeComponent();
         ViewModel = PopularPageViewModel.Instance;
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
     }
 
     /// <inheritdoc/>
@@ -26,8 +27,18 @@ public sealed partial class PopularPage : PopularPageBase
         ViewModel.InitializeCommand.Execute(default);
     }
 
+    /// <inheritdoc/>
+    protected override void OnPageUnloaded()
+        => ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
+
     private void OnVideoViewIncrementalTriggered(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
+
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        ContentScrollViewer?.ChangeView(0, 0, default);
+    }
 }
 
 /// <summary>

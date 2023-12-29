@@ -29,7 +29,7 @@ public sealed partial class GalleryWindow : WindowBase
         Title = ResourceToolkit.GetLocalizedString(StringNames.ImageGallery);
         MinWidth = 500;
         MinHeight = 500;
-        MainFrame.Navigate(typeof(GalleryPage), args);
+        _ = MainFrame.Navigate(typeof(GalleryPage), args);
 
         MoveAndResize();
     }

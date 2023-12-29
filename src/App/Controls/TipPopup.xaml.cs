@@ -2,8 +2,7 @@
 
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Controls;
 
@@ -47,6 +46,13 @@ public sealed partial class TipPopup : UserControl
     public async void ShowAsync(InfoType type = InfoType.Information, double displaySeconds = 3)
     {
         PopupContainer.Status = type;
-        await MainWindow.Instance.ShowTipAsync(this, displaySeconds);
+        if (AppViewModel.Instance.ActivatedWindow is ITipWindow w)
+        {
+            await w.ShowTipAsync(this, displaySeconds);
+        }
+        else
+        {
+            await MainWindow.Instance.ShowTipAsync(this, displaySeconds);
+        }
     }
 }

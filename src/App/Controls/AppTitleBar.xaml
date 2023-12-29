@@ -22,6 +22,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="148" />
         </Grid.ColumnDefinitions>
         <Button
@@ -64,9 +65,14 @@
             Grid.Column="2"
             MaxWidth="380"
             VerticalAlignment="Center" />
+        <modules:FixModule
+            x:Name="FixModule"
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            VisibilityChanged="OnFixModuleVisibilityChangedAsync" />
         <modules:AccountModule
             x:Name="AccountModule"
-            Grid.Column="3"
+            Grid.Column="4"
             VerticalAlignment="Center" />
     </Grid>
 </UserControl>

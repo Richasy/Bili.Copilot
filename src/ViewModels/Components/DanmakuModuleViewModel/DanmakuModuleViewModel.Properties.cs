@@ -48,9 +48,6 @@ public sealed partial class DanmakuModuleViewModel
     private bool _isDanmakuLimit;
 
     [ObservableProperty]
-    private bool _isDanmakuMerge;
-
-    [ObservableProperty]
     private bool _isDanmakuBold;
 
     [ObservableProperty]

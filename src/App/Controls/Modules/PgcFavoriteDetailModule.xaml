@@ -17,15 +17,33 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ComboBox
-            x:Name="StatusComboBox"
-            HorizontalAlignment="Stretch"
-            SelectedIndex="{x:Bind ViewModel.Status, Mode=OneWay}"
-            SelectionChanged="OnStatusSelectionChanged">
-            <ComboBoxItem Content="{ext:Locale Name=WantWatch}" />
-            <ComboBoxItem Content="{ext:Locale Name=Watching}" />
-            <ComboBoxItem Content="{ext:Locale Name=Watched}" />
-        </ComboBox>
+        <Grid
+            Height="56"
+            Padding="16,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="TitleBlock"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Style="{StaticResource BodyStrongTextBlockStyle}" />
+            <ComboBox
+                x:Name="StatusComboBox"
+                Grid.Column="1"
+                MinWidth="120"
+                VerticalAlignment="Center"
+                SelectedIndex="{x:Bind ViewModel.Status, Mode=OneWay}"
+                SelectionChanged="OnStatusSelectionChanged">
+                <ComboBoxItem Content="{ext:Locale Name=WantWatch}" />
+                <ComboBoxItem Content="{ext:Locale Name=Watching}" />
+                <ComboBoxItem Content="{ext:Locale Name=Watched}" />
+            </ComboBox>
+        </Grid>
+
         <ScrollViewer
             x:Name="ContentScrollViewer"
             Grid.Row="1"

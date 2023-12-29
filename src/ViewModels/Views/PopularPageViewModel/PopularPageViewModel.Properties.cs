@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
@@ -46,6 +47,11 @@ public sealed partial class PopularPageViewModel
 
     [ObservableProperty]
     private bool _isInitializing;
+
+    /// <summary>
+    /// 请求滚动到顶部.
+    /// </summary>
+    public event EventHandler RequestScrollToTop;
 
     /// <summary>
     /// 实例.

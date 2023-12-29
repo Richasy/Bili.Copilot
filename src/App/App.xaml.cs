@@ -85,7 +85,7 @@ public partial class App : Application
     /// </summary>
     private void ActivateWindow(AppActivationArguments arguments = default)
     {
-        _dispatcherQueue.TryEnqueue(async () =>
+        _ = _dispatcherQueue.TryEnqueue(async () =>
         {
             if (_window == null)
             {
@@ -93,12 +93,12 @@ public partial class App : Application
             }
             else if (_window.Visible && HandleCloseEvents && arguments?.Data == null)
             {
-                _window.Hide();
+                _ = _window.Hide();
             }
             else
             {
                 _window.Activate();
-                _window.SetForegroundWindow();
+                _ = _window.SetForegroundWindow();
             }
         });
     }
@@ -212,7 +212,7 @@ public partial class App : Application
             }
 
             InitializeTrayIcon();
-            _window.Hide();
+            _ = _window.Hide();
         }
     }
 

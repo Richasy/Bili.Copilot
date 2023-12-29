@@ -41,14 +41,6 @@
                                             <local:FluentIcon Symbol="Globe" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeCommand}"
-                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
-                                        Text="{ext:Locale Name=AISummarize}">
-                                        <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="ReceiptSparkles" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
                                 </MenuFlyout>
                             </local:CardPanel.ContextFlyout>
                             <Grid>
@@ -211,14 +203,6 @@
                                             <local:FluentIcon Symbol="Globe" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeCommand}"
-                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
-                                        Text="{ext:Locale Name=AISummarize}">
-                                        <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="ReceiptSparkles" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
                                 </MenuFlyout>
                             </local:CardPanel.ContextFlyout>
                             <Grid>
@@ -373,14 +357,6 @@
                                     Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <local:FluentIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}"
-                                    Text="{ext:Locale Name=AISummarize}">
-                                    <MenuFlyoutItem.Icon>
-                                        <local:FluentIcon Symbol="ReceiptSparkles" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>

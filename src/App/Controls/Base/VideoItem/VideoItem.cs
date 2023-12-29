@@ -28,7 +28,7 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
         else
         {
             var privatePlayItem = GetTemplateChild("PrivatePlayItem") as MenuFlyoutItem;
-            if(privatePlayItem != null)
+            if (privatePlayItem != null)
             {
                 privatePlayItem.Click += OnPrivatePlayItemClick;
             }

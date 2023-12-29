@@ -49,24 +49,6 @@
                                             <local:FluentIcon Symbol="Pin" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
-                                        <MenuFlyoutSubItem.Icon>
-                                            <local:FluentIcon Symbol="Sparkle" />
-                                        </MenuFlyoutSubItem.Icon>
-                                        <MenuFlyoutItem
-                                            MinWidth="120"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
-                                            Text="{ext:Locale Name=SummarizeContent}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="DocumentOnePageSparkle" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="EmojiSparkle" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyoutSubItem>
                                 </MenuFlyout>
                             </local:CardPanel.ContextFlyout>
 
@@ -250,24 +232,6 @@
                                             <local:FluentIcon Symbol="Pin" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
-                                        <MenuFlyoutSubItem.Icon>
-                                            <local:FluentIcon Symbol="Sparkle" />
-                                        </MenuFlyoutSubItem.Icon>
-                                        <MenuFlyoutItem
-                                            MinWidth="120"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
-                                            Text="{ext:Locale Name=SummarizeContent}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="DocumentOnePageSparkle" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
-                                            <MenuFlyoutItem.Icon>
-                                                <local:FluentIcon Symbol="EmojiSparkle" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyoutSubItem>
                                 </MenuFlyout>
                             </local:CardPanel.ContextFlyout>
 
@@ -436,24 +400,6 @@
                                         <local:FluentIcon Symbol="Pin" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutSubItem IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAISupported}" Text="{ext:Locale Name=AISummarize}">
-                                    <MenuFlyoutSubItem.Icon>
-                                        <local:FluentIcon Symbol="Sparkle" />
-                                    </MenuFlyoutSubItem.Icon>
-                                    <MenuFlyoutItem
-                                        MinWidth="120"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SummarizeContentCommand}"
-                                        Text="{ext:Locale Name=SummarizeContent}">
-                                        <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="DocumentOnePageSparkle" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.EvaluateCommand}" Text="{ext:Locale Name=Evaluation}">
-                                        <MenuFlyoutItem.Icon>
-                                            <local:FluentIcon Symbol="EmojiSparkle" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyoutSubItem>
                             </MenuFlyout>
                         </Grid.ContextFlyout>
                         <Grid.Resources>

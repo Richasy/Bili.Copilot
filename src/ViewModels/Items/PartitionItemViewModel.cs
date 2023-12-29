@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Data.Community;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels.Items;
 
@@ -10,6 +11,9 @@ namespace Bili.Copilot.ViewModels.Items;
 /// </summary>
 public sealed partial class PartitionItemViewModel : SelectableViewModel<Partition>
 {
+    [ObservableProperty]
+    private string _additionalText;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PartitionItemViewModel"/> class.
     /// </summary>

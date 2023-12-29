@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Bili.Copilot.App.Controls.Danmaku;

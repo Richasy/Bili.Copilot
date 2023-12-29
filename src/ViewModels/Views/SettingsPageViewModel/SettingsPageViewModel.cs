@@ -25,7 +25,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DecodeTypeCollection = new ObservableCollection<DecodeType>();
         PreferQualities = new ObservableCollection<PreferQuality>();
         PreferAudioQualities = new ObservableCollection<PreferAudio>();
-        AIConnectTypes = new ObservableCollection<AIConnectType>();
         PlayerTypes = new ObservableCollection<PlayerType>();
 
         InitializeSettings();
@@ -50,12 +49,11 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
-        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior.Multiple);
+        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
         PlayerTypeInit();
-        AIConnectTypeInit();
 
         // BackgroundTaskInitAsync();
         RoamingInit();
@@ -145,9 +143,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(PreferAudioQuality):
                 WriteSetting(SettingNames.PreferAudioQuality, PreferAudioQuality);
                 break;
-            case nameof(AIConnectType):
-                WriteSetting(SettingNames.AIConnectType, AIConnectType);
-                break;
             case nameof(HideWhenCloseWindow):
                 WriteSetting(SettingNames.HideWhenCloseWindow, HideWhenCloseWindow);
                 break;
@@ -155,7 +150,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
             case nameof(PlayerWindowBehavior):
-                WriteSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior);
+                WriteSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior);
                 break;
             default:
                 break;
@@ -191,17 +186,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         PreferCodec = ReadSetting(SettingNames.PreferCodec, PreferCodec.H264);
-    }
-
-    private void AIConnectTypeInit()
-    {
-        if (AIConnectTypes.Count == 0)
-        {
-            AIConnectTypes.Add(AIConnectType.Protocol);
-            AIConnectTypes.Add(AIConnectType.AppService);
-        }
-
-        AIConnectType = ReadSetting(SettingNames.AIConnectType, AIConnectType.AppService);
     }
 
     private void PlayerTypeInit()

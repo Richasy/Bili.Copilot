@@ -1,22 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -87,7 +77,7 @@ public sealed partial class GalleryPage : Page
     {
         _currentImageHeight = 0;
         RotateTransform.Angle = 0;
-        ImageScrollViewer.ChangeView(null, null, 1f);
+        _ = ImageScrollViewer.ChangeView(null, null, 1f);
 
         if (Image.Source != null)
         {
@@ -122,7 +112,7 @@ public sealed partial class GalleryPage : Page
             factor = 1;
         }
 
-        ImageScrollViewer.ChangeView(null, null, (float)factor);
+        _ = ImageScrollViewer.ChangeView(null, null, (float)factor);
     }
 
     private void CheckButtonStatus()
@@ -182,7 +172,7 @@ public sealed partial class GalleryPage : Page
             return;
         }
 
-        ImageScrollViewer.ChangeView(null, null, ImageScrollViewer.ZoomFactor - 0.1f);
+        _ = ImageScrollViewer.ChangeView(null, null, ImageScrollViewer.ZoomFactor - 0.1f);
     }
 
     private void OnZoomInButtonClick(object sender, RoutedEventArgs e)
@@ -192,7 +182,7 @@ public sealed partial class GalleryPage : Page
             return;
         }
 
-        ImageScrollViewer.ChangeView(null, null, ImageScrollViewer.ZoomFactor + 0.1f);
+        _ = ImageScrollViewer.ChangeView(null, null, ImageScrollViewer.ZoomFactor + 0.1f);
     }
 
     private async void OnImageItemClickAsync(object sender, RoutedEventArgs e)

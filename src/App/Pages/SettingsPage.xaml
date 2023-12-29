@@ -45,7 +45,6 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
-                <settings:AIConnectSettingSection />
                 <settings:CloseBehaviorSettingSection />
                 <settings:LoggerSettingSection />
                 <settings:CacheSettingSection />

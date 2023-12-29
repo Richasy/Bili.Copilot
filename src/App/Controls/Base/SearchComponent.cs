@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -22,7 +20,7 @@ public abstract class SearchComponent : ReactiveUserControl<ViewModelBase>
     /// </summary>
     public object ItemsSource
     {
-        get => (object)GetValue(ItemsSourceProperty);
+        get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 

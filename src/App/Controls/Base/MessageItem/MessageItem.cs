@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.ViewModels;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -16,5 +15,5 @@ public sealed class MessageItem : ReactiveControl<MessageItemViewModel>, IRepeat
     public MessageItem() => DefaultStyleKey = typeof(MessageItem);
 
     /// <inheritdoc/>
-    public Size GetHolderSize() => new Size(double.PositiveInfinity, 120);
+    public Size GetHolderSize() => new(double.PositiveInfinity, 120);
 }

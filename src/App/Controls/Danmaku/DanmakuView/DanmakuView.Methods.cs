@@ -1,14 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using Bili.Copilot.App.Extensions;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI;

@@ -43,9 +43,6 @@ public sealed partial class SettingsPageViewModel
     private PreferAudio _preferAudioQuality;
 
     [ObservableProperty]
-    private AIConnectType _aIConnectType;
-
-    [ObservableProperty]
     private PlayerType _playerType;
 
     [ObservableProperty]
@@ -131,11 +128,6 @@ public sealed partial class SettingsPageViewModel
     /// 偏好的音质可选集合.
     /// </summary>
     public ObservableCollection<PreferAudio> PreferAudioQualities { get; }
-
-    /// <summary>
-    /// AI连接方式集合.
-    /// </summary>
-    public ObservableCollection<AIConnectType> AIConnectTypes { get; }
 
     /// <summary>
     /// 播放器类型集合.

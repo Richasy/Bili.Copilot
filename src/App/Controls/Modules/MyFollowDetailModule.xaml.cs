@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Items;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
 

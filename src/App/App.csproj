@@ -35,7 +35,6 @@
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Assets\not_login.png" />
         <None Remove="Assets\ReaderClean.js" />
-        <None Remove="Controls\AIFeatureDialog.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
@@ -75,6 +74,7 @@
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
         <None Remove="Controls\Modules\ArticleNavListModule.xaml" />
+        <None Remove="Controls\Modules\FavoritesNavListModule.xaml" />
         <None Remove="Controls\Modules\FilmNavListModule.xaml" />
         <None Remove="Controls\Modules\FixModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
@@ -113,7 +113,6 @@
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
-        <None Remove="Controls\Settings\AIConnectSettingSection.xaml" />
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
         <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
@@ -133,10 +132,11 @@
         <None Remove="Pages\CommentPage.xaml" />
         <None Remove="Pages\DynamicPage.xaml" />
         <None Remove="Pages\FansPage.xaml" />
+        <None Remove="Pages\FavoritesPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
         <None Remove="Pages\FollowsPage.xaml" />
         <None Remove="Pages\GalleryPage.xaml" />
-        <None Remove="Pages\HomePage.xaml" />
+        <None Remove="Pages\HistoryPage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
         <None Remove="Pages\MessagePage.xaml" />
@@ -149,7 +149,7 @@
         <None Remove="Pages\UserSpacePage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
-        <None Remove="Pages\WatchlistPage.xaml" />
+        <None Remove="Pages\ViewLaterPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\BubbleView\BubbleView.xaml" />
@@ -174,7 +174,6 @@
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.123" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -232,6 +231,18 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\FavoritesNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FavoritesPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\HistoryPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\ViewLaterPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\CommentPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -307,9 +318,6 @@
       <Page Update="Controls\Settings\CloseBehaviorSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Controls\Settings\AIConnectSettingSection.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
       <Page Update="Controls\Settings\TraditionalChineseSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -332,9 +340,6 @@
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Base\StatusTip.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Controls\AIFeatureDialog.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Pages\ReaderPage.xaml">
@@ -525,11 +530,6 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Pages\WatchlistPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
       <Page Update="Pages\DynamicPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -632,11 +632,6 @@
     </ItemGroup>
     <ItemGroup>
         <Page Update="Styles\Overwrites.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-    </ItemGroup>
-    <ItemGroup>
-        <Page Update="Pages\HomePage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
     </ItemGroup>

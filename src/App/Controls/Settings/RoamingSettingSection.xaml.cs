@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Settings;
 

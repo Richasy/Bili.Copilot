@@ -1,14 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -157,7 +153,7 @@ public partial class BiliPlayerOverlay
         if (_cursorStayTime > 1.5
             && !ViewModel.IsShowMediaTransport
             && IsPointerStay
-            && !_rootSplitView.IsPaneOpen)
+            && !(_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay))
         {
             ProtectedCursor.Dispose();
             _cursorStayTime = 0;

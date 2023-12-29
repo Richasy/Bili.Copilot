@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.ComponentModel;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -21,12 +21,36 @@ public sealed partial class FixModule : FixModuleBase
     {
         InitializeComponent();
         ViewModel = FixModuleViewModel.Instance;
+        Loaded += OnLoaded;
     }
+
+    /// <summary>
+    /// 可见性改变事件.
+    /// </summary>
+    public event EventHandler VisibilityChanged;
 
     private void UnpinItemClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement)?.DataContext as FixedItem;
         FixModuleViewModel.Instance.RemoveFixedItemCommand.Execute(data?.Id);
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        ViewModel.PropertyChanged += OnPropertyChanged;
+    }
+
+    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.HasFixedItems))
+        {
+            if (!ViewModel.HasFixedItems && FixFlyout.IsOpen)
+            {
+                FixFlyout.Hide();
+            }
+
+            VisibilityChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void OnFixedItemClick(object sender, RoutedEventArgs e)

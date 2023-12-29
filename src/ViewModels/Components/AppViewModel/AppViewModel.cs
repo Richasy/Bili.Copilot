@@ -216,16 +216,19 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void SummarizeVideoContent(VideoIdentifier video)
-        => RequestSummarizeVideoContent?.Invoke(this, video);
+    private void ShowViewLater()
+        => RequestShowViewLater?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
-    private void SummarizeArticleContent(ArticleIdentifier article)
-        => RequestSummarizeArticleContent?.Invoke(this, article);
+    private void ShowHistory()
+        => RequestShowHistory?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
-    private void EvaluateVideoContent(VideoIdentifier video)
-        => RequestEvaluateVideo?.Invoke(this, video);
+    private void ShowFavorites()
+    {
+        IsOverlayShown = true;
+        RequestShowFavorites?.Invoke(this, EventArgs.Empty);
+    }
 
     [RelayCommand]
     private void Back()
@@ -241,13 +244,6 @@ public sealed partial class AppViewModel : ViewModelBase
         }
 
         BackRequest?.Invoke(this, EventArgs.Empty);
-    }
-
-    [RelayCommand]
-    private async Task CheckAIFeatureAsync()
-    {
-        var handlers = await Windows.System.Launcher.FindUriSchemeHandlersAsync("fancop").AsTask();
-        IsAISupported = handlers.Any();
     }
 
     [RelayCommand]

@@ -1,17 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Threading.Tasks;
-using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Windows.Storage;
 using Windows.System;
@@ -69,14 +63,6 @@ public sealed partial class ReaderPage : ReaderPageBase
             args.Handled = true;
             var menuFlyout = new MenuFlyout();
             menuFlyout.Closed += (s, e) => def.Complete();
-            var aiItem = new MenuFlyoutItem
-            {
-                Text = ResourceToolkit.GetLocalizedString(StringNames.WordExplain),
-                Icon = new FluentIcon() { Symbol = FluentSymbol.SlideTextSparkle },
-                Tag = args.ContextMenuTarget.SelectionText,
-                IsEnabled = args.ContextMenuTarget.HasSelection && AppViewModel.Instance.IsAISupported,
-                MinWidth = 160,
-            };
             var webSearchItem = new MenuFlyoutItem
             {
                 Text = ResourceToolkit.GetLocalizedString(StringNames.SearchInWeb),
@@ -84,9 +70,7 @@ public sealed partial class ReaderPage : ReaderPageBase
                 Tag = args.ContextMenuTarget.SelectionText,
                 IsEnabled = args.ContextMenuTarget.HasSelection,
             };
-            aiItem.Click += OnWordExplainItemClickAsync;
             webSearchItem.Click += OnSearchInWebItemClickAsync;
-            menuFlyout.Items.Add(aiItem);
             menuFlyout.Items.Add(webSearchItem);
             menuFlyout.ShowAt(ReaderView, args.Location);
         }
@@ -101,32 +85,17 @@ public sealed partial class ReaderPage : ReaderPageBase
         }
 
         var url = $"https://www.bing.com/search?q={Uri.EscapeDataString(text)}";
-        await Launcher.LaunchUriAsync(new Uri(url));
-    }
-
-    private async void OnWordExplainItemClickAsync(object sender, RoutedEventArgs e)
-    {
-        var item = (sender as MenuFlyoutItem).Tag as string;
-        if (string.IsNullOrEmpty(item))
-        {
-            return;
-        }
-
-        var dialog = new AIFeatureDialog((item, _article.Identifier), AIFeatureType.WordExplain)
-        {
-            XamlRoot = XamlRoot,
-        };
-        await dialog.ShowAsync();
+        _ = await Launcher.LaunchUriAsync(new Uri(url));
     }
 
     private async void OnNavigationCompletedAsync(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
         // 先执行一次清理脚本去除多于内容，再执行一次去除图片遮罩.
         var js = await GetJsAsync();
-        await ReaderView.CoreWebView2.ExecuteScriptAsync(js).AsTask();
+        _ = await ReaderView.CoreWebView2.ExecuteScriptAsync(js).AsTask();
 
         await Task.Delay(500);
-        await ReaderView.CoreWebView2.ExecuteScriptAsync(js).AsTask();
+        _ = await ReaderView.CoreWebView2.ExecuteScriptAsync(js).AsTask();
     }
 
     private void OnNavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)

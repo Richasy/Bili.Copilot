@@ -160,21 +160,30 @@
                                     Symbol="Chat"
                                     Text="{ext:Locale Name=Message}" />
                             </Button>
-                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.ShowFavoritesCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="StarLineHorizontal3"
                                     Text="{ext:Locale Name=MyFavorite}" />
                             </Button>
-                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.ShowViewLaterCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"
                                     Symbol="CalendarClock"
                                     Text="{ext:Locale Name=ViewLater}" />
                             </Button>
-                            <Button Click="OnItemButtonClick" Style="{StaticResource ItemButtonStyle}">
+                            <Button
+                                Click="OnItemButtonClick"
+                                Command="{x:Bind ViewModel.ShowHistoryCommand}"
+                                Style="{StaticResource ItemButtonStyle}">
                                 <base:IconTextBlock
                                     FontSize="14"
                                     IconFontSize="16"

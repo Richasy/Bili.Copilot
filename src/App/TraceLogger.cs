@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bili.Copilot.Libs.Toolkit;
 using Microsoft.AppCenter.Analytics;
 using Windows.Globalization;

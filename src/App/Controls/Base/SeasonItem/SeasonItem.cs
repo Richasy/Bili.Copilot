@@ -2,8 +2,6 @@
 
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
 

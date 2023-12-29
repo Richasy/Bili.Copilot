@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.UI;
 

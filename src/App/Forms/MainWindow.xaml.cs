@@ -5,6 +5,7 @@ using Bili.Copilot.App.Pages;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
@@ -18,7 +19,7 @@ namespace Bili.Copilot.App.Forms;
 /// <summary>
 /// 应用主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase, ITipWindow
+public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindow
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
     private bool _isInitialized;
@@ -44,12 +45,12 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         _appViewModel.RequestShowFollows += OnRequestShowFollows;
         _appViewModel.RequestShowMyMessages += OnRequestShowMyMessages;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
+        _appViewModel.RequestShowViewLater += OnRequestShowViewLater;
+        _appViewModel.RequestShowHistory += OnRequestShowHistory;
+        _appViewModel.RequestShowFavorites += OnRequestShowFavorites;
         _appViewModel.RequestShowCommentWindow += OnRequestShowCommentWindow;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
-        _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
-        _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
-        _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
         _appViewModel.RequestShowImages += OnRequestShowImages;
 
         MinWidth = 800;
@@ -66,12 +67,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     /// </summary>
     public static MainWindow Instance { get; private set; }
 
-    /// <summary>
-    /// Display a tip message and close it after the specified delay.
-    /// </summary>
-    /// <param name="element">The element to insert.</param>
-    /// <param name="delaySeconds">Delay time (seconds).</param>
-    /// <returns><see cref="Task"/>.</returns>
+    /// <inheritdoc/>
     public async Task ShowTipAsync(UIElement element, double delaySeconds)
     {
         TipContainer.Visibility = Visibility.Visible;
@@ -86,6 +82,16 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         }
     }
 
+    /// <inheritdoc/>
+    public void ShowUserSpace(UserProfile profile)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var userVM = new UserSpaceViewModel();
+        userVM.SetUserProfile(profile);
+        _ = SplitFrame.Navigate(typeof(UserSpacePage), userVM);
+    }
+
     internal static Visibility IsMainContentShown(bool isOverlayShown)
         => isOverlayShown ? Visibility.Collapsed : Visibility.Visible;
 
@@ -94,6 +100,23 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         var left = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionLeft, 0);
         var top = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionTop, 0);
         return new PointInt32(left, top);
+    }
+
+    private static PlayerWindow GetPlayerWindow()
+    {
+        var playerBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
+        PlayerWindow window = default;
+        if (playerBehavior == PlayerWindowBehavior.Single)
+        {
+            window = AppViewModel.Instance.DisplayWindows.OfType<PlayerWindow>().FirstOrDefault();
+        }
+
+        if (window == null)
+        {
+            window = new PlayerWindow();
+        }
+
+        return window;
     }
 
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
@@ -110,7 +133,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 #if !DEBUG
             _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
-            _appViewModel.CheckAIFeatureCommand.Execute(default);
             _appViewModel.CheckBBDownExistCommand.Execute(default);
 
             _isInitialized = true;
@@ -159,16 +181,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     }
 
     private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
-    {
-        var playWindow = new PlayerWindow(e);
-        playWindow.Activate();
-    }
+        => GetPlayerWindow().SetData(e);
 
     private void OnAppViewModelRequestPlaylist(object sender, List<VideoInformation> e)
-    {
-        var playWindow = new PlayerWindow(e);
-        playWindow.Activate();
-    }
+        => GetPlayerWindow().SetData(e);
 
     private void OnRequestSearch(object sender, string e)
     {
@@ -177,7 +193,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
         if (OverlayFrame.Content is not SearchPage)
         {
-            OverlayFrame.Navigate(typeof(SearchPage), _appViewModel.Search);
+            _ = OverlayFrame.Navigate(typeof(SearchPage), _appViewModel.Search);
         }
     }
 
@@ -188,7 +204,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
         if (OverlayFrame.Content is not MessagePage)
         {
-            OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
+            _ = OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
         }
     }
 
@@ -199,7 +215,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
         if (OverlayFrame.Content is not FollowsPage)
         {
-            OverlayFrame.Navigate(typeof(FollowsPage), _appViewModel.Follows);
+            _ = OverlayFrame.Navigate(typeof(FollowsPage), _appViewModel.Follows);
         }
     }
 
@@ -210,8 +226,33 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
         if (OverlayFrame.Content is not FansPage)
         {
-            OverlayFrame.Navigate(typeof(FansPage), _appViewModel.Fans);
+            _ = OverlayFrame.Navigate(typeof(FansPage), _appViewModel.Fans);
         }
+    }
+
+    private void OnRequestShowFavorites(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FavoritesPage)
+        {
+            _ = OverlayFrame.Navigate(typeof(FavoritesPage));
+        }
+    }
+
+    private void OnRequestShowHistory(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        SplitFrame.Navigate(typeof(HistoryPage));
+    }
+
+    private void OnRequestShowViewLater(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        SplitFrame.Navigate(typeof(ViewLaterPage));
     }
 
     private async void OnBackButtonClickAsync(object sender, EventArgs e)
@@ -219,7 +260,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         _appViewModel.BackCommand.Execute(default);
         if (OverlayFrame.Content is not null)
         {
-            OverlayFrame.Navigate(typeof(Page));
+            _ = OverlayFrame.Navigate(typeof(Page));
 
             await Task.Delay(200);
             OverlayFrame.Content = null;
@@ -228,11 +269,14 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {
-        Activate();
-        MainSplitView.IsPaneOpen = true;
-        var userVM = new UserSpaceViewModel();
-        userVM.SetUserProfile(e);
-        SplitFrame.Navigate(typeof(UserSpacePage), userVM);
+        if (AppViewModel.Instance.ActivatedWindow is IUserSpaceWindow window)
+        {
+            window.ShowUserSpace(e);
+        }
+        else
+        {
+            ShowUserSpace(e);
+        }
     }
 
     private void OnRequestShowCommentWindow(object sender, ShowCommentEventArgs e)
@@ -241,14 +285,14 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         MainSplitView.IsPaneOpen = true;
         var vm = new CommentModuleViewModel();
         vm.SetData(e.SourceId, e.Type);
-        SplitFrame.Navigate(typeof(CommentPage), vm);
+        _ = SplitFrame.Navigate(typeof(CommentPage), vm);
     }
 
     private void OnRequestRead(object sender, ArticleInformation e)
     {
         Activate();
         MainSplitView.IsPaneOpen = true;
-        SplitFrame.Navigate(typeof(ReaderPage), e);
+        _ = SplitFrame.Navigate(typeof(ReaderPage), e);
     }
 
     private void OnRequestShowImages(object sender, ShowImageEventArgs e)
@@ -260,26 +304,18 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
 
-    private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);
-
-    private async void OnRequestEvaluateVideoAsync(object sender, VideoIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.VideoEvaluation);
-
-    private async void OnRequestSummarizeArticleContentAsync(object sender, ArticleIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.ArticleSummarize);
-
-    private async Task ShowAIDialogAsync(object data, AIFeatureType type)
-    {
-        var dialog = new AIFeatureDialog(data, type)
-        {
-            XamlRoot = MainFrame.XamlRoot,
-        };
-        await dialog.ShowAsync();
-    }
-
     private void OnClosed(object sender, WindowEventArgs args)
-        => SaveCurrentWindowStats();
+    {
+        foreach (var item in AppViewModel.Instance.DisplayWindows.ToArray())
+        {
+            if (item is not MainWindow)
+            {
+                item.Close();
+            }
+        }
+
+        SaveCurrentWindowStats();
+    }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {

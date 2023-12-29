@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.App.Other;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -45,6 +43,11 @@ public partial class BiliPlayerOverlay
     /// 区块标头被点击.
     /// </summary>
     public event EventHandler<PlayerSectionHeader> SectionHeaderItemInvoked;
+
+    /// <summary>
+    /// 面板状态切换.
+    /// </summary>
+    public event EventHandler<double> PaneToggled;
 
     /// <summary>
     /// 光标是否停留在覆盖层上.

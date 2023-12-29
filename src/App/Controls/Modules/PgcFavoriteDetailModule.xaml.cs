@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Linq;
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -41,6 +38,13 @@ public sealed partial class PgcFavoriteDetailModule : PgcFavoriteDetailModuleBas
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        TitleBlock.Text = FavoriteType switch
+        {
+            FavoriteType.Anime => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteAnime),
+            FavoriteType.Film => ResourceToolkit.GetLocalizedString(StringNames.MyFavoriteFilm),
+            _ => throw new ArgumentOutOfRangeException(nameof(FavoriteType), FavoriteType, "Do not support")
+        };
+
         ViewModel = FavoriteType switch
         {
             FavoriteType.Anime => AnimeFavoriteDetailViewModel.Instance,

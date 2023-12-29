@@ -33,7 +33,7 @@ public sealed partial class VerticalRepeaterView : Control
     public void ScrollToItem(object item)
     {
         var element = _itemsControl.ContainerFromItem(item);
-        if(element is FrameworkElement ele)
+        if (element is FrameworkElement ele)
         {
             var options = new BringIntoViewOptions
             {
