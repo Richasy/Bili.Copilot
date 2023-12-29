@@ -105,6 +105,11 @@ public static class VideoAdapter
         }
 
         var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(dynamicVideo.Title);
+        if (string.IsNullOrEmpty(title))
+        {
+            title = TextToolkit.ConvertToTraditionalChineseIfNeeded("动态视频");
+        }
+
         var id = dynamicVideo.Avid.ToString();
         var bvid = dynamicVideo.Bvid;
         var duration = dynamicVideo.Duration;

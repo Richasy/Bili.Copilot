@@ -1,13 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.Graphics.DirectX;
-using Microsoft.UI;
 using Microsoft.UI.Composition;
-using Windows.Foundation;
 using Windows.UI;
 
 namespace Bili.Copilot.App.Controls.Base;

@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Globalization;
 using System.Reflection;
 using Bili.Copilot.Libs.Toolkit;
-using Microsoft.UI;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
@@ -51,7 +48,7 @@ internal class ColorConverter : IValueConverter
             {
                 case 9:
                     {
-                        var cuint = System.Convert.ToUInt32(colorString.Substring(1), 16);
+                        var cuint = System.Convert.ToUInt32(colorString[1..], 16);
                         var a = (byte)(cuint >> 24);
                         var r = (byte)((cuint >> 16) & 0xff);
                         var g = (byte)((cuint >> 8) & 0xff);
@@ -62,7 +59,7 @@ internal class ColorConverter : IValueConverter
 
                 case 7:
                     {
-                        var cuint = System.Convert.ToUInt32(colorString.Substring(1), 16);
+                        var cuint = System.Convert.ToUInt32(colorString[1..], 16);
                         var r = (byte)((cuint >> 16) & 0xff);
                         var g = (byte)((cuint >> 8) & 0xff);
                         var b = (byte)(cuint & 0xff);
@@ -72,7 +69,7 @@ internal class ColorConverter : IValueConverter
 
                 case 5:
                     {
-                        var cuint = System.Convert.ToUInt16(colorString.Substring(1), 16);
+                        var cuint = System.Convert.ToUInt16(colorString[1..], 16);
                         var a = (byte)(cuint >> 12);
                         var r = (byte)((cuint >> 8) & 0xf);
                         var g = (byte)((cuint >> 4) & 0xf);
@@ -87,7 +84,7 @@ internal class ColorConverter : IValueConverter
 
                 case 4:
                     {
-                        var cuint = System.Convert.ToUInt16(colorString.Substring(1), 16);
+                        var cuint = System.Convert.ToUInt16(colorString[1..], 16);
                         var r = (byte)((cuint >> 8) & 0xf);
                         var g = (byte)((cuint >> 4) & 0xf);
                         var b = (byte)(cuint & 0xf);
@@ -109,7 +106,7 @@ internal class ColorConverter : IValueConverter
 
             if (values.Length == 4)
             {
-                var scA = double.Parse(values[0].Substring(3), CultureInfo.InvariantCulture);
+                var scA = double.Parse(values[0][3..], CultureInfo.InvariantCulture);
                 var scR = double.Parse(values[1], CultureInfo.InvariantCulture);
                 var scG = double.Parse(values[2], CultureInfo.InvariantCulture);
                 var scB = double.Parse(values[3], CultureInfo.InvariantCulture);
@@ -119,7 +116,7 @@ internal class ColorConverter : IValueConverter
 
             if (values.Length == 3)
             {
-                var scR = double.Parse(values[0].Substring(3), CultureInfo.InvariantCulture);
+                var scR = double.Parse(values[0][3..], CultureInfo.InvariantCulture);
                 var scG = double.Parse(values[1], CultureInfo.InvariantCulture);
                 var scB = double.Parse(values[2], CultureInfo.InvariantCulture);
 
@@ -133,7 +130,14 @@ internal class ColorConverter : IValueConverter
 
         return prop != null ? (Color)prop.GetValue(null) : ThrowFormatException();
 
-        static void ThrowArgumentException() => throw new ArgumentException("The parameter \"colorString\" must not be null or empty.");
-        static Color ThrowFormatException() => throw new FormatException("The parameter \"colorString\" is not a recognized Color format.");
+        static void ThrowArgumentException()
+        {
+            throw new ArgumentException("The parameter \"colorString\" must not be null or empty.");
+        }
+
+        static Color ThrowFormatException()
+        {
+            throw new FormatException("The parameter \"colorString\" is not a recognized Color format.");
+        }
     }
 }

@@ -23,15 +23,27 @@ public sealed partial class AccountViewModel : ViewModelBase
 
     [RelayCommand]
     private static void OpenMessage()
-        => HomePageViewModel.Instance.OpenMessageCommand.Execute(default);
-
-    [RelayCommand]
-    private static void OpenFans()
-        => HomePageViewModel.Instance.OpenFansCommand.Execute(default);
+        => AppViewModel.Instance.ShowMyMessagesCommand.Execute(default);
 
     [RelayCommand]
     private static void OpenFollows()
-        => HomePageViewModel.Instance.OpenFollowsCommand.Execute(default);
+        => AppViewModel.Instance.ShowFollowsCommand.Execute(default);
+
+    [RelayCommand]
+    private static void ShowViewLater()
+        => AppViewModel.Instance.ShowViewLaterCommand.Execute(default);
+
+    [RelayCommand]
+    private static void ShowHistory()
+        => AppViewModel.Instance.ShowHistoryCommand.Execute(default);
+
+    [RelayCommand]
+    private static void ShowFavorites()
+        => AppViewModel.Instance.ShowFavoritesCommand.Execute(default);
+
+    [RelayCommand]
+    private void OpenFans()
+        => AppViewModel.Instance.ShowFansCommand.Execute(AccountInformation.User);
 
     /// <summary>
     /// 登出.

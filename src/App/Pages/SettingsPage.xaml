@@ -11,26 +11,16 @@
     xmlns:settings="using:Bili.Copilot.App.Controls.Settings"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <x:Double x:Key="SettingsCardWrapThreshold">280</x:Double>
-        <x:Double x:Key="SettingsCardWrapNoIconThreshold">200</x:Double>
-        <Thickness x:Key="SettingsExpanderItemPadding">24,8,24,8</Thickness>
-    </UserControl.Resources>
-
     <Grid RowSpacing="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            FontSize="{x:Bind CoreViewModel.HeaderFontSize, Mode=OneWay}"
-            Style="{StaticResource SubtitleTextBlockStyle}"
+            Margin="20,12,20,0"
+            Style="{StaticResource TitleTextBlockStyle}"
             Text="{ext:Locale Name=Settings}" />
-        <ScrollViewer
-            Grid.Row="1"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer Grid.Row="1" Style="{StaticResource PageScrollViewerStyle}">
             <StackPanel Margin="0,0,0,20" Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
@@ -49,7 +39,7 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
-                <settings:AIConnectSettingSection />
+                <settings:ThemeSettingSection />
                 <settings:CloseBehaviorSettingSection />
                 <settings:LoggerSettingSection />
                 <settings:CacheSettingSection />

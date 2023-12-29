@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+using Bili.Copilot.Libs.Toolkit;
 
 namespace Bili.Copilot.App.Controls;
 
@@ -20,7 +19,10 @@ public sealed partial class CloseWindowTipDialog : ContentDialog
     /// Initializes a new instance of the <see cref="CloseWindowTipDialog"/> class.
     /// </summary>
     public CloseWindowTipDialog()
-        => InitializeComponent();
+    {
+        InitializeComponent();
+        AppToolkit.ResetControlTheme(this);
+    }
 
     /// <summary>
     /// Is never ask checked.

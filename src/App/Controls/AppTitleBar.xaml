@@ -5,73 +5,74 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     mc:Ignorable="d">
 
     <Grid
         x:Name="RootGrid"
-        MinHeight="36"
+        Height="48"
+        Padding="4"
         HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
-        <Rectangle x:Name="BackgroundRect" Fill="{ThemeResource LayerFillColorDefaultBrush}" />
-        <Grid
-            Padding="4"
-            Background="{x:Bind Background, Mode=OneWay}"
-            ColumnSpacing="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button
-                x:Name="BackButton"
-                Padding="12,8"
-                Background="Transparent"
-                BorderThickness="0"
-                Click="OnBackButtonClick"
-                Visibility="{x:Bind BackButtonVisibility, Mode=OneWay}">
-                <base:FluentIcon
-                    x:Name="BackIcon"
-                    FontSize="12"
-                    Symbol="ArrowLeft" />
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Back" IsEnabled="True" />
-                </Button.KeyboardAccelerators>
-            </Button>
+        VerticalAlignment="Stretch"
+        ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="148" />
+        </Grid.ColumnDefinitions>
+        <Button
+            x:Name="BackButton"
+            Width="40"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="OnBackButtonClick"
+            ToolTipService.ToolTip="{ext:Locale Name=Back}"
+            Visibility="{x:Bind BackButtonVisibility, Mode=OneWay}">
+            <base:FluentIcon
+                x:Name="BackIcon"
+                FontSize="12"
+                Symbol="ArrowLeft" />
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Key="Back" IsEnabled="True" />
+            </Button.KeyboardAccelerators>
+        </Button>
+        <StackPanel
+            Grid.Column="1"
+            Margin="8,0,0,0"
+            Orientation="Horizontal"
+            Spacing="8">
             <Image
-                x:Name="Logo"
-                Grid.Column="1"
                 Width="16"
                 Height="16"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Source="ms-appx:///Assets/StoreLogo.png" />
+                Source="ms-appx:///Assets/logo.ico" />
             <TextBlock
-                Grid.Column="2"
-                Margin="0,0,140,0"
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind Title, Mode=OneWay}"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap" />
-        </Grid>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="CompactState" />
-                <VisualState x:Name="FullState">
-                    <VisualState.Setters>
-                        <Setter Target="RootGrid.MinHeight" Value="48" />
-                        <Setter Target="BackgroundRect.Visibility" Value="Collapsed" />
-                        <Setter Target="BackButton.Height" Value="40" />
-                        <Setter Target="BackButton.Width" Value="40" />
-                        <Setter Target="BackIcon.FontSize" Value="14" />
-                        <Setter Target="Logo.Width" Value="20" />
-                        <Setter Target="Logo.Height" Value="20" />
-                        <Setter Target="Logo.Margin" Value="4,0,8,0" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        </StackPanel>
+        <modules:SearchBoxModule
+            x:Name="SearchModule"
+            Grid.Column="2"
+            MaxWidth="380"
+            VerticalAlignment="Center" />
+        <modules:FixModule
+            x:Name="FixModule"
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            VisibilityChanged="OnFixModuleVisibilityChangedAsync" />
+        <modules:AccountModule
+            x:Name="AccountModule"
+            Grid.Column="4"
+            VerticalAlignment="Center" />
     </Grid>
 </UserControl>

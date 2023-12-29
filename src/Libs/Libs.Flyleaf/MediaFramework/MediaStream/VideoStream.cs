@@ -96,7 +96,9 @@ public unsafe class VideoStream : StreamBase
             else
                 ColorTransfer = AVStream->codecpar->color_trc;
 
+#pragma warning disable CS0618 // 类型或成员已过时
             Rotation = av_display_rotation_get(av_stream_get_side_data(AVStream, AVPacketSideDataType.AV_PKT_DATA_DISPLAYMATRIX, null));
+#pragma warning restore CS0618 // 类型或成员已过时
 
             PixelFormatDesc = av_pix_fmt_desc_get(PixelFormat);
             var comps       = PixelFormatDesc->comp.ToArray();

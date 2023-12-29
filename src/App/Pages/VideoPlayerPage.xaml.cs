@@ -3,7 +3,6 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Navigation;
 
 namespace Bili.Copilot.App.Pages;
 

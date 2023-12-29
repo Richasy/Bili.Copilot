@@ -13,45 +13,63 @@
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+
         <controls:AppTitleBar
             x:Name="CustomTitleBar"
             Title="{ext:Locale Name=AppName}"
             Grid.ColumnSpan="2"
-            BackButtonClick="OnBackButtonClick"
+            BackButtonClick="OnBackButtonClickAsync"
             BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
             Loaded="OnTitleBarLoaded" />
-        <Frame
-            x:Name="MainFrame"
+
+        <SplitView
+            x:Name="MainSplitView"
             Grid.Row="1"
-            Grid.Column="1"
-            Padding="0,12,0,0"
-            Background="{ThemeResource LayerFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
-            BorderThickness="0,0,0,1" />
-        <controls:AppNavView
-            x:Name="NavContainer"
-            Grid.Row="2"
-            Grid.RowSpan="1"
-            Grid.Column="1" />
+            CompactPaneLength="0"
+            DisplayMode="CompactOverlay"
+            IsPaneOpen="False"
+            LightDismissOverlayMode="On"
+            OpenPaneLength="400"
+            PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            PanePlacement="Right">
+            <SplitView.Pane>
+                <Grid>
+                    <Frame x:Name="SplitFrame" />
+                </Grid>
+            </SplitView.Pane>
+            <Grid>
+                <Grid Visibility="{x:Bind local:MainWindow.IsMainContentShown(_appViewModel.IsOverlayShown), Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Frame
+                        x:Name="MainFrame"
+                        Grid.Column="1"
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource NavigationViewContentGridBorderBrush}"
+                        BorderThickness="1,1,0,0"
+                        CornerRadius="8,0,0,0" />
+                    <base:NavigationPanel x:Name="NavContainer" />
+
+                    <ProgressRing
+                        Grid.Column="1"
+                        IsActive="{x:Bind _appViewModel.IsSigningIn, Mode=OneWay}"
+                        Style="{StaticResource PageProgressRingStyle}" />
+                </Grid>
+                <Grid Visibility="{x:Bind _appViewModel.IsOverlayShown, Mode=OneWay}">
+                    <Frame x:Name="OverlayFrame" Background="{ThemeResource LayerFillColorDefaultBrush}" />
+                </Grid>
+            </Grid>
+        </SplitView>
+
         <Grid
             x:Name="TipContainer"
-            Grid.RowSpan="3"
-            Grid.ColumnSpan="2"
-            Visibility="Collapsed" />
-        <ProgressRing
             Grid.Row="1"
-            Grid.Column="1"
-            IsActive="{x:Bind _appViewModel.IsSigningIn, Mode=OneWay}"
-            Style="{StaticResource PageProgressRingStyle}" />
+            Visibility="Collapsed" />
     </Grid>
 </local:WindowBase>

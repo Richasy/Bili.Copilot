@@ -21,7 +21,7 @@ public sealed partial class VideoFavoriteDetailViewModel
     private bool _isEmpty;
 
     [ObservableProperty]
-    private VideoFavoriteFolder _currentFolder;
+    private VideoFavoriteFolderSelectableViewModel _currentFolder;
 
     /// <summary>
     /// 实例.
@@ -31,5 +31,5 @@ public sealed partial class VideoFavoriteDetailViewModel
     /// <summary>
     /// 收藏夹集合.
     /// </summary>
-    public ObservableCollection<VideoFavoriteFolder> Folders { get; }
+    public ObservableCollection<VideoFavoriteFolderSelectableViewModel> Folders { get; }
 }

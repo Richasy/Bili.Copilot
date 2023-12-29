@@ -2,7 +2,6 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.App.Controls.Modules;
 

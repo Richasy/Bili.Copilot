@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -15,7 +15,7 @@ public sealed partial class MyFollowsDetailViewModel
     private readonly Dictionary<string, IEnumerable<UserItemViewModel>> _cache;
 
     [ObservableProperty]
-    private FollowGroup _currentGroup;
+    private FollowGroupViewModel _currentGroup;
 
     [ObservableProperty]
     private bool _isCurrentGroupEmpty;
@@ -34,5 +34,5 @@ public sealed partial class MyFollowsDetailViewModel
     /// <summary>
     /// 关注分组.
     /// </summary>
-    public ObservableCollection<FollowGroup> Groups { get; }
+    public ObservableCollection<FollowGroupViewModel> Groups { get; }
 }

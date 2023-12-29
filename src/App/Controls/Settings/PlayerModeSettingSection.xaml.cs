@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.Constants.Player;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Settings;
 
@@ -27,7 +26,7 @@ public sealed partial class PlayerModeSettingSection : SettingSection
 
     private void OnPlayerWindowBehaviorComboBoxSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
     {
-        if(!IsLoaded)
+        if (!IsLoaded)
         {
             return;
         }

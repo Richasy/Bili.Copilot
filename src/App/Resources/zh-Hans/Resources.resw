@@ -1456,7 +1456,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>二维码已过期，请刷新</value>
   </data>
   <data name="QRLoginTip" xml:space="preserve">
-    <value>请使用移动客户端扫描上方的二维码登录</value>
+    <value>请使用移动客户端扫描下方的二维码登录</value>
   </data>
   <data name="Quality" xml:space="preserve">
     <value>清晰度</value>
@@ -2066,5 +2066,44 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="VideoPartition" xml:space="preserve">
     <value>视频分区</value>
+  </data>
+  <data name="DataUsage" xml:space="preserve">
+    <value>数据使用</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="OpenPartition" xml:space="preserve">
+    <value>点击分区</value>
+  </data>
+  <data name="OpenPartitionDescription" xml:space="preserve">
+    <value>点击分区后可以查看推荐内容及子分区内容</value>
+  </data>
+  <data name="PopularSlim" xml:space="preserve">
+    <value>流行</value>
+  </data>
+  <data name="WelcomeUse" xml:space="preserve">
+    <value>欢迎使用哔哩助理</value>
+  </data>
+  <data name="LoadingAndWait" xml:space="preserve">
+    <value>加载中，请稍候</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>应用程序主题</value>
+  </data>
+  <data name="AppThemeDescription" xml:space="preserve">
+    <value>选择要显示的应用主题</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+    <value>使用系统设置</value>
   </data>
 </root>

@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
-
 namespace Bili.Copilot.App.Controls.Base;
 
 [System.Diagnostics.DebuggerDisplay("Count = {Count}, Height = {Height}")]

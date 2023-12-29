@@ -11,7 +11,7 @@
         <UseWinUI>true</UseWinUI>
         <EnableMsixTooling>true</EnableMsixTooling>
         <AssemblyName>Bili.Copilot.App</AssemblyName>
-        <DefaultLanguage>zh-CN</DefaultLanguage>
+        <DefaultLanguage>zh-Hans</DefaultLanguage>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <PackageCertificateKeyFile>App_TemporaryKey.pfx</PackageCertificateKeyFile>
         <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
@@ -35,18 +35,20 @@
         <None Remove="Assets\FluentIcon.ttf" />
         <None Remove="Assets\not_login.png" />
         <None Remove="Assets\ReaderClean.js" />
-        <None Remove="Controls\AIFeatureDialog.xaml" />
-        <None Remove="Controls\AppNavView.xaml" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
         <None Remove="Controls\Base\DynamicPresenter.xaml" />
+        <None Remove="Controls\Base\EmptyHolder.xaml" />
         <None Remove="Controls\Base\ImageEx\ImageEx.xaml" />
         <None Remove="Controls\Base\CardPanel\CardPanel.xaml" />
         <None Remove="Controls\Base\IconTextBlock\IconTextBlock.xaml" />
+        <None Remove="Controls\Base\LoadingOverlapper.xaml" />
         <None Remove="Controls\Base\MediaStatsPanel.xaml" />
+        <None Remove="Controls\Base\NavigateItemControl.xaml" />
+        <None Remove="Controls\Base\NavigationPanel.xaml" />
         <None Remove="Controls\Base\StatusTip.xaml" />
         <None Remove="Controls\Base\TwoLineButton\TwoLineButton.xaml" />
         <None Remove="Controls\Base\PartitionItem\PartitionItem.xaml" />
@@ -70,13 +72,17 @@
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
+        <None Remove="Controls\Modules\ArticleNavListModule.xaml" />
+        <None Remove="Controls\Modules\FavoritesNavListModule.xaml" />
+        <None Remove="Controls\Modules\FilmNavListModule.xaml" />
         <None Remove="Controls\Modules\FixModule.xaml" />
         <None Remove="Controls\Modules\HistoryModule.xaml" />
         <None Remove="Controls\Modules\HotSearchModule.xaml" />
         <None Remove="Controls\Modules\LiveInformationView.xaml" />
         <None Remove="Controls\Modules\LiveMessageView.xaml" />
+        <None Remove="Controls\Modules\LiveNavListModule.xaml" />
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
-        <None Remove="Controls\Modules\LivePartitionIndexModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\MessageDetailModule.xaml" />
         <None Remove="Controls\Modules\MyFollowDetailModule.xaml" />
@@ -86,12 +92,14 @@
         <None Remove="Controls\Modules\PgcInformationView.xaml" />
         <None Remove="Controls\Modules\PgcRecommendModule.xaml" />
         <None Remove="Controls\Modules\PgcSeasonView.xaml" />
+        <None Remove="Controls\Modules\PopularNavListModule.xaml" />
         <None Remove="Controls\Modules\RelatedVideoView.xaml" />
         <None Remove="Controls\Modules\RelationDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchArticleView.xaml" />
         <None Remove="Controls\Modules\SearchBoxModule.xaml" />
         <None Remove="Controls\Modules\SearchDetailModule.xaml" />
         <None Remove="Controls\Modules\SearchLiveView.xaml" />
+        <None Remove="Controls\Modules\SearchNavListModule.xaml" />
         <None Remove="Controls\Modules\SearchPgcView.xaml" />
         <None Remove="Controls\Modules\SearchUserView.xaml" />
         <None Remove="Controls\Modules\SearchVideoView.xaml" />
@@ -100,45 +108,49 @@
         <None Remove="Controls\Modules\VideoFavoriteModule.xaml" />
         <None Remove="Controls\Modules\VideoInformationView.xaml" />
         <None Remove="Controls\Modules\VideoPartitionDetailModule.xaml" />
-        <None Remove="Controls\Modules\VideoPartitionIndexModule.xaml" />
+        <None Remove="Controls\Modules\VideoPartitionNavListModule.xaml" />
         <None Remove="Controls\Modules\VideoPartView.xaml" />
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
-        <None Remove="Controls\Settings\AIConnectSettingSection.xaml" />
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
         <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
         <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
+        <None Remove="Controls\Settings\ThemeSettingSection.xaml" />
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
-        <None Remove="Forms\CommentWindow.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
-        <None Remove="Forms\ReaderWindow.xaml" />
-        <None Remove="Forms\UserSpaceWindow.xaml" />
+        <None Remove="Forms\SignInWindow.xaml" />
         <None Remove="NLog.config" />
         <None Remove="Pages\AnimePage.xaml" />
         <None Remove="Pages\ArticlePage.xaml" />
+        <None Remove="Pages\CommentPage.xaml" />
         <None Remove="Pages\DynamicPage.xaml" />
+        <None Remove="Pages\FansPage.xaml" />
+        <None Remove="Pages\FavoritesPage.xaml" />
         <None Remove="Pages\FilmPage.xaml" />
+        <None Remove="Pages\FollowsPage.xaml" />
         <None Remove="Pages\GalleryPage.xaml" />
-        <None Remove="Pages\HomePage.xaml" />
+        <None Remove="Pages\HistoryPage.xaml" />
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
+        <None Remove="Pages\MessagePage.xaml" />
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\ReaderPage.xaml" />
+        <None Remove="Pages\SearchPage.xaml" />
         <None Remove="Pages\SettingsPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\UserSpacePage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
-        <None Remove="Pages\WatchlistPage.xaml" />
+        <None Remove="Pages\ViewLaterPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\BubbleView\BubbleView.xaml" />
@@ -157,21 +169,21 @@
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.231214-build.795" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Animations" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.118" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.123" />
         <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.3" />
         <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.3" />
-        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.5.1" />
         <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-        <PackageReference Include="NLog" Version="5.2.4" />
-        <PackageReference Include="Vortice.WinUI" Version="3.3.3-beta" />
-        <PackageReference Include="WinUIEx" Version="2.3.1" />
+        <PackageReference Include="NLog" Version="5.2.7" />
+        <PackageReference Include="Vortice.WinUI" Version="3.4.1-beta" />
+        <PackageReference Include="WinUIEx" Version="2.3.3" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
@@ -220,7 +232,70 @@
       <None Update="Assets\ffmpeg\swscale-7.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <Page Update="Controls\AppNavView.xaml">
+      <Page Update="Controls\Settings\ThemeSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\FavoritesNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FavoritesPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\HistoryPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\ViewLaterPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\CommentPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\MessagePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FollowsPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\FansPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\SearchNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\SearchPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\ArticleNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\FilmNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\AnimeNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\LiveNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\VideoPartitionNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\LoadingOverlapper.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\PopularNavListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\EmptyHolder.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\NavigationPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\NavigateItemControl.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Forms\SignInWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\FixModule.xaml">
@@ -247,9 +322,6 @@
       <Page Update="Controls\Settings\CloseBehaviorSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Controls\Settings\AIConnectSettingSection.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
       <Page Update="Controls\Settings\TraditionalChineseSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -274,22 +346,10 @@
       <Page Update="Controls\Base\StatusTip.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
-      <Page Update="Controls\AIFeatureDialog.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Forms\ReaderWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
       <Page Update="Pages\ReaderPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Pages\UserSpacePage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Forms\UserSpaceWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-      <Page Update="Forms\CommentWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
       <Page Update="Controls\Modules\MyFollowDetailModule.xaml">
@@ -444,11 +504,6 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Controls\Modules\LivePartitionIndexModule.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
       <Page Update="Pages\LivePage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -479,11 +534,6 @@
       </Page>
     </ItemGroup>
     <ItemGroup>
-      <Page Update="Pages\WatchlistPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
       <Page Update="Pages\DynamicPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -510,11 +560,6 @@
     </ItemGroup>
     <ItemGroup>
       <Page Update="Pages\VideoPartitionPage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
-    <ItemGroup>
-      <Page Update="Controls\Modules\VideoPartitionIndexModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
     </ItemGroup>
@@ -595,11 +640,6 @@
         </Page>
     </ItemGroup>
     <ItemGroup>
-        <Page Update="Pages\HomePage.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-    </ItemGroup>
-    <ItemGroup>
       <Page Update="Controls\Modules\AccountModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
@@ -654,25 +694,5 @@
   -->
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-    </PropertyGroup>
-
-    <!-- Needed for implementing single instance mode. See https://blogs.windows.com/windowsdeveloper/2022/01/28/making-the-app-single-instanced-part-3 -->
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm64'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm64'">
-        <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
 </Project>

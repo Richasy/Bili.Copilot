@@ -108,6 +108,11 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
         ClearException();
         TryClear(CurrentFilters);
         CurrentModule = vm;
+        foreach (var item in Items)
+        {
+            item.IsSelected = item.Equals(vm);
+        }
+
         ClearCurrentModule();
         await GetDataAsync();
     }

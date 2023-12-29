@@ -27,12 +27,6 @@ public sealed partial class AppViewModel
     private bool _isBackButtonShown;
 
     [ObservableProperty]
-    private bool _isNavigationMenuShown;
-
-    [ObservableProperty]
-    private NavigateItemViewModel _currentNavigateItem;
-
-    [ObservableProperty]
     private PageType _currentPage;
 
     [ObservableProperty]
@@ -42,16 +36,28 @@ public sealed partial class AppViewModel
     private bool _isEngineStarted;
 
     [ObservableProperty]
-    private bool _isAISupported;
-
-    [ObservableProperty]
     private bool _isDownloadSupported;
 
     [ObservableProperty]
-    private double _pagePadding;
+    private Window _activatedWindow;
 
     [ObservableProperty]
-    private double _headerFontSize;
+    private NavigateItemViewModel _settingsItem;
+
+    [ObservableProperty]
+    private bool _isOverlayShown;
+
+    [ObservableProperty]
+    private SearchDetailViewModel _search;
+
+    [ObservableProperty]
+    private MessageDetailViewModel _message;
+
+    [ObservableProperty]
+    private FansDetailViewModel _fans;
+
+    [ObservableProperty]
+    private MyFollowsDetailViewModel _follows;
 
     /// <summary>
     /// 在请求后退时触发.
@@ -94,6 +100,36 @@ public sealed partial class AppViewModel
     public event EventHandler<string> RequestSearch;
 
     /// <summary>
+    /// 在有新的粉丝请求时触发.
+    /// </summary>
+    public event EventHandler<UserProfile> RequestShowFans;
+
+    /// <summary>
+    /// 在有新的关注请求时触发.
+    /// </summary>
+    public event EventHandler RequestShowFollows;
+
+    /// <summary>
+    /// 在有消息页面请求时触发.
+    /// </summary>
+    public event EventHandler RequestShowMyMessages;
+
+    /// <summary>
+    /// 请求显示稍后再看.
+    /// </summary>
+    public event EventHandler RequestShowViewLater;
+
+    /// <summary>
+    /// 请求显示历史记录.
+    /// </summary>
+    public event EventHandler RequestShowHistory;
+
+    /// <summary>
+    /// 请求显示收藏夹.
+    /// </summary>
+    public event EventHandler RequestShowFavorites;
+
+    /// <summary>
     /// 在有新的用户空间请求时触发.
     /// </summary>
     public event EventHandler<UserProfile> RequestShowUserSpace;
@@ -107,21 +143,6 @@ public sealed partial class AppViewModel
     /// 在有新的阅读请求时触发.
     /// </summary>
     public event EventHandler<ArticleInformation> RequestRead;
-
-    /// <summary>
-    /// 请求视频的AI总结.
-    /// </summary>
-    public event EventHandler<VideoIdentifier> RequestSummarizeVideoContent;
-
-    /// <summary>
-    /// 请求视频的AI评价.
-    /// </summary>
-    public event EventHandler<VideoIdentifier> RequestEvaluateVideo;
-
-    /// <summary>
-    /// 请求文章的AI总结.
-    /// </summary>
-    public event EventHandler<ArticleIdentifier> RequestSummarizeArticleContent;
 
     /// <summary>
     /// 请求显示图片.
@@ -144,7 +165,7 @@ public sealed partial class AppViewModel
     public ObservableCollection<NavigateItemViewModel> NavigateItems { get; }
 
     /// <summary>
-    /// 上次打开的播放器窗口.
+    /// 显示的窗口列表.
     /// </summary>
-    public Window LastPlayerWindow { get; set; }
+    public List<Window> DisplayWindows { get; }
 }

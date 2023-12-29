@@ -13,7 +13,7 @@
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
-    <Grid Grid.Row="1">
+    <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="VideoItemTemplate" x:DataType="viewmodels:VideoItemViewModel">
                 <base:VideoItem ViewModel="{x:Bind}" />
@@ -25,22 +25,29 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid Margin="20,0" RowSpacing="8">
+            <Grid Margin="20,12,20,0" RowSpacing="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Spacing="12">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                     <base:UserAvatar
-                        Width="64"
-                        Height="64"
+                        Width="56"
+                        Height="56"
                         VerticalAlignment="Center"
                         Avatar="{x:Bind ViewModel.UserViewModel.User.Avatar.Uri, Mode=OneWay}"
                         AvatarRadius="32"
                         DecodeSize="100"
                         IsEnabled="False"
                         UserName="{x:Bind ViewModel.UserViewModel.User.Name, Mode=OneWay}" />
-                    <StackPanel VerticalAlignment="Center" Spacing="4">
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Spacing="4">
                         <StackPanel
                             Grid.Row="1"
                             Margin="0,12,0,0"
@@ -62,7 +69,6 @@
                                 Source="{x:Bind ViewModel.UserViewModel.Level, Mode=OneWay, Converter={StaticResource UserLevelConverter}}" />
                         </StackPanel>
                         <TextBlock
-                            MaxWidth="380"
                             HorizontalAlignment="Left"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             MaxLines="3"
@@ -81,7 +87,7 @@
                             </TextBlock>
                         </Border>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
 
                 <Grid
                     x:Name="InteractionContainer"
@@ -190,7 +196,15 @@
                 </Grid>
             </Grid>
         </Grid>
-        <modules:RelationDetailModule ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
-        <modules:RelationDetailModule ViewModel="{x:Bind ViewModel.Follows, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsInFollows, Mode=OneWay}" />
+        <modules:RelationDetailModule
+            BackButtonClick="OnBackButtonClick"
+            IsBackButtonShown="True"
+            ViewModel="{x:Bind ViewModel.Fans, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInFans, Mode=OneWay}" />
+        <modules:RelationDetailModule
+            BackButtonClick="OnBackButtonClick"
+            IsBackButtonShown="True"
+            ViewModel="{x:Bind ViewModel.Follows, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsInFollows, Mode=OneWay}" />
     </Grid>
 </local:UserSpacePageBase>

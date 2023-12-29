@@ -21,7 +21,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid">
-        <ScrollViewer Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}" Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="VideoView"
                 Margin="0,0,0,20"

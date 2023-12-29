@@ -10,7 +10,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Article;
-using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -25,8 +25,9 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
     /// </summary>
     private ArticlePageViewModel()
     {
-        _caches = new Dictionary<Partition, IEnumerable<ArticleInformation>>();
-        Partitions = new ObservableCollection<Partition>();
+        _caches = new Dictionary<PartitionItemViewModel, IEnumerable<ArticleInformation>>();
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.ArticleNavListColumnWidth, 280d);
+        Partitions = new ObservableCollection<PartitionItemViewModel>();
         SortTypes = new ObservableCollection<ArticleSortType>()
             {
                 ArticleSortType.Default,
@@ -45,7 +46,7 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
     {
         if (CurrentPartition != null)
         {
-            ArticleProvider.Instance.ResetPartitionStatus(CurrentPartition.Id);
+            ArticleProvider.Instance.ResetPartitionStatus(CurrentPartition.Data.Id);
         }
     }
 
@@ -59,12 +60,12 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
         if (Partitions.Count == 0)
         {
             var partitions = await ArticleProvider.GetPartitionsAsync();
-            partitions.ToList().ForEach(Partitions.Add);
-            CurrentPartition = partitions.First();
+            partitions.ToList().ForEach(p => Partitions.Add(new PartitionItemViewModel(p)));
+            CurrentPartition = Partitions.FirstOrDefault();
         }
 
         var partition = CurrentPartition;
-        var data = await ArticleProvider.Instance.GetPartitionArticlesAsync(partition.Id, SortType);
+        var data = await ArticleProvider.Instance.GetPartitionArticlesAsync(partition.Data.Id, SortType);
 
         if (data.Articles?.Count() > 0)
         {
@@ -87,7 +88,7 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
     }
 
     [RelayCommand]
-    private void SelectPartition(Partition partition)
+    private void SelectPartition(PartitionItemViewModel partition)
     {
         TryClear(Items);
         CurrentPartition = partition;
@@ -107,8 +108,16 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
         }
     }
 
-    partial void OnCurrentPartitionChanged(Partition value)
+    partial void OnCurrentPartitionChanged(PartitionItemViewModel value)
     {
-        IsRecommendPartition = value?.Id == "0";
+        IsRecommendPartition = value?.Data.Id == "0";
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.ArticleNavListColumnWidth, value);
+        }
     }
 }

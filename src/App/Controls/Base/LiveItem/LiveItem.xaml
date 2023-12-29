@@ -235,7 +235,7 @@
                             </MenuFlyout>
                         </local:CardPanel.ContextFlyout>
 
-                        <Grid Padding="12" RowSpacing="4">
+                        <Grid Padding="12" ColumnSpacing="12">
                             <Grid.Resources>
                                 <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
                                     <Setter Property="Spacing" Value="4" />
@@ -243,42 +243,45 @@
                                     <Setter Property="FontSize" Value="11" />
                                 </Style>
                             </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
                             <local:UserAvatar
-                                Width="52"
-                                Height="52"
-                                HorizontalAlignment="Center"
+                                Width="28"
+                                Height="28"
+                                VerticalAlignment="Center"
                                 Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Avatar.Uri}"
-                                CornerRadius="26"
+                                CornerRadius="14"
                                 UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}" />
-                            <StackPanel Grid.Row="1" Spacing="8">
+                            <StackPanel
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Spacing="2">
                                 <TextBlock
-                                    HorizontalAlignment="Center"
-                                    FontWeight="Bold"
+                                    HorizontalAlignment="Left"
                                     MaxLines="1"
-                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Style="{StaticResource BodyStrongTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Name}"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     TextTrimming="CharacterEllipsis" />
                                 <TextBlock
-                                    HorizontalAlignment="Center"
+                                    HorizontalAlignment="Left"
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     MaxLines="1"
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
-                                    TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                             <local:IconTextBlock
-                                Grid.Row="2"
-                                HorizontalAlignment="Center"
+                                Grid.Column="2"
+                                Margin="0,4,0,0"
+                                VerticalAlignment="Top"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 Symbol="People"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCountText, Mode=OneWay}" />
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCountText, Mode=OneWay}"
+                                ToolTipService.ToolTip="{ext:Locale Name=PeopleCount}" />
                         </Grid>
                     </local:CardPanel>
                 </ControlTemplate>

@@ -2,7 +2,6 @@
 
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Base;
 

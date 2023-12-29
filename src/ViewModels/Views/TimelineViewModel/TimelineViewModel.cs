@@ -11,6 +11,7 @@ using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Pgc;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -25,7 +26,8 @@ public sealed partial class TimelineViewModel : ViewModelBase
     /// </summary>
     private TimelineViewModel()
     {
-        TimelineCollection = new ObservableCollection<TimelineInformation>();
+        TimelineCollection = new ObservableCollection<TimelineItemViewModel>();
+        SeasonCollection = new ObservableCollection<SeasonInformation>();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadCommand, InitializeCommand);
@@ -56,7 +58,7 @@ public sealed partial class TimelineViewModel : ViewModelBase
     private async Task ReloadAsync()
     {
         TryClear(TimelineCollection);
-        SelectedTimeline = default;
+        TryClear(SeasonCollection);
         var bangumiTimelines = await PgcProvider.GetPgcTimelinesAsync(PgcType.Bangumi);
         var domesticTimelines = await PgcProvider.GetPgcTimelinesAsync(PgcType.Domestic);
         foreach (var bangumiTimeline in bangumiTimelines.Timelines)
@@ -74,10 +76,34 @@ public sealed partial class TimelineViewModel : ViewModelBase
             }
 
             seasons = seasons.Any() ? seasons : null;
-            TimelineCollection.Add(new TimelineInformation(bangumiTimeline.Date, bangumiTimeline.DayOfWeek, bangumiTimeline.IsToday, seasons));
+            TimelineCollection.Add(new TimelineItemViewModel(new TimelineInformation(bangumiTimeline.Date, bangumiTimeline.DayOfWeek, bangumiTimeline.IsToday, seasons)));
         }
 
-        SelectedTimeline = TimelineCollection.FirstOrDefault(p => p.IsToday);
+        OpenTimeline(TimelineCollection.FirstOrDefault(p => p.Data.IsToday));
+    }
+
+    [RelayCommand]
+    private void OpenTimeline(TimelineItemViewModel vm)
+    {
+        if (vm == null)
+        {
+            return;
+        }
+
+        foreach (var item in TimelineCollection)
+        {
+            item.IsSelected = item.Equals(vm);
+        }
+
+        SelectedTimeline = vm;
+
+        TryClear(SeasonCollection);
+        foreach (var item in vm.Data.Seasons)
+        {
+            SeasonCollection.Add(item);
+        }
+
+        IsSeasonEmpty = SeasonCollection.Count == 0;
     }
 
     private void DisplayException(Exception exception)

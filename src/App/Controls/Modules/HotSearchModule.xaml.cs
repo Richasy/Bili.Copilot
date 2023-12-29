@@ -2,7 +2,6 @@
 
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -20,10 +19,16 @@ public sealed partial class HotSearchModule : SearchBoxModuleBase
         ViewModel = SearchBoxViewModel.Instance;
     }
 
+    /// <summary>
+    /// 热搜点击事件.
+    /// </summary>
+    public event EventHandler ItemClick;
+
     private void OnHotSearchClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement).DataContext as SearchSuggest;
         TraceLogger.LogHotSearchClick();
         ViewModel.SearchBySuggestCommand.Execute(data);
+        ItemClick?.Invoke(this, EventArgs.Empty);
     }
 }

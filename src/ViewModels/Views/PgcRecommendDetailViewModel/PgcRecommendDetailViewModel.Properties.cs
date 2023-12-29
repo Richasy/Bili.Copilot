@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -15,4 +17,12 @@ public partial class PgcRecommendDetailViewModel
 
     [ObservableProperty]
     private bool _isEmpty;
+
+    [ObservableProperty]
+    private string _title;
+
+    /// <summary>
+    /// 筛选条件.
+    /// </summary>
+    public ObservableCollection<IndexFilterItemViewModel> Filters { get; }
 }

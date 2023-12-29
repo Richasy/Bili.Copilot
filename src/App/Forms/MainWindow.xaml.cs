@@ -1,42 +1,38 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Pages;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Windows.ApplicationModel.Activation;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
 
 namespace Bili.Copilot.App.Forms;
 
 /// <summary>
 /// 应用主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase
+public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindow
 {
     private readonly AppViewModel _appViewModel = AppViewModel.Instance;
-    private readonly IActivatedEventArgs _launchArgs;
     private bool _isInitialized;
-    private string _currentPosition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
-    public MainWindow(IActivatedEventArgs args = default)
+    public MainWindow()
     {
         InitializeComponent();
-        _launchArgs = args;
         Instance = this;
         SetTitleBar(CustomTitleBar);
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         CustomTitleBar.AttachedWindow = this;
         _appViewModel.NavigateRequest += OnAppViewModelNavigateRequest;
         _appViewModel.RequestShowTip += OnAppViewModelRequestShowTip;
@@ -45,16 +41,25 @@ public sealed partial class MainWindow : WindowBase
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
         _appViewModel.RequestSearch += OnRequestSearch;
+        _appViewModel.RequestShowFans += OnRequestShowFans;
+        _appViewModel.RequestShowFollows += OnRequestShowFollows;
+        _appViewModel.RequestShowMyMessages += OnRequestShowMyMessages;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
+        _appViewModel.RequestShowViewLater += OnRequestShowViewLater;
+        _appViewModel.RequestShowHistory += OnRequestShowHistory;
+        _appViewModel.RequestShowFavorites += OnRequestShowFavorites;
         _appViewModel.RequestShowCommentWindow += OnRequestShowCommentWindow;
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
-        _appViewModel.RequestSummarizeVideoContent += OnRequestSummarizeVideoContentAsync;
-        _appViewModel.RequestSummarizeArticleContent += OnRequestSummarizeArticleContentAsync;
-        _appViewModel.RequestEvaluateVideo += OnRequestEvaluateVideoAsync;
         _appViewModel.RequestShowImages += OnRequestShowImages;
 
-        RootGrid.SizeChanged += OnRootGridSizeChanged;
+        MinWidth = 800;
+        MinHeight = 640;
+
+        Activated += OnActivated;
+        Closed += OnClosed;
+
+        MoveAndResize();
     }
 
     /// <summary>
@@ -62,12 +67,7 @@ public sealed partial class MainWindow : WindowBase
     /// </summary>
     public static MainWindow Instance { get; private set; }
 
-    /// <summary>
-    /// Display a tip message and close it after the specified delay.
-    /// </summary>
-    /// <param name="element">The element to insert.</param>
-    /// <param name="delaySeconds">Delay time (seconds).</param>
-    /// <returns><see cref="Task"/>.</returns>
+    /// <inheritdoc/>
     public async Task ShowTipAsync(UIElement element, double delaySeconds)
     {
         TipContainer.Visibility = Visibility.Visible;
@@ -82,60 +82,41 @@ public sealed partial class MainWindow : WindowBase
         }
     }
 
-    /// <summary>
-    /// 处理激活事件.
-    /// </summary>
-    /// <param name="e">激活事件参数.</param>
-    public void ActivateArgumentsAsync(IActivatedEventArgs e = default)
+    /// <inheritdoc/>
+    public void ShowUserSpace(UserProfile profile)
     {
-        e ??= _launchArgs;
-        if (e.Kind == ActivationKind.Protocol)
-        {
-            // TODO: Handle protocol activation.
-        }
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var userVM = new UserSpaceViewModel();
+        userVM.SetUserProfile(profile);
+        _ = SplitFrame.Navigate(typeof(UserSpacePage), userVM);
     }
 
-    /// <summary>
-    /// 更改菜单布局.
-    /// </summary>
-    public void CheckMenuLayout()
+    internal static Visibility IsMainContentShown(bool isOverlayShown)
+        => isOverlayShown ? Visibility.Collapsed : Visibility.Visible;
+
+    private static PointInt32 GetSavedWindowPosition()
     {
-        var position = CustomTitleBar.ActualWidth > 900 ? "left" : "bottom";
-        if (_currentPosition == position || !_isInitialized)
+        var left = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionLeft, 0);
+        var top = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionTop, 0);
+        return new PointInt32(left, top);
+    }
+
+    private static PlayerWindow GetPlayerWindow()
+    {
+        var playerBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
+        PlayerWindow window = default;
+        if (playerBehavior == PlayerWindowBehavior.Single)
         {
-            return;
+            window = AppViewModel.Instance.DisplayWindows.OfType<PlayerWindow>().FirstOrDefault();
         }
 
-        _currentPosition = position;
-        NavContainer.ChangeLayout(position);
-        if (position == "bottom")
+        if (window == null)
         {
-            Grid.SetRow(NavContainer, 2);
-            Grid.SetRowSpan(NavContainer, 1);
-            Grid.SetColumn(NavContainer, 1);
-            MainFrame.BorderThickness = new Thickness(0, 0, 0, 1);
-            CustomTitleBar.IsCompact = true;
-            MainFrame.CornerRadius = new CornerRadius(0, 0, 0, 0);
-            MainFrame.Padding = new Thickness(0, 12, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
-
-            _appViewModel.PagePadding = 20;
-            _appViewModel.HeaderFontSize = 20;
+            window = new PlayerWindow();
         }
-        else
-        {
-            Grid.SetRow(NavContainer, 1);
-            Grid.SetRowSpan(NavContainer, 2);
-            Grid.SetColumn(NavContainer, 0);
-            MainFrame.BorderThickness = new Thickness(1, 1, 0, 0);
-            CustomTitleBar.IsCompact = false;
-            MainFrame.CornerRadius = new CornerRadius(8, 0, 0, 0);
-            MainFrame.Padding = new Thickness(0, 30, 0, 0);
-            AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
 
-            _appViewModel.PagePadding = 44;
-            _appViewModel.HeaderFontSize = 28;
-        }
+        return window;
     }
 
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
@@ -149,20 +130,12 @@ public sealed partial class MainWindow : WindowBase
         {
             await _appViewModel.InitializeAsync();
 
-            if (_launchArgs != null)
-            {
-                ActivateArgumentsAsync();
-            }
-
 #if !DEBUG
             _appViewModel.CheckUpdateCommand.Execute(default);
 #endif
-            _appViewModel.CheckAIFeatureCommand.Execute(default);
             _appViewModel.CheckBBDownExistCommand.Execute(default);
 
             _isInitialized = true;
-
-            CheckMenuLayout();
         });
     }
 
@@ -171,7 +144,6 @@ public sealed partial class MainWindow : WindowBase
         Activate();
         var pageType = e.PageId switch
         {
-            PageType.Home => typeof(HomePage),
             PageType.Partition => typeof(VideoPartitionPage),
             PageType.Popular => typeof(PopularPage),
             PageType.Dynamic => typeof(DynamicPage),
@@ -179,8 +151,6 @@ public sealed partial class MainWindow : WindowBase
             PageType.Anime => typeof(AnimePage),
             PageType.Film => typeof(FilmPage),
             PageType.Article => typeof(ArticlePage),
-            PageType.Watchlist => typeof(WatchlistPage),
-            PageType.SignIn => typeof(SignInPage),
             PageType.Settings => typeof(SettingsPage),
             _ => throw new NotImplementedException(),
         };
@@ -188,9 +158,6 @@ public sealed partial class MainWindow : WindowBase
         TraceLogger.LogMainPageNavigation(e.PageId.ToString());
         _ = MainFrame.Navigate(pageType, e.Parameter);
     }
-
-    private void OnRootGridSizeChanged(object sender, SizeChangedEventArgs e)
-        => CheckMenuLayout();
 
     private void OnAppViewModelRequestShowTip(object sender, AppTipNotification e)
         => new TipPopup(e.Message).ShowAsync(e.Type);
@@ -214,49 +181,118 @@ public sealed partial class MainWindow : WindowBase
     }
 
     private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
-    {
-        var playWindow = new PlayerWindow(e);
-        playWindow.Activate();
-    }
+        => GetPlayerWindow().SetData(e);
 
     private void OnAppViewModelRequestPlaylist(object sender, List<VideoInformation> e)
-    {
-        var playWindow = new PlayerWindow(e);
-        playWindow.Activate();
-    }
+        => GetPlayerWindow().SetData(e);
 
     private void OnRequestSearch(object sender, string e)
     {
         Activate();
-        if (MainFrame.Content is HomePage homePage)
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not SearchPage)
         {
-            homePage.ViewModel.OpenSearchCommand.Execute(e);
-        }
-        else
-        {
-            _appViewModel.Navigate(PageType.Home, e);
+            _ = OverlayFrame.Navigate(typeof(SearchPage), _appViewModel.Search);
         }
     }
 
-    private void OnBackButtonClick(object sender, EventArgs e)
-        => _appViewModel.BackCommand.Execute(default);
+    private void OnRequestShowMyMessages(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not MessagePage)
+        {
+            _ = OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
+        }
+    }
+
+    private void OnRequestShowFollows(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FollowsPage)
+        {
+            _ = OverlayFrame.Navigate(typeof(FollowsPage), _appViewModel.Follows);
+        }
+    }
+
+    private void OnRequestShowFans(object sender, UserProfile e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FansPage)
+        {
+            _ = OverlayFrame.Navigate(typeof(FansPage), _appViewModel.Fans);
+        }
+    }
+
+    private void OnRequestShowFavorites(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not FavoritesPage)
+        {
+            _ = OverlayFrame.Navigate(typeof(FavoritesPage));
+        }
+    }
+
+    private void OnRequestShowHistory(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        SplitFrame.Navigate(typeof(HistoryPage));
+    }
+
+    private void OnRequestShowViewLater(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        SplitFrame.Navigate(typeof(ViewLaterPage));
+    }
+
+    private async void OnBackButtonClickAsync(object sender, EventArgs e)
+    {
+        _appViewModel.BackCommand.Execute(default);
+        if (OverlayFrame.Content is not null)
+        {
+            _ = OverlayFrame.Navigate(typeof(Page));
+
+            await Task.Delay(200);
+            OverlayFrame.Content = null;
+        }
+    }
 
     private void OnRequestShowUserSpace(object sender, UserProfile e)
     {
-        var window = new UserSpaceWindow(e);
-        window.Activate();
+        if (AppViewModel.Instance.ActivatedWindow is IUserSpaceWindow window)
+        {
+            window.ShowUserSpace(e);
+        }
+        else
+        {
+            ShowUserSpace(e);
+        }
     }
 
     private void OnRequestShowCommentWindow(object sender, ShowCommentEventArgs e)
     {
-        var window = new CommentWindow(e);
-        window.Activate();
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var vm = new CommentModuleViewModel();
+        vm.SetData(e.SourceId, e.Type);
+        _ = SplitFrame.Navigate(typeof(CommentPage), vm);
     }
 
     private void OnRequestRead(object sender, ArticleInformation e)
     {
-        var window = new ReaderWindow(e);
-        window.Activate();
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        _ = SplitFrame.Navigate(typeof(ReaderPage), e);
     }
 
     private void OnRequestShowImages(object sender, ShowImageEventArgs e)
@@ -268,21 +304,100 @@ public sealed partial class MainWindow : WindowBase
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
 
-    private async void OnRequestSummarizeVideoContentAsync(object sender, VideoIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.VideoSummarize);
-
-    private async void OnRequestEvaluateVideoAsync(object sender, VideoIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.VideoEvaluation);
-
-    private async void OnRequestSummarizeArticleContentAsync(object sender, ArticleIdentifier e)
-        => await ShowAIDialogAsync(e, AIFeatureType.ArticleSummarize);
-
-    private async Task ShowAIDialogAsync(object data, AIFeatureType type)
+    private void OnClosed(object sender, WindowEventArgs args)
     {
-        var dialog = new AIFeatureDialog(data, type)
+        foreach (var item in AppViewModel.Instance.DisplayWindows.ToArray())
         {
-            XamlRoot = MainFrame.XamlRoot,
-        };
-        await dialog.ShowAsync();
+            if (item is not MainWindow)
+            {
+                item.Close();
+            }
+        }
+
+        SaveCurrentWindowStats();
+    }
+
+    private void OnActivated(object sender, WindowActivatedEventArgs args)
+    {
+        if (!_isInitialized)
+        {
+            var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
+            if (isMaximized)
+            {
+                (AppWindow.Presenter as OverlappedPresenter).Maximize();
+            }
+
+            var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+            AppViewModel.Instance.ChangeTheme(localTheme);
+        }
+    }
+
+    private RectInt32 GetRenderRect(RectInt32 workArea)
+    {
+        var scaleFactor = this.GetDpiForWindow() / 96d;
+        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowWidth, 1000d);
+        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowHeight, 700d);
+        var width = Convert.ToInt32(previousWidth * scaleFactor);
+        var height = Convert.ToInt32(previousHeight * scaleFactor);
+
+        // Ensure the window is not larger than the work area.
+        if (height > workArea.Height - 20)
+        {
+            height = workArea.Height - 20;
+        }
+
+        var lastPoint = GetSavedWindowPosition();
+        var isZeroPoint = lastPoint.X == 0 && lastPoint.Y == 0;
+        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y;
+        var left = isZeroPoint || !isValidPosition
+            ? (workArea.Width - width) / 2d
+            : lastPoint.X;
+        var top = isZeroPoint || !isValidPosition
+            ? (workArea.Height - height) / 2d
+            : lastPoint.Y;
+        return new RectInt32(Convert.ToInt32(left), Convert.ToInt32(top), width, height);
+    }
+
+    private void MoveAndResize()
+    {
+        var lastPoint = GetSavedWindowPosition();
+        var areas = DisplayArea.FindAll();
+        var workArea = default(RectInt32);
+        for (var i = 0; i < areas.Count; i++)
+        {
+            var area = areas[i];
+            if (area.WorkArea.X < lastPoint.X && area.WorkArea.X + area.WorkArea.Width > lastPoint.X)
+            {
+                workArea = area.WorkArea;
+                break;
+            }
+        }
+
+        if (workArea == default)
+        {
+            workArea = DisplayArea.Primary.WorkArea;
+        }
+
+        var rect = GetRenderRect(workArea);
+        MinWidth = 800;
+        MinHeight = 640;
+
+        AppWindow.MoveAndResize(rect);
+    }
+
+    private void SaveCurrentWindowStats()
+    {
+        var left = AppWindow.Position.X;
+        var top = AppWindow.Position.Y;
+        var isMaximized = Windows.Win32.PInvoke.IsZoomed(new HWND(this.GetWindowHandle()));
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsMainWindowMaximized, (bool)isMaximized);
+
+        if (!isMaximized)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowPositionLeft, left);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowPositionTop, top);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowHeight, Height < 640 ? 640d : Height);
+            SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowWidth, Width);
+        }
     }
 }

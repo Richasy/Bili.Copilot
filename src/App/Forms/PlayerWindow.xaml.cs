@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Bili.Copilot.App.Pages;
@@ -10,52 +8,70 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Windows.Graphics;
 using Windows.System;
-using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
-using WinUIEx;
 
 namespace Bili.Copilot.App.Forms;
 
 /// <summary>
 /// 播放器窗口.
 /// </summary>
-public sealed partial class PlayerWindow : WindowBase
+public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWindow
 {
+    private bool _isInitialized;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
     /// </summary>
     public PlayerWindow()
     {
         InitializeComponent();
-        Activated += OnActivated;
-        Closed += OnClosed;
-        RestoreWindowState();
+        AppWindow.Changed += OnAppWindowChanged;
         MinWidth = 560;
         MinHeight = 320;
-        AppWindow.Changed += OnAppWindowChanged;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
 
-        var behavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior.Multiple);
-        if (behavior == PlayerWindowBehavior.Single)
+        Activated += OnActivated;
+        Closed += OnClosed;
+
+        MoveAndResize();
+    }
+
+    /// <inheritdoc/>
+    public async Task ShowTipAsync(UIElement element, double delaySeconds)
+    {
+        TipContainer.Visibility = Visibility.Visible;
+        TipContainer.Children.Add(element);
+        element.Visibility = Visibility.Visible;
+        await Task.Delay(TimeSpan.FromSeconds(delaySeconds));
+        element.Visibility = Visibility.Collapsed;
+        _ = TipContainer.Children.Remove(element);
+        if (TipContainer.Children.Count == 0)
         {
-            AppViewModel.Instance.LastPlayerWindow?.Close();
-            AppViewModel.Instance.LastPlayerWindow = this;
+            TipContainer.Visibility = Visibility.Collapsed;
         }
     }
 
+    /// <inheritdoc/>
+    public void ShowUserSpace(UserProfile profile)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = true;
+        var userVM = new UserSpaceViewModel();
+        userVM.SetUserProfile(profile);
+        _ = SplitFrame.Navigate(typeof(UserSpacePage), userVM);
+    }
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
+    /// 设置播放数据.
     /// </summary>
-    public PlayerWindow(PlaySnapshot snapshot)
-        : this()
+    /// <param name="snapshot">播放快照.</param>
+    public void SetData(PlaySnapshot snapshot)
     {
         Title = snapshot.Title;
         var navArgs = new PlayerPageNavigateEventArgs
@@ -82,13 +98,15 @@ public sealed partial class PlayerWindow : WindowBase
             SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQuality.HDFirst).ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native).ToString());
+
+        Activate();
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
+    /// 设置播放列表.
     /// </summary>
-    public PlayerWindow(List<VideoInformation> snapshots)
-        : this()
+    /// <param name="snapshots">播放列表.</param>
+    public void SetData(List<VideoInformation> snapshots)
     {
         Title = ResourceToolkit.GetLocalizedString(StringNames.Playlist);
         var navArgs = new PlayerPageNavigateEventArgs
@@ -98,24 +116,21 @@ public sealed partial class PlayerWindow : WindowBase
         };
 
         _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
+        Activate();
+    }
+
+    private static PointInt32 GetSavedWindowPosition()
+    {
+        var left = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowPositionLeft, 0);
+        var top = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowPositionTop, 0);
+        return new PointInt32(left, top);
     }
 
     private void OnClosed(object sender, WindowEventArgs args)
     {
-        // 保存当前窗口大小和位置.
-        if (AppWindow.Presenter.Kind == AppWindowPresenterKind.Overlapped)
-        {
-            var left = AppWindow.Position.X;
-            var top = AppWindow.Position.Y;
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowLeft, left);
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowTop, top);
-        }
-
-        AppViewModel.Instance.LastPlayerWindow = null;
-        MainFrame.Navigate(typeof(Page));
-        MainWindow.Instance.Activate();
+        SaveCurrentWindowStats();
+        _ = MainFrame.Navigate(typeof(Page));
+        AppViewModel.Instance.ActivateMainWindow();
         GC.Collect();
     }
 
@@ -136,6 +151,19 @@ public sealed partial class PlayerWindow : WindowBase
         {
             KeyboardHook.Start();
             KeyboardHook.KeyDown += OnWindowKeyDown;
+        }
+
+        if (!_isInitialized)
+        {
+            var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerWindowMaximized, false);
+            if (isMaximized)
+            {
+                (AppWindow.Presenter as OverlappedPresenter).Maximize();
+            }
+
+            var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+            AppViewModel.Instance.ChangeTheme(localTheme);
+            _isInitialized = true;
         }
     }
 
@@ -165,24 +193,69 @@ public sealed partial class PlayerWindow : WindowBase
         }
     }
 
-    private void RestoreWindowState()
+    private RectInt32 GetRenderRect(RectInt32 workArea)
     {
-        var width = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1280d);
-        var height = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 720d);
+        var scaleFactor = this.GetDpiForWindow() / 96d;
+        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1000d);
+        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 700d);
+        var width = Convert.ToInt32(previousWidth * scaleFactor);
+        var height = Convert.ToInt32(previousHeight * scaleFactor);
 
-        var left = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowLeft, 0);
-        var top = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowTop, 0);
-        var area = DisplayArea.GetFromPoint(new PointInt32(Convert.ToInt32(left), Convert.ToInt32(top)), DisplayAreaFallback.Nearest);
-        var isValidPosition = left > 0 && top > 0 && left + Width < area.WorkArea.Width && top + height < area.WorkArea.Height;
-        if (!isValidPosition)
+        // Ensure the window is not larger than the work area.
+        if (height > workArea.Height - 20)
         {
-            Width = width;
-            Height = height;
-            this.CenterOnScreen();
+            height = workArea.Height - 20;
         }
-        else
+
+        var lastPoint = GetSavedWindowPosition();
+        var isZeroPoint = lastPoint.X == 0 && lastPoint.Y == 0;
+        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y;
+        var left = isZeroPoint || !isValidPosition
+            ? (workArea.Width - width) / 2d
+            : lastPoint.X;
+        var top = isZeroPoint || !isValidPosition
+            ? (workArea.Height - height) / 2d
+            : lastPoint.Y;
+        return new RectInt32(Convert.ToInt32(left), Convert.ToInt32(top), width, height);
+    }
+
+    private void MoveAndResize()
+    {
+        var lastPoint = GetSavedWindowPosition();
+        var areas = DisplayArea.FindAll();
+        var workArea = default(RectInt32);
+        for (var i = 0; i < areas.Count; i++)
         {
-            this.MoveAndResize(left, top, width, height);
+            var area = areas[i];
+            if (area.WorkArea.X < lastPoint.X && area.WorkArea.X + area.WorkArea.Width > lastPoint.X)
+            {
+                workArea = area.WorkArea;
+                break;
+            }
+        }
+
+        if (workArea == default)
+        {
+            workArea = DisplayArea.Primary.WorkArea;
+        }
+
+        var rect = GetRenderRect(workArea);
+        AppWindow.MoveAndResize(rect);
+    }
+
+    private void SaveCurrentWindowStats()
+    {
+        var left = AppWindow.Position.X;
+        var top = AppWindow.Position.Y;
+        var isMaximized = Windows.Win32.PInvoke.IsZoomed(new HWND(this.GetWindowHandle()));
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerWindowMaximized, (bool)isMaximized);
+
+        if (!isMaximized)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionLeft, left);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionTop, top);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
         }
     }
 
@@ -191,7 +264,7 @@ public sealed partial class PlayerWindow : WindowBase
         private const int WM_KEYDOWN = 0x0100;
 
         private static readonly HOOKPROC _proc = HookCallback;
-        private static UnhookWindowsHookExSafeHandle _hookID = new UnhookWindowsHookExSafeHandle();
+        private static UnhookWindowsHookExSafeHandle _hookID = new();
 
         public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
 
@@ -201,11 +274,9 @@ public sealed partial class PlayerWindow : WindowBase
 
         private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc)
         {
-            using (var curProcess = Process.GetCurrentProcess())
-            using (var curModule = curProcess.MainModule)
-            {
-                return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, Windows.Win32.PInvoke.GetModuleHandle(curModule.ModuleName), 0);
-            }
+            using var curProcess = Process.GetCurrentProcess();
+            using var curModule = curProcess.MainModule;
+            return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, Windows.Win32.PInvoke.GetModuleHandle(curModule.ModuleName), 0);
         }
 
         private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)

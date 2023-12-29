@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.Constants.App;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;

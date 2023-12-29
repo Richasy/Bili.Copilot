@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Windows.System;
 
@@ -24,7 +22,7 @@ public sealed partial class LoggerSettingSection : SettingSection
     private async void OnOpenLoggerFolderButtonClickAsync(object sender, RoutedEventArgs e)
     {
         var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(ControllerConstants.Names.LoggerFolder, CreationCollisionOption.OpenIfExists).AsTask();
-        await Launcher.LaunchFolderAsync(folder);
+        _ = await Launcher.LaunchFolderAsync(folder);
     }
 
     private async void OnCleanLoggerButtonClickAsync(object sender, RoutedEventArgs e)
@@ -33,7 +31,7 @@ public sealed partial class LoggerSettingSection : SettingSection
         try
         {
             await folder.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask();
-            await ApplicationData.Current.LocalFolder.CreateFolderAsync(ControllerConstants.Names.LoggerFolder, CreationCollisionOption.OpenIfExists).AsTask();
+            _ = await ApplicationData.Current.LocalFolder.CreateFolderAsync(ControllerConstants.Names.LoggerFolder, CreationCollisionOption.OpenIfExists).AsTask();
         }
         catch (Exception)
         {

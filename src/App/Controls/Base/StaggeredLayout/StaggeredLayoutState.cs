@@ -1,33 +1,19 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.UI.Xaml.Controls;
-
 namespace Bili.Copilot.App.Controls.Base;
 
 internal class StaggeredLayoutState
 {
-    private readonly List<StaggeredItem> _items = new List<StaggeredItem>();
+    private readonly List<StaggeredItem> _items = new();
     private readonly VirtualizingLayoutContext _context;
-    private readonly Dictionary<int, StaggeredColumnLayout> _columnLayout = new Dictionary<int, StaggeredColumnLayout>();
+    private readonly Dictionary<int, StaggeredColumnLayout> _columnLayout = new();
     private double _lastAverageHeight;
 
-    public StaggeredLayoutState(VirtualizingLayoutContext context)
-    {
-        _context = context;
-    }
+    public StaggeredLayoutState(VirtualizingLayoutContext context) => _context = context;
 
     public double ColumnWidth { get; internal set; }
 
-    public int NumberOfColumns
-    {
-        get
-        {
-            return _columnLayout.Count;
-        }
-    }
+    public int NumberOfColumns => _columnLayout.Count;
 
     public double RowSpacing { get; internal set; }
 
@@ -66,7 +52,7 @@ internal class StaggeredLayoutState
 
     internal StaggeredColumnLayout GetColumnLayout(int columnIndex)
     {
-        _columnLayout.TryGetValue(columnIndex, out var columnLayout);
+        _ = _columnLayout.TryGetValue(columnIndex, out var columnLayout);
         return columnLayout;
     }
 
@@ -82,10 +68,7 @@ internal class StaggeredLayoutState
     /// <summary>
     /// Clear the layout columns so they will be recalculated.
     /// </summary>
-    internal void ClearColumns()
-    {
-        _columnLayout.Clear();
-    }
+    internal void ClearColumns() => _columnLayout.Clear();
 
     /// <summary>
     /// Gets the estimated height of the layout.

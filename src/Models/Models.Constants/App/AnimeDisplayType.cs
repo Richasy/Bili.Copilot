@@ -13,11 +13,6 @@ public enum AnimeDisplayType
     Timeline,
 
     /// <summary>
-    /// 追番列表.
-    /// </summary>
-    Favorite,
-
-    /// <summary>
     /// 番剧.
     /// </summary>
     Bangumi,

@@ -1,11 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using CommunityToolkit.WinUI.UI;
-using Microsoft.UI;
 using Microsoft.UI.Text;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace Bili.Copilot.App.Controls.Danmaku;

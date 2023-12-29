@@ -9,6 +9,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -23,8 +24,7 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
     /// </summary>
     public LivePartitionIndexViewModel()
     {
-        ParentPartitions = new ObservableCollection<Partition>();
-        DisplayPartitions = new ObservableCollection<Partition>();
+        ParentPartitions = new ObservableCollection<PartitionItemViewModel>();
 
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadCommand, InitializeCommand);
@@ -32,10 +32,7 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
 
     [RelayCommand]
     private static void OpenPartition(Partition partition)
-    {
-        LivePageViewModel.Instance.IsPartitionDetailShown = true;
-        LivePartitionDetailViewModel.Instance.SetPartitionCommand.Execute(partition);
-    }
+        => LivePartitionDetailViewModel.Instance.SetPartitionCommand.Execute(partition);
 
     [RelayCommand]
     private async Task InitializeAsync()
@@ -62,20 +59,8 @@ public sealed partial class LivePartitionIndexViewModel : ViewModelBase
     private async Task ReloadAsync()
     {
         TryClear(ParentPartitions);
-        TryClear(DisplayPartitions);
-        CurrentParentPartition = default;
         var partitions = await LiveProvider.GetLiveAreaIndexAsync();
-        partitions.ToList().ForEach(ParentPartitions.Add);
-        await SelectPartitionAsync(ParentPartitions.First());
-    }
-
-    [RelayCommand]
-    private async Task SelectPartitionAsync(Partition partition)
-    {
-        await Task.Delay(100);
-        CurrentParentPartition = partition;
-        TryClear(DisplayPartitions);
-        partition.Children.ToList().ForEach(DisplayPartitions.Add);
+        partitions.ToList().ForEach(p => ParentPartitions.Add(new PartitionItemViewModel(p)));
     }
 
     private void DisplayException(Exception exception)

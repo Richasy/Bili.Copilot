@@ -129,10 +129,10 @@
                             <ItemsRepeater.Layout>
                                 <UniformGridLayout
                                     ItemsStretch="Fill"
-                                    MinColumnSpacing="8"
+                                    MinColumnSpacing="12"
                                     MinItemHeight="232"
-                                    MinItemWidth="216"
-                                    MinRowSpacing="8" />
+                                    MinItemWidth="212"
+                                    MinRowSpacing="12" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </Grid>

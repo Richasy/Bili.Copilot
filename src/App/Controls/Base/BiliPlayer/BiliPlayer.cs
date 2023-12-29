@@ -5,8 +5,6 @@ using System.Diagnostics;
 using Bili.Copilot.Libs.Flyleaf.Controls;
 using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Vortice.DXGI;
 using Windows.Media.Playback;
@@ -22,10 +20,11 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
     /// <see cref="Overlay"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty OverlayProperty =
-        DependencyProperty.Register(nameof(Overlay), typeof(object), typeof(BiliPlayer), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(Overlay), typeof(object), typeof(BiliPlayer), new PropertyMetadata(default, new PropertyChangedCallback(OnOverlayChanged)));
 
     private MediaPlayerElement _mediaElement;
     private SwapChainPanel _swapChainPanel;
+    private Grid _rootGrid;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -33,6 +32,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
     public BiliPlayer()
     {
         DefaultStyleKey = typeof(BiliPlayer);
+        Unloaded += OnUnloaded;
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
     /// </summary>
     public object Overlay
     {
-        get => (object)GetValue(OverlayProperty);
+        get => GetValue(OverlayProperty);
         set => SetValue(OverlayProperty, value);
     }
 
@@ -54,10 +54,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
     }
 
     /// <inheritdoc/>
-    public bool Player_GetFullScreen()
-    {
-        return true;
-    }
+    public bool Player_GetFullScreen() => true;
 
     /// <inheritdoc/>
     public void Player_SetFullScreen(bool value)
@@ -94,9 +91,41 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
             _mediaElement = element;
         }
 
+        if (GetTemplateChild("RootGrid") is Grid grid)
+        {
+            _rootGrid = grid;
+        }
+
         if (ViewModel?.Player != null)
         {
             ReloadPlayer();
+        }
+    }
+
+    private static void OnOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (e.NewValue is BiliPlayerOverlay overlay)
+        {
+            var instance = d as BiliPlayer;
+            overlay.PaneToggled += instance.OnOverlayPaneToggled;
+        }
+    }
+
+    private void OnOverlayPaneToggled(object sender, double e)
+    {
+        if (_rootGrid == null)
+        {
+            return;
+        }
+
+        _rootGrid.Padding = new Thickness(e, 0, 0, 0);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (Overlay is BiliPlayerOverlay overlay)
+        {
+            overlay.PaneToggled -= OnOverlayPaneToggled;
         }
     }
 

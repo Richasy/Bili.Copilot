@@ -47,7 +47,6 @@
             Header="{ext:Locale Name=DanmakuFont}"
             ItemsSource="{x:Bind ViewModel.FontCollection, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.DanmakuFont, Mode=TwoWay}" />
-        <ToggleSwitch Header="{ext:Locale Name=DanmakuMerge}" IsOn="{x:Bind ViewModel.IsDanmakuMerge, Mode=TwoWay}" />
         <ToggleSwitch Header="{ext:Locale Name=DanmakuBold}" IsOn="{x:Bind ViewModel.IsDanmakuBold, Mode=TwoWay}" />
     </StackPanel>
 </local:DanmakuDisplayOptionsBase>

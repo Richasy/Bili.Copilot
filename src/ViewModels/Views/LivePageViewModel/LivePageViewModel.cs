@@ -20,6 +20,7 @@ public sealed partial class LivePageViewModel : ViewModelBase
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastLiveDisplayType, LiveDisplayType.Recommend);
         CheckModuleStateAsync();
         AttachIsRunningToAsyncCommand(p => IsReloading = p, ReloadCommand, InitializeCommand);
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.LiveNavListColumnWidth, 280d);
     }
 
     [RelayCommand]
@@ -47,13 +48,6 @@ public sealed partial class LivePageViewModel : ViewModelBase
         _isInitialized = true;
     }
 
-    [RelayCommand]
-    private void ClosePartitionDetail()
-    {
-        IsPartitionDetailShown = false;
-        LivePartitionDetailViewModel.Instance.ScrollToTopCommand.Execute(default);
-    }
-
     private async Task InitializeCurrentModuleAsync()
     {
         if (IsRecommendShown)
@@ -73,7 +67,7 @@ public sealed partial class LivePageViewModel : ViewModelBase
 
         Title = CurrentType switch
         {
-            LiveDisplayType.Recommend => ResourceToolkit.GetLocalizedString(StringNames.Live),
+            LiveDisplayType.Recommend => ResourceToolkit.GetLocalizedString(StringNames.FollowLiveRoom),
             LiveDisplayType.Partition => ResourceToolkit.GetLocalizedString(StringNames.Partition),
             _ => string.Empty,
         };
@@ -87,6 +81,11 @@ public sealed partial class LivePageViewModel : ViewModelBase
         SettingsToolkit.WriteLocalSetting(SettingNames.LastLiveDisplayType, value);
     }
 
-    partial void OnIsPartitionDetailShownChanged(bool value)
-        => AppViewModel.Instance.IsBackButtonShown = value;
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.LiveNavListColumnWidth, value);
+        }
+    }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -12,6 +13,12 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class SettingsPageViewModel
 {
+    [ObservableProperty]
+    private ElementTheme _appTheme;
+
+    [ObservableProperty]
+    private string _appThemeText;
+
     [ObservableProperty]
     private bool _isAutoPlayWhenLoaded;
 
@@ -41,9 +48,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private PreferAudio _preferAudioQuality;
-
-    [ObservableProperty]
-    private AIConnectType _aIConnectType;
 
     [ObservableProperty]
     private PlayerType _playerType;
@@ -131,11 +135,6 @@ public sealed partial class SettingsPageViewModel
     /// 偏好的音质可选集合.
     /// </summary>
     public ObservableCollection<PreferAudio> PreferAudioQualities { get; }
-
-    /// <summary>
-    /// AI连接方式集合.
-    /// </summary>
-    public ObservableCollection<AIConnectType> AIConnectTypes { get; }
 
     /// <summary>
     /// 播放器类型集合.

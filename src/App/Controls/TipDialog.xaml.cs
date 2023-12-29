@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Microsoft.UI.Xaml.Controls;
+using Bili.Copilot.Libs.Toolkit;
 
 namespace Bili.Copilot.App.Controls;
 
@@ -16,5 +16,6 @@ public sealed partial class TipDialog : ContentDialog
     {
         InitializeComponent();
         TipBlock.Text = text;
+        AppToolkit.ResetControlTheme(this);
     }
 }

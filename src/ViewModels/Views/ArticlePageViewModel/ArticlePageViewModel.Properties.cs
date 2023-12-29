@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Article;
-using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -15,16 +15,19 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class ArticlePageViewModel
 {
-    private readonly Dictionary<Partition, IEnumerable<ArticleInformation>> _caches;
+    private readonly Dictionary<PartitionItemViewModel, IEnumerable<ArticleInformation>> _caches;
 
     [ObservableProperty]
-    private Partition _currentPartition;
+    private PartitionItemViewModel _currentPartition;
 
     [ObservableProperty]
     private ArticleSortType _sortType;
 
     [ObservableProperty]
     private bool _isRecommendPartition;
+
+    [ObservableProperty]
+    private double _navListColumnWidth;
 
     /// <summary>
     /// 请求滚动到顶部.
@@ -39,7 +42,7 @@ public sealed partial class ArticlePageViewModel
     /// <summary>
     /// 分区集合.
     /// </summary>
-    public ObservableCollection<Partition> Partitions { get; }
+    public ObservableCollection<PartitionItemViewModel> Partitions { get; }
 
     /// <summary>
     /// 排序方式.

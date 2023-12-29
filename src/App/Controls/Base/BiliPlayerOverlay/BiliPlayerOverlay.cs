@@ -1,13 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -127,11 +123,25 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _refreshButton.Click += OnRefreshButtonClick;
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
         _transportControls.DetailButtonClicked += OnDetailButtonClicked;
+        _rootSplitView.PaneOpened += OnRootSplitViewPaneChanged;
+        _rootSplitView.PaneClosed += OnRootSplitViewPaneChanged;
         sectionView.ItemInvoked += OnSectionViewItemInvoked;
         takeScreenshotItem.Click += OnTakeScreenshotItemClick;
         startRecordingItem.Click += OnStartRecordingItemClick;
 
         CheckDanmakuZoom();
         ResizeSubtitle();
+    }
+
+    private void OnRootSplitViewPaneChanged(SplitView sender, object args)
+    {
+        var width = 0d;
+        if (sender.DisplayMode == SplitViewDisplayMode.Inline
+            && sender.IsPaneOpen)
+        {
+            width = sender.OpenPaneLength;
+        }
+
+        PaneToggled?.Invoke(this, width);
     }
 }

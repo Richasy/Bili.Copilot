@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.ComponentModel;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
 
 namespace Bili.Copilot.App.Controls.Base;
 

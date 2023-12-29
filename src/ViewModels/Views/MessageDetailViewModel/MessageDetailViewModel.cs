@@ -56,6 +56,7 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         if (_caches.Count == 0)
         {
             CurrentType = MessageTypes.First();
+            CurrentType.IsSelected = true;
         }
 
         if (_isEnd)
@@ -93,6 +94,11 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         TryClear(Items);
         _isEnd = false;
         CurrentType = type;
+        foreach (var item in MessageTypes)
+        {
+            item.IsSelected = type.Equals(item);
+        }
+
         if (_caches.TryGetValue(CurrentType.Type, out var data) && data.Items.Count() > 0)
         {
             foreach (var item in data.Items)

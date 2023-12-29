@@ -8,7 +8,6 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Local;
-using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -22,7 +21,7 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
     /// Initializes a new instance of the <see cref="VideoFavoriteDetailViewModel"/> class.
     /// </summary>
     private VideoFavoriteDetailViewModel()
-        => Folders = new ObservableCollection<VideoFavoriteFolder>();
+        => Folders = new ObservableCollection<VideoFavoriteFolderSelectableViewModel>();
 
     /// <inheritdoc/>
     protected override void BeforeReload()
@@ -57,35 +56,50 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
                     return;
                 }
 
-                Folders.Add(folder);
+                Folders.Add(new VideoFavoriteFolderSelectableViewModel(folder));
             }
 
-            CurrentFolder = Folders.First();
-            CheckFolderIsMine();
+            var canSelectFolder = SettingsToolkit.ReadLocalSetting(SettingNames.LastFavoriteType, FavoriteType.Video) == FavoriteType.Video;
+            if (canSelectFolder)
+            {
+                var lastFolderId = SettingsToolkit.ReadLocalSetting(SettingNames.LastVideoFavoriteFolderId, string.Empty);
+                if (!string.IsNullOrEmpty(lastFolderId))
+                {
+                    CurrentFolder = Folders.FirstOrDefault(p => p.Data.Id == lastFolderId);
+                }
+
+                CurrentFolder ??= Folders.First();
+                CurrentFolder.IsSelected = true;
+                CheckFolderIsMine();
+            }
         }
 
-        IsEmpty = CurrentFolder.TotalCount == 0;
+        IsEmpty = CurrentFolder.Data.TotalCount == 0;
         if (IsEmpty)
         {
             return;
         }
 
-        var data = await FavoriteProvider.Instance.GetVideoFavoriteFolderDetailAsync(CurrentFolder.Id);
-        foreach (var item in data.VideoSet.Items)
+        if (CurrentFolder != null)
         {
-            if (Items.Any(p => p.Data.Identifier.Id == item.Identifier.Id))
+            var data = await FavoriteProvider.Instance.GetVideoFavoriteFolderDetailAsync(CurrentFolder.Data.Id);
+            foreach (var item in data.VideoSet.Items)
             {
-                continue;
+                if (Items.Any(p => p.Data.Identifier.Id == item.Identifier.Id))
+                {
+                    continue;
+                }
+
+                var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo, additionalData: CurrentFolder.Data.Id)
+                {
+                    CanRemove = IsMine,
+                };
+                Items.Add(videoVM);
             }
 
-            var videoVM = new VideoItemViewModel(item, additionalAction: RemoveVideo, additionalData: CurrentFolder.Id)
-            {
-                CanRemove = IsMine,
-            };
-            Items.Add(videoVM);
+            _isEnd = Items.Count == data.VideoSet.TotalCount;
         }
 
-        _isEnd = Items.Count == data.VideoSet.TotalCount;
         IsEmpty = Items.Count == 0;
     }
 
@@ -94,9 +108,24 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestVideoFavoriteFailed)}\n{errorMsg}";
 
     [RelayCommand]
-    private async Task SelectFolderAsync(VideoFavoriteFolder folder)
+    private async Task SelectFolderAsync(VideoFavoriteFolderSelectableViewModel folder)
     {
+        if (folder == null)
+        {
+            foreach (var item in Folders)
+            {
+                item.IsSelected = false;
+            }
+
+            return;
+        }
+
         CurrentFolder = folder;
+        foreach (var item in Folders)
+        {
+            item.IsSelected = item.Equals(folder);
+        }
+
         CheckFolderIsMine();
         _isEnd = false;
         FavoriteProvider.Instance.ResetVideoFolderDetailStatus();
@@ -136,6 +165,17 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         }
 
         var mineFolders = _view.Groups.Where(p => p.IsMine).SelectMany(p => p.FavoriteSet.Items);
-        IsMine = CurrentFolder.Id == _view.DefaultFolder.Folder.Id || mineFolders.Any(p => p.Id == CurrentFolder.Id);
+        IsMine = CurrentFolder.Data.Id == _view.DefaultFolder.Folder.Id || mineFolders.Any(p => p.Id == CurrentFolder.Data.Id);
+    }
+
+    partial void OnCurrentFolderChanged(VideoFavoriteFolderSelectableViewModel value)
+    {
+        if (value == null)
+        {
+            SettingsToolkit.DeleteLocalSetting(SettingNames.LastVideoFavoriteFolderId);
+            return;
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastVideoFavoriteFolderId, value.Data.Id);
     }
 }

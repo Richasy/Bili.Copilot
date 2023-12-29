@@ -4,7 +4,10 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Bili.Copilot.Models.Constants.App;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
+using Windows.Foundation;
+using Windows.Graphics;
 using Windows.UI;
 
 namespace Bili.Copilot.Libs.Toolkit;
@@ -121,5 +124,28 @@ public static class AppToolkit
         }
 
         return color;
+    }
+
+    /// <summary>
+    /// 将 <see cref="Rect"/> 转换为 <see cref="RectInt32"/>.
+    /// </summary>
+    /// <param name="rect">矩形对象.</param>
+    /// <param name="scaleFactor">缩放比例.</param>
+    /// <returns><see cref="RectInt32"/>.</returns>
+    public static RectInt32 GetRectInt32(Rect rect, double scaleFactor)
+        => new(
+              Convert.ToInt32(rect.X * scaleFactor),
+              Convert.ToInt32(rect.Y * scaleFactor),
+              Convert.ToInt32(rect.Width * scaleFactor),
+              Convert.ToInt32(rect.Height * scaleFactor));
+
+    /// <summary>
+    /// 重置控件主题.
+    /// </summary>
+    /// <param name="element">控件.</param>
+    public static void ResetControlTheme(FrameworkElement element)
+    {
+        var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+        element.RequestedTheme = localTheme;
     }
 }

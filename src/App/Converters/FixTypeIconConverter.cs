@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI.Xaml.Data;
 
 namespace Bili.Copilot.App.Converters;
 
@@ -13,7 +11,7 @@ internal sealed class FixTypeIconConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if(value is FixedType type)
+        if (value is FixedType type)
         {
             var icon = type switch
             {

@@ -1,22 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.System;
 
 namespace Bili.Copilot.App.Pages;
 
 /// <summary>
-/// 欢迎界面（x）登录界面（√）.
+/// 登录界面.
 /// </summary>
 public sealed partial class SignInPage : PageBase
 {
@@ -29,16 +25,17 @@ public sealed partial class SignInPage : PageBase
     {
         _authorizeProvider = AuthorizeProvider.Instance;
         InitializeComponent();
+        VersionBlock.Text = AppToolkit.GetPackageVersion();
     }
 
     /// <inheritdoc/>
     protected override async void OnPageLoaded()
     {
-        _authorizeProvider.QRCodeStatusChanged += OnQRCodeStatusChangedAsync;
+        _authorizeProvider.QRCodeStatusChanged += OnQRCodeStatusChanged;
         await LoadQRCodeAsync();
     }
 
-    private async void OnQRCodeStatusChangedAsync(object sender, Tuple<QRCodeStatus, TokenInfo> e)
+    private void OnQRCodeStatusChanged(object sender, Tuple<QRCodeStatus, TokenInfo> e)
     {
         switch (e.Item1)
         {
@@ -49,7 +46,7 @@ public sealed partial class SignInPage : PageBase
             case QRCodeStatus.Success:
                 _authorizeProvider.StopQRLoginListener();
                 TraceLogger.LogSignIn();
-                await CoreViewModel.InitializeAsync();
+                CoreViewModel.RestartCommand.Execute(default);
                 break;
             case QRCodeStatus.Failed:
                 ShowQRTip(StringNames.LoginFailed);
@@ -106,4 +103,7 @@ public sealed partial class SignInPage : PageBase
 
     private async void OnBiliButtonClickAsync(object sender, RoutedEventArgs e)
         => await Launcher.LaunchUriAsync(new Uri("https://space.bilibili.com/5992670"));
+
+    private void OnDataUsageButtonClick(object sender, RoutedEventArgs e)
+        => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 }

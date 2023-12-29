@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.App.Other;
-using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.App.Controls.Base;
 

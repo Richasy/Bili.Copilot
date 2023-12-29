@@ -25,7 +25,6 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
         Data = information;
         _additionalAction = action;
         InitializeData();
-        IsAISupported = AppViewModel.Instance.IsAISupported;
     }
 
     [RelayCommand]
@@ -48,10 +47,6 @@ public sealed partial class ArticleItemViewModel : ViewModelBase
             _additionalAction?.Invoke(this);
         }
     }
-
-    [RelayCommand]
-    private void Summarize()
-        => AppViewModel.Instance.SummarizeArticleContentCommand.Execute(Data.Identifier);
 
     private void InitializeData()
     {

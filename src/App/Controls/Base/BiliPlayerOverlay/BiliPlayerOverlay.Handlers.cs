@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Bili.Copilot.App.Controls.Danmaku;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Other;
@@ -11,10 +8,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Live;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI;
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -26,7 +20,7 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen)
+        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
         {
             return;
         }
@@ -38,7 +32,7 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen)
+        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
         {
             return;
         }
@@ -159,11 +153,7 @@ public partial class BiliPlayerOverlay
             if (_danmakuDictionary.ContainsKey(positionInt))
             {
                 var data = _danmakuDictionary[positionInt];
-
-                if (ViewModel.DanmakuViewModel.IsDanmakuMerge)
-                {
-                    data = data.Distinct().ToList();
-                }
+                data = data.Distinct().ToList();
 
                 if (data.Count > 0)
                 {

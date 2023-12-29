@@ -35,7 +35,6 @@ public sealed partial class DanmakuModuleViewModel
         DanmakuSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuSpeed, 1d);
         DanmakuZoom = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuZoom, 1d);
         DanmakuFont = SettingsToolkit.ReadLocalSetting(SettingNames.DanmakuFont, "Segoe UI");
-        IsDanmakuMerge = SettingsToolkit.ReadLocalSetting(SettingNames.IsDanmakuMerge, false);
         IsDanmakuBold = SettingsToolkit.ReadLocalSetting(SettingNames.IsDanmakuBold, true);
         IsDanmakuLimit = true;
         UseCloudShieldSettings = SettingsToolkit.ReadLocalSetting(SettingNames.UseCloudShieldSettings, true);
@@ -94,9 +93,6 @@ public sealed partial class DanmakuModuleViewModel
                 break;
             case nameof(DanmakuFont):
                 SettingsToolkit.WriteLocalSetting(SettingNames.DanmakuFont, DanmakuFont);
-                break;
-            case nameof(IsDanmakuMerge):
-                SettingsToolkit.WriteLocalSetting(SettingNames.IsDanmakuMerge, IsDanmakuMerge);
                 break;
             case nameof(IsDanmakuBold):
                 SettingsToolkit.WriteLocalSetting(SettingNames.IsDanmakuBold, IsDanmakuBold);

@@ -52,6 +52,8 @@ function setAppearance() {
 
 body {
     background: $body-background$ !important;
+    margin-top: 20px !important;
+    margin-left: 16px !important;
 }
 `;
 

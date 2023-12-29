@@ -12,13 +12,13 @@
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:local1="using:Bili.Copilot.Models.Data.Local"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Visibility="{x:Bind ViewModel.HasFixedItems, Mode=OneWay}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:FixTypeIconConverter x:Key="IconConverter" />
         <DataTemplate x:Key="FixItemTemplate" x:DataType="local1:FixedItem">
             <base:CardPanel
-                Height="48"
                 HorizontalAlignment="Stretch"
                 AutomationProperties.Name="{x:Bind Title}"
                 Background="Transparent"
@@ -38,34 +38,35 @@
                     </MenuFlyout>
                 </base:CardPanel.ContextFlyout>
                 <Grid
-                    Margin="12,0"
+                    Margin="16,8"
                     VerticalAlignment="Center"
-                    ColumnSpacing="16">
+                    ColumnSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <base:ImageEx
-                        Width="24"
-                        Height="24"
+                        Width="42"
+                        Height="42"
                         VerticalAlignment="Center"
-                        CornerRadius="12"
+                        CornerRadius="21"
                         Source="{x:Bind Cover}"
                         Stretch="UniformToFill" />
                     <TextBlock
                         x:Name="TitleBlock"
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        MaxLines="1"
+                        FontSize="13"
+                        MaxLines="2"
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{x:Bind Title}"
-                        TextLineBounds="Tight"
-                        TextTrimming="CharacterEllipsis" />
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap" />
                     <base:FluentIcon
                         Grid.Column="2"
                         VerticalAlignment="Center"
-                        FontSize="14"
+                        FontSize="18"
                         Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                         Symbol="{x:Bind Type, Converter={StaticResource IconConverter}}" />
                 </Grid>
@@ -74,18 +75,35 @@
     </UserControl.Resources>
 
     <Grid>
-        <ItemsRepeater
-            ItemTemplate="{StaticResource FixItemTemplate}"
-            ItemsSource="{x:Bind ViewModel.FixedItemCollection}"
-            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <ItemsRepeater.Layout>
-                <StackLayout Spacing="4" />
-            </ItemsRepeater.Layout>
-        </ItemsRepeater>
-        <labs:Shimmer
-            Height="100"
-            HorizontalAlignment="Stretch"
-            CornerRadius="{StaticResource ControlCornerRadius}"
-            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <Button Style="{StaticResource IconButtonStyle}" ToolTipService.ToolTip="{ext:Locale Name=FixedContent}">
+            <base:FluentIcon FontSize="14" Symbol="Pin" />
+            <Button.Flyout>
+                <Flyout
+                    x:Name="FixFlyout"
+                    LightDismissOverlayMode="On"
+                    Placement="Bottom">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="8,12" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <Grid Width="340">
+                        <ItemsRepeater
+                            ItemTemplate="{StaticResource FixItemTemplate}"
+                            ItemsSource="{x:Bind ViewModel.FixedItemCollection}"
+                            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="4" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                        <labs:Shimmer
+                            Height="100"
+                            HorizontalAlignment="Stretch"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </local:FixModuleBase>

@@ -17,7 +17,10 @@ using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI;
 using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -33,6 +36,11 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         NavigateItems = new ObservableCollection<NavigateItemViewModel>();
+        DisplayWindows = new List<Window>();
+        Search = new SearchDetailViewModel();
+        Message = MessageDetailViewModel.Instance;
+        Fans = new FansDetailViewModel();
+        Follows = MyFollowsDetailViewModel.Instance;
     }
 
     /// <summary>
@@ -41,29 +49,25 @@ public sealed partial class AppViewModel : ViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     public async Task InitializeAsync()
     {
-        IsNavigationMenuShown = false;
         IsSigningIn = true;
         var isSignedIn = await AuthorizeProvider.Instance.TrySignInAsync();
         IsSigningIn = false;
         if (!isSignedIn)
         {
-            Navigate(PageType.SignIn);
+            AuthorizeProvider.Instance.SignOut();
+            RestartCommand.Execute(default);
         }
         else
         {
             LoadNavItems();
-            var lastOpenPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastOpenPageType, PageType.Home);
+            var lastOpenPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastOpenPageType, PageType.Popular);
             if (!NavigateItems.Any(p => p.Data?.Id == lastOpenPage))
             {
                 lastOpenPage = NavigateItems.First(p => p.Data != null).Data.Id;
             }
 
+            AccountViewModel.Instance.InitializeCommand.Execute(default);
             Navigate(lastOpenPage);
-            if (lastOpenPage != PageType.Home)
-            {
-                AccountViewModel.Instance.InitializeCommand.Execute(default);
-            }
-
             FixModuleViewModel.Instance.InitializeCommand.Execute(default);
         }
     }
@@ -80,16 +84,17 @@ public sealed partial class AppViewModel : ViewModelBase
             return;
         }
 
+        SettingsItem.IsSelected = page == PageType.Settings;
+        foreach (var item in NavigateItems)
+        {
+            item.IsSelected = page == item.Data.Id;
+        }
+
         Logger.Trace($"Navigate {page}");
         NavigateRequest?.Invoke(this, new AppNavigationEventArgs(page, parameter));
         CurrentPage = page;
-        if (CurrentNavigateItem?.Data?.Id != page)
-        {
-            CurrentNavigateItem = NavigateItems.FirstOrDefault(p => p.Data?.Id == CurrentPage);
-        }
 
-        IsNavigationMenuShown = page != PageType.SignIn;
-        if (IsNavigationMenuShown && page != PageType.Settings)
+        if (page != PageType.Settings)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.LastOpenPageType, page);
         }
@@ -116,6 +121,42 @@ public sealed partial class AppViewModel : ViewModelBase
     public void ActivateMainWindow()
         => ActiveMainWindow?.Invoke(this, EventArgs.Empty);
 
+    /// <summary>
+    /// 修改主题.
+    /// </summary>
+    /// <param name="theme">主题类型.</param>
+    public void ChangeTheme(ElementTheme theme)
+    {
+        if (DisplayWindows.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var window in DisplayWindows)
+        {
+            (window.Content as FrameworkElement).RequestedTheme = theme;
+            if (theme == ElementTheme.Dark)
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+            }
+            else if (theme == ElementTheme.Light)
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+            }
+            else
+            {
+                window.AppWindow.TitleBar.ButtonForegroundColor = default;
+            }
+        }
+    }
+
+    [RelayCommand]
+    private static void Restart()
+    {
+        AppInstance.GetCurrent().UnregisterKey();
+        _ = AppInstance.Restart(default);
+    }
+
     [RelayCommand]
     private void ShowImages(ShowImageEventArgs args)
         => RequestShowImages?.Invoke(this, args);
@@ -141,20 +182,53 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
-    private void Search(string text)
-        => RequestSearch?.Invoke(this, text);
+    private void SearchContent(string text)
+    {
+        IsOverlayShown = true;
+        Search.SetKeyword(text);
+        Search.InitializeCommand.Execute(default);
+        RequestSearch?.Invoke(this, text);
+    }
 
     [RelayCommand]
-    private void SummarizeVideoContent(VideoIdentifier video)
-        => RequestSummarizeVideoContent?.Invoke(this, video);
+    private void ShowFans(UserProfile user)
+    {
+        IsOverlayShown = true;
+        Fans.SetProfile(user);
+        Fans.InitializeCommand.Execute(default);
+        RequestShowFans?.Invoke(this, user);
+    }
 
     [RelayCommand]
-    private void SummarizeArticleContent(ArticleIdentifier article)
-        => RequestSummarizeArticleContent?.Invoke(this, article);
+    private void ShowFollows()
+    {
+        IsOverlayShown = true;
+        Follows.InitializeCommand.Execute(default);
+        RequestShowFollows?.Invoke(this, EventArgs.Empty);
+    }
 
     [RelayCommand]
-    private void EvaluateVideoContent(VideoIdentifier video)
-        => RequestEvaluateVideo?.Invoke(this, video);
+    private void ShowMyMessages()
+    {
+        IsOverlayShown = true;
+        Message.InitializeCommand.Execute(default);
+        RequestShowMyMessages?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void ShowViewLater()
+        => RequestShowViewLater?.Invoke(this, EventArgs.Empty);
+
+    [RelayCommand]
+    private void ShowHistory()
+        => RequestShowHistory?.Invoke(this, EventArgs.Empty);
+
+    [RelayCommand]
+    private void ShowFavorites()
+    {
+        IsOverlayShown = true;
+        RequestShowFavorites?.Invoke(this, EventArgs.Empty);
+    }
 
     [RelayCommand]
     private void Back()
@@ -164,14 +238,12 @@ public sealed partial class AppViewModel : ViewModelBase
             return;
         }
 
-        BackRequest?.Invoke(this, EventArgs.Empty);
-    }
+        if (IsOverlayShown)
+        {
+            IsOverlayShown = false;
+        }
 
-    [RelayCommand]
-    private async Task CheckAIFeatureAsync()
-    {
-        var handlers = await Windows.System.Launcher.FindUriSchemeHandlersAsync("fancop").AsTask();
-        IsAISupported = handlers.Any();
+        BackRequest?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]
@@ -216,27 +288,24 @@ public sealed partial class AppViewModel : ViewModelBase
     private void LoadNavItems()
     {
         TryClear(NavigateItems);
-        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.My)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Home, ResourceToolkit.GetLocalizedString(StringNames.Home), FluentSymbol.Home, 1)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed), FluentSymbol.DesignIdeas, 3)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Watchlist, ResourceToolkit.GetLocalizedString(StringNames.Watchlist), FluentSymbol.VideoClipMultiple, 9)));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.PopularSlim))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film))));
+        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn))));
 
-        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.Video)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.VideoPartition), FluentSymbol.Apps, 2)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.Popular), FluentSymbol.Rocket, 4)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live), FluentSymbol.Video, 5)));
-
-        NavigateItems.Add(new NavigateItemViewModel(ResourceToolkit.GetLocalizedString(StringNames.Content)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime), FluentSymbol.Dust, 6)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Film, ResourceToolkit.GetLocalizedString(StringNames.Film), FluentSymbol.FilmstripPlay, 7)));
-        NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn), FluentSymbol.DocumentBulletList, 8)));
+        SettingsItem = new NavigateItemViewModel(new NavigateItem(PageType.Settings, ResourceToolkit.GetLocalizedString(StringNames.Settings)));
+        SettingsItem.IsSelected = CurrentPage == PageType.Settings;
+        foreach (var item in NavigateItems)
+        {
+            item.IsSelected = CurrentPage == item.Data.Id;
+        }
     }
 
-    partial void OnCurrentNavigateItemChanged(NavigateItemViewModel value)
+    partial void OnIsOverlayShownChanged(bool value)
     {
-        if (value != null)
-        {
-            Navigate(value.Data.Id);
-        }
+        IsBackButtonShown = value;
     }
 }

@@ -34,7 +34,6 @@ public sealed partial class VideoItemViewModel : ViewModelBase
         _additionalData = additionalData;
         CanRemove = true;
         InitializeData();
-        IsAISupported = AppViewModel.Instance.IsAISupported;
     }
 
     [RelayCommand]
@@ -172,14 +171,6 @@ public sealed partial class VideoItemViewModel : ViewModelBase
         var uri = $"https://www.bilibili.com/video/av{Data.Identifier.Id}";
         _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
-
-    [RelayCommand]
-    private void SummarizeContent()
-        => AppViewModel.Instance.SummarizeVideoContentCommand.Execute(Data.Identifier);
-
-    [RelayCommand]
-    private void Evaluate()
-        => AppViewModel.Instance.EvaluateVideoContentCommand.Execute(Data.Identifier);
 
     [RelayCommand]
     private void Fix()

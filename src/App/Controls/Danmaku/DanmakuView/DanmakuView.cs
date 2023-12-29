@@ -1,15 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bili.Copilot.App.Extensions;
 using Bili.Copilot.Models.Constants.App;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Danmaku;
 
@@ -377,6 +371,7 @@ public sealed partial class DanmakuView : Control
             DanmakuStyle.Shadow => builder.CreateShadowDanmaku(),
             _ => builder.CreateShadowDanmaku(),
         };
+
         element.IsHitTestVisible = false;
         return element;
     }

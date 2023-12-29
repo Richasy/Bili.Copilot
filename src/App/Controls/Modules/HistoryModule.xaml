@@ -49,10 +49,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid">
-        <ScrollViewer
-            x:Name="ContentScrollViewer"
-            Padding="{x:Bind CoreViewModel.PagePadding, Mode=OneWay, Converter={StaticResource BodyPaddingConverter}}"
-            Style="{StaticResource PageScrollViewerStyle}">
+        <ScrollViewer x:Name="ContentScrollViewer" Style="{StaticResource PageScrollViewerStyle}">
             <base:VerticalRepeaterView
                 x:Name="VideoView"
                 Margin="0,0,0,12"
@@ -62,7 +59,10 @@
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         </ScrollViewer>
 
-        <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+        <controls:OverlayLoadingPanel
+            VerticalAlignment="Center"
+            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
+            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
         <controls:ErrorPanel
             x:Name="ErrorPanel"
             VerticalAlignment="Center"

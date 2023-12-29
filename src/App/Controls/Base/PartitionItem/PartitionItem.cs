@@ -1,16 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Data.Community;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls.Primitives;
+using Bili.Copilot.ViewModels.Items;
 
 namespace Bili.Copilot.App.Controls.Base;
 
 /// <summary>
 /// 分区条目视图.
 /// </summary>
-public sealed class PartitionItem : ReactiveControl<Partition>
+public sealed class PartitionItem : ReactiveControl<PartitionItemViewModel>
 {
     /// <summary>
     /// <see cref="Type"/> 的依赖属性.

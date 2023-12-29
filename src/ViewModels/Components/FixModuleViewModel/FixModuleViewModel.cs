@@ -70,10 +70,6 @@ public sealed partial class FixModuleViewModel : ViewModelBase
             FixedItemCollection.ToList(),
             AppConstants.FixedFolderName);
         HasFixedItems = FixedItemCollection.Count > 0;
-        if (!HasFixedItems)
-        {
-            HomePageViewModel.Instance.CustomModule = HomeCustomModuleType.HotSearch;
-        }
     }
 
     [RelayCommand]

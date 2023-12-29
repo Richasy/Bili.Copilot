@@ -47,9 +47,6 @@ public sealed partial class UserSpaceViewModel
     private bool _isMainShown;
 
     [ObservableProperty]
-    private bool _isBackButtonShown;
-
-    [ObservableProperty]
     private bool _isInFans;
 
     [ObservableProperty]

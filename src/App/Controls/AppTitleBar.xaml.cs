@@ -1,13 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Forms;
+using Bili.Copilot.Libs.Toolkit;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics;
-using WinRT.Interop;
 
 namespace Bili.Copilot.App.Controls;
 
@@ -33,12 +30,6 @@ public sealed partial class AppTitleBar : UserControl
     /// </summary>
     public static readonly DependencyProperty TitleProperty =
         DependencyProperty.Register(nameof(Title), typeof(string), typeof(AppTitleBar), new PropertyMetadata(default));
-
-    /// <summary>
-    /// <see cref="IsCompact"/> 的依赖属性.
-    /// </summary>
-    public static readonly DependencyProperty IsCompactProperty =
-        DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(AppTitleBar), new PropertyMetadata(true, new PropertyChangedCallback(OnIsCompactChanged)));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppTitleBar"/> class.
@@ -82,30 +73,12 @@ public sealed partial class AppTitleBar : UserControl
         set => SetValue(TitleProperty, value);
     }
 
-    /// <summary>
-    /// 是否为简化模式.
-    /// </summary>
-    public bool IsCompact
-    {
-        get => (bool)GetValue(IsCompactProperty);
-        set => SetValue(IsCompactProperty, value);
-    }
-
     private static async void OnBackButtonVisibilityChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as AppTitleBar;
 
         await Task.Delay(200);
         instance.SetDragRegion();
-    }
-
-    private static void OnIsCompactChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var instance = d as AppTitleBar;
-        if (e.NewValue is bool isCompact)
-        {
-            VisualStateManager.GoToState(instance, isCompact ? nameof(CompactState) : nameof(FullState), false);
-        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -121,18 +94,33 @@ public sealed partial class AppTitleBar : UserControl
             return;
         }
 
-        var windowHandle = WindowNative.GetWindowHandle(AttachedWindow);
-        var scaleFactor = Windows.Win32.PInvoke.GetDpiForWindow(new Windows.Win32.Foundation.HWND(windowHandle)) / 96d;
-        var leftInset = AttachedWindow.AppWindow.TitleBar.LeftInset;
-        var leftPadding = BackButtonVisibility == Visibility.Visible ? BackButton.ActualWidth : 0;
-        var dragRect = default(RectInt32);
-        dragRect.X = Convert.ToInt32((leftInset + leftPadding + 4) * scaleFactor);
-        dragRect.Y = 0;
-        dragRect.Height = Convert.ToInt32(ActualHeight * scaleFactor);
-        dragRect.Width = Convert.ToInt32((ActualWidth * scaleFactor) - dragRect.X);
-        AttachedWindow.AppWindow.TitleBar.SetDragRectangles(new[] { dragRect });
+        var scaleFactor = AttachedWindow.GetDpiForWindow() / 96d;
+        var transform = BackButton.TransformToVisual(default);
+        var backButtonBounds = transform.TransformBounds(new Rect(0, 0, BackButton.ActualWidth, BackButton.ActualHeight));
+        var backButtonRect = AppToolkit.GetRectInt32(backButtonBounds, scaleFactor);
+
+        transform = SearchModule.TransformToVisual(default);
+        var searchBounds = transform.TransformBounds(new Rect(0, 0, SearchModule.ActualWidth, SearchModule.ActualHeight));
+        var searchBoxRect = AppToolkit.GetRectInt32(searchBounds, scaleFactor);
+
+        transform = FixModule.TransformToVisual(default);
+        var fixBounds = transform.TransformBounds(new Rect(0, 0, FixModule.ActualWidth, FixModule.ActualHeight));
+        var fixRect = AppToolkit.GetRectInt32(fixBounds, scaleFactor);
+
+        transform = AccountModule.TransformToVisual(default);
+        var accountBounds = transform.TransformBounds(new Rect(0, 0, AccountModule.ActualWidth, AccountModule.ActualHeight));
+        var accountRect = AppToolkit.GetRectInt32(accountBounds, scaleFactor);
+
+        var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Win32Interop.GetWindowIdFromWindow(AttachedWindow.GetWindowHandle()));
+        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { backButtonRect, searchBoxRect, fixRect, accountRect });
     }
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)
         => BackButtonClick?.Invoke(this, EventArgs.Empty);
+
+    private async void OnFixModuleVisibilityChangedAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(200);
+        SetDragRegion();
+    }
 }

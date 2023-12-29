@@ -1,12 +1,16 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels.Items;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -20,8 +24,13 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
     /// </summary>
     private PopularPageViewModel()
     {
-        _caches = new Dictionary<PopularType, IEnumerable<VideoInformation>>();
+        _moduleCaches = new Dictionary<PopularType, IEnumerable<VideoInformation>>();
+        _partitionCaches = new Dictionary<string, IEnumerable<VideoInformation>>();
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.PopularNavListColumnWidth, 280d);
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastPopularType, PopularType.Recommend);
+        PartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.LastPopularPartitionId, string.Empty);
+        AttachIsRunningToAsyncCommand(p => IsInitializing = p, FirstLoadCommand);
+        Partitions = new ObservableCollection<PartitionItemViewModel>();
         CheckModuleState();
     }
 
@@ -46,6 +55,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
             PopularType.Recommend => ResourceToolkit.GetLocalizedString(StringNames.RequestRecommendFailed),
             PopularType.Hot => ResourceToolkit.GetLocalizedString(StringNames.RequestPopularFailed),
             PopularType.Rank => ResourceToolkit.GetLocalizedString(StringNames.RankRequestFailed),
+            PopularType.Partition => ResourceToolkit.GetLocalizedString(StringNames.PartitionRequestFailed),
             _ => string.Empty,
         };
         return $"{prefix}\n{errorMsg}";
@@ -71,7 +81,20 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
 
                 break;
             case PopularType.Rank:
+                if (Items.Count > 0)
+                {
+                    return;
+                }
+
                 videos = await HomeProvider.GetRankDetailAsync("0");
+                break;
+            case PopularType.Partition:
+                if (Items.Count > 0)
+                {
+                    return;
+                }
+
+                videos = await HomeProvider.GetRankDetailAsync(PartitionId);
                 break;
         }
 
@@ -89,31 +112,56 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
                     .OfType<VideoItemViewModel>()
                     .Select(p => p.Data)
                     .ToList();
-            _caches[CurrentType] = videoVMs;
+
+            if (CurrentType == PopularType.Partition)
+            {
+                _partitionCaches[PartitionId] = videoVMs;
+            }
+            else
+            {
+                _moduleCaches[CurrentType] = videoVMs;
+            }
         }
 
         IsEmpty = Items.Count == 0;
     }
 
-    private void CheckModuleState()
+    [RelayCommand]
+    private async Task FirstLoadAsync()
     {
-        IsRecommendShown = CurrentType == PopularType.Recommend;
-        IsHotShown = CurrentType == PopularType.Hot;
-        IsRankShown = CurrentType == PopularType.Rank;
-
-        Title = CurrentType switch
+        if (Partitions.Count > 0)
         {
-            PopularType.Recommend => ResourceToolkit.GetLocalizedString(StringNames.Recommend),
-            PopularType.Hot => ResourceToolkit.GetLocalizedString(StringNames.Hot),
-            PopularType.Rank => ResourceToolkit.GetLocalizedString(StringNames.Rank),
-            _ => string.Empty,
-        };
+            return;
+        }
+
+        var data = await HomeProvider.GetVideoPartitionIndexAsync();
+        data.ToList().ForEach(p =>
+        {
+            Partitions.Add(new PartitionItemViewModel(p)
+            {
+                AdditionalText = TextToolkit.ConvertToTraditionalChineseIfNeeded("排行榜"),
+            });
+        });
+
+        if (!string.IsNullOrEmpty(PartitionId))
+        {
+            CheckModuleState();
+        }
     }
 
-    partial void OnCurrentTypeChanged(PopularType value)
+    [RelayCommand]
+    private void ChangeModuleType(PopularType type)
     {
+        CurrentType = type;
+        if (type != PopularType.Partition)
+        {
+            PartitionId = string.Empty;
+        }
+
         CheckModuleState();
-        SettingsToolkit.WriteLocalSetting(SettingNames.LastPopularType, value);
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastPopularType, type);
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastPopularPartitionId, PartitionId);
 
         if (!IsInitialized)
         {
@@ -121,20 +169,87 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
 
         TryClear(Items);
-        if (_caches.ContainsKey(value))
-        {
-            var data = _caches[value];
-            foreach (var video in data)
-            {
-                var videoVM = new VideoItemViewModel(video);
-                Items.Add(videoVM);
-            }
 
-            IsEmpty = Items.Count == 0;
+        if (CurrentType == PopularType.Partition)
+        {
+            if (_partitionCaches.ContainsKey(PartitionId))
+            {
+                var data = _partitionCaches[PartitionId];
+                foreach (var video in data)
+                {
+                    var videoVM = new VideoItemViewModel(video);
+                    Items.Add(videoVM);
+                }
+
+                IsEmpty = Items.Count == 0;
+            }
+            else
+            {
+                _ = InitializeCommand.ExecuteAsync(default);
+            }
         }
         else
         {
-            _ = InitializeCommand.ExecuteAsync(default);
+            if (_moduleCaches.ContainsKey(type))
+            {
+                var data = _moduleCaches[type];
+                foreach (var video in data)
+                {
+                    var videoVM = new VideoItemViewModel(video);
+                    Items.Add(videoVM);
+                }
+
+                IsEmpty = Items.Count == 0;
+            }
+            else
+            {
+                _ = InitializeCommand.ExecuteAsync(default);
+            }
+        }
+
+        RequestScrollToTop?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void OpenPartition(PartitionItemViewModel vm)
+    {
+        if (PartitionId == vm.Data.Id && Items.Count > 0)
+        {
+            return;
+        }
+
+        TryClear(Items);
+        PartitionId = vm.Data.Id;
+        ChangeModuleType(PopularType.Partition);
+    }
+
+    private void CheckModuleState()
+    {
+        IsRecommendShown = CurrentType == PopularType.Recommend;
+        IsHotShown = CurrentType == PopularType.Hot;
+        IsRankShown = CurrentType == PopularType.Rank;
+        IsInPartition = CurrentType == PopularType.Partition;
+
+        foreach (var item in Partitions)
+        {
+            item.IsSelected = item.Data.Id == PartitionId;
+        }
+
+        Title = CurrentType switch
+        {
+            PopularType.Recommend => ResourceToolkit.GetLocalizedString(StringNames.Recommend),
+            PopularType.Hot => ResourceToolkit.GetLocalizedString(StringNames.Hot),
+            PopularType.Rank => ResourceToolkit.GetLocalizedString(StringNames.Rank),
+            PopularType.Partition => Partitions.FirstOrDefault(p => p.IsSelected)?.Data.Name ?? string.Empty,
+            _ => string.Empty,
+        };
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PopularNavListColumnWidth, value);
         }
     }
 }

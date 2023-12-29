@@ -13,9 +13,6 @@ public sealed partial class LiveRecommendDetailViewModel
     [ObservableProperty]
     private bool _isFollowsEmpty;
 
-    [ObservableProperty]
-    private bool _isFollowsVisible;
-
     /// <summary>
     /// 实例.
     /// </summary>

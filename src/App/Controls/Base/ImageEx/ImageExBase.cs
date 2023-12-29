@@ -1,14 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Linq;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.Foundation;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -227,9 +221,8 @@ public abstract partial class ImageExBase : Control, IAlphaMaskProvider
 
     private static bool IntersectsWith(Rect rect1, Rect rect2)
     {
-        return rect1.IsEmpty || rect2.IsEmpty
-            ? false
-            : (rect1.Left <= rect2.Right) &&
+        return !rect1.IsEmpty && !rect2.IsEmpty
+&& (rect1.Left <= rect2.Right) &&
                (rect1.Right >= rect2.Left) &&
                (rect1.Top <= rect2.Bottom) &&
                (rect1.Bottom >= rect2.Top);

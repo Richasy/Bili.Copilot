@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Data.Pgc;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -12,9 +13,6 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class TimelineViewModel
 {
     [ObservableProperty]
-    private TimelineInformation _selectedTimeline;
-
-    [ObservableProperty]
     private string _errorText;
 
     [ObservableProperty]
@@ -22,6 +20,12 @@ public sealed partial class TimelineViewModel
 
     [ObservableProperty]
     private bool _isReloading;
+
+    [ObservableProperty]
+    private bool _isSeasonEmpty;
+
+    [ObservableProperty]
+    private TimelineItemViewModel _selectedTimeline;
 
     /// <summary>
     /// 实例.
@@ -31,5 +35,10 @@ public sealed partial class TimelineViewModel
     /// <summary>
     /// 时间线集合.
     /// </summary>
-    public ObservableCollection<TimelineInformation> TimelineCollection { get; }
+    public ObservableCollection<TimelineItemViewModel> TimelineCollection { get; }
+
+    /// <summary>
+    /// 季度集合.
+    /// </summary>
+    public ObservableCollection<SeasonInformation> SeasonCollection { get; }
 }

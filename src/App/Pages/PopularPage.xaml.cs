@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Threading.Tasks;
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Pages;
@@ -20,25 +17,28 @@ public sealed partial class PopularPage : PopularPageBase
     {
         InitializeComponent();
         ViewModel = PopularPageViewModel.Instance;
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
     }
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
     {
         CoreViewModel.IsBackButtonShown = false;
-        PopularTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
         ViewModel.InitializeCommand.Execute(default);
     }
 
-    private async void OnPopularTypeSegmentedSelectionChangedAsync(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
-    {
-        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
-        await Task.Delay(100);
-        ViewModel.CurrentType = (PopularType)PopularTypeSelection.SelectedIndex;
-    }
+    /// <inheritdoc/>
+    protected override void OnPageUnloaded()
+        => ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
 
     private void OnVideoViewIncrementalTriggered(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
+
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        ContentScrollViewer?.ChangeView(0, 0, default);
+    }
 }
 
 /// <summary>

@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -12,10 +15,14 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PopularPageViewModel
 {
-    private readonly Dictionary<PopularType, IEnumerable<VideoInformation>> _caches;
+    private readonly Dictionary<PopularType, IEnumerable<VideoInformation>> _moduleCaches;
+    private readonly Dictionary<string,  IEnumerable<VideoInformation>> _partitionCaches;
 
     [ObservableProperty]
     private PopularType _currentType;
+
+    [ObservableProperty]
+    private string _partitionId;
 
     [ObservableProperty]
     private bool _isRecommendShown;
@@ -27,13 +34,32 @@ public sealed partial class PopularPageViewModel
     private bool _isRankShown;
 
     [ObservableProperty]
+    private bool _isInPartition;
+
+    [ObservableProperty]
     private bool _isEmpty;
 
     [ObservableProperty]
     private string _title;
 
+    [ObservableProperty]
+    private double _navListColumnWidth;
+
+    [ObservableProperty]
+    private bool _isInitializing;
+
+    /// <summary>
+    /// 请求滚动到顶部.
+    /// </summary>
+    public event EventHandler RequestScrollToTop;
+
     /// <summary>
     /// 实例.
     /// </summary>
     public static PopularPageViewModel Instance { get; } = new();
+
+    /// <summary>
+    /// 分区集合.
+    /// </summary>
+    public ObservableCollection<PartitionItemViewModel> Partitions { get; }
 }

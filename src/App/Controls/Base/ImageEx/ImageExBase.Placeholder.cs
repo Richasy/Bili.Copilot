@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
 namespace Bili.Copilot.App.Controls.Base;

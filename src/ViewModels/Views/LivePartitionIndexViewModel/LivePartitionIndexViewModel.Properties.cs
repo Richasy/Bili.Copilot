@@ -2,6 +2,7 @@
 
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -11,9 +12,6 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class LivePartitionIndexViewModel
 {
-    [ObservableProperty]
-    private Partition _currentParentPartition;
-
     [ObservableProperty]
     private string _errorText;
 
@@ -31,10 +29,5 @@ public sealed partial class LivePartitionIndexViewModel
     /// <summary>
     /// 父级分区集合.
     /// </summary>
-    public ObservableCollection<Partition> ParentPartitions { get; }
-
-    /// <summary>
-    /// 显示的分区集合.
-    /// </summary>
-    public ObservableCollection<Partition> DisplayPartitions { get; }
+    public ObservableCollection<PartitionItemViewModel> ParentPartitions { get; }
 }

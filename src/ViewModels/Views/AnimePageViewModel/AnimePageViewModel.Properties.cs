@@ -25,13 +25,13 @@ public sealed partial class AnimePageViewModel
     private bool _isTimelineShown;
 
     [ObservableProperty]
-    private bool _isFavoriteShown;
-
-    [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
     private bool _isReloading;
+
+    [ObservableProperty]
+    private double _navListColumnWidth;
 
     /// <summary>
     /// 实例.

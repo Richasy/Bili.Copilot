@@ -1,9 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
-using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.ViewModels;
-using Microsoft.UI.Xaml.Controls;
+using Bili.Copilot.ViewModels.Items;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -20,13 +19,15 @@ public sealed partial class MyFollowDetailModule : MyFollowDetailModuleBase
     private void OnIncrementalTriggered(object sender, System.EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
 
-    private void OnNavItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    private void OnGroupItemClick(object sender, RoutedEventArgs e)
     {
-        var data = args.InvokedItem as FollowGroup;
-        if (data != ViewModel.CurrentGroup)
+        var vm = (sender as FrameworkElement).DataContext as FollowGroupViewModel;
+        if (vm.Equals(ViewModel.CurrentGroup))
         {
-            ViewModel.SelectGroupCommand.Execute(data);
+            return;
         }
+
+        ViewModel.SelectGroupCommand.Execute(vm);
     }
 }
 

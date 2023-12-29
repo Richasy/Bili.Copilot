@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
 using Bili.Copilot.Models.App.Other;
+using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels.Items;
@@ -10,16 +9,13 @@ namespace Bili.Copilot.ViewModels.Items;
 /// <summary>
 /// 导航条目.
 /// </summary>
-public sealed partial class NavigateItemViewModel : ViewModelBase
+public sealed partial class NavigateItemViewModel : SelectableViewModel<NavigateItem>
 {
     [ObservableProperty]
-    private NavigateItem _data;
+    private FluentSymbol _defaultIcon;
 
     [ObservableProperty]
-    private string _displayTitle;
-
-    [ObservableProperty]
-    private bool _isHeader;
+    private FluentSymbol _selectedIcon;
 
     [ObservableProperty]
     private bool _isVisible;
@@ -28,20 +24,44 @@ public sealed partial class NavigateItemViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="NavigateItemViewModel"/> class.
     /// </summary>
     public NavigateItemViewModel(NavigateItem data)
-        => Data = data;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="NavigateItemViewModel"/> class.
-    /// </summary>
-    public NavigateItemViewModel(string header)
+        : base(data)
     {
-        DisplayTitle = header;
-        IsHeader = true;
+        switch (data.Id)
+        {
+            case PageType.Partition:
+                DefaultIcon = FluentSymbol.Apps;
+                SelectedIcon = FluentSymbol.AppsFilled;
+                break;
+            case PageType.Popular:
+                DefaultIcon = FluentSymbol.Rocket;
+                SelectedIcon = FluentSymbol.RocketFilled;
+                break;
+            case PageType.Live:
+                DefaultIcon = FluentSymbol.Video;
+                SelectedIcon = FluentSymbol.VideoFilled;
+                break;
+            case PageType.Dynamic:
+                DefaultIcon = FluentSymbol.DesignIdeas;
+                SelectedIcon = FluentSymbol.DesignIdeasFilled;
+                break;
+            case PageType.Anime:
+                DefaultIcon = FluentSymbol.Dust;
+                SelectedIcon = FluentSymbol.DustFilled;
+                break;
+            case PageType.Film:
+                DefaultIcon = FluentSymbol.FilmstripPlay;
+                SelectedIcon = FluentSymbol.FilmstripPlayFilled;
+                break;
+            case PageType.Article:
+                DefaultIcon = FluentSymbol.DocumentBulletList;
+                SelectedIcon = FluentSymbol.DocumentBulletListFilled;
+                break;
+            case PageType.Settings:
+                DefaultIcon = FluentSymbol.Settings;
+                SelectedIcon = FluentSymbol.SettingsFilled;
+                break;
+            default:
+                break;
+        }
     }
-
-    /// <inheritdoc/>
-    public override bool Equals(object obj) => obj is NavigateItemViewModel model && EqualityComparer<NavigateItem>.Default.Equals(Data, model.Data);
-
-    /// <inheritdoc/>
-    public override int GetHashCode() => HashCode.Combine(Data);
 }

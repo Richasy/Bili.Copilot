@@ -10,6 +10,24 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Frame x:Name="MainFrame" />
+        <SplitView
+            x:Name="MainSplitView"
+            CompactPaneLength="0"
+            DisplayMode="CompactOverlay"
+            IsPaneOpen="False"
+            LightDismissOverlayMode="On"
+            OpenPaneLength="400"
+            PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            PanePlacement="Right">
+            <SplitView.Pane>
+                <Grid>
+                    <Frame x:Name="SplitFrame" />
+                </Grid>
+            </SplitView.Pane>
+            <Grid>
+                <Frame x:Name="MainFrame" />
+            </Grid>
+        </SplitView>
+        <Grid x:Name="TipContainer" Visibility="Collapsed" />
     </Grid>
 </local:WindowBase>

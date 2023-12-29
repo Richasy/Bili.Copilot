@@ -126,15 +126,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
     {
         if (IsMe)
         {
-            if (AppViewModel.Instance.CurrentPage == PageType.Home)
-            {
-                AppViewModel.Instance.ActivateMainWindow();
-                HomePageViewModel.Instance.OpenFansCommand.Execute(default);
-            }
-            else
-            {
-                AppViewModel.Instance.Navigate(PageType.Home, 2);
-            }
+            AppViewModel.Instance.ShowFansCommand.Execute(_userProfile);
         }
         else
         {
@@ -148,15 +140,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
     {
         if (IsMe)
         {
-            if (AppViewModel.Instance.CurrentPage == PageType.Home)
-            {
-                AppViewModel.Instance.ActivateMainWindow();
-                HomePageViewModel.Instance.OpenFollowsCommand.Execute(default);
-            }
-            else
-            {
-                AppViewModel.Instance.Navigate(PageType.Home, 1);
-            }
+            AppViewModel.Instance.ShowFollowsCommand.Execute(default);
         }
         else
         {
@@ -224,7 +208,4 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
 
     partial void OnIsInFollowsChanged(bool value)
         => CheckMainShown();
-
-    partial void OnIsMainShownChanged(bool value)
-        => IsBackButtonShown = !value;
 }

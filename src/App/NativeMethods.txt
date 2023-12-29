@@ -4,3 +4,4 @@ SetWindowsHookEx
 UnhookWindowsHookEx
 CallNextHookEx
 GetModuleHandle
+IsZoomed

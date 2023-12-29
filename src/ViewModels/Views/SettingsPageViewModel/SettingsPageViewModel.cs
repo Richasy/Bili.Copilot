@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.Background;
 
 namespace Bili.Copilot.ViewModels;
@@ -25,7 +26,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DecodeTypeCollection = new ObservableCollection<DecodeType>();
         PreferQualities = new ObservableCollection<PreferQuality>();
         PreferAudioQualities = new ObservableCollection<PreferAudio>();
-        AIConnectTypes = new ObservableCollection<AIConnectType>();
         PlayerTypes = new ObservableCollection<PlayerType>();
 
         InitializeSettings();
@@ -37,6 +37,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     public void InitializeSettings()
     {
         PropertyChanged -= OnPropertyChanged;
+        AppTheme = ReadSetting(SettingNames.AppTheme, ElementTheme.Default);
+        CheckTheme();
         IsAutoPlayWhenLoaded = ReadSetting(SettingNames.IsAutoPlayWhenLoaded, true);
         IsAutoPlayNextRelatedVideo = ReadSetting(SettingNames.IsAutoPlayNextRelatedVideo, false);
         DisableP2PCdn = ReadSetting(SettingNames.DisableP2PCdn, false);
@@ -50,12 +52,11 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
-        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior.Multiple);
+        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
         PlayerTypeInit();
-        AIConnectTypeInit();
 
         // BackgroundTaskInitAsync();
         RoamingInit();
@@ -145,9 +146,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(PreferAudioQuality):
                 WriteSetting(SettingNames.PreferAudioQuality, PreferAudioQuality);
                 break;
-            case nameof(AIConnectType):
-                WriteSetting(SettingNames.AIConnectType, AIConnectType);
-                break;
             case nameof(HideWhenCloseWindow):
                 WriteSetting(SettingNames.HideWhenCloseWindow, HideWhenCloseWindow);
                 break;
@@ -155,7 +153,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
             case nameof(PlayerWindowBehavior):
-                WriteSetting(SettingNames.PlayerWindowBehavior, PlayerWindowBehavior);
+                WriteSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior);
                 break;
             default:
                 break;
@@ -191,17 +189,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         PreferCodec = ReadSetting(SettingNames.PreferCodec, PreferCodec.H264);
-    }
-
-    private void AIConnectTypeInit()
-    {
-        if (AIConnectTypes.Count == 0)
-        {
-            AIConnectTypes.Add(AIConnectType.Protocol);
-            AIConnectTypes.Add(AIConnectType.AppService);
-        }
-
-        AIConnectType = ReadSetting(SettingNames.AIConnectType, AIConnectType.AppService);
     }
 
     private void PlayerTypeInit()
@@ -257,5 +244,21 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         RoamingVideoAddress = ReadSetting(SettingNames.RoamingVideoAddress, string.Empty);
         RoamingViewAddress = ReadSetting(SettingNames.RoamingViewAddress, string.Empty);
         RoamingSearchAddress = ReadSetting(SettingNames.RoamingSearchAddress, string.Empty);
+    }
+
+    private void CheckTheme()
+    {
+        AppThemeText = AppTheme switch
+        {
+            ElementTheme.Light => ResourceToolkit.GetLocalizedString(StringNames.LightTheme),
+            ElementTheme.Dark => ResourceToolkit.GetLocalizedString(StringNames.DarkTheme),
+            _ => ResourceToolkit.GetLocalizedString(StringNames.SystemDefault),
+        };
+    }
+
+    partial void OnAppThemeChanged(ElementTheme value)
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.AppTheme, value);
+        CheckTheme();
     }
 }

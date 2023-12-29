@@ -1453,7 +1453,7 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>二維碼已過期，請刷新</value>
   </data>
   <data name="QRLoginTip" xml:space="preserve">
-    <value>請使用移動客戶端掃描上方的二維碼登錄</value>
+    <value>請使用移動客戶端掃描下方的二維碼登錄</value>
   </data>
   <data name="Quality" xml:space="preserve">
     <value>清晰度</value>
@@ -2063,5 +2063,44 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   </data>
   <data name="VideoPartition" xml:space="preserve">
     <value>視頻分區</value>
+  </data>
+  <data name="DataUsage" xml:space="preserve">
+    <value>數據使用</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="PopularSlim" xml:space="preserve">
+    <value>流行</value>
+  </data>
+  <data name="WelcomeUse" xml:space="preserve">
+    <value>歡迎使用嗶哩助理</value>
+  </data>
+  <data name="LoadingAndWait" xml:space="preserve">
+    <value>載入中，請稍候</value>
+  </data>
+  <data name="OpenPartition" xml:space="preserve">
+    <value>點擊分區</value>
+  </data>
+  <data name="OpenPartitionDescription" xml:space="preserve">
+    <value>點擊分區后可以查看推薦內容及子分區內容</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>應用程式主題</value>
+  </data>
+  <data name="AppThemeDescription" xml:space="preserve">
+    <value>選擇要顯示的應用主題</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>淺色</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+    <value>使用系統設置</value>
   </data>
 </root>
