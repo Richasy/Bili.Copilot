@@ -75,6 +75,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentItem/CommentItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentMainView/CommentMainView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentDetailView/CommentDetailView.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Markdown/MarkdownTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overwrites.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
