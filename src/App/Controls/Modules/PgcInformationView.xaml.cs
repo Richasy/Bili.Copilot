@@ -28,8 +28,6 @@ public sealed partial class PgcInformationView : PgcInformationViewBase
     {
         _isLikeHoldCompleted = true;
         _ = ViewModel.TripleCommand.ExecuteAsync(null);
-        CoinButton.ShowBubbles();
-        FavoriteButton.ShowBubbles();
     }
 
     private void OnLikeButtonHoldingSuspend(object sender, EventArgs e) => _isLikeHoldSuspend = true;

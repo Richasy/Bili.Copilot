@@ -51,7 +51,6 @@ public sealed class ProgressButton : ToggleButton
 
     private readonly double _defaultHoldingJudgeTime = 100d;
 
-    private BubbleView _bubbleView;
     private Ellipse _host;
     private Microsoft.UI.Xaml.Controls.ProgressRing _progressRing;
 
@@ -124,16 +123,10 @@ public sealed class ProgressButton : ToggleButton
         set => SetValue(SpacingProperty, value);
     }
 
-    /// <summary>
-    /// 显示气泡.
-    /// </summary>
-    public void ShowBubbles() => _bubbleView.ShowBubbles();
-
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         _host = GetTemplateChild("BackgroundHost") as Ellipse;
-        _bubbleView = GetTemplateChild("BubbleView") as BubbleView;
         _progressRing = GetTemplateChild("ProgressRing") as Microsoft.UI.Xaml.Controls.ProgressRing;
         _ = _progressRing.RegisterPropertyChangedCallback(Microsoft.UI.Xaml.Controls.ProgressRing.ValueProperty, new DependencyPropertyChangedCallback(OnValueChanged));
         Initialize();
@@ -222,7 +215,6 @@ public sealed class ProgressButton : ToggleButton
         _currentProgressValue = _progressRing.Value;
         if (_currentProgressValue >= 99.9)
         {
-            _bubbleView.ShowBubbles();
             IsChecked = true;
             HoldingCompleted?.Invoke(this, EventArgs.Empty);
         }
