@@ -71,6 +71,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
             oldViewModel.DanmakuViewModel.LiveDanmakuAdded -= OnLiveDanmakuAdded;
             oldViewModel.DanmakuViewModel.SendDanmakuSucceeded -= OnSendDanmakuSucceeded;
             oldViewModel.DanmakuViewModel.PropertyChanged -= OnDanmakuViewModelPropertyChanged;
+            oldViewModel.DanmakuViewModel.RequestSeek -= OnDanmakuRequestSeek;
             oldViewModel.PropertyChanged -= OnViewModelPropertyChanged;
             oldViewModel.RequestShowTempMessage -= OnRequestShowTempMessage;
         }
@@ -82,6 +83,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
             newViewModel.DanmakuViewModel.LiveDanmakuAdded += OnLiveDanmakuAdded;
             newViewModel.DanmakuViewModel.SendDanmakuSucceeded += OnSendDanmakuSucceeded;
             newViewModel.DanmakuViewModel.PropertyChanged += OnDanmakuViewModelPropertyChanged;
+            newViewModel.DanmakuViewModel.RequestSeek += OnDanmakuRequestSeek;
             newViewModel.PropertyChanged += OnViewModelPropertyChanged;
             newViewModel.RequestShowTempMessage += OnRequestShowTempMessage;
         }

@@ -195,7 +195,7 @@ public sealed partial class PlayerDetailViewModel
     {
         var ts = TimeSpan.FromSeconds(seconds);
         if (Player == null
-            || Math.Abs(ts.TotalSeconds - Player.Position.TotalSeconds) < 1)
+            || Math.Abs(ts.TotalSeconds - Player.Position.TotalSeconds) < 3)
         {
             return;
         }
@@ -203,6 +203,7 @@ public sealed partial class PlayerDetailViewModel
         Player.SeekTo(ts);
         var msg = $"{ResourceToolkit.GetLocalizedString(StringNames.CurrentProgress)}: {TimeSpan.FromSeconds(seconds):g}";
         RequestShowTempMessage?.Invoke(this, msg);
+        DanmakuViewModel.ResetTimePositionCommand.Execute(ts);
     }
 
     [RelayCommand]

@@ -19,7 +19,7 @@ public partial class BiliPlayerOverlay
         {
             _danmakuTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1),
+                Interval = TimeSpan.FromSeconds(0.5),
             };
             _danmakuTimer.Tick += OnDanmkuTimerTick;
         }
@@ -73,7 +73,7 @@ public partial class BiliPlayerOverlay
         {
             if (_danmakuDictionary.ContainsKey(g.Key))
             {
-                _danmakuDictionary[g.Key] = _danmakuDictionary[g.Key].Concat(g.Value).ToList();
+                _danmakuDictionary[g.Key] = g.Value.ToList();
             }
             else
             {
@@ -254,6 +254,6 @@ public partial class BiliPlayerOverlay
             scale = 0.4;
         }
 
-        _subtitleBlock.FontSize = 22 * scale;
+        _subtitleBlock.FontSize = 20 * scale;
     }
 }

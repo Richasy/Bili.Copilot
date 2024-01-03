@@ -133,6 +133,9 @@ public partial class BiliPlayerOverlay
         _danmakuView?.ClearAll();
     }
 
+    private void OnDanmakuRequestSeek(object sender, TimeSpan e)
+        => _danmakuView.ResetTimePosition(e);
+
     private void OnDanmakuListAdded(object sender, IEnumerable<DanmakuInformation> e)
     {
         InitializeDanmaku(e);

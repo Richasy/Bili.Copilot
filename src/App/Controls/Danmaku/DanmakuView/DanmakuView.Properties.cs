@@ -55,6 +55,7 @@ public sealed partial class DanmakuView
     private readonly List<Storyboard> _topBottomStoryList = new();
     private readonly List<Storyboard> _scrollStoryList = new();
     private readonly List<Storyboard> _positionStoryList = new();
+    private readonly List<DanmakuModel> _sendDanmakuList;
 
     private Grid _rootGrid;
     private Canvas _canvas;

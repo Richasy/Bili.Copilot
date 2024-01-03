@@ -151,4 +151,8 @@ public sealed partial class DanmakuModuleViewModel : ViewModelBase
     [RelayCommand]
     private void AddLiveDanmaku(LiveDanmakuInformation info)
         => LiveDanmakuAdded?.Invoke(this, info);
+
+    [RelayCommand]
+    private void ResetTimePosition(TimeSpan time)
+        => RequestSeek?.Invoke(this, time);
 }
