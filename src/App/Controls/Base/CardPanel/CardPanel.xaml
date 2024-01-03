@@ -12,7 +12,7 @@
         <Setter Property="StrokeThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
         <Setter Property="PointerOverBackground" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
         <Setter Property="PointerOverBorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
@@ -53,7 +53,8 @@
                             VerticalContentAlignment="Stretch"
                             Canvas.ZIndex="1"
                             Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
