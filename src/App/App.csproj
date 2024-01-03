@@ -15,6 +15,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <PackageCertificateKeyFile>App_TemporaryKey.pfx</PackageCertificateKeyFile>
         <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
       <Content Remove="Assets\ffmpeg\avcodec-60.dll" />
