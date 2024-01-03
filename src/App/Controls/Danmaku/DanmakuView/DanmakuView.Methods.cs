@@ -15,6 +15,19 @@ namespace Bili.Copilot.App.Controls.Danmaku;
 public sealed partial class DanmakuView
 {
     /// <summary>
+    /// 重置时间戳，清除该时间戳之后的弹幕.
+    /// </summary>
+    /// <param name="position">时间戳.</param>
+    public void ResetTimePosition(TimeSpan position)
+    {
+        var discardDanmaku = _sendDanmakuList.Where(p => p.Time > position.TotalSeconds).ToArray();
+        foreach (var item in discardDanmaku)
+        {
+            Remove(item);
+        }
+    }
+
+    /// <summary>
     /// 添加直播滚动弹幕.
     /// </summary>
     /// <param name="text">参数.</param>
@@ -301,6 +314,8 @@ public sealed partial class DanmakuView
             default:
                 break;
         }
+
+        _sendDanmakuList.Remove(danmaku);
     }
 
     /// <summary>
@@ -318,6 +333,7 @@ public sealed partial class DanmakuView
         _bottomContainer.Children.Clear();
         _topContainer.Children.Clear();
         _scrollContainer.Children.Clear();
+        _sendDanmakuList.Clear();
     }
 
     /// <summary>

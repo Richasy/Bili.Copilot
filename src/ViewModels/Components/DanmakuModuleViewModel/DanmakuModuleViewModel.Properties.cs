@@ -92,6 +92,11 @@ public sealed partial class DanmakuModuleViewModel
     public event EventHandler<LiveDanmakuInformation> LiveDanmakuAdded;
 
     /// <summary>
+    /// 当请求重新调整弹幕进度时触发的事件.
+    /// </summary>
+    public event EventHandler<TimeSpan> RequestSeek;
+
+    /// <summary>
     /// 弹幕位置的可观察集合.
     /// </summary>
     public ObservableCollection<DanmakuLocation> LocationCollection { get; }

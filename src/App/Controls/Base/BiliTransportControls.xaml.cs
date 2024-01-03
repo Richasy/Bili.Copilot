@@ -151,10 +151,10 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         };
     }
 
-    private void OnProgressSliderValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    private void OnProgressSliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         => ViewModel.ChangeProgressCommand.Execute(e.NewValue);
 
-    private void OnVolumeValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    private void OnVolumeValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
         if (e.NewValue != e.OldValue)
         {

@@ -20,6 +20,7 @@ public sealed partial class DanmakuView : Control
         DefaultStyleKey = typeof(DanmakuView);
         DanmakuBold = false;
         DanmakuFontFamily = string.Empty;
+        _sendDanmakuList = new();
     }
 
     /// <inheritdoc/>
@@ -86,6 +87,11 @@ public sealed partial class DanmakuView : Control
     private void AddDanmakuInternal(DanmakuModel m, bool isOwn)
     {
         if (!_isApplyTemplate)
+        {
+            return;
+        }
+
+        if (_sendDanmakuList.Contains(m))
         {
             return;
         }
@@ -187,6 +193,7 @@ public sealed partial class DanmakuView : Control
         });
 
         moveStoryboard.Begin();
+        _sendDanmakuList.Add(m);
     }
 
     private void SetDanmakuSizeZoom(double value)
