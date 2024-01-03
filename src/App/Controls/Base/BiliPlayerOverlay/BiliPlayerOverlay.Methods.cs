@@ -254,6 +254,6 @@ public partial class BiliPlayerOverlay
             scale = 0.4;
         }
 
-        _subtitleBlock.FontSize = 22 * scale;
+        _subtitleBlock.FontSize = 20 * scale;
     }
 }
