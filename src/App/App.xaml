@@ -70,7 +70,6 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Danmaku/DanmakuView/DanmakuView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayer/BiliPlayer.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/BiliPlayerOverlay/BiliPlayerOverlay.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Base/BubbleView/BubbleView.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Base/ProgressButton/ProgressButton.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentItem/CommentItem.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Comment/CommentMainView/CommentMainView.xaml" />

@@ -39,8 +39,6 @@ public sealed partial class VideoInformationView : VideoInformationViewBase
     {
         _isLikeHoldCompleted = true;
         _ = ViewModel.TripleCommand.ExecuteAsync(null);
-        CoinButton.ShowBubbles();
-        FavoriteButton.ShowBubbles();
     }
 
     private void OnLikeButtonHoldingSuspend(object sender, EventArgs e)
