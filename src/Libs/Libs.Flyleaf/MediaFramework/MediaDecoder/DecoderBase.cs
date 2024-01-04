@@ -4,10 +4,10 @@ using System;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
+namespace FlyleafLib.MediaFramework.MediaDecoder;
 
 public abstract unsafe class DecoderBase : RunThreadBase
 {
@@ -77,11 +77,10 @@ public abstract unsafe class DecoderBase : RunThreadBase
 
                 // avcodec_find_decoder will use libdav1d which does not support hardware decoding (software fallback with openStream = false from av1 to default:libdav1d) [#340]
                 var codec = stream.CodecID == AVCodecID.AV_CODEC_ID_AV1 && openStream ? avcodec_find_decoder_by_name("av1") : avcodec_find_decoder(stream.CodecID);
-
                 if (codec == null)
                     return error = $"[{Type} avcodec_find_decoder] No suitable codec found";
 
-                codecCtx = avcodec_alloc_context3(null);
+                codecCtx = avcodec_alloc_context3(codec); // Pass codec to use default settings
                 if (codecCtx == null)
                     return error = $"[{Type} avcodec_alloc_context3] Failed to allocate context3";
 
@@ -90,17 +89,38 @@ public abstract unsafe class DecoderBase : RunThreadBase
                     return error = $"[{Type} avcodec_parameters_to_context] {FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})";
 
                 codecCtx->pkt_timebase  = stream.AVStream->time_base;
-                codecCtx->codec_id      = codec->id;
+                //codecCtx->codec_id      = codec->id;
 
                 if (Config.Decoder.ShowCorrupted)
                     codecCtx->flags |= AV_CODEC_FLAG_OUTPUT_CORRUPT;
 
-                codecCtx->flags |= AV_CODEC_PROP_LOSSLESS;
+                if (Config.Decoder.LowDelay)
+                    codecCtx->flags |= AV_CODEC_FLAG_LOW_DELAY;
+                    
                 try { ret = Setup(codec); } catch(Exception e) { return error = $"[{Type} Setup] {e.Message}"; }
                 if (ret < 0)
                     return error = $"[{Type} Setup] {ret}";
 
-                ret = avcodec_open2(codecCtx, codec, null);
+                var codecOpts = Config.Decoder.GetCodecOptPtr(stream.Type);
+                AVDictionary* avopt = null;
+                foreach(var optKV in codecOpts)
+                    av_dict_set(&avopt, optKV.Key, optKV.Value, 0);
+
+                ret = avcodec_open2(codecCtx, codec, avopt == null ? null : &avopt);
+
+                if (avopt != null)
+                {
+                    if (ret >= 0)
+                    {
+                        AVDictionaryEntry *t = null;
+
+                        while ((t = av_dict_get(avopt, "", t, AV_DICT_IGNORE_SUFFIX)) != null)
+                            Log.Debug($"Ignoring codec option {Utils.BytePtrToStringUTF8(t->key)}");
+                    }
+
+                    av_dict_free(&avopt);
+                }
+
                 if (ret < 0)
                     return error = $"[{Type} avcodec_open2] {FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})";
 
@@ -164,14 +184,10 @@ public abstract unsafe class DecoderBase : RunThreadBase
                     av_frame_free(ptr);
 
             if (codecCtx != null)
-            {
-                // TBR possible not required, also in case of image codec it will through an access violation
-                //avcodec_flush_buffers(codecCtx);
-                avcodec_close(codecCtx);
                 fixed (AVCodecContext** ptr = &codecCtx)
                     avcodec_free_context(ptr);
-            }
             
+            codecCtx        = null;
             demuxer         = null;
             Stream          = null;
             Status          = Status.Stopped;

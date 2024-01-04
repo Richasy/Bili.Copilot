@@ -2,9 +2,9 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
-using Bili.Copilot.Libs.Flyleaf.Controls;
-using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
 using Bili.Copilot.ViewModels;
+using FlyleafLib.Controls;
+using FlyleafLib.MediaPlayer;
 using Microsoft.UI.Xaml.Media;
 using Vortice.DXGI;
 using Windows.Media.Playback;
@@ -14,7 +14,7 @@ namespace Bili.Copilot.App.Controls.Base;
 /// <summary>
 /// 哔哩播放器.
 /// </summary>
-public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
+public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
 {
     /// <summary>
     /// <see cref="Overlay"/> 的依赖属性.
@@ -165,7 +165,11 @@ public sealed class BiliPlayer : BiliPlayerBase, IMediaTransportControls
     {
         if (ViewModel?.Player is Player)
         {
-            _mediaElement.Visibility = Visibility.Collapsed;
+            if (_mediaElement != null)
+            {
+                _mediaElement.Visibility = Visibility.Collapsed;
+            }
+
             ReplaceFFmpegPlayer();
         }
         else if (ViewModel?.Player is MediaPlayer mp)

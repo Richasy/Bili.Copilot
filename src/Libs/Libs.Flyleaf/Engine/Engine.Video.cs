@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 
 using Vortice.DXGI;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDevice;
+using FlyleafLib.MediaFramework.MediaDevice;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 public class VideoEngine
 {

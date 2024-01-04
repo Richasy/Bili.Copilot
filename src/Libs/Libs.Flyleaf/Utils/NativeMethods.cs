@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 #pragma warning disable CA1401 // P/Invokes should not be visible
 public static partial class Utils

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
+namespace FlyleafLib.MediaFramework.MediaPlaylist;
 
 public class PlaylistItem : DemuxerInput
 {
@@ -50,6 +50,7 @@ public class PlaylistItem : DemuxerInput
 
     public int      Season                  { get; set; }
     public int      Episode                 { get; set; }
+    public int      Year                    { get; set; }
 
     public Dictionary<string, object>
                     Tag                     { get; set; } = new Dictionary<string, object>();

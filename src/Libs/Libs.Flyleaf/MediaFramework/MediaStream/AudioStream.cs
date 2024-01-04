@@ -4,9 +4,9 @@ using System;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaDemuxer;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+namespace FlyleafLib.MediaFramework.MediaStream;
 
 public unsafe class AudioStream : StreamBase
 {

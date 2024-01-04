@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+namespace FlyleafLib.MediaFramework.MediaDemuxer;
 
 public unsafe class CustomIOContext
 {
@@ -60,8 +60,10 @@ public unsafe class CustomIOContext
         int ret;
 
         if (demuxer.Interrupter.ShouldInterrupt(null) != 0) return AVERROR_EXIT;
+
 #if NETFRAMEWORK
         ret = demuxer.CustomIOContext.stream.Read(demuxer.CustomIOContext.buffer, 0, bufferSize);
+
         if (ret > 0)
         {
             Marshal.Copy(demuxer.CustomIOContext.buffer, 0, (IntPtr) buffer, ret);
@@ -69,9 +71,11 @@ public unsafe class CustomIOContext
         }
 #else
         ret = demuxer.CustomIOContext.stream.Read(new Span<byte>(buffer, bufferSize));
+
         if (ret > 0)
             return ret;
 #endif
+
         if (ret == 0)
             return AVERROR_EOF;
 

@@ -4,19 +4,18 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-using Bili.Copilot.Libs.Flyleaf.Controls;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+using FlyleafLib.Controls;
+using FlyleafLib.MediaFramework.MediaContext;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaRenderer;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaDemuxer;
 
-using static Bili.Copilot.Libs.Flyleaf.Utils;
-using static Bili.Copilot.Libs.Flyleaf.Logger;
-using FFmpeg.AutoGen;
+using static FlyleafLib.Utils;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+namespace FlyleafLib.MediaPlayer;
 
 public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 {
@@ -26,8 +25,8 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// <summary>
     /// FlyleafHost (WinForms, WPF or WinUI)
     /// </summary>
-    public IMediaTransportControls          Host                { get => _Host; set => Set(ref _Host, value); }
-    IMediaTransportControls _Host;
+    public IHostPlayer          Host                { get => _Host; set => Set(ref _Host, value); }
+    IHostPlayer _Host;
 
     /// <summary>
     /// Player's Activity (Idle/Active/FullActive)
@@ -173,6 +172,26 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// </summary>
     public long         Duration            { get => duration;          private set => Set(ref _Duration, value); }
     long _Duration, duration;
+
+    /// <summary>
+    /// Forces Player's and Demuxer's Duration to allow Seek
+    /// </summary>
+    /// <param name="duration">Duration (Ticks)</param>
+    /// <exception cref="ArgumentNullException">Demuxer must be opened before forcing the duration</exception>
+    public void ForceDuration(long duration)
+    {
+        if (MainDemuxer == null)
+            throw new ArgumentNullException(nameof(MainDemuxer));
+
+        this.duration = duration;
+        MainDemuxer.ForceDuration(duration);
+        isLive = MainDemuxer.IsLive;
+        UI(() =>
+        {
+            Duration= Duration;
+            IsLive  = IsLive;
+        });
+    }
 
     /// <summary>
     /// The current buffered duration in the demuxer
@@ -401,7 +420,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
         decoder.OpenExternalVideoStreamCompleted       += Decoder_OpenExternalVideoStreamCompleted;
         decoder.OpenExternalSubtitlesStreamCompleted   += Decoder_OpenExternalSubtitlesStreamCompleted;
 
-        AudioDecoder.CBufAlloc      = () => { Audio.ClearBuffer(); aFrame = null; };
+        AudioDecoder.CBufAlloc      = () => { if (aFrame != null) aFrame.dataPtr = IntPtr.Zero; aFrame = null; Audio.ClearBuffer(); aFrame = null; };
         AudioDecoder.CodecChanged   = Decoder_AudioCodecChanged;
         VideoDecoder.CodecChanged   = Decoder_VideoCodecChanged;
         decoder.RecordingCompleted += (o, e) => { IsRecording = false; };
@@ -424,7 +443,6 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 
             try
             {
-                ffmpeg.avformat_network_deinit();
                 Initialize();
                 Audio.Dispose(); 
                 decoder.Dispose();
@@ -534,6 +552,9 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     public override bool Equals(object obj)
         => obj == null || !(obj is Player) ? false : ((Player)obj).PlayerId == PlayerId;
     public override int GetHashCode() => PlayerId.GetHashCode();
+
+    // Avoid having this code in OnPaintBackground as it can cause designer issues (renderer will try to load FFmpeg.Autogen assembly because of HDR Data)
+    internal bool WFPresent() { if (renderer == null || renderer.SCDisposed) return false; renderer?.Present(); return true; }
 }
 
 public enum Status

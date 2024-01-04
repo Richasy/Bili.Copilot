@@ -5,10 +5,10 @@ using System.Linq;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaProgram;
+namespace FlyleafLib.MediaFramework.MediaProgram;
 
 public class Program
 {

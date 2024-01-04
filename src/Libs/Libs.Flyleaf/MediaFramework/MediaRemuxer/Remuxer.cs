@@ -7,7 +7,7 @@ using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using static FFmpeg.AutoGen.AVMediaType;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRemuxer;
+namespace FlyleafLib.MediaFramework.MediaRemuxer;
 
 public unsafe class Remuxer
 {

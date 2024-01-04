@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 public class FFmpegEngine
 {

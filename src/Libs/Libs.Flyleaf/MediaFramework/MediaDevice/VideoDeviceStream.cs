@@ -8,7 +8,7 @@ using FFmpeg.AutoGen;
 
 using Vortice.MediaFoundation;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDevice;
+namespace FlyleafLib.MediaFramework.MediaDevice;
 
 public class VideoDeviceStream : DeviceStreamBase
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
+namespace FlyleafLib.MediaFramework.MediaPlaylist;
 
 public class M3UPlaylistItem
 {

@@ -23,7 +23,6 @@ namespace Bili.Copilot.Libs.Provider;
 public sealed partial class HttpProvider
 {
     private static string _tempBuvid = string.Empty;
-    private bool _disposedValue;
     private CookieContainer _cookieContainer;
 
     /// <summary>
@@ -61,13 +60,6 @@ public sealed partial class HttpProvider
     /// </summary>
     public HttpClient HttpClient { get; private set; }
 
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
     internal async Task<HttpResponseMessage> SendRequestAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken)
@@ -95,7 +87,8 @@ public sealed partial class HttpProvider
         }
         catch (Exception exception)
         {
-            if (exception.InnerException is System.Net.Sockets.SocketException)
+            if (exception.Message.Contains("WSAStartup")
+                || (exception.InnerException is not null && exception.InnerException.Message.Contains("WSAStartup")))
             {
                 InitHttpClient();
             }
@@ -210,28 +203,11 @@ public sealed partial class HttpProvider
         }
     }
 
-    /// <summary>
-    /// Dispose object.
-    /// </summary>
-    /// <param name="disposing">Is it disposing.</param>
-    private void Dispose(bool disposing)
-    {
-        if (!_disposedValue)
-        {
-            if (disposing)
-            {
-                HttpClient?.Dispose();
-            }
-
-            HttpClient = null;
-            _disposedValue = true;
-        }
-    }
-
     private void InitHttpClient()
     {
         HttpClient?.Dispose();
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+        ServicePointManager.DefaultConnectionLimit = 20;
         _cookieContainer = new CookieContainer();
         var handler = new HttpClientHandler
         {

@@ -360,6 +360,11 @@ public static class ApiConstants
         /// 移动应用上的播放信息.
         /// </summary>
         public const string AppPlayInformation = _liveBase + "/xlive/app-room/v2/index/getRoomPlayInfo";
+
+        /// <summary>
+        /// 网页上的播放信息.
+        /// </summary>
+        public const string WebPlayInformation = _liveBase + "/xlive/web-room/v2/index/getRoomPlayInfo";
     }
 
     public static class Article

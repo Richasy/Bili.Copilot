@@ -11,10 +11,10 @@ using Vortice.Direct3D11;
 using Vortice.DXGI;
 using Vortice.Mathematics;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaFrame;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 public partial class Renderer
 {

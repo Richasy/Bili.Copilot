@@ -4,14 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Vortice.DXGI;
-using Vortice.Mathematics;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaFrame;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 public unsafe partial class Renderer
 {
@@ -22,7 +21,7 @@ public unsafe partial class Renderer
 
     public bool Present(VideoFrame frame)
     {
-        if (Monitor.TryEnter(lockDevice, 5))
+        if (Monitor.TryEnter(lockDevice, frame.timestamp == 0 ? 100 : 5)) // Allow more time for first frame
         {
             try
             {
@@ -65,7 +64,7 @@ public unsafe partial class Renderer
         // NOTE: We don't have TimeBeginPeriod, FpsForIdle will not be accurate
         lock (lockPresentTask)
         {
-            if ((Config.Player.player == null || !Config.Player.player.requiresBuffering) && VideoDecoder.IsRunning)
+            if ((Config.Player.player == null || !Config.Player.player.requiresBuffering) && VideoDecoder.IsRunning && (VideoStream == null || VideoStream.FPS > 10)) // With slow FPS we need to refresh as fast as possible
                 return;
 
             if (isPresenting)
@@ -83,7 +82,7 @@ public unsafe partial class Renderer
             do
             {
                 long sleepMs = DateTime.UtcNow.Ticks - lastPresentAt;
-                sleepMs = sleepMs < (long)( 1.0/Config.Player.IdleFps * 1000 * 10000) ? (long) (1.0 / Config.Player.IdleFps * 1000) : 0;
+                sleepMs = sleepMs < (long)(1.0 / Config.Player.IdleFps * 1000 * 10000) ? (long) (1.0 / Config.Player.IdleFps * 1000) : 0;
                 if (sleepMs > 2)
                     Thread.Sleep((int)sleepMs);
 
@@ -123,6 +122,9 @@ public unsafe partial class Renderer
         }
         else
         {
+            if (frame.srvs == null)
+                throw new NullReferenceException(); // To avoid AccessViolation - When we change the video processor and the player already got a processed frame (which was for D3D11VP)
+
             context.OMSetRenderTargets(backBufferRtv);
             context.ClearRenderTargetView(backBufferRtv, Config.Video._BackgroundColor);
             context.RSSetViewport(GetViewport);

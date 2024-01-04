@@ -4,7 +4,7 @@ using System.Linq;
 
 using Vortice.MediaFoundation;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDevice;
+namespace FlyleafLib.MediaFramework.MediaDevice;
 
 public class VideoDevice : DeviceBase<VideoDeviceStream>
 {
@@ -16,7 +16,7 @@ public class VideoDevice : DeviceBase<VideoDeviceStream>
 
     public static void RefreshDevices()
     {
-        Utils.UI(() =>
+        Utils.UIInvokeIfRequired(() =>
         {
             Engine.Video.CapDevices.Clear();
 

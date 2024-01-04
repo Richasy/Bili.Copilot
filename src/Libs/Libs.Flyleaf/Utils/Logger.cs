@@ -5,17 +5,17 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 
-/* Unmerged change from project 'Bili.Copilot.Libs.Flyleaf (net5.0-windows)'
+/* Unmerged change from project 'FlyleafLib (net5.0-windows)'
 Before:
 using System.Threading.Tasks;
 After:
 using System.Threading.Tasks;
-using Bili.Copilot.Libs.Flyleaf;
-using Bili.Copilot.Libs.Flyleaf.Utils;
+using FlyleafLib;
+using FlyleafLib.Utils;
 */
 using System.Threading.Tasks;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 public static class Logger
 {
@@ -45,6 +45,20 @@ public static class Logger
     {
         foreach (LogLevel loglevel in Enum.GetValues(typeof(LogLevel)))
             logLevels.Add(loglevel, loglevel.ToString().PadRight(5, ' '));
+
+        // Flush File Data on Application Exit
+        System.Windows.Application.Current.Exit += (o, e) =>
+        {
+            lock (lockFileStream)
+            {
+                if (fileStream != null)
+                {
+                    while (fileData.TryDequeue(out byte[] data))
+                        fileStream.Write(data, 0, data.Length);
+                    fileStream.Dispose();
+                }
+            }
+        };
     }
 
     internal static void SetOutput()

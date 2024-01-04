@@ -2,7 +2,7 @@
 using System;
 using Vortice.MediaFoundation;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDevice;
+namespace FlyleafLib.MediaFramework.MediaDevice;
 
 public class AudioDevice : DeviceBase<AudioDeviceStream>
 {
@@ -11,7 +11,7 @@ public class AudioDevice : DeviceBase<AudioDeviceStream>
 
     public static void RefreshDevices()
     {
-        Utils.UI(() =>
+        Utils.UIInvokeIfRequired(() =>
         {
             Engine.Audio.CapDevices.Clear();
 

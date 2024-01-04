@@ -7,13 +7,13 @@ using Vortice.XAudio2;
 
 using static Vortice.XAudio2.XAudio2;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaContext;
+using FlyleafLib.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaStream;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+namespace FlyleafLib.MediaPlayer;
 
 public class Audio : NotifyPropertyChanged
 {
@@ -128,44 +128,22 @@ public class Audio : NotifyPropertyChanged
     private bool mute = false;
 
     /// <summary>
-    /// <para>Audio player's current device (available devices can be found on Engine.Audio.Devices)/></para>
+    /// <para>Audio player's current device (available devices can be found on <see cref="Engine.Audio"/>)/></para>
     /// </summary>
-    public string Device
+    public AudioEngine.AudioEndpoint Device
     {
         get => _Device;
         set
         {
-            if (value == null || _Device == value)
-                return; 
+            if ((value == null && _Device == Engine.Audio.DefaultDevice) || value == _Device)
+                return;
 
-            _Device     = value;
-            _DeviceId   = Engine.Audio.GetDeviceId(value);
-
+            _Device = value ?? Engine.Audio.DefaultDevice;
             Initialize();
-
-            Utils.UI(() => Raise(nameof(Device)));
+            RaiseUI(nameof(Device));
         }
     }
-    internal string _Device = Engine.Audio.DefaultDeviceName;
-    internal void RaiseDevice() => Utils.UI(() => Raise(nameof(Device)));  // Required for Selected Items on the Devices observation list (as we clear it everytime)
-
-    public string DeviceId
-    {
-        get => _DeviceId;
-        set
-        {
-            if (value == null || _DeviceId == value)
-                return; 
-
-            _DeviceId   = value;
-            _Device     = Engine.Audio.GetDeviceName(value);
-
-            Initialize();
-
-            Utils.UI(() => Raise(nameof(DeviceId)));
-        }
-    }
-    internal string _DeviceId = Engine.Audio.DefaultDeviceId;
+    internal AudioEngine.AudioEndpoint _Device = Engine.Audio.DefaultDevice;
     #endregion
 
     #region Declaration
@@ -174,16 +152,18 @@ public class Audio : NotifyPropertyChanged
     DecoderContext          decoder => player?.decoder;
 
     Action                  uiAction;
-    readonly object         locker = new();
+    internal readonly object
+                            locker = new();
 
     IXAudio2                xaudio2;
     internal IXAudio2MasteringVoice
                             masteringVoice;
-    IXAudio2SourceVoice     sourceVoice;
+    internal IXAudio2SourceVoice
+                            sourceVoice;
     WaveFormat              waveFormat  = new(48000, 16, 2); // Output Audio Device
     AudioBuffer             audioBuffer = new();
-    double                  deviceDelayTimebase;
-    ulong                   submittedSamples;
+    internal double         Timebase;
+    internal ulong          submittedSamples;
     #endregion
 
     public Audio(Player player)
@@ -220,7 +200,7 @@ public class Audio : NotifyPropertyChanged
             }
 
             sampleRate = decoder != null && decoder.AudioStream != null && decoder.AudioStream.SampleRate > 0 ? decoder.AudioStream.SampleRate : 48000;
-            player.Log.Info($"Initialiazing audio ({Device} @ {SampleRate}Hz)");
+            player.Log.Info($"Initialiazing audio ({Device.Name} - {Device.Id} @ {SampleRate}Hz)");
 
             Dispose();
 
@@ -230,11 +210,11 @@ public class Audio : NotifyPropertyChanged
 
                 try
                 {
-	                masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDeviceName ? null : Engine.Audio.GetDeviceId(_Device));
+	                masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDevice ? null : _Device.Id);
                 }
                 catch (Exception) // Win 7/8 compatibility issue https://social.msdn.microsoft.com/Forums/en-US/4989237b-814c-4a7a-8a35-00714d36b327/xaudio2-how-to-get-device-id-for-mastering-voice?forum=windowspro-audiodevelopment
                 {
-                    masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDeviceName ? null : (@"\\?\swd#mmdevapi#" + Engine.Audio.GetDeviceId(_Device).ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}")); 
+                    masteringVoice = xaudio2.CreateMasteringVoice(0, 0, AudioStreamCategory.GameEffects, _Device == Engine.Audio.DefaultDevice ? null : (@"\\?\swd#mmdevapi#" + _Device.Id.ToLower() + @"#{e6327cad-dcec-4949-ae8a-991e976a79d2}")); 
                 }
 
                 sourceVoice = xaudio2.CreateSourceVoice(waveFormat, false);
@@ -242,7 +222,7 @@ public class Audio : NotifyPropertyChanged
                 sourceVoice.Start();
 
                 submittedSamples        = 0;
-                deviceDelayTimebase     = 1000 * 10000.0 / sampleRate;
+                Timebase                = 1000 * 10000.0 / sampleRate;
                 masteringVoice.Volume   = Config.Player.VolumeMax / 100.0f;
                 sourceVoice.Volume      = mute ? 0 : Math.Max(0, _Volume / 100.0f);
             }
@@ -276,17 +256,10 @@ public class Audio : NotifyPropertyChanged
     {
         try
         {
-            int bufferedMs = (int) ((submittedSamples - sourceVoice.State.SamplesPlayed) * deviceDelayTimebase / 10000);
+            if (CanTrace)
+                player.Log.Trace($"[A] Presenting {Utils.TicksToTime(player.aFrame.timestamp)}");
 
-            if (bufferedMs > 30)
-            {
-                if (CanDebug)
-                    player.Log.Debug($"Audio desynced by {bufferedMs}ms, clearing buffers");
-
-                ClearBuffer();
-            }
-            
-            //player.Log.Debug($"xxx {durationMs}ms, {state.BuffersQueued}");
+            framesDisplayed++;
 
             submittedSamples += (ulong) (aFrame.dataLen / 4); // ASampleBytes
             SamplesAdded?.Invoke(this, aFrame);
@@ -300,10 +273,11 @@ public class Audio : NotifyPropertyChanged
             if (CanDebug)
                 player.Log.Debug($"[Audio] Submitting samples failed ({e.Message})");
 
-            ClearBuffer();
+            ClearBuffer(); // TBR: Inform player to resync audio?
         }
     }
-    internal long GetDeviceDelay() => (long) ((xaudio2.PerformanceData.CurrentLatencyInSamples * deviceDelayTimebase) - 80000); // TODO: VBlack delay (8ms correction for now)
+    internal long GetBufferedDuration() { lock (locker) { return (long) ((submittedSamples - sourceVoice.State.SamplesPlayed) * Timebase); } }
+    internal long GetDeviceDelay()      { lock (locker) { return (long) ((xaudio2.PerformanceData.CurrentLatencyInSamples * Timebase) - 80000); } } // TODO: VBlack delay (8ms correction for now)
     internal void ClearBuffer()
     {
         lock (locker)
@@ -316,7 +290,6 @@ public class Audio : NotifyPropertyChanged
             sourceVoice.Start();
             submittedSamples = sourceVoice.State.SamplesPlayed;
         }
-            
     }
 
     internal void Reset()

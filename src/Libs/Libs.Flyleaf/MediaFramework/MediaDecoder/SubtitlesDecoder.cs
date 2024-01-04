@@ -6,12 +6,12 @@ using System.Threading;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaFrame;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
+namespace FlyleafLib.MediaFramework.MediaDecoder;
 
 public unsafe class SubtitlesDecoder : DecoderBase
 {

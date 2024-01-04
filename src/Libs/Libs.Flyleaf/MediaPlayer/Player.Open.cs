@@ -4,15 +4,15 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
-using static Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext.DecoderContext;
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using static FlyleafLib.Logger;
+using static FlyleafLib.MediaFramework.MediaContext.DecoderContext;
+using static FlyleafLib.Utils;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+namespace FlyleafLib.MediaPlayer;
 
 unsafe partial class Player
 {
@@ -86,7 +86,7 @@ unsafe partial class Player
         canPlay = Video.IsOpened || Audio.IsOpened;
         isLive  = MainDemuxer.IsLive;
         duration= MainDemuxer.Duration;
-        if (Video.isOpened) duration -= VideoDemuxer.VideoStream.FrameDuration;
+        if (Video.isOpened) duration = Math.Max(0, duration - VideoDemuxer.VideoStream.FrameDuration);
 
         UIAdd(() =>
         {

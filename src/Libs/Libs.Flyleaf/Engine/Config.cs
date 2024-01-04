@@ -2,18 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+#if NET5_0_OR_GREATER
+using System.Text.Json;
+using System.Text.Json.Serialization;
+#endif
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
-using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
-using Bili.Copilot.Libs.Flyleaf.Plugins;
-using Windows.UI;
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaRenderer;
+using FlyleafLib.MediaPlayer;
+using FlyleafLib.Plugins;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+using static FlyleafLib.Utils;
+
+namespace FlyleafLib;
 
 /// <summary>
 /// Player's configuration
@@ -58,10 +63,14 @@ public class Config : NotifyPropertyChanged
     }
     public static Config Load(string path)
     {
+        #if NET5_0_OR_GREATER
+        Config config       = JsonSerializer.Deserialize<Config>(File.ReadAllText(path));
+        #else
         using FileStream fs = new(path, FileMode.Open);
         XmlSerializer xmlSerializer
                             = new(typeof(Config));
         Config config       = (Config) xmlSerializer.Deserialize(fs);
+        #endif
         config.Loaded       = true;
         config.LoadedPath   = path;
 
@@ -77,14 +86,19 @@ public class Config : NotifyPropertyChanged
             path = LoadedPath;
         }
 
+        #if NET5_0_OR_GREATER
+        File.WriteAllText(path, JsonSerializer.Serialize(this, new JsonSerializerOptions() { WriteIndented = true }));
+        #else
         using FileStream fs = new(path, FileMode.Create);
         XmlSerializer xmlSerializer = new(GetType());
         xmlSerializer.Serialize(fs, this);
+        #endif
     }
 
     internal void SetPlayer(Player player)
     {
         Player.player   = player;
+        Player.KeyBindings.SetPlayer(player);
         Demuxer.player  = player;
         Decoder.player  = player;
         Audio.player    = player;
@@ -96,12 +110,18 @@ public class Config : NotifyPropertyChanged
     /// Whether configuration has been loaded from file
     /// </summary>
     [XmlIgnore]
+    #if NET5_0_OR_GREATER
+    [JsonIgnore]
+    #endif
     public bool             Loaded      { get; private set; }
 
     /// <summary>
     /// The path that this configuration has been loaded from
     /// </summary>
     [XmlIgnore]
+    #if NET5_0_OR_GREATER
+    [JsonIgnore]
+    #endif
     public string           LoadedPath  { get; private set; }
 
     public PlayerConfig     Player      { get; set; } = new PlayerConfig();
@@ -112,7 +132,7 @@ public class Config : NotifyPropertyChanged
     public SubtitlesConfig  Subtitles   { get; set; } = new SubtitlesConfig();
 
     public SerializableDictionary<string, SerializableDictionary<string, string>>
-                            Plugins = new();
+                            Plugins     { get; set; } = new();
     public class PlayerConfig : NotifyPropertyChanged
     {
         public PlayerConfig Clone()
@@ -120,6 +140,7 @@ public class Config : NotifyPropertyChanged
             PlayerConfig player = (PlayerConfig) MemberwiseClone();
             player.player = null;
             player.config = null;
+            player.KeyBindings = KeyBindings.Clone();
             return player;
         }
 
@@ -146,6 +167,12 @@ public class Config : NotifyPropertyChanged
         long _MinBufferDuration = 500 * 10000;
 
         /// <summary>
+        /// Key bindings configuration
+        /// </summary>
+        public KeysConfig
+                        KeyBindings                 { get; set; } = new KeysConfig();
+
+        /// <summary>
         /// Fps while the player is not playing
         /// </summary>
         public double   IdleFps                     { get; set; } = 60.0;
@@ -167,12 +194,20 @@ public class Config : NotifyPropertyChanged
                     if (player != null)
                         player.Speed = 1;
 
+                    if (config != null)
+                        config.Decoder.LowDelay = false;
+
                     return;
                 }
 
                 // Large max buffer so we ensure the actual latency distance
-                if (config != null && config.Demuxer.BufferDuration < value * 2)
-                    config.Demuxer.BufferDuration = value * 2;
+                if (config != null)
+                {
+                    if (config.Demuxer.BufferDuration < value * 2)
+                        config.Demuxer.BufferDuration = value * 2;
+
+                    config.Decoder.LowDelay = true;
+                }
 
                 // Small min buffer to avoid enabling latency speed directly
                 if (_MinBufferDuration > value / 10)
@@ -343,27 +378,47 @@ public class Config : NotifyPropertyChanged
         /// <summary>
         /// avformat_close_input timeout (ticks) for protocols that support interrupts
         /// </summary>
-        public long             CloseTimeout    { get; set; } =  1 * 1000 * 10000;
+        public long             CloseTimeout    { get => closeTimeout; set { closeTimeout = value; closeTimeoutMs = value / 10000; } }
+        private long closeTimeout = 1 * 1000 * 10000;
+        internal long closeTimeoutMs = 1 * 1000;
 
         /// <summary>
         /// avformat_open_input + avformat_find_stream_info timeout (ticks) for protocols that support interrupts (should be related to probesize/analyzeduration)
         /// </summary>
-        public long             OpenTimeout     { get; set; } = 5 * 60 * (long)1000 * 10000;
+        public long             OpenTimeout     { get => openTimeout; set { openTimeout = value; openTimeoutMs = value / 10000; } }
+        private long openTimeout = 5 * 60 * (long)1000 * 10000;
+        internal long openTimeoutMs = 5 * 60 * 1000;
 
         /// <summary>
         /// av_read_frame timeout (ticks) for protocols that support interrupts
         /// </summary>
-        public long             ReadTimeout     { get; set; } = 10 * 1000 * 10000;
+        public long             ReadTimeout     { get => readTimeout; set { readTimeout = value; readTimeoutMs = value / 10000; } }
+        private long readTimeout = 10 * 1000 * 10000;
+        internal long readTimeoutMs = 10 * 1000;
+
+        /// <summary>
+        /// av_read_frame timeout (ticks) for protocols that support interrupts (for Live streams)
+        /// </summary>
+        public long             ReadLiveTimeout { get => readLiveTimeout; set { readLiveTimeout = value; readLiveTimeoutMs = value / 10000; } }
+        private long readLiveTimeout = 20 * 1000 * 10000;
+        internal long readLiveTimeoutMs = 20 * 1000;
 
         /// <summary>
         /// av_seek_frame timeout (ticks) for protocols that support interrupts
         /// </summary>
-        public long             SeekTimeout     { get; set; } =  8 * 1000 * 10000;
+        public long             SeekTimeout     { get => seekTimeout; set { seekTimeout = value; seekTimeoutMs = value / 10000; } }
+        private long seekTimeout = 8 * 1000 * 10000;
+        internal long seekTimeoutMs = 8 * 1000;
 
         /// <summary>
         /// Forces Input Format
         /// </summary>
         public string           ForceFormat     { get; set; }
+
+        /// <summary>
+        /// Forces FPS for NoTimestamp formats (such as h264/hevc)
+        /// </summary>
+        public double           ForceFPS        { get; set; }
 
         /// <summary>
         /// FFmpeg's format flags for demuxer (see https://ffmpeg.org/doxygen/trunk/avformat_8h.html)
@@ -447,7 +502,7 @@ public class Config : NotifyPropertyChanged
         /// <summary>
         /// Maximum subtitle frames to be decoded
         /// </summary>
-        public int              MaxSubsFrames   { get; set; } = 2;
+        public int              MaxSubsFrames   { get; set; } = 1;
 
         /// <summary>
         /// Maximum allowed errors before stopping
@@ -473,6 +528,22 @@ public class Config : NotifyPropertyChanged
         /// </summary>
         public bool             ShowCorrupted   { get => _ShowCorrupted; set => SetUI(ref _ShowCorrupted, value); }
         bool _ShowCorrupted;
+
+        /// <summary>
+        /// Forces low delay (Parses AV_CODEC_FLAG_LOW_DELAY to AVCodecContext) (auto-enabled with MaxLatency)
+        /// </summary>
+        public bool             LowDelay        { get => _LowDelay; set => SetUI(ref _LowDelay, value); }
+        bool _LowDelay;
+
+        public SerializableDictionary<string, string>
+                                AudioCodecOpt       { get; set; } = new();
+        public SerializableDictionary<string, string>
+                                VideoCodecOpt       { get; set; } = new();
+        public SerializableDictionary<string, string>
+                                SubtitlesCodecOpt   { get; set; } = new();
+
+        public SerializableDictionary<string, string> GetCodecOptPtr(MediaType type)
+            => type == MediaType.Video ? VideoCodecOpt : type == MediaType.Audio ? AudioCodecOpt : SubtitlesCodecOpt;
     }
     public class VideoConfig : NotifyPropertyChanged
     {
@@ -507,8 +578,8 @@ public class Config : NotifyPropertyChanged
         /// <summary>
         /// Background color of the player's control
         /// </summary>
-        public Color
-                                BackgroundColor             { get => VorticeToWinUIColor(_BackgroundColor);  set { Set(ref _BackgroundColor, WinUIToVorticeColor(value)); player?.renderer?.UpdateBackgroundColor(); } }
+        public System.Windows.Media.Color
+                                BackgroundColor             { get => VorticeToWPFColor(_BackgroundColor);  set { Set(ref _BackgroundColor, WPFToVorticeColor(value)); player?.renderer?.UpdateBackgroundColor(); } }
         internal Vortice.Mathematics.Color _BackgroundColor = (Vortice.Mathematics.Color)Vortice.Mathematics.Colors.Black;
 
         /// <summary>
@@ -527,17 +598,24 @@ public class Config : NotifyPropertyChanged
         /// The max resolution that the current system can achieve and will be used from the input/stream suggester plugins
         /// </summary>
         [XmlIgnore]
+        #if NET5_0_OR_GREATER
+        [JsonIgnore]
+        #endif
         public int              MaxVerticalResolutionAuto   { get; internal set; }
 
         /// <summary>
         /// Custom max vertical resolution that will be used from the input/stream suggester plugins
         /// </summary>
-        public int MaxVerticalResolutionCustom { get => _MaxVerticalResolutionCustom; set => Set(ref _MaxVerticalResolutionCustom, value); }
+        public int              MaxVerticalResolutionCustom { get => _MaxVerticalResolutionCustom; set => Set(ref _MaxVerticalResolutionCustom, value); }
         int _MaxVerticalResolutionCustom;
 
         /// <summary>
         /// The max resolution that is currently used (based on Auto/Custom)
         /// </summary>
+        [XmlIgnore]
+        #if NET5_0_OR_GREATER
+        [JsonIgnore]
+        #endif
         public int              MaxVerticalResolution       => MaxVerticalResolutionCustom == 0 ? (MaxVerticalResolutionAuto != 0 ? MaxVerticalResolutionAuto : 1080) : MaxVerticalResolutionCustom;
 
         /// <summary>
@@ -728,7 +806,7 @@ public class Config : NotifyPropertyChanged
         /// <summary>
         /// Whether to use online search plugins (see also <see cref="SearchOnlineOnInputType"/>)
         /// </summary>
-        public bool             SearchOnline        { get => _SearchOnline; set => Set(ref _SearchOnline, value); }
+        public bool             SearchOnline        { get => _SearchOnline; set { Set(ref _SearchOnline, value); if (player != null && player.Video.isOpened) Task.Run(() => { if (player != null && player.Video.isOpened) player.decoder.SearchOnlineSubtitles(); }); } }
         bool _SearchOnline = false;
 
         /// <summary>
@@ -741,6 +819,9 @@ public class Config : NotifyPropertyChanged
         /// Subtitles parser (can be used for custom parsing)
         /// </summary>
         [XmlIgnore]
+        #if NET5_0_OR_GREATER
+        [JsonIgnore]
+        #endif
         public Action<SubtitlesFrame>
                                 Parser              { get; set; } = ParseSubtitles.Parse;
     }
@@ -789,12 +870,18 @@ public class EngineConfig
     /// Whether configuration has been loaded from file
     /// </summary>
     [XmlIgnore]
+    #if NET5_0_OR_GREATER
+    [JsonIgnore]
+    #endif
     public bool     Loaded                  { get; private set; }
 
     /// <summary>
     /// The path that this configuration has been loaded from
     /// </summary>
     [XmlIgnore]
+    #if NET5_0_OR_GREATER
+    [JsonIgnore]
+    #endif
     public string   LoadedPath              { get; private set; }
 
     /// <summary>
@@ -858,10 +945,14 @@ public class EngineConfig
     /// <returns></returns>
     public static EngineConfig Load(string path)
     {
+        #if NET5_0_OR_GREATER
+        EngineConfig config = JsonSerializer.Deserialize<EngineConfig>(File.ReadAllText(path));
+        #else
         using FileStream fs = new(path, FileMode.Open);
         XmlSerializer xmlSerializer
                             = new(typeof(EngineConfig));
         EngineConfig config = (EngineConfig)xmlSerializer.Deserialize(fs);
+        #endif
         config.Loaded       = true;
         config.LoadedPath   = path;
 
@@ -882,10 +973,14 @@ public class EngineConfig
             path = LoadedPath;
         }
 
+        #if NET5_0_OR_GREATER
+        File.WriteAllText(path, JsonSerializer.Serialize(this, new JsonSerializerOptions() { WriteIndented = true, }));
+        #else
         using FileStream fs = new(path, FileMode.Create);
         XmlSerializer xmlSerializer
                             = new(GetType());
 
         xmlSerializer.Serialize(fs, this);
+        #endif
     }
 }

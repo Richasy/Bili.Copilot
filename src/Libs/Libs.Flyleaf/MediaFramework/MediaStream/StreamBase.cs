@@ -5,9 +5,9 @@ using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using static FFmpeg.AutoGen.ffmpegEx;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaDemuxer;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+namespace FlyleafLib.MediaFramework.MediaStream;
 
 public abstract unsafe class StreamBase : NotifyPropertyChanged
 {

@@ -18,16 +18,6 @@
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
-      <Content Remove="Assets\ffmpeg\avcodec-60.dll" />
-      <Content Remove="Assets\ffmpeg\avdevice-60.dll" />
-      <Content Remove="Assets\ffmpeg\avfilter-9.dll" />
-      <Content Remove="Assets\ffmpeg\avformat-60.dll" />
-      <Content Remove="Assets\ffmpeg\avutil-58.dll" />
-      <Content Remove="Assets\ffmpeg\postproc-57.dll" />
-      <Content Remove="Assets\ffmpeg\swresample-4.dll" />
-      <Content Remove="Assets\ffmpeg\swscale-7.dll" />
-    </ItemGroup>
-    <ItemGroup>
         <None Remove="Assets\AppCenterSecret.txt" />
         <None Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
         <None Remove="Assets\DashVideoTemplate.xml" />
@@ -211,30 +201,6 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
-      <None Update="Assets\ffmpeg\avcodec-60.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\avdevice-60.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\avfilter-9.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\avformat-60.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\avutil-58.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\postproc-57.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\swresample-4.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\swscale-7.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

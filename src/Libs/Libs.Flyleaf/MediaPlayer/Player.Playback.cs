@@ -3,16 +3,16 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaDecoder;
 
-using static Bili.Copilot.Libs.Flyleaf.Utils;
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Utils;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+namespace FlyleafLib.MediaPlayer;
 
 partial class Player
 {
-    bool stoppedWithError;
+    string stoppedWithError = null;
 
     /// <summary>
     /// Fires on playback stopped by an error or completed / ended successfully <see cref="Status"/>
@@ -47,7 +47,6 @@ partial class Player
         while (taskPlayRuns || taskSeekRuns) Thread.Sleep(5);
         taskPlayRuns = true;
 
-        // Long-Run Task
         Thread t = new(() =>
         {
             try
@@ -69,7 +68,7 @@ partial class Player
                     ScreamerAudioOnly();
                 else
                 {
-                    if (ReversePlayback)
+                    if (ReversePlayback) 
                     {
                         shouldFlushNext = true;
                         ScreamerReverse();
@@ -79,6 +78,7 @@ partial class Player
                         shouldFlushPrev = true;
                         Screamer();
                     }
+                        
                 }
 
             } catch (Exception e)
@@ -101,30 +101,38 @@ partial class Player
                 Audio.ClearBuffer();
                 Engine.TimeEndPeriod1();
                 NativeMethods.SetThreadExecutionState(NativeMethods.EXECUTION_STATE.ES_CONTINUOUS);
-                stoppedWithError = false;
+                stoppedWithError = null;
 
                 if (IsPlaying)
-                {    
+                {
                     if (decoderHasEnded)
                         status = Status.Ended;
                     else
                     {
-                        if (onBufferingStarted - 1 == onBufferingCompleted)
+                        if (Video.IsOpened && VideoDemuxer.Interrupter.Timedout)
+                            stoppedWithError = "Timeout";
+                        else if (onBufferingStarted - 1 == onBufferingCompleted)
                         {
-                            stoppedWithError = true;
+                            stoppedWithError = "Playback stopped unexpectedly";
                             OnBufferingCompleted("Buffering failed");
                         }
                         else
                         {
-                            stoppedWithError = !ReversePlayback ? isLive || Math.Abs(Duration - CurTime) > 3 * 1000 * 10000 : CurTime > 3 * 1000 * 10000;
+                            if (!ReversePlayback)
+                            {
+                                if (isLive || Math.Abs(Duration - CurTime) > 3 * 1000 * 10000)
+                                    stoppedWithError = "Playback stopped unexpectedly";
+                            }
+                            else if (CurTime > 3 * 1000 * 10000)
+                                stoppedWithError = "Playback stopped unexpectedly";
                         }
 
                         status = Status.Paused;
                     }
                 }
-                    
-                OnPlaybackStopped(stoppedWithError ? "Playback stopped unexpectedly" : null);
-                if (CanDebug) Log.Debug($"[SCREAMER] Finished (Status: {Status}, Error: {(stoppedWithError ? "Playback stopped unexpectedly" : "")})");
+
+                OnPlaybackStopped(stoppedWithError);
+                if (CanDebug) Log.Debug($"[SCREAMER] Finished (Status: {Status}, Error: {stoppedWithError})");
 
                 UI(() =>
                 {
@@ -166,7 +174,8 @@ partial class Player
             Play();
     }
 
-    public void ToggleReversePlayback() => ReversePlayback = !ReversePlayback;
+    public void ToggleReversePlayback()
+        => ReversePlayback = !ReversePlayback;
 
     /// <summary>
     /// Seeks backwards or forwards based on the specified ms to the nearest keyframe
@@ -179,13 +188,16 @@ partial class Player
     /// Seeks at the exact timestamp (with half frame distance accuracy)
     /// </summary>
     /// <param name="ms"></param>
-    public void SeekAccurate(int ms) => Seek(ms, false, !IsLive);
+    public void SeekAccurate(int ms)
+        => Seek(ms, false, !IsLive);
 
-    public void ToggleSeekAccurate() => Config.Player.SeekAccurate = !Config.Player.SeekAccurate;
+    public void ToggleSeekAccurate()
+        => Config.Player.SeekAccurate = !Config.Player.SeekAccurate;
 
     private void Seek(int ms, bool forward, bool accurate)
     {
-        if (!CanPlay) return;
+        if (!CanPlay)
+            return;
 
         lock (seeks)
         {
@@ -194,23 +206,39 @@ partial class Player
         }
         Raise(nameof(CurTime));
         
+        if (Status == Status.Playing)
+            return;
 
-        if (Status == Status.Playing) return;
-
-        lock (lockActions) { if (taskSeekRuns) return; taskSeekRuns = true; }
+        lock (seeks)
+        {
+            if (taskSeekRuns)
+                return;
+            
+            taskSeekRuns = true;
+        }
 
         Task.Run(() =>
         {
             int ret;
             bool wasEnded = false;
+            SeekData seekData = null;
 
             try
             {
                 Engine.TimeBeginPeriod1();
                 
-                while (seeks.TryPop(out var seekData) && CanPlay && !IsPlaying)
+                while (true)
                 {
-                    seeks.Clear();
+                    lock (seeks)
+                    {
+                        if (!(seeks.TryPop(out seekData) && CanPlay && !IsPlaying))
+                        {
+                            taskSeekRuns = false;
+                            break;
+                        }
+
+                        seeks.Clear();
+                    }
 
                     if (Status == Status.Ended)
                     {
@@ -243,7 +271,7 @@ partial class Player
                     else
                     {
                         decoder.PauseDecoders();
-                        ret = decoder.Seek(seekData.ms, seekData.forward, !seekData.accurate);
+                        ret = decoder.Seek(seekData.accurate ? seekData.ms - 3000 : seekData.ms, seekData.forward, !seekData.accurate); // 3sec ffmpeg bug for seek accurate when fails to seek backwards (see videodecoder getframe)
                         if (ret < 0)
                         {
                             if (CanWarn) Log.Warn("Seek failed");
@@ -261,15 +289,17 @@ partial class Player
 
                     Thread.Sleep(20);
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
+                lock (seeks) taskSeekRuns = false;
                 Log.Error($"Seek failed ({e.Message})");
-            } finally
+            }
+            finally
             {
                 decoder.OpenedPlugin?.OnBufferingCompleted();
                 Engine.TimeEndPeriod1();
-                lock (lockActions) taskSeekRuns = false;
-                if ((wasEnded && Config.Player.AutoPlay) || stoppedWithError)
+                if ((wasEnded && Config.Player.AutoPlay) || stoppedWithError != null) // TBR: Possible race condition with if (Status == Status.Playing)
                     Play();
             }
         });
@@ -279,7 +309,8 @@ partial class Player
     /// Flushes the buffer (demuxers (packets) and decoders (frames))
     /// This is useful mainly for live streams to push the playback at very end (low latency)
     /// </summary>
-    public void Flush() => decoder.Flush();
+    public void Flush()
+        => decoder.Flush();
 
     /// <summary>
     /// Stops and Closes AVS streams

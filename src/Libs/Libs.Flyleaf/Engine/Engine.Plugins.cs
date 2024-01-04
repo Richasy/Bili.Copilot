@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-using Bili.Copilot.Libs.Flyleaf.Plugins;
+using FlyleafLib.Plugins;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 public class PluginsEngine
 {
@@ -26,7 +26,7 @@ public class PluginsEngine
 
     internal void LoadAssemblies()
     {
-        // Load Bili.Copilot.Libs.Flyleaf's Embedded Plugins
+        // Load FlyleafLib's Embedded Plugins
         LoadPlugin(Assembly.GetExecutingAssembly());
 
         // Load External Plugins Folder
