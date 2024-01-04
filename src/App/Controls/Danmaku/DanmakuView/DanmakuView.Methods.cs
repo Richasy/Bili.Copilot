@@ -35,6 +35,11 @@ public sealed partial class DanmakuView
     /// <param name="color">颜色.</param>
     public void AddLiveDanmaku(string text, bool own, Color? color)
     {
+        if (_scrollContainer == null)
+        {
+            return;
+        }
+
         if (color == null)
         {
             color = Colors.White;

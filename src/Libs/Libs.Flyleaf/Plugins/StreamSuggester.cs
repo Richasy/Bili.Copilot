@@ -6,10 +6,10 @@ using System.Linq;
 using static FFmpeg.AutoGen.AVMediaType;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.Plugins;
+namespace FlyleafLib.Plugins;
 
 public unsafe class StreamSuggester : PluginBase, ISuggestPlaylistItem, ISuggestAudioStream, ISuggestVideoStream, ISuggestSubtitlesStream, ISuggestSubtitles, ISuggestBestExternalSubtitles
 {

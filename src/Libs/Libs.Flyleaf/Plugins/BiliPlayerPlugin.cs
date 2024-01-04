@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
-using Bili.Copilot.Libs.Flyleaf.Plugins;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Data.Player;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
+namespace FlyleafLib.Plugins;
 
 /// <summary>
 /// 哔哩播放器插件.

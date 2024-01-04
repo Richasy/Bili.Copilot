@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using static FlyleafLib.Logger;
+using static FlyleafLib.Utils;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
+namespace FlyleafLib.MediaFramework.MediaContext;
 
 public partial class DecoderContext
 {
@@ -861,11 +861,7 @@ public partial class DecoderContext
                 }
 
                 // 5. Search online if allowed (not async)
-                if (!Playlist.Selected.SearchedOnline && Config.Subtitles.SearchOnline && (Config.Subtitles.SearchOnlineOnInputType == null || Config.Subtitles.SearchOnlineOnInputType.Count == 0 || Config.Subtitles.SearchOnlineOnInputType.Contains(Playlist.InputType)))
-                {
-                    Log.Debug("[Subtitles] Searching Online");
-                    SearchOnlineSubtitles();
-                }
+                SearchOnlineSubtitles();
 
                 if (sessionId != OpenItemCounter)
                 {

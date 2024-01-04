@@ -257,7 +257,9 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         {
             var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
             var isFFmpeg = preferPlayer == PlayerType.FFmpeg || _videoType == VideoType.Live;
-            Player = isFFmpeg ? new FFmpegPlayerViewModel() : new NativePlayerViewModel();
+            Player = isFFmpeg
+                ? new FlyleafPlayerViewModel()
+                : new NativePlayerViewModel();
             Player.Initialize();
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;

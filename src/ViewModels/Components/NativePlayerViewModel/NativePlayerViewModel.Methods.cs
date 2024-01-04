@@ -144,9 +144,9 @@ public sealed partial class NativePlayerViewModel
         _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
 
-        var player = GetVideoPlayer();
+        Player ??= GetVideoPlayer();
+        var player = Player as MediaPlayer;
         player.Source = _videoPlaybackItem;
-        Player = player;
     }
 
     private async Task LoadLiveSourceAsync(string url)

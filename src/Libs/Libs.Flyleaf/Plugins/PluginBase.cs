@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaContext;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using static FlyleafLib.Utils;
 
-namespace Bili.Copilot.Libs.Flyleaf.Plugins;
+namespace FlyleafLib.Plugins;
 
 public abstract class PluginBase : PluginType, IPlugin
 {

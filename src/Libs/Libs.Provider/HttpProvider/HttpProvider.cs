@@ -18,7 +18,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// <summary>
 /// 用于网络请求的模块.
 /// </summary>
-public sealed partial class HttpProvider : IDisposable
+public sealed partial class HttpProvider
 {
     /// <summary>
     /// 创建 <see cref="HttpProvider"/> 的实例.

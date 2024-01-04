@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+namespace FlyleafLib.MediaFramework.MediaDemuxer;
 
 public class DemuxerInput : NotifyPropertyChanged
 {

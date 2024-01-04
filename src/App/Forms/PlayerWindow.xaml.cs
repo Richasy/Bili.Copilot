@@ -24,6 +24,7 @@ namespace Bili.Copilot.App.Forms;
 public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWindow
 {
     private bool _isInitialized;
+    private bool _isClosed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
@@ -37,7 +38,7 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
 
         Activated += OnActivated;
-        Closed += OnClosed;
+        Closed += OnClosedAsync;
 
         MoveAndResize();
     }
@@ -126,12 +127,19 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         return new PointInt32(left, top);
     }
 
-    private void OnClosed(object sender, WindowEventArgs args)
+    private async void OnClosedAsync(object sender, WindowEventArgs args)
     {
-        SaveCurrentWindowStats();
-        _ = MainFrame.Navigate(typeof(Page));
-        AppViewModel.Instance.ActivateMainWindow();
-        GC.Collect();
+        if (!_isClosed)
+        {
+            args.Handled = true;
+            SaveCurrentWindowStats();
+            _ = MainFrame.Navigate(typeof(Page));
+            AppViewModel.Instance.ActivateMainWindow();
+            this.Hide();
+            _isClosed = true;
+            await Task.Delay(1000);
+            Close();
+        }
     }
 
     private void OnAppWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
+namespace FlyleafLib.MediaFramework.MediaPlaylist;
 
 public class PLSPlaylist
 {

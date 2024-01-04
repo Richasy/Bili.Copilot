@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+#if NET5_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 using System.Xml.Serialization;
 
 using FFmpeg.AutoGen;
@@ -12,12 +15,12 @@ using Vortice.Direct3D11;
 
 using ID3D11VideoContext = Vortice.Direct3D11.ID3D11VideoContext;
 
-using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+using FlyleafLib.MediaPlayer;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using static FlyleafLib.Logger;
+using static FlyleafLib.Utils;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 unsafe public partial class Renderer
 {
@@ -78,14 +81,13 @@ unsafe public partial class Renderer
                 return VideoProcessorFilterCaps.StereoAdjustment;
         }
     }
-    internal static VideoFilter ConvertFromVideoProcessorFilterRange(VideoProcessorFilterRange filter)
-        => new()
-        {
-            Minimum = filter.Minimum,
-            Maximum = filter.Maximum,
-            Value   = filter.Default,
-            Step    = filter.Multiplier
-        };
+    internal static VideoFilter ConvertFromVideoProcessorFilterRange(VideoProcessorFilterRange filter) => new()
+    {
+        Minimum = filter.Minimum,
+        Maximum = filter.Maximum,
+        Value   = filter.Default,
+        Step    = filter.Multiplier
+    };
 
     VideoColor                          D3D11VPBackgroundColor;
     ID3D11VideoDevice1                  vd1;
@@ -407,7 +409,7 @@ unsafe public partial class Renderer
         // D3D11VP
         if (Filters.ContainsKey(filter.Filter) && vc != null)
         {
-            int scaledValue = (int)Utils.Scale(filter.Value, filter.Minimum, filter.Maximum, Filters[filter.Filter].Minimum, Filters[filter.Filter].Maximum);
+            int scaledValue = (int) Scale(filter.Value, filter.Minimum, filter.Maximum, Filters[filter.Filter].Minimum, Filters[filter.Filter].Maximum);
             vc.VideoProcessorSetStreamFilter(vp, 0, ConvertFromVideoProcessorFilterCaps((VideoProcessorFilterCaps)filter.Filter), true, scaledValue);
         }
 
@@ -418,14 +420,14 @@ unsafe public partial class Renderer
         switch (filter.Filter)
         {
             case VideoFilters.Brightness:
-                int scaledValue = (int)Utils.Scale(filter.Value, filter.Minimum, filter.Maximum, 0, 100);
+                int scaledValue = (int) Scale(filter.Value, filter.Minimum, filter.Maximum, 0, 100);
                 psBufferData.brightness = scaledValue / 100.0f;
                 context.UpdateSubresource(psBufferData, psBuffer);
 
                 break;
 
             case VideoFilters.Contrast:
-                scaledValue = (int)Utils.Scale(filter.Value, filter.Minimum, filter.Maximum, 0, 100);
+                scaledValue = (int) Scale(filter.Value, filter.Minimum, filter.Maximum, 0, 100);
                 psBufferData.contrast = scaledValue / 100.0f;
                 context.UpdateSubresource(psBufferData, psBuffer);
 
@@ -549,6 +551,7 @@ unsafe public partial class Renderer
     void UpdateRotation(uint angle, bool refresh = true)
     {
         _RotationAngle = angle;
+
         uint newRotation = _RotationAngle;
 
         if (VideoStream != null)
@@ -558,6 +561,7 @@ unsafe public partial class Renderer
             newRotation += 180;
 
         newRotation %= 360;
+
         if (actualRotation == newRotation || Disposed)
             return;
 
@@ -583,6 +587,7 @@ unsafe public partial class Renderer
             child.actualRotation    = actualRotation;
             child._d3d11vpRotation  = _d3d11vpRotation;
             child._RotationAngle    = _RotationAngle;
+            child.rotationLinesize  = rotationLinesize;
             child.SetViewport();
         }
 
@@ -609,8 +614,11 @@ public class VideoFilter : NotifyPropertyChanged
 {
     internal Renderer renderer;
 
+    #if NET5_0_OR_GREATER
+    [JsonIgnore]
+    #endif
     [XmlIgnore]
-    public bool         Available   { get => _Available;set => SetUI(ref _Available, value); }
+    public bool         Available   { get => _Available;    set => SetUI(ref _Available, value); }
     bool _Available;
 
     public VideoFilters Filter      { get => _Filter;       set => SetUI(ref _Filter, value); }
@@ -639,13 +647,13 @@ public class VideoFilter : NotifyPropertyChanged
 }
 
 public class VideoProcessorCapsCache
-    {
-        public bool Failed = true;
-        public int  TypeIndex = -1;
-        public bool HLG;
-        public bool HDR10Limited;
-        public VideoProcessorCaps               VideoProcessorCaps;
-        public VideoProcessorRateConversionCaps VideoProcessorRateConversionCaps;
+{
+    public bool Failed = true;
+    public int  TypeIndex = -1;
+    public bool HLG;
+    public bool HDR10Limited;
+    public VideoProcessorCaps               VideoProcessorCaps;
+    public VideoProcessorRateConversionCaps VideoProcessorRateConversionCaps;
 
-        public SerializableDictionary<VideoFilters, VideoFilter> Filters { get; set; } = new SerializableDictionary<VideoFilters, VideoFilter>();
-    }
+    public SerializableDictionary<VideoFilters, VideoFilter> Filters { get; set; } = new SerializableDictionary<VideoFilters, VideoFilter>();
+}

@@ -3,9 +3,9 @@ using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 using static FFmpeg.AutoGen.ffmpegEx;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDemuxer;
+using FlyleafLib.MediaFramework.MediaDemuxer;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+namespace FlyleafLib.MediaFramework.MediaStream;
 
 public unsafe class VideoStream : StreamBase
 {
@@ -29,6 +29,7 @@ public unsafe class VideoStream : StreamBase
     public bool                         PixelInterleaved    { get; set; }
     public int                          TotalFrames         { get; set; }
     public int                          Width               { get; set; }
+    public bool                         FixTimestamps       { get; set; } // TBR: For formats such as h264/hevc that have no or invalid pts values
 
     public override string GetDump()
         => $"[{Type} #{StreamIndex}] {Codec} {PixelFormatStr} {Width}x{Height} @ {FPS:#.###} | [Color: {ColorSpace}] [BR: {BitRate}] | {Utils.TicksToTime((long)(AVStream->start_time * Timebase))}/{Utils.TicksToTime((long)(AVStream->duration * Timebase))} | {Utils.TicksToTime(StartTime)}/{Utils.TicksToTime(Duration)}";
@@ -49,31 +50,37 @@ public unsafe class VideoStream : StreamBase
         PixelFormatStr  = PixelFormat.ToString().Replace("AV_PIX_FMT_","").ToLower();
         Width           = AVStream->codecpar->width;
         Height          = AVStream->codecpar->height;
-        FPS             = av_q2d(AVStream->avg_frame_rate) > 0 ? av_q2d(AVStream->avg_frame_rate) : av_q2d(AVStream->r_frame_rate);
+        
+        // TBR: Maybe required also for input formats with AVFMT_NOTIMESTAMPS (and audio/subs) 
+        // Possible FFmpeg.Autogen bug with Demuxer.FormatContext->iformat->flags (should be uint?) does not contain AVFMT_NOTIMESTAMPS (256 instead of 384)
+        if (Demuxer.Name == "h264" || Demuxer.Name == "hevc")
+        {
+            FixTimestamps = true;
+            
+            if (Demuxer.Config.ForceFPS > 0)
+                FPS = Demuxer.Config.ForceFPS;
+            else
+                FPS = av_q2d(AVStream->avg_frame_rate) > 0 ? av_q2d(AVStream->avg_frame_rate) : av_q2d(AVStream->r_frame_rate);
+
+            if (FPS == 0)
+                FPS = 25;
+        }
+        else
+        {
+            FixTimestamps = false;
+            FPS  = av_q2d(AVStream->avg_frame_rate) > 0 ? av_q2d(AVStream->avg_frame_rate) : av_q2d(AVStream->r_frame_rate);
+        }
+
         FrameDuration   = FPS > 0 ? (long) (10000000 / FPS) : 0;
         TotalFrames     = AVStream->duration > 0 && FrameDuration > 0 ? (int) (AVStream->duration * Timebase / FrameDuration) : (FrameDuration > 0 ? (int) (Demuxer.Duration / FrameDuration) : 0);
 
         int x, y;
-        if (AVStream->sample_aspect_ratio.num > 1 && AVStream->sample_aspect_ratio.den > 1)
-        {
-            x = AVStream->sample_aspect_ratio.num;
-            y = AVStream->sample_aspect_ratio.den;
+        AVRational sar = av_guess_sample_aspect_ratio(null, AVStream, null);
+        if (av_cmp_q(sar, av_make_q(0, 1)) <= 0)
+            sar = av_make_q(1, 1);
 
-        }
-        else if (AVStream->codecpar->sample_aspect_ratio.num > 1 && AVStream->codecpar->sample_aspect_ratio.den > 1)
-        {
-            x = AVStream->codecpar->sample_aspect_ratio.num;
-            y = AVStream->codecpar->sample_aspect_ratio.den;
-        }
-        else
-        {
-            x = Width;
-            y = Height;
-        }
-
-        int gcd = Utils.GCD(x, y);
-        if (gcd != 0)
-            AspectRatio = new AspectRatio(x / gcd, y / gcd);
+        av_reduce(&x, &y, Width  * sar.num, Height * sar.den, 1024 * 1024);
+        AspectRatio = new AspectRatio(x, y);
 
         if (PixelFormat != AVPixelFormat.AV_PIX_FMT_NONE)
         {
@@ -87,18 +94,16 @@ public unsafe class VideoStream : StreamBase
                 ? ColorSpace.BT2020
                 : Height > 576 ? ColorSpace.BT709 : ColorSpace.BT601;
 
-            if (AVStream->codecpar->color_space == AVColorSpace.AVCOL_SPC_UNSPECIFIED && AVStream->codecpar->color_trc == AVColorTransferCharacteristic.AVCOL_TRC_UNSPECIFIED && Height > 1080)
-            {   
-                // TBR: Handle Dolphy Vision?
-                ColorSpace = ColorSpace.BT2020;
-                ColorTransfer = AVColorTransferCharacteristic.AVCOL_TRC_SMPTE2084;
-            }
-            else
-                ColorTransfer = AVStream->codecpar->color_trc;
+            // This causes issues
+            //if (AVStream->codecpar->color_space == AVColorSpace.AVCOL_SPC_UNSPECIFIED && AVStream->codecpar->color_trc == AVColorTransferCharacteristic.AVCOL_TRC_UNSPECIFIED && Height > 1080)
+            //{   // TBR: Handle Dolphy Vision?
+            //    ColorSpace = ColorSpace.BT2020;
+            //    ColorTransfer = AVColorTransferCharacteristic.AVCOL_TRC_SMPTE2084;
+            //}
+            //else
+            ColorTransfer = AVStream->codecpar->color_trc;
 
-#pragma warning disable CS0618 // 类型或成员已过时
             Rotation = av_display_rotation_get(av_stream_get_side_data(AVStream, AVPacketSideDataType.AV_PKT_DATA_DISPLAYMATRIX, null));
-#pragma warning restore CS0618 // 类型或成员已过时
 
             PixelFormatDesc = av_pix_fmt_desc_get(PixelFormat);
             var comps       = PixelFormatDesc->comp.ToArray();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
+namespace FlyleafLib.MediaFramework.MediaFrame;
 
 public class SubtitlesFrame : FrameBase
 {
@@ -203,6 +203,9 @@ public static class ParseSubtitles
         if (strikeout.from != -1) { strikeout.len = soutPostLast - strikeout.from; styles.Add(strikeout); }
         if (underline.from != -1) { underline.len = soutPostLast - underline.from; styles.Add(underline); }
         if (color.from != -1 && color.value != Color.Transparent) { color.len = soutPostLast - color.from; styles.Add(color); }
+
+        // Greek issue?
+        sout = sout.Replace("ʼ", "Ά");
 
         return sout;
     }

@@ -10,12 +10,12 @@ using Vortice.DirectComposition;
 using Vortice.DXGI;
 using Vortice.DXGI.Debug;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaDecoder;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 using System.Runtime.InteropServices;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 public unsafe partial class Renderer
 {

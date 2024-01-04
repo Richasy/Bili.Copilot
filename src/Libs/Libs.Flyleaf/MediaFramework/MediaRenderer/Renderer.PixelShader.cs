@@ -12,14 +12,14 @@ using Vortice.DXGI;
 using Vortice.Mathematics;
 using Vortice;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaDecoder;
+using FlyleafLib.MediaFramework.MediaFrame;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 
 using ID3D11Texture2D = Vortice.Direct3D11.ID3D11Texture2D;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 unsafe public partial class Renderer
 {
@@ -96,9 +96,11 @@ unsafe public partial class Renderer
                 return false;
             }
 
-            curRatio = VideoStream.AspectRatio.Value;
-            IsHDR = VideoStream.ColorSpace == ColorSpace.BT2020;
-            VideoRect = new RawRect(0, 0, VideoStream.Width, VideoStream.Height);
+            curRatio    = VideoStream.AspectRatio.Value;
+            IsHDR       = VideoStream.ColorSpace == ColorSpace.BT2020 && ( // TBR: Should transfer IsHDR to VideoStream? | Unspecified (Space/Transfer)
+                          VideoStream.ColorTransfer == AVColorTransferCharacteristic.AVCOL_TRC_SMPTE2084 ||  // PQ
+                          VideoStream.ColorTransfer == AVColorTransferCharacteristic.AVCOL_TRC_ARIB_STD_B67);// HLG
+            VideoRect   = new RawRect(0, 0, VideoStream.Width, VideoStream.Height);
             rotationLinesize
                         = false;
             UpdateRotation(_RotationAngle, false);
@@ -107,14 +109,15 @@ unsafe public partial class Renderer
             {
                 hdrPlusData = null;
                 displayData = new();
-                lightData = new();
-                checkHDR = true;
+                lightData   = new();
+                checkHDR    = true;
             }
             else
                 checkHDR = false;
             //}
 
             var oldVP = videoProcessor;
+
             // Defaults to D3D11VP
             //VideoProcessor = !VideoDecoder.VideoAccelerated || D3D11VPFailed || Config.Video.VideoProcessor == VideoProcessors.Flyleaf || (Config.Video.VideoProcessor == VideoProcessors.Auto && isHDR && !Config.Video.Deinterlace) ? VideoProcessors.Flyleaf : VideoProcessors.D3D11;
 
@@ -553,7 +556,7 @@ color = float4(
 color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
 ");
             }
-
+            
             Log.Debug($"Prepared planes for {VideoStream.PixelFormatStr} with {videoProcessor} [{curPSCase}]");
 
             return true;
@@ -658,17 +661,17 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
 
             else if (curPSCase == PSCase.HWD3D11VPZeroCopy)
             {
-                mFrame.subresource = (int)frame->data[1];
-                mFrame.bufRef = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
+                mFrame.subresource  = (int) frame->data[1];
+                mFrame.bufRef       = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
             }
 
             else if (curPSCase == PSCase.HWD3D11VP)
             {
-                mFrame.textures = new ID3D11Texture2D[1];
-                mFrame.textures[0] = Device.CreateTexture2D(textDesc[0]);
+                mFrame.textures     = new ID3D11Texture2D[1];
+                mFrame.textures[0]  = Device.CreateTexture2D(textDesc[0]);
                 context.CopySubresourceRegion(
                     mFrame.textures[0], 0, 0, 0, 0, // dst
-                    VideoDecoder.textureFFmpeg, (int)frame->data[1],  // src
+                    VideoDecoder.textureFFmpeg, (int) frame->data[1],  // src
                     cropBox); // crop decoder's padding
             }
 
@@ -697,21 +700,20 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                     if (frame->linesize[i] < 0)
                     {
                         // Negative linesize for vertical flipping [TBR: might required for HW as well? (SwsScale does that)] http://ffmpeg.org/doxygen/trunk/structAVFrame.html#aa52bfc6605f6a3059a0c3226cc0f6567
-                        newRotationLinesize = true;
-                        subData[0].RowPitch = -1 * frame->linesize[i];
-                        subData[0].DataPointer = (IntPtr)frame->data[i];
+                        newRotationLinesize     = true;
+                        subData[0].RowPitch     = -1 * frame->linesize[i];
+                        subData[0].DataPointer  = (IntPtr) frame->data[i];
                         subData[0].DataPointer -= (subData[0].RowPitch * (VideoStream.Height - 1));
-
-                    }
-                    else
+                        
+                    } else
                     {
-                        newRotationLinesize = false;
-                        subData[0].RowPitch = frame->linesize[i];
-                        subData[0].DataPointer = (IntPtr)frame->data[i];
+                        newRotationLinesize     = false;
+                        subData[0].RowPitch     = frame->linesize[i];
+                        subData[0].DataPointer  = (IntPtr) frame->data[i];
                     }
 
-                    mFrame.textures[i] = Device.CreateTexture2D(textDesc[i], subData);
-                    mFrame.srvs[i] = Device.CreateShaderResourceView(mFrame.textures[i], srvDesc[i]);
+                    mFrame.textures[i]  = Device.CreateTexture2D(textDesc[i], subData);
+                    mFrame.srvs[i]      = Device.CreateShaderResourceView(mFrame.textures[i], srvDesc[i]);
                 }
 
                 if (newRotationLinesize != rotationLinesize)

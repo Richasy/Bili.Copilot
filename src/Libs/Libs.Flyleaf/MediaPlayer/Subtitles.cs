@@ -2,10 +2,10 @@
 using System;
 using System.Collections.ObjectModel;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaContext;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaContext;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaPlayer;
+namespace FlyleafLib.MediaPlayer;
 
 public class Subtitles : NotifyPropertyChanged
 {

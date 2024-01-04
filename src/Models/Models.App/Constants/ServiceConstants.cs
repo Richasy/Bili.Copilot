@@ -41,8 +41,8 @@ public static class ServiceConstants
         public const string AndroidSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
         public const string IOSKey = "27eb53fc9058f8c3";
         public const string IOSSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
-        public const string WebKey = "84956560bc028eb7";
-        public const string WebSecret = "94aba54af9065f71de72f5508f1cd42e";
+        public const string WebKey = "aa1e74ee4874176e";
+        public const string WebSecret = "54e6a9a31b911cd5fc0daa66ebf94bc4";
         public const string LoginKey = "27eb53fc9058f8c3";
         public const string LoginSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
     }

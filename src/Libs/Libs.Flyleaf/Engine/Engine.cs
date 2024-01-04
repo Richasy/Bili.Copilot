@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDevice;
-using Bili.Copilot.Libs.Flyleaf.MediaPlayer;
-using Microsoft.UI.Dispatching;
+using FlyleafLib.MediaFramework.MediaDevice;
+using FlyleafLib.MediaPlayer;
 
-namespace Bili.Copilot.Libs.Flyleaf;
+namespace FlyleafLib;
 
 /// <summary>
 /// Flyleaf Engine
@@ -119,7 +118,9 @@ public static class Engine
 
             Config = config ?? new EngineConfig();
 
-            Utils.DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            if (Application.Current == null)
+                new Application();
+
             StartInternalUI();
 
             if (async)
@@ -131,6 +132,15 @@ public static class Engine
 
     private static void StartInternalUI()
     {
+        Application.Current.Exit += (o, e) =>
+        {
+            Config.UIRefresh = false;
+            Config.UIRefreshInterval = 1;
+                
+            while (Players.Count != 0)
+                Players[0].Dispose();
+        };
+
         Logger.SetOutput();
 
         Log = new LogHandler("[FlyleafEngine] ");
@@ -143,7 +153,7 @@ public static class Engine
     private static void StartInternalNonUI()
     {
         var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        Log.Info($"Bili.Copilot.Libs.Flyleaf {version.Major }.{version.Minor}.{version.Build}");
+        Log.Info($"FlyleafLib {version.Major }.{version.Minor}.{version.Build}");
 
         FFmpeg  = new FFmpegEngine();
         Video   = new VideoEngine();

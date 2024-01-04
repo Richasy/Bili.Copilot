@@ -6,13 +6,13 @@ using System.Threading;
 using FFmpeg.AutoGen;
 using static FFmpeg.AutoGen.ffmpeg;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaFrame;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRemuxer;
+using FlyleafLib.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaFrame;
+using FlyleafLib.MediaFramework.MediaRemuxer;
 
-using static Bili.Copilot.Libs.Flyleaf.Logger;
+using static FlyleafLib.Logger;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaDecoder;
+namespace FlyleafLib.MediaFramework.MediaDecoder;
 
 /* TODO
  * 
@@ -46,6 +46,7 @@ public unsafe partial class AudioDecoder : DecoderBase
     static int              AOutChannels        = AOutChannelLayout.nb_channels;
     static int              ASampleBytes        = av_get_bytes_per_sample(AOutSampleFormat) * AOutChannels;
 
+    public readonly object  CircularBufferLocker= new();
     internal Action         CBufAlloc;          // Informs Audio player to clear buffer pointers to avoid access violation
     static int              cBufTimesSize       = 4;
     int                     cBufTimesCur        = 1;
@@ -100,6 +101,7 @@ public unsafe partial class AudioDecoder : DecoderBase
         DisposeSwr();
         DisposeFilters();
 
+        lock (CircularBufferLocker)
         cBuf            = null;
         cBufSamples     = 0;
         filledFromCodec = false;
@@ -318,7 +320,7 @@ public unsafe partial class AudioDecoder : DecoderBase
                     if (resyncWithVideoRequired)
                     {
                         // TODO: in case of long distance will spin (CPU issue), possible reseek?
-                        long ts = (long)(frame->pts * AudioStream.Timebase) - demuxer.StartTime + Config.Audio.Delay;
+                        long ts = (long)(frame->pts * AudioStream.Timebase) - demuxer.StartTime + Config.Audio.Delay + 500000; // 50 ms offset
 
                         while (VideoDecoder.StartTime == AV_NOPTS_VALUE && VideoDecoder.IsRunning && resyncWithVideoRequired)
                             Thread.Sleep(10);
@@ -336,9 +338,11 @@ public unsafe partial class AudioDecoder : DecoderBase
                     lock (lockSpeed)
                     {
                         if (filterGraph != null)
-                            ProcessFilters(frame);
+                            ProcessFilters();
                         else
-                            Process(frame);
+                            Process();
+
+                        av_frame_unref(frame);
                     }
                 }
             } catch { }
@@ -351,7 +355,7 @@ public unsafe partial class AudioDecoder : DecoderBase
 
         if (Status == Status.Draining) Status = Status.Ended;
     }
-    private void Process(AVFrame* frame)
+    private void Process()
     {
         try
         {
@@ -411,12 +415,6 @@ public unsafe partial class AudioDecoder : DecoderBase
         catch (Exception e)
         {
             Log.Error($"Failed to process frame ({e.Message})");
-            
-            return;
-        }
-        finally
-        {
-            av_frame_unref(frame);
         }
     }
 
@@ -433,11 +431,15 @@ public unsafe partial class AudioDecoder : DecoderBase
         int size    = Config.Decoder.MaxAudioFrames * samples * ASampleBytes * cBufTimesSize;
         Log.Debug($"Re-allocating circular buffer ({samples} > {cBufSamples}) with {size}bytes");
 
-        DisposeFrames(); // TODO: copy data
-        CBufAlloc?.Invoke();
-        cBuf        = new byte[size];
-        cBufPos     = 0;
-        cBufSamples = samples;
+        lock (CircularBufferLocker)
+        {
+            DisposeFrames(); // TODO: copy data
+            CBufAlloc?.Invoke();
+            cBuf        = new byte[size];
+            cBufPos     = 0;
+            cBufSamples = samples;
+        }
+        
     }
 
     #region Recording

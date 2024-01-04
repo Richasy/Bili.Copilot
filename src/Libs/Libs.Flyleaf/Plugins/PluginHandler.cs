@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaPlaylist;
-using Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaStream;
+using FlyleafLib.MediaFramework.MediaPlaylist;
+using FlyleafLib.MediaFramework.MediaStream;
 
-namespace Bili.Copilot.Libs.Flyleaf.Plugins;
+namespace FlyleafLib.Plugins;
 
 public class PluginHandler
 {
@@ -243,25 +243,12 @@ public class PluginHandler
     }
     public OpenResults OpenItem()
     {
-        long sessionId = OpenItemCounter;
-
         if (OpenedPlugin == null)
         {
-            var plugins = PluginsOpen.Values.OrderBy(x => x.Priority);
-            foreach (var plugin in plugins)
-            {
-                if (Interrupt || sessionId != OpenItemCounter)
-                    return new OpenResults("Cancelled");
-
-                if (!plugin.CanOpen())
-                    continue;
-
-                OpenedPlugin = plugin;
-                Log.Info($"[{plugin.Name}] Open Success");
-                break;
-            }
+            OpenedPlugin = PluginsOpen.Values.OrderBy(x => x.Priority).FirstOrDefault(x => x.CanOpen());
         }
 
+        long sessionId = OpenItemCounter;
         var res = OpenedPlugin.OpenItem();
 
         res ??= new OpenResults { Error = "Cancelled" };
@@ -287,6 +274,7 @@ public class PluginHandler
             Log.Debug("Playlist Completed");
             Playlist.UpdatePrevNextItem();
         }
+
     }
 
     public void ScrapeItem(PlaylistItem item)
@@ -467,16 +455,20 @@ public class PluginHandler
     }
     public void SearchOnlineSubtitles()
     {
-        var plugins = PluginsSearchOnlineSubtitles.Values.OrderBy(x => x.Priority);
-        foreach (var plugin in plugins)
+        if (!Playlist.Selected.SearchedOnline && Config.Subtitles.SearchOnline && (Config.Subtitles.SearchOnlineOnInputType == null || Config.Subtitles.SearchOnlineOnInputType.Count == 0 || Config.Subtitles.SearchOnlineOnInputType.Contains(Playlist.InputType)))
         {
-            if (Interrupt)
-                return;
+            Log.Debug("[Subtitles] Searching Online");
+            var plugins = PluginsSearchOnlineSubtitles.Values.OrderBy(x => x.Priority);
+            foreach (var plugin in plugins)
+            {
+                if (Interrupt)
+                    return;
 
-            plugin.SearchOnlineSubtitles();
+                plugin.SearchOnlineSubtitles();
+            }
+
+            Playlist.Selected.SearchedOnline = true;
         }
-
-        Playlist.Selected.SearchedOnline = true;
     }
     public bool DownloadSubtitles(ExternalSubtitlesStream extStream)
     {

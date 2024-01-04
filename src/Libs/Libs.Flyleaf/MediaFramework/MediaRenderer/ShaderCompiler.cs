@@ -8,9 +8,9 @@ using Vortice.D3DCompiler;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 
-using static Bili.Copilot.Libs.Flyleaf.Utils;
+using static FlyleafLib.Utils;
 
-namespace Bili.Copilot.Libs.Flyleaf.MediaFramework.MediaRenderer;
+namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 internal class BlobWrapper
 {
@@ -148,7 +148,7 @@ internal static class ShaderCompiler
     //}
 
     // Should work at least from main Samples => FlyleafPlayer (WPF Control) (WPF)
-    //static string EmbeddedShadersFolder = @"..\..\..\..\..\..\Bili.Copilot.Libs.Flyleaf\MediaFramework\MediaRenderer\Shaders";
+    //static string EmbeddedShadersFolder = @"..\..\..\..\..\..\FlyleafLib\MediaFramework\MediaRenderer\Shaders";
     //static Assembly ASSEMBLY        = Assembly.GetExecutingAssembly();
     //static string   SHADERS_NS      = typeof(Renderer).Namespace + ".Shaders.";
 
