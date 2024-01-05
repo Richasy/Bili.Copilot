@@ -63,9 +63,13 @@
             </Grid>
         </ScrollViewer>
 
-        <controls:OverlayLoadingPanel IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}" IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
+        <controls:OverlayLoadingPanel
+            Grid.Row="1"
+            IsBarActive="{x:Bind ViewModel.IsIncrementalLoading, Mode=OneWay}"
+            IsRingActive="{x:Bind ViewModel.IsReloading, Mode=OneWay}" />
         <controls:ErrorPanel
             x:Name="ErrorPanel"
+            Grid.Row="1"
             VerticalAlignment="Center"
             ActionContent="{ext:Locale Name=Refresh}"
             Command="{x:Bind ViewModel.ReloadCommand}"

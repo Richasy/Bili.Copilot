@@ -18,6 +18,24 @@
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
+      <Content Remove="Assets\ffmpeg\arm64\avcodec-59.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\avdevice-59.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\avfilter-8.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\avformat-59.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\avutil-57.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\postproc-56.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\swresample-4.dll" />
+      <Content Remove="Assets\ffmpeg\arm64\swscale-6.dll" />
+      <Content Remove="Assets\ffmpeg\x64\avcodec-59.dll" />
+      <Content Remove="Assets\ffmpeg\x64\avdevice-59.dll" />
+      <Content Remove="Assets\ffmpeg\x64\avfilter-8.dll" />
+      <Content Remove="Assets\ffmpeg\x64\avformat-59.dll" />
+      <Content Remove="Assets\ffmpeg\x64\avutil-57.dll" />
+      <Content Remove="Assets\ffmpeg\x64\postproc-56.dll" />
+      <Content Remove="Assets\ffmpeg\x64\swresample-4.dll" />
+      <Content Remove="Assets\ffmpeg\x64\swscale-6.dll" />
+    </ItemGroup>
+    <ItemGroup>
         <None Remove="Assets\AppCenterSecret.txt" />
         <None Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
         <None Remove="Assets\DashVideoTemplate.xml" />
@@ -201,6 +219,33 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <None Update="Assets\ffmpeg\x64\avcodec-59.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\avdevice-59.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\avfilter-8.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\avformat-59.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\avutil-57.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\postproc-56.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\swresample-4.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\x64\swscale-6.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\ffmpeg\arm64\swresample-4.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
       <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
