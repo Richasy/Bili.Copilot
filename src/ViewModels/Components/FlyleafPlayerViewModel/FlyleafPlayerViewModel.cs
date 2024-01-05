@@ -175,11 +175,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
             if (disposing)
             {
                 Stop();
-
-                if (Player is Player player)
-                {
-                    player.Dispose();
-                }
+                Clear();
             }
 
             Player = null;

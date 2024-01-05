@@ -187,6 +187,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         }
 
         var player = (Player)ViewModel.Player;
+        player.VideoDecoder.DestroySwapChain();
         player.Host?.Player_Disposed();
 
         Debug.WriteLine($"链接播放器 {player.PlayerId}");
