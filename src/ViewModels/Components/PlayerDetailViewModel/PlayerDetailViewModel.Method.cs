@@ -147,7 +147,7 @@ public sealed partial class PlayerDetailViewModel
     /// </summary>
     private void MarkProgressBreakpoint()
     {
-        if(!_shouldMarkProgress)
+        if (!_shouldMarkProgress)
         {
             return;
         }
@@ -274,6 +274,11 @@ public sealed partial class PlayerDetailViewModel
 
             if (e.Status == PlayerStatus.Playing)
             {
+                if (IsPosterShown)
+                {
+                    IsPosterShown = false;
+                }
+
                 ActiveDisplay();
             }
             else

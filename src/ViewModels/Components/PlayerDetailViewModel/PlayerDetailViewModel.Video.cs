@@ -41,8 +41,8 @@ public sealed partial class PlayerDetailViewModel
     {
         InitializeVideoInformation();
         await InitializeVideoMediaInformationAsync();
-        CheckVideoHistory();
         await InitializeOriginalVideoSourceAsync();
+        CheckVideoHistory();
 
         var view = _viewData as VideoPlayerView;
         SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
@@ -109,6 +109,7 @@ public sealed partial class PlayerDetailViewModel
 
     private async Task SelectVideoFormatAsync(FormatInformation format)
     {
+        IsPosterShown = true;
         MarkProgressBreakpoint();
         var codecId = GetVideoPreferCodecId();
         ResetPlayer();

@@ -148,6 +148,9 @@ public sealed partial class PlayerDetailViewModel
     private bool _canPlayNextPart;
 
     [ObservableProperty]
+    private bool _isPosterShown;
+
+    [ObservableProperty]
     private IPlayerViewModel _player;
 
     /// <summary>

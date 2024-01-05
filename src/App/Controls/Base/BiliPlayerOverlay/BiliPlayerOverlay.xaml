@@ -138,6 +138,12 @@
                                         </Button.KeyboardAccelerators>
                                     </Button>
                                 </Grid>
+                                <Grid x:Name="PosterContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPosterShown, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <local:ImageEx
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}"
+                                        Stretch="Uniform"
+                                        Style="{StaticResource NoPlaceholderImageExStyle}" />
+                                </Grid>
                                 <Grid x:Name="CoverContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsAudioOnly, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <local:ImageEx Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" Stretch="UniformToFill" />
                                     <Border
