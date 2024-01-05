@@ -63,8 +63,8 @@ public partial class LiveProvider
             { Query.NoPlayUrl, "0" },
             { Query.Qn, quality.ToString() },
             { Query.Codec, Uri.EscapeDataString("0,1") },
-            { Query.Device, "pad" },
-            { Query.DeviceName, Uri.EscapeDataString("iPad Pro") },
+            { Query.Device, "phone" },
+            { Query.DeviceName, Uri.EscapeDataString("iphone 14 pro max") },
             { Query.Dolby, "1" },
             { Query.Format, Uri.EscapeDataString("0,1,2") },
             { Query.Http, "1" },
@@ -76,7 +76,7 @@ public partial class LiveProvider
             { Query.PlayType, "0" },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Live.WebPlayInformation, queryParameter, RequestClientType.Web, needCookie: true, needAppKey: true);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Live.WebPlayInformation, queryParameter, RequestClientType.Web, needAppKey: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<LiveAppPlayInformation>>(response);
         return LiveAdapter.ConvertToLiveMediaInformation(result.Data);
