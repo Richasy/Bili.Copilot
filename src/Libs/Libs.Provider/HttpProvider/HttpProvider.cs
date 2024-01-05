@@ -51,7 +51,7 @@ public sealed partial class HttpProvider
     {
         HttpRequestMessage requestMessage;
 
-        if (method == HttpMethod.Get && needCookie)
+        if (method == HttpMethod.Get && (needCookie || needAppKey))
         {
             if (needAppKey)
             {
@@ -66,7 +66,10 @@ public sealed partial class HttpProvider
 
             requestMessage = new HttpRequestMessage(method, url);
             var cookie = AuthorizeProvider.GetCookieString();
-            requestMessage.Headers.Add("Cookie", cookie);
+            if (!string.IsNullOrEmpty(cookie))
+            {
+                requestMessage.Headers.Add("Cookie", cookie);
+            }
         }
         else if (method == HttpMethod.Get || method == HttpMethod.Delete)
         {
