@@ -23,18 +23,20 @@ public sealed partial class LivePartitionDetailModule : LivePartitionDetailModul
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
-        => ViewModel.RequestScrollToTop -= OnRequestScrollToTop;
+        => ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-        => ViewModel.RequestScrollToTop += OnRequestScrollToTop;
+        => ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
 
-    private void OnRequestScrollToTop(object sender, EventArgs e)
-        => ContentScrollViewer.ChangeView(default, 0, default, true);
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(200);
+        ContentScrollViewer.ChangeView(default, 0, default);
+    }
 
     private void OnDetailNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         var data = args.InvokedItem as LiveTag;
-        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
         ViewModel.SelectTagCommand.Execute(data);
     }
 

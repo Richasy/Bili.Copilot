@@ -24,6 +24,7 @@ public sealed partial class PgcRecommendModule : PgcRecommendModuleBase
     {
         InitializeComponent();
         Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     /// <summary>
@@ -46,6 +47,24 @@ public sealed partial class PgcRecommendModule : PgcRecommendModuleBase
             PgcType.Documentary => DocumentaryRecommendDetailViewModel.Instance,
             _ => throw new ArgumentOutOfRangeException(nameof(PgcType))
         };
+
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel == null)
+        {
+            return;
+        }
+
+        ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
+    }
+
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(200);
+        ContentScrollViewer.ChangeView(0, 0, default);
     }
 
     private void OnSeasonViewIncrementalTriggered(object sender, EventArgs e)

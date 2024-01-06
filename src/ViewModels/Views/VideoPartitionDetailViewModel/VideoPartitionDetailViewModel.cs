@@ -28,7 +28,6 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
 
         Banners = new ObservableCollection<BannerViewModel>();
         SubPartitions = new ObservableCollection<Partition>();
-        RecommendPartitions = new ObservableCollection<Partition>();
         SortTypes = new ObservableCollection<VideoSortType>()
         {
             VideoSortType.Default,
@@ -57,30 +56,21 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
         var partition = IsSubPartitionShown ? CurrentSubPartition : CurrentRecommendPartition;
 
         IEnumerable<VideoInformation> videos = default;
-        if (partition.Id == "-1")
+        var isRecommend = partition.Id == OriginPartition.Id;
+        var data = await HomeProvider.Instance.GetVideoSubPartitionDataAsync(partition.Id, isRecommend, SortType);
+        if (data.Banners?.Count() > 0)
         {
-            // 排行榜数据.
-            TryClear(Items);
-            videos = await HomeProvider.GetRankDetailAsync(partition.ParentId);
-        }
-        else
-        {
-            var isRecommend = partition.Id == OriginPartition.Id;
-            var data = await HomeProvider.Instance.GetVideoSubPartitionDataAsync(partition.Id, isRecommend, SortType);
-            if (data.Banners?.Count() > 0)
+            foreach (var item in data.Banners)
             {
-                foreach (var item in data.Banners)
+                if (!Banners.Any(p => p.Uri == item.Uri))
                 {
-                    if (!Banners.Any(p => p.Uri == item.Uri))
-                    {
-                        var vm = new BannerViewModel(item);
-                        Banners.Add(vm);
-                    }
+                    var vm = new BannerViewModel(item);
+                    Banners.Add(vm);
                 }
             }
-
-            videos = data.Videos;
         }
+
+        videos = data.Videos;
 
         CheckBannerState();
         if (videos?.Count() > 0)
@@ -112,7 +102,6 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
         _caches.Clear();
         HomeProvider.Instance.ClearPartitionState();
         TryClear(SubPartitions);
-        TryClear(RecommendPartitions);
         TryClear(Banners);
 
         // 子分区中不包含推荐分区.
@@ -120,11 +109,8 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
 
         // 合并推荐分区及排行榜分区.
         var rcmdPartition = partition.Children.First(p => p.Id == p.ParentId);
-        var rankPartition = new Partition("-1", ResourceToolkit.GetLocalizedString(StringNames.PartitionRank), parentId: rcmdPartition.ParentId);
-        RecommendPartitions.Add(rcmdPartition);
-        RecommendPartitions.Add(rankPartition);
-
-        SelectSubPartition(IsSubPartitionShown ? SubPartitions[0] : RecommendPartitions[0]);
+        CurrentRecommendPartition = rcmdPartition;
+        SelectSubPartition(IsSubPartitionShown ? SubPartitions[0] : CurrentRecommendPartition);
     }
 
     [RelayCommand]
@@ -185,7 +171,7 @@ public sealed partial class VideoPartitionDetailViewModel : InformationFlowViewM
 
         if (IsRecommendShown)
         {
-            SelectSubPartitionCommand.Execute(CurrentRecommendPartition ?? RecommendPartitions.First());
+            SelectSubPartitionCommand.Execute(CurrentRecommendPartition ?? OriginPartition.Children.First());
         }
         else if (IsSubPartitionShown)
         {

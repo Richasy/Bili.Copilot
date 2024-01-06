@@ -60,11 +60,6 @@ public sealed partial class VideoPartitionDetailViewModel
     public ObservableCollection<Partition> SubPartitions { get; }
 
     /// <summary>
-    /// 推荐分区集合.
-    /// </summary>
-    public ObservableCollection<Partition> RecommendPartitions { get; }
-
-    /// <summary>
     /// 排序方式集合.
     /// </summary>
     public ObservableCollection<VideoSortType> SortTypes { get; }
