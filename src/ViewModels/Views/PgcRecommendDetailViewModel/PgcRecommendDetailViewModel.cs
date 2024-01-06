@@ -43,14 +43,8 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
     {
         _isEnd = false;
         IsEmpty = false;
-        if (_type is PgcType.Bangumi or PgcType.Domestic)
-        {
-            PgcProvider.Instance.ResetIndexStatus(_type);
-        }
-        else
-        {
-            PgcProvider.Instance.ResetPageStatus(_type);
-        }
+        PgcProvider.Instance.ResetIndexStatus(_type);
+        PgcProvider.Instance.ResetPageStatus(_type);
     }
 
     /// <inheritdoc/>
@@ -81,20 +75,11 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
         }
 
         var seasons = new List<SeasonInformation>();
-        if (_type is PgcType.Bangumi or PgcType.Domestic)
-        {
-            var (isFinished, items) = await PgcProvider.Instance.GetPgcIndexResultAsync(_type, GetAnimeParameters());
-            seasons = items?.ToList();
-            _isEnd = isFinished;
-        }
-        else
-        {
-            var view = await PgcProvider.Instance.GetPageDetailAsync(_type);
-            if (view.Seasons?.Any() ?? false)
-            {
-                seasons = view.Seasons.ToList();
-            }
-        }
+        var (isFinished, items) = await PgcProvider.Instance.GetPgcIndexResultAsync(_type, GetIndexParameters());
+        seasons = items?.ToList();
+        _isEnd = isFinished;
+
+        var canScrollToTop = Items.Count == 0;
 
         seasons.ForEach(p =>
         {
@@ -102,13 +87,18 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
         });
 
         IsEmpty = Items.Count == 0;
+
+        if (canScrollToTop && !IsEmpty)
+        {
+            RequestScrollToTop?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     /// <inheritdoc/>
     protected override string FormatException(string errorMsg)
         => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestFeedDetailFailed)}\n{errorMsg}";
 
-    private Dictionary<string, string> GetAnimeParameters()
+    private Dictionary<string, string> GetIndexParameters()
     {
         var queryPrameters = new Dictionary<string, string>();
         foreach (var item in Filters)

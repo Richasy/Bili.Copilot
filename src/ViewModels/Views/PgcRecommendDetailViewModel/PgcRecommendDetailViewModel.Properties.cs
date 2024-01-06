@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.ViewModels.Items;
@@ -20,6 +21,11 @@ public partial class PgcRecommendDetailViewModel
 
     [ObservableProperty]
     private string _title;
+
+    /// <summary>
+    /// 请求滚动到顶部.
+    /// </summary>
+    public event EventHandler RequestScrollToTop;
 
     /// <summary>
     /// 筛选条件.
