@@ -37,7 +37,6 @@ public sealed partial class AppViewModel : ViewModelBase
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         NavigateItems = new ObservableCollection<NavigateItemViewModel>();
         DisplayWindows = new List<Window>();
-        Search = new SearchDetailViewModel();
         Message = MessageDetailViewModel.Instance;
         Fans = new FansDetailViewModel();
         Follows = MyFollowsDetailViewModel.Instance;
@@ -185,8 +184,6 @@ public sealed partial class AppViewModel : ViewModelBase
     private void SearchContent(string text)
     {
         IsOverlayShown = true;
-        Search.SetKeyword(text);
-        Search.InitializeCommand.Execute(default);
         RequestSearch?.Invoke(this, text);
     }
 

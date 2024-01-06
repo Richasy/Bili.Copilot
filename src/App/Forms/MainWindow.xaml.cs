@@ -193,7 +193,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
         if (OverlayFrame.Content is not SearchPage)
         {
-            _ = OverlayFrame.Navigate(typeof(SearchPage), _appViewModel.Search);
+            var vm = new SearchDetailViewModel();
+            vm.SetKeyword(e);
+            vm.InitializeCommand.Execute(default);
+            _ = OverlayFrame.Navigate(typeof(SearchPage), vm);
         }
     }
 
