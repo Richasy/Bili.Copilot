@@ -158,14 +158,14 @@
                         <base:UserAvatar
                             Width="36"
                             Height="36"
-                            Avatar="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
+                            Avatar="{x:Bind ViewModel.Author.Data.Avatar.Uri, Mode=OneWay}"
                             Command="{x:Bind ViewModel.Author.ShowDetailCommand, Mode=OneWay}"
-                            UserName="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                            UserName="{x:Bind ViewModel.Author.Data.Name, Mode=OneWay}" />
                         <StackPanel Spacing="4">
                             <TextBlock
                                 VerticalAlignment="Center"
                                 IsTextSelectionEnabled="True"
-                                Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.Author.Data.Name, Mode=OneWay}" />
                             <Button
                                 Padding="8,2"
                                 HorizontalAlignment="Left"
@@ -188,18 +188,18 @@
                                             <base:UserAvatar
                                                 Width="36"
                                                 Height="36"
-                                                Avatar="{x:Bind User.Avatar.Uri}"
+                                                Avatar="{x:Bind Data.Avatar.Uri}"
                                                 Command="{x:Bind ShowDetailCommand}"
                                                 DataContext="{x:Bind}"
-                                                UserName="{x:Bind User.Name}" />
+                                                UserName="{x:Bind Data.Name}" />
                                             <TextBlock
                                                 MaxWidth="52"
                                                 HorizontalAlignment="Center"
                                                 FontSize="12"
-                                                Text="{x:Bind User.Name}"
+                                                Text="{x:Bind Data.Name}"
                                                 TextAlignment="Center"
                                                 TextTrimming="CharacterEllipsis"
-                                                ToolTipService.ToolTip="{x:Bind User.Name}" />
+                                                ToolTipService.ToolTip="{x:Bind Data.Name}" />
                                         </StackPanel>
                                         <Border
                                             Margin="0,-8,-8,0"

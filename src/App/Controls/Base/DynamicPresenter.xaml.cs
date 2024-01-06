@@ -5,6 +5,7 @@ using Bili.Copilot.Models.Data.Dynamic;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
+using Bili.Copilot.ViewModels.DynamicPageViewModel;
 
 namespace Bili.Copilot.App.Controls.Base;
 
@@ -42,13 +43,17 @@ public sealed partial class DynamicPresenter : UserControl
         {
             var videoVM = new VideoItemViewModel(videoInfo);
             instance.MainPresenter.Content = videoVM;
-            instance.MainPresenter.ContentTemplate = instance.VideoTemplate;
+            instance.MainPresenter.ContentTemplate = DynamicPageViewModel.Instance.IsVideoShown
+                ? instance.NormalVideoTemplate
+                : instance.InternalVideoTemplate;
         }
         else if (data is EpisodeInformation episodeInfo)
         {
             var episodeVM = new EpisodeItemViewModel(episodeInfo);
             instance.MainPresenter.Content = episodeVM;
-            instance.MainPresenter.ContentTemplate = instance.EpisodeTemplate;
+            instance.MainPresenter.ContentTemplate = DynamicPageViewModel.Instance.IsVideoShown
+                ? instance.NormalEpisodeTemplate
+                : instance.InternalEpisodeTemplate;
         }
         else if (data is DynamicInformation dynamicInfo)
         {

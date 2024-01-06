@@ -8,6 +8,7 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.User;
 using Bilibili.App.Archive.V1;
+using Bilibili.App.Dynamic.V2;
 using Bilibili.App.View.V1;
 using Bilibili.Main.Community.Reply.V1;
 
@@ -200,6 +201,20 @@ public sealed class UserAdapter
             : ImageAdapter.ConvertToImage(avatar, size, size);
         var profile = new UserProfile(userId.ToString(), userName, image);
         return profile;
+    }
+
+    /// <summary>
+    /// 将用户信息 <see cref="UpListItem"/> 转换为用户资料.
+    /// </summary>
+    /// <param name="up">UP 主信息.</param>
+    /// <returns><see cref="DynamicUper"/>.</returns>
+    public static DynamicUper ConvertToUserProfile(UpListItem up)
+    {
+        var image = string.IsNullOrEmpty(up.Face)
+            ? default
+            : ImageAdapter.ConvertToImage(up.Face, 90, 90);
+        var profile = new UserProfile(up.Uid.ToString(), up.Name, image);
+        return new DynamicUper(profile, up.HasUpdate);
     }
 
     /// <summary>

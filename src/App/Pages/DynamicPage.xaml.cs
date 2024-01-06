@@ -31,7 +31,6 @@ public sealed partial class DynamicPage : DynamicPageBase
     private async void OnDynamicTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
     {
         _ = VideoContentScrollViewer.ChangeView(default, 0, default, true);
-        _ = AllContentScrollViewer.ChangeView(default, 0, default, true);
         await Task.Delay(100);
         ViewModel.CurrentType = (DynamicDisplayType)DynamicTypeSelection.SelectedIndex;
     }

@@ -15,15 +15,15 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// 用户条目视图模型.
 /// </summary>
-public sealed partial class UserItemViewModel : ViewModelBase
+public sealed partial class UserItemViewModel : SelectableViewModel<UserProfile>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserItemViewModel"/> class.
     /// </summary>
     /// <param name="information">账户信息.</param>
     public UserItemViewModel(AccountInformation information)
+        : base(information.User)
     {
-        User = information.User;
         Introduce = string.IsNullOrEmpty(information.Introduce)
             ? ResourceToolkit.GetLocalizedString(StringNames.NoSelfIntroduce)
             : information.Introduce;
@@ -47,10 +47,10 @@ public sealed partial class UserItemViewModel : ViewModelBase
     /// </summary>
     /// <param name="profile">用户资料.</param>
     public UserItemViewModel(RoleProfile profile)
+        : base(profile?.User)
     {
         if (profile != null)
         {
-            User = profile.User;
             Role = profile.Role;
         }
     }
@@ -60,7 +60,9 @@ public sealed partial class UserItemViewModel : ViewModelBase
     /// </summary>
     /// <param name="profile">用户资料.</param>
     public UserItemViewModel(UserProfile profile)
-        => User = profile;
+        : base(profile)
+    {
+    }
 
     [RelayCommand]
     private async Task ToggleRelationAsync()
@@ -82,10 +84,10 @@ public sealed partial class UserItemViewModel : ViewModelBase
             isFollow = false;
         }
 
-        var result = await AccountProvider.ModifyUserRelationAsync(User.Id, isFollow.Value);
+        var result = await AccountProvider.ModifyUserRelationAsync(Data.Id, isFollow.Value);
         if (result)
         {
-            var relation = await AccountProvider.GetRelationAsync(User.Id);
+            var relation = await AccountProvider.GetRelationAsync(Data.Id);
             Relation = relation;
         }
     }
@@ -99,22 +101,22 @@ public sealed partial class UserItemViewModel : ViewModelBase
             return;
         }
 
-        var relation = await AccountProvider.GetRelationAsync(User.Id);
+        var relation = await AccountProvider.GetRelationAsync(Data.Id);
         Relation = relation;
         IsRelationButtonShown = Relation != UserRelationStatus.Unknown;
     }
 
     [RelayCommand]
     private void ShowDetail()
-        => AppViewModel.Instance.ShowUserDetailCommand.Execute(User);
+        => AppViewModel.Instance.ShowUserDetailCommand.Execute(Data);
 
     [RelayCommand]
     private void Fix()
     {
         FixModuleViewModel.Instance.AddFixedItemCommand.Execute(new FixedItem(
-            User.Avatar.Uri,
-            User.Name,
-            User.Id,
+            Data.Avatar.Uri,
+            Data.Name,
+            Data.Id,
             FixedType.User));
     }
 }

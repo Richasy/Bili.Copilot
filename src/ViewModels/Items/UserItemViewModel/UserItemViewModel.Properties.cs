@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.Constants.Community;
-using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -11,12 +10,6 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class UserItemViewModel
 {
-    /// <summary>
-    /// 用户基础信息.
-    /// </summary>
-    [ObservableProperty]
-    private UserProfile _user;
-
     /// <summary>
     /// 用户自我介绍.
     /// </summary>
@@ -82,4 +75,7 @@ public sealed partial class UserItemViewModel
     /// </summary>
     [ObservableProperty]
     private bool _isRelationChanging;
+
+    [ObservableProperty]
+    private bool _isUnread;
 }

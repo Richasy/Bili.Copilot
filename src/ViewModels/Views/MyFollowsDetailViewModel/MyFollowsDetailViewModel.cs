@@ -67,7 +67,7 @@ public sealed partial class MyFollowsDetailViewModel : InformationFlowViewModel<
         var data = await AccountProvider.Instance.GetMyFollowingGroupDetailAsync(CurrentGroup.Data.Id);
         foreach (var item in data)
         {
-            if (Items.Any(p => p.User.Equals(item.User)))
+            if (Items.Any(p => p.Data.Equals(item.User)))
             {
                 return;
             }

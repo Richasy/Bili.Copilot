@@ -22,13 +22,15 @@
             HorizontalAlignment="Center"
             FontFamily="Segoe UI Emoji"
             FontSize="50"
-            Glyph="{x:Bind Emoji, Mode=OneWay}" />
+            Glyph="{x:Bind Emoji, Mode=OneWay}"
+            Visibility="{x:Bind Emoji, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
         <TextBlock
             Margin="0,0,0,8"
             HorizontalAlignment="Center"
             Style="{StaticResource BodyStrongTextBlockStyle}"
             Text="{x:Bind Title, Mode=OneWay}"
-            TextAlignment="Center" />
+            TextAlignment="Center"
+            Visibility="{x:Bind Title, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
         <TextBlock
             MaxWidth="164"
             HorizontalAlignment="Center"
@@ -36,7 +38,8 @@
             LineHeight="20"
             Style="{StaticResource CaptionTextBlockStyle}"
             Text="{x:Bind Description, Mode=OneWay}"
-            TextAlignment="Center" />
+            TextAlignment="Center"
+            Visibility="{x:Bind Description, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
         <ContentPresenter
             Margin="0,8,0,0"
             HorizontalAlignment="Center"

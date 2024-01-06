@@ -43,14 +43,14 @@
                                     <base:UserAvatar
                                         Width="24"
                                         Height="24"
-                                        Avatar="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
+                                        Avatar="{x:Bind ViewModel.User.Data.Avatar.Uri, Mode=OneWay}"
                                         Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
                                         CornerRadius="14" />
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ViewModel.User.User.Name, Mode=OneWay}"
+                                        Text="{x:Bind ViewModel.User.Data.Name, Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </StackPanel>

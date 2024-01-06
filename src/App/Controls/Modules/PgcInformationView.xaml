@@ -333,21 +333,21 @@
                             <DataTemplate x:DataType="viewmodels:UserItemViewModel">
                                 <base:CardPanel
                                     Width="120"
-                                    AutomationProperties.Name="{x:Bind User.Name}"
-                                    ToolTipService.ToolTip="{x:Bind User.Name}">
+                                    AutomationProperties.Name="{x:Bind Data.Name}"
+                                    ToolTipService.ToolTip="{x:Bind Data.Name}">
                                     <Grid Padding="12">
                                         <StackPanel Spacing="4">
                                             <PersonPicture
                                                 Width="64"
                                                 Height="64"
                                                 Margin="0,0,0,8"
-                                                DisplayName="{x:Bind User.Name}"
-                                                ProfilePicture="{x:Bind User.Avatar.Uri}" />
+                                                DisplayName="{x:Bind Data.Name}"
+                                                ProfilePicture="{x:Bind Data.Avatar.Uri}" />
                                             <TextBlock
                                                 MaxWidth="120"
                                                 HorizontalAlignment="Center"
                                                 FontSize="12"
-                                                Text="{x:Bind User.Name}"
+                                                Text="{x:Bind Data.Name}"
                                                 TextTrimming="CharacterEllipsis" />
                                             <TextBlock
                                                 MaxWidth="120"

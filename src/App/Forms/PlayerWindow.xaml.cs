@@ -133,9 +133,9 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         {
             args.Handled = true;
             SaveCurrentWindowStats();
+            this.Hide();
             _ = MainFrame.Navigate(typeof(Page));
             AppViewModel.Instance.ActivateMainWindow();
-            this.Hide();
             _isClosed = true;
             await Task.Delay(1000);
             Close();

@@ -62,7 +62,7 @@ public sealed partial class UserSpaceViewModel : InformationFlowViewModel<VideoI
             return;
         }
 
-        if (UserViewModel == null || !UserViewModel.User.Equals(_userProfile))
+        if (UserViewModel == null || !UserViewModel.Data.Equals(_userProfile))
         {
             // 请求用户数据.
             var view = await AccountProvider.Instance.GetUserSpaceInformationAsync(_userProfile.Id);

@@ -76,7 +76,7 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
     private async Task ToggleLikeAsync()
     {
         var isLike = !IsLiked;
-        var result = await CommunityProvider.LikeDynamicAsync(Data.Id, isLike, Publisher.User.Id);
+        var result = await CommunityProvider.LikeDynamicAsync(Data.Id, isLike, Publisher.Data.Id);
         if (result)
         {
             IsLiked = isLike;

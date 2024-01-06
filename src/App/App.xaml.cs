@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Provider;
@@ -221,7 +222,7 @@ public partial class App : Application
         HandleCloseEvents = false;
         TrayIcon?.Dispose();
         _window?.Close();
-        Environment.Exit(0);
+        Process.GetCurrentProcess().Kill();
     }
 
     private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

@@ -81,8 +81,10 @@
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
+        <None Remove="Controls\Modules\AllDynamicDetailModule.xaml" />
         <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
         <None Remove="Controls\Modules\ArticleNavListModule.xaml" />
+        <None Remove="Controls\Modules\DynamicUpListModule.xaml" />
         <None Remove="Controls\Modules\FavoritesNavListModule.xaml" />
         <None Remove="Controls\Modules\FilmNavListModule.xaml" />
         <None Remove="Controls\Modules\FixModule.xaml" />
@@ -267,6 +269,12 @@
       <None Update="Assets\ffmpeg\arm64\swresample-4.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <Page Update="Controls\Modules\AllDynamicDetailModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\DynamicUpListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
