@@ -48,9 +48,6 @@ public sealed partial class AppViewModel
     private bool _isOverlayShown;
 
     [ObservableProperty]
-    private SearchDetailViewModel _search;
-
-    [ObservableProperty]
     private MessageDetailViewModel _message;
 
     [ObservableProperty]

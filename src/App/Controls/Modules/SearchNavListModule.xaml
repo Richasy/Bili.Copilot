@@ -39,6 +39,7 @@
                             <base:CardPanel
                                 Click="OnModuleItemClick"
                                 DataContext="{x:Bind}"
+                                DisabledBackground="Transparent"
                                 IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                 IsEnableCheck="False"
                                 IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
