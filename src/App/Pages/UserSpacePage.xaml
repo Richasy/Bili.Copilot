@@ -39,11 +39,11 @@
                         Width="56"
                         Height="56"
                         VerticalAlignment="Center"
-                        Avatar="{x:Bind ViewModel.UserViewModel.User.Avatar.Uri, Mode=OneWay}"
+                        Avatar="{x:Bind ViewModel.UserViewModel.Data.Avatar.Uri, Mode=OneWay}"
                         AvatarRadius="32"
                         DecodeSize="100"
                         IsEnabled="False"
-                        UserName="{x:Bind ViewModel.UserViewModel.User.Name, Mode=OneWay}" />
+                        UserName="{x:Bind ViewModel.UserViewModel.Data.Name, Mode=OneWay}" />
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -60,7 +60,7 @@
                                 IsTextSelectionEnabled="True"
                                 MaxLines="1"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{x:Bind ViewModel.UserViewModel.User.Name, Mode=OneWay}"
+                                Text="{x:Bind ViewModel.UserViewModel.Data.Name, Mode=OneWay}"
                                 TextLineBounds="Tight"
                                 TextTrimming="CharacterEllipsis" />
                             <Image
@@ -83,7 +83,7 @@
                             CornerRadius="{StaticResource ControlCornerRadius}">
                             <TextBlock IsTextSelectionEnabled="True" Style="{StaticResource CaptionTextBlockStyle}">
                                 <Run Text="uid:" />
-                                <Run Text="{x:Bind ViewModel.UserViewModel.User.Id, Mode=OneWay}" />
+                                <Run Text="{x:Bind ViewModel.UserViewModel.Data.Id, Mode=OneWay}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>

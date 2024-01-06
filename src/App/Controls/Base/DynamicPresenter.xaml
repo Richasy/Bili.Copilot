@@ -10,10 +10,16 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Name="VideoTemplate" x:DataType="viewmodels:VideoItemViewModel">
+        <DataTemplate x:Name="NormalVideoTemplate" x:DataType="viewmodels:VideoItemViewModel">
+            <local:VideoItem Style="{StaticResource VerticalDynamicVideoItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Name="NormalEpisodeTemplate" x:DataType="viewmodels:EpisodeItemViewModel">
+            <local:EpisodeItem Style="{StaticResource VerticalDynamicEpisodeItemStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Name="InternalVideoTemplate" x:DataType="viewmodels:VideoItemViewModel">
             <local:VideoItem Style="{StaticResource HorizontalDynamicVideoItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
-        <DataTemplate x:Name="EpisodeTemplate" x:DataType="viewmodels:EpisodeItemViewModel">
+        <DataTemplate x:Name="InternalEpisodeTemplate" x:DataType="viewmodels:EpisodeItemViewModel">
             <local:EpisodeItem Style="{StaticResource HorizontalDynamicEpisodeItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="ForwardTemplate" x:DataType="viewmodels:DynamicItemViewModel">

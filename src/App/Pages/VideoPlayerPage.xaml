@@ -49,13 +49,13 @@
                                         <base:UserAvatar
                                             Width="24"
                                             Height="24"
-                                            Avatar="{x:Bind ViewModel.Author.User.Avatar.Uri, Mode=OneWay}"
+                                            Avatar="{x:Bind ViewModel.Author.Data.Avatar.Uri, Mode=OneWay}"
                                             Command="{x:Bind ViewModel.Author.ShowDetailCommand, Mode=OneWay}"
-                                            UserName="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                                            UserName="{x:Bind ViewModel.Author.Data.Name, Mode=OneWay}" />
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{x:Bind ViewModel.Author.User.Name, Mode=OneWay}" />
+                                            Text="{x:Bind ViewModel.Author.Data.Name, Mode=OneWay}" />
                                     </StackPanel>
                                     <StackPanel
                                         x:Name="StaffContainer"
@@ -68,10 +68,10 @@
                                                         <base:UserAvatar
                                                             Width="24"
                                                             Height="24"
-                                                            Avatar="{x:Bind User.Avatar.Uri}"
+                                                            Avatar="{x:Bind Data.Avatar.Uri}"
                                                             Command="{x:Bind ShowDetailCommand}"
                                                             DataContext="{x:Bind}"
-                                                            UserName="{x:Bind User.Name}" />
+                                                            UserName="{x:Bind Data.Name}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsRepeater.ItemTemplate>

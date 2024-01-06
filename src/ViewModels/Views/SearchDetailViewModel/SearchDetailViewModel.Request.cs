@@ -135,7 +135,7 @@ public sealed partial class SearchDetailViewModel
         ResetModuleEndIdentifier(SearchModuleType.User, data.IsEnd);
         foreach (var item in data.Items)
         {
-            if (!Users.Any(p => p.User.Equals(item.User)))
+            if (!Users.Any(p => p.Data.Equals(item.User)))
             {
                 var userVM = new UserItemViewModel(item);
                 Users.Add(userVM);

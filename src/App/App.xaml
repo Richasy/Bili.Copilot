@@ -21,7 +21,7 @@
                         Color="{ThemeResource SystemAccentColorDark1}" />
                     <SolidColorBrush
                         x:Key="MediaTransportBackgroundBrush"
-                        Opacity="0.48"
+                        Opacity="0.78"
                         Color="White" />
                 </ResourceDictionary>
 

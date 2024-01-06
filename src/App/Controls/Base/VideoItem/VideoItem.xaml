@@ -503,5 +503,101 @@
         </Setter>
     </Style>
 
+    <Style x:Key="VerticalDynamicVideoItemStyle" TargetType="local:VideoItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VideoItem">
+                    <Grid>
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="WindowInprivate" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Add" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CopyUrlCommand}" Text="{ext:Locale Name=CopyVideoUrl}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Copy" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FixCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                        <Grid.Resources>
+                            <Style BasedOn="{StaticResource DefaultIconTextBlockStyle}" TargetType="local:IconTextBlock">
+                                <Setter Property="Spacing" Value="4" />
+                                <Setter Property="IconFontSize" Value="12" />
+                                <Setter Property="FontSize" Value="10" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid Padding="12,0" RowSpacing="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid
+                                x:Name="CoverContainer"
+                                Height="128"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <local:ImageEx
+                                    x:Name="CoverImage"
+                                    VerticalAlignment="Stretch"
+                                    DecodePixelWidth="400"
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                    Stretch="UniformToFill" />
+
+                                <Grid
+                                    x:Name="DurationContainer"
+                                    Margin="4,0,0,4"
+                                    Padding="8,4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Background="{ThemeResource AppMaskBrush}"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    RequestedTheme="Dark"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationText, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                    <TextBlock
+                                        FontSize="10"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationText}" />
+                                </Grid>
+                            </Grid>
+                            <TextBlock
+                                x:Name="TitleBlock"
+                                Grid.Row="1"
+                                Margin="2,0"
+                                VerticalAlignment="Top"
+                                FontSize="13"
+                                MaxLines="2"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style BasedOn="{StaticResource HorizontalVideoItemStyle}" TargetType="local:VideoItem" />
 </ResourceDictionary>

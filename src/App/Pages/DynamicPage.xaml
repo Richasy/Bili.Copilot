@@ -10,6 +10,7 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:Bili.Copilot.App.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
@@ -79,23 +80,40 @@
         </Grid>
 
         <ScrollViewer
-            x:Name="ContentScrollViewer"
+            x:Name="VideoContentScrollViewer"
             Grid.Row="1"
-            Style="{StaticResource PageScrollViewerStyle}">
+            Style="{StaticResource PageScrollViewerStyle}"
+            Visibility="{x:Bind ViewModel.IsVideoShown, Mode=OneWay}">
             <base:VerticalRepeaterView
-                x:Name="DynamicView"
+                x:Name="VideoDynamicView"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnDynamicViewIncrementalTriggered"
                 ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-                Style="{StaticResource RepeaterStackStyle}"
+                Style="{StaticResource DynamicVideoGridRepeaterViewStyle}"
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:DynamicItemViewModel">
-                        <base:DynamicItem ViewModel="{x:Bind}" />
+                        <base:DynamicItem Style="{StaticResource VideoDynamicItemStyle}" ViewModel="{x:Bind}" />
                     </DataTemplate>
                 </base:VerticalRepeaterView.ItemTemplate>
             </base:VerticalRepeaterView>
         </ScrollViewer>
+
+        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsAllShown, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <modules:DynamicUpListModule />
+            <Border
+                Grid.Column="1"
+                Width="1"
+                Margin="0,-12,0,0"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+            <modules:AllDynamicDetailModule Grid.Column="2" />
+        </Grid>
 
         <controls:OverlayLoadingPanel
             Grid.Row="1"
@@ -117,26 +135,5 @@
             Command="{x:Bind ViewModel.ReloadCommand}"
             Text="{ext:Locale Name=NoSpecificData}"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <labs:ControlSizeTrigger
-                            MinWidth="0"
-                            MaxWidth="600"
-                            TargetElement="{Binding ElementName=RootGrid}" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="DynamicView.Style" Value="{StaticResource DynamicGridRepeaterViewStyle}" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:DynamicPageBase>

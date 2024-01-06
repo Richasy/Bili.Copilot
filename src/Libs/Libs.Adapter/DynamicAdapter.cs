@@ -108,7 +108,10 @@ public sealed class DynamicAdapter
             .Select(ConvertToDynamicInformation)
             .ToList();
 
-        return new DynamicView(list);
+        var ups = reply.VideoUpList != null
+            ? reply.VideoUpList.List.Select(UserAdapter.ConvertToUserProfile).ToList()
+            : new System.Collections.Generic.List<DynamicUper>();
+        return new DynamicView(list, ups);
     }
 
     /// <summary>
@@ -124,7 +127,24 @@ public sealed class DynamicAdapter
             .Select(ConvertToDynamicInformation)
             .ToList();
 
-        return new DynamicView(list);
+        var ups = reply.UpList.List.Where(p => p.LiveState != LiveState.LiveLive).Select(UserAdapter.ConvertToUserProfile).ToList();
+        return new DynamicView(list, ups, reply.UpList.Footprint);
+    }
+
+    /// <summary>
+    /// 将动态响应 <see cref="DynRsp"/> 转换为空间动态.
+    /// </summary>
+    /// <param name="reply">空间动态响应.</param>
+    /// <returns><see cref="DynamicSpace"/>.</returns>
+    public static DynamicSpace ConvertToDynamicSpace(DynSpaceRsp reply)
+    {
+        var list = reply.List.Where(p =>
+            p.CardType is not DynamicType.DynNone
+            and not DynamicType.Ad)
+            .Select(ConvertToDynamicInformation)
+            .ToList();
+
+        return new DynamicSpace(list, reply.HistoryOffset, reply.HasMore);
     }
 
     private static CommentType GetReplyTypeFromDynamicType(DynamicType type)

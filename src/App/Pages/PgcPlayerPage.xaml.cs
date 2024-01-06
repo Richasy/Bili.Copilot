@@ -32,9 +32,9 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnPageUnloaded()
+    protected override async void OnPageUnloaded()
     {
-        ViewModel.PlayerDetail.ReportViewProgressCommand.Execute(default);
+        await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
         ViewModel.Dispose();
     }
 

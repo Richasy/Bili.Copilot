@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Dynamic;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels.DynamicPageViewModel;
 
@@ -21,6 +23,8 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
     private DynamicPageViewModel()
     {
         _caches = new Dictionary<DynamicDisplayType, IEnumerable<DynamicInformation>>();
+        DisplayUps = new ObservableCollection<UserItemViewModel>();
+        UserSpaceDynamics = new ObservableCollection<DynamicItemViewModel>();
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastDynamicType, DynamicDisplayType.Video);
         CheckModuleState();
     }
@@ -37,6 +41,10 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
         {
             _isAllEnd = false;
             CommunityProvider.Instance.ResetComprehensiveDynamicStatus();
+            SelectedUp = null;
+            DisplayUps.Clear();
+            _allFootprint = string.Empty;
+            IsAllDynamicSelected = true;
         }
     }
 
@@ -48,45 +56,107 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
     protected override async Task GetDataAsync()
     {
         if ((IsVideoShown && _isVideoEnd)
-            || (IsAllShown && _isAllEnd))
+            || (IsAllShown && _isAllEnd)
+            || (IsAllShown && SelectedUp != null && _isCurrentUserEnd))
         {
             return;
         }
 
-        var data = IsVideoShown
-            ? await CommunityProvider.Instance.GetDynamicVideoListAsync()
-            : await CommunityProvider.Instance.GetDynamicComprehensiveListAsync();
+        if (SelectedUp != null && IsAllShown)
+        {
+            var data = await CommunityProvider.GetUserDynamicAsync(SelectedUp.Data.Id, _userDynamicOffset);
+            if (data.Dynamics != null && data.Dynamics.Count() > 0)
+            {
+                foreach (var item in data.Dynamics)
+                {
+                    var vm = new DynamicItemViewModel(item);
+                    UserSpaceDynamics.Add(vm);
+                }
+            }
 
-        if (IsVideoShown)
-        {
-            _isVideoEnd = data.Dynamics == null || !data.Dynamics.Any();
-        }
-        else if (IsAllShown)
-        {
-            _isAllEnd = data.Dynamics == null || !data.Dynamics.Any();
-        }
+            _userDynamicOffset = data.Offset;
+            _isCurrentUserEnd = !data.HasMore;
+            IsCurrentSpaceEmpty = UserSpaceDynamics.Count == 0;
 
-        if ((IsVideoShown && _isVideoEnd)
-            || (IsAllShown && _isAllEnd))
+            try
+            {
+                await CommunityProvider.MarkUserDynamicReadAsync(SelectedUp.Data.Id, _userDynamicOffset, _allFootprint);
+            }
+            catch (System.Exception)
+            {
+            }
+        }
+        else
         {
+            var data = IsVideoShown
+                ? await CommunityProvider.Instance.GetDynamicVideoListAsync()
+                : await CommunityProvider.Instance.GetDynamicComprehensiveListAsync();
+
+            if (IsVideoShown)
+            {
+                _isVideoEnd = data.Dynamics == null || !data.Dynamics.Any();
+            }
+            else if (IsAllShown)
+            {
+                _isAllEnd = data.Dynamics == null || !data.Dynamics.Any();
+            }
+
+            if ((IsVideoShown && _isVideoEnd)
+                || (IsAllShown && _isAllEnd))
+            {
+                IsEmpty = Items.Count == 0;
+                return;
+            }
+
+            var dynamics = data.Dynamics;
+            foreach (var item in dynamics)
+            {
+                var vm = new DynamicItemViewModel(item);
+                Items.Add(vm);
+            }
+
+            if (DisplayUps.Count == 0 && IsAllShown)
+            {
+                foreach (var item in data.Ups)
+                {
+                    var vm = new UserItemViewModel(item.User);
+                    vm.IsUnread = item.IsUnread;
+                    DisplayUps.Add(vm);
+                }
+            }
+
+            if (IsAllShown)
+            {
+                _allFootprint = data.Footprint;
+            }
+
+            IsNoUps = DisplayUps.Count == 0;
+            var dynamicInfos = Items
+                .OfType<DynamicItemViewModel>()
+                .Select(p => p.Data)
+                .ToList();
+            _caches[CurrentType] = dynamicInfos;
+
             IsEmpty = Items.Count == 0;
-            return;
         }
+    }
 
-        var dynamics = data.Dynamics;
-        foreach (var item in dynamics)
+    [RelayCommand]
+    private async Task SelectUpAsync(UserItemViewModel user)
+    {
+        IsAllDynamicSelected = false;
+        SelectedUp = user;
+        SelectedUp.IsUnread = false;
+        foreach (var item in DisplayUps)
         {
-            var vm = new DynamicItemViewModel(item);
-            Items.Add(vm);
+            item.IsSelected = item.Equals(user);
         }
 
-        var dynamicInfos = Items
-            .OfType<DynamicItemViewModel>()
-            .Select(p => p.Data)
-            .ToList();
-        _caches[CurrentType] = dynamicInfos;
+        _isCurrentUserEnd = false;
+        _userDynamicOffset = string.Empty;
+        TryClear(UserSpaceDynamics);
 
-        IsEmpty = Items.Count == 0;
+        await GetDataAsync();
     }
 
     private void CheckModuleState()
@@ -120,6 +190,17 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
         else
         {
             _ = InitializeCommand.ExecuteAsync(default);
+        }
+    }
+
+    partial void OnIsAllDynamicSelectedChanged(bool value)
+    {
+        if (value)
+        {
+            foreach (var item in DisplayUps)
+            {
+                item.IsSelected = false;
+            }
         }
     }
 }

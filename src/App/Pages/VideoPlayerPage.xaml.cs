@@ -40,9 +40,9 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnPageUnloaded()
+    protected override async void OnPageUnloaded()
     {
-        ViewModel.PlayerDetail.ReportViewProgressCommand.Execute(default);
+        await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
         ViewModel?.Dispose();
     }
 

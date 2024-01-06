@@ -117,6 +117,47 @@ public partial class CommunityProvider
     }
 
     /// <summary>
+    /// 获取用户动态列表.
+    /// </summary>
+    /// <param name="userId">用户标识符.</param>
+    /// <param name="offset">偏移值.</param>
+    /// <returns>动态空间响应.</returns>
+    public static async Task<DynamicSpace> GetUserDynamicAsync(string userId, string offset)
+    {
+        var req = new DynSpaceReq
+        {
+            From = "space",
+            HostUid = Convert.ToInt64(userId),
+            LocalTime = 8,
+            HistoryOffset = offset,
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicSpace, req, true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync(response, DynSpaceRsp.Parser);
+        return DynamicAdapter.ConvertToDynamicSpace(result);
+    }
+
+    /// <summary>
+    /// 标记用户动态已读.
+    /// </summary>
+    /// <param name="userId">用户 Id.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    public static async Task MarkUserDynamicReadAsync(string userId, string offset, string footprint)
+    {
+        var req = new DynAllUpdOffsetReq
+        {
+            HostUid = Convert.ToInt64(userId),
+            ReadOffset = offset,
+            Footprint = footprint,
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicSpaceMarkRead, req, true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+    }
+
+    /// <summary>
     /// 获取单层评论详情列表.
     /// </summary>
     /// <param name="targetId">目标评论区Id.</param>

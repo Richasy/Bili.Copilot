@@ -236,6 +236,70 @@
         </Setter>
     </Style>
 
+    <Style x:Key="VerticalDynamicEpisodeItemStyle" TargetType="local:EpisodeItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:EpisodeItem">
+                    <Grid RowSpacing="8">
+                        <Grid.Resources>
+                            <Style TargetType="local:IconTextBlock">
+                                <Setter Property="Spacing" Value="4" />
+                                <Setter Property="IconFontSize" Value="12" />
+                                <Setter Property="FontSize" Value="12" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ContextFlyout>
+                            <MenuFlyout x:Name="EpisodeFlyout">
+                                <MenuFlyoutItem
+                                    x:Name="OpenInBroItem"
+                                    AutomationProperties.Name="{ext:Locale Name=OpenInBrowser}"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBrowserCommand}"
+                                    Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <local:FluentIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="CoverContainer" Margin="8,0">
+                            <local:ImageEx
+                                x:Name="CoverImage"
+                                Height="128"
+                                VerticalAlignment="Stretch"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
+                                Stretch="UniformToFill" />
+                        </Grid>
+
+                        <Grid
+                            x:Name="ContentContainer"
+                            Grid.Row="1"
+                            Padding="14,0">
+                            <TextBlock
+                                x:Name="TitleBlock"
+                                Grid.Row="1"
+                                VerticalAlignment="Top"
+                                FontSize="13"
+                                MaxLines="2"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style BasedOn="{StaticResource HorizontalEpisodeItemStyle}" TargetType="local:EpisodeItem" />
 
 </ResourceDictionary>

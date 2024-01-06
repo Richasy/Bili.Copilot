@@ -36,14 +36,14 @@
                         <base:UserAvatar
                             Width="36"
                             Height="36"
-                            Avatar="{x:Bind ViewModel.User.User.Avatar.Uri, Mode=OneWay}"
+                            Avatar="{x:Bind ViewModel.User.Data.Avatar.Uri, Mode=OneWay}"
                             Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
-                            UserName="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
+                            UserName="{x:Bind ViewModel.User.Data.Name, Mode=OneWay}" />
                         <StackPanel Spacing="4">
                             <TextBlock
                                 VerticalAlignment="Center"
                                 IsTextSelectionEnabled="True"
-                                Text="{x:Bind ViewModel.User.User.Name, Mode=OneWay}" />
+                                Text="{x:Bind ViewModel.User.Data.Name, Mode=OneWay}" />
                             <Button
                                 Padding="8,2"
                                 HorizontalAlignment="Left"

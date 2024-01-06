@@ -621,6 +621,16 @@ public static class ApiConstants
         public const string DynamicAll = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynAll";
 
         /// <summary>
+        /// 用户动态列表.
+        /// </summary>
+        public const string DynamicSpace = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynSpace";
+
+        /// <summary>
+        /// 用户动态列表.
+        /// </summary>
+        public const string DynamicSpaceMarkRead = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynAllUpdOffset";
+
+        /// <summary>
         /// 视频动态列表.
         /// </summary>
         public const string DynamicVideo = _grpcBase + "/bilibili.app.dynamic.v2.Dynamic/DynVideo";
