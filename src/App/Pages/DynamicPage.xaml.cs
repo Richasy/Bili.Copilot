@@ -28,9 +28,10 @@ public sealed partial class DynamicPage : DynamicPageBase
         ViewModel.InitializeCommand.Execute(default);
     }
 
-    private async void OnDynamicTypeSegmentedSelectionChangedAsync(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
+    private async void OnDynamicTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
     {
-        _ = ContentScrollViewer.ChangeView(default, 0, default, true);
+        _ = VideoContentScrollViewer.ChangeView(default, 0, default, true);
+        _ = AllContentScrollViewer.ChangeView(default, 0, default, true);
         await Task.Delay(100);
         ViewModel.CurrentType = (DynamicDisplayType)DynamicTypeSelection.SelectedIndex;
     }

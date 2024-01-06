@@ -11,10 +11,10 @@
 
     <UserControl.Resources>
         <DataTemplate x:Name="VideoTemplate" x:DataType="viewmodels:VideoItemViewModel">
-            <local:VideoItem Style="{StaticResource HorizontalDynamicVideoItemStyle}" ViewModel="{x:Bind}" />
+            <local:VideoItem Style="{StaticResource DynamicVideoItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="EpisodeTemplate" x:DataType="viewmodels:EpisodeItemViewModel">
-            <local:EpisodeItem Style="{StaticResource HorizontalDynamicEpisodeItemStyle}" ViewModel="{x:Bind}" />
+            <local:EpisodeItem Style="{StaticResource DynamicEpisodeItemStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="ForwardTemplate" x:DataType="viewmodels:DynamicItemViewModel">
             <local:DynamicItem

@@ -79,11 +79,32 @@
         </Grid>
 
         <ScrollViewer
-            x:Name="ContentScrollViewer"
+            x:Name="VideoContentScrollViewer"
             Grid.Row="1"
-            Style="{StaticResource PageScrollViewerStyle}">
+            Style="{StaticResource PageScrollViewerStyle}"
+            Visibility="{x:Bind ViewModel.IsVideoShown, Mode=OneWay}">
             <base:VerticalRepeaterView
-                x:Name="DynamicView"
+                x:Name="VideoDynamicView"
+                Margin="0,0,0,12"
+                IncrementalTriggered="OnDynamicViewIncrementalTriggered"
+                ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                Style="{StaticResource DynamicVideoGridRepeaterViewStyle}"
+                Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <base:VerticalRepeaterView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:DynamicItemViewModel">
+                        <base:DynamicItem Style="{StaticResource VideoDynamicItemStyle}" ViewModel="{x:Bind}" />
+                    </DataTemplate>
+                </base:VerticalRepeaterView.ItemTemplate>
+            </base:VerticalRepeaterView>
+        </ScrollViewer>
+
+        <ScrollViewer
+            x:Name="AllContentScrollViewer"
+            Grid.Row="1"
+            Style="{StaticResource PageScrollViewerStyle}"
+            Visibility="{x:Bind ViewModel.IsAllShown, Mode=OneWay}">
+            <base:VerticalRepeaterView
+                x:Name="AllDynamicView"
                 Margin="0,0,0,12"
                 IncrementalTriggered="OnDynamicViewIncrementalTriggered"
                 ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
@@ -133,7 +154,7 @@
                         <labs:ControlSizeTrigger MinWidth="601" TargetElement="{Binding ElementName=RootGrid}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="DynamicView.Style" Value="{StaticResource DynamicGridRepeaterViewStyle}" />
+                        <Setter Target="AllDynamicView.Style" Value="{StaticResource DynamicGridRepeaterViewStyle}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

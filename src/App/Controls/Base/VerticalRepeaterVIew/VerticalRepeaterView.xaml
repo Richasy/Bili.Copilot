@@ -141,6 +141,33 @@
         </Setter>
     </Style>
 
+    <Style x:Key="DynamicVideoGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VerticalRepeaterView">
+                    <Grid>
+                        <ItemsRepeater
+                            x:Name="ItemsRepeater"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            ItemsSource="{TemplateBinding ItemsSource}"
+                            VerticalCacheLength="{TemplateBinding VerticalCacheSize}"
+                            XYFocusKeyboardNavigation="Enabled">
+                            <ItemsRepeater.Layout>
+                                <UniformGridLayout
+                                    ItemsStretch="Fill"
+                                    MinColumnSpacing="12"
+                                    MinItemHeight="242"
+                                    MinItemWidth="220"
+                                    MinRowSpacing="12" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="LiveGridRepeaterViewStyle" TargetType="local:VerticalRepeaterView">
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">

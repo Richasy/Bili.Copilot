@@ -16,10 +16,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock
-            Margin="20,12,20,0"
-            Style="{StaticResource TitleTextBlockStyle}"
-            Text="{ext:Locale Name=Settings}" />
+        <Grid
+            Height="56"
+            Padding="20,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1">
+            <TextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="{ext:Locale Name=Settings}" />
+        </Grid>
         <ScrollViewer Grid.Row="1" Style="{StaticResource PageScrollViewerStyle}">
             <StackPanel Margin="0,0,0,20" Spacing="4">
                 <StackPanel.ChildrenTransitions>

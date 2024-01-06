@@ -138,16 +138,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="HorizontalDynamicEpisodeItemStyle" TargetType="local:EpisodeItem">
+    <Style x:Key="DynamicEpisodeItemStyle" TargetType="local:EpisodeItem">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeItem">
-                    <Grid
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-                        BorderThickness="1"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        RowSpacing="8">
+                    <Grid RowSpacing="8">
                         <Grid.Resources>
                             <Style TargetType="local:IconTextBlock">
                                 <Setter Property="Spacing" Value="4" />
@@ -168,49 +163,30 @@
                                 </MenuFlyoutItem>
                             </MenuFlyout>
                         </Grid.ContextFlyout>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid x:Name="CoverContainer" VerticalAlignment="Stretch">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="CoverContainer" Margin="8,0">
                             <local:ImageEx
                                 x:Name="CoverImage"
-                                Width="128"
-                                Height="90"
+                                Height="128"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Cover.Uri}"
                                 Stretch="UniformToFill" />
-
-                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Ellipse
-                                    Width="40"
-                                    Height="40"
-                                    Fill="{ThemeResource AppMaskBrush}"
-                                    Opacity="0.8" />
-                                <local:FluentIcon
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="16"
-                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                    Symbol="Play" />
-                            </Grid>
                         </Grid>
 
                         <Grid
                             x:Name="ContentContainer"
-                            Grid.Column="1"
-                            Padding="8"
-                            RowSpacing="4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
+                            Grid.Row="1"
+                            Padding="14,0">
                             <TextBlock
                                 x:Name="TitleBlock"
+                                Grid.Row="1"
                                 VerticalAlignment="Top"
-                                FontSize="14"
+                                FontSize="13"
                                 MaxLines="2"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}"
                                 TextTrimming="CharacterEllipsis"
@@ -219,16 +195,6 @@
                                     <ToolTip Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Identifier.Title}" IsEnabled="{Binding ElementName=TitleBlock, Path=IsTextTrimmed}" />
                                 </ToolTipService.ToolTip>
                             </TextBlock>
-
-                            <local:IconTextBlock
-                                x:Name="InlineDurationBlock"
-                                Grid.Row="1"
-                                FontSize="12"
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                IconFontSize="12"
-                                Symbol="Timer"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationText, Mode=OneWay}"
-                                Visibility="Collapsed" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
