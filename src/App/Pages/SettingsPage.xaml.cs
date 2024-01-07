@@ -22,6 +22,9 @@ public sealed partial class SettingsPage : SettingsPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
         => AppViewModel.Instance.IsBackButtonShown = false;
+
+    private void OnJoinGroupButtonClick(object sender, RoutedEventArgs e)
+        => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 }
 
 /// <summary>

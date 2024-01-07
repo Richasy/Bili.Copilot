@@ -23,6 +23,7 @@
                         x:Key="MediaTransportBackgroundBrush"
                         Opacity="0.78"
                         Color="White" />
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_light.jpg" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Dark">
@@ -39,6 +40,7 @@
                         x:Key="MediaTransportBackgroundBrush"
                         Opacity="0.77"
                         Color="Black" />
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="HighContrast">
@@ -46,6 +48,7 @@
                     <SolidColorBrush x:Key="AccentMaskBrush" Color="{ThemeResource SystemColorWindowColor}" />
                     <SolidColorBrush x:Key="AccentBadgeBackground" Color="{ThemeResource SystemColorWindowColor}" />
                     <SolidColorBrush x:Key="MediaTransportBackgroundBrush" Color="{ThemeResource SystemChromeAltMediumHighColor}" />
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

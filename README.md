@@ -16,6 +16,7 @@
 <a href="#安装">安装</a> &nbsp;&bull;&nbsp;
 <a href="#使用">使用</a> &nbsp;&bull;&nbsp;
 <a href="#模块">模块</a> &nbsp;&bull;&nbsp;
+<a href="#交流讨论">交流</a> &nbsp;&bull;&nbsp;
 <a href="#数据收集">数据收集</a>
 </p>
 
@@ -82,7 +83,9 @@
 
 ## 交流讨论
 
-有兴趣一起交流的话，可以加群：858688642
+有兴趣一起交流的话，可以加 QQ 群
+
+<img src="./assets/qq_group.jpg" width="240px" />
 
 ## 应用截图
 
