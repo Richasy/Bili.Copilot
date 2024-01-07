@@ -71,6 +71,9 @@ public sealed partial class AnimeNavListModule : AnimeNavListModuleBase
             }
         }
     }
+
+    private void OnFavoriteButtonClick(object sender, RoutedEventArgs e)
+        => AppViewModel.Instance.ShowFavoritesCommand.Execute(FavoriteType.Anime);
 }
 
 /// <summary>

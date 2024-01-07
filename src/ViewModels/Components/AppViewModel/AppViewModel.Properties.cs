@@ -124,7 +124,7 @@ public sealed partial class AppViewModel
     /// <summary>
     /// 请求显示收藏夹.
     /// </summary>
-    public event EventHandler RequestShowFavorites;
+    public event EventHandler<FavoriteType> RequestShowFavorites;
 
     /// <summary>
     /// 在有新的用户空间请求时触发.

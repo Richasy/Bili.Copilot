@@ -22,6 +22,7 @@
     <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid
@@ -69,8 +70,39 @@
             </StackPanel>
         </Grid>
 
+        <Button
+            Grid.Row="1"
+            Margin="12,0"
+            Padding="12"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            BorderThickness="0"
+            Click="OnFavoriteButtonClick">
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <base:FluentIcon
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Symbol="Dust" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="{ext:Locale Name=MyFavoriteAnime}" />
+                <base:FluentIcon
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Symbol="ArrowCircleUpRight" />
+            </Grid>
+        </Button>
+
         <!--  时间表  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsTimelineShown, Mode=OneWay}">
             <ScrollViewer
                 Padding="8,0"
                 Style="{StaticResource PageScrollViewerStyle}"
@@ -123,7 +155,7 @@
         </Grid>
 
         <!--  番剧索引  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsBangumiShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsBangumiShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _bangumi.Filters}">
                     <ItemsRepeater.ItemTemplate>
@@ -157,7 +189,7 @@
         </Grid>
 
         <!--  国创索引  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsDomesticShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsDomesticShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _domestic.Filters}">
                     <ItemsRepeater.ItemTemplate>

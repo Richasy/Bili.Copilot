@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
+using Bili.Copilot.ViewModels.Views;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 
@@ -233,14 +234,18 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         }
     }
 
-    private void OnRequestShowFavorites(object sender, EventArgs e)
+    private void OnRequestShowFavorites(object sender, FavoriteType e)
     {
         Activate();
         MainSplitView.IsPaneOpen = false;
 
         if (OverlayFrame.Content is not FavoritesPage)
         {
-            _ = OverlayFrame.Navigate(typeof(FavoritesPage));
+            _ = OverlayFrame.Navigate(typeof(FavoritesPage), e);
+        }
+        else
+        {
+            FavoritesPageViewModel.Instance.Type = e;
         }
     }
 

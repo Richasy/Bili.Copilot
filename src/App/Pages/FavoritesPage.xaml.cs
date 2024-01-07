@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels.Views;
 
 namespace Bili.Copilot.App.Pages;
@@ -20,10 +21,17 @@ public sealed partial class FavoritesPage : FavoritesPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnPageLoaded()
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        ViewModel.Video.InitializeCommand.Execute(default);
+        if (e.Parameter is FavoriteType type)
+        {
+            ViewModel.Type = type;
+        }
     }
+
+    /// <inheritdoc/>
+    protected override void OnPageLoaded()
+        => ViewModel.Video.InitializeCommand.Execute(default);
 }
 
 /// <summary>

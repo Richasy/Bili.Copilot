@@ -77,7 +77,7 @@
                                     ItemsStretch="Fill"
                                     MinColumnSpacing="8"
                                     MinItemHeight="220"
-                                    MinItemWidth="120"
+                                    MinItemWidth="128"
                                     MinRowSpacing="8" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
