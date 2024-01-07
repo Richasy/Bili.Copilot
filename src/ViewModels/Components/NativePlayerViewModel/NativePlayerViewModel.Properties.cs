@@ -6,7 +6,6 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
-using Windows.Media.Core;
 using Windows.Media.Playback;
 
 namespace Bili.Copilot.ViewModels;
@@ -20,8 +19,6 @@ public sealed partial class NativePlayerViewModel
 
     private SegmentInformation _video;
     private SegmentInformation _audio;
-    private MediaSource _videoSource;
-    private MediaPlaybackItem _videoPlaybackItem;
 
     private bool _isStopped;
 

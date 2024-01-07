@@ -32,7 +32,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     {
         _video = video;
         _audio = audio;
-        Clear();
+        ClearCommand.Execute(default);
         await LoadDashVideoSourceAsync(audioOnly);
     }
 
@@ -42,7 +42,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
         _video = null;
         _audio = null;
         _isStopped = false;
-        Clear();
+        ClearCommand.Execute(default);
         await LoadLiveSourceAsync(url);
     }
 
@@ -125,7 +125,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
             if (disposing)
             {
                 Stop();
-                Clear();
+                ClearCommand.Execute(default);
             }
 
             Player = null;

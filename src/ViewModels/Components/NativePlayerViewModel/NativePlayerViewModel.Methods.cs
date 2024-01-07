@@ -141,23 +141,23 @@ public sealed partial class NativePlayerViewModel
             }
         };
 
-        _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
-        _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
+        var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
+        var videoPlaybackItem = new MediaPlaybackItem(videoSource);
 
         Player ??= GetVideoPlayer();
         var player = Player as MediaPlayer;
-        player.Source = _videoPlaybackItem;
+        player.Source = videoPlaybackItem;
     }
 
     private async Task LoadLiveSourceAsync(string url)
     {
         var httpClient = GetLiveClient();
         var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(url), httpClient);
-        _videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
-        _videoPlaybackItem = new MediaPlaybackItem(_videoSource);
+        var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
+        var videoPlaybackItem = new MediaPlaybackItem(videoSource);
 
         var player = GetVideoPlayer();
-        player.Source = _videoPlaybackItem;
+        player.Source = videoPlaybackItem;
         Player = player;
     }
 
@@ -303,23 +303,18 @@ public sealed partial class NativePlayerViewModel
             player.CommandManager.IsEnabled = true;
         }
 
-        if (_videoSource != null)
-        {
-            _videoSource?.Dispose();
-            _videoSource = null;
-        }
-
-        if (_videoPlaybackItem != null)
-        {
-            _videoPlaybackItem.Source?.Dispose();
-            _videoPlaybackItem = null;
-        }
-
         player.MediaOpened -= OnMediaPlayerOpened;
         player.CurrentStateChanged -= OnMediaPlayerCurrentStateChanged;
         player.MediaEnded -= OnMediaPlayerEnded;
         player.MediaFailed -= OnMediaPlayerFailed;
 
+        if (player.Source is MediaPlaybackItem playbackItem
+            && playbackItem.Source is not null)
+        {
+            playbackItem.Source.Dispose();
+        }
+
         player.Source = null;
+        Player = null;
     }
 }

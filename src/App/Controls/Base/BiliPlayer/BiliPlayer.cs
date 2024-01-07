@@ -51,6 +51,11 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
     /// <inheritdoc/>
     public void Player_Disposed()
     {
+        if (_mediaElement != null)
+        {
+            _mediaElement.SetMediaPlayer(null);
+            _mediaElement = null;
+        }
     }
 
     /// <inheritdoc/>
@@ -127,6 +132,8 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         {
             overlay.PaneToggled -= OnOverlayPaneToggled;
         }
+
+        Player_Disposed();
     }
 
     private void OnPanelSizeChanged(object sender, SizeChangedEventArgs e)
@@ -144,10 +151,8 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
             return;
         }
 
-        using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(_swapChainPanel))
-        {
-            _ = nativeObject.SetSwapChain(swapChain);
-        }
+        var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(_swapChainPanel);
+        _ = nativeObject.SetSwapChain(swapChain);
 
         var player = ViewModel?.Player as Player;
         player?.renderer.ResizeBuffers((int)ActualWidth, (int)ActualHeight);
