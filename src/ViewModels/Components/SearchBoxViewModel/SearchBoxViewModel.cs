@@ -55,19 +55,22 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
     [RelayCommand]
     private void SearchByText(string text)
     {
+        CancelSuggestion();
+        TryClear(AutoSuggestCollection);
         QueryText = text;
         AppViewModel.Instance.SearchContentCommand.Execute(text);
     }
 
+    private void CancelSuggestion()
+    {
+        _suggestionCancellationTokenSource?.Cancel();
+        _suggestionCancellationTokenSource?.Dispose();
+        _suggestionCancellationTokenSource = null;
+    }
+
     private void InitializeSuggestionCancellationTokenSource()
     {
-        if (_suggestionCancellationTokenSource != null
-            && !_suggestionCancellationTokenSource.IsCancellationRequested)
-        {
-            _suggestionCancellationTokenSource.Cancel();
-            _suggestionCancellationTokenSource = null;
-        }
-
+        CancelSuggestion();
         _suggestionCancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
     }
 
