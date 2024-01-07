@@ -199,6 +199,12 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             vm.InitializeCommand.Execute(default);
             _ = OverlayFrame.Navigate(typeof(SearchPage), vm);
         }
+        else
+        {
+            var page = OverlayFrame.Content as SearchPage;
+            page.ViewModel.SetKeyword(e);
+            page.ViewModel.InitializeCommand.Execute(default);
+        }
     }
 
     private void OnRequestShowMyMessages(object sender, EventArgs e)
