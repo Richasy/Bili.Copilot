@@ -77,6 +77,39 @@
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
+
+                <StackPanel
+                    Margin="0,12,0,0"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <HyperlinkButton
+                        Padding="8,4"
+                        HorizontalAlignment="Left"
+                        Click="OnJoinGroupButtonClick"
+                        Content="{ext:Locale Name=JoinQQGroup}">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout>
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <Image
+                                    MaxWidth="240"
+                                    Source="{ThemeResource QQGroup}"
+                                    Stretch="Uniform" />
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </HyperlinkButton>
+                    <StackPanel
+                        Width="1"
+                        Height="16"
+                        Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+                    <HyperlinkButton
+                        Padding="8,4"
+                        Content="{ext:Locale Name=SendFeedback}"
+                        NavigateUri="https://github.com/Richasy/Bili.Copilot/issues/new/choose" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>
