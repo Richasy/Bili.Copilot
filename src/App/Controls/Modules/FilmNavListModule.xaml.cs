@@ -81,6 +81,9 @@ public sealed partial class FilmNavListModule : FilmNavListModuleBase
             }
         }
     }
+
+    private void OnFavoriteButtonClick(object sender, RoutedEventArgs e)
+        => AppViewModel.Instance.ShowFavoritesCommand.Execute(FavoriteType.Film);
 }
 
 /// <summary>

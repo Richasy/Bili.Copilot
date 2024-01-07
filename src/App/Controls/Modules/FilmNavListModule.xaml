@@ -22,6 +22,7 @@
     <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid
@@ -70,8 +71,39 @@
             </StackPanel>
         </Grid>
 
+        <Button
+            Grid.Row="1"
+            Margin="12,0"
+            Padding="12"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            BorderThickness="0"
+            Click="OnFavoriteButtonClick">
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <base:FluentIcon
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Symbol="FilmstripPlay" />
+                <TextBlock
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Text="{ext:Locale Name=MyFavoriteFilm}" />
+                <base:FluentIcon
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Symbol="ArrowCircleUpRight" />
+            </Grid>
+        </Button>
+
         <!--  电影索引  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsMovieShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsMovieShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _movieRecommendDetailViewModel.Filters}">
                     <ItemsRepeater.ItemTemplate>
@@ -105,7 +137,7 @@
         </Grid>
 
         <!--  电视剧索引  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsTvShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsTvShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _tvRecommendDetailViewModel.Filters}">
                     <ItemsRepeater.ItemTemplate>
@@ -139,7 +171,7 @@
         </Grid>
 
         <!--  纪录片索引  -->
-        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsDocumentaryShown, Mode=OneWay}">
+        <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsDocumentaryShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _documentaryRecommendDetailViewModel.Filters}">
                     <ItemsRepeater.ItemTemplate>

@@ -221,10 +221,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestShowHistory?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
-    private void ShowFavorites()
+    private void ShowFavorites(FavoriteType type = FavoriteType.Video)
     {
         IsOverlayShown = true;
-        RequestShowFavorites?.Invoke(this, EventArgs.Empty);
+        RequestShowFavorites?.Invoke(this, type);
     }
 
     [RelayCommand]
