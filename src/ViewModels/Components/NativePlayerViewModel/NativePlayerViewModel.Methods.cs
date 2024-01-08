@@ -297,7 +297,6 @@ public sealed partial class NativePlayerViewModel
         var player = (MediaPlayer)Player;
         if (player.PlaybackSession != null)
         {
-            player.Pause();
             player.PlaybackSession.PositionChanged -= OnPlayerPositionChanged;
             player.PlaybackSession.Position = TimeSpan.Zero;
             player.CommandManager.IsEnabled = true;
@@ -315,6 +314,5 @@ public sealed partial class NativePlayerViewModel
         }
 
         player.Source = null;
-        Player = null;
     }
 }

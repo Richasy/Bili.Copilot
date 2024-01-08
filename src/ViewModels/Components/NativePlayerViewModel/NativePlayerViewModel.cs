@@ -118,13 +118,17 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc/>
+    public void SetSwapChainOptions(string[] swapChainOptions)
+    {
+    }
+
     private void Dispose(bool disposing)
     {
         if (!_disposedValue)
         {
             if (disposing)
             {
-                Stop();
                 ClearCommand.Execute(default);
             }
 

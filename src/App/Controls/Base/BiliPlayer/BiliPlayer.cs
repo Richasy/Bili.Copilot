@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Bili.Copilot.ViewModels;
 using FlyleafLib.Controls;
 using FlyleafLib.MediaPlayer;
+using LibVLCSharp.Platforms.Windows;
 using Microsoft.UI.Xaml.Media;
 using Vortice.DXGI;
 using Windows.Media.Playback;
@@ -24,7 +25,9 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
 
     private MediaPlayerElement _mediaElement;
     private SwapChainPanel _swapChainPanel;
+    private VideoView _vlcView;
     private Grid _rootGrid;
+    private string[] _vlcSwapChainOptions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -56,6 +59,17 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
             _mediaElement.SetMediaPlayer(null);
             _mediaElement = null;
         }
+
+        if (_vlcView != null)
+        {
+            _rootGrid.Children.Remove(_vlcView);
+            _vlcView = null;
+
+            if (ViewModel is VlcPlayerViewModel vlc)
+            {
+                vlc.ReleaseLibVlc();
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -77,6 +91,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         if (e.NewValue is IPlayerViewModel newVM)
         {
             newVM.PropertyChanged += OnViewModelPropertyChanged;
+            newVM.SetSwapChainOptions(_vlcSwapChainOptions);
         }
 
         ReloadPlayer();
@@ -94,6 +109,12 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         if (GetTemplateChild("MediaElement") is MediaPlayerElement element)
         {
             _mediaElement = element;
+        }
+
+        if (GetTemplateChild("VlcVideoView") is VideoView view)
+        {
+            _vlcView = view;
+            _vlcView.Initialized += OnVlcViewInitialized;
         }
 
         if (GetTemplateChild("RootGrid") is Grid grid)
@@ -124,6 +145,12 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         }
 
         _rootGrid.Padding = new Thickness(e, 0, 0, 0);
+    }
+
+    private void OnVlcViewInitialized(object sender, InitializedEventArgs e)
+    {
+        _vlcSwapChainOptions = e.SwapChainOptions;
+        ViewModel?.SetSwapChainOptions(e.SwapChainOptions);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -175,12 +202,48 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
                 _mediaElement.Visibility = Visibility.Collapsed;
             }
 
+            if (_vlcView != null)
+            {
+                _vlcView.Visibility = Visibility.Collapsed;
+            }
+
             ReplaceFFmpegPlayer();
         }
         else if (ViewModel?.Player is MediaPlayer mp)
         {
-            _swapChainPanel.Visibility = Visibility.Collapsed;
+            if (_mediaElement != null)
+            {
+                _mediaElement.Visibility = Visibility.Visible;
+            }
+
+            if (_vlcView != null)
+            {
+                _vlcView.Visibility = Visibility.Collapsed;
+            }
+
+            if (_swapChainPanel != null)
+            {
+                _swapChainPanel.Visibility = Visibility.Collapsed;
+            }
+
             _mediaElement.SetMediaPlayer(mp);
+        }
+        else if (ViewModel?.Player is LibVLCSharp.Shared.MediaPlayer)
+        {
+            if (_mediaElement != null)
+            {
+                _mediaElement.Visibility = Visibility.Collapsed;
+            }
+
+            if (_vlcView != null)
+            {
+                _vlcView.Visibility = Visibility.Visible;
+            }
+
+            if (_swapChainPanel != null)
+            {
+                _swapChainPanel.Visibility = Visibility.Collapsed;
+            }
         }
     }
 

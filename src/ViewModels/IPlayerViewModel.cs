@@ -174,4 +174,10 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     /// </summary>
     /// <returns><see cref="MediaStats"/>.</returns>
     MediaStats GetMediaInformation();
+
+    /// <summary>
+    /// 设置 SwapChainOptions.
+    /// </summary>
+    /// <param name="swapChainOptions">交换链配置.</param>
+    void SetSwapChainOptions(string[] swapChainOptions);
 }

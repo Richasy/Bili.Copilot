@@ -53,7 +53,6 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
 
         ViewModel?.Dispose();
         ViewModel = null;
-        Bindings.StopTracking();
     }
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)

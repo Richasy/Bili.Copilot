@@ -159,7 +159,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
 
     /// <inheritdoc/>
     public void SetVolume(int volume)
-        => ((Player)Player).Audio.Volume = Convert.ToInt32(volume);
+        => ((Player)Player).Audio.Volume = volume;
 
     /// <inheritdoc/>
     public void Dispose()
@@ -168,14 +168,25 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc/>
+    public void SetSwapChainOptions(string[] swapChainOptions)
+    {
+    }
+
     private void Dispose(bool disposing)
     {
         if (!_disposedValue)
         {
             if (disposing)
             {
-                Stop();
                 Clear();
+            }
+
+            if (Player is Player player)
+            {
+                player.VideoDecoder.DestroySwapChain();
+                player.VideoDecoder.DestroyRenderer();
+                player.Dispose();
             }
 
             Player = null;

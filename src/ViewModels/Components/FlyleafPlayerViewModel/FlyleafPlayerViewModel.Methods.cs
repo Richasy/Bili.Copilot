@@ -357,13 +357,6 @@ public sealed partial class FlyleafPlayerViewModel
     [RelayCommand]
     private void Clear()
     {
-        if (Player is Player player)
-        {
-            player.VideoDecoder.DestroySwapChain();
-            player.VideoDecoder.DestroyRenderer();
-            player.Dispose();
-        }
-
         Status = PlayerStatus.NotLoad;
     }
 }

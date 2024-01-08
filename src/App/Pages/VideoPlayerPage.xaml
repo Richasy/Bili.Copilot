@@ -16,6 +16,7 @@
     <Grid>
         <Grid Visibility="{x:Bind ViewModel.IsError, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <base:BiliPlayer
+                x:Name="Player"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 ViewModel="{x:Bind ViewModel.PlayerDetail.Player, Mode=OneWay}"
