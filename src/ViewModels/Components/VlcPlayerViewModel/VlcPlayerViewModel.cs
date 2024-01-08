@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Bili.Copilot.Models.Data.Player;
 using LibVLCSharp.Shared;
@@ -131,9 +130,7 @@ public sealed partial class VlcPlayerViewModel : ViewModelBase, IPlayerViewModel
 
     /// <inheritdoc/>
     public void SetSwapChainOptions(string[] swapChainOptions)
-    {
-        _libVlc = new LibVLC(enableDebugLogs: true, swapChainOptions);
-    }
+        => _libVlc = new LibVLC(enableDebugLogs: true, swapChainOptions);
 
     /// <summary>
     /// 释放 LibVLC.
