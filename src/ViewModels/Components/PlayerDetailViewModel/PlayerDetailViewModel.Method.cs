@@ -181,7 +181,7 @@ public sealed partial class PlayerDetailViewModel
             return;
         }
 
-        var progress = Player.Position;
+        var progress = TimeSpan.FromSeconds(ProgressSeconds);
         if (progress != _lastReportProgress && progress > TimeSpan.Zero)
         {
             if (_videoType == VideoType.Video && !_isInPrivate)
