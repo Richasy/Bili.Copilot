@@ -168,11 +168,6 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc/>
-    public void SetSwapChainOptions(string[] swapChainOptions)
-    {
-    }
-
     private void Dispose(bool disposing)
     {
         if (!_disposedValue)

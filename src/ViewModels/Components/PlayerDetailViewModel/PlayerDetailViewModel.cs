@@ -265,7 +265,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
                 Player = preferPlayer switch
                 {
                     PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
-                    PlayerType.Vlc => new VlcPlayerViewModel(),
+
+                    // PlayerType.Vlc => new VlcPlayerViewModel(),
                     _ => new NativePlayerViewModel(),
                 };
             }
