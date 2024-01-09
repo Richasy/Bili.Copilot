@@ -219,11 +219,34 @@
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Content Update="Assets\AppCenterSecret.txt">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Content>
-      <None Update="Assets\ffmpeg\arm64\avcodec-59.dll">
+    <ItemGroup Condition="'$(Platform)'=='x64'">
+        <None Update="Assets\ffmpeg\x64\avcodec-59.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\avdevice-59.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\avfilter-8.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\avformat-59.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\avutil-57.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\postproc-56.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\swresample-4.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Assets\ffmpeg\x64\swscale-6.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Platform)'=='arm64'">
+        <None Update="Assets\ffmpeg\arm64\avcodec-59.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="Assets\ffmpeg\arm64\avdevice-59.dll">
@@ -244,33 +267,14 @@
       <None Update="Assets\ffmpeg\arm64\swscale-6.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="Assets\ffmpeg\x64\avcodec-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\avdevice-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\avfilter-8.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\avformat-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\avutil-57.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\postproc-56.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\swresample-4.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\x64\swscale-6.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
       <None Update="Assets\ffmpeg\arm64\swresample-4.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Update="Assets\AppCenterSecret.txt">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Content>
       <Page Update="Controls\Modules\AllDynamicDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

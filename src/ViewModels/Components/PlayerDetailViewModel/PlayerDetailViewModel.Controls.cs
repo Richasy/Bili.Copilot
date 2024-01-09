@@ -32,7 +32,8 @@ public sealed partial class PlayerDetailViewModel
             }
             else if (Status == PlayerStatus.End)
             {
-                Player.Play();
+                Player.SeekTo(TimeSpan.Zero);
+                RefreshCommand.Execute(default);
             }
         });
     }

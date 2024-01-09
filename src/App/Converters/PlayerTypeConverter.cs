@@ -21,6 +21,9 @@ internal sealed class PlayerTypeConverter : IValueConverter
                 case PlayerType.FFmpeg:
                     result = ResourceToolkit.GetLocalizedString(StringNames.FFmpegPlayer);
                     break;
+                case PlayerType.Vlc:
+                    result = "VLC";
+                    break;
                 default:
                     break;
             }

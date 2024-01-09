@@ -11,6 +11,7 @@
                         <Grid x:Name="RootGrid" Background="Black">
                             <MediaPlayerElement x:Name="MediaElement" AreTransportControlsEnabled="False" />
                             <SwapChainPanel x:Name="SwapChainPanel" />
+                            <!--<lvs:VideoView x:Name="VlcVideoView" />-->
                         </Grid>
                         <ContentPresenter Content="{TemplateBinding Overlay}" />
                     </Grid>

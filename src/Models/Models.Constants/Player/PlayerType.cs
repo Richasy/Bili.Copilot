@@ -13,7 +13,12 @@ public enum PlayerType
     Native,
 
     /// <summary>
-    /// FFmpeg解码，借助 FFmpegInteropX.
+    /// FFmpeg解码，借助 Flyleaf.
     /// </summary>
     FFmpeg,
+
+    /// <summary>
+    /// VLC解码，借助 LibVLCSharp.
+    /// </summary>
+    Vlc,
 }

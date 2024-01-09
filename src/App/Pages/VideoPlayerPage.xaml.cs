@@ -42,8 +42,17 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override async void OnPageUnloaded()
     {
-        await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
+        try
+        {
+            ViewModel.PlayerDetail.Player.Dispose();
+            await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
+        }
+        catch (Exception)
+        {
+        }
+
         ViewModel?.Dispose();
+        ViewModel = null;
     }
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)

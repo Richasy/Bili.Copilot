@@ -24,6 +24,9 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
 
     private MediaPlayerElement _mediaElement;
     private SwapChainPanel _swapChainPanel;
+
+    // private VideoView _vlcView;
+    // private string[] _vlcSwapChainOptions;
     private Grid _rootGrid;
 
     /// <summary>
@@ -51,6 +54,21 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
     /// <inheritdoc/>
     public void Player_Disposed()
     {
+        if (_mediaElement != null)
+        {
+            _mediaElement.SetMediaPlayer(null);
+            _mediaElement = null;
+        }
+
+        // if (_vlcView != null)
+        // {
+        //    _rootGrid.Children.Remove(_vlcView);
+        //    _vlcView = null;
+        //    if (ViewModel is VlcPlayerViewModel vlc)
+        //    {
+        //        vlc.ReleaseLibVlc();
+        //    }
+        // }
     }
 
     /// <inheritdoc/>
@@ -72,6 +90,8 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         if (e.NewValue is IPlayerViewModel newVM)
         {
             newVM.PropertyChanged += OnViewModelPropertyChanged;
+
+            // newVM.SetSwapChainOptions(_vlcSwapChainOptions);
         }
 
         ReloadPlayer();
@@ -91,6 +111,11 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
             _mediaElement = element;
         }
 
+        // if (GetTemplateChild("VlcVideoView") is VideoView view)
+        // {
+        //    _vlcView = view;
+        //    _vlcView.Initialized += OnVlcViewInitialized;
+        // }
         if (GetTemplateChild("RootGrid") is Grid grid)
         {
             _rootGrid = grid;
@@ -121,12 +146,19 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
         _rootGrid.Padding = new Thickness(e, 0, 0, 0);
     }
 
+    // private void OnVlcViewInitialized(object sender, InitializedEventArgs e)
+    // {
+    //     _vlcSwapChainOptions = e.SwapChainOptions;
+    //     ViewModel?.SetSwapChainOptions(e.SwapChainOptions);
+    // }
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         if (Overlay is BiliPlayerOverlay overlay)
         {
             overlay.PaneToggled -= OnOverlayPaneToggled;
         }
+
+        Player_Disposed();
     }
 
     private void OnPanelSizeChanged(object sender, SizeChangedEventArgs e)
@@ -144,10 +176,8 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
             return;
         }
 
-        using (var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(_swapChainPanel))
-        {
-            _ = nativeObject.SetSwapChain(swapChain);
-        }
+        var nativeObject = SharpGen.Runtime.ComObject.As<Vortice.WinUI.ISwapChainPanelNative2>(_swapChainPanel);
+        _ = nativeObject.SetSwapChain(swapChain);
 
         var player = ViewModel?.Player as Player;
         player?.renderer.ResizeBuffers((int)ActualWidth, (int)ActualHeight);
@@ -170,13 +200,46 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
                 _mediaElement.Visibility = Visibility.Collapsed;
             }
 
+            // if (_vlcView != null)
+            // {
+            //     _vlcView.Visibility = Visibility.Collapsed;
+            // }
             ReplaceFFmpegPlayer();
         }
         else if (ViewModel?.Player is MediaPlayer mp)
         {
-            _swapChainPanel.Visibility = Visibility.Collapsed;
+            if (_mediaElement != null)
+            {
+                _mediaElement.Visibility = Visibility.Visible;
+            }
+
+            // if (_vlcView != null)
+            // {
+            //     _vlcView.Visibility = Visibility.Collapsed;
+            // }
+            if (_swapChainPanel != null)
+            {
+                _swapChainPanel.Visibility = Visibility.Collapsed;
+            }
+
             _mediaElement.SetMediaPlayer(mp);
         }
+
+        // else if (ViewModel?.Player is LibVLCSharp.Shared.MediaPlayer)
+        // {
+        //    if (_mediaElement != null)
+        //    {
+        //        _mediaElement.Visibility = Visibility.Collapsed;
+        //    }
+        //    if (_vlcView != null)
+        //    {
+        //        _vlcView.Visibility = Visibility.Visible;
+        //    }
+        //    if (_swapChainPanel != null)
+        //    {
+        //        _swapChainPanel.Visibility = Visibility.Collapsed;
+        //    }
+        // }
     }
 
     private void ReplaceFFmpegPlayer()

@@ -5,28 +5,40 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
+using LibVLCSharp.Shared;
 using Microsoft.UI.Dispatching;
-using Windows.Media.Playback;
 
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
-/// 原生播放器视图模型.
+/// VLC 播放器视图模型.
 /// </summary>
-public sealed partial class NativePlayerViewModel
+public sealed partial class VlcPlayerViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
 
     private SegmentInformation _video;
     private SegmentInformation _audio;
+#pragma warning disable CA2213 // 应释放可释放的字段
+    private LibVLC _libVlc;
+#pragma warning restore CA2213 // 应释放可释放的字段
+    private Media _currentMedia;
+    private HttpMediaInput _currentInput;
 
     private bool _isStopped;
+    private bool _isOpened;
 
     [ObservableProperty]
     private bool _isLoop;
 
     [ObservableProperty]
     private object _player;
+
+    [ObservableProperty]
+    private bool _isRecording;
+
+    [ObservableProperty]
+    private string _lastError;
 
     /// <inheritdoc/>
     public event EventHandler MediaOpened;
@@ -35,34 +47,28 @@ public sealed partial class NativePlayerViewModel
     public event EventHandler MediaEnded;
 
     /// <inheritdoc/>
-    public event EventHandler<MediaStateChangedEventArgs> StateChanged;
+    public event EventHandler<Models.App.Args.MediaStateChangedEventArgs> StateChanged;
 
     /// <inheritdoc/>
     public event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
 
     /// <inheritdoc/>
-    public bool IsRecording => false;
+    public TimeSpan Position => Player == null ? TimeSpan.Zero : TimeSpan.FromMilliseconds(((MediaPlayer)Player).Time);
 
     /// <inheritdoc/>
-    public TimeSpan Position => Player == null ? TimeSpan.Zero : ((MediaPlayer)Player).Position;
+    public TimeSpan Duration => Player == null ? TimeSpan.Zero : TimeSpan.FromMilliseconds(((MediaPlayer)Player).Length);
 
     /// <inheritdoc/>
-    public TimeSpan Duration => Player == null ? TimeSpan.Zero : ((MediaPlayer)Player).NaturalDuration;
+    public double Volume => ((MediaPlayer)Player).Volume;
 
     /// <inheritdoc/>
-    public double Volume => Player == null ? 100 : ((MediaPlayer)Player).Volume * 100;
-
-    /// <inheritdoc/>
-    public double PlayRate => Player == null ? 1 : ((MediaPlayer)Player).PlaybackRate;
-
-    /// <inheritdoc/>
-    public string LastError { get; private set; }
+    public double PlayRate => ((MediaPlayer)Player).Rate;
 
     /// <inheritdoc/>
     public PlayerStatus Status { get; set; }
 
     /// <inheritdoc/>
-    public bool IsPlayerReady => Player is MediaPlayer player && player.CanSeek;
+    public bool IsPlayerReady => Player is MediaPlayer player && player.IsSeekable;
 
     /// <inheritdoc/>
     public bool IsRecordingSupported => false;

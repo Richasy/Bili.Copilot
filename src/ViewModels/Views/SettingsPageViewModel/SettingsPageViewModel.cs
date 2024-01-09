@@ -193,6 +193,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         {
             PlayerTypes.Add(PlayerType.Native);
             PlayerTypes.Add(PlayerType.FFmpeg);
+
+            // PlayerTypes.Add(PlayerType.Vlc);
         }
 
         PlayerType = ReadSetting(SettingNames.PlayerType, PlayerType.Native);

@@ -256,10 +256,21 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         if (Player == null)
         {
             var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
-            var isFFmpeg = preferPlayer == PlayerType.FFmpeg || _videoType == VideoType.Live;
-            Player = isFFmpeg
-                ? new FlyleafPlayerViewModel()
-                : new NativePlayerViewModel();
+            if (_videoType == VideoType.Live)
+            {
+                Player = new FlyleafPlayerViewModel();
+            }
+            else
+            {
+                Player = preferPlayer switch
+                {
+                    PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
+
+                    // PlayerType.Vlc => new VlcPlayerViewModel(),
+                    _ => new NativePlayerViewModel(),
+                };
+            }
+
             Player.Initialize();
             Player.MediaOpened += OnMediaOpened;
             Player.MediaEnded += OnMediaEnded;
@@ -277,6 +288,11 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
                 Clear();
                 Formats.Clear();
                 PlaybackRates.Clear();
+                if (_unitTimer != null)
+                {
+                    _unitTimer.Tick -= OnUnitTimerTick;
+                    _unitTimer = null;
+                }
             }
 
             _disposedValue = true;
