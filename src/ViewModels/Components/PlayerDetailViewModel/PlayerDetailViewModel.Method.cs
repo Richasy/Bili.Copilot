@@ -97,7 +97,7 @@ public sealed partial class PlayerDetailViewModel
         });
 
         var isGlobal = SettingsToolkit.ReadLocalSetting(SettingNames.GlobalPlaybackRate, false);
-        if (!isGlobal)
+        if (!isGlobal || _videoType == VideoType.Live)
         {
             PlaybackRate = 1d;
         }
