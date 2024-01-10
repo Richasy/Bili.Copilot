@@ -51,10 +51,10 @@ public sealed partial class FlyleafPlayerViewModel
     public TimeSpan Duration => Player == null ? TimeSpan.Zero : TimeSpan.FromTicks(((Player)Player).Duration);
 
     /// <inheritdoc/>
-    public double Volume => ((Player)Player).Audio.Volume;
+    public double Volume => Player is Player player ? player.Audio.Volume : 0d;
 
     /// <inheritdoc/>
-    public double PlayRate => ((Player)Player).Speed;
+    public double PlayRate => Player is Player player ? player.Speed : 1d;
 
     /// <inheritdoc/>
     public string LastError => Player == null ? string.Empty : ((Player)Player).LastError;
