@@ -285,14 +285,15 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         {
             if (disposing)
             {
-                Clear();
-                Formats.Clear();
-                PlaybackRates.Clear();
                 if (_unitTimer != null)
                 {
                     _unitTimer.Tick -= OnUnitTimerTick;
                     _unitTimer = null;
                 }
+
+                Clear();
+                Formats.Clear();
+                PlaybackRates.Clear();
             }
 
             _disposedValue = true;
