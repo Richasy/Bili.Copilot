@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:UserItem">
-                    <local:CardPanel AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Name}" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowDetailCommand}">
+                    <local:CardPanel AutomationProperties.Name="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowDetailCommand}">
                         <local:CardPanel.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FixCommand}" Text="{ext:Locale Name=FixContent}">
@@ -29,17 +29,17 @@
                                 Width="40"
                                 Height="40"
                                 HorizontalAlignment="Center"
-                                Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Avatar.Uri}"
+                                Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Avatar.Uri}"
                                 Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowDetailCommand}"
-                                DecodeSize="40"
-                                UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Name}" />
+                                DecodeSize="80"
+                                UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name}" />
                             <StackPanel Grid.Row="1">
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     FontWeight="Bold"
                                     MaxLines="1"
                                     Style="{StaticResource BodyTextBlockStyle}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.User.Name, Mode=OneWay}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Name, Mode=OneWay}"
                                     TextAlignment="Center"
                                     TextTrimming="CharacterEllipsis" />
                                 <Image
