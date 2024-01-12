@@ -51,4 +51,9 @@ public enum PageType
     /// 设置页面.
     /// </summary>
     Settings,
+
+    /// <summary>
+    /// WebDAV 页面.
+    /// </summary>
+    WebDav,
 }

@@ -153,6 +153,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             PageType.Film => typeof(FilmPage),
             PageType.Article => typeof(ArticlePage),
             PageType.Settings => typeof(SettingsPage),
+            PageType.WebDav => typeof(WebDavPage),
             _ => throw new NotImplementedException(),
         };
 

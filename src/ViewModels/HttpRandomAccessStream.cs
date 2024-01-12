@@ -2,11 +2,12 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
-using Windows.Web.Http;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -15,9 +16,8 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
     private readonly Uri _requestedUri;
     private HttpClient _client;
     private IInputStream _inputStream;
-    private ulong _size;
+    private long _size;
     private string _etagHeader;
-    private string _lastModifiedHeader;
     private bool _isDisposing;
 
     // No public constructor, factory methods instead to handle async tasks.
@@ -38,7 +38,7 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
 
     public ulong Size
     {
-        get => _size;
+        get => (ulong)_size;
         set => throw new NotImplementedException();
     }
 
@@ -157,19 +157,14 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
             request.Headers.Add("If-Match", _etagHeader);
         }
 
-        if (!string.IsNullOrEmpty(_lastModifiedHeader))
-        {
-            request.Headers.Add("If-Unmodified-Since", _lastModifiedHeader);
-        }
-
         if (_client == null)
         {
             return;
         }
 
-        var response = await _client.SendRequestAsync(
+        var response = await _client.SendAsync(
             request,
-            HttpCompletionOption.ResponseHeadersRead).AsTask().ConfigureAwait(false);
+            HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
 
         if (response.Content.Headers.ContentType != null)
         {
@@ -178,21 +173,16 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
 
         _size = response.Content?.Headers?.ContentLength ?? 0;
 
-        if (string.IsNullOrEmpty(_etagHeader) && response.Headers.ContainsKey("ETag"))
+        if (string.IsNullOrEmpty(_etagHeader) && response.Headers.Contains("ETag"))
         {
-            _etagHeader = response.Headers["ETag"];
+            _etagHeader = response.Headers.ETag.Tag;
         }
 
-        if (string.IsNullOrEmpty(_lastModifiedHeader) && response.Content.Headers.ContainsKey("Last-Modified"))
+        if (response.Content.Headers.Contains("Content-Type"))
         {
-            _lastModifiedHeader = response.Content.Headers["Last-Modified"];
+            ContentType = response.Content.Headers.ContentType.MediaType;
         }
 
-        if (response.Content.Headers.ContainsKey("Content-Type"))
-        {
-            ContentType = response.Content.Headers["Content-Type"];
-        }
-
-        _inputStream = await response.Content.ReadAsInputStreamAsync().AsTask().ConfigureAwait(false);
+        _inputStream = (await response.Content.ReadAsStreamAsync().ConfigureAwait(false)).AsInputStream();
     }
 }

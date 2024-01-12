@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Article;
@@ -43,6 +44,9 @@ public sealed partial class AppViewModel
 
     [ObservableProperty]
     private NavigateItemViewModel _settingsItem;
+
+    [ObservableProperty]
+    private NavigateItemViewModel _webDavItem;
 
     [ObservableProperty]
     private bool _isOverlayShown;
@@ -165,4 +169,11 @@ public sealed partial class AppViewModel
     /// 显示的窗口列表.
     /// </summary>
     public List<Window> DisplayWindows { get; }
+
+    /// <summary>
+    /// 是否显示 Web DAV.
+    /// </summary>
+#pragma warning disable CA1822 // 将成员标记为 static
+    public bool IsWebDavShown => SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
+#pragma warning restore CA1822 // 将成员标记为 static
 }

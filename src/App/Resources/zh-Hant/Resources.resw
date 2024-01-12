@@ -2118,4 +2118,67 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="SendFeedback" xml:space="preserve">
     <value>發送反饋</value>
   </data>
+  <data name="AddService" xml:space="preserve">
+    <value>添加服務</value>
+  </data>
+  <data name="ConfigName" xml:space="preserve">
+    <value>配置名稱</value>
+  </data>
+  <data name="CreateWebDavConfig" xml:space="preserve">
+    <value>創建 WebDAV 配置</value>
+  </data>
+  <data name="CurrentWebDavService" xml:space="preserve">
+    <value>當前服務</value>
+  </data>
+  <data name="CurrentWebDavServiceDescription" xml:space="preserve">
+    <value>當前選擇的 WebDAV 服務</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編輯</value>
+  </data>
+  <data name="EditWebDavConfig" xml:space="preserve">
+    <value>編輯 WebDAV 配置</value>
+  </data>
+  <data name="Host" xml:space="preserve">
+    <value>主機路徑</value>
+  </data>
+  <data name="InvalidConfig" xml:space="preserve">
+    <value>無效的配置</value>
+  </data>
+  <data name="InvalidServiceConfig" xml:space="preserve">
+    <value>無效的服務配置</value>
+  </data>
+  <data name="InvalidServiceConfigDescription" xml:space="preserve">
+    <value>請在設置頁面中完善服務配置</value>
+  </data>
+  <data name="NoFiles" xml:space="preserve">
+    <value>沒有檔案</value>
+  </data>
+  <data name="NoFilesDescription" xml:space="preserve">
+    <value>當前目錄下沒有可用的檔案</value>
+  </data>
+  <data name="NoWebDavService" xml:space="preserve">
+    <value>當前沒有可用的 WebDAV 服務</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>埠</value>
+  </data>
+  <data name="RemoveWebDavConfigWarning" xml:space="preserve">
+    <value>是否要刪除 {0} 服務？</value>
+  </data>
+  <data name="RootDirectory" xml:space="preserve">
+    <value>根目錄</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>服務</value>
+  </data>
+  <data name="WebDavSettings" xml:space="preserve">
+    <value>WebDAV 設置</value>
+  </data>
+  <data name="WebDavSettingsDescription" xml:space="preserve">
+    <value>使用本地播放機播放 WebDAV 內的視頻內容</value>
+  </data>
 </root>

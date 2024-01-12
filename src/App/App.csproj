@@ -134,9 +134,11 @@
         <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
         <None Remove="Controls\Settings\ThemeSettingSection.xaml" />
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
+        <None Remove="Controls\Settings\WebDavSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
+        <None Remove="Controls\WebDavConfigDialog.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="Forms\SignInWindow.xaml" />
@@ -164,6 +166,7 @@
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\ViewLaterPage.xaml" />
+        <None Remove="Pages\WebDavPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
@@ -275,6 +278,15 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Pages\WebDavPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\WebDavConfigDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\WebDavSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\AllDynamicDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

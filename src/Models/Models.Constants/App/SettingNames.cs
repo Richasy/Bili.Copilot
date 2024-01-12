@@ -126,4 +126,7 @@ public enum SettingNames
     IsPlayerWindowMaximized,
     LastFavoriteType,
     LastVideoFavoriteFolderId,
+    SelectedWebDav,
+    IsWebDavEnabled,
+    IsWebDavListLayout,
 }

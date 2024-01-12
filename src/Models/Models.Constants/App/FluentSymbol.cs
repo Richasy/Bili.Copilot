@@ -561,6 +561,7 @@ public enum FluentSymbol : int
     CloudArrowUp = 0xE452,
     CloudBidirectional = 0xE454,
     CloudCheckmark = 0xE456,
+    CloudDatabaseFilled = 0xE457,
     CloudDatabase = 0xE458,
     CloudDesktop = 0xE45A,
     CloudDismiss = 0xE45C,

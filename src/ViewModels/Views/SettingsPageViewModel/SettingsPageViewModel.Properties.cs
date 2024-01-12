@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.ObjectModel;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -103,6 +104,15 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private PlayerWindowBehavior _playerWindowBehavior;
 
+    [ObservableProperty]
+    private bool _isWebDavEnabled;
+
+    [ObservableProperty]
+    private bool _isWebDavEmpty;
+
+    [ObservableProperty]
+    private WebDavConfig _selectedWebDav;
+
     /// <summary>
     /// 实例.
     /// </summary>
@@ -137,4 +147,9 @@ public sealed partial class SettingsPageViewModel
     /// 播放器类型集合.
     /// </summary>
     public ObservableCollection<PlayerType> PlayerTypes { get; }
+
+    /// <summary>
+    /// WebDav 配置集合.
+    /// </summary>
+    public ObservableCollection<WebDavConfig> WebDavConfigs { get; }
 }

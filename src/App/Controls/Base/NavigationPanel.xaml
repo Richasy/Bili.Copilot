@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="4,0,4,4" RowSpacing="8">
+    <Grid Padding="4,0,4,4">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -31,6 +31,11 @@
             </ItemsRepeater>
         </ScrollViewer>
 
+        <local:NavigateItemControl
+            Grid.Row="1"
+            Margin="0,0,0,8"
+            ViewModel="{x:Bind ViewModel.WebDavItem, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.WebDavItem.IsVisible, Mode=OneWay}" />
         <local:NavigateItemControl Grid.Row="2" ViewModel="{x:Bind ViewModel.SettingsItem, Mode=OneWay}" />
     </Grid>
 </local:NavigationPanelBase>

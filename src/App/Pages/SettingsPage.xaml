@@ -46,6 +46,13 @@
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="{ext:Locale Name=Service}" />
+                <settings:WebDavSettingSection />
+
+                <TextBlock
+                    Margin="0,8,0,4"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
                 <settings:ThemeSettingSection />
                 <settings:CloseBehaviorSettingSection />

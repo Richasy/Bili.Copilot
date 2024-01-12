@@ -50,6 +50,8 @@ public static class AppConstants
 
     public const string MediumWindowThresholdWidthKey = "MediumWindowThresholdWidth";
 
+    public const string WebDavConfigFileName = "_webDavConfig.json";
+
     /// <summary>
     /// 哔哩哔哩番剧出差账户Id.
     /// </summary>
