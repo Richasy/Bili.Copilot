@@ -129,4 +129,5 @@ public enum SettingNames
     SelectedWebDav,
     IsWebDavEnabled,
     IsWebDavListLayout,
+    WebDavAutoNext,
 }

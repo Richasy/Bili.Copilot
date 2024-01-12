@@ -167,6 +167,7 @@
         <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\ViewLaterPage.xaml" />
         <None Remove="Pages\WebDavPage.xaml" />
+        <None Remove="Pages\WebDavPlayerPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
@@ -278,6 +279,9 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Pages\WebDavPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\WebDavPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

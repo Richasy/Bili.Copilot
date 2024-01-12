@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
+using Bili.Copilot.ViewModels.Items;
 using Bili.Copilot.ViewModels.Views;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
@@ -41,6 +42,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         _appViewModel.RequestShowUpdateDialog += OnAppViewModelRequestShowUpdateDialogAsync;
         _appViewModel.RequestPlay += OnAppViewModelRequestPlay;
         _appViewModel.RequestPlaylist += OnAppViewModelRequestPlaylist;
+        _appViewModel.RequestPlayWebDav += OnAppViewModelRequestPlayWebDav;
         _appViewModel.RequestSearch += OnRequestSearch;
         _appViewModel.RequestShowFans += OnRequestShowFans;
         _appViewModel.RequestShowFollows += OnRequestShowFollows;
@@ -187,6 +189,14 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnAppViewModelRequestPlaylist(object sender, List<VideoInformation> e)
         => GetPlayerWindow().SetData(e);
+
+    private void OnAppViewModelRequestPlayWebDav(object sender, List<WebDavStorageItemViewModel> e)
+    {
+        var title = e.Count == 1
+            ? e.First().Data.DisplayName
+            : WebDavPageViewModel.Instance.PathSegments.Last().Name;
+        GetPlayerWindow().SetData(e, title);
+    }
 
     private void OnRequestSearch(object sender, string e)
     {

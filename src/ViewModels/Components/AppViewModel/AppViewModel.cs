@@ -182,6 +182,10 @@ public sealed partial class AppViewModel : ViewModelBase
         => RequestPlaylist?.Invoke(this, playlist);
 
     [RelayCommand]
+    private void OpenWebDav(List<WebDavStorageItemViewModel> playlist)
+        => RequestPlayWebDav?.Invoke(this, playlist);
+
+    [RelayCommand]
     private void SearchContent(string text)
     {
         IsOverlayShown = true;

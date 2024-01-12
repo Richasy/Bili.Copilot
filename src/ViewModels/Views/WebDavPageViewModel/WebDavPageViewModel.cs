@@ -132,6 +132,18 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
         IsItemsEmpty = CurrentItems.Count == 0;
     }
 
+    [RelayCommand]
+    private void OpenVideo(WebDavStorageItemViewModel item)
+    {
+        var list = CurrentItems.Where(p => !p.IsFolder).ToList();
+        foreach (var data in list)
+        {
+            data.IsSelected = data.Equals(item);
+        }
+
+        AppViewModel.Instance.OpenWebDavCommand.Execute(list);
+    }
+
     partial void OnIsListLayoutChanged(bool value)
         => SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.IsWebDavListLayout, value);
 }

@@ -36,10 +36,11 @@ public sealed partial class WebDavPage : WebDavPageBase
         var data = (sender as FrameworkElement).DataContext as WebDavStorageItemViewModel;
         if (data.IsFolder)
         {
-            WebDavPageViewModel.Instance.LoadPathCommand.Execute(data.Data.Href);
+            ViewModel.LoadPathCommand.Execute(data.Data.Href);
         }
         else
         {
+            ViewModel.OpenVideoCommand.Execute(data);
         }
     }
 

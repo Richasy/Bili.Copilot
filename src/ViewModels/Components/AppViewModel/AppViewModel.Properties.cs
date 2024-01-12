@@ -86,6 +86,11 @@ public sealed partial class AppViewModel
     public event EventHandler<List<VideoInformation>> RequestPlaylist;
 
     /// <summary>
+    /// 有新的播放请求时触发.
+    /// </summary>
+    public event EventHandler<List<WebDavStorageItemViewModel>> RequestPlayWebDav;
+
+    /// <summary>
     /// 在有新的消息请求时触发.
     /// </summary>
     public event EventHandler<string> RequestShowMessage;
