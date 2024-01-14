@@ -2,6 +2,7 @@
 
 using System;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,6 +20,7 @@ public sealed partial class NativePlayerViewModel
 
     private SegmentInformation _video;
     private SegmentInformation _audio;
+    private WebDavVideoInformation _webDavVideo;
 
     private bool _isStopped;
 
@@ -39,6 +41,12 @@ public sealed partial class NativePlayerViewModel
 
     /// <inheritdoc/>
     public event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
+
+    /// <inheritdoc/>
+    public event EventHandler<WebDavSubtitleListChangedEventArgs> WebDavSubtitleListChanged;
+
+    /// <inheritdoc/>
+    public event EventHandler<string> WebDavSubtitleChanged;
 
     /// <inheritdoc/>
     public bool IsRecording => false;

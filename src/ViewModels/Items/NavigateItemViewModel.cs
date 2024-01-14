@@ -60,6 +60,10 @@ public sealed partial class NavigateItemViewModel : SelectableViewModel<Navigate
                 DefaultIcon = FluentSymbol.Settings;
                 SelectedIcon = FluentSymbol.SettingsFilled;
                 break;
+            case PageType.WebDav:
+                DefaultIcon = FluentSymbol.CloudDatabase;
+                SelectedIcon = FluentSymbol.CloudDatabaseFilled;
+                break;
             default:
                 break;
         }

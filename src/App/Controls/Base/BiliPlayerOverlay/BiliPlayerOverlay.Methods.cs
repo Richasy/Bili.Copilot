@@ -245,15 +245,15 @@ public partial class BiliPlayerOverlay
         var baseWidth = 800d;
         var baseHeight = 600d;
         var scale = Math.Min(ActualWidth / baseWidth, ActualHeight / baseHeight);
-        if (scale > 2.0)
+        if (scale > 1.6)
         {
-            scale = 2.0;
+            scale = 1.6;
         }
         else if (scale < 0.4)
         {
             scale = 0.4;
         }
 
-        _subtitleBlock.FontSize = 20 * scale;
+        _subtitleBlock.FontSize = 18 * scale;
     }
 }

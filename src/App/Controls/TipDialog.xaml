@@ -4,12 +4,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ext="using:Bili.Copilot.App.Extensions"
     Title="{ext:Locale Name=Tip}"
-    CloseButtonText="{ext:Locale Name=Confirm}"
-    DefaultButton="Close"
+    DefaultButton="Primary"
+    PrimaryButtonText="{ext:Locale Name=Confirm}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Player;
@@ -36,6 +37,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         InteractionViewModel = new InteractionModuleViewModel();
         DownloadViewModel = new DownloadModuleViewModel(attachedWindow);
 
+        SubtitleViewModel.MetaChanged += OnSubtitleMetaChanged;
         InteractionViewModel.NoMoreChoices += OnInteractionModuleNoMoreChoices;
         PropertyChanged += OnPropertyChanged;
 
@@ -81,6 +83,17 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     {
         _viewData = data;
         _videoType = VideoType.Live;
+        _ = ReloadCommand.ExecuteAsync(null);
+    }
+
+    /// <summary>
+    /// 设置WebDav播放数据.
+    /// </summary>
+    /// <param name="video">视频.</param>
+    public void SetWebDavData(WebDavVideoInformation video)
+    {
+        _webDavVideo = video;
+        _videoType = VideoType.WebDav;
         _ = ReloadCommand.ExecuteAsync(null);
     }
 
@@ -178,6 +191,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         {
             await LoadLiveAsync();
         }
+        else if (_videoType == VideoType.WebDav)
+        {
+            await LoadWebDavAsync();
+        }
     }
 
     /// <summary>
@@ -190,6 +207,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         if (CurrentFormat != null)
         {
             await ChangeFormatAsync(CurrentFormat);
+        }
+        else if (_videoType == VideoType.WebDav)
+        {
+            await RefreshWebDavAsync();
         }
     }
 
@@ -255,20 +276,35 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
         if (Player == null)
         {
-            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
-            if (_videoType == VideoType.Live)
+            if (_videoType == VideoType.WebDav)
             {
-                Player = new FlyleafPlayerViewModel();
-            }
-            else
-            {
+                var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
                 Player = preferPlayer switch
                 {
                     PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
-
-                    // PlayerType.Vlc => new VlcPlayerViewModel(),
                     _ => new NativePlayerViewModel(),
                 };
+
+                Player.WebDavSubtitleListChanged += OnPlayerWebDavSubtitleListChanged;
+                Player.WebDavSubtitleChanged += OnPlayerWebDavSubtitleChanged;
+            }
+            else
+            {
+                var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+                if (_videoType == VideoType.Live)
+                {
+                    Player = new FlyleafPlayerViewModel();
+                }
+                else
+                {
+                    Player = preferPlayer switch
+                    {
+                        PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
+
+                        // PlayerType.Vlc => new VlcPlayerViewModel(),
+                        _ => new NativePlayerViewModel(),
+                    };
+                }
             }
 
             Player.Initialize();

@@ -17,7 +17,8 @@
             HorizontalAlignment="Stretch"
             Header="{ext:Locale Name=SubtitleConvert}"
             ItemsSource="{x:Bind ViewModel.ConvertTypeCollection}"
-            SelectedItem="{x:Bind ViewModel.ConvertType, Mode=TwoWay}">
+            SelectedItem="{x:Bind ViewModel.ConvertType, Mode=TwoWay}"
+            Visibility="{x:Bind ViewModel.CanConvert, Mode=OneWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="app:SubtitleConvertType">
                     <TextBlock Text="{x:Bind Converter={StaticResource SubtitleConvertTypeConverter}}" />

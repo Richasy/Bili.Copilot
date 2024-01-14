@@ -37,6 +37,16 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
 
     /// <summary>
+    /// WebDav 字幕列表改变时触发的事件.
+    /// </summary>
+    event EventHandler<WebDavSubtitleListChangedEventArgs> WebDavSubtitleListChanged;
+
+    /// <summary>
+    /// WebDav 字幕改变时触发的事件.
+    /// </summary>
+    event EventHandler<string> WebDavSubtitleChanged;
+
+    /// <summary>
     /// 截屏命令.
     /// </summary>
     IAsyncRelayCommand TakeScreenshotCommand { get; }
@@ -137,6 +147,13 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     void SetLiveSource(string url, bool audioOnly);
 
     /// <summary>
+    /// 设置 WebDav 源.
+    /// </summary>
+    /// <param name="video">视频信息.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    Task SetWebDavAsync(WebDavVideoInformation video);
+
+    /// <summary>
     /// 暂停.
     /// </summary>
     void Pause();
@@ -174,4 +191,10 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     /// </summary>
     /// <returns><see cref="MediaStats"/>.</returns>
     MediaStats GetMediaInformation();
+
+    /// <summary>
+    /// 改变本地字幕.
+    /// </summary>
+    /// <param name="meta">字幕信息.</param>
+    void ChangeLocalSubtitle(SubtitleMeta meta);
 }

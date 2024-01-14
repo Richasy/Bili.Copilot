@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using Microsoft.UI.Xaml;
@@ -27,6 +28,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferQualities = new ObservableCollection<PreferQuality>();
         PreferAudioQualities = new ObservableCollection<PreferAudio>();
         PlayerTypes = new ObservableCollection<PlayerType>();
+        WebDavConfigs = new ObservableCollection<WebDavConfig>();
 
         InitializeSettings();
     }
@@ -65,6 +67,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2023);
         PackageVersion = AppToolkit.GetPackageVersion();
+
+        InitializeWebDavConfigCommand.Execute(default);
+
         PropertyChanged += OnPropertyChanged;
     }
 
@@ -148,8 +153,27 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(PlayerType):
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
+            case nameof(WebDavPlayerType):
+                WriteSetting(SettingNames.WebDavPlayerType, WebDavPlayerType);
+                break;
             case nameof(PlayerWindowBehavior):
                 WriteSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior);
+                break;
+            case nameof(IsWebDavEnabled):
+                WriteSetting(SettingNames.IsWebDavEnabled, IsWebDavEnabled);
+                AppViewModel.Instance.CheckWebDavVisibilityCommand.Execute(default);
+                break;
+            case nameof(SelectedWebDav):
+                if (SelectedWebDav != null && SelectedWebDav.Id != SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDav, string.Empty))
+                {
+                    WriteSetting(SettingNames.SelectedWebDav, SelectedWebDav.Id);
+                    WriteSetting(SettingNames.WebDavLastPath, "/");
+                }
+                else if (SelectedWebDav == null)
+                {
+                    SettingsToolkit.DeleteLocalSetting(SettingNames.SelectedWebDav);
+                }
+
                 break;
             default:
                 break;

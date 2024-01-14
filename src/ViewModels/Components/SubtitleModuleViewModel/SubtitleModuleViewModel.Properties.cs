@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
@@ -18,6 +19,7 @@ public sealed partial class SubtitleModuleViewModel
     private string _mainId;
     private string _partId;
     private double _currentSeconds;
+    private bool _isLocal;
 
     [ObservableProperty]
     private string _currentSubtitle;
@@ -36,6 +38,14 @@ public sealed partial class SubtitleModuleViewModel
 
     [ObservableProperty]
     private bool _isReloading;
+
+    [ObservableProperty]
+    private bool _canConvert;
+
+    /// <summary>
+    /// 元数据变更.
+    /// </summary>
+    public event EventHandler<SubtitleMeta> MetaChanged;
 
     /// <summary>
     /// 元数据.

@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Text;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Data.Player;
 using FlyleafLib.MediaFramework.MediaPlaylist;
 using FlyleafLib.MediaFramework.MediaStream;
@@ -46,10 +49,12 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                 var hasLive = _playItem.Tag.TryGetValue("live", out var liveObj);
                 var hasCookie = _playItem.Tag.TryGetValue("cookie", out var cookieObj);
                 var hasOnlyAudio = _playItem.Tag.TryGetValue("onlyAudio", out var onlyAudioObj);
+                var hasWebDav = _playItem.Tag.TryGetValue("webdav", out var webDavObj);
 
                 var videoData = videoObj as SegmentInformation;
                 var audioData = audioObj as SegmentInformation;
                 var liveData = liveObj as string;
+                var webDavData = webDavObj as WebDavVideoInformation;
                 var onlyAudio = hasOnlyAudio && (bool)onlyAudioObj;
 
                 var headers = new Dictionary<string, string>();
@@ -97,21 +102,35 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     headers.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
 
                     ExternalStream externalStream = onlyAudio
-                        ? new ExternalAudioStream()
-                        {
-                            Url = liveData,
-                            Referrer = "https://live.bilibili.com",
-                            HTTPHeaders = headers,
-                        }
-                        : new ExternalVideoStream()
-                        {
-                            Url = liveData,
-                            Referrer = "https://live.bilibili.com",
-                            HTTPHeaders = headers,
-                            HasAudio = true,
-                        };
+                       ? new ExternalAudioStream()
+                       {
+                           Url = liveData,
+                           Referrer = "https://live.bilibili.com",
+                           HTTPHeaders = headers,
+                       }
+                       : new ExternalVideoStream()
+                       {
+                           Url = liveData,
+                           Referrer = "https://live.bilibili.com",
+                           HTTPHeaders = headers,
+                           HasAudio = true,
+                       };
 
                     AddExternalStream(externalStream, liveData, _playItem);
+                }
+
+                if (hasWebDav)
+                {
+                    var token = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{webDavData.Config.UserName}:{webDavData.Config.Password}"));
+                    headers.Add("Authorization", $"Basic {token}");
+                    var externalStream = new ExternalVideoStream()
+                    {
+                        Url = AppToolkit.GetWebDavServer(webDavData.Config.Host, webDavData.Config.Port) + webDavData.Href,
+                        HTTPHeaders = headers,
+                        HasAudio = true,
+                    };
+
+                    AddExternalStream(externalStream, webDavData.Href, _playItem);
                 }
             }
         }

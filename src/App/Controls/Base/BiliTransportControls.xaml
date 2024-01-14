@@ -26,7 +26,7 @@
     <Grid
         x:Name="ControlPanel"
         MaxWidth="680"
-        Padding="12,12,12,0"
+        Padding="12,12,12,8"
         Background="{ThemeResource MediaTransportBackgroundBrush}"
         CornerRadius="{StaticResource OverlayCornerRadius}"
         RowSpacing="4">
@@ -237,7 +237,8 @@
                     x:Name="QualityButton"
                     AutomationProperties.Name="{ext:Locale Name=Quality}"
                     Style="{StaticResource IconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=Quality}">
+                    ToolTipService.ToolTip="{ext:Locale Name=Quality}"
+                    Visibility="{x:Bind IsWebDav, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <local:FluentIcon FontSize="16" Symbol="Hd" />
                     <Button.Flyout>
                         <Flyout FlyoutPresenterStyle="{StaticResource PlayerFlyoutStyle}" Placement="Top">
@@ -351,9 +352,10 @@
         <Grid
             x:Name="DanmakuContainer"
             Grid.Row="2"
-            Padding="4"
+            Padding="4,4,4,0"
             BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-            BorderThickness="0,1,0,0">
+            BorderThickness="0,1,0,0"
+            Visibility="{x:Bind IsWebDav, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <danmaku:DanmakuBox x:Name="DanmakuBox" ViewModel="{x:Bind ViewModel.DanmakuViewModel}" />
         </Grid>
         <VisualStateManager.VisualStateGroups>

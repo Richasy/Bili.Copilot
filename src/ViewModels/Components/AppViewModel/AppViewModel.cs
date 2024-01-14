@@ -60,7 +60,7 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             LoadNavItems();
             var lastOpenPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastOpenPageType, PageType.Popular);
-            if (!NavigateItems.Any(p => p.Data?.Id == lastOpenPage))
+            if ((lastOpenPage == PageType.WebDav && !IsWebDavShown) || (lastOpenPage != PageType.WebDav && !NavigateItems.Any(p => p.Data?.Id == lastOpenPage)))
             {
                 lastOpenPage = NavigateItems.First(p => p.Data != null).Data.Id;
             }
@@ -84,6 +84,7 @@ public sealed partial class AppViewModel : ViewModelBase
         }
 
         SettingsItem.IsSelected = page == PageType.Settings;
+        WebDavItem.IsSelected = page == PageType.WebDav;
         foreach (var item in NavigateItems)
         {
             item.IsSelected = page == item.Data.Id;
@@ -179,6 +180,10 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void OpenPlaylist(List<VideoInformation> playlist)
         => RequestPlaylist?.Invoke(this, playlist);
+
+    [RelayCommand]
+    private void OpenWebDav(List<WebDavStorageItemViewModel> playlist)
+        => RequestPlayWebDav?.Invoke(this, playlist);
 
     [RelayCommand]
     private void SearchContent(string text)
@@ -282,9 +287,22 @@ public sealed partial class AppViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private void CheckWebDavVisibility()
+    {
+        WebDavItem.IsVisible = IsWebDavShown;
+    }
+
     private void LoadNavItems()
     {
         TryClear(NavigateItems);
+
+        if (CurrentPage == PageType.WebDav && !IsWebDavShown)
+        {
+            CurrentPage = PageType.Popular;
+            NavigateRequest?.Invoke(this, new AppNavigationEventArgs(CurrentPage, default));
+        }
+
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Popular, ResourceToolkit.GetLocalizedString(StringNames.PopularSlim))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Dynamic, ResourceToolkit.GetLocalizedString(StringNames.DynamicFeed))));
         NavigateItems.Add(new NavigateItemViewModel(new NavigateItem(PageType.Partition, ResourceToolkit.GetLocalizedString(StringNames.Partition))));
@@ -295,6 +313,11 @@ public sealed partial class AppViewModel : ViewModelBase
 
         SettingsItem = new NavigateItemViewModel(new NavigateItem(PageType.Settings, ResourceToolkit.GetLocalizedString(StringNames.Settings)));
         SettingsItem.IsSelected = CurrentPage == PageType.Settings;
+
+        WebDavItem = new NavigateItemViewModel(new NavigateItem(PageType.WebDav, "WebDAV"));
+        WebDavItem.IsSelected = IsWebDavShown && CurrentPage == PageType.WebDav;
+        WebDavItem.IsVisible = IsWebDavShown;
+
         foreach (var item in NavigateItems)
         {
             item.IsSelected = CurrentPage == item.Data.Id;

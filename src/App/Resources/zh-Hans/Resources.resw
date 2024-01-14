@@ -2124,4 +2124,76 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="SendFeedback" xml:space="preserve">
     <value>发送反馈</value>
   </data>
+  <data name="AddService" xml:space="preserve">
+    <value>添加服务</value>
+  </data>
+  <data name="ConfigName" xml:space="preserve">
+    <value>配置名称</value>
+  </data>
+  <data name="CreateWebDavConfig" xml:space="preserve">
+    <value>创建 WebDAV 配置</value>
+  </data>
+  <data name="CurrentWebDavService" xml:space="preserve">
+    <value>当前服务</value>
+  </data>
+  <data name="CurrentWebDavServiceDescription" xml:space="preserve">
+    <value>当前选择的 WebDAV 服务</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="EditWebDavConfig" xml:space="preserve">
+    <value>编辑 WebDAV 配置</value>
+  </data>
+  <data name="GridLayout" xml:space="preserve">
+    <value>网格布局</value>
+  </data>
+  <data name="Host" xml:space="preserve">
+    <value>主机路径</value>
+  </data>
+  <data name="InvalidConfig" xml:space="preserve">
+    <value>无效的配置</value>
+  </data>
+  <data name="InvalidServiceConfig" xml:space="preserve">
+    <value>无效的服务配置</value>
+  </data>
+  <data name="InvalidServiceConfigDescription" xml:space="preserve">
+    <value>请在设置页面中完善服务配置</value>
+  </data>
+  <data name="ListLayout" xml:space="preserve">
+    <value>列表布局</value>
+  </data>
+  <data name="NoFiles" xml:space="preserve">
+    <value>没有文件</value>
+  </data>
+  <data name="NoFilesDescription" xml:space="preserve">
+    <value>当前目录下没有可用的文件</value>
+  </data>
+  <data name="NoWebDavService" xml:space="preserve">
+    <value>当前没有可用的 WebDAV 服务</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>端口</value>
+  </data>
+  <data name="RemoveWebDavConfigWarning" xml:space="preserve">
+    <value>是否要删除 {0} 服务？</value>
+  </data>
+  <data name="RootDirectory" xml:space="preserve">
+    <value>根目录</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="WebDavSettings" xml:space="preserve">
+    <value>WebDAV 设置</value>
+  </data>
+  <data name="WebDavSettingsDescription" xml:space="preserve">
+    <value>使用本地播放器播放 WebDAV 内的视频内容</value>
+  </data>
+  <data name="WebDavPlayerTypeDescription" xml:space="preserve">
+    <value>播放杜比视频建议选择原生，其它视频建议 FFmpeg</value>
+  </data>
 </root>

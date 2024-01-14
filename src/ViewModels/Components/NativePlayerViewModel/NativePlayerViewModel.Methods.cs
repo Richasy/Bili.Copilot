@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
@@ -10,6 +12,7 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Graphics.Canvas;
 using Windows.Media.Core;
@@ -18,6 +21,7 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage;
 using Windows.System;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -53,6 +57,16 @@ public sealed partial class NativePlayerViewModel
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Referer", "https://live.bilibili.com/");
         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
+        return httpClient;
+    }
+
+    private HttpClient GetWebDavHttpClient()
+    {
+        var handler = new HttpBaseProtocolFilter();
+        handler.AutomaticDecompression = true;
+        var httpClient = new HttpClient(handler);
+        var token = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavVideo.Config.UserName}:{_webDavVideo.Config.Password}"));
+        httpClient.DefaultRequestHeaders.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("Basic", token);
         return httpClient;
     }
 
@@ -161,6 +175,19 @@ public sealed partial class NativePlayerViewModel
         Player = player;
     }
 
+    private async Task LoadWebDavVideoAsync()
+    {
+        var httpClient = GetWebDavHttpClient();
+        var server = AppToolkit.GetWebDavServer(_webDavVideo.Config.Host, _webDavVideo.Config.Port);
+        var stream = await HttpRandomAccessStream.CreateAsync(httpClient, new Uri(server + _webDavVideo.Href));
+        var videoSource = MediaSource.CreateFromStream(stream, _webDavVideo.ContentType);
+        var videoPlaybackItem = new MediaPlaybackItem(videoSource);
+
+        Player ??= GetVideoPlayer();
+        var player = Player as MediaPlayer;
+        player.Source = videoPlaybackItem;
+    }
+
     private MediaPlayer GetVideoPlayer()
     {
         var player = new MediaPlayer();
@@ -250,18 +277,26 @@ public sealed partial class NativePlayerViewModel
 
     private void OnMediaPlayerOpened(MediaPlayer sender, object args)
     {
-        var session = sender.PlaybackSession;
-        if (session != null)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            session.PositionChanged -= OnPlayerPositionChanged;
-
-            if (_video != null)
+            var session = sender.PlaybackSession;
+            if (session != null)
             {
-                session.PositionChanged += OnPlayerPositionChanged;
-            }
-        }
+                session.PositionChanged -= OnPlayerPositionChanged;
 
-        MediaOpened?.Invoke(this, EventArgs.Empty);
+                if (_video != null || _webDavVideo != null)
+                {
+                    session.PositionChanged += OnPlayerPositionChanged;
+                }
+
+                if (sender.Source is MediaPlaybackItem item && _webDavVideo != null)
+                {
+                    LoadWebDavTimedMetadataTracks(item);
+                }
+            }
+
+            MediaOpened?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     private void OnPlayerPositionChanged(MediaPlaybackSession sender, object args)
@@ -284,6 +319,41 @@ public sealed partial class NativePlayerViewModel
             {
             }
         });
+    }
+
+    private void LoadWebDavTimedMetadataTracks(MediaPlaybackItem sender)
+    {
+        var list = sender.TimedMetadataTracks.Where(p => p.TimedMetadataKind == TimedMetadataKind.Subtitle).ToList();
+        var metaList = new List<SubtitleMeta>();
+        foreach (var item in list)
+        {
+            metaList.Add(new SubtitleMeta(item.Id, item.Label, item.Language));
+            item.CueEntered += OnSubtitleEntered;
+            item.CueExited += OnSubtitleExited;
+        }
+
+        var lan = FlyleafLib.Utils.GetSystemLanguages().First();
+        var arg = new WebDavSubtitleListChangedEventArgs
+        {
+            Subtitles = metaList,
+            SelectedMeta = metaList.FirstOrDefault(p => p.Url.StartsWith(lan.TopCulture.IetfLanguageTag)) ?? metaList.FirstOrDefault(),
+        };
+
+        WebDavSubtitleListChanged?.Invoke(this, arg);
+
+        void OnSubtitleEntered(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            if (args.Cue is TimedTextCue cue)
+            {
+                var text = string.Join("\n", cue.Lines.Select(p => p.Text));
+                WebDavSubtitleChanged?.Invoke(this, text);
+            }
+        }
+
+        void OnSubtitleExited(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            WebDavSubtitleChanged?.Invoke(this, string.Empty);
+        }
     }
 
     [RelayCommand]

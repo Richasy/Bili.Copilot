@@ -658,7 +658,7 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 mFrame.srvs = new ID3D11ShaderResourceView[2];
 
                 mFrame.textures[0] = Device.CreateTexture2D(textDesc[0]);
-                context.CopySubresourceRegion(
+                context?.CopySubresourceRegion(
                     mFrame.textures[0], 0, 0, 0, 0, // dst
                     VideoDecoder.textureFFmpeg, (int)frame->data[1],  // src
                     cropBox); // crop decoder's padding

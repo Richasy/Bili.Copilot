@@ -44,7 +44,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     {
         try
         {
-            ViewModel.PlayerDetail.Player.Dispose();
+            ViewModel.PlayerDetail.Player?.Dispose();
             await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
         }
         catch (Exception)

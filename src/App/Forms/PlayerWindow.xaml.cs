@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
+using Bili.Copilot.ViewModels.Items;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 using Windows.System;
@@ -120,6 +121,18 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         Activate();
     }
 
+    /// <summary>
+    /// 设置播放列表.
+    /// </summary>
+    /// <param name="items">WebDAV 条目列表.</param>
+    public void SetData(List<WebDavStorageItemViewModel> items, string title)
+    {
+        Title = title;
+        MainFrame.Tag = this;
+        _ = MainFrame.Navigate(typeof(WebDavPlayerPage), items);
+        Activate();
+    }
+
     private static PointInt32 GetSavedWindowPosition()
     {
         var left = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowPositionLeft, 0);
@@ -198,6 +211,10 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
             {
                 pgcPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
+            else if (MainFrame.Content is WebDavPlayerPage webDavPage)
+            {
+                webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
         }
     }
 
@@ -260,11 +277,12 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
 
         if (!isMaximized)
         {
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionLeft, left);
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionTop, top);
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
         }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionLeft, left);
+        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionTop, top);
     }
 
     internal class KeyboardHook

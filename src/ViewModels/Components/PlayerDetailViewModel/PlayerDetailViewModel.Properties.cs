@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Live;
@@ -33,6 +34,7 @@ public sealed partial class PlayerDetailViewModel
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
     private SegmentInformation _audio;
+    private WebDavVideoInformation _webDavVideo;
     private TimeSpan _lastReportProgress;
     private TimeSpan _initializeProgress;
     private Action _playNextAction;

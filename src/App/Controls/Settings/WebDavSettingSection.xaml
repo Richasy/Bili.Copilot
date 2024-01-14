@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingSection
+    x:Class="Bili.Copilot.App.Controls.Settings.WebDavSettingSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:other="using:Bili.Copilot.Models.App.Other"
+    xmlns:player="using:Bili.Copilot.Models.Constants.Player"
+    mc:Ignorable="d">
+
+    <labs:SettingsExpander Description="{ext:Locale Name=WebDavSettingsDescription}" Header="{ext:Locale Name=WebDavSettings}">
+        <labs:SettingsExpander.HeaderIcon>
+            <base:FluentIcon Symbol="CloudDatabase" />
+        </labs:SettingsExpander.HeaderIcon>
+        <ToggleSwitch IsOn="{x:Bind ViewModel.IsWebDavEnabled, Mode=TwoWay}" />
+        <labs:SettingsExpander.Items>
+            <labs:SettingsCard
+                Description="{ext:Locale Name=CurrentWebDavServiceDescription}"
+                Header="{ext:Locale Name=CurrentWebDavService}"
+                IsEnabled="{x:Bind ViewModel.IsWebDavEnabled, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button
+                        VerticalAlignment="Center"
+                        Click="OnAddButtonClickAsync"
+                        Content="{ext:Locale Name=AddService}" />
+                    <ComboBox
+                        MinWidth="120"
+                        VerticalAlignment="Center"
+                        ItemsSource="{x:Bind ViewModel.WebDavConfigs}"
+                        SelectedItem="{x:Bind ViewModel.SelectedWebDav, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="other:WebDavConfig">
+                                <TextBlock Text="{x:Bind Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </labs:SettingsCard>
+            <labs:SettingsCard Description="{ext:Locale Name=WebDavPlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.WebDavPlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="player:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </labs:SettingsCard>
+        </labs:SettingsExpander.Items>
+        <labs:SettingsExpander.ItemsFooter>
+            <Grid>
+                <StackPanel
+                    Margin="0,12"
+                    Spacing="4"
+                    Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=NoWebDavService}"
+                        TextAlignment="Center" />
+                    <HyperlinkButton
+                        HorizontalAlignment="Center"
+                        Click="OnAddButtonClickAsync"
+                        Content="{ext:Locale Name=AddService}"
+                        FontSize="12"
+                        IsEnabled="{x:Bind ViewModel.IsWebDavEnabled, Mode=OneWay}" />
+                </StackPanel>
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.WebDavConfigs}" Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="other:WebDavConfig">
+                            <labs:SettingsCard
+                                MinHeight="52"
+                                Padding="58,8,44,8"
+                                BorderThickness="0,1,0,0"
+                                CornerRadius="0"
+                                Description="{x:Bind Host}"
+                                Header="{x:Bind Name}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button
+                                        VerticalAlignment="Center"
+                                        Click="OnEditButtonClickAsync"
+                                        Content="{ext:Locale Name=Edit}"
+                                        DataContext="{x:Bind}" />
+                                    <Button
+                                        VerticalAlignment="Center"
+                                        Click="OnDeleteButtonClickAsync"
+                                        DataContext="{x:Bind}"
+                                        Style="{StaticResource SmallIconButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Delete}">
+                                        <base:FluentIcon
+                                            FontSize="14"
+                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                            Symbol="Delete" />
+                                    </Button>
+                                </StackPanel>
+                            </labs:SettingsCard>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </labs:SettingsExpander.ItemsFooter>
+    </labs:SettingsExpander>
+</local:SettingSection>

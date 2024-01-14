@@ -17,7 +17,6 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
     private IInputStream _inputStream;
     private ulong _size;
     private string _etagHeader;
-    private string _lastModifiedHeader;
     private bool _isDisposing;
 
     // No public constructor, factory methods instead to handle async tasks.
@@ -38,7 +37,7 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
 
     public ulong Size
     {
-        get => _size;
+        get => (ulong)_size;
         set => throw new NotImplementedException();
     }
 
@@ -157,11 +156,6 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
             request.Headers.Add("If-Match", _etagHeader);
         }
 
-        if (!string.IsNullOrEmpty(_lastModifiedHeader))
-        {
-            request.Headers.Add("If-Unmodified-Since", _lastModifiedHeader);
-        }
-
         if (_client == null)
         {
             return;
@@ -181,11 +175,6 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
         if (string.IsNullOrEmpty(_etagHeader) && response.Headers.ContainsKey("ETag"))
         {
             _etagHeader = response.Headers["ETag"];
-        }
-
-        if (string.IsNullOrEmpty(_lastModifiedHeader) && response.Content.Headers.ContainsKey("Last-Modified"))
-        {
-            _lastModifiedHeader = response.Content.Headers["Last-Modified"];
         }
 
         if (response.Content.Headers.ContainsKey("Content-Type"))

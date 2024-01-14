@@ -21,4 +21,9 @@ public enum VideoType
     /// 直播.
     /// </summary>
     Live,
+
+    /// <summary>
+    /// WebDav.
+    /// </summary>
+    WebDav,
 }

@@ -19,6 +19,12 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         DependencyProperty.Register(nameof(IsLive), typeof(bool), typeof(BiliTransportControls), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="IsWebDav"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsWebDavProperty =
+        DependencyProperty.Register(nameof(IsWebDav), typeof(bool), typeof(BiliTransportControls), new PropertyMetadata(default));
+
+    /// <summary>
     /// <see cref="DetailContent"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty DetailContentProperty =
@@ -56,6 +62,15 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     {
         get => (bool)GetValue(IsLiveProperty);
         set => SetValue(IsLiveProperty, value);
+    }
+
+    /// <summary>
+    /// 是否为 WebDAV.
+    /// </summary>
+    public bool IsWebDav
+    {
+        get => (bool)GetValue(IsWebDavProperty);
+        set => SetValue(IsWebDavProperty, value);
     }
 
     /// <summary>

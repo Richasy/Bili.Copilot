@@ -125,6 +125,8 @@
         <None Remove="Controls\Modules\VideoPartView.xaml" />
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
+        <None Remove="Controls\Modules\WebDavInformationView.xaml" />
+        <None Remove="Controls\Modules\WebDavPartView.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
@@ -134,9 +136,11 @@
         <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
         <None Remove="Controls\Settings\ThemeSettingSection.xaml" />
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
+        <None Remove="Controls\Settings\WebDavSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
+        <None Remove="Controls\WebDavConfigDialog.xaml" />
         <None Remove="Forms\GalleryWindow.xaml" />
         <None Remove="Forms\PlayerWindow.xaml" />
         <None Remove="Forms\SignInWindow.xaml" />
@@ -164,6 +168,8 @@
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\ViewLaterPage.xaml" />
+        <None Remove="Pages\WebDavPage.xaml" />
+        <None Remove="Pages\WebDavPlayerPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
@@ -275,6 +281,24 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Controls\Modules\WebDavInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\WebDavPartView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\WebDavPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Pages\WebDavPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\WebDavConfigDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\WebDavSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\AllDynamicDetailModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
