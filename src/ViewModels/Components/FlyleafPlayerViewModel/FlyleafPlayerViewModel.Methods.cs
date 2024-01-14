@@ -202,6 +202,21 @@ public sealed partial class FlyleafPlayerViewModel
         }
     }
 
+    private void LoadWebDavVideo()
+    {
+        var playItem = new PlaylistItem
+        {
+            Title = "video",
+        };
+
+        if (_webDavVideo != null)
+        {
+            playItem.Tag.Add("webdav", _webDavVideo);
+        }
+
+        ((Player)Player).OpenAsync(playItem);
+    }
+
     private void OnPlayerOpenCompleted(object sender, OpenCompletedArgs e)
     {
         _ = _dispatcherQueue.TryEnqueue(() =>

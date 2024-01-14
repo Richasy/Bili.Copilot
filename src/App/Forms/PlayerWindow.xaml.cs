@@ -128,8 +128,8 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
     public void SetData(List<WebDavStorageItemViewModel> items, string title)
     {
         Title = title;
-        _ = MainFrame.Navigate(typeof(WebDavPlayerPage), items);
         MainFrame.Tag = this;
+        _ = MainFrame.Navigate(typeof(WebDavPlayerPage), items);
         Activate();
     }
 
@@ -213,7 +213,7 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
             }
             else if (MainFrame.Content is WebDavPlayerPage webDavPage)
             {
-                webDavPage.ViewModel.PlayPauseCommand.Execute(default);
+                webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
         }
     }

@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.ComponentModel;
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Items;
-using Microsoft.UI.Windowing;
 
 namespace Bili.Copilot.App.Pages;
 
@@ -20,73 +18,44 @@ public sealed partial class WebDavPlayerPage : WebDavPlayerPageBase
     {
         InitializeComponent();
         ViewModel = new WebDavPlayerPageViewModel();
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        DataContext = ViewModel;
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         if (e.Parameter is List<WebDavStorageItemViewModel> items)
         {
-            ViewModel.InitializeCommand.Execute(items);
-        }
-    }
+            ViewModel.SetWindow(Frame.Tag);
 
-    /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
-    {
-        PlayerElement.SetMediaPlayer(default);
-        ViewModel.ClearCommand.Execute(default);
+            var selectedItem = items.FirstOrDefault(p => p.IsSelected);
+            var index = items.IndexOf(selectedItem);
+            var dataList = items.Select(p => p.Data).ToList();
+            await ViewModel.SetPlaylistAsync(dataList, index);
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
-        => ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
-
-    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewModel.Player))
+        try
         {
-            PlayerElement.SetMediaPlayer(ViewModel.Player);
+            ViewModel.PlayerDetail.Player.Dispose();
         }
+        catch (Exception)
+        {
+        }
+
+        ViewModel?.Dispose();
+        ViewModel = null;
     }
 
-    private void OnPlayerElementDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+    private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)
     {
-        var window = Frame.Tag as Window;
-        if (window is null)
+        if (ViewModel.CurrentSection != e)
         {
-            return;
+            ViewModel.CurrentSection = e;
         }
-
-        if (window.AppWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen)
-        {
-            window.AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
-            MainSplitView.IsPaneOpen = ViewModel.OnlyOne;
-        }
-        else
-        {
-            MainSplitView.IsPaneOpen = false;
-            window.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
-        }
-    }
-
-    private void OnPlayerElementTapped(object sender, TappedRoutedEventArgs e)
-    {
-        var position = e.GetPosition(PlayerElement);
-        var rect = TransportControls.TransformToVisual(PlayerElement).TransformBounds(new Rect(0, 0, TransportControls.ActualWidth, TransportControls.ActualHeight));
-        if (rect.Contains(position))
-        {
-            return;
-        }
-
-        ViewModel.PlayPauseCommand.Execute(default);
-    }
-
-    private void OnItemClick(object sender, RoutedEventArgs e)
-    {
-        var data = (sender as FrameworkElement).DataContext as WebDavStorageItemViewModel;
-        ViewModel.PlayCommand.Execute(data);
     }
 }
 

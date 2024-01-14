@@ -18,6 +18,7 @@ using Windows.Media.Streaming.Adaptive;
 using Windows.Storage;
 using Windows.System;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -53,6 +54,16 @@ public sealed partial class NativePlayerViewModel
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Referer", "https://live.bilibili.com/");
         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
+        return httpClient;
+    }
+
+    private HttpClient GetWebDavHttpClient()
+    {
+        var handler = new HttpBaseProtocolFilter();
+        handler.AutomaticDecompression = true;
+        var httpClient = new HttpClient(handler);
+        var token = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavVideo.Config.UserName}:{_webDavVideo.Config.Password}"));
+        httpClient.DefaultRequestHeaders.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("Basic", token);
         return httpClient;
     }
 
@@ -159,6 +170,19 @@ public sealed partial class NativePlayerViewModel
         var player = GetVideoPlayer();
         player.Source = videoPlaybackItem;
         Player = player;
+    }
+
+    private async Task LoadWebDavVideoAsync()
+    {
+        var httpClient = GetWebDavHttpClient();
+        var server = _webDavVideo.Config.Host + ":" + _webDavVideo.Config.Port;
+        var stream = await HttpRandomAccessStream.CreateAsync(httpClient, new Uri(server + _webDavVideo.Href));
+        var videoSource = MediaSource.CreateFromStream(stream, _webDavVideo.ContentType);
+        var videoPlaybackItem = new MediaPlaybackItem(videoSource);
+
+        Player ??= GetVideoPlayer();
+        var player = Player as MediaPlayer;
+        player.Source = videoPlaybackItem;
     }
 
     private MediaPlayer GetVideoPlayer()

@@ -176,7 +176,8 @@ public sealed partial class PlayerDetailViewModel
     {
         if (AuthorizeProvider.Instance.State != Models.Constants.Authorize.AuthorizeState.SignedIn
             || Player == null
-            || _isInPrivate)
+            || _isInPrivate
+            || _videoType == VideoType.WebDav)
         {
             return;
         }
@@ -296,19 +297,22 @@ public sealed partial class PlayerDetailViewModel
         DurationText = NumberToolkit.FormatDurationText(e.Duration, e.Duration.Hours > 0);
         ProgressText = NumberToolkit.FormatDurationText(e.Position, e.Duration.Hours > 0);
 
-        if (SubtitleViewModel.HasSubtitles)
+        if (_videoType != VideoType.WebDav)
         {
-            SubtitleViewModel.SeekCommand.Execute(ProgressSeconds);
-        }
+            if (SubtitleViewModel.HasSubtitles)
+            {
+                SubtitleViewModel.SeekCommand.Execute(ProgressSeconds);
+            }
 
-        var segmentIndex = Convert.ToInt32(Math.Ceiling(ProgressSeconds / 360d));
-        if (segmentIndex < 1)
-        {
-            segmentIndex = 1;
-        }
+            var segmentIndex = Convert.ToInt32(Math.Ceiling(ProgressSeconds / 360d));
+            if (segmentIndex < 1)
+            {
+                segmentIndex = 1;
+            }
 
-        _ = DanmakuViewModel.LoadSegmentDanmakuCommand.ExecuteAsync(segmentIndex);
-        DanmakuViewModel.SeekCommand.Execute(ProgressSeconds);
+            _ = DanmakuViewModel.LoadSegmentDanmakuCommand.ExecuteAsync(segmentIndex);
+            DanmakuViewModel.SeekCommand.Execute(ProgressSeconds);
+        }
     }
 
     private void OnMediaOpened(object sender, EventArgs e)

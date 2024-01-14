@@ -2,151 +2,134 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
+using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
-using Windows.Media.Core;
-using Windows.Media.Playback;
+using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
 /// WebDav 播放器页面视图模型.
 /// </summary>
-public sealed partial class WebDavPlayerPageViewModel : ViewModelBase
+public sealed partial class WebDavPlayerPageViewModel : ViewModelBase, IDisposable
 {
+    private bool _disposedValue;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavPlayerPageViewModel"/> class.
     /// </summary>
     public WebDavPlayerPageViewModel()
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        Playlist = new System.Collections.ObjectModel.ObservableCollection<Items.WebDavStorageItemViewModel>();
+        IsContinuePlay = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavContinuePlay, true);
+        Sections = new ObservableCollection<PlayerSectionHeader>();
+        Playlist = new ObservableCollection<WebDavStorageItemViewModel>();
+    }
+
+    /// <summary>
+    /// 设置关联的窗口.
+    /// </summary>
+    /// <param name="window">窗口实例.</param>
+    public void SetWindow(object window)
+        => _attachedWindow = window as Window;
+
+    /// <summary>
+    /// 设置播放列表.
+    /// </summary>
+    /// <param name="items">列表集合.</param>
+    /// <param name="playIndex">初始播放条目索引.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    public async Task SetPlaylistAsync(List<WebDAVClient.Model.Item> items, int playIndex = 0)
+    {
+        IsReloading = true;
+
+        try
+        {
+            var currentConfigId = SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDav, string.Empty);
+            var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>(AppConstants.WebDavConfigFileName, "[]");
+            _config = configList.FirstOrDefault(p => p.Id == currentConfigId);
+
+            ReloadMediaPlayer();
+            TryClear(Playlist);
+            foreach (var item in items)
+            {
+                Playlist.Add(new WebDavStorageItemViewModel(item));
+            }
+
+            TryClear(Sections);
+            Sections.Add(new PlayerSectionHeader(PlayerSectionType.VideoInformation, ResourceToolkit.GetLocalizedString(StringNames.Information)));
+
+            if (Playlist.Count > 0)
+            {
+                Sections.Add(new PlayerSectionHeader(PlayerSectionType.Playlist, ResourceToolkit.GetLocalizedString(StringNames.Playlist)));
+            }
+
+            CurrentSection = Sections.First();
+
+            var selectedItem = Playlist[playIndex];
+            ChangeVideoCommand.Execute(selectedItem);
+        }
+        catch (Exception ex)
+        {
+            DisplayException(ex);
+        }
+
+        IsReloading = false;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Reset()
+    {
+        Playlist.Clear();
+        ResetInfo();
+        _isStatsUpdated = false;
     }
 
     [RelayCommand]
-    private async Task InitializeAsync(List<WebDavStorageItemViewModel> items)
+    private void Reload()
     {
-        OnlyOne = items.Count == 1;
-        var currentConfigId = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.SelectedWebDav, string.Empty);
-        var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>(AppConstants.WebDavConfigFileName, "[]");
-        _config = configList.FirstOrDefault(p => p.Id == currentConfigId);
-
-        var selectedItemId = items.First(p => p.IsSelected).Data.Href;
-        var dataList = items.Select(p => p.Data);
-        foreach (var item in dataList)
+        if (CurrentItem != null)
         {
-            Playlist.Add(new WebDavStorageItemViewModel(item));
-        }
-
-        var selectedItem = Playlist.FirstOrDefault(p => p.Data.Href == selectedItemId);
-        if (selectedItem is not null)
-        {
-            selectedItem.IsSelected = true;
-        }
-
-        PlayCommand.Execute(selectedItem);
-    }
-
-    [RelayCommand]
-    private async Task PlayAsync(WebDavStorageItemViewModel item)
-    {
-        if (SelectedItem != null && SelectedItem.Equals(item))
-        {
-            return;
-        }
-
-        SelectedItem = item;
-        foreach (var data in Playlist)
-        {
-            data.IsSelected = data.Equals(item);
-        }
-
-        if (_stream != null)
-        {
-            _stream?.Dispose();
-        }
-
-        var handler = new HttpClientHandler();
-        handler.Credentials = new NetworkCredential(_config.UserName, _config.Password);
-        handler.PreAuthenticate = true;
-        if (handler.SupportsAutomaticDecompression)
-        {
-            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        }
-
-        var httpClient = new HttpClient(handler);
-        _stream = await HttpRandomAccessStream.CreateAsync(httpClient, new System.Uri(_config.Host + ":" + _config.Port + SelectedItem.Data.Href));
-        var source = MediaSource.CreateFromStream(_stream, SelectedItem.Data.ContentType);
-
-        Player ??= GetMediaPlayer();
-        Player.Source = new MediaPlaybackItem(source);
-    }
-
-    [RelayCommand]
-    private void PlayPause()
-    {
-        if (Player == null || Player.PlaybackSession == null)
-        {
-            return;
-        }
-
-        if (Player.PlaybackSession.PlaybackState == MediaPlaybackState.Playing)
-        {
-            Player.Pause();
-        }
-        else
-        {
-            Player.Play();
+            ChangeVideo(CurrentItem);
         }
     }
 
     [RelayCommand]
     private void Clear()
     {
-        Playlist.Clear();
-        SelectedItem = null;
-        _stream?.Dispose();
-        Player?.Dispose();
-        Player = null;
-    }
-
-    private MediaPlayer GetMediaPlayer()
-    {
-        var player = new MediaPlayer();
-        player.CurrentStateChanged += OnMediaStateChanged;
-        return player;
-    }
-
-    private void OnMediaStateChanged(MediaPlayer sender, object args)
-    {
-        _dispatcherQueue.TryEnqueue(() =>
+        Reset();
+        if (PlayerDetail != null)
         {
-            if (sender.CurrentState == MediaPlayerState.Stopped)
-            {
-                var position = sender.Position;
-
-                // 判断为已经播放完成，切换到下一个视频.
-                if (Math.Abs(position.TotalSeconds - sender.NaturalDuration.TotalSeconds) < 1)
-                {
-                    var isAuto = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavAutoNext, true);
-                    if (isAuto)
-                    {
-                        var index = Playlist.IndexOf(SelectedItem);
-                        if (index < Playlist.Count - 1)
-                        {
-                            PlayCommand.Execute(Playlist[index + 1]);
-                        }
-                    }
-                }
-            }
-        });
+            PlayerDetail.MediaEnded -= OnMediaEnded;
+            PlayerDetail.RequestOpenInBrowser -= OnRequestOpenInBrowserAsync;
+            PlayerDetail.PropertyChanged -= OnPlayerDetailPropertyChanged;
+            PlayerDetail?.Dispose();
+        }
     }
+
+    partial void OnCurrentSectionChanged(PlayerSectionHeader value)
+    {
+        if (value != null)
+        {
+            CheckSectionVisibility();
+        }
+    }
+
+    partial void OnIsContinuePlayChanged(bool value)
+        => SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavContinuePlay, value);
 }

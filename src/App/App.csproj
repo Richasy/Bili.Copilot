@@ -125,6 +125,8 @@
         <None Remove="Controls\Modules\VideoPartView.xaml" />
         <None Remove="Controls\Modules\VideoPlaylistView.xaml" />
         <None Remove="Controls\Modules\ViewLaterModule.xaml" />
+        <None Remove="Controls\Modules\WebDavInformationView.xaml" />
+        <None Remove="Controls\Modules\WebDavPartView.xaml" />
         <None Remove="Controls\OverlayLoadingPanel.xaml" />
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
@@ -279,6 +281,12 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Controls\Modules\WebDavInformationView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\WebDavPartView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\WebDavPlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

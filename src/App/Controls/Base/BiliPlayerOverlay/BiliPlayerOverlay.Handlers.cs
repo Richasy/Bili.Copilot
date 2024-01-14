@@ -88,6 +88,11 @@ public partial class BiliPlayerOverlay
 
     private void OnDanmakuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
+        if (_danmakuView == null)
+        {
+            return;
+        }
+
         if (e.PropertyName == nameof(ViewModel.DanmakuViewModel.DanmakuZoom))
         {
             CheckDanmakuZoom();

@@ -130,4 +130,6 @@ public enum SettingNames
     IsWebDavEnabled,
     IsWebDavListLayout,
     WebDavAutoNext,
+    WebDavPlayerType,
+    IsWebDavContinuePlay,
 }

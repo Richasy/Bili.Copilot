@@ -2,6 +2,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Data.Player;
 using Microsoft.UI.Dispatching;
 using Windows.Media.Playback;
@@ -34,6 +35,14 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
         _audio = audio;
         ClearCommand.Execute(default);
         await LoadDashVideoSourceAsync(audioOnly);
+    }
+
+    /// <inheritdoc/>
+    public async Task SetWebDavAsync(WebDavVideoInformation video)
+    {
+        _webDavVideo = video;
+        ClearCommand.Execute(default);
+        await LoadWebDavVideoAsync();
     }
 
     /// <inheritdoc/>

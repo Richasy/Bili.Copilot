@@ -2,12 +2,11 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
+using Windows.Web.Http;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -16,7 +15,7 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
     private readonly Uri _requestedUri;
     private HttpClient _client;
     private IInputStream _inputStream;
-    private long _size;
+    private ulong _size;
     private string _etagHeader;
     private bool _isDisposing;
 
@@ -162,9 +161,9 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
             return;
         }
 
-        var response = await _client.SendAsync(
+        var response = await _client.SendRequestAsync(
             request,
-            HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            HttpCompletionOption.ResponseHeadersRead).AsTask().ConfigureAwait(false);
 
         if (response.Content.Headers.ContentType != null)
         {
@@ -173,16 +172,16 @@ internal class HttpRandomAccessStream : IRandomAccessStreamWithContentType
 
         _size = response.Content?.Headers?.ContentLength ?? 0;
 
-        if (string.IsNullOrEmpty(_etagHeader) && response.Headers.Contains("ETag"))
+        if (string.IsNullOrEmpty(_etagHeader) && response.Headers.ContainsKey("ETag"))
         {
-            _etagHeader = response.Headers.ETag.Tag;
+            _etagHeader = response.Headers["ETag"];
         }
 
-        if (response.Content.Headers.Contains("Content-Type"))
+        if (response.Content.Headers.ContainsKey("Content-Type"))
         {
-            ContentType = response.Content.Headers.ContentType.MediaType;
+            ContentType = response.Content.Headers["Content-Type"];
         }
 
-        _inputStream = (await response.Content.ReadAsStreamAsync().ConfigureAwait(false)).AsInputStream();
+        _inputStream = await response.Content.ReadAsInputStreamAsync().AsTask().ConfigureAwait(false);
     }
 }

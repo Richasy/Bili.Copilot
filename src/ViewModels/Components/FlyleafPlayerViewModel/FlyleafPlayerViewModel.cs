@@ -4,6 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using FlyleafLib;
@@ -95,6 +96,15 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         _audio = null;
         _isStopped = false;
         LoadDashLiveSource(url, audioOnly);
+    }
+
+    /// <inheritdoc/>
+    public Task SetWebDavAsync(WebDavVideoInformation video)
+    {
+        _webDavVideo = video;
+        _isStopped = false;
+        LoadWebDavVideo();
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>

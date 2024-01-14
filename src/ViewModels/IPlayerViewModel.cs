@@ -137,6 +137,13 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     void SetLiveSource(string url, bool audioOnly);
 
     /// <summary>
+    /// 设置 WebDav 源.
+    /// </summary>
+    /// <param name="video">视频信息.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    Task SetWebDavAsync(WebDavVideoInformation video);
+
+    /// <summary>
     /// 暂停.
     /// </summary>
     void Pause();

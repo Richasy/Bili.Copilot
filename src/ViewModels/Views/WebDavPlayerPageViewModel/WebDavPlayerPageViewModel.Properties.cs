@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
-using Windows.Media.Playback;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -17,24 +17,53 @@ public sealed partial class WebDavPlayerPageViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
     private WebDavConfig _config;
-    private HttpRandomAccessStream _stream;
+    private Action _playNextVideoAction;
+    private bool _isStatsUpdated;
+    private Window _attachedWindow;
 
     [ObservableProperty]
-    private MediaPlayer _player;
+    private string _fileName;
 
     [ObservableProperty]
-    private bool _onlyOne;
+    private string _publishTime;
 
     [ObservableProperty]
-    private WebDavStorageItemViewModel _selectedItem;
+    private bool _isError;
+
+    [ObservableProperty]
+    private string _errorText;
+
+    [ObservableProperty]
+    private PlayerSectionHeader _currentSection;
+
+    [ObservableProperty]
+    private WebDavStorageItemViewModel _currentItem;
+
+    [ObservableProperty]
+    private bool _isShowInformation;
+
+    [ObservableProperty]
+    private bool _isShowPlaylist;
+
+    [ObservableProperty]
+    private PlayerDetailViewModel _playerDetail;
+
+    [ObservableProperty]
+    private VideoMediaStats _stats;
+
+    [ObservableProperty]
+    private bool _isReloading;
+
+    [ObservableProperty]
+    private bool _isContinuePlay;
+
+    /// <summary>
+    /// 播放时的关联区块集合.
+    /// </summary>
+    public ObservableCollection<PlayerSectionHeader> Sections { get; }
 
     /// <summary>
     /// 播放列表.
     /// </summary>
     public ObservableCollection<WebDavStorageItemViewModel> Playlist { get; }
-
-    /// <summary>
-    /// 关联窗口.
-    /// </summary>
-    public Window AttachedWindow { get; set; }
 }

@@ -204,7 +204,11 @@ public sealed partial class PlayerDetailViewModel
         Player.SeekTo(ts);
         var msg = $"{ResourceToolkit.GetLocalizedString(StringNames.CurrentProgress)}: {TimeSpan.FromSeconds(seconds):g}";
         RequestShowTempMessage?.Invoke(this, msg);
-        DanmakuViewModel.ResetTimePositionCommand.Execute(ts);
+
+        if (_videoType != VideoType.WebDav)
+        {
+            DanmakuViewModel.ResetTimePositionCommand.Execute(ts);
+        }
     }
 
     [RelayCommand]
