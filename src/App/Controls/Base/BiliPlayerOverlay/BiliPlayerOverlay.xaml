@@ -293,7 +293,7 @@
                                             HorizontalAlignment="Center"
                                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CanShowSubtitle}">
                                             <Grid
-                                                Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                                                Background="{ThemeResource MediaTransportBackgroundBrush}"
                                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
                                                 <TextBlock
@@ -631,7 +631,7 @@
                                             HorizontalAlignment="Center"
                                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CanShowSubtitle}">
                                             <Grid
-                                                Background="{ThemeResource MediaTransportControlsPanelBackground}"
+                                                Background="{ThemeResource MediaTransportBackgroundBrush}"
                                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SubtitleViewModel.CurrentSubtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
                                                 <TextBlock

@@ -10,6 +10,7 @@
     xmlns:local="using:Bili.Copilot.App.Controls.Settings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:other="using:Bili.Copilot.Models.App.Other"
+    xmlns:player="using:Bili.Copilot.Models.Constants.Player"
     mc:Ignorable="d">
 
     <labs:SettingsExpander Description="{ext:Locale Name=WebDavSettingsDescription}" Header="{ext:Locale Name=WebDavSettings}">
@@ -40,6 +41,18 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
+            </labs:SettingsCard>
+            <labs:SettingsCard Description="{ext:Locale Name=WebDavPlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.WebDavPlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="player:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </labs:SettingsCard>
         </labs:SettingsExpander.Items>
         <labs:SettingsExpander.ItemsFooter>
@@ -78,13 +91,10 @@
                                         Content="{ext:Locale Name=Edit}"
                                         DataContext="{x:Bind}" />
                                     <Button
-                                        Width="32"
-                                        Height="32"
                                         VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        BorderThickness="0"
                                         Click="OnDeleteButtonClickAsync"
                                         DataContext="{x:Bind}"
+                                        Style="{StaticResource SmallIconButtonStyle}"
                                         ToolTipService.ToolTip="{ext:Locale Name=Delete}">
                                         <base:FluentIcon
                                             FontSize="14"

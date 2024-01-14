@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 
 namespace Bili.Copilot.ViewModels;
@@ -42,4 +43,10 @@ public sealed partial class PlayerDetailViewModel
             Player.Play();
         }
     }
+
+    private void OnPlayerWebDavSubtitleChanged(object sender, string e)
+        => SubtitleViewModel.CurrentSubtitle = e;
+
+    private void OnPlayerWebDavSubtitleListChanged(object sender, WebDavSubtitleListChangedEventArgs e)
+        => SubtitleViewModel.SetData(e);
 }

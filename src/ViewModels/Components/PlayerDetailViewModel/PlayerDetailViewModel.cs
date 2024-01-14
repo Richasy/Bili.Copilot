@@ -37,6 +37,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         InteractionViewModel = new InteractionModuleViewModel();
         DownloadViewModel = new DownloadModuleViewModel(attachedWindow);
 
+        SubtitleViewModel.MetaChanged += OnSubtitleMetaChanged;
         InteractionViewModel.NoMoreChoices += OnInteractionModuleNoMoreChoices;
         PropertyChanged += OnPropertyChanged;
 
@@ -283,6 +284,9 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
                     PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
                     _ => new NativePlayerViewModel(),
                 };
+
+                Player.WebDavSubtitleListChanged += OnPlayerWebDavSubtitleListChanged;
+                Player.WebDavSubtitleChanged += OnPlayerWebDavSubtitleChanged;
             }
             else
             {

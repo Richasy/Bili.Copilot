@@ -194,7 +194,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     {
         var title = e.Count == 1
             ? e.First().Data.DisplayName
-            : WebDavPageViewModel.Instance.PathSegments.Last().Name;
+            : Uri.UnescapeDataString(SettingsToolkit.ReadLocalSetting(SettingNames.WebDavLastPath, "/").Split("/", StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? ResourceToolkit.GetLocalizedString(StringNames.RootDirectory));
         GetPlayerWindow().SetData(e, title);
     }
 

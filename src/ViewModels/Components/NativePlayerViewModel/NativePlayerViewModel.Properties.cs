@@ -43,6 +43,12 @@ public sealed partial class NativePlayerViewModel
     public event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
 
     /// <inheritdoc/>
+    public event EventHandler<WebDavSubtitleListChangedEventArgs> WebDavSubtitleListChanged;
+
+    /// <inheritdoc/>
+    public event EventHandler<string> WebDavSubtitleChanged;
+
+    /// <inheritdoc/>
     public bool IsRecording => false;
 
     /// <inheritdoc/>

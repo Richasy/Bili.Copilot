@@ -20,7 +20,7 @@ public sealed partial class WebDavConfigDialog : ContentDialog
     {
         InitializeComponent();
         Title = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.CreateWebDavConfig);
-        PortBox.Value = 80;
+        PortBox.Value = 0;
     }
 
     /// <summary>

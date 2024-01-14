@@ -55,18 +55,15 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         }
 
         var config = new Config();
+        config.Subtitles.Enabled = true;
         config.Player.SeekAccurate = true;
-        config.Decoder.ZeroCopy = ZeroCopy.Enabled;
-        config.Decoder.AllowProfileMismatch = true;
-        config.Decoder.MaxVideoFrames = 20;
-        config.Decoder.MaxAudioFrames = 20;
-        config.Demuxer.CloseTimeout = TimeSpan.FromSeconds(10).Ticks;
+        config.Decoder.ZeroCopy = ZeroCopy.Auto;
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;
         config.Video.VSync = 1;
-        config.Audio.FiltersEnabled = true;
-        config.Decoder.ShowCorrupted = true;
+        config.Video.ClearScreenOnOpen = true;
+        config.Video.Swap10Bit = true;
         config.Player.MinBufferDuration = TimeSpan.FromSeconds(5).Ticks;
 
         var player = new Player(config);
@@ -165,11 +162,21 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
 
     /// <inheritdoc/>
     public void SetPlayRate(double rate)
-        => ((Player)Player).Speed = rate;
+    {
+        if (Player is Player player)
+        {
+            player.Speed = rate;
+        }
+    }
 
     /// <inheritdoc/>
     public void SetVolume(int volume)
-        => ((Player)Player).Audio.Volume = volume;
+    {
+        if (Player is Player player)
+        {
+            player.Audio.Volume = volume;
+        }
+    }
 
     /// <inheritdoc/>
     public void Dispose()

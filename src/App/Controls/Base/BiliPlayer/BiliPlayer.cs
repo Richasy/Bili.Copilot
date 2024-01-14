@@ -54,11 +54,7 @@ public sealed class BiliPlayer : BiliPlayerBase, IHostPlayer
     /// <inheritdoc/>
     public void Player_Disposed()
     {
-        if (_mediaElement != null)
-        {
-            _mediaElement.SetMediaPlayer(null);
-            _mediaElement = null;
-        }
+        _mediaElement?.SetMediaPlayer(null);
 
         // if (_vlcView != null)
         // {

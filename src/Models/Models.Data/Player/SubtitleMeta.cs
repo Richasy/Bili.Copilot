@@ -37,5 +37,4 @@ public sealed class SubtitleMeta
 
     /// <inheritdoc/>
     public override int GetHashCode() => Id.GetHashCode();
-    public object[] Select(Func<object, string> value) => throw new NotImplementedException();
 }

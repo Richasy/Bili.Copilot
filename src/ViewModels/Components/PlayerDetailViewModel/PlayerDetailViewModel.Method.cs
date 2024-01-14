@@ -12,6 +12,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Pgc;
+using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
@@ -374,6 +375,9 @@ public sealed partial class PlayerDetailViewModel
 
     private void OnInteractionModuleNoMoreChoices(object sender, EventArgs e)
         => IsInteractionEnd = true;
+
+    private void OnSubtitleMetaChanged(object sender, SubtitleMeta e)
+        => Player.ChangeLocalSubtitle(e);
 
     private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {

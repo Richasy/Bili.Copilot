@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.Input;
 using FlyleafLib.MediaFramework.MediaContext;
 using FlyleafLib.MediaFramework.MediaPlaylist;
@@ -67,7 +69,25 @@ public sealed partial class FlyleafPlayerViewModel
         return mediaInfo;
     }
 
-    private static PlayerStatus ConvertPlayerStatus(FlyleafLib.MediaPlayer.Status status)
+    /// <inheritdoc/>
+    public void ChangeLocalSubtitle(SubtitleMeta meta)
+    {
+        if (Player is not Player player || player.Subtitles is null)
+        {
+            return;
+        }
+
+        var sourceSubtitle = player.Subtitles.Streams.FirstOrDefault(p => p.Language.CultureName == meta.Id);
+        if (sourceSubtitle is null)
+        {
+            return;
+        }
+
+        player.SubtitlesDecoder.Open(sourceSubtitle);
+        player.SubtitlesDecoder.Start();
+    }
+
+    private static PlayerStatus ConvertPlayerStatus(Status status)
     {
         var s = status switch
         {
@@ -365,6 +385,36 @@ public sealed partial class FlyleafPlayerViewModel
         }
         else if (e.PropertyName == "CanPlay")
         {
+            if (Player is not Player player)
+            {
+                return;
+            }
+
+            player.Config.Subtitles.Languages.Clear();
+            var metaList = new List<SubtitleMeta>();
+            foreach (var item in player.Subtitles.Streams)
+            {
+                var meta = new SubtitleMeta(item.Language.CultureName, item.Title, string.Empty);
+                metaList.Add(meta);
+
+                player.Config.Subtitles.Languages.Add(item.Language);
+            }
+
+            if (metaList.Count > 0)
+            {
+                player.Subtitles.PropertyChanged -= OnSubtitlePropertyChanged;
+                player.Subtitles.PropertyChanged += OnSubtitlePropertyChanged;
+            }
+
+            var lan = FlyleafLib.Utils.GetSystemLanguages().First();
+            var arg = new WebDavSubtitleListChangedEventArgs
+            {
+                Subtitles = metaList,
+                SelectedMeta = metaList.FirstOrDefault(p => p.Id.StartsWith(lan.TopCulture.IetfLanguageTag)) ?? metaList.FirstOrDefault(),
+            };
+
+            WebDavSubtitleListChanged?.Invoke(this, arg);
+
             OnPropertyChanged(nameof(IsPlayerReady));
         }
     }
@@ -373,5 +423,14 @@ public sealed partial class FlyleafPlayerViewModel
     private void Clear()
     {
         Status = PlayerStatus.NotLoad;
+    }
+
+    private void OnSubtitlePropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        var subtitles = (Subtitles)sender;
+        if (e.PropertyName == nameof(subtitles.SubsText))
+        {
+            WebDavSubtitleChanged?.Invoke(this, subtitles.SubsText);
+        }
     }
 }

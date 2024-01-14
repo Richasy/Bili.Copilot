@@ -47,6 +47,12 @@ public sealed partial class FlyleafPlayerViewModel
     public event EventHandler<MediaPositionChangedEventArgs> PositionChanged;
 
     /// <inheritdoc/>
+    public event EventHandler<WebDavSubtitleListChangedEventArgs> WebDavSubtitleListChanged;
+
+    /// <inheritdoc/>
+    public event EventHandler<string> WebDavSubtitleChanged;
+
+    /// <inheritdoc/>
     public TimeSpan Position => Player == null ? TimeSpan.Zero : TimeSpan.FromTicks(((Player)Player).CurTime);
 
     /// <inheritdoc/>

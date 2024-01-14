@@ -132,4 +132,5 @@ public enum SettingNames
     WebDavAutoNext,
     WebDavPlayerType,
     IsWebDavContinuePlay,
+    WebDavLastPath,
 }

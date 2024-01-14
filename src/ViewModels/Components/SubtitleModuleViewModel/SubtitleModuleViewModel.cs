@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.Input;
@@ -47,7 +48,31 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
     {
         _mainId = mainId;
         _partId = partId;
+        _isLocal = false;
+        CanConvert = true;
         _ = ReloadCommand.ExecuteAsync(default);
+    }
+
+    /// <summary>
+    /// 设置数据.
+    /// </summary>
+    /// <param name="args">数据列表.</param>
+    public void SetData(WebDavSubtitleListChangedEventArgs args)
+    {
+        _isLocal = true;
+        Reset();
+        CanConvert = false;
+        foreach (var item in args.Subtitles)
+        {
+            Metas.Add(item);
+        }
+
+        HasSubtitles = Metas.Count > 0;
+
+        if (args.SelectedMeta != null)
+        {
+            ChangeMetaCommand.Execute(args.SelectedMeta);
+        }
     }
 
     [RelayCommand]
@@ -57,20 +82,27 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
         TryClear(Metas);
         CurrentMeta = null;
         HasSubtitles = false;
-        CurrentSubtitle = string.Empty;
+
+        if(!string.IsNullOrEmpty(CurrentSubtitle))
+        {
+            CurrentSubtitle = string.Empty;
+        }
     }
 
     [RelayCommand]
     private async Task ReloadAsync()
     {
         Reset();
-        var data = await PlayerProvider.GetSubtitleIndexAsync(_mainId, _partId);
-        if (data != null
-            && data.Count() > 0)
+
+        if (!_isLocal)
         {
-            HasSubtitles = true;
-            data.ToList().ForEach(Metas.Add);
-            await ChangeMetaAsync(Metas.First());
+            var data = await PlayerProvider.GetSubtitleIndexAsync(_mainId, _partId);
+            if (data != null
+                && data.Count() > 0)
+            {
+                HasSubtitles = true;
+                data.ToList().ForEach(Metas.Add);
+            }
         }
     }
 
@@ -80,18 +112,31 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
         CurrentMeta = meta;
         _subtitles.Clear();
         CurrentSubtitle = string.Empty;
-        var subtitles = await PlayerProvider.GetSubtitleDetailAsync(meta.Url);
-        foreach (var subtitle in subtitles)
-        {
-            _subtitles.Add(subtitle);
-        }
 
-        SeekCommand.Execute(_currentSeconds);
+        if (!_isLocal)
+        {
+            var subtitles = await PlayerProvider.GetSubtitleDetailAsync(meta.Url);
+            foreach (var subtitle in subtitles)
+            {
+                _subtitles.Add(subtitle);
+            }
+
+            SeekCommand.Execute(_currentSeconds);
+        }
+        else
+        {
+            MetaChanged?.Invoke(this, meta);
+        }
     }
 
     [RelayCommand]
     private void Seek(double sec)
     {
+        if (_isLocal)
+        {
+            return;
+        }
+
         _currentSeconds = sec;
         if (!HasSubtitles || CurrentMeta == null)
         {

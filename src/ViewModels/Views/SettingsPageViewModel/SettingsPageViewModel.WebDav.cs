@@ -62,7 +62,6 @@ public sealed partial class SettingsPageViewModel
 
         if (SelectedWebDav.Id.Equals(config.Id))
         {
-            SelectedWebDav = null;
             SelectedWebDav = config;
         }
     }

@@ -51,6 +51,9 @@ public sealed partial class SettingsPageViewModel
     private PlayerType _playerType;
 
     [ObservableProperty]
+    private PlayerType _webDavPlayerType;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]

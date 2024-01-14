@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Text;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Data.Player;
@@ -124,7 +125,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     headers.Add("Authorization", $"Basic {token}");
                     var externalStream = new ExternalVideoStream()
                     {
-                        Url = webDavData.Config.Host + ":" + webDavData.Config.Port + webDavData.Href,
+                        Url = AppToolkit.GetWebDavServer(webDavData.Config.Host, webDavData.Config.Port) + webDavData.Href,
                         HTTPHeaders = headers,
                         HasAudio = true,
                     };

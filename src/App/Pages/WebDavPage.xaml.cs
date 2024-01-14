@@ -20,7 +20,7 @@ public sealed partial class WebDavPage : WebDavPageBase
     public WebDavPage()
     {
         InitializeComponent();
-        ViewModel = WebDavPageViewModel.Instance;
+        ViewModel = new WebDavPageViewModel();
     }
 
     /// <inheritdoc/>

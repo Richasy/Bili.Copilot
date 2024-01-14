@@ -153,6 +153,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(PlayerType):
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
+            case nameof(WebDavPlayerType):
+                WriteSetting(SettingNames.WebDavPlayerType, WebDavPlayerType);
+                break;
             case nameof(PlayerWindowBehavior):
                 WriteSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior);
                 break;
@@ -161,11 +164,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 AppViewModel.Instance.CheckWebDavVisibilityCommand.Execute(default);
                 break;
             case nameof(SelectedWebDav):
-                if (SelectedWebDav != null)
+                if (SelectedWebDav != null && SelectedWebDav.Id != SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDav, string.Empty))
                 {
                     WriteSetting(SettingNames.SelectedWebDav, SelectedWebDav.Id);
+                    WriteSetting(SettingNames.WebDavLastPath, "/");
                 }
-                else
+                else if (SelectedWebDav == null)
                 {
                     SettingsToolkit.DeleteLocalSetting(SettingNames.SelectedWebDav);
                 }

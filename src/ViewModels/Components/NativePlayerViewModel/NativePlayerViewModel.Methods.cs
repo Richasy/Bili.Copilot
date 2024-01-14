@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
@@ -10,6 +12,7 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Player;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Graphics.Canvas;
 using Windows.Media.Core;
@@ -175,7 +178,7 @@ public sealed partial class NativePlayerViewModel
     private async Task LoadWebDavVideoAsync()
     {
         var httpClient = GetWebDavHttpClient();
-        var server = _webDavVideo.Config.Host + ":" + _webDavVideo.Config.Port;
+        var server = AppToolkit.GetWebDavServer(_webDavVideo.Config.Host, _webDavVideo.Config.Port);
         var stream = await HttpRandomAccessStream.CreateAsync(httpClient, new Uri(server + _webDavVideo.Href));
         var videoSource = MediaSource.CreateFromStream(stream, _webDavVideo.ContentType);
         var videoPlaybackItem = new MediaPlaybackItem(videoSource);
@@ -274,18 +277,26 @@ public sealed partial class NativePlayerViewModel
 
     private void OnMediaPlayerOpened(MediaPlayer sender, object args)
     {
-        var session = sender.PlaybackSession;
-        if (session != null)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            session.PositionChanged -= OnPlayerPositionChanged;
-
-            if (_video != null)
+            var session = sender.PlaybackSession;
+            if (session != null)
             {
-                session.PositionChanged += OnPlayerPositionChanged;
-            }
-        }
+                session.PositionChanged -= OnPlayerPositionChanged;
 
-        MediaOpened?.Invoke(this, EventArgs.Empty);
+                if (_video != null || _webDavVideo != null)
+                {
+                    session.PositionChanged += OnPlayerPositionChanged;
+                }
+
+                if (sender.Source is MediaPlaybackItem item && _webDavVideo != null)
+                {
+                    LoadWebDavTimedMetadataTracks(item);
+                }
+            }
+
+            MediaOpened?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     private void OnPlayerPositionChanged(MediaPlaybackSession sender, object args)
@@ -308,6 +319,41 @@ public sealed partial class NativePlayerViewModel
             {
             }
         });
+    }
+
+    private void LoadWebDavTimedMetadataTracks(MediaPlaybackItem sender)
+    {
+        var list = sender.TimedMetadataTracks.Where(p => p.TimedMetadataKind == TimedMetadataKind.Subtitle).ToList();
+        var metaList = new List<SubtitleMeta>();
+        foreach (var item in list)
+        {
+            metaList.Add(new SubtitleMeta(item.Id, item.Label, item.Language));
+            item.CueEntered += OnSubtitleEntered;
+            item.CueExited += OnSubtitleExited;
+        }
+
+        var lan = FlyleafLib.Utils.GetSystemLanguages().First();
+        var arg = new WebDavSubtitleListChangedEventArgs
+        {
+            Subtitles = metaList,
+            SelectedMeta = metaList.FirstOrDefault(p => p.Url.StartsWith(lan.TopCulture.IetfLanguageTag)) ?? metaList.FirstOrDefault(),
+        };
+
+        WebDavSubtitleListChanged?.Invoke(this, arg);
+
+        void OnSubtitleEntered(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            if (args.Cue is TimedTextCue cue)
+            {
+                var text = string.Join("\n", cue.Lines.Select(p => p.Text));
+                WebDavSubtitleChanged?.Invoke(this, text);
+            }
+        }
+
+        void OnSubtitleExited(TimedMetadataTrack sender, MediaCueEventArgs args)
+        {
+            WebDavSubtitleChanged?.Invoke(this, string.Empty);
+        }
     }
 
     [RelayCommand]

@@ -29,11 +29,6 @@ public sealed partial class WebDavPageViewModel
     private bool _isListLayout;
 
     /// <summary>
-    /// 实例.
-    /// </summary>
-    public static WebDavPageViewModel Instance { get; } = new();
-
-    /// <summary>
     /// 路径段集合.
     /// </summary>
     public ObservableCollection<WebDavPathSegment> PathSegments { get; }

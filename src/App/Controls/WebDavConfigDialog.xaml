@@ -28,6 +28,7 @@
             HorizontalAlignment="Stretch"
             Header="{ext:Locale Name=Port}"
             LargeChange="1"
+            Minimum="0"
             SmallChange="1"
             SpinButtonPlacementMode="Hidden" />
         <TextBox

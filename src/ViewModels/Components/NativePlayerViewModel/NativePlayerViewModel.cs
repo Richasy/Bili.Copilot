@@ -33,6 +33,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     {
         _video = video;
         _audio = audio;
+        _webDavVideo = default;
         ClearCommand.Execute(default);
         await LoadDashVideoSourceAsync(audioOnly);
     }
@@ -40,6 +41,8 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     /// <inheritdoc/>
     public async Task SetWebDavAsync(WebDavVideoInformation video)
     {
+        _video = null;
+        _audio = null;
         _webDavVideo = video;
         ClearCommand.Execute(default);
         await LoadWebDavVideoAsync();
@@ -50,6 +53,7 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     {
         _video = null;
         _audio = null;
+        _webDavVideo = default;
         _isStopped = false;
         ClearCommand.Execute(default);
         await LoadLiveSourceAsync(url);
@@ -125,6 +129,24 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
     {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <inheritdoc/>
+    public void ChangeLocalSubtitle(SubtitleMeta meta)
+    {
+        if (Player is not MediaPlayer player || player.Source is not MediaPlaybackItem mediaPlaybackItem)
+        {
+            return;
+        }
+
+        for (var i = 0; i < mediaPlaybackItem.TimedMetadataTracks.Count; i++)
+        {
+            var track = mediaPlaybackItem.TimedMetadataTracks[i];
+            var mode = track.Id == meta.Id
+                ? TimedMetadataTrackPresentationMode.ApplicationPresented
+                : TimedMetadataTrackPresentationMode.Disabled;
+            mediaPlaybackItem.TimedMetadataTracks.SetPresentationMode((uint)i, mode);
+        }
     }
 
     private void Dispose(bool disposing)

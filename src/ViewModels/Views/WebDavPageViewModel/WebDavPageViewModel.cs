@@ -18,18 +18,26 @@ namespace Bili.Copilot.ViewModels;
 /// <summary>
 /// WebDav 页面视图模型.
 /// </summary>
-public sealed partial class WebDavPageViewModel : ViewModelBase
+public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavPageViewModel"/> class.
     /// </summary>
-    private WebDavPageViewModel()
+    public WebDavPageViewModel()
     {
         CurrentItems = new ObservableCollection<WebDavStorageItemViewModel>();
         PathSegments = new ObservableCollection<WebDavPathSegment>();
         IsListLayout = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.IsWebDavListLayout, true);
 
         AttachIsRunningToAsyncCommand(p => IsLoading = p, LoadPathCommand);
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _client?.Dispose();
+        CurrentItems.Clear();
+        PathSegments.Clear();
     }
 
     [RelayCommand]
@@ -72,11 +80,13 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
             _client = new Client();
         }
 
-        _client.Server = _config.Host + ":" + _config.Port;
+        _client.Server = AppToolkit.GetWebDavServer(_config.Host, _config.Port);
         PathSegments.Clear();
         PathSegments.Add(new WebDavPathSegment { Name = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.RootDirectory), Path = "/" });
         TryClear(CurrentItems);
-        LoadPathCommand.Execute("/");
+
+        var previousPath = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavLastPath, "/");
+        LoadPathCommand.Execute(previousPath);
     }
 
     [RelayCommand]
@@ -122,6 +132,8 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
             {
                 CurrentItems.Add(new WebDavStorageItemViewModel(item));
             }
+
+            SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.WebDavLastPath, path);
         }
         catch (Exception ex)
         {
