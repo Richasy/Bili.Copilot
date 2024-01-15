@@ -24,7 +24,7 @@ public sealed partial class PlayerModeSettingSection : SettingSection
         PlayerWindowBehaviorComboBox.SelectedIndex = playerWindowSelectIndex;
     }
 
-    private void OnPlayerWindowBehaviorComboBoxSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
+    private void OnPlayerWindowBehaviorComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (!IsLoaded)
         {

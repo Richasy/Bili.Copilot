@@ -221,7 +221,7 @@ public sealed partial class PlayerDetailViewModel
 
     [RelayCommand]
     private void AutoCloseWindow()
-        => _attachedWindow.Close();
+        => AttachedWindow.Close();
 
     [RelayCommand]
     private void ClearSourceProgress()
@@ -238,17 +238,17 @@ public sealed partial class PlayerDetailViewModel
 
     private void CheckCurrentPlayerDisplayMode()
     {
-        if (DisplayMode == PlayerDisplayMode.FullScreen && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.FullScreen)
+        if (DisplayMode == PlayerDisplayMode.FullScreen && AttachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.FullScreen)
         {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+            AttachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
         }
-        else if (DisplayMode == PlayerDisplayMode.CompactOverlay && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.CompactOverlay)
+        else if (DisplayMode == PlayerDisplayMode.CompactOverlay && AttachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.CompactOverlay)
         {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+            AttachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
         }
-        else if (DisplayMode == PlayerDisplayMode.Default && _attachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.Default)
+        else if (DisplayMode == PlayerDisplayMode.Default && AttachedWindow.AppWindow.Presenter.Kind != AppWindowPresenterKind.Default)
         {
-            _attachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
+            AttachedWindow.AppWindow.SetPresenter(AppWindowPresenterKind.Default);
         }
     }
 

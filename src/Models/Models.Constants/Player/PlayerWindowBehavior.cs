@@ -8,6 +8,11 @@ namespace Bili.Copilot.Models.Constants.Player;
 public enum PlayerWindowBehavior
 {
     /// <summary>
+    /// 主窗口.
+    /// </summary>
+    Main,
+
+    /// <summary>
     /// 单窗口.
     /// </summary>
     Single,

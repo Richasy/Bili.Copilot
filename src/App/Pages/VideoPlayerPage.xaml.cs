@@ -46,13 +46,12 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             ViewModel.PlayerDetail.Player?.Dispose();
             await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
+            ViewModel?.Dispose();
+            ViewModel = null;
         }
         catch (Exception)
         {
         }
-
-        ViewModel?.Dispose();
-        ViewModel = null;
     }
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)

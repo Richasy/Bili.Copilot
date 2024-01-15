@@ -53,7 +53,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
-        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
+        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();

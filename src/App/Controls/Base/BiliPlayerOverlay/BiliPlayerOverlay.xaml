@@ -318,6 +318,24 @@
                                         IsLive="{TemplateBinding IsLive}"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                                 </Grid>
+                                <Grid
+                                    Margin="48,28"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="BackButton"
+                                        Width="40"
+                                        Height="40"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
+                                        <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
+                                    </Button>
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -656,6 +674,24 @@
                                         IsLive="{TemplateBinding IsLive}"
                                         IsWebDav="True"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
+                                </Grid>
+                                <Grid
+                                    Margin="48,28"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="BackButton"
+                                        Width="40"
+                                        Height="40"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
+                                        <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
+                                    </Button>
                                 </Grid>
                             </Grid>
                             <Grid

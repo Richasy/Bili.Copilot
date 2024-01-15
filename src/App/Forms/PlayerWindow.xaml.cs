@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Bili.Copilot.App.Pages;
 using Bili.Copilot.Libs.Toolkit;
-using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.Constants.App;
-using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
@@ -76,32 +74,7 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
     public void SetData(PlaySnapshot snapshot)
     {
         Title = snapshot.Title;
-        var navArgs = new PlayerPageNavigateEventArgs
-        {
-            Snapshot = snapshot,
-            AttachedWindow = this,
-        };
-        if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
-        {
-            _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
-        }
-        else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
-        {
-            _ = MainFrame.Navigate(typeof(LivePlayerPage), navArgs);
-        }
-        else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Pgc)
-        {
-            _ = MainFrame.Navigate(typeof(PgcPlayerPage), navArgs);
-        }
-
-        TraceLogger.LogPlayerOpen(
-            snapshot.VideoType.ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264).ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQuality.HDFirst).ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native).ToString());
-
-        Activate();
+        PlayerUtils.InitializePlayer(snapshot, MainFrame, this);
     }
 
     /// <summary>
@@ -111,14 +84,7 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
     public void SetData(List<VideoInformation> snapshots)
     {
         Title = ResourceToolkit.GetLocalizedString(StringNames.Playlist);
-        var navArgs = new PlayerPageNavigateEventArgs
-        {
-            Playlist = snapshots,
-            AttachedWindow = this,
-        };
-
-        _ = MainFrame.Navigate(typeof(VideoPlayerPage), navArgs);
-        Activate();
+        PlayerUtils.InitializePlayer(snapshots, MainFrame, this);
     }
 
     /// <summary>
@@ -128,9 +94,7 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
     public void SetData(List<WebDavStorageItemViewModel> items, string title)
     {
         Title = title;
-        MainFrame.Tag = this;
-        _ = MainFrame.Navigate(typeof(WebDavPlayerPage), items);
-        Activate();
+        PlayerUtils.InitializePlayer(items, MainFrame, this);
     }
 
     private static PointInt32 GetSavedWindowPosition()

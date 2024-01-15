@@ -30,8 +30,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// </summary>
     public PlayerDetailViewModel(Window attachedWindow)
     {
-        _attachedWindow = attachedWindow;
-        _dispatcherQueue = _attachedWindow.DispatcherQueue;
+        AttachedWindow = attachedWindow;
+        _dispatcherQueue = AttachedWindow.DispatcherQueue;
         SubtitleViewModel = new SubtitleModuleViewModel();
         DanmakuViewModel = new DanmakuModuleViewModel();
         InteractionViewModel = new InteractionModuleViewModel();
@@ -179,6 +179,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     private async Task ReloadAsync()
     {
         Clear();
+        IsBackButtonShown = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();
