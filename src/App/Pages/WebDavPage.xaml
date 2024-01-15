@@ -121,6 +121,7 @@
                     </labs:Segmented>
                     <Button
                         VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.RefreshCommand}"
                         Style="{StaticResource IconButtonStyle}"
                         ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
                         <base:FluentIcon FontSize="14" Symbol="ArrowSync" />
