@@ -52,6 +52,9 @@ public sealed partial class AppViewModel
     private bool _isOverlayShown;
 
     [ObservableProperty]
+    private bool _isTitleBarShown;
+
+    [ObservableProperty]
     private MessageDetailViewModel _message;
 
     [ObservableProperty]

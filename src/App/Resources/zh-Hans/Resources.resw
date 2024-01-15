@@ -2196,4 +2196,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="WebDavPlayerTypeDescription" xml:space="preserve">
     <value>播放杜比视频建议选择原生，其它视频建议 FFmpeg</value>
   </data>
+  <data name="MainWindow" xml:space="preserve">
+    <value>主窗口</value>
+  </data>
 </root>

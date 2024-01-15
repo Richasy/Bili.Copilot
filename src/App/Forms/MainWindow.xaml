@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid">
+    <Grid x:Name="RootGrid" SizeChanged="OnSizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -24,7 +24,8 @@
             Grid.ColumnSpan="2"
             BackButtonClick="OnBackButtonClickAsync"
             BackButtonVisibility="{x:Bind _appViewModel.IsBackButtonShown, Mode=OneWay}"
-            Loaded="OnTitleBarLoaded" />
+            Loaded="OnTitleBarLoaded"
+            Visibility="{x:Bind _appViewModel.IsTitleBarShown, Mode=OneWay}" />
 
         <SplitView
             x:Name="MainSplitView"

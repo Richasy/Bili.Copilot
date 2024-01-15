@@ -42,6 +42,7 @@
                     x:Name="PlayerWindowBehaviorComboBox"
                     MinWidth="120"
                     SelectionChanged="OnPlayerWindowBehaviorComboBoxSelectionChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=MainWindow}" />
                     <ComboBoxItem Content="{ext:Locale Name=SingleWindow}" />
                     <ComboBoxItem Content="{ext:Locale Name=MultipleWindow}" />
                 </ComboBox>

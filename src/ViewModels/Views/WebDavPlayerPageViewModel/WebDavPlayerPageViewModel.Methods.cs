@@ -64,7 +64,7 @@ public sealed partial class WebDavPlayerPageViewModel
         {
             Config = _config,
             ContentType = vm.Data.ContentType,
-            Href = vm.Data.Href,
+            Href = vm.Data.Uri,
         };
 
         InitializeInfo();
@@ -123,7 +123,7 @@ public sealed partial class WebDavPlayerPageViewModel
         }
 
         FileName = CurrentItem.Data.DisplayName ?? "--";
-        PublishTime = (CurrentItem.Data.CreationDate ?? CurrentItem.Data.LastModified ?? DateTime.Now).Humanize();
+        PublishTime = (CurrentItem.Data.CreationDate ?? CurrentItem.Data.LastModifiedDate ?? DateTime.Now).Humanize();
     }
 
     private void ResetInfo()
@@ -153,8 +153,8 @@ public sealed partial class WebDavPlayerPageViewModel
 
     private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
     {
-        var server = _config.Host + ":" + _config.Port;
-        var uri = server + CurrentItem.Data.Href;
+        var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port, CurrentItem.Data.Uri);
+        var uri = server + CurrentItem.Data.Uri;
         _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 

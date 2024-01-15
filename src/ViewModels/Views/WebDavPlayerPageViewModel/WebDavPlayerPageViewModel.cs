@@ -14,6 +14,7 @@ using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using WebDav;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -48,7 +49,7 @@ public sealed partial class WebDavPlayerPageViewModel : ViewModelBase, IDisposab
     /// <param name="items">列表集合.</param>
     /// <param name="playIndex">初始播放条目索引.</param>
     /// <returns><see cref="Task"/>.</returns>
-    public async Task SetPlaylistAsync(List<WebDAVClient.Model.Item> items, int playIndex = 0)
+    public async Task SetPlaylistAsync(List<WebDavResource> items, int playIndex = 0)
     {
         IsReloading = true;
 

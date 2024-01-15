@@ -125,7 +125,7 @@ public class BiliPlayerPlugin : PluginBase, IOpen, ISuggestExternalAudio, ISugge
                     headers.Add("Authorization", $"Basic {token}");
                     var externalStream = new ExternalVideoStream()
                     {
-                        Url = AppToolkit.GetWebDavServer(webDavData.Config.Host, webDavData.Config.Port) + webDavData.Href,
+                        Url = AppToolkit.GetWebDavServer(webDavData.Config.Host, webDavData.Config.Port, webDavData.Href) + webDavData.Href,
                         HTTPHeaders = headers,
                         HasAudio = true,
                     };

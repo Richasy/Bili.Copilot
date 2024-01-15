@@ -24,6 +24,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private TextBlock _subtitleBlock;
     private Button _refreshButton;
     private Button _openInBrowserButton;
+    private Button _backButton;
     private SplitView _rootSplitView;
 
     private DispatcherTimer _danmakuTimer;
@@ -100,6 +101,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _subtitleBlock = GetTemplateChild("SubtitleBlock") as TextBlock;
         _refreshButton = GetTemplateChild("RefreshButton") as Button;
         _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
+        _backButton = GetTemplateChild("BackButton") as Button;
         _rootSplitView = GetTemplateChild("RootSplitView") as SplitView;
         var sectionView = GetTemplateChild("SectionNavigationView") as NavigationView;
         var takeScreenshotItem = GetTemplateChild("TakeScreenshotItem") as MenuFlyoutItem;
@@ -124,6 +126,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
 
         _refreshButton.Click += OnRefreshButtonClick;
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
+        _backButton.Click += OnBackButtonClick;
         _transportControls.DetailButtonClicked += OnDetailButtonClicked;
         _rootSplitView.PaneOpened += OnRootSplitViewPaneChanged;
         _rootSplitView.PaneClosed += OnRootSplitViewPaneChanged;
@@ -133,6 +136,20 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
 
         CheckDanmakuZoom();
         ResizeSubtitle();
+    }
+
+    private void OnBackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            ViewModel.ToggleCompactOverlayModeCommand.Execute(default);
+        }
+        else if (ViewModel.DisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            ViewModel.ToggleFullScreenModeCommand.Execute(default);
+        }
+
+        AppViewModel.Instance.BackCommand.Execute(default);
     }
 
     private void OnRootSplitViewPaneChanged(SplitView sender, object args)
