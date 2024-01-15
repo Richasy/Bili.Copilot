@@ -41,7 +41,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private async Task InitializeAsync(bool force = false)
     {
         var currentConfigId = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.SelectedWebDav, string.Empty);
         if (string.IsNullOrEmpty(currentConfigId))
@@ -58,7 +58,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        if (config.Id == _config?.Id)
+        if (config.Id == _config?.Id && !force)
         {
             return;
         }
@@ -91,6 +91,10 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         var previousPath = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavLastPath, "/");
         LoadPathCommand.Execute(previousPath);
     }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+        => await InitializeAsync(true);
 
     [RelayCommand]
     private async Task LoadPathAsync(string path)
