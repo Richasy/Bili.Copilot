@@ -153,7 +153,7 @@ public static class AppToolkit
     /// 获取WebDav服务器地址.
     /// </summary>
     /// <returns>地址.</returns>
-    public static string GetWebDavServer(string host, int port)
+    public static string GetWebDavServer(string host, int port, string path)
     {
         var uri = new Uri(host);
 
@@ -163,7 +163,7 @@ public static class AppToolkit
             server += ":" + port;
         }
 
-        if (!string.IsNullOrEmpty(uri.PathAndQuery.TrimStart('/')))
+        if (!string.IsNullOrEmpty(uri.PathAndQuery.TrimStart('/')) && string.IsNullOrEmpty(path.TrimStart('/')))
         {
             server += uri.PathAndQuery;
         }

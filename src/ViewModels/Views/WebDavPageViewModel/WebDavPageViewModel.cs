@@ -11,7 +11,7 @@ using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
-using WebDAVClient;
+using WebDav;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -72,15 +72,18 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         _config = config;
         if (!string.IsNullOrEmpty(_config.UserName))
         {
-            var cred = new NetworkCredential(_config.UserName, _config.Password);
-            _client = new Client(cred);
+            var clientParameters = new WebDavClientParams
+            {
+                Credentials = new NetworkCredential(_config.UserName, _config.Password),
+            };
+
+            _client = new WebDavClient(clientParameters);
         }
         else
         {
-            _client = new Client();
+            _client = new WebDavClient();
         }
 
-        _client.Server = AppToolkit.GetWebDavServer(_config.Host, _config.Port);
         PathSegments.Clear();
         PathSegments.Add(new WebDavPathSegment { Name = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.RootDirectory), Path = "/" });
         TryClear(CurrentItems);
@@ -122,9 +125,11 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         try
         {
             TryClear(CurrentItems);
-            var items = (await _client.List(path)).ToList();
+            var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port, path);
+            var items = (await _client.Propfind(server + path)).Resources.ToList();
             items = items
                 .Where(p => p.IsCollection || p.ContentType.StartsWith("video"))
+                .Where(p => !p.IsHidden && p.Uri != path)
                 .OrderBy(p => p.IsCollection)
                 .ThenBy(p => p.DisplayName)
                 .ToList();

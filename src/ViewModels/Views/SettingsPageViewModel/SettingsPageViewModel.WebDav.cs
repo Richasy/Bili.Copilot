@@ -60,7 +60,7 @@ public sealed partial class SettingsPageViewModel
         await FileToolkit.WriteLocalDataAsync(AppConstants.WebDavConfigFileName, json);
         IsWebDavEmpty = WebDavConfigs.Count == 0;
 
-        if (SelectedWebDav.Id.Equals(config.Id))
+        if (SelectedWebDav != null && SelectedWebDav.Id.Equals(config.Id))
         {
             SelectedWebDav = config;
         }
@@ -74,7 +74,7 @@ public sealed partial class SettingsPageViewModel
         await FileToolkit.WriteLocalDataAsync(AppConstants.WebDavConfigFileName, json);
         IsWebDavEmpty = WebDavConfigs.Count == 0;
 
-        if (SelectedWebDav.Equals(webDavConfig))
+        if (SelectedWebDav != null && SelectedWebDav.Equals(webDavConfig))
         {
             SelectedWebDav = WebDavConfigs.FirstOrDefault();
         }

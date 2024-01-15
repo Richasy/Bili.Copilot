@@ -394,7 +394,7 @@ public sealed partial class FlyleafPlayerViewModel
             var metaList = new List<SubtitleMeta>();
             foreach (var item in player.Subtitles.Streams)
             {
-                var meta = new SubtitleMeta(item.Language.CultureName, item.Title, string.Empty);
+                var meta = new SubtitleMeta(item.Language.CultureName, item.Title ?? item.Language.Culture.NativeName, string.Empty);
                 metaList.Add(meta);
 
                 player.Config.Subtitles.Languages.Add(item.Language);

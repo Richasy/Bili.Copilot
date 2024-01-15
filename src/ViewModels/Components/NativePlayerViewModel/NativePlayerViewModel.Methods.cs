@@ -178,7 +178,7 @@ public sealed partial class NativePlayerViewModel
     private async Task LoadWebDavVideoAsync()
     {
         var httpClient = GetWebDavHttpClient();
-        var server = AppToolkit.GetWebDavServer(_webDavVideo.Config.Host, _webDavVideo.Config.Port);
+        var server = AppToolkit.GetWebDavServer(_webDavVideo.Config.Host, _webDavVideo.Config.Port, _webDavVideo.Href);
         var stream = await HttpRandomAccessStream.CreateAsync(httpClient, new Uri(server + _webDavVideo.Href));
         var videoSource = MediaSource.CreateFromStream(stream, _webDavVideo.ContentType);
         var videoPlaybackItem = new MediaPlaybackItem(videoSource);

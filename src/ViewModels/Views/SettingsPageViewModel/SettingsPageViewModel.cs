@@ -222,6 +222,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         PlayerType = ReadSetting(SettingNames.PlayerType, PlayerType.Native);
+        WebDavPlayerType = ReadSetting(SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
     }
 
     private void DecodeInit()
