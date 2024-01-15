@@ -171,7 +171,18 @@ public sealed partial class FavoriteProvider
         var result = await HttpProvider.ParseAsync<ServerResponse<VideoFavoriteGalleryResponse>>(response);
         _videoCollectFolderPageNumber = 1;
         _videoCreatedFolderPageNumber = 1;
-        return FavoriteAdapter.ConvertToVideoFavoriteView(result.Data);
+
+        queryParameters = new Dictionary<string, string>
+        {
+            { Query.UpId, userId.ToString() },
+            { Query.Type, "2" },
+        };
+        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.FavoriteList, queryParameters, needToken: true);
+        response = await HttpProvider.Instance.SendAsync(request);
+        var resultList = await HttpProvider.ParseAsync<ServerResponse<FavoriteListResponse>>(response);
+        var listData = resultList.Data;
+
+        return FavoriteAdapter.ConvertToVideoFavoriteView(result.Data, listData);
     }
 
     /// <summary>

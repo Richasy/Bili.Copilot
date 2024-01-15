@@ -92,4 +92,39 @@ public static class FavoriteAdapter
             .Select(ConvertToVideoFavoriteFolderGroup);
         return new VideoFavoriteView(favoriteSets, defaultFolder);
     }
+
+    /// <summary>
+    /// 将视频收藏夹概览响应 <see cref="VideoFavoriteGalleryResponse"/> 转换为视频收藏视图.
+    /// </summary>
+    /// <param name="response">视频收藏夹概览响应.</param>
+    /// <returns><see cref="VideoFavoriteView"/>.</returns>
+    public static VideoFavoriteView ConvertToVideoFavoriteView(VideoFavoriteGalleryResponse response, FavoriteListResponse listData)
+    {
+        var defaultFolder = ConvertToVideoFavoriteFolderDetail(response.DefaultFavoriteList);
+
+        var mineCreateFav = response.FavoriteFolderList.Find(ff => ff.Id == 1);
+        mineCreateFav.MediaList.List = listData.List.Where(fm => fm.Title != "默认收藏夹").Select(FavoriteAdapter.ConvertToVideoFavoriteListDetail).ToList();
+
+        // 过滤稍后再看的内容，稍后再看列表的Id为3.
+        var favoriteSets = response.FavoriteFolderList?
+            .Where(p => p.Id != 3)
+            .Select(ConvertToVideoFavoriteFolderGroup);
+        return new VideoFavoriteView(favoriteSets, defaultFolder);
+    }
+
+    /// <summary>
+    /// 将收藏夹元数据转为收藏夹详情.
+    /// </summary>
+    /// <param name="favoriteMetas">收藏夹元数据.</param>
+    /// <returns>收藏夹详情.</returns>
+    public static FavoriteListDetail ConvertToVideoFavoriteListDetail(FavoriteMeta favoriteMetas)
+    {
+        var favoriteListDetail = new FavoriteListDetail();
+        favoriteListDetail.Title = favoriteMetas.Title;
+        favoriteListDetail.Id = favoriteMetas.Id;
+        favoriteListDetail.OriginId = favoriteMetas.FolderId;
+        favoriteListDetail.Mid = favoriteMetas.UserId;
+        favoriteListDetail.MediaCount = favoriteMetas.MediaCount;
+        return favoriteListDetail;
+    }
 }
