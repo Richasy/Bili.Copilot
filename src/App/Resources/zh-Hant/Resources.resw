@@ -2167,7 +2167,7 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>當前沒有可用的 WebDAV 服務</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value>埠</value>
+    <value>埠（不需要就填0）</value>
   </data>
   <data name="RemoveWebDavConfigWarning" xml:space="preserve">
     <value>是否要刪除 {0} 服務？</value>

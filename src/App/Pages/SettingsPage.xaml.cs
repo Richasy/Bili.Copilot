@@ -16,7 +16,7 @@ public sealed partial class SettingsPage : SettingsPageBase
     public SettingsPage()
     {
         InitializeComponent();
-        ViewModel = SettingsPageViewModel.Instance;
+        ViewModel = new SettingsPageViewModel();
     }
 
     /// <inheritdoc/>

@@ -20,7 +20,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsPageViewModel"/> class.
     /// </summary>
-    private SettingsPageViewModel()
+    public SettingsPageViewModel()
     {
         PlayerDisplayModeCollection = new ObservableCollection<PlayerDisplayMode>();
         PreferCodecCollection = new ObservableCollection<PreferCodec>();
