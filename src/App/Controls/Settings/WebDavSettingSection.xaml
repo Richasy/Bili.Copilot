@@ -20,6 +20,21 @@
         <ToggleSwitch IsOn="{x:Bind ViewModel.IsWebDavEnabled, Mode=TwoWay}" />
         <labs:SettingsExpander.Items>
             <labs:SettingsCard
+                Description="{ext:Locale Name=WebDavPlayerTypeDescription}"
+                Header="{ext:Locale Name=PlayerType}"
+                Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.WebDavPlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="player:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </labs:SettingsCard>
+            <labs:SettingsCard
                 Description="{ext:Locale Name=CurrentWebDavServiceDescription}"
                 Header="{ext:Locale Name=CurrentWebDavService}"
                 IsEnabled="{x:Bind ViewModel.IsWebDavEnabled, Mode=OneWay}"
@@ -41,21 +56,6 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
-            </labs:SettingsCard>
-            <labs:SettingsCard
-                Description="{ext:Locale Name=WebDavPlayerTypeDescription}"
-                Header="{ext:Locale Name=PlayerType}"
-                Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <ComboBox
-                    MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.WebDavPlayerType, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="player:PlayerType">
-                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
             </labs:SettingsCard>
         </labs:SettingsExpander.Items>
         <labs:SettingsExpander.ItemsFooter>

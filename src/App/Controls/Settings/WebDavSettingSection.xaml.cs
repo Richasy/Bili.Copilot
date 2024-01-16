@@ -22,7 +22,7 @@ public sealed partial class WebDavSettingSection : SettingSection
     private async void OnEditButtonClickAsync(object sender, RoutedEventArgs e)
     {
         var config = (sender as FrameworkElement).DataContext as WebDavConfig;
-        var dialog = new WebDavConfigDialog(config);
+        var dialog = new WebDavConfigDialog(config, ViewModel);
         dialog.XamlRoot = AppViewModel.Instance.ActivatedWindow.Content.XamlRoot;
         await dialog.ShowAsync();
     }
@@ -37,13 +37,13 @@ public sealed partial class WebDavSettingSection : SettingSection
         var result = await dialog.ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            SettingsPageViewModel.Instance.RemoveWebDavConfigCommand.Execute(config);
+            ViewModel.RemoveWebDavConfigCommand.Execute(config);
         }
     }
 
     private async void OnAddButtonClickAsync(object sender, RoutedEventArgs e)
     {
-        var dialog = new WebDavConfigDialog();
+        var dialog = new WebDavConfigDialog(ViewModel);
         dialog.XamlRoot = AppViewModel.Instance.ActivatedWindow.Content.XamlRoot;
         await dialog.ShowAsync();
     }

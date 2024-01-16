@@ -12,13 +12,15 @@ namespace Bili.Copilot.App.Controls;
 public sealed partial class WebDavConfigDialog : ContentDialog
 {
     private readonly WebDavConfig _source;
+    private readonly SettingsPageViewModel _pageVM;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavConfigDialog"/> class.
     /// </summary>
-    public WebDavConfigDialog()
+    public WebDavConfigDialog(SettingsPageViewModel pageVM)
     {
         InitializeComponent();
+        _pageVM = pageVM;
         Title = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.CreateWebDavConfig);
         PortBox.Value = 0;
     }
@@ -26,8 +28,8 @@ public sealed partial class WebDavConfigDialog : ContentDialog
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavConfigDialog"/> class.
     /// </summary>
-    public WebDavConfigDialog(WebDavConfig config)
-        : this()
+    public WebDavConfigDialog(WebDavConfig config, SettingsPageViewModel pageVM)
+        : this(pageVM)
     {
         _source = config;
         Title = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.EditWebDavConfig);
@@ -65,11 +67,11 @@ public sealed partial class WebDavConfigDialog : ContentDialog
 
         if (_source is null)
         {
-            SettingsPageViewModel.Instance.AddWebDavConfigCommand.Execute(config);
+            _pageVM.AddWebDavConfigCommand.Execute(config);
         }
         else
         {
-            SettingsPageViewModel.Instance.UpdateWebDavConfigCommand.Execute(config);
+            _pageVM.UpdateWebDavConfigCommand.Execute(config);
         }
     }
 }

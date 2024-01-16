@@ -117,11 +117,6 @@ public sealed partial class SettingsPageViewModel
     private WebDavConfig _selectedWebDav;
 
     /// <summary>
-    /// 实例.
-    /// </summary>
-    public static SettingsPageViewModel Instance { get; } = new();
-
-    /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>
     public ObservableCollection<PlayerDisplayMode> PlayerDisplayModeCollection { get; }

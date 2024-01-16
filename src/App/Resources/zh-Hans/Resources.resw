@@ -2173,7 +2173,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>当前没有可用的 WebDAV 服务</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value>端口</value>
+    <value>端口（不需要就填0）</value>
   </data>
   <data name="RemoveWebDavConfigWarning" xml:space="preserve">
     <value>是否要删除 {0} 服务？</value>
