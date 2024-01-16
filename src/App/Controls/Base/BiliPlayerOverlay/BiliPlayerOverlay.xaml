@@ -361,15 +361,22 @@
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ErrorText}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
-                                    <StackPanel HorizontalAlignment="Center" Spacing="8">
+                                    <StackPanel HorizontalAlignment="Center">
                                         <Button
                                             x:Name="RefreshButton"
+                                            Margin="0,0,0,8"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=Refresh}" />
                                         <Button
                                             x:Name="OpenInBrowserButton"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=OpenInBrowser}" />
+                                        <HyperlinkButton
+                                            x:Name="BackButton2"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            Content="{ext:Locale Name=BackToPrevious}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
@@ -718,15 +725,22 @@
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ErrorText}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
-                                    <StackPanel HorizontalAlignment="Center" Spacing="8">
+                                    <StackPanel HorizontalAlignment="Center">
                                         <Button
                                             x:Name="RefreshButton"
+                                            Margin="0,0,0,8"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=Refresh}" />
                                         <Button
                                             x:Name="OpenInBrowserButton"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=OpenInBrowser}" />
+                                        <HyperlinkButton
+                                            x:Name="BackButton2"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            Content="{ext:Locale Name=BackToPrevious}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
