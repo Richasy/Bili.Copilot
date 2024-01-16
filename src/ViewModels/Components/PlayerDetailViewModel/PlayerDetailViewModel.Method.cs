@@ -318,14 +318,22 @@ public sealed partial class PlayerDetailViewModel
 
     private void OnMediaOpened(object sender, EventArgs e)
     {
-        ChangePlayRateCommand.Execute(PlaybackRate);
-        ChangeVolumeCommand.Execute(Volume);
-
-        var autoPlay = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoPlayWhenLoaded, true);
-        if (autoPlay)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            Player.Play();
-        }
+            ChangePlayRateCommand.Execute(PlaybackRate);
+            ChangeVolumeCommand.Execute(Volume);
+
+            if (_videoType == VideoType.Video)
+            {
+                CheckVideoHistory();
+            }
+
+            var autoPlay = SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoPlayWhenLoaded, true);
+            if (autoPlay)
+            {
+                Player.Play();
+            }
+        });
     }
 
     private void OnMediaEnded(object sender, EventArgs e)

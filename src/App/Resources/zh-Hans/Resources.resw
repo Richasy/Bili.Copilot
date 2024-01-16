@@ -2199,4 +2199,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="MainWindow" xml:space="preserve">
     <value>主窗口</value>
   </data>
+  <data name="AutoLoadHistoryWhenLoaded" xml:space="preserve">
+    <value>加载后自动跳转上次播放进度</value>
+  </data>
 </root>

@@ -54,6 +54,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
         PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
+        AutoLoadHistory = ReadSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, true);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -116,6 +117,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(IsAutoPlayNextRelatedVideo):
                 WriteSetting(SettingNames.IsAutoPlayNextRelatedVideo, IsAutoPlayNextRelatedVideo);
+                break;
+            case nameof(AutoLoadHistory):
+                WriteSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, AutoLoadHistory);
                 break;
             case nameof(IsOpenRoaming):
                 WriteSetting(SettingNames.IsOpenRoaming, IsOpenRoaming);

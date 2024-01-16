@@ -195,8 +195,13 @@ public sealed partial class PlayerDetailViewModel
     private void ChangeProgress(double seconds)
     {
         var ts = TimeSpan.FromSeconds(seconds);
-        if (Player == null
-            || Math.Abs(ts.TotalSeconds - Player.Position.TotalSeconds) < 3)
+        if (Player == null)
+        {
+            _initializeProgress = ts;
+            return;
+        }
+
+        if(Math.Abs(ts.TotalSeconds - Player.Position.TotalSeconds) < 3)
         {
             return;
         }

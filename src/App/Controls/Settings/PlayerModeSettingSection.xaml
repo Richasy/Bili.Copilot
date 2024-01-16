@@ -74,6 +74,9 @@
             <labs:SettingsCard Header="{ext:Locale Name=AutoPlayWhenLoaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayWhenLoaded, Mode=TwoWay}" />
             </labs:SettingsCard>
+            <labs:SettingsCard Header="{ext:Locale Name=AutoLoadHistoryWhenLoaded}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoLoadHistory, Mode=TwoWay}" />
+            </labs:SettingsCard>
             <labs:SettingsCard>
                 <labs:SettingsCard.Header>
                     <StackPanel Orientation="Horizontal" Spacing="4">

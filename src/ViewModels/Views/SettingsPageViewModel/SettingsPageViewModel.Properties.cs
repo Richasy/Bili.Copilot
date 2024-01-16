@@ -108,6 +108,9 @@ public sealed partial class SettingsPageViewModel
     private PlayerWindowBehavior _playerWindowBehavior;
 
     [ObservableProperty]
+    private bool _autoLoadHistory;
+
+    [ObservableProperty]
     private bool _isWebDavEnabled;
 
     [ObservableProperty]
