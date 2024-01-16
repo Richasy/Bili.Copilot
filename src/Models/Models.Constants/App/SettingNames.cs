@@ -133,4 +133,5 @@ public enum SettingNames
     WebDavPlayerType,
     IsWebDavContinuePlay,
     WebDavLastPath,
+    IsAutoLoadHistoryWhenLoaded,
 }
