@@ -47,7 +47,7 @@ namespace WebDav
                 .WithContentLength(PropertyValueParser.ParseLong(FindProp("{DAV:}getcontentlength", properties)))
                 .WithContentType(PropertyValueParser.ParseString(FindProp("{DAV:}getcontenttype", properties)))
                 .WithCreationDate(PropertyValueParser.ParseDateTime(FindProp("{DAV:}creationdate", properties)))
-                .WithDisplayName(PropertyValueParser.ParseString(FindProp("{DAV:}displayname", properties)))
+                .WithDisplayName(PropertyValueParser.ParseString(FindProp("{DAV:}displayname", properties)), uri)
                 .WithETag(PropertyValueParser.ParseString(FindProp("{DAV:}getetag", properties)))
                 .WithLastModifiedDate(PropertyValueParser.ParseDateTime(FindProp("{DAV:}getlastmodified", properties)))
                 .WithProperties(properties.Select(x => new WebDavProperty(x.Name, x.GetInnerXml())).ToList())
