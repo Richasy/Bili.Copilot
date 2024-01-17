@@ -156,9 +156,11 @@ namespace WebDav
             /// <summary>
             /// Sets the DisplayName parameter of an instance of the <see cref="WebDavResource"/> class.
             /// </summary>
-            public Builder WithDisplayName(string displayName)
+            public Builder WithDisplayName(string displayName, string href)
             {
-                _displayName = displayName;
+                _displayName = string.IsNullOrEmpty(displayName)
+                    ? System.Uri.UnescapeDataString(href.Split("/", StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? string.Empty)
+                    : displayName;
                 return this;
             }
 
