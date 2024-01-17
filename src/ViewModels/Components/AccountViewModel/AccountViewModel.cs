@@ -91,6 +91,7 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// 初始化用户社交信息.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
+    [RelayCommand]
     private async Task InitialCommunityInformationAsync()
     {
         var data = await AccountProvider.Instance.GetMyCommunityInformationAsync();
@@ -110,6 +111,7 @@ public sealed partial class AccountViewModel : ViewModelBase
     {
         var unreadInformation = await AccountProvider.GetUnreadMessageAsync();
         UnreadInformation = unreadInformation;
+        MessageCountInt = unreadInformation.Total > 99 ? 99 : unreadInformation.Total;
         MessageCount = unreadInformation.Total > 99 ? "99+" : unreadInformation.Total.ToString();
     }
 

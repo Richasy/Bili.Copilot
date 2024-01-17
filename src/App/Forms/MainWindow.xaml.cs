@@ -408,6 +408,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
             AppViewModel.Instance.ChangeTheme(localTheme);
         }
+        else
+        {
+            AccountViewModel.Instance.InitialCommunityInformationCommand.Execute(default);
+        }
     }
 
     private RectInt32 GetRenderRect(RectInt32 workArea)

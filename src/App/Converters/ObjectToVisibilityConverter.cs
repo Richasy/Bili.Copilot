@@ -26,11 +26,11 @@ internal sealed class ObjectToVisibilityConverter : IValueConverter
         }
         else if (value is int numInt)
         {
-            isShow = numInt <= 0;
+            isShow = numInt > 0;
         }
         else if (value is double numDouble)
         {
-            isShow = numDouble <= 0;
+            isShow = numDouble > 0;
         }
 
         if (IsReverse)
