@@ -33,6 +33,7 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         };
 
         InitializeMessageCount();
+        SelectTypeCommand.Execute(MessageTypes.FirstOrDefault(p => p.Count > 0) ?? MessageTypes.First());
         AccountViewModel.Instance.PropertyChanged += OnAccountViewModelPropertyChanged;
     }
 

@@ -41,6 +41,9 @@ public sealed partial class AccountViewModel
     private string _messageCount;
 
     [ObservableProperty]
+    private int _messageCountInt;
+
+    [ObservableProperty]
     private bool _isInitializing;
 
     [ObservableProperty]
