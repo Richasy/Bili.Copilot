@@ -114,6 +114,11 @@
                 Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         </Grid>
 
+        <base:LoadingOverlapper
+            Grid.Column="2"
+            IsOpen="{x:Bind ViewModel.IsOverlayLoading, Mode=OneWay}"
+            Text="{ext:Locale Name=LoadingAndWait}" />
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="NarrowState">

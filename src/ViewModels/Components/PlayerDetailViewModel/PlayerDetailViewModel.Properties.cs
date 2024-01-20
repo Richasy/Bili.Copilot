@@ -37,6 +37,7 @@ public sealed partial class PlayerDetailViewModel
     private TimeSpan _lastReportProgress;
     private TimeSpan _initializeProgress;
     private Action _playNextAction;
+    private Action _playPreviousAction;
     private DisplayRequest _displayRequest;
 
     private DispatcherTimer _unitTimer;
@@ -149,6 +150,9 @@ public sealed partial class PlayerDetailViewModel
     private bool _canPlayNextPart;
 
     [ObservableProperty]
+    private bool _canPlayPreviousPart;
+
+    [ObservableProperty]
     private bool _isPosterShown;
 
     [ObservableProperty]
@@ -156,6 +160,9 @@ public sealed partial class PlayerDetailViewModel
 
     [ObservableProperty]
     private bool _isBackButtonShown;
+
+    [ObservableProperty]
+    private bool _isInPlaylist;
 
     /// <summary>
     /// 当需要显示临时消息时触发的事件.

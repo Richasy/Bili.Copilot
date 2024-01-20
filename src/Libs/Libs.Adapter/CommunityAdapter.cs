@@ -293,6 +293,19 @@ public static class CommunityAdapter
     }
 
     /// <summary>
+    /// 将视频条目 <see cref="WebRecommendVideo"/> 转换为视频交互信息.
+    /// </summary>
+    /// <param name="video">视频信息.</param>
+    /// <returns>社区信息.</returns>
+    public static VideoCommunityInformation ConvertToVideoCommunityInformation(WebRecommendVideo video)
+    {
+        var playCount = video.Stat.PlayCount;
+        var danmakuCount = video.Stat.DanmakuCount;
+        var likeCount = video.Stat.LikeCount;
+        return new VideoCommunityInformation(video.AvId.ToString(), playCount, danmakuCount, likeCount);
+    }
+
+    /// <summary>
     /// 将分区视频 <see cref="PartitionVideo"/> 转换为视频交互信息.
     /// </summary>
     /// <param name="video">分区视频信息.</param>

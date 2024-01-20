@@ -145,6 +145,9 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         CreatePlayNextAction();
+        CreatePlayPreviousAction();
+
+        PlayerDetail.IsInPlaylist = _playNextVideoAction != null || _playPreviousVideoAction != null;
 
         // 评论区常显，但位于最后一个.
         Sections.Add(new PlayerSectionHeader(PlayerSectionType.Comments, ResourceToolkit.GetLocalizedString(StringNames.Reply)));

@@ -30,6 +30,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         CurrentType = SettingsToolkit.ReadLocalSetting(SettingNames.LastPopularType, PopularType.Recommend);
         PartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.LastPopularPartitionId, string.Empty);
         AttachIsRunningToAsyncCommand(p => IsInitializing = p, FirstLoadCommand);
+        AttachIsRunningToAsyncCommand(p => IsOverlayLoading = p, LoadFeaturedCommand);
         Partitions = new ObservableCollection<PartitionItemViewModel>();
         CheckModuleState();
     }
@@ -124,6 +125,20 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
         }
 
         IsEmpty = Items.Count == 0;
+    }
+
+    [RelayCommand]
+    private static async Task LoadFeaturedAsync()
+    {
+        var videos = await HomeProvider.GetFeaturedVideosAsync();
+        if (videos?.Count() > 0)
+        {
+            AppViewModel.Instance.OpenPlaylistCommand.Execute(videos);
+        }
+        else
+        {
+            AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.NoFeaturedVideo), InfoType.Error);
+        }
     }
 
     [RelayCommand]

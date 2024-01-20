@@ -32,14 +32,44 @@ public sealed partial class HomeProvider
     }
 
     /// <summary>
+    /// 获取精选视频详情.
+    /// </summary>
+    /// <returns>精选视频列表.</returns>
+    public static async Task<IEnumerable<VideoInformation>> GetFeaturedVideosAsync()
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "fresh_idx", "1" },
+            { Query.PageSizeSlim, "10" },
+            { Query.PlatformSlim, "1" },
+            { "feed_version", "CLIENT_SELECTED" },
+            { "fresh_type", "0" },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(
+                       HttpMethod.Get,
+                       ApiConstants.Home.Featured,
+                       queryParameters,
+                       RequestClientType.Web,
+                       needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var data = await HttpProvider.ParseAsync<ServerResponse<WebRecommendResponse>>(response);
+        var result = data.Data.Items
+            .Where(p => p.Goto == Av)
+            .Select(VideoAdapter.ConvertToVideoInformation)
+            .ToList();
+        return result;
+    }
+
+    /// <summary>
     /// 获取排行榜详情.
     /// </summary>
     /// <param name="partitionId">分区Id. 如果是全区则为0.</param>
     /// <returns>排行榜信息.</returns>
     public static async Task<IEnumerable<VideoInformation>> GetRankDetailAsync(string partitionId)
     {
-        var rankRequst = new RankRegionResultReq() { Rid = System.Convert.ToInt32(partitionId) };
-        var request = await HttpProvider.GetRequestMessageAsync(ApiConstants.Home.RankingGRPC, rankRequst);
+        var rankRequest = new RankRegionResultReq() { Rid = System.Convert.ToInt32(partitionId) };
+        var request = await HttpProvider.GetRequestMessageAsync(ApiConstants.Home.RankingGRPC, rankRequest);
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync(response, RankListReply.Parser);
         return data.Items.ToList().Select(VideoAdapter.ConvertToVideoInformation);

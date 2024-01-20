@@ -63,6 +63,36 @@ public static class VideoAdapter
     }
 
     /// <summary>
+    /// 将推荐视频 <see cref="WebRecommendVideo"/> 转换为视频信息.
+    /// </summary>
+    /// <param name="video">视频.</param>
+    /// <returns>视频信息.</returns>
+    /// <exception cref="ArgumentException">传入的数据不是预期的视频类型.</exception>
+    public static VideoInformation ConvertToVideoInformation(WebRecommendVideo video)
+    {
+        if (video.Goto != ServiceConstants.Av)
+        {
+            throw new ArgumentException($"推荐卡片的 CardGoTo 属性应该是 {ServiceConstants.Av}，这里是 {video.Goto}，不符合要求，请检查分配条件", nameof(video));
+        }
+
+        var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(video);
+        var publisher = UserAdapter.ConvertToRoleProfile(video.Owner, AvatarSize.Size64);
+        var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(video.Title);
+        var id = video.AvId.ToString();
+        var duration = video.Duration;
+        var cover = ImageAdapter.ConvertToVideoCardCover(video.Cover);
+        var highlight = TextToolkit.ConvertToTraditionalChineseIfNeeded(video.RecommendReason?.Content ?? string.Empty);
+        var identifier = new VideoIdentifier(id, title, duration, cover);
+        var subtitle = DateTimeOffset.FromUnixTimeSeconds(video.PublishTime).Humanize();
+        return new VideoInformation(
+            identifier,
+            publisher,
+            subtitle: subtitle,
+            highlight: highlight,
+            communityInformation: communityInfo);
+    }
+
+    /// <summary>
     /// 将分区视频 <see cref="PartitionVideo"/> 转换为视频信息.
     /// </summary>
     /// <param name="video">分区视频.</param>
