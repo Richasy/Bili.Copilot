@@ -20,6 +20,7 @@ public sealed partial class VideoPlayerPageViewModel
 
     private string _presetVideoId;
     private Action _playNextVideoAction;
+    private Action _playPreviousVideoAction;
     private bool _isInPrivate;
     private Window _attachedWindow;
     private bool _isStatsUpdated;

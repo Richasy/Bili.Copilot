@@ -336,6 +336,33 @@
                                         <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
                                     </Button>
                                 </Grid>
+
+                                <Grid
+                                    Margin="0,12,20,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <StackPanel
+                                        Padding="4"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInPlaylist}">
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PreviousPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronUp" />
+                                        </Button>
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronDown" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -699,6 +726,32 @@
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
                                         <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
                                     </Button>
+                                </Grid>
+                                <Grid
+                                    Margin="0,12,20,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <StackPanel
+                                        Padding="4"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInPlaylist}">
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PreviousPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronUp" />
+                                        </Button>
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronDown" />
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
                             <Grid

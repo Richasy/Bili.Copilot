@@ -362,4 +362,12 @@ public sealed partial class PlayerDetailViewModel
             ToggleCompactOverlayModeCommand.Execute(default);
         }
     }
+
+    [RelayCommand]
+    private void PlayNext()
+        => _playNextAction?.Invoke();
+
+    [RelayCommand]
+    private void PlayPrevious()
+        => _playPreviousAction?.Invoke();
 }

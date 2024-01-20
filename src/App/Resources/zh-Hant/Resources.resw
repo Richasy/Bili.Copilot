@@ -2196,4 +2196,16 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="AutoLoadHistoryWhenLoaded" xml:space="preserve">
     <value>載入後自動跳轉上次播放進度</value>
   </data>
+  <data name="FeaturedRecommend" xml:space="preserve">
+    <value>精選推薦</value>
+  </data>
+  <data name="NextPartTipTemplate" xml:space="preserve">
+    <value>下一個：{0}</value>
+  </data>
+  <data name="NoFeaturedVideo" xml:space="preserve">
+    <value>沒有獲取到精選視頻</value>
+  </data>
+  <data name="PreviousPartTipTemplate" xml:space="preserve">
+    <value>上一個：{0}</value>
+  </data>
 </root>

@@ -118,11 +118,21 @@ public sealed partial class NativePlayerViewModel : ViewModelBase, IPlayerViewMo
 
     /// <inheritdoc/>
     public void SetPlayRate(double rate)
-        => ((MediaPlayer)Player).PlaybackRate = rate;
+    {
+        if (Player is MediaPlayer player)
+        {
+            player.PlaybackRate = rate;
+        }
+    }
 
     /// <inheritdoc/>
     public void SetVolume(int volume)
-        => ((MediaPlayer)Player).Volume = volume / 100.0;
+    {
+        if (Player is MediaPlayer player)
+        {
+            player.Volume = volume / 100.0;
+        }
+    }
 
     /// <inheritdoc/>
     public void Dispose()

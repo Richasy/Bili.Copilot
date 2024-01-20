@@ -139,6 +139,13 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         => _playNextAction = action;
 
     /// <summary>
+    /// 设置播放上一个内容的动作.
+    /// </summary>
+    /// <param name="action">动作.</param>
+    public void SetPlayPreviousAction(Action action)
+        => _playPreviousAction = action;
+
+    /// <summary>
     /// 显示错误.
     /// </summary>
     public void DisplayException(Exception exception)

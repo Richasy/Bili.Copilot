@@ -40,6 +40,7 @@ public sealed partial class PgcPlayerPageViewModel
     {
         _playNextEpisodeAction = default;
         PlayerDetail?.SetPlayNextAction(default);
+        PlayerDetail?.SetPlayPreviousAction(default);
         IsVideoFixed = false;
     }
 

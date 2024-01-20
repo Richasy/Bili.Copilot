@@ -74,8 +74,9 @@ public sealed partial class PgcPlayerPageViewModel
         _ = ReloadCommunityInformationCommand.ExecuteAsync(null);
         PlayerDetail.SetPgcData(View, CurrentEpisode);
 
-        // _commentPageViewModel.SetData(CurrentEpisode.VideoId, CommentType.Video);
         CreatePlayNextAction();
+        CreatePlayPreviousAction();
+        PlayerDetail.IsInPlaylist = _playNextEpisodeAction != null || _playPreviousEpisodeAction != null;
     }
 
     private void CreatePlayNextAction()
@@ -115,16 +116,68 @@ public sealed partial class PgcPlayerPageViewModel
 
         if (nextPart == null)
         {
+            PlayerDetail.CanPlayNextPart = false;
             return;
         }
 
         PlayerDetail.NextVideoTipText = nextPart.Identifier.Title;
+        PlayerDetail.NextPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextPartTipTemplate), nextPart.Identifier.Title);
         _playNextEpisodeAction = () =>
         {
             ChangeEpisode(nextPart);
         };
 
         PlayerDetail.SetPlayNextAction(_playNextEpisodeAction);
+    }
+
+    private void CreatePlayPreviousAction()
+    {
+        _playPreviousEpisodeAction = null;
+
+        // 当前分集为空时不处理.
+        if (CurrentEpisode == null)
+        {
+            return;
+        }
+
+        PlayerDetail.CanPlayPreviousPart = CurrentEpisode.IsPreviewVideo
+            ? !Extras.FirstOrDefault()?.Equals(CurrentEpisode) ?? false
+            : !Episodes.FirstOrDefault()?.Equals(CurrentEpisode) ?? false;
+
+        EpisodeInformation previousPart = default;
+        var isPreview = CurrentEpisode.IsPreviewVideo;
+        if (!isPreview && Sections.Any(p => p.Type == PlayerSectionType.Episodes))
+        {
+            var canContinue = Episodes.Count > 1 && CurrentEpisode != Episodes.First().Data;
+            if (canContinue)
+            {
+                previousPart = Episodes.FirstOrDefault(p => p.Data.Index == CurrentEpisode.Index - 1)?.Data;
+            }
+        }
+        else if (isPreview && Sections.Any(p => p.Type == PlayerSectionType.Extras))
+        {
+            var extras = Extras.SelectMany(p => p.Episodes).ToList();
+            var index = extras.IndexOf(extras.FirstOrDefault(p => p.Equals(CurrentEpisode)));
+            var canContinue = index != -1 && extras.Count > 1 && CurrentEpisode != extras.First().Data;
+            if (canContinue)
+            {
+                previousPart = extras[index - 1].Data;
+            }
+        }
+
+        if (previousPart == null)
+        {
+            PlayerDetail.CanPlayPreviousPart = false;
+            return;
+        }
+
+        PlayerDetail.PreviousPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PreviousPartTipTemplate), previousPart.Identifier.Title);
+        _playPreviousEpisodeAction = () =>
+        {
+            ChangeEpisode(previousPart);
+        };
+
+        PlayerDetail.SetPlayPreviousAction(_playPreviousEpisodeAction);
     }
 
     private void OnAuthorizeStateChanged(object sender, AuthorizeStateChangedEventArgs e)

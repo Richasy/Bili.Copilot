@@ -48,6 +48,7 @@ public sealed partial class VideoPlayerPageViewModel
     private void ResetInterop()
     {
         _playNextVideoAction = default;
+        _playPreviousVideoAction = default;
         PlayerDetail.SetPlayNextAction(default);
         IsVideoFixed = false;
     }
