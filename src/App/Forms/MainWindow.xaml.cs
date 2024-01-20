@@ -16,6 +16,7 @@ using Bili.Copilot.ViewModels.Views;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
+using Windows.System;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -397,6 +398,14 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
+        KeyboardHook.KeyDown -= OnWindowKeyDown;
+        KeyboardHook.Stop();
+        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        {
+            KeyboardHook.Start();
+            KeyboardHook.KeyDown += OnWindowKeyDown;
+        }
+
         if (!_isInitialized)
         {
             var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
@@ -512,6 +521,36 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (_appViewModel.IsOverlayShown && !_appViewModel.IsTitleBarShown)
         {
             SetNormalDragAreaAsync();
+        }
+    }
+
+    private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
+    {
+        if (e.Key == VirtualKey.Space && _appViewModel.IsOverlayShown)
+        {
+            var focusEle = FocusManager.GetFocusedElement(OverlayFrame.XamlRoot);
+            if (focusEle is TextBox)
+            {
+                return;
+            }
+
+            e.Handled = true;
+            if (OverlayFrame.Content is VideoPlayerPageBase page)
+            {
+                page.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is LivePlayerPage livePage)
+            {
+                livePage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is PgcPlayerPage pgcPage)
+            {
+                pgcPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is WebDavPlayerPage webDavPage)
+            {
+                webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
         }
     }
 }

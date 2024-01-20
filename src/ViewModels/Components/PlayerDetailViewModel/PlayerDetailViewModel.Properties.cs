@@ -153,6 +153,12 @@ public sealed partial class PlayerDetailViewModel
     private bool _canPlayPreviousPart;
 
     [ObservableProperty]
+    private string _nextPartText;
+
+    [ObservableProperty]
+    private string _previousPartText;
+
+    [ObservableProperty]
     private bool _isPosterShown;
 
     [ObservableProperty]

@@ -248,50 +248,50 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionLeft, left);
         SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowPositionTop, top);
     }
+}
 
-    internal class KeyboardHook
+internal class KeyboardHook
+{
+    private const int WM_KEYDOWN = 0x0100;
+
+    private static readonly HOOKPROC _proc = HookCallback;
+    private static UnhookWindowsHookExSafeHandle _hookID = new();
+
+    public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
+
+    public static void Start() => _hookID = SetHook(_proc);
+
+    public static void Stop() => PInvoke.UnhookWindowsHookEx(new HHOOK(_hookID.DangerousGetHandle()));
+
+    private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc)
     {
-        private const int WM_KEYDOWN = 0x0100;
+        using var curProcess = Process.GetCurrentProcess();
+        using var curModule = curProcess.MainModule;
+        return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, Windows.Win32.PInvoke.GetModuleHandle(curModule.ModuleName), 0);
+    }
 
-        private static readonly HOOKPROC _proc = HookCallback;
-        private static UnhookWindowsHookExSafeHandle _hookID = new();
-
-        public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
-
-        public static void Start() => _hookID = SetHook(_proc);
-
-        public static void Stop() => PInvoke.UnhookWindowsHookEx(new HHOOK(_hookID.DangerousGetHandle()));
-
-        private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc)
+    private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    {
+        if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
         {
-            using var curProcess = Process.GetCurrentProcess();
-            using var curModule = curProcess.MainModule;
-            return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, Windows.Win32.PInvoke.GetModuleHandle(curModule.ModuleName), 0);
-        }
-
-        private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
-        {
-            if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
+            var vkCode = Marshal.ReadInt32(lParam);
+            var args = new PlayerKeyboardEventArgs(vkCode);
+            KeyDown?.Invoke(null, args);
+            if (args.Handled)
             {
-                var vkCode = Marshal.ReadInt32(lParam);
-                var args = new PlayerKeyboardEventArgs(vkCode);
-                KeyDown?.Invoke(null, args);
-                if (args.Handled)
-                {
-                    return new LRESULT(1);
-                }
+                return new LRESULT(1);
             }
-
-            return PInvoke.CallNextHookEx(new HHOOK(_hookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
         }
+
+        return PInvoke.CallNextHookEx(new HHOOK(_hookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
     }
+}
 
-    internal class PlayerKeyboardEventArgs
-    {
-        public PlayerKeyboardEventArgs(int keyCode) => Key = (VirtualKey)keyCode;
+internal class PlayerKeyboardEventArgs
+{
+    public PlayerKeyboardEventArgs(int keyCode) => Key = (VirtualKey)keyCode;
 
-        internal VirtualKey Key { get; }
+    internal VirtualKey Key { get; }
 
-        internal bool Handled { get; set; }
-    }
+    internal bool Handled { get; set; }
 }

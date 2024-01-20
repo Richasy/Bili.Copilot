@@ -142,6 +142,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
 
         CreatePlayNextAction();
+        CreatePlayPreviousAction();
         IsSectionsEmpty = Sections.Count == 0;
         CurrentSection = isShowExtraSection
             ? Sections.FirstOrDefault(p => p.Type == PlayerSectionType.Extras)

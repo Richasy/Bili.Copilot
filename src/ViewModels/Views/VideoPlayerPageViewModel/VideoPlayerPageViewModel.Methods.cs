@@ -165,10 +165,12 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (nextPart == null)
         {
+            PlayerDetail.CanPlayNextPart = false;
             return;
         }
 
         PlayerDetail.NextVideoTipText = nextPart.Value.Title;
+        PlayerDetail.NextPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextPartTipTemplate), nextPart.Value.Title);
         _playNextVideoAction = () =>
         {
             if (isNewVideo)
@@ -246,9 +248,11 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (previousPart == null)
         {
+            PlayerDetail.CanPlayPreviousPart = false;
             return;
         }
 
+        PlayerDetail.PreviousPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PreviousPartTipTemplate), previousPart.Value.Title);
         _playPreviousVideoAction = () =>
         {
             if (isNewVideo)
