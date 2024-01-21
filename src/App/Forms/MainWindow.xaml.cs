@@ -526,12 +526,15 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
     {
-        if (e.Key == VirtualKey.Space && _appViewModel.IsOverlayShown)
+        if ((e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause) && _appViewModel.IsOverlayShown)
         {
-            var focusEle = FocusManager.GetFocusedElement(OverlayFrame.XamlRoot);
-            if (focusEle is TextBox)
+            if (e.Key == VirtualKey.Space)
             {
-                return;
+                var focusEle = FocusManager.GetFocusedElement(MainFrame.XamlRoot);
+                if (focusEle is TextBox)
+                {
+                    return;
+                }
             }
 
             e.Handled = true;

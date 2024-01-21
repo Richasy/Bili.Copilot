@@ -154,12 +154,15 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
 
     private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
     {
-        if (e.Key == VirtualKey.Space)
+        if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause)
         {
-            var focusEle = FocusManager.GetFocusedElement(MainFrame.XamlRoot);
-            if (focusEle is TextBox)
+            if (e.Key == VirtualKey.Space)
             {
-                return;
+                var focusEle = FocusManager.GetFocusedElement(MainFrame.XamlRoot);
+                if (focusEle is TextBox)
+                {
+                    return;
+                }
             }
 
             e.Handled = true;

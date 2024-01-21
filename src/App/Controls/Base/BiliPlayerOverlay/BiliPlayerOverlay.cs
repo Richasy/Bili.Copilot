@@ -25,6 +25,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private Button _refreshButton;
     private Button _openInBrowserButton;
     private Button _backButton;
+    private Button _detailButton;
     private ButtonBase _backButton2;
     private SplitView _rootSplitView;
 
@@ -103,6 +104,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _refreshButton = GetTemplateChild("RefreshButton") as Button;
         _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
         _backButton = GetTemplateChild("BackButton") as Button;
+        _detailButton = GetTemplateChild("DetailButton") as Button;
         _backButton2 = GetTemplateChild("BackButton2") as HyperlinkButton;
         _rootSplitView = GetTemplateChild("RootSplitView") as SplitView;
         var sectionView = GetTemplateChild("SectionNavigationView") as NavigationView;
@@ -130,7 +132,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
         _backButton.Click += OnBackButtonClick;
         _backButton2.Click += OnBackButtonClick;
-        _transportControls.DetailButtonClicked += OnDetailButtonClicked;
+        _detailButton.Click += OnDetailButtonClick;
         _rootSplitView.PaneOpened += OnRootSplitViewPaneChanged;
         _rootSplitView.PaneClosed += OnRootSplitViewPaneChanged;
         sectionView.ItemInvoked += OnSectionViewItemInvoked;
@@ -139,31 +141,5 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
 
         CheckDanmakuZoom();
         ResizeSubtitle();
-    }
-
-    private void OnBackButtonClick(object sender, RoutedEventArgs e)
-    {
-        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
-        {
-            ViewModel.ToggleCompactOverlayModeCommand.Execute(default);
-        }
-        else if (ViewModel.DisplayMode == PlayerDisplayMode.FullScreen)
-        {
-            ViewModel.ToggleFullScreenModeCommand.Execute(default);
-        }
-
-        AppViewModel.Instance.BackCommand.Execute(default);
-    }
-
-    private void OnRootSplitViewPaneChanged(SplitView sender, object args)
-    {
-        var width = 0d;
-        if (sender.DisplayMode == SplitViewDisplayMode.Inline
-            && sender.IsPaneOpen)
-        {
-            width = sender.OpenPaneLength;
-        }
-
-        PaneToggled?.Invoke(this, width);
     }
 }

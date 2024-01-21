@@ -314,7 +314,6 @@
                                         Margin="12"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Bottom"
-                                        DetailContent="{TemplateBinding MediaPresenter}"
                                         IsLive="{TemplateBinding IsLive}"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                                 </Grid>
@@ -338,13 +337,31 @@
                                 </Grid>
 
                                 <Grid
+                                    Margin="20,12,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="DetailButton"
+                                        MaxWidth="128"
+                                        Padding="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Content="{TemplateBinding MediaPresenter}" />
+                                </Grid>
+
+                                <Grid
                                     Margin="0,12,20,0"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
                                     <StackPanel
                                         Padding="4"
-                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                                         CornerRadius="{StaticResource ControlCornerRadius}"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInPlaylist}">
                                         <Button
@@ -704,7 +721,6 @@
                                         Margin="12"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Bottom"
-                                        DetailContent="{TemplateBinding MediaPresenter}"
                                         IsLive="{TemplateBinding IsLive}"
                                         IsWebDav="True"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
@@ -726,6 +742,23 @@
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
                                         <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
                                     </Button>
+                                </Grid>
+                                <Grid
+                                    Margin="20,12,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="DetailButton"
+                                        MaxWidth="128"
+                                        Padding="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Content="{TemplateBinding MediaPresenter}" />
                                 </Grid>
                                 <Grid
                                     Margin="0,12,20,0"

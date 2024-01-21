@@ -20,7 +20,7 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
+        if (_rootSplitView.IsPaneOpen && _rootSplitView.IsPaneOpen)
         {
             return;
         }
@@ -32,7 +32,7 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
+        if (_rootSplitView.IsPaneOpen && _rootSplitView.IsPaneOpen)
         {
             return;
         }
@@ -249,6 +249,13 @@ public partial class BiliPlayerOverlay
         if (e.PointerDeviceType == PointerDeviceType.Mouse)
         {
             _isTouch = false;
+
+            if (_rootSplitView.IsPaneOpen)
+            {
+                _rootSplitView.IsPaneOpen = false;
+                return;
+            }
+
             ViewModel.PlayPauseCommand.Execute(default);
         }
         else
@@ -404,10 +411,7 @@ public partial class BiliPlayerOverlay
         ViewModel.OpenInBrowserCommand.Execute(default);
     }
 
-    private void OnDetailButtonClicked(object sender, EventArgs e)
-        => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
-
-    private void OnSectionViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+    private void OnSectionViewItemInvoked(NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
     {
         var item = args.InvokedItem as PlayerSectionHeader;
         SectionHeaderItemInvoked?.Invoke(this, item);
@@ -415,4 +419,34 @@ public partial class BiliPlayerOverlay
 
     private void OnRequestShowTempMessage(object sender, string e)
         => ShowTempMessage(e);
+
+    private void OnDetailButtonClick(object sender, RoutedEventArgs e)
+        => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
+
+    private void OnBackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            ViewModel.ToggleCompactOverlayModeCommand.Execute(default);
+        }
+        else if (ViewModel.DisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            ViewModel.ToggleFullScreenModeCommand.Execute(default);
+        }
+
+        AppViewModel.Instance.BackCommand.Execute(default);
+    }
+
+    private void OnRootSplitViewPaneChanged(SplitView sender, object args)
+    {
+        var width = 0d;
+        if (sender.DisplayMode == SplitViewDisplayMode.Inline
+            && sender.IsPaneOpen)
+        {
+            width = sender.OpenPaneLength;
+        }
+
+        _detailButton.Visibility = sender.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+        PaneToggled?.Invoke(this, width);
+    }
 }

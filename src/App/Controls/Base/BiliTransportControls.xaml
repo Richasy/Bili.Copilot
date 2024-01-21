@@ -25,7 +25,7 @@
 
     <Grid
         x:Name="ControlPanel"
-        MaxWidth="680"
+        MaxWidth="880"
         Padding="12,12,12,8"
         Background="{ThemeResource MediaTransportBackgroundBrush}"
         CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -33,13 +33,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.RenderTransform>
             <TranslateTransform x:Name="TranslateVertical" />
         </Grid.RenderTransform>
 
-        <Grid>
+        <Grid ColumnSpacing="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
@@ -55,12 +54,12 @@
                     <local:FluentIcon
                         x:Name="CompactPauseIcon"
                         FontSize="14"
-                        Symbol="Pause"
+                        Symbol="PauseFilled"
                         Visibility="Collapsed" />
                     <local:FluentIcon
                         x:Name="CompactPlayIcon"
                         FontSize="14"
-                        Symbol="Play" />
+                        Symbol="PlayFilled" />
                 </Grid>
             </Button>
             <ProgressBar
@@ -117,13 +116,14 @@
         <Grid
             x:Name="DetailControlPanel"
             Grid.Row="1"
+            Padding="4,0"
             ColumnSpacing="12">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button
+            <!--<Button
                 Padding="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -132,27 +132,20 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Click="OnDetailButtonClick"
-                Content="{x:Bind DetailContent, Mode=OneWay}" />
+                Content="{x:Bind DetailContent, Mode=OneWay}" />-->
+
             <StackPanel
-                Grid.Column="1"
+                Padding="0,0,12,0"
                 VerticalAlignment="Center"
+                BorderBrush="{ThemeResource LayerFillColorAltBrush}"
+                BorderThickness="0,0,1,0"
                 Orientation="Horizontal"
                 Spacing="8">
-                <Button
-                    x:Name="BackButton"
-                    VerticalAlignment="Center"
-                    Command="{x:Bind ViewModel.BackwardSkipCommand, Mode=OneWay}"
-                    CornerRadius="20"
-                    Style="{StaticResource IconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=BackSkip}"
-                    Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <local:FluentIcon FontSize="16" Symbol="ArrowStepBack" />
-                </Button>
                 <Grid>
                     <Button
                         x:Name="PlayPauseButton"
-                        Width="42"
-                        Height="42"
+                        Width="32"
+                        Height="32"
                         Padding="0"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
@@ -160,23 +153,21 @@
                         BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
                         BorderThickness="3"
                         Command="{x:Bind ViewModel.PlayPauseCommand, Mode=OneWay}"
-                        CornerRadius="22"
+                        CornerRadius="20"
                         IsEnabled="{x:Bind ViewModel.Player.IsPlayerReady, Mode=OneWay}"
                         UseLayoutRounding="False">
                         <Grid>
                             <local:FluentIcon
                                 x:Name="PauseIcon"
-                                FontSize="20"
-                                FontWeight="Black"
+                                FontSize="14"
                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                Symbol="Pause"
+                                Symbol="PauseFilled"
                                 Visibility="Collapsed" />
                             <local:FluentIcon
                                 x:Name="PlayIcon"
-                                FontSize="20"
-                                FontWeight="Black"
+                                FontSize="14"
                                 Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                Symbol="Play" />
+                                Symbol="PlayFilled" />
                         </Grid>
                         <Button.Resources>
                             <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="{ThemeResource SystemAccentColorLight1}" />
@@ -185,25 +176,34 @@
                     </Button>
                     <ProgressRing
                         x:Name="BufferingRing"
-                        Width="40"
-                        Height="40"
+                        Width="32"
+                        Height="32"
                         IsActive="False" />
                 </Grid>
-
                 <Button
-                    x:Name="ForwardButton"
+                    x:Name="NextButton"
                     VerticalAlignment="Center"
-                    Command="{x:Bind ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.PlayNextCommand, Mode=OneWay}"
                     CornerRadius="20"
                     Style="{StaticResource IconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=ForwardSkip}"
-                    Visibility="{x:Bind IsLive, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <local:FluentIcon FontSize="16" Symbol="ArrowStepOver" />
+                    ToolTipService.ToolTip="{x:Bind ViewModel.NextPartText, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.CanPlayNextPart, Mode=OneWay}">
+                    <local:FluentIcon FontSize="16" Symbol="NextFilled" />
                 </Button>
             </StackPanel>
+            <Grid
+                x:Name="DanmakuContainer"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Visibility="{x:Bind IsWebDav, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <danmaku:DanmakuBox x:Name="DanmakuBox" ViewModel="{x:Bind ViewModel.DanmakuViewModel}" />
+            </Grid>
             <StackPanel
                 Grid.Column="2"
+                Padding="12,0,0,0"
                 HorizontalAlignment="Right"
+                BorderBrush="{ThemeResource LayerFillColorAltBrush}"
+                BorderThickness="1,0,0,0"
                 Orientation="Horizontal">
                 <Button x:Name="VolumeButton" Style="{StaticResource IconButtonStyle}">
                     <local:FluentIcon FontSize="16" Symbol="Speaker2" />
@@ -348,15 +348,6 @@
                     </Grid>
                 </Button>
             </StackPanel>
-        </Grid>
-        <Grid
-            x:Name="DanmakuContainer"
-            Grid.Row="2"
-            Padding="4,4,4,0"
-            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
-            BorderThickness="0,1,0,0"
-            Visibility="{x:Bind IsWebDav, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <danmaku:DanmakuBox x:Name="DanmakuBox" ViewModel="{x:Bind ViewModel.DanmakuViewModel}" />
         </Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="PlayPauseStateGroup">

@@ -41,7 +41,7 @@ public sealed partial class DanmakuBox : DanmakuBoxBase
         => IsInputFocused = false;
 
     private void OnDanmakuVisibilityToggled(object sender, RoutedEventArgs e)
-        => TraceLogger.LogDanmakuStatusChanged(DanmakuVisibilityToggleSwitch.IsOn);
+        => TraceLogger.LogDanmakuStatusChanged(DanmakuToggleButton.IsChecked.Value);
 }
 
 /// <summary>

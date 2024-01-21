@@ -153,7 +153,7 @@ public partial class BiliPlayerOverlay
         if (_cursorStayTime > 1.5
             && !ViewModel.IsShowMediaTransport
             && IsPointerStay
-            && !(_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay))
+            && !_rootSplitView.IsPaneOpen)
         {
             ProtectedCursor.Dispose();
             _cursorStayTime = 0;
