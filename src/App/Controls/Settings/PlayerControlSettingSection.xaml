@@ -36,6 +36,16 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </labs:SettingsCard>
+            <labs:SettingsCard Description="{ext:Locale Name=PlayerControlModeDescription}" Header="{ext:Locale Name=PlayerControlMode}">
+                <ComboBox
+                    x:Name="PlayerControlModeComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnPlayerControlModeChanged"
+                    SelectionChangedTrigger="Committed">
+                    <ComboBoxItem Content="{ext:Locale Name=Automatic}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Manual}" />
+                </ComboBox>
+            </labs:SettingsCard>
             <labs:SettingsCard Description="{ext:Locale Name=DecodeTypeDescription}" Header="{ext:Locale Name=DecodeType}">
                 <ComboBox
                     MinWidth="120"

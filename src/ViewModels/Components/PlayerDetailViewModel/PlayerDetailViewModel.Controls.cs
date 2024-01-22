@@ -25,10 +25,12 @@ public sealed partial class PlayerDetailViewModel
             if (Status == PlayerStatus.Playing)
             {
                 Player.Pause();
+                IsShowMediaTransport = true;
             }
             else if (Status == PlayerStatus.Pause)
             {
                 Player.Play();
+                IsShowMediaTransport = false;
             }
             else if (Status == PlayerStatus.End)
             {

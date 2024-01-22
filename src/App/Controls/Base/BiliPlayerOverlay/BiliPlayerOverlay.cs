@@ -126,6 +126,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _interactionControl.PointerMoved += OnInteractionControlPointerMoved;
         _interactionControl.PointerReleased += OnInteractionControlPointerReleased;
         _interactionControl.PointerCanceled += OnInteractionControlPointerCanceled;
+        _interactionControl.ContextRequested += OnInteractionControlContextRequested;
         _gestureRecognizer.Holding += OnGestureRecognizerHolding;
 
         _refreshButton.Click += OnRefreshButtonClick;

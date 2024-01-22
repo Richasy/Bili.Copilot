@@ -63,7 +63,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         MinHeight = 640;
 
         Activated += OnActivated;
-        Closed += OnClosed;
+        Closed += OnClosedAsync;
 
         MoveAndResize();
     }
@@ -378,7 +378,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
 
-    private void OnClosed(object sender, WindowEventArgs args)
+    private async void OnClosedAsync(object sender, WindowEventArgs args)
     {
         foreach (var item in AppViewModel.Instance.DisplayWindows.ToArray())
         {
@@ -391,6 +391,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null)
         {
             _appViewModel.BackCommand.Execute(default);
+            await Task.Delay(500);
         }
 
         SaveCurrentWindowStats();

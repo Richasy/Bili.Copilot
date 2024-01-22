@@ -13,6 +13,9 @@ namespace Bili.Copilot.App.Controls.Base;
 /// </summary>
 public partial class BiliPlayerOverlay
 {
+    private static bool IsManualMode()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerControlModeManual, false);
+
     private void InitializeDanmakuTimer()
     {
         if (_danmakuTimer == null)
@@ -134,6 +137,12 @@ public partial class BiliPlayerOverlay
         if (_transportStayTime > 1.2)
         {
             _transportStayTime = 0;
+            var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerControlModeManual, false);
+            if (isManual || ViewModel.Player.Status == PlayerStatus.Pause)
+            {
+                return;
+            }
+
             if (!_transportControls.IsDanmakuBoxFocused
             && (_isTouch || !_transportControls.IsPointerStay || !IsPointerStay))
             {
@@ -153,7 +162,8 @@ public partial class BiliPlayerOverlay
         if (_cursorStayTime > 1.5
             && !ViewModel.IsShowMediaTransport
             && IsPointerStay
-            && !_rootSplitView.IsPaneOpen)
+            && !_rootSplitView.IsPaneOpen
+            && ViewModel.Player.Status == PlayerStatus.Playing)
         {
             ProtectedCursor.Dispose();
             _cursorStayTime = 0;

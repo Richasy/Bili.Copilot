@@ -2217,4 +2217,10 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="ExpandDetail" xml:space="preserve">
     <value>展开详情</value>
   </data>
+  <data name="PlayerControlMode" xml:space="preserve">
+    <value>播放控制器操作模式</value>
+  </data>
+  <data name="PlayerControlModeDescription" xml:space="preserve">
+    <value>自动=控制器自行显示/隐藏，手动=用户控制显示/隐藏</value>
+  </data>
 </root>
