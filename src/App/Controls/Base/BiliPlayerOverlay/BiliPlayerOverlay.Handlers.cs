@@ -20,41 +20,68 @@ public partial class BiliPlayerOverlay
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
+        if (_rootSplitView.IsPaneOpen)
         {
             return;
         }
 
         IsPointerStay = true;
-        ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
+
+        if (!IsManualMode())
+        {
+            ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
-        if (_rootSplitView.IsPaneOpen && _rootSplitView.DisplayMode == SplitViewDisplayMode.Overlay)
+        if (_rootSplitView.IsPaneOpen)
         {
             return;
         }
 
         IsPointerStay = true;
-        ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
+        if (!IsManualMode())
+        {
+            ShowAndResetMediaTransport(e.Pointer.PointerDeviceType == PointerDeviceType.Mouse);
+        }
+        else
+        {
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnPointerExited(PointerRoutedEventArgs e)
     {
         IsPointerStay = false;
+        if (IsManualMode())
+        {
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            return;
+        }
+
         HideAndResetMediaTransport();
     }
 
     /// <inheritdoc/>
     protected override void OnPointerCanceled(PointerRoutedEventArgs e)
-        => HideAndResetMediaTransport();
+    {
+        if (!IsManualMode())
+        {
+            HideAndResetMediaTransport();
+        }
+    }
 
     /// <inheritdoc/>
     protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
-        => HideAndResetMediaTransport();
+    {
+        if (!IsManualMode())
+        {
+            HideAndResetMediaTransport();
+        }
+    }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
@@ -69,6 +96,7 @@ public partial class BiliPlayerOverlay
         _interactionControl.PointerMoved -= OnInteractionControlPointerMoved;
         _interactionControl.PointerReleased -= OnInteractionControlPointerReleased;
         _interactionControl.PointerCanceled -= OnInteractionControlPointerCanceled;
+        _interactionControl.ContextRequested -= OnInteractionControlContextRequested;
         _gestureRecognizer.Holding -= OnGestureRecognizerHolding;
     }
 
@@ -230,6 +258,11 @@ public partial class BiliPlayerOverlay
                 _danmakuView?.PauseDanmaku();
             }
         }
+        else if (e.PropertyName == nameof(ViewModel.DisplayMode))
+        {
+            _detailButton.Visibility = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
+                ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 
     private void OnStartRecordingItemClick(object sender, RoutedEventArgs e)
@@ -246,17 +279,24 @@ public partial class BiliPlayerOverlay
             return;
         }
 
-        if (e.PointerDeviceType == PointerDeviceType.Mouse)
+        if (_rootSplitView.IsPaneOpen)
         {
-            _isTouch = false;
-            ViewModel.PlayPauseCommand.Execute(default);
+            _rootSplitView.IsPaneOpen = false;
+            return;
         }
-        else
+
+        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerControlModeManual, false);
+        if (isManual)
         {
-            _isTouch = true;
             ViewModel.IsShowMediaTransport = !ViewModel.IsShowMediaTransport;
             ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
         }
+        else
+        {
+            ViewModel.PlayPauseCommand.Execute(default);
+        }
+
+        _isTouch = e.PointerDeviceType == PointerDeviceType.Mouse;
     }
 
     private void OnInteractionControlDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -265,7 +305,14 @@ public partial class BiliPlayerOverlay
         var canDoubleTapped = playerStatus is PlayerStatus.Playing or PlayerStatus.Pause;
         if (canDoubleTapped)
         {
-            if (e.PointerDeviceType == PointerDeviceType.Mouse)
+            var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerControlModeManual, false);
+            if (isManual)
+            {
+                ViewModel.PlayPauseCommand.Execute(default);
+                ViewModel.IsShowMediaTransport = false;
+                ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            }
+            else
             {
                 ViewModel.ToggleFullScreenModeCommand.Execute(default);
                 if (ViewModel.IsMediaPause)
@@ -273,10 +320,15 @@ public partial class BiliPlayerOverlay
                     ViewModel.PlayPauseCommand.Execute(default);
                 }
             }
-            else
-            {
-                ViewModel.PlayPauseCommand.Execute(default);
-            }
+        }
+    }
+
+    private void OnInteractionControlContextRequested(UIElement sender, ContextRequestedEventArgs args)
+    {
+        if (_isHolding)
+        {
+            args.Handled = true;
+            sender.ContextFlyout?.Hide();
         }
     }
 
@@ -404,10 +456,7 @@ public partial class BiliPlayerOverlay
         ViewModel.OpenInBrowserCommand.Execute(default);
     }
 
-    private void OnDetailButtonClicked(object sender, EventArgs e)
-        => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
-
-    private void OnSectionViewItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+    private void OnSectionViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         var item = args.InvokedItem as PlayerSectionHeader;
         SectionHeaderItemInvoked?.Invoke(this, item);
@@ -415,4 +464,34 @@ public partial class BiliPlayerOverlay
 
     private void OnRequestShowTempMessage(object sender, string e)
         => ShowTempMessage(e);
+
+    private void OnDetailButtonClick(object sender, RoutedEventArgs e)
+        => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
+
+    private void OnBackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            ViewModel.ToggleCompactOverlayModeCommand.Execute(default);
+        }
+        else if (ViewModel.DisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            ViewModel.ToggleFullScreenModeCommand.Execute(default);
+        }
+
+        AppViewModel.Instance.BackCommand.Execute(default);
+    }
+
+    private void OnRootSplitViewPaneChanged(SplitView sender, object args)
+    {
+        var width = 0d;
+        if (sender.DisplayMode == SplitViewDisplayMode.Inline
+            && sender.IsPaneOpen)
+        {
+            width = sender.OpenPaneLength;
+        }
+
+        _detailButton.Visibility = sender.IsPaneOpen ? Visibility.Collapsed : Visibility.Visible;
+        PaneToggled?.Invoke(this, width);
+    }
 }

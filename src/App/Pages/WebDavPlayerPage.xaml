@@ -23,6 +23,7 @@
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:BiliPlayer.Overlay>
                     <base:BiliPlayerOverlay
+                        Title="{x:Bind ViewModel.FileName, Mode=OneWay}"
                         SectionHeaderItemInvoked="OnSectionHeaderItemInvoked"
                         SectionHeaderItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
                         SectionHeaderSelectedItem="{x:Bind ViewModel.CurrentSection, Mode=OneWay}"
@@ -30,17 +31,12 @@
                         ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
                             <StackPanel Padding="12,8" Spacing="8">
-                                <TextBlock
-                                    x:Name="TitleBlock"
-                                    MaxLines="2"
-                                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                                    Text="{x:Bind ViewModel.FileName, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap">
-                                    <ToolTipService.ToolTip>
-                                        <ToolTip Content="{x:Bind ViewModel.FileName, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
-                                    </ToolTipService.ToolTip>
-                                </TextBlock>
+                                <FontIcon
+                                    HorizontalAlignment="Center"
+                                    FontFamily="Segoe UI Emoji"
+                                    FontSize="68"
+                                    Glyph="&#x1F39E;" />
+                                <TextBlock HorizontalAlignment="Center" Text="{ext:Locale Name=ExpandDetail}" />
                             </StackPanel>
                         </base:BiliPlayerOverlay.MediaPresenter>
                         <base:BiliPlayerOverlay.SectionContent>

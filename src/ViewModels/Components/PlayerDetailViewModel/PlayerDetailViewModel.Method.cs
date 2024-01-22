@@ -333,6 +333,8 @@ public sealed partial class PlayerDetailViewModel
             {
                 Player.Play();
             }
+
+            IsShowMediaTransport = true;
         });
     }
 

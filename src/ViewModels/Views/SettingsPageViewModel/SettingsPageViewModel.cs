@@ -55,6 +55,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
         PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
         AutoLoadHistory = ReadSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, true);
+        IsPlayerControlModeManual = ReadSetting(SettingNames.IsPlayerControlModeManual, false);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -178,6 +179,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                     SettingsToolkit.DeleteLocalSetting(SettingNames.SelectedWebDav);
                 }
 
+                break;
+            case nameof(IsPlayerControlModeManual):
+                WriteSetting(SettingNames.IsPlayerControlModeManual, IsPlayerControlModeManual);
                 break;
             default:
                 break;

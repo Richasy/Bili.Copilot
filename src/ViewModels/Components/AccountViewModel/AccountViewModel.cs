@@ -94,12 +94,18 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private async Task InitialCommunityInformationAsync()
     {
-        var data = await AccountProvider.Instance.GetMyCommunityInformationAsync();
-        DynamicCount = NumberToolkit.GetCountText(data.DynamicCount);
-        FollowCount = NumberToolkit.GetCountText(data.FollowCount);
-        FansCount = NumberToolkit.GetCountText(data.FansCount);
-        CoinCount = NumberToolkit.GetCountText(data.CoinCount);
-        await InitializeUnreadAsync();
+        try
+        {
+            var data = await AccountProvider.Instance.GetMyCommunityInformationAsync();
+            DynamicCount = NumberToolkit.GetCountText(data.DynamicCount);
+            FollowCount = NumberToolkit.GetCountText(data.FollowCount);
+            FansCount = NumberToolkit.GetCountText(data.FansCount);
+            CoinCount = NumberToolkit.GetCountText(data.CoinCount);
+            await InitializeUnreadAsync();
+        }
+        catch (Exception)
+        {
+        }
     }
 
     /// <summary>

@@ -25,12 +25,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         DependencyProperty.Register(nameof(IsWebDav), typeof(bool), typeof(BiliTransportControls), new PropertyMetadata(default));
 
     /// <summary>
-    /// <see cref="DetailContent"/> 的依赖属性.
-    /// </summary>
-    public static readonly DependencyProperty DetailContentProperty =
-        DependencyProperty.Register(nameof(DetailContent), typeof(object), typeof(BiliTransportControls), new PropertyMetadata(default));
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="BiliTransportControls"/> class.
     /// </summary>
     public BiliTransportControls()
@@ -39,11 +33,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
-
-    /// <summary>
-    /// 当详情按钮被点击时发生.
-    /// </summary>
-    public event EventHandler DetailButtonClicked;
 
     /// <summary>
     /// 光标是否停留在控件上.
@@ -71,15 +60,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
     {
         get => (bool)GetValue(IsWebDavProperty);
         set => SetValue(IsWebDavProperty, value);
-    }
-
-    /// <summary>
-    /// 详情信息.
-    /// </summary>
-    public object DetailContent
-    {
-        get => GetValue(DetailContentProperty);
-        set => SetValue(DetailContentProperty, value);
     }
 
     internal override void OnViewModelChanged(DependencyPropertyChangedEventArgs e)
@@ -177,7 +157,7 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
         }
     }
 
-    private void OnFormatSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
+    private void OnFormatSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (FormatListView.SelectedItem is FormatInformation info
                 && ViewModel.CurrentFormat != info)
@@ -185,9 +165,6 @@ public sealed partial class BiliTransportControls : BiliTransportControlsBase
             ViewModel.ChangeFormatCommand.Execute(info);
         }
     }
-
-    private void OnDetailButtonClick(object sender, RoutedEventArgs e)
-        => DetailButtonClicked?.Invoke(this, EventArgs.Empty);
 }
 
 /// <summary>

@@ -2208,4 +2208,13 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="PreviousPartTipTemplate" xml:space="preserve">
     <value>上一個：{0}</value>
   </data>
+  <data name="ExpandDetail" xml:space="preserve">
+    <value>展開詳情</value>
+  </data>
+  <data name="PlayerControlMode" xml:space="preserve">
+    <value>播放控制器操作模式</value>
+  </data>
+  <data name="PlayerControlModeDescription" xml:space="preserve">
+    <value>自動=控制器自行顯示/隱藏，手動=使用者控制顯示/隱藏</value>
+  </data>
 </root>

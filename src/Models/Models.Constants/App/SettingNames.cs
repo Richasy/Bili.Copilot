@@ -134,4 +134,5 @@ public enum SettingNames
     IsWebDavContinuePlay,
     WebDavLastPath,
     IsAutoLoadHistoryWhenLoaded,
+    IsPlayerControlModeManual,
 }

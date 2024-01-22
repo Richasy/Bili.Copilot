@@ -8,48 +8,23 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Danmaku"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxcp="using:Microsoft.UI.Xaml.Controls.Primitives"
     mc:Ignorable="d">
-    <Grid ColumnSpacing="12">
+    <Grid ColumnSpacing="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <ToggleSwitch
-                x:Name="DanmakuVisibilityToggleSwitch"
-                MinWidth="0"
+        <StackPanel Orientation="Horizontal" Spacing="2">
+            <muxcp:ToggleButton
+                x:Name="DanmakuToggleButton"
+                Height="32"
                 AutomationProperties.Name="{ext:Locale Name=DanmakuSwitch}"
-                IsOn="{x:Bind ViewModel.IsShowDanmaku, Mode=TwoWay}"
-                Toggled="OnDanmakuVisibilityToggled"
+                Click="OnDanmakuVisibilityToggled"
+                Content="弹"
+                FontSize="12"
+                IsChecked="{x:Bind ViewModel.IsShowDanmaku, Mode=TwoWay}"
                 ToolTipService.ToolTip="{ext:Locale Name=DanmakuSwitch}" />
-        </StackPanel>
-        <AutoSuggestBox
-            x:Name="DanmakuInputBox"
-            Grid.Column="1"
-            Height="32"
-            Padding="8,0"
-            HorizontalAlignment="Stretch"
-            GotFocus="OnDanmakuInputBoxGotFocus"
-            LostFocus="OnDanmakuInputBoxLostFocus"
-            PlaceholderText="{ext:Locale Name=DanmakuPlaceholder}"
-            QuerySubmitted="OnDanmakuInputBoxSubmittedAsync" />
-        <StackPanel
-            Grid.Column="2"
-            Orientation="Horizontal"
-            Spacing="8">
-            <Button
-                x:Name="DanmakuSendSettingsButton"
-                AutomationProperties.Name="{ext:Locale Name=DanmakuSendSettings}"
-                Style="{StaticResource IconButtonStyle}"
-                ToolTipService.ToolTip="{ext:Locale Name=DanmakuSendSettings}">
-                <base:FluentIcon FontSize="14" Symbol="Options" />
-                <Button.Flyout>
-                    <Flyout>
-                        <local:DanmakuSendOptions x:Name="SendOptions" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
             <Button
                 x:Name="DanmakuOptionButton"
                 AutomationProperties.Name="{ext:Locale Name=DanmakuDisplaySettings}"
@@ -63,5 +38,35 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
+        <AutoSuggestBox
+            x:Name="DanmakuInputBox"
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            GotFocus="OnDanmakuInputBoxGotFocus"
+            LostFocus="OnDanmakuInputBoxLostFocus"
+            PlaceholderText="{ext:Locale Name=DanmakuPlaceholder}"
+            QuerySubmitted="OnDanmakuInputBoxSubmittedAsync">
+            <AutoSuggestBox.TextBoxStyle>
+                <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
+                    <Setter Property="Padding" Value="48,4,8,4" />
+                </Style>
+            </AutoSuggestBox.TextBoxStyle>
+        </AutoSuggestBox>
+        <Button
+            x:Name="DanmakuSendSettingsButton"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            AutomationProperties.Name="{ext:Locale Name=DanmakuSendSettings}"
+            Style="{StaticResource IconButtonStyle}"
+            ToolTipService.ToolTip="{ext:Locale Name=DanmakuSendSettings}">
+            <base:FluentIcon FontSize="14" Symbol="Options" />
+            <Button.Flyout>
+                <Flyout>
+                    <local:DanmakuSendOptions x:Name="SendOptions" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </local:DanmakuBoxBase>
