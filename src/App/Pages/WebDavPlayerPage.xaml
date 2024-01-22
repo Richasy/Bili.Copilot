@@ -30,7 +30,7 @@
                         Style="{StaticResource WebDavPlayerOverlayStyle}"
                         ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
-                            <StackPanel Padding="12,8" Spacing="4">
+                            <StackPanel Padding="12,8" Spacing="8">
                                 <FontIcon
                                     HorizontalAlignment="Center"
                                     FontFamily="Segoe UI Emoji"

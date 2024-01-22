@@ -27,7 +27,7 @@
                         SectionHeaderSelectedItem="{x:Bind ViewModel.CurrentSection, Mode=OneWay}"
                         ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
-                            <StackPanel Padding="12,8" Spacing="4">
+                            <StackPanel Padding="12,8" Spacing="8">
                                 <base:ImageEx
                                     Width="80"
                                     Height="80"
