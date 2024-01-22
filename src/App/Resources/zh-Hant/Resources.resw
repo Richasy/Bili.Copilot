@@ -2167,7 +2167,7 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>當前沒有可用的 WebDAV 服務</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value>埠</value>
+    <value>埠（不需要就填0）</value>
   </data>
   <data name="RemoveWebDavConfigWarning" xml:space="preserve">
     <value>是否要刪除 {0} 服務？</value>
@@ -2189,5 +2189,23 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   </data>
   <data name="WebDavPlayerTypeDescription" xml:space="preserve">
     <value>播放杜比視頻建議選擇原生，其它視頻建議 FFmpeg</value>
+  </data>
+  <data name="MainWindow" xml:space="preserve">
+    <value>主視窗</value>
+  </data>
+  <data name="AutoLoadHistoryWhenLoaded" xml:space="preserve">
+    <value>載入後自動跳轉上次播放進度</value>
+  </data>
+  <data name="FeaturedRecommend" xml:space="preserve">
+    <value>精選推薦</value>
+  </data>
+  <data name="NextPartTipTemplate" xml:space="preserve">
+    <value>下一個：{0}</value>
+  </data>
+  <data name="NoFeaturedVideo" xml:space="preserve">
+    <value>沒有獲取到精選視頻</value>
+  </data>
+  <data name="PreviousPartTipTemplate" xml:space="preserve">
+    <value>上一個：{0}</value>
   </data>
 </root>

@@ -51,6 +51,7 @@ public sealed partial class AppViewModel : ViewModelBase
         IsSigningIn = true;
         var isSignedIn = await AuthorizeProvider.Instance.TrySignInAsync();
         IsSigningIn = false;
+        IsTitleBarShown = true;
         if (!isSignedIn)
         {
             AuthorizeProvider.Instance.SignOut();

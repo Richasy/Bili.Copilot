@@ -37,6 +37,22 @@
             <StackPanel Spacing="8">
                 <base:CardPanel
                     Margin="16,0"
+                    Command="{x:Bind ViewModel.LoadFeaturedCommand, Mode=OneWay}"
+                    IsEnableCheck="False">
+                    <StackPanel
+                        Margin="12"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <base:FluentIcon
+                            Margin="0,2,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Symbol="ReceiptPlay" />
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=FeaturedRecommend}" />
+                    </StackPanel>
+                </base:CardPanel>
+                <base:CardPanel
+                    Margin="16,0"
                     Click="OnRecommendItemClick"
                     IsChecked="{x:Bind ViewModel.IsRecommendShown, Mode=OneWay}"
                     IsEnableCheck="False">

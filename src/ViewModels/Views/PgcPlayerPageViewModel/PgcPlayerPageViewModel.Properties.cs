@@ -19,6 +19,7 @@ public sealed partial class PgcPlayerPageViewModel
     private string _presetTitle;
     private bool _needBiliPlus;
     private Action _playNextEpisodeAction;
+    private Action _playPreviousEpisodeAction;
     private Window _attachedWindow;
     private bool _isStatsUpdated;
 

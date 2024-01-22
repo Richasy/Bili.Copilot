@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
@@ -88,6 +89,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
             VideoPlaylist.Add(GetItemViewModel(item));
         }
 
+        PlayerDetail.IsInPlaylist = videos.Count() > 0;
         var current = VideoPlaylist[playIndex].Data.Identifier;
         var snapshot = new PlaySnapshot(current.Id, default, VideoType.Video);
         SetSnapshot(snapshot);

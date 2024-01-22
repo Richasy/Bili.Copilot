@@ -42,7 +42,6 @@ public sealed partial class PlayerDetailViewModel
         InitializeVideoInformation();
         await InitializeVideoMediaInformationAsync();
         await InitializeOriginalVideoSourceAsync();
-        CheckVideoHistory();
 
         var view = _viewData as VideoPlayerView;
         SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
@@ -58,8 +57,17 @@ public sealed partial class PlayerDetailViewModel
             var history = view.Progress.Identifier;
 
             var ts = TimeSpan.FromSeconds(view.Progress.Progress);
-            IsShowProgressTip = true;
-            ProgressTip = $"{ResourceToolkit.GetLocalizedString(StringNames.PreviousView)}{history.Title} {ts}";
+
+            var needNotify = !SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, true);
+            if (needNotify)
+            {
+                IsShowProgressTip = true;
+                ProgressTip = $"{ResourceToolkit.GetLocalizedString(StringNames.PreviousView)}{history.Title} {ts}";
+            }
+            else
+            {
+                JumpToLastProgressCommand.Execute(default);
+            }
         }
     }
 

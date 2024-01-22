@@ -13,8 +13,10 @@ using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Items;
 using Bili.Copilot.ViewModels.Views;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
+using Windows.System;
 
 namespace Bili.Copilot.App.Forms;
 
@@ -55,6 +57,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         _appViewModel.ActiveMainWindow += OnActiveMainWindow;
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestShowImages += OnRequestShowImages;
+        _appViewModel.BackRequest += OnBackRequestedAsync;
 
         MinWidth = 800;
         MinHeight = 640;
@@ -107,7 +110,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private static PlayerWindow GetPlayerWindow()
     {
-        var playerBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
+        var playerBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
         PlayerWindow window = default;
         if (playerBehavior == PlayerWindowBehavior.Single)
         {
@@ -121,6 +124,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
         return window;
     }
+
+    private static bool IsMainWindowPlayer()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
 
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
     {
@@ -185,17 +191,45 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     }
 
     private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
-        => GetPlayerWindow().SetData(e);
+    {
+        if (IsMainWindowPlayer())
+        {
+            BeforeEnterPlayerPageAsync();
+            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+        }
+        else
+        {
+            GetPlayerWindow().SetData(e);
+        }
+    }
 
     private void OnAppViewModelRequestPlaylist(object sender, List<VideoInformation> e)
-        => GetPlayerWindow().SetData(e);
+    {
+        if (IsMainWindowPlayer())
+        {
+            BeforeEnterPlayerPageAsync();
+            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+        }
+        else
+        {
+            GetPlayerWindow().SetData(e);
+        }
+    }
 
     private void OnAppViewModelRequestPlayWebDav(object sender, List<WebDavStorageItemViewModel> e)
     {
-        var title = e.Count == 1
+        if (IsMainWindowPlayer())
+        {
+            BeforeEnterPlayerPageAsync();
+            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+        }
+        else
+        {
+            var title = e.Count == 1
             ? e.First().Data.DisplayName
             : Uri.UnescapeDataString(SettingsToolkit.ReadLocalSetting(SettingNames.WebDavLastPath, "/").Split("/", StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? ResourceToolkit.GetLocalizedString(StringNames.RootDirectory));
-        GetPlayerWindow().SetData(e, title);
+            GetPlayerWindow().SetData(e, title);
+        }
     }
 
     private void OnRequestSearch(object sender, string e)
@@ -326,6 +360,21 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         window.Activate();
     }
 
+    private async void OnBackRequestedAsync(object sender, EventArgs e)
+    {
+        if (OverlayFrame.Content.ToString().Contains("PlayerPage"))
+        {
+            MinWidth = 800;
+            MinHeight = 640;
+            OverlayFrame.Navigate(typeof(Page));
+            OverlayFrame.Content = default;
+            _appViewModel.IsTitleBarShown = true;
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+            await Task.Delay(200);
+            CustomTitleBar.Refresh();
+        }
+    }
+
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
 
@@ -339,11 +388,24 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             }
         }
 
+        if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null)
+        {
+            _appViewModel.BackCommand.Execute(default);
+        }
+
         SaveCurrentWindowStats();
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
+        KeyboardHook.KeyDown -= OnWindowKeyDown;
+        KeyboardHook.Stop();
+        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        {
+            KeyboardHook.Start();
+            KeyboardHook.KeyDown += OnWindowKeyDown;
+        }
+
         if (!_isInitialized)
         {
             var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
@@ -354,6 +416,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
             var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
             AppViewModel.Instance.ChangeTheme(localTheme);
+        }
+        else
+        {
+            AccountViewModel.Instance.InitialCommunityInformationCommand.Execute(default);
         }
     }
 
@@ -381,6 +447,13 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             ? (workArea.Height - height) / 2d
             : lastPoint.Y;
         return new RectInt32(Convert.ToInt32(left), Convert.ToInt32(top), width, height);
+    }
+
+    private async void SetNormalDragAreaAsync()
+    {
+        await Task.Delay(200);
+        var nonClientInputSrc = InputNonClientPointerSource.GetForWindowId(Win32Interop.GetWindowIdFromWindow(this.GetWindowHandle()));
+        nonClientInputSrc.SetRegionRects(NonClientRegionKind.Passthrough, new RectInt32[] { });
     }
 
     private void MoveAndResize()
@@ -412,6 +485,11 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void SaveCurrentWindowStats()
     {
+        if (AppWindow is null)
+        {
+            return;
+        }
+
         var left = AppWindow.Position.X;
         var top = AppWindow.Position.Y;
         var isMaximized = Windows.Win32.PInvoke.IsZoomed(new HWND(this.GetWindowHandle()));
@@ -423,6 +501,56 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowPositionTop, top);
             SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowHeight, Height < 640 ? 640d : Height);
             SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowWidth, Width);
+        }
+    }
+
+    private async void BeforeEnterPlayerPageAsync()
+    {
+        MainSplitView.IsPaneOpen = false;
+        _appViewModel.IsOverlayShown = true;
+        _appViewModel.IsTitleBarShown = false;
+        MinWidth = 560;
+        MinHeight = 320;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+        await Task.Delay(200);
+        SetNormalDragAreaAsync();
+    }
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_appViewModel.IsOverlayShown && !_appViewModel.IsTitleBarShown)
+        {
+            SetNormalDragAreaAsync();
+        }
+    }
+
+    private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
+    {
+        if (e.Key == VirtualKey.Space && _appViewModel.IsOverlayShown)
+        {
+            var focusEle = FocusManager.GetFocusedElement(OverlayFrame.XamlRoot);
+            if (focusEle is TextBox)
+            {
+                return;
+            }
+
+            e.Handled = true;
+            if (OverlayFrame.Content is VideoPlayerPageBase page)
+            {
+                page.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is LivePlayerPage livePage)
+            {
+                livePage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is PgcPlayerPage pgcPage)
+            {
+                pgcPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
+            else if (OverlayFrame.Content is WebDavPlayerPage webDavPage)
+            {
+                webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+            }
         }
     }
 }

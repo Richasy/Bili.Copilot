@@ -28,13 +28,13 @@
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
       <PackageReference Include="NLog" Version="5.2.8" />
       <PackageReference Include="SmartReader" Version="0.9.4" />
-      <PackageReference Include="WebDAVClient" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Libs\Libs.Flyleaf\Libs.Flyleaf.csproj" />
     <ProjectReference Include="..\Libs\Libs.Provider\Libs.Provider.csproj" />
     <ProjectReference Include="..\Libs\Libs.Toolkit\Libs.Toolkit.csproj" />
+    <ProjectReference Include="..\Libs\Libs.WebDavClient\Libs.WebDavClient.csproj" />
     <ProjectReference Include="..\Models\Models.App\Models.App.csproj" />
     <ProjectReference Include="..\Models\Models.Constants\Models.Constants.csproj" />
     <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />

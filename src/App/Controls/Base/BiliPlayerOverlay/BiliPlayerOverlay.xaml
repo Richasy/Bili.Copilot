@@ -318,6 +318,51 @@
                                         IsLive="{TemplateBinding IsLive}"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                                 </Grid>
+                                <Grid
+                                    Margin="48,28"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="BackButton"
+                                        Width="40"
+                                        Height="40"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
+                                        <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
+                                    </Button>
+                                </Grid>
+
+                                <Grid
+                                    Margin="0,12,20,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <StackPanel
+                                        Padding="4"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInPlaylist}">
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PreviousPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronUp" />
+                                        </Button>
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronDown" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -343,15 +388,22 @@
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ErrorText}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
-                                    <StackPanel HorizontalAlignment="Center" Spacing="8">
+                                    <StackPanel HorizontalAlignment="Center">
                                         <Button
                                             x:Name="RefreshButton"
+                                            Margin="0,0,0,8"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=Refresh}" />
                                         <Button
                                             x:Name="OpenInBrowserButton"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=OpenInBrowser}" />
+                                        <HyperlinkButton
+                                            x:Name="BackButton2"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            Content="{ext:Locale Name=BackToPrevious}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
@@ -657,6 +709,50 @@
                                         IsWebDav="True"
                                         ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                                 </Grid>
+                                <Grid
+                                    Margin="48,28"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <Button
+                                        x:Name="BackButton"
+                                        Width="40"
+                                        Height="40"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}">
+                                        <local:FluentIcon FontSize="16" Symbol="ArrowLeft" />
+                                    </Button>
+                                </Grid>
+                                <Grid
+                                    Margin="0,12,20,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
+                                    <StackPanel
+                                        Padding="4"
+                                        Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsInPlaylist}">
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PreviousPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronUp" />
+                                        </Button>
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                            IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                            Style="{StaticResource IconButtonStyle}"
+                                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NextPartText}">
+                                            <local:FluentIcon FontSize="14" Symbol="ChevronDown" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -682,15 +778,22 @@
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ErrorText}"
                                         TextAlignment="Center"
                                         TextWrapping="Wrap" />
-                                    <StackPanel HorizontalAlignment="Center" Spacing="8">
+                                    <StackPanel HorizontalAlignment="Center">
                                         <Button
                                             x:Name="RefreshButton"
+                                            Margin="0,0,0,8"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=Refresh}" />
                                         <Button
                                             x:Name="OpenInBrowserButton"
                                             HorizontalAlignment="Stretch"
                                             Content="{ext:Locale Name=OpenInBrowser}" />
+                                        <HyperlinkButton
+                                            x:Name="BackButton2"
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            Content="{ext:Locale Name=BackToPrevious}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBackButtonShown}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

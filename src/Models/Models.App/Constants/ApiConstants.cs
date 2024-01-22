@@ -299,6 +299,11 @@ public static class ApiConstants
         public const string Recommend = _appBase + "/x/v2/feed/index";
 
         /// <summary>
+        /// 精选视频.
+        /// </summary>
+        public const string Featured = _apiBase + "/x/web-interface/index/top/feed/rcmd";
+
+        /// <summary>
         /// 热门 - gRPC.
         /// </summary>
         public const string PopularGRPC = _grpcBase + "/bilibili.app.show.v1.Popular/Index";

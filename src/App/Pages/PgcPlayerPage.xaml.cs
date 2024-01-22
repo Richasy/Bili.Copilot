@@ -38,12 +38,11 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
         {
             ViewModel.PlayerDetail.Player.Dispose();
             await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
+            ViewModel.Dispose();
         }
         catch (Exception)
         {
         }
-
-        ViewModel.Dispose();
     }
 
     private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)

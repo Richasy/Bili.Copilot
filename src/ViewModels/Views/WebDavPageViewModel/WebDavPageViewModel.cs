@@ -11,7 +11,7 @@ using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
-using WebDAVClient;
+using WebDav;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -41,7 +41,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private async Task InitializeAsync(bool force = false)
     {
         var currentConfigId = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.SelectedWebDav, string.Empty);
         if (string.IsNullOrEmpty(currentConfigId))
@@ -58,7 +58,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
             return;
         }
 
-        if (config.Id == _config?.Id)
+        if (config.Id == _config?.Id && !force)
         {
             return;
         }
@@ -72,15 +72,18 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         _config = config;
         if (!string.IsNullOrEmpty(_config.UserName))
         {
-            var cred = new NetworkCredential(_config.UserName, _config.Password);
-            _client = new Client(cred);
+            var clientParameters = new WebDavClientParams
+            {
+                Credentials = new NetworkCredential(_config.UserName, _config.Password),
+            };
+
+            _client = new WebDavClient(clientParameters);
         }
         else
         {
-            _client = new Client();
+            _client = new WebDavClient();
         }
 
-        _client.Server = AppToolkit.GetWebDavServer(_config.Host, _config.Port);
         PathSegments.Clear();
         PathSegments.Add(new WebDavPathSegment { Name = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.RootDirectory), Path = "/" });
         TryClear(CurrentItems);
@@ -88,6 +91,10 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         var previousPath = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavLastPath, "/");
         LoadPathCommand.Execute(previousPath);
     }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+        => await InitializeAsync(true);
 
     [RelayCommand]
     private async Task LoadPathAsync(string path)
@@ -122,9 +129,11 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         try
         {
             TryClear(CurrentItems);
-            var items = (await _client.List(path)).ToList();
+            var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port, path);
+            var items = (await _client.Propfind(server + path)).Resources.ToList();
             items = items
                 .Where(p => p.IsCollection || p.ContentType.StartsWith("video"))
+                .Where(p => !p.IsHidden && p.Uri != path)
                 .OrderBy(p => p.IsCollection)
                 .ThenBy(p => p.DisplayName)
                 .ToList();

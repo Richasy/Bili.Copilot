@@ -42,6 +42,7 @@
                     x:Name="PlayerWindowBehaviorComboBox"
                     MinWidth="120"
                     SelectionChanged="OnPlayerWindowBehaviorComboBoxSelectionChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=MainWindow}" />
                     <ComboBoxItem Content="{ext:Locale Name=SingleWindow}" />
                     <ComboBoxItem Content="{ext:Locale Name=MultipleWindow}" />
                 </ComboBox>
@@ -72,6 +73,9 @@
             </labs:SettingsCard>
             <labs:SettingsCard Header="{ext:Locale Name=AutoPlayWhenLoaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayWhenLoaded, Mode=TwoWay}" />
+            </labs:SettingsCard>
+            <labs:SettingsCard Header="{ext:Locale Name=AutoLoadHistoryWhenLoaded}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoLoadHistory, Mode=TwoWay}" />
             </labs:SettingsCard>
             <labs:SettingsCard>
                 <labs:SettingsCard.Header>

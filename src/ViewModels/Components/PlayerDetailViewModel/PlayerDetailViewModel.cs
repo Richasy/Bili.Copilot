@@ -30,8 +30,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// </summary>
     public PlayerDetailViewModel(Window attachedWindow)
     {
-        _attachedWindow = attachedWindow;
-        _dispatcherQueue = _attachedWindow.DispatcherQueue;
+        AttachedWindow = attachedWindow;
+        _dispatcherQueue = AttachedWindow.DispatcherQueue;
         SubtitleViewModel = new SubtitleModuleViewModel();
         DanmakuViewModel = new DanmakuModuleViewModel();
         InteractionViewModel = new InteractionModuleViewModel();
@@ -139,6 +139,13 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         => _playNextAction = action;
 
     /// <summary>
+    /// 设置播放上一个内容的动作.
+    /// </summary>
+    /// <param name="action">动作.</param>
+    public void SetPlayPreviousAction(Action action)
+        => _playPreviousAction = action;
+
+    /// <summary>
     /// 显示错误.
     /// </summary>
     public void DisplayException(Exception exception)
@@ -179,6 +186,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     private async Task ReloadAsync()
     {
         Clear();
+        IsBackButtonShown = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();

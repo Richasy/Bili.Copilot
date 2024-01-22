@@ -38,27 +38,27 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Player}" />
-                <settings:PlayerModeSettingSection />
-                <settings:PlayerControlSettingSection />
-                <settings:RoamingSettingSection />
+                <settings:PlayerModeSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:PlayerControlSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:RoamingSettingSection ViewModel="{x:Bind ViewModel}" />
 
                 <TextBlock
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Service}" />
-                <settings:WebDavSettingSection />
+                <settings:WebDavSettingSection ViewModel="{x:Bind ViewModel}" />
 
                 <TextBlock
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Generic}" />
-                <settings:ThemeSettingSection />
-                <settings:CloseBehaviorSettingSection />
-                <settings:LoggerSettingSection />
-                <settings:CacheSettingSection />
-                <settings:TraditionalChineseSettingSection />
+                <settings:ThemeSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:CloseBehaviorSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:LoggerSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:CacheSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:TraditionalChineseSettingSection ViewModel="{x:Bind ViewModel}" />
 
                 <TextBlock
                     Margin="0,16,0,8"

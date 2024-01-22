@@ -48,6 +48,9 @@ public sealed partial class PopularPageViewModel
     [ObservableProperty]
     private bool _isInitializing;
 
+    [ObservableProperty]
+    private bool _isOverlayLoading;
+
     /// <summary>
     /// 请求滚动到顶部.
     /// </summary>

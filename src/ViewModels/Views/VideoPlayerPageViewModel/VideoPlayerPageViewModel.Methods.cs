@@ -97,6 +97,9 @@ public sealed partial class VideoPlayerPageViewModel
 
         CurrentVideoPart = VideoParts.FirstOrDefault(p => p.IsSelected).Data;
         CreatePlayNextAction();
+        CreatePlayPreviousAction();
+
+        PlayerDetail.IsInPlaylist = _playNextVideoAction != null || _playPreviousVideoAction != null;
         PlayerDetail.ChangePartCommand.Execute(identifier);
     }
 
@@ -162,10 +165,12 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (nextPart == null)
         {
+            PlayerDetail.CanPlayNextPart = false;
             return;
         }
 
         PlayerDetail.NextVideoTipText = nextPart.Value.Title;
+        PlayerDetail.NextPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextPartTipTemplate), nextPart.Value.Title);
         _playNextVideoAction = () =>
         {
             if (isNewVideo)
@@ -179,6 +184,88 @@ public sealed partial class VideoPlayerPageViewModel
         };
 
         PlayerDetail.SetPlayNextAction(_playNextVideoAction);
+    }
+
+    private void CreatePlayPreviousAction()
+    {
+        PlayerDetail.CanPlayPreviousPart = View.InteractionVideo == null
+            && (VideoParts.FirstOrDefault(p => p.IsSelected).Index > 0
+                || (VideoPlaylist.Count > 0 && VideoPlaylist.First().Data != View.Information));
+        _playPreviousVideoAction = null;
+
+        // 不处理互动视频.
+        if (View.InteractionVideo != null)
+        {
+            return;
+        }
+
+        var isNewVideo = false;
+        VideoIdentifier? previousPart = default;
+        if (Sections.Any(p => p.Type == PlayerSectionType.VideoParts))
+        {
+            var canContinue = VideoParts.Count > 1 && CurrentVideoPart.Id != VideoParts.First().Data.Id;
+            if (canContinue)
+            {
+                var currentPart = VideoParts.First(p => p.Data.Id == CurrentVideoPart.Id);
+                previousPart = VideoParts.FirstOrDefault(p => p.Index == currentPart.Index - 1)?.Data;
+            }
+        }
+        else if (Sections.Any(p => p.Type == PlayerSectionType.Playlist))
+        {
+            var canContinue = VideoPlaylist.Count > 1 && !View.Information.Equals(VideoPlaylist.First().Data);
+            if (canContinue)
+            {
+                var currentIndex = VideoPlaylist.IndexOf(VideoPlaylist.FirstOrDefault(p => p.Data.Equals(View.Information)));
+                if (currentIndex != -1)
+                {
+                    isNewVideo = true;
+                    previousPart = VideoPlaylist[currentIndex - 1].Data.Identifier;
+                }
+            }
+        }
+        else if (Sections.Any(p => p.Type == PlayerSectionType.UgcSeason))
+        {
+            ClearPlaylistCommand.Execute(default);
+            var currentVideo = CurrentSeasonVideos.FirstOrDefault(p => p.IsSelected);
+            if (currentVideo != null)
+            {
+                var canContinue = CurrentSeasonVideos.Count > 1 && !CurrentSeasonVideos.First().Equals(currentVideo);
+                if (canContinue)
+                {
+                    var index = CurrentSeasonVideos.IndexOf(currentVideo);
+                    previousPart = CurrentSeasonVideos[index - 1].Data.Identifier;
+                    isNewVideo = true;
+                }
+            }
+        }
+        else if (SettingsToolkit.ReadLocalSetting(SettingNames.IsAutoPlayNextRelatedVideo, false)
+            && RelatedVideos.Count > 0)
+        {
+            ClearPlaylistCommand.Execute(default);
+            previousPart = RelatedVideos.First().Data.Identifier;
+            isNewVideo = true;
+        }
+
+        if (previousPart == null)
+        {
+            PlayerDetail.CanPlayPreviousPart = false;
+            return;
+        }
+
+        PlayerDetail.PreviousPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PreviousPartTipTemplate), previousPart.Value.Title);
+        _playPreviousVideoAction = () =>
+        {
+            if (isNewVideo)
+            {
+                SetSnapshot(new PlaySnapshot(previousPart.Value.Id, default, VideoType.Video));
+            }
+            else
+            {
+                ChangeVideoPart(previousPart.Value);
+            }
+        };
+
+        PlayerDetail.SetPlayPreviousAction(_playPreviousVideoAction);
     }
 
     private void OnAuthorizeStateChanged(object sender, AuthorizeStateChangedEventArgs e)

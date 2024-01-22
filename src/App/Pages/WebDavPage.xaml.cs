@@ -36,7 +36,7 @@ public sealed partial class WebDavPage : WebDavPageBase
         var data = (sender as FrameworkElement).DataContext as WebDavStorageItemViewModel;
         if (data.IsFolder)
         {
-            ViewModel.LoadPathCommand.Execute(data.Data.Href);
+            ViewModel.LoadPathCommand.Execute(data.Data.Uri);
         }
         else
         {

@@ -22,7 +22,6 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class PlayerDetailViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
-    private readonly Window _attachedWindow;
     private VideoType _videoType;
     private object _viewData;
     private bool _isInPrivate;
@@ -38,6 +37,7 @@ public sealed partial class PlayerDetailViewModel
     private TimeSpan _lastReportProgress;
     private TimeSpan _initializeProgress;
     private Action _playNextAction;
+    private Action _playPreviousAction;
     private DisplayRequest _displayRequest;
 
     private DispatcherTimer _unitTimer;
@@ -150,10 +150,25 @@ public sealed partial class PlayerDetailViewModel
     private bool _canPlayNextPart;
 
     [ObservableProperty]
+    private bool _canPlayPreviousPart;
+
+    [ObservableProperty]
+    private string _nextPartText;
+
+    [ObservableProperty]
+    private string _previousPartText;
+
+    [ObservableProperty]
     private bool _isPosterShown;
 
     [ObservableProperty]
     private IPlayerViewModel _player;
+
+    [ObservableProperty]
+    private bool _isBackButtonShown;
+
+    [ObservableProperty]
+    private bool _isInPlaylist;
 
     /// <summary>
     /// 当需要显示临时消息时触发的事件.
@@ -204,4 +219,9 @@ public sealed partial class PlayerDetailViewModel
     /// 下载模块的视图模型.
     /// </summary>
     public DownloadModuleViewModel DownloadViewModel { get; }
+
+    /// <summary>
+    /// 关联窗口.
+    /// </summary>
+    public Window AttachedWindow { get; }
 }

@@ -10,8 +10,4 @@ namespace Bili.Copilot.App.Controls.Settings;
 /// </summary>
 public abstract class SettingSection : ReactiveUserControl<SettingsPageViewModel>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SettingSection"/> class.
-    /// </summary>
-    public SettingSection() => ViewModel = SettingsPageViewModel.Instance;
 }

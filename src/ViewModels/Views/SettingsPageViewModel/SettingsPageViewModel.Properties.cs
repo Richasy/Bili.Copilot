@@ -108,6 +108,9 @@ public sealed partial class SettingsPageViewModel
     private PlayerWindowBehavior _playerWindowBehavior;
 
     [ObservableProperty]
+    private bool _autoLoadHistory;
+
+    [ObservableProperty]
     private bool _isWebDavEnabled;
 
     [ObservableProperty]
@@ -115,11 +118,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private WebDavConfig _selectedWebDav;
-
-    /// <summary>
-    /// 实例.
-    /// </summary>
-    public static SettingsPageViewModel Instance { get; } = new();
 
     /// <summary>
     /// 播放器显示模式可选集合.

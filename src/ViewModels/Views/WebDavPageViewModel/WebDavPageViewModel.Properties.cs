@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
-using WebDAVClient;
+using WebDav;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -13,7 +13,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class WebDavPageViewModel
 {
-    private IClient _client;
+    private IWebDavClient _client;
     private WebDavConfig _config;
 
     [ObservableProperty]

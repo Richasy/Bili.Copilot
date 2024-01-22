@@ -20,7 +20,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsPageViewModel"/> class.
     /// </summary>
-    private SettingsPageViewModel()
+    public SettingsPageViewModel()
     {
         PlayerDisplayModeCollection = new ObservableCollection<PlayerDisplayMode>();
         PreferCodecCollection = new ObservableCollection<PreferCodec>();
@@ -53,7 +53,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         GlobalPlaybackRate = ReadSetting(SettingNames.GlobalPlaybackRate, false);
         IsFullTraditionalChinese = ReadSetting(SettingNames.IsFullTraditionalChinese, false);
         HideWhenCloseWindow = ReadSetting(SettingNames.HideWhenCloseWindow, false);
-        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Single);
+        PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
+        AutoLoadHistory = ReadSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, true);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -116,6 +117,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(IsAutoPlayNextRelatedVideo):
                 WriteSetting(SettingNames.IsAutoPlayNextRelatedVideo, IsAutoPlayNextRelatedVideo);
+                break;
+            case nameof(AutoLoadHistory):
+                WriteSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, AutoLoadHistory);
                 break;
             case nameof(IsOpenRoaming):
                 WriteSetting(SettingNames.IsOpenRoaming, IsOpenRoaming);
@@ -222,6 +226,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         }
 
         PlayerType = ReadSetting(SettingNames.PlayerType, PlayerType.Native);
+        WebDavPlayerType = ReadSetting(SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
     }
 
     private void DecodeInit()

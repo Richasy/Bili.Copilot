@@ -73,6 +73,17 @@ public sealed partial class AppTitleBar : UserControl
         set => SetValue(TitleProperty, value);
     }
 
+    /// <summary>
+    /// 刷新可拖拽区域.
+    /// </summary>
+    public void Refresh()
+    {
+        if (IsLoaded)
+        {
+            SetDragRegion();
+        }
+    }
+
     private static async void OnBackButtonVisibilityChangedAsync(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as AppTitleBar;

@@ -59,12 +59,14 @@ public sealed partial class WebDavPlayerPageViewModel
 
         CurrentItem = vm;
         CreatePlayNextAction();
+        CreatePlayPreviousAction();
+        PlayerDetail.IsInPlaylist = _playNextVideoAction != null || _playPreviousVideoAction != null;
 
         var videoInfo = new WebDavVideoInformation
         {
             Config = _config,
             ContentType = vm.Data.ContentType,
-            Href = vm.Data.Href,
+            Href = vm.Data.Uri,
         };
 
         InitializeInfo();
@@ -89,16 +91,49 @@ public sealed partial class WebDavPlayerPageViewModel
 
         if (nextPart == null)
         {
+            PlayerDetail.CanPlayNextPart = false;
             return;
         }
 
         PlayerDetail.NextVideoTipText = nextPart.Data.DisplayName;
+        PlayerDetail.NextPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextPartTipTemplate), nextPart.Data.DisplayName);
         _playNextVideoAction = () =>
         {
             ChangeVideo(nextPart);
         };
 
         PlayerDetail.SetPlayNextAction(_playNextVideoAction);
+    }
+
+    private void CreatePlayPreviousAction()
+    {
+        var currentIndex = Playlist.IndexOf(CurrentItem);
+        PlayerDetail.CanPlayPreviousPart = currentIndex > 0;
+        _playNextVideoAction = null;
+
+        WebDavStorageItemViewModel previousPart = default;
+        if (Sections.Any(p => p.Type == PlayerSectionType.Playlist))
+        {
+            var canContinue = Playlist.Count > 1 && currentIndex > 0;
+            if (canContinue)
+            {
+                previousPart = Playlist[currentIndex - 1];
+            }
+        }
+
+        if (previousPart == null)
+        {
+            PlayerDetail.CanPlayPreviousPart = false;
+            return;
+        }
+
+        PlayerDetail.PreviousPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PreviousPartTipTemplate), previousPart.Data.DisplayName);
+        _playPreviousVideoAction = () =>
+        {
+            ChangeVideo(previousPart);
+        };
+
+        PlayerDetail.SetPlayPreviousAction(_playNextVideoAction);
     }
 
     private void ReloadMediaPlayer()
@@ -123,7 +158,7 @@ public sealed partial class WebDavPlayerPageViewModel
         }
 
         FileName = CurrentItem.Data.DisplayName ?? "--";
-        PublishTime = (CurrentItem.Data.CreationDate ?? CurrentItem.Data.LastModified ?? DateTime.Now).Humanize();
+        PublishTime = (CurrentItem.Data.CreationDate ?? CurrentItem.Data.LastModifiedDate ?? DateTime.Now).Humanize();
     }
 
     private void ResetInfo()
@@ -153,8 +188,8 @@ public sealed partial class WebDavPlayerPageViewModel
 
     private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e)
     {
-        var server = _config.Host + ":" + _config.Port;
-        var uri = server + CurrentItem.Data.Href;
+        var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port, CurrentItem.Data.Uri);
+        var uri = server + CurrentItem.Data.Uri;
         _ = await Launcher.LaunchUriAsync(new Uri(uri));
     }
 
