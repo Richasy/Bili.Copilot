@@ -21,48 +21,23 @@
                 Visibility="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <base:BiliPlayer.Overlay>
                     <base:BiliPlayerOverlay
+                        Title="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}"
                         SectionHeaderItemInvoked="OnSectionHeaderItemInvoked"
                         SectionHeaderItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
                         SectionHeaderSelectedItem="{x:Bind ViewModel.CurrentSection, Mode=OneWay}"
                         ViewModel="{x:Bind ViewModel.PlayerDetail, Mode=OneWay}">
                         <base:BiliPlayerOverlay.MediaPresenter>
-                            <Grid ColumnSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Padding="12,8" Spacing="4">
                                 <base:ImageEx
-                                    Width="100"
-                                    Height="60"
-                                    VerticalAlignment="Stretch"
-                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    Width="80"
+                                    Height="80"
+                                    HorizontalAlignment="Center"
+                                    CornerRadius="40"
                                     DecodePixelWidth="200"
                                     Source="{x:Bind ViewModel.CurrentEpisode.Identifier.Cover.Uri, Mode=OneWay}"
                                     Stretch="UniformToFill" />
-                                <StackPanel
-                                    Grid.Column="1"
-                                    Padding="0,4,4,4"
-                                    VerticalAlignment="Center"
-                                    Spacing="4">
-                                    <TextBlock
-                                        x:Name="TitleBlock"
-                                        MaxLines="1"
-                                        Style="{StaticResource BodyStrongTextBlockStyle}"
-                                        Text="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="{x:Bind ViewModel.CurrentEpisode.Identifier.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </TextBlock>
-                                    <TextBlock
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        MaxLines="2"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind ViewModel.View.Information.Identifier.Title, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </Grid>
+                                <TextBlock HorizontalAlignment="Center" Text="{ext:Locale Name=ExpandDetail}" />
+                            </StackPanel>
                         </base:BiliPlayerOverlay.MediaPresenter>
                         <base:BiliPlayerOverlay.SectionContent>
                             <Grid>

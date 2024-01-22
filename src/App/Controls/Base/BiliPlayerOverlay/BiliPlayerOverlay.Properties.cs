@@ -40,6 +40,12 @@ public partial class BiliPlayerOverlay
         DependencyProperty.Register(nameof(SectionHeaderSelectedItem), typeof(object), typeof(BiliPlayerOverlay), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="Title"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty TitleProperty =
+        DependencyProperty.Register(nameof(Title), typeof(string), typeof(BiliPlayerOverlay), new PropertyMetadata(default));
+
+    /// <summary>
     /// 区块标头被点击.
     /// </summary>
     public event EventHandler<PlayerSectionHeader> SectionHeaderItemInvoked;
@@ -97,5 +103,14 @@ public partial class BiliPlayerOverlay
     {
         get => GetValue(SectionContentProperty);
         set => SetValue(SectionContentProperty, value);
+    }
+
+    /// <summary>
+    /// 标题.
+    /// </summary>
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
     }
 }

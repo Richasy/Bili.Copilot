@@ -123,21 +123,10 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!--<Button
-                Padding="0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="Stretch"
-                Background="Transparent"
-                BorderThickness="0"
-                Click="OnDetailButtonClick"
-                Content="{x:Bind DetailContent, Mode=OneWay}" />-->
-
             <StackPanel
                 Padding="0,0,12,0"
                 VerticalAlignment="Center"
-                BorderBrush="{ThemeResource LayerFillColorAltBrush}"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
                 BorderThickness="0,0,1,0"
                 Orientation="Horizontal"
                 Spacing="8">
@@ -202,7 +191,7 @@
                 Grid.Column="2"
                 Padding="12,0,0,0"
                 HorizontalAlignment="Right"
-                BorderBrush="{ThemeResource LayerFillColorAltBrush}"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
                 BorderThickness="1,0,0,0"
                 Orientation="Horizontal">
                 <Button x:Name="VolumeButton" Style="{StaticResource IconButtonStyle}">

@@ -230,6 +230,11 @@ public partial class BiliPlayerOverlay
                 _danmakuView?.PauseDanmaku();
             }
         }
+        else if (e.PropertyName == nameof(ViewModel.DisplayMode))
+        {
+            _detailButton.Visibility = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
+                ? Visibility.Collapsed : Visibility.Visible;
+        }
     }
 
     private void OnStartRecordingItemClick(object sender, RoutedEventArgs e)
