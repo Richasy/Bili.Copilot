@@ -134,7 +134,7 @@ public partial class BiliPlayerOverlay
 
     private void HandleTransportAutoHide()
     {
-        if (_transportStayTime > 1.2)
+        if (_transportStayTime > 1.2 && ViewModel.Player != null)
         {
             _transportStayTime = 0;
             var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerControlModeManual, false);
@@ -163,6 +163,7 @@ public partial class BiliPlayerOverlay
             && !ViewModel.IsShowMediaTransport
             && IsPointerStay
             && !_rootSplitView.IsPaneOpen
+            && ViewModel.Player != null
             && ViewModel.Player.Status == PlayerStatus.Playing)
         {
             ProtectedCursor.Dispose();
