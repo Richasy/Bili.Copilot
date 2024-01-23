@@ -33,7 +33,6 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         };
 
         InitializeMessageCount();
-        SelectTypeCommand.Execute(MessageTypes.FirstOrDefault(p => p.Count > 0) ?? MessageTypes.First());
         AccountViewModel.Instance.PropertyChanged += OnAccountViewModelPropertyChanged;
     }
 
@@ -54,15 +53,14 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
     /// <inheritdoc/>
     protected override async Task GetDataAsync()
     {
-        if (_caches.Count == 0)
-        {
-            CurrentType = MessageTypes.First();
-            CurrentType.IsSelected = true;
-        }
-
         if (_isEnd)
         {
             return;
+        }
+
+        if (CurrentType == default)
+        {
+            SelectTypeCommand.Execute(MessageTypes.First());
         }
 
         var view = await AccountProvider.Instance.GetMyMessagesAsync(CurrentType.Type);

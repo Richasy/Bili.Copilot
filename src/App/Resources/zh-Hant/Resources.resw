@@ -2217,4 +2217,13 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="PlayerControlModeDescription" xml:space="preserve">
     <value>自動=控制器自行顯示/隱藏，手動=使用者控制顯示/隱藏</value>
   </data>
+  <data name="Emote" xml:space="preserve">
+    <value>表情</value>
+  </data>
+  <data name="RequestEmoteFailed" xml:space="preserve">
+    <value>請求表情失敗</value>
+  </data>
+  <data name="RequestEmoteFailedDescription" xml:space="preserve">
+    <value>無法獲取表情包，請稍後再試</value>
+  </data>
 </root>

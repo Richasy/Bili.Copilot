@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:EmotePanelBase
+    x:Class="Bili.Copilot.App.Controls.Modules.EmotePanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:appearance="using:Bili.Copilot.Models.Data.Appearance"
+    xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
+    xmlns:items="using:Bili.Copilot.ViewModels.Items"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:Bili.Copilot.App.Controls.Modules"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <base:LoadingOverlapper IsOpen="{x:Bind ViewModel.IsLoading, Mode=OneWay}" Text="{ext:Locale Name=LoadingAndWait}" />
+        <Grid Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <base:EmptyHolder
+                Title="{ext:Locale Name=RequestEmoteFailed}"
+                Description="{ext:Locale Name=RequestEmoteFailedDescription}"
+                Emoji="&#x1F975;"
+                Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}">
+                <base:EmptyHolder.ActionElement>
+                    <HyperlinkButton Command="{x:Bind ViewModel.InitializeCommand}" Content="{ext:Locale Name=Refresh}" />
+                </base:EmptyHolder.ActionElement>
+            </base:EmptyHolder>
+            <Grid Visibility="{x:Bind ViewModel.IsError, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer
+                    HorizontalScrollMode="Disabled"
+                    VerticalScrollBarVisibility="Hidden"
+                    VerticalScrollMode="Enabled">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:EmotePackageViewModel">
+                                <base:CardPanel
+                                    Width="40"
+                                    Height="40"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Click="OnPackageClick"
+                                    DataContext="{x:Bind}"
+                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                    ToolTipService.ToolTip="{x:Bind Data.Name}">
+                                    <base:ImageEx
+                                        Width="28"
+                                        Background="Transparent"
+                                        DecodePixelWidth="80"
+                                        Source="{x:Bind Data.Icon.Uri}" />
+                                </base:CardPanel>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="4" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </ScrollViewer>
+                <Rectangle
+                    Grid.Column="1"
+                    Width="1"
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Stretch"
+                    Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                <ScrollViewer
+                    Grid.Column="2"
+                    Padding="8,0"
+                    Style="{StaticResource PageScrollViewerStyle}">
+                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Current.Data.Images, Mode=OneWay}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="appearance:Emote">
+                                <Button
+                                    Padding="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="OnItemClick"
+                                    Tag="{x:Bind Key}"
+                                    ToolTipService.ToolTip="{x:Bind Key}">
+                                    <Grid>
+                                        <base:ImageEx
+                                            Width="32"
+                                            Height="32"
+                                            Background="Transparent"
+                                            DecodePixelWidth="80"
+                                            Source="{x:Bind Image.Uri}"
+                                            Stretch="Uniform"
+                                            Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <TextBlock
+                                            FontSize="12"
+                                            Text="{x:Bind Key}"
+                                            Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                        <ItemsRepeater.Layout>
+                            <UniformGridLayout
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="8"
+                                MinItemHeight="40"
+                                MinItemWidth="40"
+                                MinRowSpacing="8" />
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</local:EmotePanelBase>

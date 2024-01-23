@@ -649,6 +649,11 @@ public static class ApiConstants
         /// 点赞/取消点赞动态.
         /// </summary>
         public const string LikeDynamic = _grpcBase + "/bilibili.main.dynamic.feed.v1.Feed/DynamicThumb";
+
+        /// <summary>
+        /// 表情包.
+        /// </summary>
+        public const string Emotes = _apiBase + "/x/emote/user/panel/web";
     }
 }
 #pragma warning restore SA1600 // Elements should be documented

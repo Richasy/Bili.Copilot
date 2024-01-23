@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Community;
+using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Community;
 using Bilibili.App.Archive.V1;
 using Bilibili.App.Card.V1;
@@ -763,4 +765,30 @@ public static class CommunityAdapter
     /// <returns><see cref="EpisodeInteractionInformation"/>.</returns>
     public static EpisodeInteractionInformation ConvertToEpisodeInteractionInformation(EpisodeInteraction interaction)
         => new(interaction.IsLike == 1, interaction.CoinNumber > 0, interaction.IsFavorite == 1);
+
+    /// <summary>
+    /// 将 <see cref="BiliEmotePackage"/> 转换成 <see cref="EmotePackage"/>.
+    /// </summary>
+    /// <param name="package">表情包.</param>
+    /// <returns><see cref="EmotePackage"/>.</returns>
+    public static EmotePackage ConvertToEmotePackage(BiliEmotePackage package)
+    {
+        var p = new EmotePackage();
+        p.Name = package.Text;
+        p.Icon = ImageAdapter.ConvertToImage(package.Url);
+        p.Images = new List<Emote>();
+        foreach (var item in package.Emotes)
+        {
+            var e = new Emote();
+            e.Key = item.Text;
+            if (item.Url.StartsWith("http"))
+            {
+                e.Image = ImageAdapter.ConvertToImage(item.Url);
+            }
+
+            p.Images.Add(e);
+        }
+
+        return p;
+    }
 }

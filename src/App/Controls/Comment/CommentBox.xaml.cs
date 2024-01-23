@@ -73,4 +73,22 @@ public sealed partial class CommentBox : UserControl
         get => (ICommand)GetValue(ResetSelectedCommandProperty);
         set => SetValue(ResetSelectedCommandProperty, value);
     }
+
+    private void OnReplySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (string.IsNullOrEmpty(Text))
+        {
+            return;
+        }
+
+        SendCommand?.Execute(Text);
+    }
+
+    private void OnItemClick(object sender, string e)
+        => Text += e;
+
+    private void OnFlyoutClosed(object sender, object e)
+    {
+        ReplyBox.Focus(FocusState.Programmatic);
+    }
 }

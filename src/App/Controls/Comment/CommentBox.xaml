@@ -8,11 +8,12 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Comment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:modules="using:Bili.Copilot.App.Controls.Modules"
     mc:Ignorable="d">
 
     <Grid
         Grid.Row="2"
-        Padding="12,8"
+        Padding="4"
         Background="{ThemeResource CardBackgroundFillColorDefault}"
         ColumnSpacing="12"
         CornerRadius="{StaticResource ControlCornerRadius}">
@@ -51,34 +52,51 @@
                 <base:FluentIcon FontSize="10" Symbol="Dismiss" />
             </Button>
         </Grid>
-        <TextBox
+        <AutoSuggestBox
             x:Name="ReplyBox"
             Grid.Row="1"
-            MaxHeight="80"
-            Padding="12,10,8,8"
+            Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            AcceptsReturn="True"
             AllowFocusOnInteraction="True"
             Background="Transparent"
             BorderThickness="0"
             PlaceholderText="{ext:Locale Name=ReplyPlaceholderText}"
-            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap" />
-
+            QuerySubmitted="OnReplySubmitted"
+            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <AutoSuggestBox.TextBoxStyle>
+                <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
+                    <Setter Property="Padding" Value="40,8,12,8" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="AcceptsReturn" Value="True" />
+                    <Setter Property="MaxHeight" Value="80" />
+                </Style>
+            </AutoSuggestBox.TextBoxStyle>
+            <AutoSuggestBox.QueryIcon>
+                <base:FluentIcon Symbol="Send" />
+            </AutoSuggestBox.QueryIcon>
+        </AutoSuggestBox>
         <Button
-            x:Name="SendReplyButton"
             Grid.Row="1"
-            Grid.Column="1"
-            Width="40"
-            Height="40"
+            Margin="4,2,0,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Command="{x:Bind SendCommand, Mode=OneWay}">
-            <base:FluentIcon
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="16"
-                Symbol="Send" />
+            Style="{StaticResource SmallIconButtonStyle}"
+            ToolTipService.ToolTip="{ext:Locale Name=Emote}">
+            <base:FluentIcon FontSize="14" Symbol="Emoji" />
+            <Button.Flyout>
+                <Flyout Closed="OnFlyoutClosed" ShouldConstrainToRootBounds="False">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="4,8" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <modules:EmotePanel
+                        Width="320"
+                        Height="420"
+                        ItemClick="OnItemClick" />
+                </Flyout>
+            </Button.Flyout>
         </Button>
     </Grid>
 </UserControl>

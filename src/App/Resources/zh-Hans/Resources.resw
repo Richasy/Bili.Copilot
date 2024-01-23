@@ -2223,4 +2223,13 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="PlayerControlModeDescription" xml:space="preserve">
     <value>自动=控制器自行显示/隐藏，手动=用户控制显示/隐藏</value>
   </data>
+  <data name="Emote" xml:space="preserve">
+    <value>表情</value>
+  </data>
+  <data name="RequestEmoteFailed" xml:space="preserve">
+    <value>请求表情失败</value>
+  </data>
+  <data name="RequestEmoteFailedDescription" xml:space="preserve">
+    <value>无法获取表情包，请稍后再试</value>
+  </data>
 </root>

@@ -2,12 +2,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.Dynamic;
 using Bilibili.App.Dynamic.V2;
@@ -155,6 +158,22 @@ public partial class CommunityProvider
         var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicSpaceMarkRead, req, true);
         var response = await HttpProvider.Instance.SendAsync(request);
         response.EnsureSuccessStatusCode();
+    }
+
+    /// <summary>
+    /// 获取表情包列表.
+    /// </summary>
+    /// <returns>表情包列表.</returns>
+    public static async Task<List<EmotePackage>> GetEmotePackagesAsync()
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "business", "reply" },
+        };
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Community.Emotes, queryParameters);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var data = await HttpProvider.ParseAsync<ServerResponse<EmoteResponse>>(response);
+        return data.Data.Packages.Select(CommunityAdapter.ConvertToEmotePackage).ToList();
     }
 
     /// <summary>
