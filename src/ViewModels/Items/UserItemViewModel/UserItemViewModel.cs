@@ -58,6 +58,16 @@ public sealed partial class UserItemViewModel : SelectableViewModel<UserProfile>
     /// <summary>
     /// Initializes a new instance of the <see cref="UserItemViewModel"/> class.
     /// </summary>
+    public UserItemViewModel(ContactProfile profile)
+        : base(profile?.User)
+    {
+        IsVip = profile.IsVip;
+        Level = profile.Level;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserItemViewModel"/> class.
+    /// </summary>
     /// <param name="profile">用户资料.</param>
     public UserItemViewModel(UserProfile profile)
         : base(profile)

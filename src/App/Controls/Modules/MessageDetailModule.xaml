@@ -21,6 +21,7 @@
         <Grid Width="280" RowSpacing="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Grid
@@ -36,40 +37,36 @@
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap" />
             </Grid>
-            <ScrollViewer
-                Grid.Row="1"
-                Padding="12,0"
-                Style="{StaticResource PageScrollViewerStyle}">
-                <Grid>
-                    <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.MessageTypes, Mode=OneWay}">
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
-                                <base:CardPanel
-                                    Click="OnHeaderItemClick"
-                                    DataContext="{x:Bind}"
-                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
-                                    IsEnableCheck="False">
-                                    <Grid Margin="12" ColumnSpacing="8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
-                                        <InfoBadge
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Visibility="{x:Bind IsShowBadge, Mode=OneWay}"
-                                            Value="{x:Bind Count, Mode=OneWay}" />
-                                    </Grid>
-                                </base:CardPanel>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                </Grid>
-            </ScrollViewer>
+            <Grid Grid.Row="1" Padding="12,0">
+                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.MessageTypes, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
+                            <base:CardPanel
+                                Click="OnHeaderItemClick"
+                                DataContext="{x:Bind}"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                IsEnableCheck="False">
+                                <Grid Margin="12" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
+                                    <InfoBadge
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Visibility="{x:Bind IsShowBadge, Mode=OneWay}"
+                                        Value="{x:Bind Count, Mode=OneWay}" />
+                                </Grid>
+                            </base:CardPanel>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+            <local:ChatSessionListModule Grid.Row="2" Margin="0,-8,0,0" />
         </Grid>
         <Border
             Grid.Column="1"

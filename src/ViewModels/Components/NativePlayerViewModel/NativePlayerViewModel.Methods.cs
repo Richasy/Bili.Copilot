@@ -359,12 +359,11 @@ public sealed partial class NativePlayerViewModel
     [RelayCommand]
     private void Clear()
     {
-        if (Player == null)
+        if (Player is not MediaPlayer player)
         {
             return;
         }
 
-        var player = (MediaPlayer)Player;
         if (player.PlaybackSession != null)
         {
             player.PlaybackSession.PositionChanged -= OnPlayerPositionChanged;

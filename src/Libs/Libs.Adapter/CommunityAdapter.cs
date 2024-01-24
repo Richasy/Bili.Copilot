@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
+using Bili.Copilot.Models.BiliBili.User;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Data.Appearance;
@@ -790,5 +792,54 @@ public static class CommunityAdapter
         }
 
         return p;
+    }
+
+    /// <summary>
+    /// 将会话列表和用户列表合并转换成消息列表.
+    /// </summary>
+    /// <param name="response">会话列表响应.</param>
+    /// <param name="users">用户列表.</param>
+    /// <returns><see cref="ChatSessionListView"/>.</returns>
+    public static ChatSessionListView ConvertToChatSessionListView(ChatSessionListResponse response, List<BiliChatUser> users)
+    {
+        var sessions = new List<ChatSession>();
+        foreach (var item in response.SessionList)
+        {
+            if (item.LastMessage == null)
+            {
+                continue;
+            }
+
+            var user = users.FirstOrDefault(p => p.Mid == item.TalkerId);
+            if (user == null)
+            {
+                continue;
+            }
+
+            var s = new ChatSession();
+            var profile = UserAdapter.ConvertToContactProfile(user);
+            s.Profile = profile;
+
+            if (!string.IsNullOrEmpty(item.LastMessage.Content))
+            {
+                var json = JsonNode.Parse(item.LastMessage.Content);
+                var content = json["content"]?.GetValue<string>() ?? string.Empty;
+                s.LastMessage = content;
+            }
+
+            if (string.IsNullOrEmpty(s.LastMessage))
+            {
+                continue;
+            }
+
+            s.Timestamp = item.LastMessage.Timestamp;
+            s.UnreadCount = item.UnreadCount;
+            s.DoNotDisturb = item.DoNotDisturb == 1;
+            s.IsFollow = item.IsFollow == 1;
+
+            sessions.Add(s);
+        }
+
+        return new ChatSessionListView(sessions, response.HasMore == 1);
     }
 }

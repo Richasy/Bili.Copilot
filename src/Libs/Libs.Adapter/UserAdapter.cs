@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.User;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.User;
 using Bilibili.App.Archive.V1;
@@ -201,6 +202,22 @@ public sealed class UserAdapter
             : ImageAdapter.ConvertToImage(avatar, size, size);
         var profile = new UserProfile(userId.ToString(), userName, image);
         return profile;
+    }
+
+    /// <summary>
+    /// 将用户信息 <see cref="BiliChatUser"/> 转换为联系人.
+    /// </summary>
+    /// <param name="user">用户信息.</param>
+    /// <returns>联系人信息.</returns>
+    public static ContactProfile ConvertToContactProfile(BiliChatUser user)
+    {
+        var profile = ConvertToUserProfile(user.Mid, user.Publisher, user.PublisherAvatar, AvatarSize.Size96);
+        return new ContactProfile
+        {
+            User = profile,
+            Level = user.Level,
+            IsVip = user.Vip.Status == 1,
+        };
     }
 
     /// <summary>

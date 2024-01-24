@@ -253,9 +253,19 @@ public static class ApiConstants
         public const string MessageReply = _apiBase + "/x/msgfeed/reply";
 
         /// <summary>
+        /// 获取聊天消息.
+        /// </summary>
+        public const string ChatSessions = _vcBase + "/session_svr/v1/session_svr/get_sessions";
+
+        /// <summary>
         /// 更新PGC收藏状态.
         /// </summary>
         public const string UpdatePgcStatus = _apiBase + "/pgc/app/follow/status/update";
+
+        /// <summary>
+        /// 批量获取用户信息.
+        /// </summary>
+        public const string BatchUserInfo = _vcBase + "/account/v1/user/cards";
     }
 
     public static class Partition
