@@ -196,6 +196,29 @@ public sealed partial class AccountProvider
     }
 
     /// <summary>
+    /// 获取聊天消息.
+    /// </summary>
+    /// <param name="userId">用户 Id.</param>
+    /// <returns>消息列表.</returns>
+    public static async Task<ChatMessageView> GetChatMessagesAsync(string userId)
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "sender_device_id", "1" },
+            { "talker_id", userId },
+            { "session_type", "1" },
+            { "size", "100" },
+            { "wts", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatMessages, queryParameters);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<ChatMessageResponse>>(response);
+        var view = CommunityAdapter.ConvertToChatMessageView(result.Data);
+        return view;
+    }
+
+    /// <summary>
     /// 获取已登录用户的个人资料.
     /// </summary>
     /// <returns>个人资料.</returns>

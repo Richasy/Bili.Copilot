@@ -21,6 +21,24 @@ public class ChatSessionListResponse
 }
 
 /// <summary>
+/// 消息列表响应.
+/// </summary>
+public class ChatMessageResponse
+{
+    /// <summary>
+    /// 消息列表.
+    /// </summary>
+    [JsonPropertyName("messages")]
+    public List<BiliChatMsg> MessageList { get; set; }
+
+    /// <summary>
+    /// 是否有更多消息.
+    /// </summary>
+    [JsonPropertyName("has_more")]
+    public int HasMore { get; set; }
+}
+
+/// <summary>
 /// 会话.
 /// </summary>
 public class BiliChatSession
@@ -108,4 +126,10 @@ public class BiliChatMsg
     /// </summary>
     [JsonPropertyName("msg_key")]
     public long Key { get; set; }
+
+    /// <summary>
+    /// 消息类型.
+    /// </summary>
+    [JsonPropertyName("msg_type")]
+    public int Type { get; set; }
 }

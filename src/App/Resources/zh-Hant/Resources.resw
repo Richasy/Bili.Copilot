@@ -2226,4 +2226,7 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="RequestEmoteFailedDescription" xml:space="preserve">
     <value>無法獲取表情包，請稍後再試</value>
   </data>
+  <data name="NotSupportContent" xml:space="preserve">
+    <value>不受支持的內容</value>
+  </data>
 </root>

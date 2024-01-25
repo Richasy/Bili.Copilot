@@ -842,4 +842,43 @@ public static class CommunityAdapter
 
         return new ChatSessionListView(sessions, response.HasMore == 1);
     }
+
+    /// <summary>
+    /// 将会话消息列表响应 <see cref="ChatMessageResponse"/> 转换为消息列表.
+    /// </summary>
+    /// <param name="response">响应.</param>
+    /// <returns><see cref="ChatMessageView"/>.</returns>
+    public static ChatMessageView ConvertToChatMessageView(ChatMessageResponse response)
+    {
+        var messages = new List<ChatMessage>();
+        foreach (var item in response.MessageList)
+        {
+            var m = new ChatMessage();
+            m.SenderId = item.SenderUid.ToString();
+            m.Time = DateTimeOffset.FromUnixTimeSeconds(item.Timestamp);
+            m.Key = item.Key;
+            var json = JsonNode.Parse(item.Content);
+            if(item.Type == 1)
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Text;
+                var content = json["content"]?.GetValue<string>() ?? string.Empty;
+                m.Content = content;
+            }
+            else if(item.Type == 2)
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Image;
+                var url = json["url"]?.GetValue<string>() ?? string.Empty;
+                m.Content = url;
+            }
+            else
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Unknown;
+                m.Content = string.Empty;
+            }
+
+            messages.Add(m);
+        }
+
+        return new ChatMessageView(messages, response.HasMore == 1);
+    }
 }

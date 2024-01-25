@@ -253,9 +253,19 @@ public static class ApiConstants
         public const string MessageReply = _apiBase + "/x/msgfeed/reply";
 
         /// <summary>
-        /// 获取聊天消息.
+        /// 获取聊天会话记录.
         /// </summary>
         public const string ChatSessions = _vcBase + "/session_svr/v1/session_svr/get_sessions";
+
+        /// <summary>
+        /// 获取聊天消息.
+        /// </summary>
+        public const string ChatMessages = _vcBase + "/svr_sync/v1/svr_sync/fetch_session_msgs";
+
+        /// <summary>
+        /// 发送聊天消息.
+        /// </summary>
+        public const string SendMessage = _vcBase + "/web_im/v1/web_im/send_msg";
 
         /// <summary>
         /// 更新PGC收藏状态.

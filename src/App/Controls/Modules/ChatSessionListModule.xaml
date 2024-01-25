@@ -42,6 +42,7 @@
                                             Height="36"
                                             VerticalAlignment="Center"
                                             Avatar="{x:Bind User.Data.Avatar.Uri}"
+                                            Command="{x:Bind User.ShowDetailCommand}"
                                             UserName="{x:Bind User.Data.Name}" />
                                         <StackPanel
                                             Grid.Column="1"
