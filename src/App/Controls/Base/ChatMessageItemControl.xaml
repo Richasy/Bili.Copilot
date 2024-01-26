@@ -54,13 +54,11 @@
                         RadiusY="4"
                         Stroke="{ThemeResource ControlStrokeColorDefaultBrush}"
                         StrokeThickness="1" />
-                    <Grid x:Name="TextContainer" Padding="12,8">
-                        <TextBlock
+                    <Grid x:Name="TextContainer" Padding="12,8,12,4">
+                        <local:EmoteTextBlock
                             x:Name="PlainMessageBlock"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            IsTextSelectionEnabled="True"
-                            Text="{x:Bind ViewModel.Content, Mode=OneWay}"
-                            TextWrapping="Wrap" />
+                            Text="{x:Bind ViewModel.Content, Mode=OneWay}" />
                     </Grid>
 
                     <TextBlock

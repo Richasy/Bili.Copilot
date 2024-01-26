@@ -851,6 +851,15 @@ public static class CommunityAdapter
     public static ChatMessageView ConvertToChatMessageView(ChatMessageResponse response)
     {
         var messages = new List<ChatMessage>();
+        var emoteDict = new Dictionary<string, Image>();
+        if (response.EmoteInfos != null && response.EmoteInfos.Count > 0)
+        {
+            foreach (var emote in response.EmoteInfos)
+            {
+                emoteDict.Add(emote.Text, ImageAdapter.ConvertToImage(emote.Url));
+            }
+        }
+
         foreach (var item in response.MessageList)
         {
             var m = new ChatMessage();
@@ -862,23 +871,48 @@ public static class CommunityAdapter
             {
                 m.Type = Models.Constants.Bili.ChatMessageType.Text;
                 var content = json["content"]?.GetValue<string>() ?? string.Empty;
-                m.Content = content;
+                m.Content = new EmoteText(content, emoteDict);
             }
             else if (item.Type == 2)
             {
                 m.Type = Models.Constants.Bili.ChatMessageType.Image;
                 var url = json["url"]?.GetValue<string>() ?? string.Empty;
-                m.Content = url;
+                m.Content = new EmoteText(url, emoteDict);
             }
             else
             {
                 m.Type = Models.Constants.Bili.ChatMessageType.Unknown;
-                m.Content = string.Empty;
+                m.Content = new EmoteText(string.Empty, emoteDict);
             }
 
             messages.Add(m);
         }
 
         return new ChatMessageView(messages.OrderBy(p => p.Time).ToList(), response.HasMore == 1);
+    }
+
+    /// <summary>
+    /// 将会话消息响应 <see cref="SendMessageResponse"/> 转换为消息.
+    /// </summary>
+    /// <param name="response"><see cref="SendMessageResponse"/>.</param>
+    /// <returns><see cref="ChatMessage"/>.</returns>
+    public static ChatMessage ConvertToChatMessage(SendMessageResponse response)
+    {
+        var emoteDict = new Dictionary<string, Image>();
+        if (response.EmoteInfos != null && response.EmoteInfos.Count > 0)
+        {
+            foreach (var emote in response.EmoteInfos)
+            {
+                emoteDict.Add(emote.Text, ImageAdapter.ConvertToImage(emote.Url));
+            }
+        }
+
+        var m = new ChatMessage();
+        m.Key = response.Key;
+        var json = JsonNode.Parse(response.Content);
+        m.Type = Models.Constants.Bili.ChatMessageType.Text;
+        var content = json["content"]?.GetValue<string>() ?? string.Empty;
+        m.Content = new EmoteText(content, emoteDict);
+        return m;
     }
 }

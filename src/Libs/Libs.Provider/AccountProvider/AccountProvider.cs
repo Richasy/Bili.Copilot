@@ -215,7 +215,53 @@ public sealed partial class AccountProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<ChatMessageResponse>>(response);
         var view = CommunityAdapter.ConvertToChatMessageView(result.Data);
+
+        queryParameters = new Dictionary<string, string>
+        {
+            { "talker_id", userId },
+            { "session_type", "1" },
+            { "ack_seqno", result.Data.MaxSeqNo.ToString() },
+        };
+
+        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.ChatUpdate, queryParameters);
+        _ = await HttpProvider.Instance.SendAsync(request);
+
         return view;
+    }
+
+    /// <summary>
+    /// 发送聊天消息.
+    /// </summary>
+    /// <param name="content">消息内容.</param>
+    /// <param name="userId">用户 Id.</param>
+    /// <returns><see cref="ChatMessage"/>.</returns>
+    public static async Task<ChatMessage> SendChatMessageAsync(string content, string userId)
+    {
+        var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "msg[msg_type]", "1" },
+            { "msg[content]", content },
+            { "msg[sender_uid]", AuthorizeProvider.Instance.CurrentUserId },
+            { "msg[receiver_id]", userId },
+            { "msg[receiver_type]", "1" },
+            { "msg[receiver_device_id]", "1" },
+            { "msg[timestamp]", now.ToString() },
+            { "msg[msg_status]", "0" },
+            { "msg[dev_id]", "0" },
+            { "msg[new_face_version]", "1" },
+        };
+
+        var additionalQuery = $"w_sender_uid={AuthorizeProvider.Instance.CurrentUserId}&w_receiver_id={userId}&w_dev_id=0&wts={now}";
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.SendMessage, queryParameters, RequestClientType.IOS, additionalQuery: additionalQuery, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<SendMessageResponse>>(response);
+        var msg = CommunityAdapter.ConvertToChatMessage(result.Data);
+        msg.Time = DateTimeOffset.FromUnixTimeSeconds(now);
+        msg.SenderId = AuthorizeProvider.Instance.CurrentUserId;
+        msg.Type = ChatMessageType.Text;
+        return msg;
     }
 
     /// <summary>

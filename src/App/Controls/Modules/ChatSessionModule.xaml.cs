@@ -80,6 +80,12 @@ public sealed partial class ChatSessionModule : ChatSessionModuleBase
         await Task.Delay(200);
         _ = MessageViewer.ChangeView(0, MessageViewer.ScrollableHeight + MessageViewer.ActualHeight + MessageViewer.VerticalOffset, default);
     }
+
+    private void OnItemClick(object sender, string e)
+        => ViewModel.Input += e;
+
+    private void OnFlyoutClosed(object sender, object e)
+        => InputBox.Focus(FocusState.Programmatic);
 }
 
 /// <summary>

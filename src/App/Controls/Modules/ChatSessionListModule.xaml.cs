@@ -42,6 +42,7 @@ public sealed partial class ChatSessionListModule : ChatSessionListModuleBase
                 item.IsSelected = item.Equals(data);
             }
 
+            data.UnreadCount = 0;
             SessionItemClick?.Invoke(this, data);
         }
     }

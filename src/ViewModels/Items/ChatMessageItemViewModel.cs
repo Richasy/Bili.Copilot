@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Data.Appearance;
 using Bili.Copilot.Models.Data.Community;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Humanizer;
@@ -25,7 +26,7 @@ public sealed partial class ChatMessageItemViewModel : ViewModelBase
     private bool _isMe;
 
     [ObservableProperty]
-    private string _content;
+    private EmoteText _content;
 
     [ObservableProperty]
     private bool _isImage;
@@ -45,7 +46,7 @@ public sealed partial class ChatMessageItemViewModel : ViewModelBase
 
         if (message.Type == Models.Constants.Bili.ChatMessageType.Unknown)
         {
-            Content = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.NotSupportContent);
+            Content = new EmoteText(ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.NotSupportContent), default);
         }
     }
 

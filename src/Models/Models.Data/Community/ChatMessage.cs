@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.Models.Data.Appearance;
 
 namespace Bili.Copilot.Models.Data.Community;
 
@@ -12,7 +13,7 @@ public sealed class ChatMessage
     /// <summary>
     /// 消息内容.
     /// </summary>
-    public string Content { get; set; }
+    public EmoteText Content { get; set; }
 
     /// <summary>
     /// 消息时间.

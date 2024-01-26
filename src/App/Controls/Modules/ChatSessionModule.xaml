@@ -32,12 +32,12 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <base:UserAvatar
-                    Width="24"
-                    Height="24"
+                    Width="28"
+                    Height="28"
                     VerticalAlignment="Center"
                     Avatar="{x:Bind ViewModel.User.Data.Avatar.Uri, Mode=OneWay}"
-                    AvatarRadius="12"
-                    CornerRadius="12"
+                    AvatarRadius="14"
+                    Command="{x:Bind ViewModel.User.ShowDetailCommand, Mode=OneWay}"
                     UserName="{x:Bind ViewModel.User.Data.Name, Mode=OneWay}" />
             </Grid>
 
@@ -100,6 +100,7 @@
             Margin="24,12"
             ColumnSpacing="8">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
@@ -107,20 +108,46 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+            <Button
+                Width="36"
+                Height="36"
+                Padding="0"
+                VerticalAlignment="Bottom"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                IsEnabled="{x:Bind ViewModel.IsSending, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                ToolTipService.ToolTip="{ext:Locale Name=Emote}">
+                <base:FluentIcon FontSize="14" Symbol="Emoji" />
+                <Button.Flyout>
+                    <Flyout Closed="OnFlyoutClosed" ShouldConstrainToRootBounds="False">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="4,8" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <local:EmotePanel
+                            Width="320"
+                            Height="420"
+                            ItemClick="OnItemClick" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <TextBox
                 x:Name="InputBox"
+                Grid.Column="1"
                 MinHeight="36"
                 MaxHeight="120"
                 Padding="12,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 AcceptsReturn="True"
+                IsEnabled="{x:Bind ViewModel.IsSending, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                 PlaceholderText="{ext:Locale Name=ChatMessagePlaceholderText}"
                 PreviewKeyDown="OnInputBoxKeyDown"
                 Text="{x:Bind ViewModel.Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
             <Button
-                Grid.Column="1"
+                Grid.Column="2"
                 Width="36"
                 Height="36"
                 Padding="0"

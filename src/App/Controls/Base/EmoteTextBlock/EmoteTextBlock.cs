@@ -71,16 +71,6 @@ public sealed class EmoteTextBlock : Control
         base.OnApplyTemplate();
     }
 
-    private static void OnReplyInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var instance = d as EmoteTextBlock;
-        instance.Text = null;
-        if (e.NewValue != null)
-        {
-            instance.InitializeContent();
-        }
-    }
-
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as EmoteTextBlock;

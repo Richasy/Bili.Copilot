@@ -263,6 +263,11 @@ public static class ApiConstants
         public const string ChatMessages = _vcBase + "/svr_sync/v1/svr_sync/fetch_session_msgs";
 
         /// <summary>
+        /// 更新聊天状态（标记已读）.
+        /// </summary>
+        public const string ChatUpdate = _vcBase + "/session_svr/v1/session_svr/update_ack";
+
+        /// <summary>
         /// 发送聊天消息.
         /// </summary>
         public const string SendMessage = _vcBase + "/web_im/v1/web_im/send_msg";

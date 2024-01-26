@@ -36,6 +36,66 @@ public class ChatMessageResponse
     /// </summary>
     [JsonPropertyName("has_more")]
     public int HasMore { get; set; }
+
+    /// <summary>
+    /// 最小消息序号.
+    /// </summary>
+    [JsonPropertyName("min_seqno")]
+    public long MinSeqNo { get; set; }
+
+    /// <summary>
+    /// 最大消息序号.
+    /// </summary>
+    [JsonPropertyName("max_seqno")]
+    public long MaxSeqNo { get; set; }
+
+    /// <summary>
+    /// 表情信息.
+    /// </summary>
+    [JsonPropertyName("e_infos")]
+    public List<ChatEmoteInfo> EmoteInfos { get; set; }
+}
+
+/// <summary>
+/// 发送消息的响应.
+/// </summary>
+public class SendMessageResponse
+{
+    /// <summary>
+    /// 消息内容.
+    /// </summary>
+    [JsonPropertyName("msg_content")]
+    public string Content { get; set; }
+
+    /// <summary>
+    /// 表情信息.
+    /// </summary>
+    [JsonPropertyName("e_infos")]
+    public List<ChatEmoteInfo> EmoteInfos { get; set; }
+
+    /// <summary>
+    /// 消息标识符.
+    /// </summary>
+    [JsonPropertyName("msg_key")]
+    public long Key { get; set; }
+}
+
+/// <summary>
+/// 表情信息.
+/// </summary>
+public class ChatEmoteInfo
+{
+    /// <summary>
+    /// 文本.
+    /// </summary>
+    [JsonPropertyName("text")]
+    public string Text { get; set; }
+
+    /// <summary>
+    /// 地址.
+    /// </summary>
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
 }
 
 /// <summary>

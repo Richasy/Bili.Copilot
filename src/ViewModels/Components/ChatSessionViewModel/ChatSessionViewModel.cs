@@ -21,6 +21,7 @@ public sealed partial class ChatSessionViewModel : ViewModelBase
     {
         Messages = new ObservableCollection<ChatMessageItemViewModel>();
         AttachIsRunningToAsyncCommand(p => IsReloading = p, InitializeCommand, ReloadCommand);
+        AttachIsRunningToAsyncCommand(p => IsSending = p, SendMessageCommand);
     }
 
     [RelayCommand]
@@ -61,7 +62,25 @@ public sealed partial class ChatSessionViewModel : ViewModelBase
     [RelayCommand]
     private async Task SendMessageAsync()
     {
-        await Task.CompletedTask;
-        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        if (string.IsNullOrEmpty(Input))
+        {
+            return;
+        }
+
+        try
+        {
+            var msg = await AccountProvider.SendChatMessageAsync(Input, User.Data.Id);
+            if (msg != null)
+            {
+                Messages.Add(new ChatMessageItemViewModel(msg));
+            }
+
+            RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+            AppViewModel.Instance.ShowTip(ex.Message, Models.Constants.App.InfoType.Error);
+        }
     }
 }
