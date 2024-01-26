@@ -29,6 +29,9 @@ public sealed partial class ChatMessageItemViewModel : ViewModelBase
     private EmoteText _content;
 
     [ObservableProperty]
+    private string _imageUri;
+
+    [ObservableProperty]
     private bool _isImage;
 
     /// <summary>
@@ -39,10 +42,15 @@ public sealed partial class ChatMessageItemViewModel : ViewModelBase
         Data = message;
         User = user;
         SlimTime = message.Time.Humanize();
-        FullTime = message.Time.ToString("yyyy/MM/dd HH:mm");
+        FullTime = message.Time.ToLocalTime().ToString("yyyy/MM/dd HH:mm");
         IsMe = user == default;
         Content = message.Content;
         IsImage = message.Type == Models.Constants.Bili.ChatMessageType.Image;
+
+        if (IsImage)
+        {
+            ImageUri = message.Content.Text;
+        }
 
         if (message.Type == Models.Constants.Bili.ChatMessageType.Unknown)
         {

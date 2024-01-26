@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Adapter;
+using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Items;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -25,6 +28,13 @@ public sealed partial class ChatMessageItemControl : ChatMessageItemControlBase
                 ? VisualStateManager.GoToState(this, nameof(MyState), false)
                 : VisualStateManager.GoToState(this, nameof(AssistantState), false);
         }
+    }
+
+    private void OnImageTapped(object sender, TappedRoutedEventArgs e)
+    {
+        var img = ImageAdapter.ConvertToImage(ViewModel.ImageUri);
+        var args = new ShowImageEventArgs(new[] { img });
+        AppViewModel.Instance.ShowImagesCommand.Execute(args);
     }
 }
 

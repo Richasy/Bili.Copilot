@@ -37,6 +37,8 @@ public sealed partial class HttpProvider
     /// <param name="needCookie">是否需要cookie.</param>
     /// <param name="needAppKey">是否需要appKey.</param>
     /// <param name="forceNoToken">是否强制不AccessKey.</param>
+    /// <param name="needRid">是否需要 RID 签名.</param>
+    /// <param name="needCsrf">是否需要 CSRF 令牌.</param>
     /// <returns><see cref="HttpRequestMessage"/>.</returns>
     public static async Task<HttpRequestMessage> GetRequestMessageAsync(
         HttpMethod method,
@@ -47,13 +49,25 @@ public sealed partial class HttpProvider
         string additionalQuery = "",
         bool needCookie = false,
         bool needAppKey = false,
-        bool forceNoToken = false)
+        bool forceNoToken = false,
+        bool needRid = false,
+        bool needCsrf = false)
     {
         HttpRequestMessage requestMessage;
 
-        if (method == HttpMethod.Get && (needCookie || needAppKey))
+        if (needCsrf && queryParams.ContainsKey("csrf"))
         {
-            if (needAppKey)
+            queryParams.Add("csrf", AuthorizeProvider.GetCsrfToken());
+        }
+
+        if (method == HttpMethod.Get && (needCookie || needAppKey || needRid))
+        {
+            if (needRid)
+            {
+                var query = AuthorizeProvider.Instance.GenerateAuthorizedQueryStringFirstSign(queryParams);
+                url += $"?{query}";
+            }
+            else if (needAppKey)
             {
                 var query = AuthorizeProvider.GenerateAuthorizedQueryStringFirstSign(queryParams, clientType);
                 url += $"?{query}";
@@ -65,15 +79,10 @@ public sealed partial class HttpProvider
             }
 
             requestMessage = new HttpRequestMessage(method, url);
-            var cookie = AuthorizeProvider.GetCookieString();
-            if (!string.IsNullOrEmpty(cookie))
-            {
-                requestMessage.Headers.Add("Cookie", cookie);
-            }
         }
         else if (method == HttpMethod.Get || method == HttpMethod.Delete)
         {
-            var query = await AuthorizeProvider.Instance.GenerateAuthorizedQueryStringAsync(queryParams, clientType, needToken, forceNoToken);
+            var query = await AuthorizeProvider.Instance.GenerateAuthorizedQueryStringAsync(queryParams, clientType, needToken, forceNoToken, needRid);
             if (!string.IsNullOrEmpty(additionalQuery))
             {
                 query += $"&{additionalQuery}";
@@ -84,11 +93,20 @@ public sealed partial class HttpProvider
         }
         else
         {
-            var query = await AuthorizeProvider.Instance.GenerateAuthorizedQueryDictionaryAsync(queryParams, clientType, needToken);
+            var query = await AuthorizeProvider.Instance.GenerateAuthorizedQueryDictionaryAsync(queryParams, clientType, needToken, forceNoToken, needRid);
             requestMessage = new HttpRequestMessage(method, url)
             {
                 Content = new FormUrlEncodedContent(query),
             };
+        }
+
+        if (needCookie)
+        {
+            var cookie = AuthorizeProvider.GetCookieString();
+            if (!string.IsNullOrEmpty(cookie))
+            {
+                requestMessage.Headers.Add("Cookie", cookie);
+            }
         }
 
         return requestMessage;

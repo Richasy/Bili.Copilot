@@ -17,7 +17,7 @@ public static class ApiConstants
     public const string _bangumiBase = "https://bangumi.bilibili.com";
     public const string _grpcBase = "https://grpc.biliapi.net";
 
-    public const string CookieGetDomain = "https://bilibili.com";
+    public const string CookieGetDomain = "https://www.bilibili.com";
     public const string CookieSetDomain = "bilibili.com";
 
     public static class Passport
@@ -66,6 +66,11 @@ public static class ApiConstants
         /// cookie转访问令牌.
         /// </summary>
         public const string LoginAppThirdApi = "http://link.acg.tv/forum.php";
+
+        /// <summary>
+        /// 网页导航.
+        /// </summary>
+        public const string WebNav = _apiBase + "/x/web-interface/nav";
     }
 
     public static class Account

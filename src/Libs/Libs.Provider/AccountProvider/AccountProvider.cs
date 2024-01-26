@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Models.BiliBili;
@@ -208,10 +209,9 @@ public sealed partial class AccountProvider
             { "talker_id", userId },
             { "session_type", "1" },
             { "size", "100" },
-            { "wts", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatMessages, queryParameters);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatMessages, queryParameters, needRid: true, needCookie: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<ChatMessageResponse>>(response);
         var view = CommunityAdapter.ConvertToChatMessageView(result.Data);
@@ -223,7 +223,7 @@ public sealed partial class AccountProvider
             { "ack_seqno", result.Data.MaxSeqNo.ToString() },
         };
 
-        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.ChatUpdate, queryParameters);
+        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.ChatUpdate, queryParameters, needRid: true, needCookie: true);
         _ = await HttpProvider.Instance.SendAsync(request);
 
         return view;
@@ -241,7 +241,7 @@ public sealed partial class AccountProvider
         var queryParameters = new Dictionary<string, string>
         {
             { "msg[msg_type]", "1" },
-            { "msg[content]", content },
+            { "msg[content]", JsonSerializer.Serialize(new { content }) },
             { "msg[sender_uid]", AuthorizeProvider.Instance.CurrentUserId },
             { "msg[receiver_id]", userId },
             { "msg[receiver_type]", "1" },
@@ -252,9 +252,7 @@ public sealed partial class AccountProvider
             { "msg[new_face_version]", "1" },
         };
 
-        var additionalQuery = $"w_sender_uid={AuthorizeProvider.Instance.CurrentUserId}&w_receiver_id={userId}&w_dev_id=0&wts={now}";
-
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.SendMessage, queryParameters, RequestClientType.IOS, additionalQuery: additionalQuery, needCookie: true);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.SendMessage, queryParameters, needRid: true, needCookie: true, needCsrf: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<SendMessageResponse>>(response);
         var msg = CommunityAdapter.ConvertToChatMessage(result.Data);
@@ -508,10 +506,9 @@ public sealed partial class AccountProvider
             { "group_fold", "1" },
             { "sort_rule", "2" },
             { "end_ts", _chatSessionOffset.ToString() },
-            { "wts", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatSessions, queryParameters);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatSessions, queryParameters, needRid: true, needCookie: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var sessionResult = await HttpProvider.ParseAsync<ServerResponse<ChatSessionListResponse>>(response);
         _chatSessionOffset = sessionResult.Data.SessionList.LastOrDefault()?.SessionTimestamp ?? 0;
@@ -522,7 +519,7 @@ public sealed partial class AccountProvider
         {
             { "uids", string.Join(',', userIds) },
         };
-        var userRequest = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.BatchUserInfo, userQueryParams, RequestClientType.Web);
+        var userRequest = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.BatchUserInfo, userQueryParams, RequestClientType.Web, needRid: true);
         var userResponse = await HttpProvider.Instance.SendAsync(userRequest);
         var userResult = await HttpProvider.ParseAsync<ServerResponse<List<BiliChatUser>>>(userResponse);
         var view = CommunityAdapter.ConvertToChatSessionListView(mockSessionResult, userResult.Data);

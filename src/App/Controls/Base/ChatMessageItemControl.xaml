@@ -58,7 +58,17 @@
                         <local:EmoteTextBlock
                             x:Name="PlainMessageBlock"
                             Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                            Text="{x:Bind ViewModel.Content, Mode=OneWay}" />
+                            MaxLines="99"
+                            Text="{x:Bind ViewModel.Content, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.IsImage, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                        <local:ImageEx
+                            MaxWidth="280"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DecodePixelWidth="400"
+                            Source="{x:Bind ViewModel.ImageUri, Mode=OneWay}"
+                            Stretch="Uniform"
+                            Tapped="OnImageTapped"
+                            Visibility="{x:Bind ViewModel.IsImage, Mode=OneWay}" />
                     </Grid>
 
                     <TextBlock

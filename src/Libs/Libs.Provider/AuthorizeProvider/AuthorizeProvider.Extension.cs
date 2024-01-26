@@ -3,14 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.Authorize;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
@@ -25,6 +28,12 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class AuthorizeProvider
 {
+    private readonly byte[] _mIXIN_KEY_ENC_TAB =
+        [
+            46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49, 33, 9, 42,
+            19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40, 61, 26, 17, 0, 1, 60,
+            51, 30, 4, 22, 25, 54, 21, 56, 59, 6, 63, 57, 62, 11, 36, 20, 34, 44, 52,
+        ];
     private readonly string _guid;
     private AuthorizeState _state;
     private TokenInfo _tokenInfo;
@@ -32,6 +41,10 @@ public partial class AuthorizeProvider
     private string _internalQRAuthCode;
     private DispatcherTimer _qrTimer;
     private CancellationTokenSource _qrPollCancellationTokenSource;
+
+    private string _img;
+    private string _sub;
+    private string _wbi;
 
     /// <summary>
     /// 当授权状态改变时发生.
@@ -133,6 +146,22 @@ public partial class AuthorizeProvider
         return sign;
     }
 
+    internal string GenerateRid(Dictionary<string, string> queryParameters)
+    {
+        if (!queryParameters.ContainsKey("wts"))
+        {
+            queryParameters.Add("wts", DateTimeOffset.Now.ToUnixTimeSeconds().ToString());
+        }
+
+        var queryList = queryParameters.Select(p => $"{p.Key}={p.Value}").ToList();
+        queryList.Sort();
+        var query = string.Join('&', queryList);
+        var signQuery = query + _wbi;
+        using var md5Toolkit = new MD5Toolkit();
+        var rid = md5Toolkit.GetMd5String(signQuery).ToLower();
+        return rid;
+    }
+
     internal async Task<TokenInfo> InternalRefreshTokenAsync()
     {
         try
@@ -149,6 +178,12 @@ public partial class AuthorizeProvider
                 var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.RefreshToken, queryParameters);
                 var response = await httpProvider.SendAsync(request);
                 var result = await HttpProvider.ParseAsync<ServerResponse<TokenInfo>>(response);
+
+                if (result.Data.CookieInfo is not null)
+                {
+                    SaveCookie(result.Data.CookieInfo);
+                }
+
                 await SSOInitAsync();
 
                 return result.Data;
@@ -326,5 +361,33 @@ public partial class AuthorizeProvider
             _tokenInfo = null;
             _lastAuthorizeTime = default;
         }
+    }
+
+    private async Task<string> GetWbiKeyAsync()
+    {
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Passport.WebNav, needToken: false);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<WebNavResponse>>(response);
+        if (result?.Data?.Img is not null)
+        {
+            _img = Path.GetFileNameWithoutExtension(result.Data.Img.ImgUrl);
+            _sub = Path.GetFileNameWithoutExtension(result.Data.Img.SubUrl);
+            return _img + _sub;
+        }
+
+        return string.Empty;
+    }
+
+    private string GetMixinKey(string key)
+    {
+        var binding = new List<byte>();
+        var rawbiKey = Encoding.UTF8.GetBytes(key);
+        foreach (var b in _mIXIN_KEY_ENC_TAB)
+        {
+            binding.Add(rawbiKey[b]);
+        }
+
+        var mixinKey = Encoding.UTF8.GetString(binding.ToArray());
+        return mixinKey.Substring(0, 32);
     }
 }

@@ -43,6 +43,14 @@ public sealed partial class ChatSessionListModuleViewModel : InformationFlowView
             Items.Add(new ChatSessionItemViewModel(item));
         }
 
+        if (SelectedSession != null)
+        {
+            foreach (var item in Items)
+            {
+                item.IsSelected = item.Equals(SelectedSession);
+            }
+        }
+
         _isEnd = !view.HasMore;
         IsEmpty = Items.Count == 0;
     }

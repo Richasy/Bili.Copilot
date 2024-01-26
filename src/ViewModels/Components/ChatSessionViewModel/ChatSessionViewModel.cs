@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.ViewModels.Items;
@@ -75,6 +76,10 @@ public sealed partial class ChatSessionViewModel : ViewModelBase
                 Messages.Add(new ChatMessageItemViewModel(msg));
             }
 
+            var sourceSession = ChatSessionListModuleViewModel.Instance.Items.FirstOrDefault(p => p.User.Equals(User));
+            sourceSession.Update(Input);
+
+            Input = string.Empty;
             RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)

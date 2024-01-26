@@ -146,6 +146,8 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         {
             item.IsSelected = false;
         }
+
+        ChatSessionListModuleViewModel.Instance.SelectedSession = default;
     }
 
     private void InitializeMessageCount()

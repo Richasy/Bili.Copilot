@@ -72,7 +72,7 @@
             </Grid>
             <local:ChatSessionListModule
                 Grid.Row="2"
-                Margin="0,-8,0,0"
+                Margin="0,-12,0,0"
                 SessionItemClick="OnSessionItemClick" />
         </Grid>
         <Border

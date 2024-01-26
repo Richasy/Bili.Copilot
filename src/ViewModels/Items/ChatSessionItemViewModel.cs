@@ -5,6 +5,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Data.Community;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Humanizer;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Bili.Copilot.ViewModels.Items;
 
@@ -25,6 +26,9 @@ public sealed partial class ChatSessionItemViewModel : SelectableViewModel<ChatS
     [ObservableProperty]
     private int _unreadCount;
 
+    [ObservableProperty]
+    private string _lastMessage;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatSessionItemViewModel"/> class.
     /// </summary>
@@ -33,8 +37,21 @@ public sealed partial class ChatSessionItemViewModel : SelectableViewModel<ChatS
     {
         User = new UserItemViewModel(data.Profile);
         var time = DateTimeOffset.FromUnixTimeSeconds(data.Timestamp);
-        SessionTime = time.ToString("yyyy/MM/dd HH:mm");
+        SessionTime = time.ToLocalTime().ToString("yyyy/MM/dd HH:mm");
         SessionTimeText = TextToolkit.ConvertToTraditionalChineseIfNeeded(time.Humanize());
         UnreadCount = data.UnreadCount;
+        LastMessage = data.LastMessage;
+    }
+
+    /// <summary>
+    /// 更新.
+    /// </summary>
+    /// <param name="content">最后一条消息.</param>
+    public void Update(string content)
+    {
+        LastMessage = content;
+        var time = DateTimeOffset.Now;
+        SessionTime = time.ToString("yyyy/MM/dd HH:mm");
+        SessionTimeText = TextToolkit.ConvertToTraditionalChineseIfNeeded(time.Humanize());
     }
 }
