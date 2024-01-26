@@ -23,9 +23,6 @@ public sealed partial class ChatSessionViewModel
     [ObservableProperty]
     private bool _isReloading;
 
-    [ObservableProperty]
-    private bool _isError;
-
     /// <summary>
     /// 请求滚动到底部.
     /// </summary>

@@ -858,13 +858,13 @@ public static class CommunityAdapter
             m.Time = DateTimeOffset.FromUnixTimeSeconds(item.Timestamp);
             m.Key = item.Key;
             var json = JsonNode.Parse(item.Content);
-            if(item.Type == 1)
+            if (item.Type == 1)
             {
                 m.Type = Models.Constants.Bili.ChatMessageType.Text;
                 var content = json["content"]?.GetValue<string>() ?? string.Empty;
                 m.Content = content;
             }
-            else if(item.Type == 2)
+            else if (item.Type == 2)
             {
                 m.Type = Models.Constants.Bili.ChatMessageType.Image;
                 var url = json["url"]?.GetValue<string>() ?? string.Empty;
@@ -879,6 +879,6 @@ public static class CommunityAdapter
             messages.Add(m);
         }
 
-        return new ChatMessageView(messages, response.HasMore == 1);
+        return new ChatMessageView(messages.OrderBy(p => p.Time).ToList(), response.HasMore == 1);
     }
 }

@@ -2,6 +2,7 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.ViewModels.Components;
+using Bili.Copilot.ViewModels.Items;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -20,11 +21,30 @@ public sealed partial class ChatSessionListModule : ChatSessionListModuleBase
         Loaded += OnLoaded;
     }
 
+    /// <summary>
+    /// 会话项点击事件.
+    /// </summary>
+    public event EventHandler<ChatSessionItemViewModel> SessionItemClick;
+
     private void OnLoaded(object sender, RoutedEventArgs e)
         => ViewModel.InitializeCommand.Execute(default);
 
     private void OnRequestLoadMore(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
+
+    private void OnSessionItemClick(object sender, RoutedEventArgs e)
+    {
+        var data = (e.OriginalSource as FrameworkElement)?.DataContext as ChatSessionItemViewModel;
+        if (data is not null)
+        {
+            foreach (var item in ViewModel.Items)
+            {
+                item.IsSelected = item.Equals(data);
+            }
+
+            SessionItemClick?.Invoke(this, data);
+        }
+    }
 }
 
 /// <summary>

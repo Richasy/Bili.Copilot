@@ -30,6 +30,9 @@ public sealed partial class MessageDetailViewModel
     [ObservableProperty]
     private bool _isEmpty;
 
+    [ObservableProperty]
+    private bool _isInChatSession;
+
     /// <summary>
     /// 实例.
     /// </summary>

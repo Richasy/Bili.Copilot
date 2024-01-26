@@ -33,11 +33,11 @@
                     Height="28"
                     Margin="0,4,0,0"
                     VerticalAlignment="Top"
-                    Avatar="{x:Bind ViewModel.User.Data.Avatar.Uri}"
+                    Avatar="{x:Bind ViewModel.User.Data.Avatar.Uri, Mode=OneWay}"
                     AvatarRadius="14"
                     Background="{ThemeResource AppBarBackgroundThemeBrush}"
                     CornerRadius="14"
-                    UserName="{x:Bind ViewModel.User.Data.Name}"
+                    UserName="{x:Bind ViewModel.User.Data.Name, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.IsMe, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                 <Grid
                     x:Name="MessageContainer"

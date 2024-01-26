@@ -29,6 +29,8 @@
                                 <base:CardPanel
                                     Background="Transparent"
                                     BorderBrush="Transparent"
+                                    Click="OnSessionItemClick"
+                                    DataContext="{x:Bind}"
                                     IsChecked="{x:Bind IsSelected, Mode=OneWay}"
                                     IsEnableCheck="False">
                                     <Grid Padding="12,8" ColumnSpacing="12">

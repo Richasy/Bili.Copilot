@@ -57,4 +57,11 @@ public sealed partial class ChatSessionViewModel : ViewModelBase
             AppViewModel.Instance.ShowTip(ex.Message, Models.Constants.App.InfoType.Error);
         }
     }
+
+    [RelayCommand]
+    private async Task SendMessageAsync()
+    {
+        await Task.CompletedTask;
+        RequestScrollToBottom?.Invoke(this, EventArgs.Empty);
+    }
 }

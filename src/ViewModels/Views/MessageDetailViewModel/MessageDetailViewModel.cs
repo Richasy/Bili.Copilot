@@ -10,6 +10,7 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Components;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -98,6 +99,11 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
             item.IsSelected = type.Equals(item);
         }
 
+        if (IsInChatSession)
+        {
+            ExitChatSession();
+        }
+
         if (_caches.TryGetValue(CurrentType.Type, out var data) && data.Items.Count() > 0)
         {
             foreach (var item in data.Items)
@@ -113,6 +119,31 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         {
             _shouldClearCache = false;
             _ = InitializeCommand.ExecuteAsync(null);
+        }
+    }
+
+    [RelayCommand]
+    private void EnterChatSession()
+    {
+        IsInChatSession = true;
+        foreach (var item in MessageTypes)
+        {
+            item.IsSelected = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ExitChatSession()
+    {
+        IsInChatSession = false;
+        foreach (var item in MessageTypes)
+        {
+            item.IsSelected = CurrentType.Equals(item);
+        }
+
+        foreach (var item in ChatSessionListModuleViewModel.Instance.Items)
+        {
+            item.IsSelected = false;
         }
     }
 

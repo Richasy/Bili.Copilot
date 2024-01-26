@@ -66,7 +66,10 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
-            <local:ChatSessionListModule Grid.Row="2" Margin="0,-8,0,0" />
+            <local:ChatSessionListModule
+                Grid.Row="2"
+                Margin="0,-8,0,0"
+                SessionItemClick="OnSessionItemClick" />
         </Grid>
         <Border
             Grid.Column="1"
@@ -77,7 +80,8 @@
         <Grid
             Grid.Column="2"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
-            RowSpacing="12">
+            RowSpacing="12"
+            Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -143,6 +147,7 @@
                 Text="{ext:Locale Name=NoSpecificData}"
                 Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         </Grid>
+        <local:ChatSessionModule Grid.Column="2" Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay}" />
     </Grid>
 
 </local:MessageDetailModuleBase>
