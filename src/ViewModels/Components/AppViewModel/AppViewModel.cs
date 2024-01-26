@@ -84,6 +84,7 @@ public sealed partial class AppViewModel : ViewModelBase
             return;
         }
 
+        MessageItem.IsSelected = page == PageType.Message;
         SettingsItem.IsSelected = page == PageType.Settings;
         WebDavItem.IsSelected = page == PageType.WebDav;
         foreach (var item in NavigateItems)
@@ -95,7 +96,7 @@ public sealed partial class AppViewModel : ViewModelBase
         NavigateRequest?.Invoke(this, new AppNavigationEventArgs(page, parameter));
         CurrentPage = page;
 
-        if (page != PageType.Settings)
+        if (page != PageType.Settings && page != PageType.Message)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.LastOpenPageType, page);
         }
@@ -211,14 +212,6 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowMyMessages()
-    {
-        IsOverlayShown = true;
-        Message.InitializeCommand.Execute(default);
-        RequestShowMyMessages?.Invoke(this, EventArgs.Empty);
-    }
-
-    [RelayCommand]
     private void ShowViewLater()
         => RequestShowViewLater?.Invoke(this, EventArgs.Empty);
 
@@ -314,6 +307,9 @@ public sealed partial class AppViewModel : ViewModelBase
 
         SettingsItem = new NavigateItemViewModel(new NavigateItem(PageType.Settings, ResourceToolkit.GetLocalizedString(StringNames.Settings)));
         SettingsItem.IsSelected = CurrentPage == PageType.Settings;
+
+        MessageItem = new NavigateItemViewModel(new NavigateItem(PageType.Message, ResourceToolkit.GetLocalizedString(StringNames.Message)));
+        MessageItem.IsSelected = CurrentPage == PageType.Message;
 
         WebDavItem = new NavigateItemViewModel(new NavigateItem(PageType.WebDav, "WebDAV"));
         WebDavItem.IsSelected = IsWebDavShown && CurrentPage == PageType.WebDav;

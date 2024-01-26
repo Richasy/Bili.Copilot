@@ -551,7 +551,7 @@ public static class CommunityAdapter
     /// <param name="message">未读消息.</param>
     /// <returns><see cref="UnreadInformation"/>.</returns>
     public static UnreadInformation ConvertToUnreadInformation(UnreadMessage message)
-        => new(message.At, message.Reply, message.Like);
+        => new(message.At, message.Reply, message.Like, message.Chat);
 
     /// <summary>
     /// 将点赞消息条目 <see cref="LikeMessageItem"/> 转换为消息信息.

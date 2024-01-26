@@ -48,7 +48,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         _appViewModel.RequestSearch += OnRequestSearch;
         _appViewModel.RequestShowFans += OnRequestShowFans;
         _appViewModel.RequestShowFollows += OnRequestShowFollows;
-        _appViewModel.RequestShowMyMessages += OnRequestShowMyMessages;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
         _appViewModel.RequestShowViewLater += OnRequestShowViewLater;
         _appViewModel.RequestShowHistory += OnRequestShowHistory;
@@ -162,6 +161,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             PageType.Article => typeof(ArticlePage),
             PageType.Settings => typeof(SettingsPage),
             PageType.WebDav => typeof(WebDavPage),
+            PageType.Message => typeof(MessagePage),
             _ => throw new NotImplementedException(),
         };
 
@@ -249,17 +249,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             var page = OverlayFrame.Content as SearchPage;
             page.ViewModel.SetKeyword(e);
             page.ViewModel.InitializeCommand.Execute(default);
-        }
-    }
-
-    private void OnRequestShowMyMessages(object sender, EventArgs e)
-    {
-        Activate();
-        MainSplitView.IsPaneOpen = false;
-
-        if (OverlayFrame.Content is not MessagePage)
-        {
-            _ = OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
         }
     }
 

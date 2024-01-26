@@ -26,6 +26,7 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
     private MessageDetailViewModel()
     {
         _caches = new Dictionary<MessageType, (IEnumerable<MessageInformation> Items, bool IsEnd)>();
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MessageNavListColumnWidth, 280d);
         MessageTypes = new ObservableCollection<MessageHeaderViewModel>
         {
             GetMessageHeader(MessageType.Reply),
@@ -170,6 +171,14 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         if (e.PropertyName == nameof(AccountViewModel.Instance.UnreadInformation))
         {
             InitializeMessageCount();
+        }
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.MessageNavListColumnWidth, value);
         }
     }
 }

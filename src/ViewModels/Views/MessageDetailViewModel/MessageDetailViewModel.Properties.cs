@@ -33,6 +33,9 @@ public sealed partial class MessageDetailViewModel
     [ObservableProperty]
     private bool _isInChatSession;
 
+    [ObservableProperty]
+    private double _navListColumnWidth;
+
     /// <summary>
     /// 实例.
     /// </summary>

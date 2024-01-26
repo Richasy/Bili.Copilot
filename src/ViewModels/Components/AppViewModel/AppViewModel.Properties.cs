@@ -22,6 +22,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AppViewModel
 {
+    private static readonly Lazy<AppViewModel> _lazyInstance = new Lazy<AppViewModel>(() => new AppViewModel());
     private readonly DispatcherQueue _dispatcherQueue;
 
     [ObservableProperty]
@@ -44,6 +45,9 @@ public sealed partial class AppViewModel
 
     [ObservableProperty]
     private NavigateItemViewModel _settingsItem;
+
+    [ObservableProperty]
+    private NavigateItemViewModel _messageItem;
 
     [ObservableProperty]
     private NavigateItemViewModel _webDavItem;
@@ -119,11 +123,6 @@ public sealed partial class AppViewModel
     public event EventHandler RequestShowFollows;
 
     /// <summary>
-    /// 在有消息页面请求时触发.
-    /// </summary>
-    public event EventHandler RequestShowMyMessages;
-
-    /// <summary>
     /// 请求显示稍后再看.
     /// </summary>
     public event EventHandler RequestShowViewLater;
@@ -166,7 +165,7 @@ public sealed partial class AppViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static AppViewModel Instance { get; } = new();
+    public static AppViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 导航条目列表.

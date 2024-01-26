@@ -20,6 +20,9 @@ public sealed partial class NavigateItemViewModel : SelectableViewModel<Navigate
     [ObservableProperty]
     private bool _isVisible;
 
+    [ObservableProperty]
+    private bool _hasUnread;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="NavigateItemViewModel"/> class.
     /// </summary>
@@ -63,6 +66,10 @@ public sealed partial class NavigateItemViewModel : SelectableViewModel<Navigate
             case PageType.WebDav:
                 DefaultIcon = FluentSymbol.CloudDatabase;
                 SelectedIcon = FluentSymbol.CloudDatabaseFilled;
+                break;
+            case PageType.Message:
+                DefaultIcon = FluentSymbol.Mail;
+                SelectedIcon = FluentSymbol.MailFilled;
                 break;
             default:
                 break;

@@ -17,6 +17,7 @@ public sealed partial class MessagePage : MessagePageBase
     {
         InitializeComponent();
         ViewModel = MessageDetailViewModel.Instance;
+        ViewModel.InitializeCommand.Execute(default);
     }
 }
 

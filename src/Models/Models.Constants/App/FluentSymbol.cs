@@ -1221,6 +1221,7 @@ public enum FluentSymbol : int
     LockShield = 0xE973,
     Lottery = 0xE975,
     Luggage = 0xE977,
+    MailFilled = 0xE978,
     Mail = 0xE979,
     MailAdd = 0xE97B,
     MailAlert = 0xE97D,

@@ -56,4 +56,9 @@ public enum PageType
     /// WebDAV 页面.
     /// </summary>
     WebDav,
+
+    /// <summary>
+    /// 消息.
+    /// </summary>
+    Message,
 }

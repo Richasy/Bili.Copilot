@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
@@ -18,7 +19,10 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Width="280" RowSpacing="8">
+        <Grid
+            Width="{x:Bind ViewModel.NavListColumnWidth, Mode=OneWay}"
+            Margin="0,0,-6,0"
+            RowSpacing="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -77,8 +81,15 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <community:PropertySizer
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Binding="{x:Bind ViewModel.NavListColumnWidth, Mode=TwoWay}"
+            Maximum="320"
+            Minimum="240" />
         <Grid
             Grid.Column="2"
+            Margin="-6,0,0,0"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             RowSpacing="12"
             Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
@@ -147,7 +158,10 @@
                 Text="{ext:Locale Name=NoSpecificData}"
                 Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         </Grid>
-        <local:ChatSessionModule Grid.Column="2" Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay}" />
+        <local:ChatSessionModule
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay}" />
     </Grid>
 
 </local:MessageDetailModuleBase>

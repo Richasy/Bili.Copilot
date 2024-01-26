@@ -22,7 +22,7 @@ public sealed partial class MessageDetailModule : MessageDetailModuleBase
     private void OnHeaderItemClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement).DataContext as MessageHeaderViewModel;
-        if (data != ViewModel.CurrentType)
+        if (data != ViewModel.CurrentType || ViewModel.IsInChatSession)
         {
             ViewModel.SelectTypeCommand.Execute(data);
         }

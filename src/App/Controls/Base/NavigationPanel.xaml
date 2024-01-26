@@ -13,7 +13,6 @@
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ScrollViewer
             HorizontalScrollMode="Disabled"
@@ -31,11 +30,13 @@
             </ItemsRepeater>
         </ScrollViewer>
 
-        <local:NavigateItemControl
-            Grid.Row="1"
-            Margin="0,0,0,8"
-            ViewModel="{x:Bind ViewModel.WebDavItem, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.WebDavItem.IsVisible, Mode=OneWay}" />
-        <local:NavigateItemControl Grid.Row="2" ViewModel="{x:Bind ViewModel.SettingsItem, Mode=OneWay}" />
+        <StackPanel Grid.Row="1">
+            <local:NavigateItemControl
+                Margin="0,0,0,4"
+                ViewModel="{x:Bind ViewModel.WebDavItem, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.WebDavItem.IsVisible, Mode=OneWay}" />
+            <local:NavigateItemControl Margin="0,0,0,4" ViewModel="{x:Bind ViewModel.MessageItem, Mode=OneWay}" />
+            <local:NavigateItemControl ViewModel="{x:Bind ViewModel.SettingsItem, Mode=OneWay}" />
+        </StackPanel>
     </Grid>
 </local:NavigationPanelBase>
