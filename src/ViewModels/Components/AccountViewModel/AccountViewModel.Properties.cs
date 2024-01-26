@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.Models.Data.User;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,6 +12,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AccountViewModel
 {
+    private static readonly Lazy<AccountViewModel> _lazyInstance = new Lazy<AccountViewModel>(() => new AccountViewModel());
     private bool _isInitialized = false;
 
     [ObservableProperty]
@@ -58,7 +60,7 @@ public sealed partial class AccountViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static AccountViewModel Instance { get; } = new();
+    public static AccountViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 用户信息.

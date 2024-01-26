@@ -48,6 +48,7 @@
         <None Remove="Assets\ReaderClean.js" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
+        <None Remove="Controls\Base\ChatMessageItemControl.xaml" />
         <None Remove="Controls\Base\DownloadSection.xaml" />
         <None Remove="Controls\Base\DynamicImageItem.xaml" />
         <None Remove="Controls\Base\DynamicNotSupportItem.xaml" />
@@ -86,6 +87,8 @@
         <None Remove="Controls\Modules\AllDynamicDetailModule.xaml" />
         <None Remove="Controls\Modules\AnimeNavListModule.xaml" />
         <None Remove="Controls\Modules\ArticleNavListModule.xaml" />
+        <None Remove="Controls\Modules\ChatSessionListModule.xaml" />
+        <None Remove="Controls\Modules\ChatSessionModule.xaml" />
         <None Remove="Controls\Modules\DynamicUpListModule.xaml" />
         <None Remove="Controls\Modules\EmotePanel.xaml" />
         <None Remove="Controls\Modules\FavoritesNavListModule.xaml" />
@@ -282,6 +285,15 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Controls\Modules\ChatSessionModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Base\ChatMessageItemControl.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Modules\ChatSessionListModule.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\EmotePanel.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

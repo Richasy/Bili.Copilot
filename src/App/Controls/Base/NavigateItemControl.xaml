@@ -96,6 +96,16 @@
                     <ToolTip Content="{x:Bind ViewModel.Data.Title, Mode=OneWay}" IsEnabled="{x:Bind TitleBlock.IsTextTrimmed, Mode=OneWay}" />
                 </ToolTipService.ToolTip>
             </TextBlock>
+
+            <Ellipse
+                Grid.RowSpan="2"
+                Width="8"
+                Height="8"
+                Margin="0,4,4,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Fill="{ThemeResource SystemFillColorAttentionBrush}"
+                Visibility="{x:Bind ViewModel.HasUnread, Mode=OneWay}" />
         </Grid>
     </local:CardPanel>
 </local:NavigateItemControlBase>

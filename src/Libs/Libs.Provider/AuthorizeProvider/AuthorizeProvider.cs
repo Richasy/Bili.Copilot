@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
@@ -51,6 +52,24 @@ public sealed partial class AuthorizeProvider
     }
 
     /// <summary>
+    /// 获取CSRF Token.
+    /// </summary>
+    /// <returns>CSRF token.</returns>
+    public static string GetCsrfToken()
+    {
+        var cookie = GetCookieString();
+        var csrfToken = string.Empty;
+        var pattern = @"bili_jct=(.*?);";
+        var match = Regex.Match(cookie, pattern);
+        if (match.Success)
+        {
+            csrfToken = match.Groups[1].Value;
+        }
+
+        return csrfToken;
+    }
+
+    /// <summary>
     /// 获取包含授权码的查询字典，无token且先加盐.
     /// </summary>
     /// <param name="queryParameters">请求所需的查询参数.</param>
@@ -76,15 +95,34 @@ public sealed partial class AuthorizeProvider
     /// 获取包含授权码的查询字典.
     /// </summary>
     /// <param name="queryParameters">请求所需的查询参数.</param>
+    /// <returns>包含授权验证码的查询字典.</returns>
+    public string GenerateAuthorizedQueryStringFirstSign(
+        Dictionary<string, string> queryParameters)
+    {
+        queryParameters ??= new Dictionary<string, string>();
+        var rid = GenerateRid(queryParameters);
+        queryParameters.Add("w_rid", rid);
+        var queryList = queryParameters.Select(p => $"{p.Key}={p.Value}").ToList();
+        queryList.Sort();
+        var query = string.Join('&', queryList);
+        return query;
+    }
+
+    /// <summary>
+    /// 获取包含授权码的查询字典.
+    /// </summary>
+    /// <param name="queryParameters">请求所需的查询参数.</param>
     /// <param name="clientType">请求需要模拟的客户端类型.</param>
     /// <param name="needToken">是否需要访问令牌.</param>
     /// <param name="forceNoToken">是否强制不需要令牌.</param>
+    /// <param name="needRid">是否需要 RID 签名.</param>
     /// <returns>包含授权验证码的查询字典.</returns>
     public async Task<Dictionary<string, string>> GenerateAuthorizedQueryDictionaryAsync(
         Dictionary<string, string> queryParameters,
         RequestClientType clientType,
         bool needToken = false,
-        bool forceNoToken = false)
+        bool forceNoToken = false,
+        bool needRid = false)
     {
         queryParameters ??= new Dictionary<string, string>();
 
@@ -110,8 +148,17 @@ public sealed partial class AuthorizeProvider
             throw new OperationCanceledException("需要令牌，但获取访问令牌失败.");
         }
 
-        var sign = GenerateSign(queryParameters, clientType);
-        queryParameters.Add(ServiceConstants.Query.Sign, sign);
+        if (needRid)
+        {
+            var rid = GenerateRid(queryParameters);
+            queryParameters.Add("w_rid", rid);
+        }
+        else
+        {
+            var sign = GenerateSign(queryParameters, clientType);
+            queryParameters.Add(ServiceConstants.Query.Sign, sign);
+        }
+
         return queryParameters;
     }
 
@@ -122,10 +169,16 @@ public sealed partial class AuthorizeProvider
     /// <param name="clientType">请求需要模拟的客户端类型.</param>
     /// <param name="needToken">是否需要令牌.</param>
     /// <param name="forceNoToken">是否强制不需要令牌.</param>
+    /// <param name="needRid">是否需要 RID.</param>
     /// <returns>包含授权验证的查询字符串.</returns>
-    public async Task<string> GenerateAuthorizedQueryStringAsync(Dictionary<string, string> queryParameters, RequestClientType clientType, bool needToken = true, bool forceNoToken = false)
+    public async Task<string> GenerateAuthorizedQueryStringAsync(
+        Dictionary<string, string> queryParameters,
+        RequestClientType clientType,
+        bool needToken = true,
+        bool forceNoToken = false,
+        bool needRid = false)
     {
-        var parameters = await GenerateAuthorizedQueryDictionaryAsync(queryParameters, clientType, needToken, forceNoToken);
+        var parameters = await GenerateAuthorizedQueryDictionaryAsync(queryParameters, clientType, needToken, forceNoToken, needRid);
         var queryList = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
         queryList.Sort();
         var query = string.Join('&', queryList);
@@ -239,6 +292,7 @@ public sealed partial class AuthorizeProvider
     /// <returns><see cref="Task"/>.</returns>
     public async Task<bool> TrySignInAsync()
     {
+        await ResetWbiAsync();
         if (await IsTokenValidAsync() || State != AuthorizeState.SignedOut)
         {
             return true;
@@ -294,5 +348,20 @@ public sealed partial class AuthorizeProvider
             : isLocalValid;
 
         return result;
+    }
+
+    /// <summary>
+    /// 重置 WBI 签名.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    public async Task ResetWbiAsync()
+    {
+        var key = await GetWbiKeyAsync();
+        if (string.IsNullOrEmpty(key))
+        {
+            return;
+        }
+
+        _wbi = GetMixinKey(key);
     }
 }

@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
+using Bili.Copilot.Models.BiliBili.User;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Community;
 using Bili.Copilot.Models.Data.Appearance;
@@ -549,7 +551,7 @@ public static class CommunityAdapter
     /// <param name="message">未读消息.</param>
     /// <returns><see cref="UnreadInformation"/>.</returns>
     public static UnreadInformation ConvertToUnreadInformation(UnreadMessage message)
-        => new(message.At, message.Reply, message.Like);
+        => new(message.At, message.Reply, message.Like, message.Chat);
 
     /// <summary>
     /// 将点赞消息条目 <see cref="LikeMessageItem"/> 转换为消息信息.
@@ -790,5 +792,127 @@ public static class CommunityAdapter
         }
 
         return p;
+    }
+
+    /// <summary>
+    /// 将会话列表和用户列表合并转换成消息列表.
+    /// </summary>
+    /// <param name="response">会话列表响应.</param>
+    /// <param name="users">用户列表.</param>
+    /// <returns><see cref="ChatSessionListView"/>.</returns>
+    public static ChatSessionListView ConvertToChatSessionListView(ChatSessionListResponse response, List<BiliChatUser> users)
+    {
+        var sessions = new List<ChatSession>();
+        foreach (var item in response.SessionList)
+        {
+            if (item.LastMessage == null)
+            {
+                continue;
+            }
+
+            var user = users.FirstOrDefault(p => p.Mid == item.TalkerId);
+            if (user == null)
+            {
+                continue;
+            }
+
+            var s = new ChatSession();
+            var profile = UserAdapter.ConvertToContactProfile(user);
+            s.Profile = profile;
+
+            if (!string.IsNullOrEmpty(item.LastMessage.Content))
+            {
+                var json = JsonNode.Parse(item.LastMessage.Content);
+                var content = json["content"]?.GetValue<string>() ?? string.Empty;
+                s.LastMessage = content;
+            }
+
+            if (string.IsNullOrEmpty(s.LastMessage))
+            {
+                continue;
+            }
+
+            s.Timestamp = item.LastMessage.Timestamp;
+            s.UnreadCount = item.UnreadCount;
+            s.DoNotDisturb = item.DoNotDisturb == 1;
+            s.IsFollow = item.IsFollow == 1;
+
+            sessions.Add(s);
+        }
+
+        return new ChatSessionListView(sessions, response.HasMore == 1);
+    }
+
+    /// <summary>
+    /// 将会话消息列表响应 <see cref="ChatMessageResponse"/> 转换为消息列表.
+    /// </summary>
+    /// <param name="response">响应.</param>
+    /// <returns><see cref="ChatMessageView"/>.</returns>
+    public static ChatMessageView ConvertToChatMessageView(ChatMessageResponse response)
+    {
+        var messages = new List<ChatMessage>();
+        var emoteDict = new Dictionary<string, Image>();
+        if (response.EmoteInfos != null && response.EmoteInfos.Count > 0)
+        {
+            foreach (var emote in response.EmoteInfos)
+            {
+                emoteDict.Add(emote.Text, ImageAdapter.ConvertToImage(emote.Url));
+            }
+        }
+
+        foreach (var item in response.MessageList)
+        {
+            var m = new ChatMessage();
+            m.SenderId = item.SenderUid.ToString();
+            m.Time = DateTimeOffset.FromUnixTimeSeconds(item.Timestamp);
+            m.Key = item.Key;
+            var json = JsonNode.Parse(item.Content);
+            if (item.Type == 1)
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Text;
+                var content = json["content"]?.GetValue<string>() ?? string.Empty;
+                m.Content = new EmoteText(content, emoteDict);
+            }
+            else if (item.Type == 2)
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Image;
+                var url = json["url"]?.GetValue<string>() ?? string.Empty;
+                m.Content = new EmoteText(url, emoteDict);
+            }
+            else
+            {
+                m.Type = Models.Constants.Bili.ChatMessageType.Unknown;
+                m.Content = new EmoteText(string.Empty, emoteDict);
+            }
+
+            messages.Add(m);
+        }
+
+        return new ChatMessageView(messages.OrderBy(p => p.Time).ToList(), response.HasMore == 1);
+    }
+
+    /// <summary>
+    /// 将会话消息响应 <see cref="SendMessageResponse"/> 转换为消息.
+    /// </summary>
+    /// <param name="response"><see cref="SendMessageResponse"/>.</param>
+    /// <returns><see cref="ChatMessage"/>.</returns>
+    public static ChatMessage ConvertToChatMessage(SendMessageResponse response)
+    {
+        var emoteDict = new Dictionary<string, Image>();
+        if (response.EmoteInfos != null && response.EmoteInfos.Count > 0)
+        {
+            foreach (var emote in response.EmoteInfos)
+            {
+                emoteDict.Add(emote.Text, ImageAdapter.ConvertToImage(emote.Url));
+            }
+        }
+
+        var m = new ChatMessage();
+        m.Key = response.Key;
+        var json = JsonNode.Parse(response.Content);
+        m.Type = Models.Constants.Bili.ChatMessageType.Text;
+        var content = json["content"]?.GetValue<string>() ?? string.Empty;
+        m.Content = new EmoteText(content, emoteDict);
+        return m;
     }
 }

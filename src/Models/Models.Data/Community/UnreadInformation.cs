@@ -16,11 +16,13 @@ public sealed class UnreadInformation
     public UnreadInformation(
         int atCount,
         int replyCount,
-        int likeCount)
+        int likeCount,
+        int chatCount)
     {
         AtCount = atCount;
         ReplyCount = replyCount;
         LikeCount = likeCount;
+        ChatCount = chatCount;
     }
 
     /// <summary>
@@ -39,7 +41,12 @@ public sealed class UnreadInformation
     public int LikeCount { get; }
 
     /// <summary>
+    /// 对话消息数.
+    /// </summary>
+    public int ChatCount { get; }
+
+    /// <summary>
     /// 未读消息总数.
     /// </summary>
-    public int Total => AtCount + LikeCount + ReplyCount;
+    public int Total => AtCount + LikeCount + ReplyCount + ChatCount;
 }

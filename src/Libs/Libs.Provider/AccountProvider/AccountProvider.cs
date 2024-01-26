@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Adapter;
 using Bili.Copilot.Models.BiliBili;
+using Bili.Copilot.Models.BiliBili.User;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Constants.Bili;
@@ -191,6 +194,72 @@ public sealed partial class AccountProvider
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<List<RelatedTag>>>(response);
         return result.Data.Select(CommunityAdapter.ConvertToFollowGroup);
+    }
+
+    /// <summary>
+    /// 获取聊天消息.
+    /// </summary>
+    /// <param name="userId">用户 Id.</param>
+    /// <returns>消息列表.</returns>
+    public static async Task<ChatMessageView> GetChatMessagesAsync(string userId)
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "sender_device_id", "1" },
+            { "talker_id", userId },
+            { "session_type", "1" },
+            { "size", "100" },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatMessages, queryParameters, needRid: true, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<ChatMessageResponse>>(response);
+        var view = CommunityAdapter.ConvertToChatMessageView(result.Data);
+
+        queryParameters = new Dictionary<string, string>
+        {
+            { "talker_id", userId },
+            { "session_type", "1" },
+            { "ack_seqno", result.Data.MaxSeqNo.ToString() },
+        };
+
+        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.ChatUpdate, queryParameters, needRid: true, needCookie: true);
+        _ = await HttpProvider.Instance.SendAsync(request);
+
+        return view;
+    }
+
+    /// <summary>
+    /// 发送聊天消息.
+    /// </summary>
+    /// <param name="content">消息内容.</param>
+    /// <param name="userId">用户 Id.</param>
+    /// <returns><see cref="ChatMessage"/>.</returns>
+    public static async Task<ChatMessage> SendChatMessageAsync(string content, string userId)
+    {
+        var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "msg[msg_type]", "1" },
+            { "msg[content]", JsonSerializer.Serialize(new { content }) },
+            { "msg[sender_uid]", AuthorizeProvider.Instance.CurrentUserId },
+            { "msg[receiver_id]", userId },
+            { "msg[receiver_type]", "1" },
+            { "msg[receiver_device_id]", "1" },
+            { "msg[timestamp]", now.ToString() },
+            { "msg[msg_status]", "0" },
+            { "msg[dev_id]", "0" },
+            { "msg[new_face_version]", "1" },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.SendMessage, queryParameters, needRid: true, needCookie: true, needCsrf: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<SendMessageResponse>>(response);
+        var msg = CommunityAdapter.ConvertToChatMessage(result.Data);
+        msg.Time = DateTimeOffset.FromUnixTimeSeconds(now);
+        msg.SenderId = AuthorizeProvider.Instance.CurrentUserId;
+        msg.Type = ChatMessageType.Text;
+        return msg;
     }
 
     /// <summary>
@@ -426,6 +495,38 @@ public sealed partial class AccountProvider
     }
 
     /// <summary>
+    /// 获取聊天会话列表.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    public async Task<ChatSessionListView> GetChatSessionsAsync()
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "session_type", "1" },
+            { "group_fold", "1" },
+            { "sort_rule", "2" },
+            { "end_ts", _chatSessionOffset.ToString() },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatSessions, queryParameters, needRid: true, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var sessionResult = await HttpProvider.ParseAsync<ServerResponse<ChatSessionListResponse>>(response);
+        _chatSessionOffset = sessionResult.Data.SessionList.LastOrDefault()?.SessionTimestamp ?? 0;
+        var sessions = sessionResult.Data.SessionList.Where(p => p.SystemMessageType == 0).ToList();
+        var mockSessionResult = new ChatSessionListResponse { HasMore = sessionResult.Data.HasMore, SessionList = sessions };
+        var userIds = mockSessionResult.SessionList.Select(p => p.TalkerId).Distinct().ToList();
+        var userQueryParams = new Dictionary<string, string>
+        {
+            { "uids", string.Join(',', userIds) },
+        };
+        var userRequest = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.BatchUserInfo, userQueryParams, RequestClientType.Web, needRid: true);
+        var userResponse = await HttpProvider.Instance.SendAsync(userRequest);
+        var userResult = await HttpProvider.ParseAsync<ServerResponse<List<BiliChatUser>>>(userResponse);
+        var view = CommunityAdapter.ConvertToChatSessionListView(mockSessionResult, userResult.Data);
+        return view;
+    }
+
+    /// <summary>
     /// 清除消息的请求状态.
     /// </summary>
     public void ClearMessageStatus()
@@ -468,6 +569,12 @@ public sealed partial class AccountProvider
     /// <param name="groupId">分组 Id.</param>
     public void ResetMyFollowStatus(string groupId)
         => _myFollowOffsetCache.Remove(groupId);
+
+    /// <summary>
+    /// 重置聊天会话列表请求状态.
+    /// </summary>
+    public void ResetChatSessionOffset()
+        => _chatSessionOffset = 0;
 
     /// <summary>
     /// 清除我的关注请求状态.

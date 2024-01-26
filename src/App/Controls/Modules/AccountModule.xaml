@@ -48,14 +48,6 @@
                     Height="28"
                     CornerRadius="18"
                     Source="{x:Bind ViewModel.Avatar, Mode=OneWay}" />
-                <Ellipse
-                    Width="8"
-                    Height="8"
-                    Margin="0,-4,-4,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Fill="{ThemeResource SystemFillColorAttentionBrush}"
-                    Visibility="{x:Bind ViewModel.MessageCountInt, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}" />
             </Grid>
             <Button.Flyout>
                 <Flyout
@@ -157,28 +149,6 @@
                                     IconFontSize="16"
                                     Symbol="Person"
                                     Text="{ext:Locale Name=Personal}" />
-                            </Button>
-                            <Button
-                                HorizontalContentAlignment="Stretch"
-                                Click="OnItemButtonClick"
-                                Command="{x:Bind ViewModel.OpenMessageCommand}"
-                                Style="{StaticResource ItemButtonStyle}">
-                                <Grid ColumnSpacing="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <base:IconTextBlock
-                                        HorizontalAlignment="Left"
-                                        FontSize="14"
-                                        IconFontSize="16"
-                                        Symbol="Chat"
-                                        Text="{ext:Locale Name=Message}" />
-                                    <InfoBadge
-                                        Grid.Column="1"
-                                        Visibility="{x:Bind ViewModel.MessageCountInt, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}"
-                                        Value="{x:Bind ViewModel.MessageCountInt, Mode=OneWay}" />
-                                </Grid>
                             </Button>
                             <Button
                                 Click="OnItemButtonClick"

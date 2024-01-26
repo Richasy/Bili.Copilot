@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:controls="using:Bili.Copilot.App.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:Bili.Copilot.App.Extensions"
@@ -18,8 +19,12 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Width="280" RowSpacing="8">
+        <Grid
+            Width="{x:Bind ViewModel.NavListColumnWidth, Mode=OneWay}"
+            Margin="0,0,-6,0"
+            RowSpacing="8">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -36,40 +41,39 @@
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap" />
             </Grid>
-            <ScrollViewer
-                Grid.Row="1"
-                Padding="12,0"
-                Style="{StaticResource PageScrollViewerStyle}">
-                <Grid>
-                    <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.MessageTypes, Mode=OneWay}">
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
-                                <base:CardPanel
-                                    Click="OnHeaderItemClick"
-                                    DataContext="{x:Bind}"
-                                    IsChecked="{x:Bind IsSelected, Mode=OneWay}"
-                                    IsEnableCheck="False">
-                                    <Grid Margin="12" ColumnSpacing="8">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
-                                        <InfoBadge
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Visibility="{x:Bind IsShowBadge, Mode=OneWay}"
-                                            Value="{x:Bind Count, Mode=OneWay}" />
-                                    </Grid>
-                                </base:CardPanel>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="8" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
-                </Grid>
-            </ScrollViewer>
+            <Grid Grid.Row="1" Padding="12,0">
+                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.MessageTypes, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:MessageHeaderViewModel">
+                            <base:CardPanel
+                                Click="OnHeaderItemClick"
+                                DataContext="{x:Bind}"
+                                IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                IsEnableCheck="False">
+                                <Grid Margin="12" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Title}" />
+                                    <InfoBadge
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Visibility="{x:Bind IsShowBadge, Mode=OneWay}"
+                                        Value="{x:Bind Count, Mode=OneWay}" />
+                                </Grid>
+                            </base:CardPanel>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+            <local:ChatSessionListModule
+                Grid.Row="2"
+                Margin="0,-12,0,0"
+                SessionItemClick="OnSessionItemClick" />
         </Grid>
         <Border
             Grid.Column="1"
@@ -77,10 +81,18 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <community:PropertySizer
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Binding="{x:Bind ViewModel.NavListColumnWidth, Mode=TwoWay}"
+            Maximum="320"
+            Minimum="240" />
         <Grid
             Grid.Column="2"
+            Margin="-6,0,0,0"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
-            RowSpacing="12">
+            RowSpacing="12"
+            Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -146,6 +158,10 @@
                 Text="{ext:Locale Name=NoSpecificData}"
                 Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         </Grid>
+        <local:ChatSessionModule
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            Visibility="{x:Bind ViewModel.IsInChatSession, Mode=OneWay}" />
     </Grid>
 
 </local:MessageDetailModuleBase>

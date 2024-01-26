@@ -10,6 +10,7 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Community;
+using Bili.Copilot.ViewModels.Components;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -25,6 +26,7 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
     private MessageDetailViewModel()
     {
         _caches = new Dictionary<MessageType, (IEnumerable<MessageInformation> Items, bool IsEnd)>();
+        NavListColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MessageNavListColumnWidth, 280d);
         MessageTypes = new ObservableCollection<MessageHeaderViewModel>
         {
             GetMessageHeader(MessageType.Reply),
@@ -98,6 +100,11 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
             item.IsSelected = type.Equals(item);
         }
 
+        if (IsInChatSession)
+        {
+            ExitChatSession();
+        }
+
         if (_caches.TryGetValue(CurrentType.Type, out var data) && data.Items.Count() > 0)
         {
             foreach (var item in data.Items)
@@ -114,6 +121,33 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
             _shouldClearCache = false;
             _ = InitializeCommand.ExecuteAsync(null);
         }
+    }
+
+    [RelayCommand]
+    private void EnterChatSession()
+    {
+        IsInChatSession = true;
+        foreach (var item in MessageTypes)
+        {
+            item.IsSelected = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ExitChatSession()
+    {
+        IsInChatSession = false;
+        foreach (var item in MessageTypes)
+        {
+            item.IsSelected = CurrentType.Equals(item);
+        }
+
+        foreach (var item in ChatSessionListModuleViewModel.Instance.Items)
+        {
+            item.IsSelected = false;
+        }
+
+        ChatSessionListModuleViewModel.Instance.SelectedSession = default;
     }
 
     private void InitializeMessageCount()
@@ -139,6 +173,14 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
         if (e.PropertyName == nameof(AccountViewModel.Instance.UnreadInformation))
         {
             InitializeMessageCount();
+        }
+    }
+
+    partial void OnNavListColumnWidthChanged(double value)
+    {
+        if (value >= 240)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.MessageNavListColumnWidth, value);
         }
     }
 }

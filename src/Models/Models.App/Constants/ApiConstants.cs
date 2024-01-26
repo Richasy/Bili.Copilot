@@ -17,7 +17,7 @@ public static class ApiConstants
     public const string _bangumiBase = "https://bangumi.bilibili.com";
     public const string _grpcBase = "https://grpc.biliapi.net";
 
-    public const string CookieGetDomain = "https://bilibili.com";
+    public const string CookieGetDomain = "https://www.bilibili.com";
     public const string CookieSetDomain = "bilibili.com";
 
     public static class Passport
@@ -66,6 +66,11 @@ public static class ApiConstants
         /// cookie转访问令牌.
         /// </summary>
         public const string LoginAppThirdApi = "http://link.acg.tv/forum.php";
+
+        /// <summary>
+        /// 网页导航.
+        /// </summary>
+        public const string WebNav = _apiBase + "/x/web-interface/nav";
     }
 
     public static class Account
@@ -253,9 +258,34 @@ public static class ApiConstants
         public const string MessageReply = _apiBase + "/x/msgfeed/reply";
 
         /// <summary>
+        /// 获取聊天会话记录.
+        /// </summary>
+        public const string ChatSessions = _vcBase + "/session_svr/v1/session_svr/get_sessions";
+
+        /// <summary>
+        /// 获取聊天消息.
+        /// </summary>
+        public const string ChatMessages = _vcBase + "/svr_sync/v1/svr_sync/fetch_session_msgs";
+
+        /// <summary>
+        /// 更新聊天状态（标记已读）.
+        /// </summary>
+        public const string ChatUpdate = _vcBase + "/session_svr/v1/session_svr/update_ack";
+
+        /// <summary>
+        /// 发送聊天消息.
+        /// </summary>
+        public const string SendMessage = _vcBase + "/web_im/v1/web_im/send_msg";
+
+        /// <summary>
         /// 更新PGC收藏状态.
         /// </summary>
         public const string UpdatePgcStatus = _apiBase + "/pgc/app/follow/status/update";
+
+        /// <summary>
+        /// 批量获取用户信息.
+        /// </summary>
+        public const string BatchUserInfo = _vcBase + "/account/v1/user/cards";
     }
 
     public static class Partition

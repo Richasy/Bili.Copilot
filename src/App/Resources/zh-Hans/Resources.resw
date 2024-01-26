@@ -2232,4 +2232,16 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="RequestEmoteFailedDescription" xml:space="preserve">
     <value>无法获取表情包，请稍后再试</value>
   </data>
+  <data name="NotSupportContent" xml:space="preserve">
+    <value>不受支持的内容</value>
+  </data>
+  <data name="ChatMessagePlaceholderText" xml:space="preserve">
+    <value>请输入聊天消息</value>
+  </data>
+  <data name="SendMessage" xml:space="preserve">
+    <value>发送消息</value>
+  </data>
+  <data name="ChatList" xml:space="preserve">
+    <value>聊天列表</value>
+  </data>
 </root>

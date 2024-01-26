@@ -48,7 +48,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         _appViewModel.RequestSearch += OnRequestSearch;
         _appViewModel.RequestShowFans += OnRequestShowFans;
         _appViewModel.RequestShowFollows += OnRequestShowFollows;
-        _appViewModel.RequestShowMyMessages += OnRequestShowMyMessages;
         _appViewModel.RequestShowUserSpace += OnRequestShowUserSpace;
         _appViewModel.RequestShowViewLater += OnRequestShowViewLater;
         _appViewModel.RequestShowHistory += OnRequestShowHistory;
@@ -63,7 +62,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         MinHeight = 640;
 
         Activated += OnActivated;
-        Closed += OnClosedAsync;
+        Closed += OnClosed;
 
         MoveAndResize();
     }
@@ -162,6 +161,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             PageType.Article => typeof(ArticlePage),
             PageType.Settings => typeof(SettingsPage),
             PageType.WebDav => typeof(WebDavPage),
+            PageType.Message => typeof(MessagePage),
             _ => throw new NotImplementedException(),
         };
 
@@ -249,17 +249,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             var page = OverlayFrame.Content as SearchPage;
             page.ViewModel.SetKeyword(e);
             page.ViewModel.InitializeCommand.Execute(default);
-        }
-    }
-
-    private void OnRequestShowMyMessages(object sender, EventArgs e)
-    {
-        Activate();
-        MainSplitView.IsPaneOpen = false;
-
-        if (OverlayFrame.Content is not MessagePage)
-        {
-            _ = OverlayFrame.Navigate(typeof(MessagePage), _appViewModel.Message);
         }
     }
 
@@ -378,7 +367,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     private void OnActiveMainWindow(object sender, EventArgs e)
         => Activate();
 
-    private async void OnClosedAsync(object sender, WindowEventArgs args)
+    private void OnClosed(object sender, WindowEventArgs args)
     {
         foreach (var item in AppViewModel.Instance.DisplayWindows.ToArray())
         {
@@ -388,10 +377,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             }
         }
 
-        if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null)
+        var willHide = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
+        if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null && willHide)
         {
             _appViewModel.BackCommand.Execute(default);
-            await Task.Delay(500);
         }
 
         SaveCurrentWindowStats();

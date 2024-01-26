@@ -29,6 +29,7 @@ public sealed partial class AccountProvider
 
     private int _viewLaterPageNumber;
     private Cursor _historyCursor;
+    private long _chatSessionOffset;
 
     /// <summary>
     /// 实例.

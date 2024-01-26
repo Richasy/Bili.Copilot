@@ -135,4 +135,5 @@ public enum SettingNames
     WebDavLastPath,
     IsAutoLoadHistoryWhenLoaded,
     IsPlayerControlModeManual,
+    MessageNavListColumnWidth,
 }
