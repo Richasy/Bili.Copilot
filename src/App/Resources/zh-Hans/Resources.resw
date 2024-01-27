@@ -1192,7 +1192,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
     <value>通知设置</value>
   </data>
   <data name="NotificationSettingDescription" xml:space="preserve">
-    <value>打开视频动态通知，有新的视频更新时会提醒你，登录后有效</value>
+    <value>在应用运行期间提醒你有新的内容</value>
   </data>
   <data name="NotSupportDynamic" xml:space="preserve">
     <value>不受支持的动态类型</value>
@@ -2243,5 +2243,8 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   </data>
   <data name="ChatList" xml:space="preserve">
     <value>聊天列表</value>
+  </data>
+  <data name="VideoDynamicNotification" xml:space="preserve">
+    <value>新视频动态通知</value>
   </data>
 </root>

@@ -122,6 +122,12 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private WebDavConfig _selectedWebDav;
 
+    [ObservableProperty]
+    private bool _isNotificationEnabled;
+
+    [ObservableProperty]
+    private bool _isVideoDynamicNotificationEnabled;
+
     /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>

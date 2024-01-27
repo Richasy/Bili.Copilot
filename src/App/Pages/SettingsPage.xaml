@@ -56,6 +56,7 @@
                     Text="{ext:Locale Name=Generic}" />
                 <settings:ThemeSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:CloseBehaviorSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:NotificationSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:LoggerSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:CacheSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:TraditionalChineseSettingSection ViewModel="{x:Bind ViewModel}" />

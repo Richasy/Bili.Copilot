@@ -1,11 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Diagnostics;
+using System.Text.Json;
 using Bili.Copilot.App.Controls;
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Constants.Bili;
+using Bili.Copilot.Models.Constants.Community;
+using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.Pgc;
+using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels;
 using H.NotifyIcon;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -250,5 +257,18 @@ public partial class App : Application
 
     private void OnAppNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
     {
+        if (args.Arguments.TryGetValue("type", out var type))
+        {
+            if (type == "dynamic")
+            {
+                // 视频动态更新.
+                var payload = args.Arguments["payload"];
+                var playSnapshot = JsonSerializer.Deserialize<PlaySnapshot>(payload);
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
+                });
+            }
+        }
     }
 }

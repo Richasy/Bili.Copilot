@@ -46,6 +46,7 @@ public sealed partial class NotificationViewModel : ViewModelBase
                     }
 
                     var d = dynamics.ElementAt(i);
+
                     if (d.Id == lastSeen)
                     {
                         break;
@@ -69,9 +70,10 @@ public sealed partial class NotificationViewModel : ViewModelBase
                     avatar = d.User.Avatar.Uri;
                     publisher = d.User.Name;
 
+                    var snapshot = DynamicItemViewModel.GetSnapshot(d.Data);
                     var notification = new AppNotificationBuilder()
-                        .AddArgument("target", d.DynamicType.ToString())
-                        .AddArgument("payload", JsonSerializer.Serialize(d.Data))
+                        .AddArgument("type", "dynamic")
+                        .AddArgument("payload", JsonSerializer.Serialize(snapshot))
                         .AddText(title)
                         .AddText(publisher)
                         .SetAppLogoOverride(new Uri(avatar), AppNotificationImageCrop.Circle)
@@ -85,15 +87,13 @@ public sealed partial class NotificationViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task TryStartAsync()
+    private void TryStart()
     {
         var isNotifyEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsNotifyEnabled, true);
         if (isNotifyEnabled && !_timer.Enabled)
         {
             _timer.Start();
         }
-
-        return Task.CompletedTask;
     }
 
     [RelayCommand]
