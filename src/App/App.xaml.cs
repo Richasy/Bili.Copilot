@@ -12,6 +12,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.UI.Dispatching;
 using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
 using NLog;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -27,6 +28,7 @@ public partial class App : Application
     /// 应用标识符.
     /// </summary>
     public const string Id = "643E7C9C-F215-4883-B5B5-97D5FC3622A5";
+    private readonly AppNotificationManager _notificationManager;
     private DispatcherQueue _dispatcherQueue;
     private WindowBase _window;
 
@@ -51,6 +53,9 @@ public partial class App : Application
         var mainAppInstance = AppInstance.FindOrRegisterForKey(Id);
         mainAppInstance.Activated += OnAppInstanceActivated;
         UnhandledException += OnUnhandledException;
+        _notificationManager = AppNotificationManager.Default;
+        _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
+        _notificationManager.Register();
     }
 
     private TaskbarIcon TrayIcon { get; set; }
@@ -222,6 +227,7 @@ public partial class App : Application
         HandleCloseEvents = false;
         TrayIcon?.Dispose();
         _window?.Close();
+        _notificationManager?.Unregister();
         Process.GetCurrentProcess().Kill();
     }
 
@@ -241,4 +247,8 @@ public partial class App : Application
 
     private void OnAppInstanceActivated(object sender, AppActivationArguments e)
         => ActivateWindow(e);
+
+    private void OnAppNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
+    {
+    }
 }

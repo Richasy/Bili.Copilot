@@ -15,6 +15,7 @@ using Bili.Copilot.Models.Data.Article;
 using Bili.Copilot.Models.Data.Local;
 using Bili.Copilot.Models.Data.User;
 using Bili.Copilot.Models.Data.Video;
+using Bili.Copilot.ViewModels.Components;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI;
@@ -69,6 +70,7 @@ public sealed partial class AppViewModel : ViewModelBase
             AccountViewModel.Instance.InitializeCommand.Execute(default);
             Navigate(lastOpenPage);
             FixModuleViewModel.Instance.InitializeCommand.Execute(default);
+            NotificationViewModel.Instance.TryStartCommand.Execute(default);
         }
     }
 

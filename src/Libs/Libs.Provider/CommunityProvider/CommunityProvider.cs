@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Adapter;
+using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.Authorize;
@@ -313,22 +314,37 @@ public partial class CommunityProvider
     /// 获取视频动态列表.
     /// </summary>
     /// <returns>视频动态响应.</returns>
-    public async Task<DynamicView> GetDynamicVideoListAsync()
+    public async Task<DynamicView> GetDynamicVideoListAsync(bool latest = false)
     {
         var type = string.IsNullOrEmpty(_videoDynamicOffset.Offset) ? Refresh.New : Refresh.History;
-        var req = new DynVideoReq
-        {
-            RefreshType = type,
-            LocalTime = 8,
-            Offset = _videoDynamicOffset.Offset,
-            UpdateBaseline = _videoDynamicOffset.Baseline,
-        };
+        var req = latest
+            ? new DynVideoReq
+            {
+                RefreshType = Refresh.New,
+                LocalTime = 8,
+                Offset = string.Empty,
+                UpdateBaseline = string.Empty,
+            }
+            : new DynVideoReq
+            {
+                RefreshType = type,
+                LocalTime = 8,
+                Offset = _videoDynamicOffset.Offset,
+                UpdateBaseline = _videoDynamicOffset.Baseline,
+            };
 
         var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicVideo, req, true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, DynVideoReply.Parser);
-        _videoDynamicOffset = new(result.DynamicList.HistoryOffset, result.DynamicList.UpdateBaseline);
-        return DynamicAdapter.ConvertToDynamicView(result);
+
+        if (!latest)
+        {
+            _videoDynamicOffset = new(result.DynamicList.HistoryOffset, result.DynamicList.UpdateBaseline);
+        }
+
+        var view = DynamicAdapter.ConvertToDynamicView(result);
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LastReadVideoDynamicId, view.Dynamics.First().Id);
+        return view;
     }
 
     /// <summary>
