@@ -25,7 +25,7 @@ public static class ApiConstants
         /// <summary>
         /// 字符串加密.
         /// </summary>
-        public const string PasswordEncrypt = _passBase + "/api/oauth2/getKey";
+        public const string PasswordEncrypt = _passBase + "/x/passport-login/web/key";
 
         /// <summary>
         /// 登录.

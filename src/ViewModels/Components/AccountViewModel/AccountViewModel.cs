@@ -45,11 +45,11 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// 登出.
     /// </summary>
     [RelayCommand]
-    private async Task SignOutAsync()
+    private void SignOut()
     {
         _isInitialized = false;
         AuthorizeProvider.Instance.SignOut();
-        await AppViewModel.Instance.InitializeAsync();
+        AppViewModel.Instance.RestartCommand.Execute(default);
     }
 
     [RelayCommand]
