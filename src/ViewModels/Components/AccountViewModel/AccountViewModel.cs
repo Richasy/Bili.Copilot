@@ -115,7 +115,11 @@ public sealed partial class AccountViewModel : ViewModelBase
         UnreadInformation = unreadInformation;
         MessageCountInt = unreadInformation.Total > 99 ? 99 : unreadInformation.Total;
         MessageCount = unreadInformation.Total > 99 ? "99+" : unreadInformation.Total.ToString();
-        AppViewModel.Instance.MessageItem.HasUnread = MessageCountInt > 0;
+
+        if (AppViewModel.Instance.MessageItem != null)
+        {
+            AppViewModel.Instance.MessageItem.HasUnread = MessageCountInt > 0;
+        }
     }
 
     private void InitializeAccountInformation()

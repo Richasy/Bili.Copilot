@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.ViewModels.Items;
@@ -12,6 +13,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class TimelineViewModel
 {
+    private static readonly Lazy<TimelineViewModel> _lazyInstance = new(() => new TimelineViewModel());
+
     [ObservableProperty]
     private string _errorText;
 
@@ -30,7 +33,7 @@ public sealed partial class TimelineViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static TimelineViewModel Instance { get; } = new();
+    public static TimelineViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 时间线集合.

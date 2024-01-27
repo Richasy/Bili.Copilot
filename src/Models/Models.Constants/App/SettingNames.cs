@@ -136,4 +136,5 @@ public enum SettingNames
     IsAutoLoadHistoryWhenLoaded,
     IsPlayerControlModeManual,
     MessageNavListColumnWidth,
+    LocalCookie,
 }

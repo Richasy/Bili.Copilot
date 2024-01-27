@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.ViewModels.Items;
@@ -12,6 +13,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class MyFollowsDetailViewModel
 {
+    private static readonly Lazy<MyFollowsDetailViewModel> _lazyInstance = new(() => new MyFollowsDetailViewModel());
     private readonly Dictionary<string, IEnumerable<UserItemViewModel>> _cache;
 
     [ObservableProperty]
@@ -29,7 +31,7 @@ public sealed partial class MyFollowsDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static MyFollowsDetailViewModel Instance { get; } = new MyFollowsDetailViewModel();
+    public static MyFollowsDetailViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 关注分组.

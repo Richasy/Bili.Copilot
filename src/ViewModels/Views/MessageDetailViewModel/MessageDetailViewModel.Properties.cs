@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
@@ -13,6 +14,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class MessageDetailViewModel
 {
+    private static readonly Lazy<MessageDetailViewModel> _lazyInstance = new(() => new MessageDetailViewModel());
     private readonly Dictionary<MessageType, (IEnumerable<MessageInformation> Items, bool IsEnd)> _caches;
 
     private bool _isEnd;
@@ -39,7 +41,7 @@ public sealed partial class MessageDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static MessageDetailViewModel Instance { get; } = new MessageDetailViewModel();
+    public static MessageDetailViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 消息类型集合.

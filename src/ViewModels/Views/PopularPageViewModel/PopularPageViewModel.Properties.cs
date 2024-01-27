@@ -15,6 +15,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PopularPageViewModel
 {
+    private static readonly Lazy<PopularPageViewModel> _lazyInstance = new(() => new PopularPageViewModel());
     private readonly Dictionary<PopularType, IEnumerable<VideoInformation>> _moduleCaches;
     private readonly Dictionary<string,  IEnumerable<VideoInformation>> _partitionCaches;
 
@@ -59,7 +60,7 @@ public sealed partial class PopularPageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PopularPageViewModel Instance { get; } = new();
+    public static PopularPageViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 分区集合.

@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
+#define FIRST_RUN_
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
@@ -15,9 +18,9 @@ using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.Authorize;
+using HtmlAgilityPack;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
-using Windows.Web.Http.Filters;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
@@ -184,8 +187,6 @@ public partial class AuthorizeProvider
                     SaveCookie(result.Data.CookieInfo);
                 }
 
-                await SSOInitAsync();
-
                 return result.Data;
             }
         }
@@ -203,30 +204,60 @@ public partial class AuthorizeProvider
 
     private static void SaveCookie(CookieInfo cookieInfo)
     {
-        var domain = CookieSetDomain;
-
-        if (cookieInfo != null && cookieInfo.Cookies != null)
-        {
-            var filter = new HttpBaseProtocolFilter();
-            foreach (var cookieItem in cookieInfo.Cookies)
-            {
-                _ = filter.CookieManager.SetCookie(new Windows.Web.Http.HttpCookie(cookieItem.Name, domain, "/")
-                {
-                    HttpOnly = cookieItem.HttpOnly == 1,
-                    Secure = cookieItem.Secure == 1,
-                    Expires = DateTimeOffset.FromUnixTimeSeconds(cookieItem.Expires),
-                    Value = cookieItem.Value,
-                });
-            }
-        }
+        var cookies = cookieInfo.Cookies.Select(p => (p.Name, p.Value)).ToDictionary();
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LocalCookie, JsonSerializer.Serialize(cookies));
     }
 
-    private static async Task SSOInitAsync()
+    private static async Task AccessBiliBiliAsync()
     {
-        var url = Passport.SSO;
-        var httpProvider = HttpProvider.Instance;
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, needToken: false);
-        _ = await httpProvider.SendAsync(request);
+        var req = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, CookieGetDomain, needToken: false, forceNoToken: true, needCookie: true);
+        var res = await HttpProvider.Instance.SendAsync(req);
+        var cookies = HttpProvider.GetCookieFromResponse(res);
+        SaveCookies(cookies);
+    }
+
+    private static void SaveCookies(Dictionary<string, string> cookies)
+    {
+        var localCookies = GetCookieDict();
+        foreach (var cookie in cookies)
+        {
+            if (localCookies.ContainsKey(cookie.Key))
+            {
+                localCookies[cookie.Key] = cookie.Value;
+            }
+            else
+            {
+                localCookies.Add(cookie.Key, cookie.Value);
+            }
+        }
+
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LocalCookie, JsonSerializer.Serialize(localCookies));
+    }
+
+    private static string GetCorrespondPath(long timestamp)
+    {
+        var publicKeyPEM = @"
+            -----BEGIN PUBLIC KEY-----
+            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDLgd2OAkcGVtoE3ThUREbio0Eg
+            Uc/prcajMKXvkCKFCWhJYJcLkcM2DKKcSeFpD/j6Boy538YXnR6VhcuUJOhH2x71
+            nzPjfdTcqMz7djHum0qSZA0AyCBDABUqCrfNgCiJ00Ra7GmRj+YCK1NJEuewlb40
+            JNrRuoEUXpabUzGB8QIDAQAB
+            -----END PUBLIC KEY-----
+        ";
+
+        var dataToEncrypt = Encoding.UTF8.GetBytes($"refresh_{timestamp}");
+        var oaepsha256 = RSAEncryptionPadding.OaepSHA256;
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(publicKeyPEM);
+        var encryptedData = rsa.Encrypt(dataToEncrypt, oaepsha256);
+
+        var sb = new StringBuilder();
+        foreach (var b in encryptedData)
+        {
+            sb.AppendFormat("{0:x2}", b);
+        }
+
+        return sb.ToString();
     }
 
     private async void OnQRTimerTickAsync(object sender, object e)
@@ -389,5 +420,86 @@ public partial class AuthorizeProvider
 
         var mixinKey = Encoding.UTF8.GetString(binding.ToArray());
         return mixinKey.Substring(0, 32);
+    }
+
+    private async Task TryUpdateCookieAsync()
+    {
+        var csrf = GetCsrfToken();
+        if (string.IsNullOrEmpty(csrf))
+        {
+            return;
+        }
+
+        var query = new Dictionary<string, string>
+        {
+            { "csrf", csrf },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Passport.CookieValidate, query, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<CookieValidateResponse>>(response);
+
+#if FIRST_RUN
+        if (!(result.Data?.NeedRefresh ?? true))
+        {
+            return;
+        }
+#endif
+
+        var timestamp = result.Data is not null ? result.Data.Timestamp : DateTimeOffset.Now.ToUnixTimeSeconds();
+        var correspondPath = GetCorrespondPath(timestamp);
+        var refreshUrl = Passport.RefreshCsrf(correspondPath);
+        var htmlReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, refreshUrl, needCookie: true);
+        var htmlRes = await HttpProvider.Instance.SendAsync(htmlReq);
+        var html = await htmlRes.GetStringAsync();
+        var docEle = new HtmlDocument();
+        docEle.LoadHtml(html);
+        var csrfNode = docEle.DocumentNode.SelectSingleNode("//div[@id='1-name']");
+        var refreshCsrfToken = csrfNode.InnerText;
+        var refreshParams = new Dictionary<string, string>
+        {
+            { "csrf", csrf },
+            { "refresh_csrf", refreshCsrfToken },
+            { "source", "main_web" },
+            { "refresh_token",  _tokenInfo.RefreshToken },
+        };
+
+        var refreshReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.RefreshCookie, refreshParams, needCookie: true, needToken: false, forceNoToken: true);
+        var refreshResponse = await HttpProvider.Instance.SendAsync(refreshReq);
+        var refreshResult = await HttpProvider.ParseAsync<ServerResponse<CookieRefreshResponse>>(refreshResponse);
+
+        if (!string.IsNullOrEmpty(refreshResult.Data.RefreshToken))
+        {
+            if (refreshResponse.Cookies.Count > 0)
+            {
+                SaveCookies(HttpProvider.GetCookieFromResponse(refreshResponse));
+            }
+            else
+            {
+                await AccessBiliBiliAsync();
+            }
+
+            var oldRefreshToken = _tokenInfo.RefreshToken;
+            _tokenInfo.RefreshToken = refreshResult.Data.RefreshToken;
+            SaveAuthorizeResult(_tokenInfo);
+
+            var confirmParams = new Dictionary<string, string>
+            {
+                { "csrf", GetCsrfToken() },
+                { "refresh_token", oldRefreshToken },
+            };
+            var confirmReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.ConfirmCookie, confirmParams, needCookie: true);
+            _ = await HttpProvider.Instance.SendAsync(confirmReq);
+        }
+        else
+        {
+            Debug.WriteLine($"Cookie 刷新失败：{refreshResult.Data.Message}");
+        }
+
+        var newCsrf = GetCsrfToken();
+        if (csrf == newCsrf)
+        {
+            Debug.WriteLine("妈的");
+        }
     }
 }
