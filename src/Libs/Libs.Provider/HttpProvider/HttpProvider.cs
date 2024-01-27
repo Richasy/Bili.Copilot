@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Grpc;
+using Flurl.Http;
 using Google.Protobuf;
 using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
@@ -26,7 +27,7 @@ public sealed partial class HttpProvider
     private HttpProvider() => InitHttpClient();
 
     /// <summary>
-    /// 获取 <see cref="HttpRequestMessage"/>.
+    /// 获取 <see cref="FlurlRequest"/>.
     /// </summary>
     /// <param name="method">请求方法.</param>
     /// <param name="url">请求地址.</param>
@@ -39,8 +40,8 @@ public sealed partial class HttpProvider
     /// <param name="forceNoToken">是否强制不AccessKey.</param>
     /// <param name="needRid">是否需要 RID 签名.</param>
     /// <param name="needCsrf">是否需要 CSRF 令牌.</param>
-    /// <returns><see cref="HttpRequestMessage"/>.</returns>
-    public static async Task<HttpRequestMessage> GetRequestMessageAsync(
+    /// <returns><see cref="FlurlRequest"/>.</returns>
+    public static async Task<IFlurlRequest> GetRequestMessageAsync(
         HttpMethod method,
         string url,
         Dictionary<string, string> queryParams = null,
@@ -53,14 +54,14 @@ public sealed partial class HttpProvider
         bool needRid = false,
         bool needCsrf = false)
     {
-        HttpRequestMessage requestMessage;
+        FlurlRequest requestMessage;
 
         if (needCsrf && queryParams.ContainsKey("csrf"))
         {
             queryParams.Add("csrf", AuthorizeProvider.GetCsrfToken());
         }
 
-        if (method == HttpMethod.Get && (needCookie || needAppKey || needRid))
+        if (method == HttpMethod.Get && (needAppKey || needRid || !string.IsNullOrEmpty(additionalQuery)))
         {
             if (needRid)
             {
@@ -78,7 +79,7 @@ public sealed partial class HttpProvider
                 url += $"&{additionalQuery}";
             }
 
-            requestMessage = new HttpRequestMessage(method, url);
+            requestMessage = new FlurlRequest(url);
         }
         else if (method == HttpMethod.Get || method == HttpMethod.Delete)
         {
@@ -89,12 +90,12 @@ public sealed partial class HttpProvider
             }
 
             url += $"?{query}";
-            requestMessage = new HttpRequestMessage(method, url);
+            requestMessage = new FlurlRequest(url);
         }
         else
         {
             var query = await AuthorizeProvider.Instance.GenerateAuthorizedQueryDictionaryAsync(queryParams, clientType, needToken, forceNoToken, needRid);
-            requestMessage = new HttpRequestMessage(method, url)
+            requestMessage = new FlurlRequest(url)
             {
                 Content = new FormUrlEncodedContent(query),
             };
@@ -102,15 +103,37 @@ public sealed partial class HttpProvider
 
         if (needCookie)
         {
-            var cookie = AuthorizeProvider.GetCookieString();
-            if (!string.IsNullOrEmpty(cookie))
+            var cookies = AuthorizeProvider.GetCookieDict();
+            if (cookies.Count > 0)
             {
-                requestMessage.Headers.Add("Cookie", cookie);
+                requestMessage.WithCookies(cookies);
             }
         }
 
+        requestMessage.Verb = method;
+
         return requestMessage;
     }
+
+    /// <summary>
+    /// 从响应中获取 cookie.
+    /// </summary>
+    /// <param name="response">响应.</param>
+    /// <returns>结果.</returns>
+    public static Dictionary<string, string> GetCookieFromResponse(IFlurlResponse response)
+    {
+        var cookies = response.Cookies.Select(p => (p.Name, p.Value)).ToDictionary();
+        return cookies;
+    }
+
+    /// <summary>
+    /// 解析响应.
+    /// </summary>
+    /// <param name="response">得到的 <see cref="HttpResponseMessage"/>.</param>
+    /// <typeparam name="T">需要转换的目标类型.</typeparam>
+    /// <returns>转换结果.</returns>
+    public static Task<T> ParseAsync<T>(IFlurlResponse response)
+        => ParseAsync<T>(response.ResponseMessage);
 
     /// <summary>
     /// 解析响应.
@@ -230,12 +253,41 @@ public sealed partial class HttpProvider
     /// <summary>
     /// 发送请求.
     /// </summary>
+    /// <param name="request">需要发送的 <see cref="IFlurlRequest"/>.</param>
+    /// <returns>返回的 <see cref="IFlurlResponse"/>.</returns>
+    public Task<IFlurlResponse> SendAsync(IFlurlRequest request)
+        => SendAsync(request, CancellationToken.None);
+
+    /// <summary>
+    /// 发送请求.
+    /// </summary>
     /// <param name="request">需要发送的 <see cref="HttpRequestMessage"/>.</param>
     /// <param name="cancellationToken">请求的 <see cref="CancellationToken"/>.</param>
     /// <returns>返回的 <see cref="HttpResponseMessage"/>.</returns>
     public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         HttpResponseMessage response;
+        try
+        {
+            response = await SendRequestAsync(request, cancellationToken);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return response;
+    }
+
+    /// <summary>
+    /// 发送请求.
+    /// </summary>
+    /// <param name="request">需要发送的 <see cref="IFlurlRequest"/>.</param>
+    /// <param name="cancellationToken">请求的 <see cref="CancellationToken"/>.</param>
+    /// <returns>返回的 <see cref="HttpResponseMessage"/>.</returns>
+    public async Task<IFlurlResponse> SendAsync(IFlurlRequest request, CancellationToken cancellationToken)
+    {
+        IFlurlResponse response;
         try
         {
             response = await SendRequestAsync(request, cancellationToken);

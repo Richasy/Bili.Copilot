@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
@@ -41,14 +42,53 @@ public sealed partial class AuthorizeProvider
     /// <returns>Cookie字符串.</returns>
     public static string GetCookieString()
     {
-        var fiter = new HttpBaseProtocolFilter();
-        var cookies = fiter.CookieManager.GetCookies(new Uri(CookieGetDomain));
-        var cookieList = cookies.Select(x =>
+        var cookiesStr = SettingsToolkit.ReadLocalSetting(SettingNames.LocalCookie, string.Empty);
+        if (string.IsNullOrEmpty(cookiesStr))
         {
-            return $"{x.Name}={x.Value}";
-        });
-        var result = string.Join(';', cookieList);
-        return result;
+            using var filter = new HttpBaseProtocolFilter();
+            var cookies = filter.CookieManager.GetCookies(new Uri(CookieGetDomain));
+            var cookieList = cookies.Select(x =>
+            {
+                return $"{x.Name}={x.Value}";
+            });
+            var result = string.Join(';', cookieList);
+            return result;
+        }
+        else
+        {
+            var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(cookiesStr);
+            var cookieList = dict.Select(x =>
+            {
+                return $"{x.Key}={x.Value}";
+            });
+            var result = string.Join(';', cookieList);
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// 获取Cookie字典.
+    /// </summary>
+    /// <returns>Cookie列表.</returns>
+    public static Dictionary<string, string> GetCookieDict()
+    {
+        var cookiesStr = SettingsToolkit.ReadLocalSetting(SettingNames.LocalCookie, string.Empty);
+        if (string.IsNullOrEmpty(cookiesStr))
+        {
+            using var filter = new HttpBaseProtocolFilter();
+            var cookies = filter.CookieManager.GetCookies(new Uri(CookieGetDomain));
+            var cookieList = cookies.Select(x =>
+            {
+                return new KeyValuePair<string, string>(x.Name, x.Value);
+            });
+            var result = cookieList.ToDictionary(x => x.Key, x => x.Value);
+            return result;
+        }
+        else
+        {
+            var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(cookiesStr);
+            return dict;
+        }
     }
 
     /// <summary>
@@ -293,6 +333,8 @@ public sealed partial class AuthorizeProvider
     public async Task<bool> TrySignInAsync()
     {
         await ResetWbiAsync();
+
+        // await TryUpdateCookieAsync();
         if (await IsTokenValidAsync() || State != AuthorizeState.SignedOut)
         {
             return true;

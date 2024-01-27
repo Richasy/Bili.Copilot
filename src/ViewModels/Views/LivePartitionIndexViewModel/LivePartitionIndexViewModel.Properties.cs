@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
-using Bili.Copilot.Models.Data.Community;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -12,6 +12,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class LivePartitionIndexViewModel
 {
+    private static readonly Lazy<LivePartitionIndexViewModel> _lazyInstance = new(() => new LivePartitionIndexViewModel());
     [ObservableProperty]
     private string _errorText;
 
@@ -24,7 +25,7 @@ public sealed partial class LivePartitionIndexViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static LivePartitionIndexViewModel Instance { get; } = new();
+    public static LivePartitionIndexViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 父级分区集合.

@@ -15,6 +15,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class ArticlePageViewModel
 {
+    private static readonly Lazy<ArticlePageViewModel> _lazyInstance = new Lazy<ArticlePageViewModel>(() => new ArticlePageViewModel());
     private readonly Dictionary<PartitionItemViewModel, IEnumerable<ArticleInformation>> _caches;
 
     [ObservableProperty]
@@ -37,7 +38,7 @@ public sealed partial class ArticlePageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static ArticlePageViewModel Instance { get; } = new();
+    public static ArticlePageViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 分区集合.

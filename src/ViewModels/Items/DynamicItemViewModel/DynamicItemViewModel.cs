@@ -36,17 +36,16 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
         InitializeData();
     }
 
-    private static void ActiveData(object data)
+    /// <summary>
+    /// 获取播放快照.
+    /// </summary>
+    /// <returns><see cref="PlaySnapshot"/>.</returns>
+    public static PlaySnapshot GetSnapshot(object data)
     {
-        if (data is null or IEnumerable<Image>)
-        {
-            return;
-        }
-
         if (data is VideoInformation video)
         {
             var playSnapshot = new PlaySnapshot(video.Identifier.Id, "0", VideoType.Video);
-            AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
+            return playSnapshot;
         }
         else if (data is EpisodeInformation episode)
         {
@@ -60,6 +59,27 @@ public sealed partial class DynamicItemViewModel : ViewModelBase
                 Title = episode.Identifier.Title,
                 NeedBiliPlus = needBiliPlus,
             };
+
+            return playSnapshot;
+        }
+        else if (data is DynamicInformation dynamic)
+        {
+            return GetSnapshot(dynamic.Data);
+        }
+
+        return default;
+    }
+
+    private static void ActiveData(object data)
+    {
+        if (data is null or IEnumerable<Image>)
+        {
+            return;
+        }
+
+        var playSnapshot = GetSnapshot(data);
+        if (playSnapshot is not null)
+        {
             AppViewModel.Instance.OpenPlayerCommand.Execute(playSnapshot);
         }
         else if (data is ArticleInformation article)

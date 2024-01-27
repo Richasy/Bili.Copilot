@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
+
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
@@ -7,6 +9,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed class BangumiRecommendDetailViewModel : PgcRecommendDetailViewModel
 {
+    private static readonly Lazy<BangumiRecommendDetailViewModel> _lazyInstance = new Lazy<BangumiRecommendDetailViewModel>(() => new BangumiRecommendDetailViewModel());
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BangumiRecommendDetailViewModel"/> class.
     /// </summary>
@@ -18,5 +22,5 @@ public sealed class BangumiRecommendDetailViewModel : PgcRecommendDetailViewMode
     /// <summary>
     /// 实例.
     /// </summary>
-    public static BangumiRecommendDetailViewModel Instance { get; } = new();
+    public static BangumiRecommendDetailViewModel Instance => _lazyInstance.Value;
 }

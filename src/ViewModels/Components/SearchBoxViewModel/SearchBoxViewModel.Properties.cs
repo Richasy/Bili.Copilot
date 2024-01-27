@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using Bili.Copilot.Models.Data.Search;
@@ -13,6 +14,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class SearchBoxViewModel
 {
+    private static readonly Lazy<SearchBoxViewModel> _lazyInstance = new(() => new SearchBoxViewModel());
     private readonly DispatcherTimer _suggestionTimer;
 
     private CancellationTokenSource _suggestionCancellationTokenSource;
@@ -28,7 +30,7 @@ public sealed partial class SearchBoxViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static SearchBoxViewModel Instance { get; } = new();
+    public static SearchBoxViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 热搜集合.

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,6 +12,8 @@ namespace Bili.Copilot.ViewModels.Views;
 /// </summary>
 public sealed partial class FavoritesPageViewModel : ViewModelBase
 {
+    private static readonly Lazy<FavoritesPageViewModel> _lazyInstance = new(() => new FavoritesPageViewModel());
+
     [ObservableProperty]
     private FavoriteType _type;
 
@@ -38,7 +41,7 @@ public sealed partial class FavoritesPageViewModel : ViewModelBase
     /// <summary>
     /// 实例.
     /// </summary>
-    public static FavoritesPageViewModel Instance { get; } = new FavoritesPageViewModel();
+    public static FavoritesPageViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 视频收藏夹.

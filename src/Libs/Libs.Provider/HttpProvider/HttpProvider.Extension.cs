@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Threading;
@@ -14,6 +13,7 @@ using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Grpc;
+using Flurl.Http;
 
 namespace Bili.Copilot.Libs.Provider;
 
@@ -23,7 +23,7 @@ namespace Bili.Copilot.Libs.Provider;
 public sealed partial class HttpProvider
 {
     private static string _tempBuvid = string.Empty;
-    private CookieContainer _cookieContainer;
+    private FlurlClient _client;
 
     /// <summary>
     /// 实例.
@@ -31,34 +31,9 @@ public sealed partial class HttpProvider
     public static HttpProvider Instance { get; } = new HttpProvider();
 
     /// <summary>
-    /// 内部的超时时长设置，默认为100秒.
-    /// </summary>
-    public TimeSpan OverallTimeout
-    {
-        get => HttpClient.Timeout;
-
-        set
-        {
-            try
-            {
-                HttpClient.Timeout = value;
-            }
-            catch (InvalidOperationException exception)
-            {
-                throw new ServiceException(
-                    new ServerResponse
-                    {
-                        Message = ServiceConstants.Messages.OverallTimeoutCannotBeSet,
-                    },
-                    exception);
-            }
-        }
-    }
-
-    /// <summary>
     /// 网络客户端.
     /// </summary>
-    public HttpClient HttpClient { get; private set; }
+    public HttpClient HttpClient => _client.HttpClient;
 
     internal async Task<HttpResponseMessage> SendRequestAsync(
         HttpRequestMessage request,
@@ -69,6 +44,51 @@ public sealed partial class HttpProvider
         {
             response = await HttpClient.SendAsync(request, cancellationToken);
             await ThrowIfHasExceptionAsync(response);
+        }
+        catch (TaskCanceledException exception)
+        {
+            throw new ServiceException(
+                    new ServerResponse
+                    {
+                        Code = 408,
+                        Message = ServiceConstants.Messages.RequestTimedOut,
+                        IsHttpError = true,
+                    },
+                    exception);
+        }
+        catch (ServiceException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            if (exception.Message.Contains("WSAStartup")
+                || (exception.InnerException is not null && exception.InnerException.Message.Contains("WSAStartup")))
+            {
+                InitHttpClient();
+            }
+
+            throw new ServiceException(
+                    new ServerResponse
+                    {
+                        Message = ServiceConstants.Messages.UnexpectedExceptionOnSend,
+                        IsHttpError = true,
+                    },
+                    exception);
+        }
+
+        return response;
+    }
+
+    internal async Task<IFlurlResponse> SendRequestAsync(
+        IFlurlRequest request,
+        CancellationToken cancellationToken)
+    {
+        IFlurlResponse response = default;
+        try
+        {
+            response = await _client.SendAsync(request, cancellationToken: cancellationToken);
+            await ThrowIfHasExceptionAsync(response.ResponseMessage);
         }
         catch (TaskCanceledException exception)
         {
@@ -205,21 +225,8 @@ public sealed partial class HttpProvider
 
     private void InitHttpClient()
     {
-        HttpClient?.Dispose();
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-        ServicePointManager.DefaultConnectionLimit = 20;
-        _cookieContainer = new CookieContainer();
-        var handler = new HttpClientHandler
-        {
-            AllowAutoRedirect = true,
-            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.None,
-            UseCookies = true,
-            CookieContainer = _cookieContainer,
-        };
-        var client = new HttpClient(handler);
-        client.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue { NoCache = true, NoStore = true };
-        client.DefaultRequestHeaders.Add("accept", ServiceConstants.DefaultAcceptString);
-        client.DefaultRequestHeaders.Add("user-agent", ServiceConstants.DefaultUserAgentString);
-        HttpClient = client;
+        _client?.Dispose();
+        _client = new FlurlClient()
+            .WithHeader("user-agent", ServiceConstants.DefaultUserAgentString);
     }
 }

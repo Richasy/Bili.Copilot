@@ -225,7 +225,6 @@ public sealed partial class AccountProvider
 
         request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Account.ChatUpdate, queryParameters, needRid: true, needCookie: true);
         _ = await HttpProvider.Instance.SendAsync(request);
-
         return view;
     }
 

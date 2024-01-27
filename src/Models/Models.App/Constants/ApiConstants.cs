@@ -25,7 +25,7 @@ public static class ApiConstants
         /// <summary>
         /// 字符串加密.
         /// </summary>
-        public const string PasswordEncrypt = _passBase + "/api/oauth2/getKey";
+        public const string PasswordEncrypt = _passBase + "/x/passport-login/web/key";
 
         /// <summary>
         /// 登录.
@@ -71,6 +71,28 @@ public static class ApiConstants
         /// 网页导航.
         /// </summary>
         public const string WebNav = _apiBase + "/x/web-interface/nav";
+
+        /// <summary>
+        /// Cookie 验证，检查是否需要更新.
+        /// </summary>
+        public const string CookieValidate = _passBase + "/x/passport-login/web/cookie/info";
+
+        /// <summary>
+        /// 刷新 Cookie.
+        /// </summary>
+        public const string RefreshCookie = _passBase + "/x/passport-login/web/cookie/refresh";
+
+        /// <summary>
+        /// 确认 Cookie 信息.
+        /// </summary>
+        public const string ConfirmCookie = _passBase + "/x/passport-login/web/confirm/refresh";
+
+        /// <summary>
+        /// 刷新 CSRF.
+        /// </summary>
+        /// <param name="path">路径.</param>
+        /// <returns>链接.</returns>
+        public static string RefreshCsrf(string path) => CookieGetDomain + $"/correspond/1/{path}";
     }
 
     public static class Account

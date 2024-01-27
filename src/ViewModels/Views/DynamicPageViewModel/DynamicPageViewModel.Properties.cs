@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
@@ -13,6 +14,7 @@ namespace Bili.Copilot.ViewModels.DynamicPageViewModel;
 /// </summary>
 public sealed partial class DynamicPageViewModel
 {
+    private static readonly Lazy<DynamicPageViewModel> _lazyInstance = new(() => new DynamicPageViewModel());
     private readonly Dictionary<DynamicDisplayType, IEnumerable<DynamicInformation>> _caches;
     private bool _isVideoEnd;
     private bool _isAllEnd;
@@ -47,7 +49,7 @@ public sealed partial class DynamicPageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static DynamicPageViewModel Instance { get; } = new();
+    public static DynamicPageViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 显示的 UP 主列表.

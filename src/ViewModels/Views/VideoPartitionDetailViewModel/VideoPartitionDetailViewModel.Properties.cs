@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.Constants.App;
@@ -15,6 +16,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class VideoPartitionDetailViewModel
 {
+    private static readonly Lazy<VideoPartitionDetailViewModel> _lazyInstance = new(() => new VideoPartitionDetailViewModel());
     private readonly Dictionary<Partition, IEnumerable<VideoInformation>> _caches;
 
     [ObservableProperty]
@@ -47,7 +49,7 @@ public sealed partial class VideoPartitionDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static VideoPartitionDetailViewModel Instance { get; } = new();
+    public static VideoPartitionDetailViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 横幅集合.

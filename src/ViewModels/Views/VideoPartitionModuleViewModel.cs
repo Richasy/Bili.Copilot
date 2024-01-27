@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class VideoPartitionModuleViewModel : ViewModelBase
 {
+    private static readonly Lazy<VideoPartitionModuleViewModel> _lazyInstance = new(() => new VideoPartitionModuleViewModel());
     private bool _isInitialized;
 
     [ObservableProperty]
@@ -42,7 +44,7 @@ public sealed partial class VideoPartitionModuleViewModel : ViewModelBase
     /// <summary>
     /// 实例.
     /// </summary>
-    public static VideoPartitionModuleViewModel Instance { get; } = new();
+    public static VideoPartitionModuleViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 分区集合.

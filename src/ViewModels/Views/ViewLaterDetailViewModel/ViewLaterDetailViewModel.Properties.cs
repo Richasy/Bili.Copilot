@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Bili.Copilot.ViewModels;
@@ -9,6 +10,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class ViewLaterDetailViewModel
 {
+    private static readonly Lazy<ViewLaterDetailViewModel> _lazyInstance = new(() => new ViewLaterDetailViewModel());
     private bool _isEnd;
 
     [ObservableProperty]
@@ -20,5 +22,5 @@ public sealed partial class ViewLaterDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static ViewLaterDetailViewModel Instance { get; } = new();
+    public static ViewLaterDetailViewModel Instance => _lazyInstance.Value;
 }

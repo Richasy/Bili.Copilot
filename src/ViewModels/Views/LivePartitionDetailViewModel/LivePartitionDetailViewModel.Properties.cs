@@ -14,6 +14,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class LivePartitionDetailViewModel
 {
+    private static readonly Lazy<LivePartitionDetailViewModel> _lazyInstance = new(() => new LivePartitionDetailViewModel());
     private readonly Dictionary<LiveTag, IEnumerable<LiveInformation>> _caches;
 
     private int _totalCount;
@@ -35,7 +36,7 @@ public sealed partial class LivePartitionDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static LivePartitionDetailViewModel Instance { get; } = new();
+    public static LivePartitionDetailViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 直播标签集合.

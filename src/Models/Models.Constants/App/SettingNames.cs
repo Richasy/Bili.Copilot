@@ -72,7 +72,6 @@ public enum SettingNames
     SubtitleConvertType,
     IsFirstRunDynamicNotifyTask,
     LastReadVideoDynamicId,
-    IsOpenNewDynamicNotify,
     DefaultLiveFormat,
     LastAppLanguage,
     IsFullTraditionalChinese,
@@ -136,4 +135,8 @@ public enum SettingNames
     IsAutoLoadHistoryWhenLoaded,
     IsPlayerControlModeManual,
     MessageNavListColumnWidth,
+    LocalCookie,
+    DynamicNotificationEnabled,
+    IsNotifyEnabled,
+    MessageNotificationEnabled,
 }

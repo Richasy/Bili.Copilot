@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -10,6 +11,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class LivePageViewModel
 {
+    private static readonly Lazy<LivePageViewModel> _lazyInstance = new(() => new LivePageViewModel());
     private bool _isInitialized;
 
     [ObservableProperty]
@@ -33,5 +35,5 @@ public sealed partial class LivePageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static LivePageViewModel Instance { get; } = new();
+    public static LivePageViewModel Instance => _lazyInstance.Value;
 }

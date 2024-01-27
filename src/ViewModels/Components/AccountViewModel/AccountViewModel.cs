@@ -45,11 +45,11 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// 登出.
     /// </summary>
     [RelayCommand]
-    private async Task SignOutAsync()
+    private void SignOut()
     {
         _isInitialized = false;
         AuthorizeProvider.Instance.SignOut();
-        await AppViewModel.Instance.InitializeAsync();
+        AppViewModel.Instance.RestartCommand.Execute(default);
     }
 
     [RelayCommand]
@@ -115,7 +115,11 @@ public sealed partial class AccountViewModel : ViewModelBase
         UnreadInformation = unreadInformation;
         MessageCountInt = unreadInformation.Total > 99 ? 99 : unreadInformation.Total;
         MessageCount = unreadInformation.Total > 99 ? "99+" : unreadInformation.Total.ToString();
-        AppViewModel.Instance.MessageItem.HasUnread = MessageCountInt > 0;
+
+        if (AppViewModel.Instance.MessageItem != null)
+        {
+            AppViewModel.Instance.MessageItem.HasUnread = MessageCountInt > 0;
+        }
     }
 
     private void InitializeAccountInformation()

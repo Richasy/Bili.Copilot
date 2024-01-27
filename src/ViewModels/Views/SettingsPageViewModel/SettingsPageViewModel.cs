@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
+using Bili.Copilot.ViewModels.Components;
 using Microsoft.UI.Xaml;
-using Windows.ApplicationModel.Background;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -56,6 +55,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PlayerWindowBehavior = ReadSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
         AutoLoadHistory = ReadSetting(SettingNames.IsAutoLoadHistoryWhenLoaded, true);
         IsPlayerControlModeManual = ReadSetting(SettingNames.IsPlayerControlModeManual, false);
+        IsNotificationEnabled = ReadSetting(SettingNames.IsNotifyEnabled, true);
+        IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -137,9 +138,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(RoamingSearchAddress):
                 WriteSetting(SettingNames.RoamingSearchAddress, RoamingSearchAddress);
                 break;
-            case nameof(IsOpenDynamicNotification):
-                WriteSetting(SettingNames.IsOpenNewDynamicNotify, IsOpenDynamicNotification);
-                break;
             case nameof(IsFullTraditionalChinese):
                 WriteSetting(SettingNames.IsFullTraditionalChinese, IsFullTraditionalChinese);
                 break;
@@ -183,16 +181,24 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(IsPlayerControlModeManual):
                 WriteSetting(SettingNames.IsPlayerControlModeManual, IsPlayerControlModeManual);
                 break;
+            case nameof(IsNotificationEnabled):
+                WriteSetting(SettingNames.IsNotifyEnabled, IsNotificationEnabled);
+                if (IsNotificationEnabled)
+                {
+                    NotificationViewModel.Instance.TryStartCommand.Execute(default);
+                }
+                else
+                {
+                    NotificationViewModel.Instance.TryStopCommand.Execute(default);
+                }
+
+                break;
+            case nameof(IsVideoDynamicNotificationEnabled):
+                WriteSetting(SettingNames.DynamicNotificationEnabled, IsVideoDynamicNotificationEnabled);
+                break;
             default:
                 break;
         }
-    }
-
-    private async void BackgroundTaskInitAsync()
-    {
-        IsOpenDynamicNotification = ReadSetting(SettingNames.IsOpenNewDynamicNotify, true);
-        var status = await BackgroundExecutionManager.RequestAccessAsync();
-        IsEnableBackgroundTask = status.ToString().Contains("Allowed");
     }
 
     private void PlayerModeInit()

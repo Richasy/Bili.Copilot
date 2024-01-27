@@ -112,7 +112,7 @@ public sealed partial class PlayerProvider
 
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, queryParameters, requestType, additionalQuery: otherQuery);
         var response = await HttpProvider.Instance.SendAsync(request);
-        var data = await HttpProvider.ParseAsync<ServerResponse<PlayerInformation>, ServerResponse2<PlayerInformation>>(response, (str) =>
+        var data = await HttpProvider.ParseAsync<ServerResponse<PlayerInformation>, ServerResponse2<PlayerInformation>>(response.ResponseMessage, (str) =>
         {
             var jobj = JsonSerializer.Deserialize<JsonElement>(str);
             return jobj.TryGetProperty("data", out var _);

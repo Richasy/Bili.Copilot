@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -10,6 +11,7 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class AnimePageViewModel
 {
+    private static readonly Lazy<AnimePageViewModel> _lazyInstance = new Lazy<AnimePageViewModel>(() => new AnimePageViewModel());
     private bool _isInitialized;
 
     [ObservableProperty]
@@ -36,5 +38,5 @@ public sealed partial class AnimePageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static AnimePageViewModel Instance { get; } = new();
+    public static AnimePageViewModel Instance => _lazyInstance.Value;
 }

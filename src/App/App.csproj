@@ -135,6 +135,7 @@
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
         <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
+        <None Remove="Controls\Settings\NotificationSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
         <None Remove="Controls\Settings\RoamingSettingSection.xaml" />
@@ -285,6 +286,9 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Controls\Settings\NotificationSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Modules\ChatSessionModule.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

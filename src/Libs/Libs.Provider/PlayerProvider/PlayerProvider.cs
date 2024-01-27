@@ -408,7 +408,7 @@ public partial class PlayerProvider
 
         var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.Subtitle, queryParameters, RequestClientType.IOS);
         var response = await HttpProvider.Instance.SendAsync(request);
-        var text = await response.Content.ReadAsStringAsync();
+        var text = await response.ResponseMessage.Content.ReadAsStringAsync();
         if (!string.IsNullOrEmpty(text) && text.Contains("subtitle"))
         {
             var json = Regex.Match(text, @"<subtitle>(.*?)</subtitle>").Groups[1].Value;

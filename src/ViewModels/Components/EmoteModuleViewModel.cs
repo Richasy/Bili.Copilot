@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace Bili.Copilot.ViewModels.Components;
 /// </summary>
 public sealed partial class EmoteModuleViewModel : ViewModelBase
 {
+    private static readonly Lazy<EmoteModuleViewModel> _lazyInstance = new(() => new EmoteModuleViewModel());
+
     [ObservableProperty]
     private bool _isLoading;
 
@@ -41,7 +44,7 @@ public sealed partial class EmoteModuleViewModel : ViewModelBase
     /// <summary>
     /// 实例.
     /// </summary>
-    public static EmoteModuleViewModel Instance { get; } = new EmoteModuleViewModel();
+    public static EmoteModuleViewModel Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 表情包集合.

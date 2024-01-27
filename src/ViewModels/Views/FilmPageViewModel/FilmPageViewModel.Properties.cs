@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -10,6 +11,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class FilmPageViewModel
 {
+    private static readonly Lazy<FilmPageViewModel> _lazyInstance = new(() => new FilmPageViewModel());
+
     private bool _isInitialized;
 
     [ObservableProperty]
@@ -36,5 +39,5 @@ public sealed partial class FilmPageViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static FilmPageViewModel Instance { get; } = new();
+    public static FilmPageViewModel Instance => _lazyInstance.Value;
 }

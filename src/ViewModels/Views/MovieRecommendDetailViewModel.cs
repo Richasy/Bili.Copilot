@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
+
 namespace Bili.Copilot.ViewModels;
 
 /// <summary>
@@ -7,6 +9,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed class MovieRecommendDetailViewModel : PgcRecommendDetailViewModel
 {
+    private static readonly Lazy<MovieRecommendDetailViewModel> _lazyInstance = new(() => new MovieRecommendDetailViewModel());
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MovieRecommendDetailViewModel"/> class.
     /// </summary>
@@ -18,5 +22,5 @@ public sealed class MovieRecommendDetailViewModel : PgcRecommendDetailViewModel
     /// <summary>
     /// 实例.
     /// </summary>
-    public static MovieRecommendDetailViewModel Instance { get; } = new();
+    public static MovieRecommendDetailViewModel Instance => _lazyInstance.Value;
 }
