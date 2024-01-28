@@ -49,7 +49,7 @@ public class UgcSeason
     public int id { get; set; }
     public string title { get; set; }
     public string cover { get; set; }
-    public int mid { get; set; }
+    public long mid { get; set; }
     public string intro { get; set; }
     public int sign_state { get; set; }
     public int attribute { get; set; }

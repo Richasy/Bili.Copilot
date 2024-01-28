@@ -8,6 +8,7 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:video="using:Bili.Copilot.Models.Data.Video"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
     mc:Ignorable="d">
 
@@ -71,8 +72,8 @@
 
             <Grid Grid.Row="1">
                 <ScrollViewer Padding="16,0" Style="{StaticResource PageScrollViewerStyle}">
-                    <Grid>
-                        <ItemsRepeater Margin="0,0,0,20" ItemsSource="{x:Bind ViewModel.Video.Folders}">
+                    <StackPanel Margin="0,0,0,12" Spacing="8">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Video.Folders}">
                             <ItemsRepeater.Layout>
                                 <StackLayout Spacing="8" />
                             </ItemsRepeater.Layout>
@@ -105,7 +106,48 @@
                                 </DataTemplate>
                             </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
-                    </Grid>
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Video.CollectSeasons}">
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="8" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="video:VideoFavoriteFolder">
+                                    <base:CardPanel
+                                        Click="OnUgcSeasonClick"
+                                        DataContext="{x:Bind}"
+                                        IsEnableCheck="False">
+                                        <Grid Padding="12" ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <base:ImageEx
+                                                Width="36"
+                                                Height="36"
+                                                VerticalAlignment="Center"
+                                                CornerRadius="18"
+                                                Source="{x:Bind Cover.Uri}"
+                                                Stretch="UniformToFill" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Text="{x:Bind Title}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{x:Bind TotalCount}" />
+                                        </Grid>
+                                    </base:CardPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
                 </ScrollViewer>
                 <base:LoadingOverlapper IsOpen="{x:Bind ViewModel.Video.IsReloading, Mode=OneWay}" Text="{ext:Locale Name=LoadingAndWait}" />
             </Grid>

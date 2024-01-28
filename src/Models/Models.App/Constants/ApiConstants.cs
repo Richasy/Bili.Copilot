@@ -185,6 +185,11 @@ public static class ApiConstants
         public const string FavoriteList = _apiBase + "/x/v3/fav/folder/created/list-all";
 
         /// <summary>
+        /// 获取收集列表.
+        /// </summary>
+        public const string CollectList = _apiBase + "/x/v3/fav/folder/collected/list";
+
+        /// <summary>
         /// 获取视频收藏夹概览.
         /// </summary>
         public const string VideoFavoriteGallery = _apiBase + "/x/v3/fav/folder/space/v2";

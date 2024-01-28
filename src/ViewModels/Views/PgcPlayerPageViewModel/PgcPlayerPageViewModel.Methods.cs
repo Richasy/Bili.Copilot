@@ -54,6 +54,7 @@ public sealed partial class PgcPlayerPageViewModel
     [RelayCommand]
     private void ChangeEpisode(EpisodeInformation episode)
     {
+        PlayerDetail.Player?.Stop();
         CurrentEpisode = episode;
         foreach (var item in Episodes)
         {

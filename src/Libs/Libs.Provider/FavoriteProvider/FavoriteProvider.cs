@@ -179,10 +179,21 @@ public sealed partial class FavoriteProvider
         };
         request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.FavoriteList, queryParameters, needToken: true);
         response = await HttpProvider.Instance.SendAsync(request);
-        var resultList = await HttpProvider.ParseAsync<ServerResponse<FavoriteListResponse>>(response);
+        var resultList = await HttpProvider.ParseAsync<ServerResponse<FavoriteDetailListResponse>>(response);
         var listData = resultList.Data;
 
-        return FavoriteAdapter.ConvertToVideoFavoriteView(result.Data, listData);
+        queryParameters = new Dictionary<string, string>
+        {
+            { Query.UpId, userId.ToString() },
+            { Query.PageSizeSlim, "20" },
+            { Query.PageNumber, _videoCollectFolderPageNumber.ToString() },
+            { Query.Platform, "web" },
+        };
+        request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.CollectList, queryParameters, needCookie: true, needRid: true);
+        response = await HttpProvider.Instance.SendAsync(request);
+        var collectList = await HttpProvider.ParseAsync<ServerResponse<FavoriteDetailListResponse>>(response);
+
+        return FavoriteAdapter.ConvertToVideoFavoriteView(result.Data, listData, collectList.Data);
     }
 
     /// <summary>

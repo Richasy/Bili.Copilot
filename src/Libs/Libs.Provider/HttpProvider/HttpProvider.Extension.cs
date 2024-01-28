@@ -14,6 +14,7 @@ using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Grpc;
 using Flurl.Http;
+using Polly;
 
 namespace Bili.Copilot.Libs.Provider;
 
@@ -23,7 +24,7 @@ namespace Bili.Copilot.Libs.Provider;
 public sealed partial class HttpProvider
 {
     private static string _tempBuvid = string.Empty;
-    private FlurlClient _client;
+    private IFlurlClient _client;
 
     /// <summary>
     /// 实例.
@@ -226,7 +227,30 @@ public sealed partial class HttpProvider
     private void InitHttpClient()
     {
         _client?.Dispose();
-        _client = new FlurlClient()
-            .WithHeader("user-agent", ServiceConstants.DefaultUserAgentString);
+
+        var policy = Policy
+            .Handle<HttpRequestException>()
+            .OrResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+            .RetryAsync(3);
+        var cache = FlurlHttp.Clients.WithDefaults(clientBuilder => clientBuilder.AddMiddleware(() => new PollyHandler(policy)));
+        _client = cache.GetOrAdd("Bili");
+        _client
+            .WithHeader("user-agent", ServiceConstants.DefaultUserAgentString)
+            .WithTimeout(30);
+    }
+
+    internal class PollyHandler : DelegatingHandler
+    {
+        private readonly IAsyncPolicy<HttpResponseMessage> _policy;
+
+        public PollyHandler(IAsyncPolicy<HttpResponseMessage> policy)
+        {
+            _policy = policy;
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return _policy.ExecuteAsync(ct => base.SendAsync(request, ct), cancellationToken);
+        }
     }
 }

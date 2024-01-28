@@ -107,7 +107,8 @@ public sealed partial class VideoPlayerPageViewModel
     {
         PlayerDetail.CanPlayNextPart = View.InteractionVideo == null
             && (VideoParts.FirstOrDefault(p => p.IsSelected).Index < VideoParts.Last().Index
-                || (VideoPlaylist.Count > 0 && VideoPlaylist.Last().Data != View.Information));
+                || (VideoPlaylist.Count > 0 && VideoPlaylist.Last().Data != View.Information)
+                || (CurrentSeasonVideos.Count > 0 && CurrentSeasonVideos.Last().Data != View.Information));
         _playNextVideoAction = null;
 
         // 不处理互动视频.
@@ -173,6 +174,7 @@ public sealed partial class VideoPlayerPageViewModel
         PlayerDetail.NextPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextPartTipTemplate), nextPart.Value.Title);
         _playNextVideoAction = () =>
         {
+            PlayerDetail.Player?.Stop();
             if (isNewVideo)
             {
                 SetSnapshot(new PlaySnapshot(nextPart.Value.Id, default, VideoType.Video));
@@ -190,7 +192,8 @@ public sealed partial class VideoPlayerPageViewModel
     {
         PlayerDetail.CanPlayPreviousPart = View.InteractionVideo == null
             && (VideoParts.FirstOrDefault(p => p.IsSelected).Index > 0
-                || (VideoPlaylist.Count > 0 && VideoPlaylist.First().Data != View.Information));
+                || (VideoPlaylist.Count > 0 && VideoPlaylist.First().Data != View.Information)
+                || (CurrentSeasonVideos.Count > 0 && CurrentSeasonVideos.First().Data != View.Information));
         _playPreviousVideoAction = null;
 
         // 不处理互动视频.
@@ -255,6 +258,7 @@ public sealed partial class VideoPlayerPageViewModel
         PlayerDetail.PreviousPartText = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PreviousPartTipTemplate), previousPart.Value.Title);
         _playPreviousVideoAction = () =>
         {
+            PlayerDetail.Player?.Stop();
             if (isNewVideo)
             {
                 SetSnapshot(new PlaySnapshot(previousPart.Value.Id, default, VideoType.Video));

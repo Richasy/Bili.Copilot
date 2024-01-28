@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
 using Bili.Copilot.ViewModels.Views;
 
@@ -37,6 +38,12 @@ public sealed partial class FavoritesNavListModule : FavoritesNavListModuleBase
     {
         ViewModel.Type = Models.Constants.App.FavoriteType.Film;
         ViewModel.Video.SelectFolderCommand.Execute(default);
+    }
+
+    private void OnUgcSeasonClick(object sender, RoutedEventArgs e)
+    {
+        var data = (sender as FrameworkElement).DataContext as VideoFavoriteFolder;
+        ViewModel.Video.PlaySeasonCommand.Execute(data);
     }
 }
 

@@ -8,6 +8,7 @@ using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Data.Local;
+using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Bili.Copilot.ViewModels;
@@ -21,7 +22,10 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
     /// Initializes a new instance of the <see cref="VideoFavoriteDetailViewModel"/> class.
     /// </summary>
     private VideoFavoriteDetailViewModel()
-        => Folders = new ObservableCollection<VideoFavoriteFolderSelectableViewModel>();
+    {
+        Folders = new ObservableCollection<VideoFavoriteFolderSelectableViewModel>();
+        CollectSeasons = new ObservableCollection<Models.Data.Video.VideoFavoriteFolder>();
+    }
 
     /// <inheritdoc/>
     protected override void BeforeReload()
@@ -32,6 +36,7 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         _view = default;
         IsMine = false;
         TryClear(Folders);
+        TryClear(CollectSeasons);
         CurrentFolder = default;
     }
 
@@ -47,7 +52,7 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
         {
             var folders = await FavoriteProvider.Instance.GetVideoFavoriteViewAsync(AuthorizeProvider.Instance.CurrentUserId);
             _view = folders;
-            var folderList = folders.Groups.SelectMany(p => p.FavoriteSet.Items).ToList();
+            var folderList = folders.Groups.SelectMany(p => p.FavoriteSet.Items).Where(p => !p.IsUgcSeason).ToList();
             folderList.Insert(0, folders.DefaultFolder.Folder);
             foreach (var folder in folderList)
             {
@@ -57,6 +62,12 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
                 }
 
                 Folders.Add(new VideoFavoriteFolderSelectableViewModel(folder));
+            }
+
+            var seasons = folders.Groups.SelectMany(p => p.FavoriteSet.Items).Where(p => p.IsUgcSeason).ToList();
+            foreach (var season in seasons)
+            {
+                CollectSeasons.Add(season);
             }
 
             var canSelectFolder = SettingsToolkit.ReadLocalSetting(SettingNames.LastFavoriteType, FavoriteType.Video) == FavoriteType.Video;
@@ -106,6 +117,13 @@ public sealed partial class VideoFavoriteDetailViewModel : InformationFlowViewMo
     /// <inheritdoc/>
     protected override string FormatException(string errorMsg)
         => $"{ResourceToolkit.GetLocalizedString(StringNames.RequestVideoFavoriteFailed)}\n{errorMsg}";
+
+    [RelayCommand]
+    private static void PlaySeason(VideoFavoriteFolder folder)
+    {
+        var snapshot = new PlaySnapshot(folder.SeasonVideoId, string.Empty, VideoType.Video);
+        AppViewModel.Instance.OpenPlayerCommand.Execute(snapshot);
+    }
 
     [RelayCommand]
     private async Task SelectFolderAsync(VideoFavoriteFolderSelectableViewModel folder)

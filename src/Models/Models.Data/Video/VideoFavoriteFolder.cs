@@ -65,6 +65,16 @@ public sealed class VideoFavoriteFolder
     /// </summary>
     public int TotalCount { get; }
 
+    /// <summary>
+    /// 是否为合集.
+    /// </summary>
+    public bool IsUgcSeason { get; set; }
+
+    /// <summary>
+    /// 合集视频 Id.
+    /// </summary>
+    public string SeasonVideoId { get; set; }
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is VideoFavoriteFolder folder && Id == folder.Id;
 
