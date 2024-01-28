@@ -75,11 +75,25 @@
             </StackPanel>
         </Grid>
 
-        <controls:ErrorPanel
-            x:Name="ErrorPanel"
-            ActionContent="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
-            Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}" />
+        <base:EmptyHolder
+            Title="{ext:Locale Name=RequestVideoFailed}"
+            Description="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+            Emoji="&#x1F605;"
+            Visibility="{x:Bind ViewModel.IsError, Mode=OneWay}">
+            <base:EmptyHolder.ActionElement>
+                <StackPanel>
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
+                        Content="{ext:Locale Name=Refresh}" />
+                    <HyperlinkButton
+                        Margin="0,4,0,0"
+                        HorizontalAlignment="Stretch"
+                        Command="{x:Bind ViewModel.PlayerDetail.BackCommand, Mode=OneWay}"
+                        Content="{ext:Locale Name=BackToPrevious}"
+                        Visibility="{x:Bind CoreViewModel.IsPlayerShown, Mode=OneWay}" />
+                </StackPanel>
+            </base:EmptyHolder.ActionElement>
+        </base:EmptyHolder>
     </Grid>
 </local:VideoPlayerPageBase>
