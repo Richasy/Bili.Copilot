@@ -351,7 +351,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private async void OnBackRequestedAsync(object sender, EventArgs e)
     {
-        if (PlayerFrame.Content.ToString().Contains("PlayerPage"))
+        if (PlayerFrame.Content != null && PlayerFrame.Content.ToString().Contains("PlayerPage"))
         {
             MinWidth = 800;
             MinHeight = 640;
