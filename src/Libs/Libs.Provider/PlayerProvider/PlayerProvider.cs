@@ -64,10 +64,16 @@ public partial class PlayerProvider
             }
 
             viewRequest.Fnval = 16;
-            var request = await HttpProvider.GetRequestMessageAsync(Video.DetailGrpc, viewRequest);
-            var response = await HttpProvider.Instance.SendAsync(request);
-            var data = await HttpProvider.ParseAsync(response, ViewReply.Parser);
-            result = VideoAdapter.ConvertToVideoView(data);
+            try
+            {
+                var request = await HttpProvider.GetRequestMessageAsync(Video.DetailGrpc, viewRequest);
+                var response = await HttpProvider.Instance.SendAsync(request);
+                var data = await HttpProvider.ParseAsync(response, ViewReply.Parser);
+                result = VideoAdapter.ConvertToVideoView(data);
+            }
+            catch (Exception)
+            {
+            }
         }));
 
         tasks.Add(Task.Run(async () =>
@@ -90,6 +96,11 @@ public partial class PlayerProvider
         }));
 
         await Task.WhenAll(tasks.ToArray());
+        if (result == null)
+        {
+            return webResult;
+        }
+
         if (webResult.Seasons != null && webResult.Seasons.Count() > 0 && result.Seasons == null)
         {
             result.Seasons = webResult.Seasons;
@@ -189,9 +200,26 @@ public partial class PlayerProvider
             SegmentIndex = segmentIndex,
             Type = 1,
         };
-        var request = await HttpProvider.GetRequestMessageAsync(Video.SegmentDanmaku, req);
-        var response = await HttpProvider.Instance.SendAsync(request);
-        var result = await HttpProvider.ParseAsync(response, DmSegMobileReply.Parser);
+
+        DmSegMobileReply result = null;
+        var retryCount = 0;
+    d:
+        try
+        {
+            var request = await HttpProvider.GetRequestMessageAsync(Video.SegmentDanmaku, req);
+            var response = await HttpProvider.Instance.SendAsync(request);
+            result = await HttpProvider.ParseAsync(response, DmSegMobileReply.Parser);
+        }
+        catch (Exception)
+        {
+            if (retryCount++ > 2)
+            {
+                throw;
+            }
+
+            goto d;
+        }
+
         return result.Elems.Select(PlayerAdapter.ConvertToDanmakuInformation).ToList();
     }
 

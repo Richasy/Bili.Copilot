@@ -205,9 +205,26 @@ public partial class CommunityProvider
             Type = (int)type,
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(Community.ReplyDetailList, req);
-        var response = await HttpProvider.Instance.SendAsync(request);
-        var result = await HttpProvider.ParseAsync(response, DetailListReply.Parser);
+        DetailListReply result = null;
+        var retryCount = 0;
+    c:
+        try
+        {
+            var request = await HttpProvider.GetRequestMessageAsync(Community.ReplyDetailList, req);
+            var response = await HttpProvider.Instance.SendAsync(request);
+            result = await HttpProvider.ParseAsync(response, DetailListReply.Parser);
+        }
+        catch (Exception)
+        {
+            if (retryCount++ > 2)
+            {
+                throw;
+            }
+
+            await Task.Delay(retryCount * 200);
+            goto c;
+        }
+
         var cursor = result.Cursor;
         detailCursor.Mode = cursor.Mode;
         detailCursor.Next = cursor.Next;
@@ -258,9 +275,26 @@ public partial class CommunityProvider
             Rpid = 0,
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(Community.ReplyMainList, req);
-        var response = await HttpProvider.Instance.SendAsync(request);
-        var result = await HttpProvider.ParseAsync(response, MainListReply.Parser);
+        MainListReply result = null;
+        var retryCount = 0;
+    c:
+        try
+        {
+            var request = await HttpProvider.GetRequestMessageAsync(Community.ReplyMainList, req);
+            var response = await HttpProvider.Instance.SendAsync(request);
+            result = await HttpProvider.ParseAsync(response, MainListReply.Parser);
+        }
+        catch (Exception)
+        {
+            if (retryCount++ > 2)
+            {
+                throw;
+            }
+
+            await Task.Delay(retryCount * 200);
+            goto c;
+        }
+
         var cursor = result.Cursor;
 
         mainCursor.Mode = cursor.Mode;

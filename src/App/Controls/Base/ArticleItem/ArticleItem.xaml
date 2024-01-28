@@ -26,7 +26,7 @@
                                 <MenuFlyout>
                                     <MenuFlyoutItem
                                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data, Converter={StaticResource ObjectToBoolConverter}}"
                                         Text="{ext:Locale Name=EnterUserSpace}">
                                         <MenuFlyoutItem.Icon>
                                             <local:FluentIcon Symbol="Person" />
@@ -100,21 +100,21 @@
                                         Grid.Row="2"
                                         Margin="0,4"
                                         Orientation="Horizontal"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
                                         <local:UserAvatar
                                             x:Name="InlineAvatar"
                                             Width="24"
                                             Height="24"
                                             Margin="0,0,8,0"
                                             VerticalAlignment="Center"
-                                            Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
+                                            Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Avatar.Uri}"
                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                            UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
+                                            UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Name}" />
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Opacity="0.6"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Name}" />
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Name}" />
                                     </StackPanel>
 
                                     <TextBlock
@@ -190,7 +190,7 @@
                                 <MenuFlyout>
                                     <MenuFlyoutItem
                                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
+                                        IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data, Converter={StaticResource ObjectToBoolConverter}}"
                                         Text="{ext:Locale Name=EnterUserSpace}">
                                         <MenuFlyoutItem.Icon>
                                             <local:FluentIcon Symbol="Person" />
@@ -265,21 +265,21 @@
                                         Grid.Row="2"
                                         Margin="0,4"
                                         Orientation="Horizontal"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher, Converter={StaticResource ObjectToVisibilityConverter}}">
                                         <local:UserAvatar
                                             x:Name="InlineAvatar"
                                             Width="24"
                                             Height="24"
                                             Margin="0,0,8,0"
                                             VerticalAlignment="Center"
-                                            Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Avatar.Uri}"
+                                            Avatar="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Avatar.Uri}"
                                             Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                            UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User.Name}" />
+                                            UserName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Name}" />
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Opacity="0.6"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Publisher.User.Name}" />
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data.Name}" />
                                     </StackPanel>
 
                                     <TextBlock
@@ -348,7 +348,7 @@
                             <MenuFlyout>
                                 <MenuFlyoutItem
                                     Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.ShowDetailCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.User, Converter={StaticResource ObjectToBoolConverter}}"
+                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Publisher.Data, Converter={StaticResource ObjectToBoolConverter}}"
                                     Text="{ext:Locale Name=EnterUserSpace}">
                                     <MenuFlyoutItem.Icon>
                                         <local:FluentIcon Symbol="Person" />

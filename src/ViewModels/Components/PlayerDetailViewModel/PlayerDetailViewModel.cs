@@ -187,6 +187,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     {
         Clear();
         IsBackButtonShown = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
+
+        Player?.Stop();
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();

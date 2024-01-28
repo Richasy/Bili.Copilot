@@ -34,4 +34,9 @@ public sealed partial class VideoFavoriteDetailViewModel
     /// 收藏夹集合.
     /// </summary>
     public ObservableCollection<VideoFavoriteFolderSelectableViewModel> Folders { get; }
+
+    /// <summary>
+    /// 收集的合集.
+    /// </summary>
+    public ObservableCollection<VideoFavoriteFolder> CollectSeasons { get; }
 }

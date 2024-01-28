@@ -1,62 +1,80 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÊÕ²Ø¼ĞÁĞ±íÏìÓ¦.
+/// æ”¶è—å¤¹åˆ—è¡¨å“åº”.
 /// </summary>
 public class FavoriteListResponse
 {
     /// <summary>
-    /// ÊÕ²Ø¼Ğ×ÜÊı.
+    /// æ”¶è—å¤¹æ€»æ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞÁĞ±í.
+    /// æ”¶è—å¤¹åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("list")]
     public List<FavoriteMeta> List { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼ĞÔªÊı¾İ.
+/// æ”¶è—å¤¹è¯¦æƒ…åˆ—è¡¨å“åº”.
+/// </summary>
+public class FavoriteDetailListResponse
+{
+    /// <summary>
+    /// æ”¶è—å¤¹æ€»æ•°.
+    /// </summary>
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
+
+    /// <summary>
+    /// æ”¶è—å¤¹åˆ—è¡¨.
+    /// </summary>
+    [JsonPropertyName("list")]
+    public List<FavoriteListDetail> List { get; set; }
+}
+
+/// <summary>
+/// æ”¶è—å¤¹å…ƒæ•°æ®.
 /// </summary>
 public class FavoriteMeta
 {
     /// <summary>
-    /// ÊÕ²Ø¼ĞÍêÕûId.
+    /// æ”¶è—å¤¹å®Œæ•´Id.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞÔ­Ê¼Id.
+    /// æ”¶è—å¤¹åŸå§‹Id.
     /// </summary>
     [JsonPropertyName("fid")]
     public long FolderId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("mid")]
     public long UserId { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼Ğ±êÌâ.
+    /// æ”¶è—å¤¹æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ²éÑ¯µÄÊÓÆµÊÇ·ñÔÚ¸ÃÊÕ²Ø¼ĞÄÚ£¬0-²»´æÔÚ£¬1-´æÔÚ.
+    /// æŸ¥è¯¢çš„è§†é¢‘æ˜¯å¦åœ¨è¯¥æ”¶è—å¤¹å†…ï¼Œ0-ä¸å­˜åœ¨ï¼Œ1-å­˜åœ¨.
     /// </summary>
     [JsonPropertyName("fav_state")]
     public int FavoriteState { get; set; }
 
     /// <summary>
-    /// Ã½ÌåÊıÄ¿.
+    /// åª’ä½“æ•°ç›®.
     /// </summary>
     [JsonPropertyName("media_count")]
     public int MediaCount { get; set; }

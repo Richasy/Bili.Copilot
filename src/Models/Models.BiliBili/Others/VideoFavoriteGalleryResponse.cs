@@ -1,218 +1,230 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÊÓÆµÊÕ²Ø¸ÅÀÀÏìÓ¦.
+/// è§†é¢‘æ”¶è—æ¦‚è§ˆå“åº”.
 /// </summary>
 public class VideoFavoriteGalleryResponse
 {
     /// <summary>
-    /// ÊÕ²Ø¼ĞÁĞ±í.
+    /// æ”¶è—å¤¹åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("space_infos")]
     public List<FavoriteFolder> FavoriteFolderList { get; set; }
 
     /// <summary>
-    /// Ä¬ÈÏÊÕ²Ø¼Ğ.
+    /// é»˜è®¤æ”¶è—å¤¹.
     /// </summary>
     [JsonPropertyName("default_folder")]
     public VideoFavoriteListResponse DefaultFavoriteList { get; set; }
 }
 
 /// <summary>
-/// ÊÓÆµÄ¬ÈÏÊÕ²Ø¼Ğ.
+/// è§†é¢‘é»˜è®¤æ”¶è—å¤¹.
 /// </summary>
 public class VideoFavoriteListResponse
 {
     /// <summary>
-    /// ÊÕ²Ø¼ĞĞÅÏ¢.
+    /// æ”¶è—å¤¹ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("folder_detail")]
     public FavoriteListDetail Detail { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞĞÅÏ¢.
+    /// æ”¶è—å¤¹ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("info")]
     public FavoriteListDetail Information { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞµÄÃ½ÌåÁĞ±í.
+    /// æ”¶è—å¤¹çš„åª’ä½“åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("medias")]
     public List<FavoriteMedia> Medias { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÓĞ¸ü¶à.
+    /// æ˜¯å¦æœ‰æ›´å¤š.
     /// </summary>
     [JsonPropertyName("has_more")]
     public bool HasMore { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼ĞÏêÇé.
+/// æ”¶è—å¤¹è¯¦æƒ….
 /// </summary>
 public class FavoriteListDetail
 {
     /// <summary>
-    /// ÊÕ²Ø¼ĞÍêÕûID.
+    /// æ”¶è—å¤¹å®Œæ•´ID.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞÔ­Ê¼ID.
+    /// æ”¶è—å¤¹åŸå§‹ID.
     /// </summary>
     [JsonPropertyName("fid")]
     public long OriginId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§ID.
+    /// ç”¨æˆ·ID.
     /// </summary>
     [JsonPropertyName("mid")]
     public long Mid { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼Ğ±êÌâ.
+    /// æ”¶è—å¤¹æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ´´½¨ÊÕ²Ø¼ĞµÄÓÃ»§ĞÅÏ¢.
+    /// åˆ›å»ºæ”¶è—å¤¹çš„ç”¨æˆ·ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("upper")]
     public PublisherInfo Publisher { get; set; }
 
     /// <summary>
-    /// ËµÃ÷/±¸×¢.
+    /// è¯´æ˜/å¤‡æ³¨.
     /// </summary>
     [JsonPropertyName("intro")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ´´½¨Ê±¼ä.
+    /// åˆ›å»ºæ—¶é—´.
     /// </summary>
     [JsonPropertyName("ctime")]
     public int CreateTime { get; set; }
 
     /// <summary>
-    /// ÊÕ²ØÊ±¼ä.
+    /// æ”¶è—æ—¶é—´.
     /// </summary>
     [JsonPropertyName("mtime")]
     public int CollectTime { get; set; }
 
     /// <summary>
-    /// ÊÕ²Ø¼ĞÊÕ²Ø×´Ì¬£¬1-ÒÑÊÕ²Ø£¬0-Î´ÊÕ²Ø.
+    /// æ”¶è—å¤¹æ”¶è—çŠ¶æ€ï¼Œ1-å·²æ”¶è—ï¼Œ0-æœªæ”¶è—.
     /// </summary>
     [JsonPropertyName("fav_state")]
     public int FavoriteState { get; set; }
 
     /// <summary>
-    /// ÄÚÈİÊıÄ¿.
+    /// å†…å®¹æ•°ç›®.
     /// </summary>
     [JsonPropertyName("media_count")]
     public int MediaCount { get; set; }
 
     /// <summary>
-    /// ²é¿´´ÎÊı.
+    /// æŸ¥çœ‹æ¬¡æ•°.
     /// </summary>
     [JsonPropertyName("view_count")]
     public int ViewCount { get; set; }
-}
-
-/// <summary>
-/// ÊÕ²Ø¼ĞÃ½Ìå.
-/// </summary>
-public class FavoriteMedia
-{
-    /// <summary>
-    /// Ã½ÌåId.
-    /// </summary>
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
 
     /// <summary>
-    /// Ã½ÌåÀàĞÍ£¬2-ÊÓÆµ£¬12-ÒôÆµ£¬21-ÊÓÆµºÏ¼¯.
+    /// ç±»å‹.
     /// </summary>
     [JsonPropertyName("type")]
     public int Type { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// é“¾æ¥.
+    /// </summary>
+    [JsonPropertyName("link")]
+    public string Link { get; set; }
+}
+
+/// <summary>
+/// æ”¶è—å¤¹åª’ä½“.
+/// </summary>
+public class FavoriteMedia
+{
+    /// <summary>
+    /// åª’ä½“Id.
+    /// </summary>
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+
+    /// <summary>
+    /// åª’ä½“ç±»å‹ï¼Œ2-è§†é¢‘ï¼Œ12-éŸ³é¢‘ï¼Œ21-è§†é¢‘åˆé›†.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public int Type { get; set; }
+
+    /// <summary>
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ·âÃæ.
+    /// å°é¢.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// Ã½ÌåËµÃ÷ÎÄ±¾.
+    /// åª’ä½“è¯´æ˜æ–‡æœ¬.
     /// </summary>
     [JsonPropertyName("intro")]
     public string Description { get; set; }
 
     /// <summary>
-    /// Ò³Âë.
+    /// é¡µç .
     /// </summary>
     [JsonPropertyName("page")]
     public int Page { get; set; }
 
     /// <summary>
-    /// Ê±³¤.
+    /// æ—¶é•¿.
     /// </summary>
     [JsonPropertyName("duration")]
     public int Duration { get; set; }
 
     /// <summary>
-    /// ·¢²¼Õß.
+    /// å‘å¸ƒè€….
     /// </summary>
     [JsonPropertyName("upper")]
     public PublisherInfo Publisher { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÓĞĞ§£¬0-ÓĞĞ§£¬1-ÎŞĞ§.
+    /// æ˜¯å¦æœ‰æ•ˆï¼Œ0-æœ‰æ•ˆï¼Œ1-æ— æ•ˆ.
     /// </summary>
     [JsonPropertyName("attr")]
     public int IsValid { get; set; }
 
     /// <summary>
-    /// ÓÃ»§½»»¥Êı¾İ.
+    /// ç”¨æˆ·äº¤äº’æ•°æ®.
     /// </summary>
     [JsonPropertyName("cnt_info")]
     public FavoriteMediaStat Stat { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ç½‘å€.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// ´´½¨Ê±¼ä.
+    /// åˆ›å»ºæ—¶é—´.
     /// </summary>
     [JsonPropertyName("ctime")]
     public long CreateTime { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä.
+    /// å‘å¸ƒæ—¶é—´.
     /// </summary>
     [JsonPropertyName("pubtime")]
     public long PublishTime { get; set; }
 
     /// <summary>
-    /// ÊÕ²ØÊ±¼ä.
+    /// æ”¶è—æ—¶é—´.
     /// </summary>
     [JsonPropertyName("fav_time")]
     public long FavoriteTime { get; set; }
@@ -224,91 +236,91 @@ public class FavoriteMedia
     public string BvId { get; set; }
 
     /// <summary>
-    /// ÉçÇøĞÅÏ¢.
+    /// ç¤¾åŒºä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("ugc")]
     public FavoriteUgcInformation UgcInformation { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼ĞÃ½ÌåÓÃ»§½»»¥Êı¾İ.
+/// æ”¶è—å¤¹åª’ä½“ç”¨æˆ·äº¤äº’æ•°æ®.
 /// </summary>
 public class FavoriteMediaStat
 {
     /// <summary>
-    /// ÊÕ²ØÊı.
+    /// æ”¶è—æ•°.
     /// </summary>
     [JsonPropertyName("collect")]
     public int FavoriteCount { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÊı.
+    /// æ’­æ”¾æ•°.
     /// </summary>
     [JsonPropertyName("play")]
     public int PlayCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmaku")]
     public int DanmakuCount { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼ĞUGCÄÚÈİĞÅÏ¢.
+/// æ”¶è—å¤¹UGCå†…å®¹ä¿¡æ¯.
 /// </summary>
 public class FavoriteUgcInformation
 {
     /// <summary>
-    /// Ê×¸ö·ÖP Id.
+    /// é¦–ä¸ªåˆ†P Id.
     /// </summary>
     [JsonPropertyName("first_cid")]
     public int FirstCid { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼Ğ·ÖÀà.
+/// æ”¶è—å¤¹åˆ†ç±».
 /// </summary>
 public class FavoriteFolder
 {
     /// <summary>
-    /// ÊÕ²Ø¼ĞËùÊô·ÖÀàId.
+    /// æ”¶è—å¤¹æ‰€å±åˆ†ç±»Id.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// ·ÖÀàÃû.
+    /// åˆ†ç±»å.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// Ã½ÌåÁĞ±í.
+    /// åª’ä½“åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("mediaListResponse")]
     public FavoriteMediaList MediaList { get; set; }
 }
 
 /// <summary>
-/// ÊÕ²Ø¼ĞÃ½ÌåÁĞ±í.
+/// æ”¶è—å¤¹åª’ä½“åˆ—è¡¨.
 /// </summary>
 public class FavoriteMediaList
 {
     /// <summary>
-    /// ¸öÊı.
+    /// ä¸ªæ•°.
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
 
     /// <summary>
-    /// Ã½ÌåÁĞ±í.
+    /// åª’ä½“åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("list")]
     public List<FavoriteListDetail> List { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÓĞ¸ü¶à.
+    /// æ˜¯å¦æœ‰æ›´å¤š.
     /// </summary>
     [JsonPropertyName("has_more")]
     public bool HasMore { get; set; }

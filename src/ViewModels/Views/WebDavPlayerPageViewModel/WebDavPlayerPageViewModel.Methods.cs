@@ -57,6 +57,7 @@ public sealed partial class WebDavPlayerPageViewModel
             item.IsSelected = item.Equals(vm);
         }
 
+        PlayerDetail.Player?.Stop();
         CurrentItem = vm;
         CreatePlayNextAction();
         CreatePlayPreviousAction();

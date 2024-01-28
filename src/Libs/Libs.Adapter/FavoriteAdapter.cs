@@ -32,7 +32,14 @@ public static class FavoriteAdapter
         var desc = TextToolkit.ConvertToTraditionalChineseIfNeeded(detail.Description);
         var count = detail.MediaCount;
 
-        return new VideoFavoriteFolder(id, title, cover, user, desc, count);
+        var folder = new VideoFavoriteFolder(id, title, cover, user, desc, count);
+        if (detail.Type == 21)
+        {
+            folder.IsUgcSeason = true;
+            folder.SeasonVideoId = detail.Link.Replace("bilibili://video/", string.Empty);
+        }
+
+        return folder;
     }
 
     /// <summary>
@@ -98,33 +105,40 @@ public static class FavoriteAdapter
     /// </summary>
     /// <param name="response">视频收藏夹概览响应.</param>
     /// <returns><see cref="VideoFavoriteView"/>.</returns>
-    public static VideoFavoriteView ConvertToVideoFavoriteView(VideoFavoriteGalleryResponse response, FavoriteListResponse listData)
+    public static VideoFavoriteView ConvertToVideoFavoriteView(VideoFavoriteGalleryResponse response, FavoriteDetailListResponse listData, FavoriteDetailListResponse collectData)
     {
         var defaultFolder = ConvertToVideoFavoriteFolderDetail(response.DefaultFavoriteList);
 
         var mineCreateFav = response.FavoriteFolderList.Find(ff => ff.Id == 1);
-        mineCreateFav.MediaList.List = listData.List.Where(fm => fm.Title != "默认收藏夹").Select(FavoriteAdapter.ConvertToVideoFavoriteListDetail).ToList();
+        mineCreateFav.MediaList.List = listData.List.Where(fm => fm.Title != "默认收藏夹").ToList();
+
+        if (collectData != null && collectData.Count > 0)
+        {
+            var myCollectFav = response.FavoriteFolderList.Find(f => f.Id == 2);
+            myCollectFav.MediaList.List = collectData.List.ToList();
+        }
 
         // 过滤稍后再看的内容，稍后再看列表的Id为3.
         var favoriteSets = response.FavoriteFolderList?
             .Where(p => p.Id != 3)
             .Select(ConvertToVideoFavoriteFolderGroup);
+
         return new VideoFavoriteView(favoriteSets, defaultFolder);
     }
 
     /// <summary>
     /// 将收藏夹元数据转为收藏夹详情.
     /// </summary>
-    /// <param name="favoriteMetas">收藏夹元数据.</param>
+    /// <param name="favoriteMeta">收藏夹元数据.</param>
     /// <returns>收藏夹详情.</returns>
-    public static FavoriteListDetail ConvertToVideoFavoriteListDetail(FavoriteMeta favoriteMetas)
+    public static FavoriteListDetail ConvertToVideoFavoriteListDetail(FavoriteMeta favoriteMeta)
     {
         var favoriteListDetail = new FavoriteListDetail();
-        favoriteListDetail.Title = favoriteMetas.Title;
-        favoriteListDetail.Id = favoriteMetas.Id;
-        favoriteListDetail.OriginId = favoriteMetas.FolderId;
-        favoriteListDetail.Mid = favoriteMetas.UserId;
-        favoriteListDetail.MediaCount = favoriteMetas.MediaCount;
+        favoriteListDetail.Title = favoriteMeta.Title;
+        favoriteListDetail.Id = favoriteMeta.Id;
+        favoriteListDetail.OriginId = favoriteMeta.FolderId;
+        favoriteListDetail.Mid = favoriteMeta.UserId;
+        favoriteListDetail.MediaCount = favoriteMeta.MediaCount;
         return favoriteListDetail;
     }
 }
