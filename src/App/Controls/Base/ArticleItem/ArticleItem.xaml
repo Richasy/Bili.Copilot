@@ -76,9 +76,11 @@
                                     <TextBlock
                                         x:Name="SubtitleBlock"
                                         VerticalAlignment="Center"
+                                        MaxLines="1"
                                         Opacity="0.6"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}" />
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}"
+                                        TextTrimming="CharacterEllipsis" />
 
                                     <TextBlock
                                         x:Name="TitleBlock"
@@ -239,9 +241,11 @@
                                     <TextBlock
                                         x:Name="SubtitleBlock"
                                         VerticalAlignment="Center"
+                                        MaxLines="1"
                                         Opacity="0.6"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}" />
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Subtitle}"
+                                        TextTrimming="CharacterEllipsis" />
 
                                     <TextBlock
                                         x:Name="TitleBlock"
