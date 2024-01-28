@@ -62,7 +62,7 @@ public sealed class VideoPlayerView
     /// <summary>
     /// 合集信息.
     /// </summary>
-    public IEnumerable<VideoSeason> Seasons { get; }
+    public IEnumerable<VideoSeason> Seasons { get; set; }
 
     /// <summary>
     /// 关联视频列表.

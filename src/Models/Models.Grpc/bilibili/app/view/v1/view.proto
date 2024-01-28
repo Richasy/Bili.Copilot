@@ -2550,6 +2550,8 @@ message ViewReply {
     RefreshPage refresh_page = 60;
     //
     CoinCustom coin_custom = 61;
+
+    int64 test_field = 63;
 }
 
 // 视频页详情页-请求

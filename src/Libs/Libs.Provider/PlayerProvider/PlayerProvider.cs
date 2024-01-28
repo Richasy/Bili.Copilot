@@ -48,7 +48,10 @@ public partial class PlayerProvider
     public static async Task<VideoPlayerView> GetVideoDetailAsync(string videoId)
     {
         var type = VideoToolkit.GetVideoIdType(videoId, out var avId);
-        try
+        var tasks = new List<Task>();
+        VideoPlayerView result = default;
+        VideoPlayerView webResult = default;
+        tasks.Add(Task.Run(async () =>
         {
             var viewRequest = new ViewReq();
             if (type == VideoIdType.Av && !string.IsNullOrEmpty(avId))
@@ -64,31 +67,35 @@ public partial class PlayerProvider
             var request = await HttpProvider.GetRequestMessageAsync(Video.DetailGrpc, viewRequest);
             var response = await HttpProvider.Instance.SendAsync(request);
             var data = await HttpProvider.ParseAsync(response, ViewReply.Parser);
-            return VideoAdapter.ConvertToVideoView(data);
-        }
-        catch (ServiceException se)
+            result = VideoAdapter.ConvertToVideoView(data);
+        }));
+
+        tasks.Add(Task.Run(async () =>
         {
-            if (se.Message == Messages.NoData)
+            // 使用网页 API 请求数据.
+            var queryParameters = new Dictionary<string, string>();
+            if (type == VideoIdType.Av)
             {
-                // 使用网页 API 请求数据.
-                var queryParameters = new Dictionary<string, string>();
-                if (type == VideoIdType.Av)
-                {
-                    queryParameters.Add("aid", avId);
-                }
-                else
-                {
-                    queryParameters.Add("bvid", videoId);
-                }
-
-                var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.Detail, queryParameters, RequestClientType.IOS, needToken: false);
-                var response = await HttpProvider.Instance.SendAsync(request);
-                var data = await HttpProvider.ParseAsync<ServerResponse<VideoPageResponse>>(response);
-                return VideoAdapter.ConvertToVideoView(data.Data);
+                queryParameters.Add("aid", avId);
             }
+            else
+            {
+                queryParameters.Add("bvid", videoId);
+            }
+
+            var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Video.Detail, queryParameters, RequestClientType.Web, needToken: false, needCookie: true, needRid: true);
+            var response = await HttpProvider.Instance.SendAsync(request);
+            var data = await HttpProvider.ParseAsync<ServerResponse<VideoPageResponse>>(response);
+            webResult = VideoAdapter.ConvertToVideoView(data.Data);
+        }));
+
+        await Task.WhenAll(tasks.ToArray());
+        if (webResult.Seasons != null && webResult.Seasons.Count() > 0 && result.Seasons == null)
+        {
+            result.Seasons = webResult.Seasons;
         }
 
-        return default;
+        return result;
     }
 
     /// <summary>

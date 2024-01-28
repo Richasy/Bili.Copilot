@@ -1,50 +1,50 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ×ÖÄ»Ë÷ÒıÏìÓ¦½á¹û.
+/// å­—å¹•ç´¢å¼•å“åº”ç»“æœ.
 /// </summary>
 public class SubtitleIndexResponse
 {
     /// <summary>
-    /// Ö§³ÖÌá½».
+    /// æ”¯æŒæäº¤.
     /// </summary>
     [JsonPropertyName("allow_submit")]
     public bool AllowSubmit { get; set; }
 
     /// <summary>
-    /// ×ÖÄ»Ë÷ÒıÁĞ±í.
+    /// å­—å¹•ç´¢å¼•åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("subtitles")]
     public List<SubtitleIndexItem> Subtitles { get; set; }
 }
 
 /// <summary>
-/// ×ÖÄ»Ë÷ÒıÌõÄ¿.
+/// å­—å¹•ç´¢å¼•æ¡ç›®.
 /// </summary>
 public class SubtitleIndexItem
 {
     /// <summary>
-    /// ×ÖÄ»Id.
+    /// å­—å¹•Id.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// ÓïÑÔ´úÂë.
+    /// è¯­è¨€ä»£ç .
     /// </summary>
     [JsonPropertyName("lan")]
     public string Language { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾ÓïÑÔ.
+    /// æ˜¾ç¤ºè¯­è¨€.
     /// </summary>
     [JsonPropertyName("lan_doc")]
     public string DisplayLanguage { get; set; }
 
     /// <summary>
-    /// ×ÖÄ»µØÖ·.
+    /// å­—å¹•åœ°å€.
     /// </summary>
     [JsonPropertyName("subtitle_url")]
     public string Url { get; set; }

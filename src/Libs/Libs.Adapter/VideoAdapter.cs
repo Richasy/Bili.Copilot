@@ -456,7 +456,7 @@ public static class VideoAdapter
     }
 
     /// <summary>
-    /// 将视频页详情 <see cref="ViewReply"/> 转换为视频信息.
+    /// 将视频页详情 <see cref="VideoPageResponse"/> 转换为视频信息.
     /// </summary>
     /// <param name="response">视频详情.</param>
     /// <returns><see cref="VideoPlayerView"/>.</returns>
@@ -464,7 +464,8 @@ public static class VideoAdapter
     {
         var videoInfo = GetVideoInformationFromVideoPageResponse(response);
         var subVideos = GetSubVideosFromVideoPageResponse(response);
-        return new VideoPlayerView(videoInfo, default, subVideos, default, default, default, default, default, default);
+        var videoSection = GetVideoSectionsFromVideoPageResponse(response);
+        return new VideoPlayerView(videoInfo, default, subVideos, videoSection, default, default, default, default, default);
     }
 
     /// <summary>
@@ -521,6 +522,20 @@ public static class VideoAdapter
         return new VideoHistoryView(items, isFinished);
     }
 
+    private static VideoInformation GetVideoInformationFromEpisode(VideoEpisode episode, PublisherInfo author)
+    {
+        var id = episode.aid.ToString();
+        var cid = episode.cid.ToString();
+        var title = Regex.Replace(episode.title, "<[^>]+>", string.Empty);
+        var duration = episode.arc.duration;
+        var publisher = UserAdapter.ConvertToRoleProfile(author, AvatarSize.Size64);
+        var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(episode.arc.stat);
+        var cover = ImageAdapter.ConvertToVideoCardCover(episode.arc.pic);
+        var identifier = new VideoIdentifier(id, title, duration, cover);
+        var subtitle = TextToolkit.ConvertToTraditionalChineseIfNeeded(DateTimeOffset.FromUnixTimeSeconds(episode.arc.pubdate).Humanize());
+        return new VideoInformation(identifier, publisher, cid, communityInformation: communityInfo, subtitle: subtitle);
+    }
+
     private static VideoInformation GetVideoInformationFromEpisode(Episode episode)
     {
         var id = episode.Aid.ToString();
@@ -538,15 +553,15 @@ public static class VideoAdapter
 
     private static VideoInformation GetVideoInformationFromVideoPageResponse(VideoPageResponse response)
     {
-        var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.Title);
-        var id = response.Aid.ToString();
-        var bvid = response.Bvid;
-        var duration = response.Duration;
-        var cover = ImageAdapter.ConvertToImage(response.Cover);
-        var publisher = UserAdapter.ConvertToRoleProfile(response.Owner, AvatarSize.Size32);
-        var desc = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.Description);
-        var publishTime = DateTimeOffset.FromUnixTimeSeconds(response.PublishDateTime).DateTime;
-        var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(response.Stat);
+        var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.title);
+        var id = response.aid.ToString();
+        var bvid = response.bvid;
+        var duration = response.duration;
+        var cover = ImageAdapter.ConvertToImage(response.pic);
+        var publisher = UserAdapter.ConvertToRoleProfile(response.owner, AvatarSize.Size32);
+        var desc = TextToolkit.ConvertToTraditionalChineseIfNeeded(response.desc);
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(response.pubdate).DateTime;
+        var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(response.stat);
 
         var identifier = new VideoIdentifier(id, title, duration, cover);
         return new VideoInformation(identifier, publisher, bvid, desc, publishTime: publishTime, communityInformation: communityInfo);
@@ -586,11 +601,11 @@ public static class VideoAdapter
     private static IEnumerable<VideoIdentifier> GetSubVideosFromVideoPageResponse(VideoPageResponse response)
     {
         var subVideos = new List<VideoIdentifier>();
-        foreach (var page in response.SubVideos.OrderBy(p => p.Page))
+        foreach (var page in response.pages.OrderBy(p => p.page))
         {
-            var cid = page.Cid.ToString();
-            var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(page.Title);
-            var duration = page.Duration;
+            var cid = page.cid.ToString();
+            var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(page.part);
+            var duration = page.duration;
             var identifier = new VideoIdentifier(cid, title, duration, null);
             subVideos.Add(identifier);
         }
@@ -673,6 +688,26 @@ public static class VideoAdapter
         var relates = videoDetail.Relates.Where(p => p.Goto.Equals(ServiceConstants.Av, StringComparison.OrdinalIgnoreCase));
         var relatedVideos = relates.Select(ConvertToVideoInformation);
         return relatedVideos;
+    }
+
+    private static IEnumerable<VideoSeason> GetVideoSectionsFromVideoPageResponse(VideoPageResponse response)
+    {
+        if (!response.is_season_display)
+        {
+            return null;
+        }
+
+        var sections = new List<VideoSeason>();
+        foreach (var item in response.ugc_season.sections)
+        {
+            var id = item.id.ToString();
+            var title = TextToolkit.ConvertToTraditionalChineseIfNeeded(item.title);
+            var videos = item.episodes.Select(p => GetVideoInformationFromEpisode(p, response.owner));
+            var section = new VideoSeason(id, title, videos);
+            sections.Add(section);
+        }
+
+        return sections;
     }
 
     private static IEnumerable<VideoSeason> GetVideoSectionsFromViewReply(ViewReply videoDetail)
