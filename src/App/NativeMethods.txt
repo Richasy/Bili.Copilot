@@ -5,3 +5,4 @@ UnhookWindowsHookEx
 CallNextHookEx
 GetModuleHandle
 IsZoomed
+GetKeyState

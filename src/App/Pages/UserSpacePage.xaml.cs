@@ -26,7 +26,10 @@ public sealed partial class UserSpacePage : UserSpacePageBase
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
-        => ViewModel.InitializeCommand.Execute(default);
+    {
+        ViewModel.InitializeCommand.Execute(default);
+        SearchBox.Focus(FocusState.Programmatic);
+    }
 
     private void OnIncrementalTriggered(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);

@@ -3,6 +3,7 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.ViewModels;
+using CommunityToolkit.WinUI;
 
 namespace Bili.Copilot.App.Controls.Modules;
 
@@ -21,10 +22,22 @@ public sealed partial class SearchBoxModule : SearchBoxModuleBase
         Loaded += OnLoaded;
     }
 
+    /// <summary>
+    /// 设置焦点.
+    /// </summary>
+    public async void SetFocusAsync()
+    {
+        var textBox = AppSearchBox.FindDescendant<TextBox>();
+        if (textBox is not null)
+        {
+            await FocusManager.TryFocusAsync(textBox, FocusState.Programmatic);
+        }
+    }
+
     private void OnLoaded(object sender, RoutedEventArgs e)
         => ViewModel.InitializeCommand.Execute(default);
 
-    private void OnSearchBoxSubmitted(Microsoft.UI.Xaml.Controls.AutoSuggestBox sender, Microsoft.UI.Xaml.Controls.AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void OnSearchBoxSubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (args.ChosenSuggestion is SearchSuggest ss)
         {

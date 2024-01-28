@@ -195,7 +195,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (IsMainWindowPlayer())
         {
             BeforeEnterPlayerPageAsync();
-            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+            PlayerUtils.InitializePlayer(e, PlayerFrame, this);
         }
         else
         {
@@ -208,7 +208,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (IsMainWindowPlayer())
         {
             BeforeEnterPlayerPageAsync();
-            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+            PlayerUtils.InitializePlayer(e, PlayerFrame, this);
         }
         else
         {
@@ -221,7 +221,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (IsMainWindowPlayer())
         {
             BeforeEnterPlayerPageAsync();
-            PlayerUtils.InitializePlayer(e, OverlayFrame, this);
+            PlayerUtils.InitializePlayer(e, PlayerFrame, this);
         }
         else
         {
@@ -351,12 +351,12 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private async void OnBackRequestedAsync(object sender, EventArgs e)
     {
-        if (OverlayFrame.Content.ToString().Contains("PlayerPage"))
+        if (PlayerFrame.Content.ToString().Contains("PlayerPage"))
         {
             MinWidth = 800;
             MinHeight = 640;
-            OverlayFrame.Navigate(typeof(Page));
-            OverlayFrame.Content = default;
+            PlayerFrame.Navigate(typeof(Page));
+            PlayerFrame.Content = default;
             _appViewModel.IsTitleBarShown = true;
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             await Task.Delay(200);
@@ -378,7 +378,11 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         }
 
         var willHide = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
-        if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null && willHide)
+        if (_appViewModel.IsPlayerShown && PlayerFrame.Content is not null && willHide)
+        {
+            _appViewModel.BackCommand.Execute(default);
+        }
+        else if (_appViewModel.IsOverlayShown && OverlayFrame.Content is not null && willHide)
         {
             _appViewModel.BackCommand.Execute(default);
         }
@@ -497,7 +501,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     private async void BeforeEnterPlayerPageAsync()
     {
         MainSplitView.IsPaneOpen = false;
-        _appViewModel.IsOverlayShown = true;
+        _appViewModel.IsPlayerShown = true;
         _appViewModel.IsTitleBarShown = false;
         MinWidth = 560;
         MinHeight = 320;
@@ -544,6 +548,10 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             {
                 webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
+        }
+        else if (e.Key == VirtualKey.F && e.IsControlPressed && _appViewModel.IsTitleBarShown)
+        {
+            _appViewModel.FocusSearchBoxCommand.Execute(default);
         }
     }
 }

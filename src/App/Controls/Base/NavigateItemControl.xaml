@@ -10,6 +10,7 @@
     mc:Ignorable="d">
 
     <local:CardPanel
+        AccessKey="{x:Bind ViewModel.AccessKey, Mode=OneWay}"
         Background="Transparent"
         Click="OnNavItemClick"
         IsChecked="{x:Bind ViewModel.IsSelected, Mode=OneWay}"

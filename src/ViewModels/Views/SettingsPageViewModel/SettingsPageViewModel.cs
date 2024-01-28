@@ -62,13 +62,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PlayerModeInit();
         PlayerTypeInit();
 
-        // BackgroundTaskInitAsync();
         RoamingInit();
         PreferQualityInit();
         PreferAudioInit();
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
-        Copyright = string.Format(copyrightTemplate, 2023);
+        Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = AppToolkit.GetPackageVersion();
 
         InitializeWebDavConfigCommand.Execute(default);

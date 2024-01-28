@@ -65,6 +65,9 @@
                 <Grid Visibility="{x:Bind _appViewModel.IsOverlayShown, Mode=OneWay}">
                     <Frame x:Name="OverlayFrame" Background="{ThemeResource LayerFillColorDefaultBrush}" />
                 </Grid>
+                <Grid Visibility="{x:Bind _appViewModel.IsPlayerShown, Mode=OneWay}">
+                    <Frame x:Name="PlayerFrame" Background="Black" />
+                </Grid>
             </Grid>
         </SplitView>
 

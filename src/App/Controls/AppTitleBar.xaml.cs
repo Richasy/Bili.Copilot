@@ -2,6 +2,7 @@
 
 using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
@@ -38,6 +39,7 @@ public sealed partial class AppTitleBar : UserControl
     {
         InitializeComponent();
         Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
         SizeChanged += OnSizeChanged;
     }
 
@@ -93,7 +95,16 @@ public sealed partial class AppTitleBar : UserControl
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-        => SetDragRegion();
+    {
+        SetDragRegion();
+        AppViewModel.Instance.RequestFocusSearchBox += OnRequestFocusSearchBox;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+        => AppViewModel.Instance.RequestFocusSearchBox -= OnRequestFocusSearchBox;
+
+    private void OnRequestFocusSearchBox(object sender, EventArgs e)
+        => SearchModule.SetFocusAsync();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         => SetDragRegion();

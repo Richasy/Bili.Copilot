@@ -56,6 +56,9 @@ public sealed partial class AppViewModel
     private bool _isOverlayShown;
 
     [ObservableProperty]
+    private bool _isPlayerShown;
+
+    [ObservableProperty]
     private bool _isTitleBarShown;
 
     [ObservableProperty]
@@ -161,6 +164,11 @@ public sealed partial class AppViewModel
     /// 激活主窗口.
     /// </summary>
     public event EventHandler ActiveMainWindow;
+
+    /// <summary>
+    /// 请求聚集搜索框.
+    /// </summary>
+    public event EventHandler RequestFocusSearchBox;
 
     /// <summary>
     /// 实例.

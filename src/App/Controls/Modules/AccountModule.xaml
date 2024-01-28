@@ -36,6 +36,7 @@
             Height="40"
             Padding="0"
             VerticalAlignment="Center"
+            AccessKey="A"
             AutomationProperties.Name="{x:Bind ViewModel.Name, Mode=OneWay}"
             Background="Transparent"
             BorderThickness="0"
@@ -109,7 +110,11 @@
                                 </TextBlock>
                             </StackPanel>
                         </Grid>
-                        <Grid Grid.Row="1" ColumnSpacing="4">
+                        <Grid
+                            Grid.Row="1"
+                            ColumnSpacing="4"
+                            TabFocusNavigation="Local"
+                            XYFocusKeyboardNavigation="Enabled">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -139,8 +144,11 @@
                             Padding="0,4"
                             BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
                             BorderThickness="0,1,0,0"
-                            Spacing="4">
+                            Spacing="4"
+                            TabFocusNavigation="Local"
+                            XYFocusKeyboardNavigation="Enabled">
                             <Button
+                                AccessKey="P"
                                 Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.OpenPersonalSiteCommand}"
                                 Style="{StaticResource ItemButtonStyle}">
@@ -151,6 +159,7 @@
                                     Text="{ext:Locale Name=Personal}" />
                             </Button>
                             <Button
+                                AccessKey="F"
                                 Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.ShowFavoritesCommand}"
                                 Style="{StaticResource ItemButtonStyle}">
@@ -161,6 +170,7 @@
                                     Text="{ext:Locale Name=MyFavorite}" />
                             </Button>
                             <Button
+                                AccessKey="L"
                                 Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.ShowViewLaterCommand}"
                                 Style="{StaticResource ItemButtonStyle}">
@@ -171,6 +181,7 @@
                                     Text="{ext:Locale Name=ViewLater}" />
                             </Button>
                             <Button
+                                AccessKey="H"
                                 Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.ShowHistoryCommand}"
                                 Style="{StaticResource ItemButtonStyle}">
@@ -185,6 +196,7 @@
                                 HorizontalAlignment="Stretch"
                                 Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
                             <Button
+                                AccessKey="O"
                                 Click="OnItemButtonClick"
                                 Command="{x:Bind ViewModel.SignOutCommand}"
                                 Style="{StaticResource ItemButtonStyle}">

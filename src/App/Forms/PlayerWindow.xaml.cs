@@ -270,7 +270,7 @@ internal class KeyboardHook
     {
         using var curProcess = Process.GetCurrentProcess();
         using var curModule = curProcess.MainModule;
-        return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, Windows.Win32.PInvoke.GetModuleHandle(curModule.ModuleName), 0);
+        return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, PInvoke.GetModuleHandle(curModule.ModuleName), 0);
     }
 
     private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
@@ -278,7 +278,8 @@ internal class KeyboardHook
         if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
         {
             var vkCode = Marshal.ReadInt32(lParam);
-            var args = new PlayerKeyboardEventArgs(vkCode);
+            var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
+            var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
             KeyDown?.Invoke(null, args);
             if (args.Handled)
             {
@@ -292,9 +293,15 @@ internal class KeyboardHook
 
 internal class PlayerKeyboardEventArgs
 {
-    public PlayerKeyboardEventArgs(int keyCode) => Key = (VirtualKey)keyCode;
+    public PlayerKeyboardEventArgs(int keyCode, bool isControlPressed)
+    {
+        Key = (VirtualKey)keyCode;
+        IsControlPressed = isControlPressed;
+    }
 
     internal VirtualKey Key { get; }
+
+    internal bool IsControlPressed { get; }
 
     internal bool Handled { get; set; }
 }

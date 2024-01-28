@@ -231,18 +231,21 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void Back()
     {
-        if (!IsBackButtonShown)
+        if (IsPlayerShown)
         {
-            return;
+            IsPlayerShown = false;
         }
-
-        if (IsOverlayShown)
+        else if (IsOverlayShown)
         {
             IsOverlayShown = false;
         }
 
         BackRequest?.Invoke(this, EventArgs.Empty);
     }
+
+    [RelayCommand]
+    private void FocusSearchBox()
+        => RequestFocusSearchBox?.Invoke(this, EventArgs.Empty);
 
     [RelayCommand]
     private void CheckBBDownExist()

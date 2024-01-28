@@ -9,18 +9,19 @@
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:search="using:Bili.Copilot.Models.Data.Search"
+    IsTabStop="False"
     mc:Ignorable="d">
 
     <Grid>
         <AutoSuggestBox
             x:Name="AppSearchBox"
             HorizontalAlignment="Stretch"
+            AllowFocusOnInteraction="True"
             IsTabStop="True"
             ItemsSource="{x:Bind ViewModel.AutoSuggestCollection, Mode=OneWay}"
             PlaceholderText="{ext:Locale Name=SearchTip}"
             QueryIcon="Find"
             QuerySubmitted="OnSearchBoxSubmitted"
-            TabIndex="2"
             Text="{x:Bind ViewModel.QueryText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             UpdateTextOnSelect="False"
             XYFocusLeftNavigationStrategy="Auto">
@@ -36,12 +37,19 @@
             </AutoSuggestBox.TextBoxStyle>
         </AutoSuggestBox>
         <Button
+            x:Name="HotSearchButton"
             Width="32"
             Height="32"
             Margin="2,0,0,0"
             VerticalAlignment="Center"
             Style="{StaticResource SmallIconButtonStyle}"
             ToolTipService.ToolTip="{ext:Locale Name=HotSearch}">
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator
+                    Key="H"
+                    IsEnabled="True"
+                    Modifiers="Control" />
+            </Button.KeyboardAccelerators>
             <base:FluentIcon FontSize="12" Symbol="Reward" />
             <Button.Flyout>
                 <Flyout

@@ -156,7 +156,11 @@
         <!--  番剧索引  -->
         <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsBangumiShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
-                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _bangumi.Filters}">
+                <ItemsRepeater
+                    Margin="0,0,0,12"
+                    ItemsSource="{x:Bind _bangumi.Filters}"
+                    TabFocusNavigation="Local"
+                    XYFocusKeyboardNavigation="Enabled">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:IndexFilterItemViewModel">
                             <labs:SettingsCard Header="{x:Bind Data.Name}">
@@ -190,7 +194,11 @@
         <!--  国创索引  -->
         <Grid Grid.Row="2" Visibility="{x:Bind ViewModel.IsDomesticShown, Mode=OneWay}">
             <ScrollViewer Padding="12,0" Style="{StaticResource PageScrollViewerStyle}">
-                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind _domestic.Filters}">
+                <ItemsRepeater
+                    Margin="0,0,0,12"
+                    ItemsSource="{x:Bind _domestic.Filters}"
+                    TabFocusNavigation="Local"
+                    XYFocusKeyboardNavigation="Enabled">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:IndexFilterItemViewModel">
                             <labs:SettingsCard Header="{x:Bind Data.Name}">

@@ -34,7 +34,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Spacing="8">
+            <StackPanel
+                Spacing="8"
+                TabFocusNavigation="Local"
+                XYFocusKeyboardNavigation="Enabled">
                 <base:CardPanel
                     Margin="16,0"
                     Command="{x:Bind ViewModel.LoadFeaturedCommand, Mode=OneWay}"

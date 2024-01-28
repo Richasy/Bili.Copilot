@@ -58,16 +58,6 @@ public static class ApiConstants
         public const string QRCodeCheck = _passBase + "/x/passport-tv-login/qrcode/poll";
 
         /// <summary>
-        /// cookie转访问令牌.
-        /// </summary>
-        public const string LoginAppThird = _passBase + "/login/app/third";
-
-        /// <summary>
-        /// cookie转访问令牌.
-        /// </summary>
-        public const string LoginAppThirdApi = "http://link.acg.tv/forum.php";
-
-        /// <summary>
         /// 网页导航.
         /// </summary>
         public const string WebNav = _apiBase + "/x/web-interface/nav";

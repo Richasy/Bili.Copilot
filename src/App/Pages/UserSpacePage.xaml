@@ -98,7 +98,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid>
+                    <Grid TabFocusNavigation="Local" XYFocusKeyboardNavigation="Enabled">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -153,6 +153,7 @@
             <Grid Grid.Row="2">
                 <ScrollViewer
                     x:Name="SpaceVideoContainer"
+                    IsTabStop="False"
                     Style="{StaticResource PageScrollViewerStyle}"
                     Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <base:VerticalRepeaterView
@@ -161,11 +162,13 @@
                         IncrementalTriggered="OnIncrementalTriggered"
                         IsTabStop="False"
                         ItemTemplate="{StaticResource VideoItemTemplate}"
-                        ItemsSource="{x:Bind ViewModel.Items}" />
+                        ItemsSource="{x:Bind ViewModel.Items}"
+                        XYFocusKeyboardNavigation="Enabled" />
                 </ScrollViewer>
 
                 <ScrollViewer
                     x:Name="SearchScrollViewer"
+                    IsTabStop="False"
                     Style="{StaticResource PageScrollViewerStyle}"
                     Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay}">
                     <base:VerticalRepeaterView
@@ -173,7 +176,8 @@
                         Margin="0,0,0,20"
                         IncrementalTriggered="OnIncrementalTriggered"
                         ItemTemplate="{StaticResource VideoItemTemplate}"
-                        ItemsSource="{x:Bind ViewModel.SearchVideos}" />
+                        ItemsSource="{x:Bind ViewModel.SearchVideos}"
+                        XYFocusKeyboardNavigation="Enabled" />
                 </ScrollViewer>
 
                 <controls:OverlayLoadingPanel
