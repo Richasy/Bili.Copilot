@@ -2,6 +2,7 @@
 
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Pages;
@@ -60,6 +61,20 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             ViewModel.CurrentSection = e;
         }
+    }
+
+    private void OnBackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.PlayerDetail.DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            ViewModel.PlayerDetail.ToggleCompactOverlayModeCommand.Execute(default);
+        }
+        else if (ViewModel.PlayerDetail.DisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            ViewModel.PlayerDetail.ToggleFullScreenModeCommand.Execute(default);
+        }
+
+        AppViewModel.Instance.BackCommand.Execute(default);
     }
 }
 

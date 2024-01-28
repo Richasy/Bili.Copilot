@@ -470,16 +470,7 @@ public partial class BiliPlayerOverlay
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)
     {
-        if (ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay)
-        {
-            ViewModel.ToggleCompactOverlayModeCommand.Execute(default);
-        }
-        else if (ViewModel.DisplayMode == PlayerDisplayMode.FullScreen)
-        {
-            ViewModel.ToggleFullScreenModeCommand.Execute(default);
-        }
-
-        AppViewModel.Instance.BackCommand.Execute(default);
+        ViewModel.BackCommand.Execute(default);
     }
 
     private void OnRootSplitViewPaneChanged(SplitView sender, object args)

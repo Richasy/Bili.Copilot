@@ -280,6 +280,21 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     private void OpenInBrowser()
         => RequestOpenInBrowser?.Invoke(this, EventArgs.Empty);
 
+    [RelayCommand]
+    private void Back()
+    {
+        if (DisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            ToggleCompactOverlayModeCommand.Execute(default);
+        }
+        else if (DisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            ToggleFullScreenModeCommand.Execute(default);
+        }
+
+        AppViewModel.Instance.BackCommand.Execute(default);
+    }
+
     private void InitializePlayer()
     {
         InitializeDisplayModeText();
