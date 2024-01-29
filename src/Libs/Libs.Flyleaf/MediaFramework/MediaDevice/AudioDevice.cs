@@ -16,8 +16,10 @@ public class AudioDevice : DeviceBase<AudioDeviceStream>
             Engine.Audio.CapDevices.Clear();
 
             var devices = MediaFactory.MFEnumAudioDeviceSources();
-                foreach (var device in devices)
-                    try { Engine.Audio.CapDevices.Add(new AudioDevice(device.FriendlyName, device.SymbolicLink)); } catch(Exception) { }
+            foreach (var device in devices)
+                try
+                { Engine.Audio.CapDevices.Add(new AudioDevice(device.FriendlyName, device.SymbolicLink)); }
+                catch (Exception) { }
         });
     }
 }

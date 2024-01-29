@@ -7,6 +7,7 @@ using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.ViewModels.Components;
+using FlyleafLib;
 using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
@@ -57,6 +58,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsPlayerControlModeManual = ReadSetting(SettingNames.IsPlayerControlModeManual, false);
         IsNotificationEnabled = ReadSetting(SettingNames.IsNotifyEnabled, true);
         IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
+        VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -153,10 +155,14 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 WriteSetting(SettingNames.HideWhenCloseWindow, HideWhenCloseWindow);
                 break;
             case nameof(PlayerType):
+                IsVideoNativePlayer = PlayerType == PlayerType.Native;
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
             case nameof(WebDavPlayerType):
                 WriteSetting(SettingNames.WebDavPlayerType, WebDavPlayerType);
+                break;
+            case nameof(VideoProcessor):
+                WriteSetting(SettingNames.VideoProcessor, VideoProcessor);
                 break;
             case nameof(PlayerWindowBehavior):
                 WriteSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior);

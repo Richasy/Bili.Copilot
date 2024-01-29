@@ -14,10 +14,10 @@ namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 public unsafe partial class Renderer
 {
-    bool    isPresenting;
-    long    lastPresentAt       = 0;
-    long    lastPresentRequestAt= 0;
-    object  lockPresentTask     = new();
+    bool isPresenting;
+    long lastPresentAt = 0;
+    long lastPresentRequestAt = 0;
+    object lockPresentTask = new();
 
     public bool Present(VideoFrame frame)
     {
@@ -37,7 +37,8 @@ public unsafe partial class Renderer
             }
             catch (Exception e)
             {
-                if (CanWarn) Log.Warn($"Present frame failed {e.Message} | {Device?.DeviceRemovedReason}");
+                if (CanWarn)
+                    Log.Warn($"Present frame failed {e.Message} | {Device?.DeviceRemovedReason}");
                 VideoDecoder.DisposeFrame(frame);
 
                 vpiv?.Dispose();
@@ -51,7 +52,8 @@ public unsafe partial class Renderer
             }
         }
 
-        if (CanDebug) Log.Debug("Dropped Frame - Lock timeout " + (frame != null ? Utils.TicksToTime(frame.timestamp) : ""));
+        if (CanDebug)
+            Log.Debug("Dropped Frame - Lock timeout " + (frame != null ? Utils.TicksToTime(frame.timestamp) : ""));
         VideoDecoder.DisposeFrame(frame);
 
         return false;
@@ -82,7 +84,7 @@ public unsafe partial class Renderer
             do
             {
                 long sleepMs = DateTime.UtcNow.Ticks - lastPresentAt;
-                sleepMs = sleepMs < (long)(1.0 / Config.Player.IdleFps * 1000 * 10000) ? (long) (1.0 / Config.Player.IdleFps * 1000) : 0;
+                sleepMs = sleepMs < (long)(1.0 / Config.Player.IdleFps * 1000 * 10000) ? (long)(1.0 / Config.Player.IdleFps * 1000) : 0;
                 if (sleepMs > 2)
                     Thread.Sleep((int)sleepMs);
 
@@ -101,11 +103,11 @@ public unsafe partial class Renderer
             return;
 
         // TBR: Replica performance issue with D3D11 (more zoom more gpu overload)
-        if (videoProcessor == VideoProcessors.D3D11)
+        if (frame.srvs == null) // videoProcessor can be FlyleafVP but the player can send us a cached frame from prev videoProcessor D3D11VP (check frame.srv instead of videoProcessor)
         {
-            if (frame.bufRef != null)
+            if (frame.avFrame != null)
             {
-                vpivd.Texture2D.ArraySlice = frame.subresource;
+                vpivd.Texture2D.ArraySlice = (int)frame.avFrame->data[1];
                 vd1.CreateVideoProcessorInputView(VideoDecoder.textureFFmpeg, vpe, vpivd, out vpiv);
             }
             else
@@ -117,14 +119,11 @@ public unsafe partial class Renderer
             vpsa[0].InputSurface = vpiv;
             vc.VideoProcessorBlt(vp, vpov, 0, 1, vpsa);
             swapChain.Present(Config.Video.VSync, PresentFlags.None);
-            
+
             vpiv.Dispose();
         }
         else
         {
-            if (frame.srvs == null)
-                throw new NullReferenceException(); // To avoid AccessViolation - When we change the video processor and the player already got a processed frame (which was for D3D11VP)
-
             context.OMSetRenderTargets(backBufferRtv);
             context.ClearRenderTargetView(backBufferRtv, Config.Video._BackgroundColor);
             context.RSSetViewport(GetViewport);
@@ -146,7 +145,7 @@ public unsafe partial class Renderer
                 if (SCDisposed)
                     return;
 
-                if (LastFrame != null && (LastFrame.textures != null || LastFrame.bufRef != null))
+                if (LastFrame != null && (LastFrame.textures != null || LastFrame.avFrame != null))
                     PresentInternal(LastFrame);
                 else
                 {
@@ -156,7 +155,8 @@ public unsafe partial class Renderer
             }
             catch (Exception e)
             {
-                if (CanWarn) Log.Warn($"Present idle failed {e.Message} | {Device.DeviceRemovedReason}");
+                if (CanWarn)
+                    Log.Warn($"Present idle failed {e.Message} | {Device.DeviceRemovedReason}");
             }
             finally
             {

@@ -26,10 +26,10 @@ public struct SubStyle
     public SubStyle(int from, int len, Color value) : this(SubStyles.COLOR, from, len, value) { }
     public SubStyle(SubStyles style, int from = -1, int len = -1, Color? value = null)
     {
-        this.style  = style;
-        this.value  = value == null ? Color.White : (Color)value;
-        this.from   = from;
-        this.len    = len;
+        this.style = style;
+        this.value = value == null ? Color.White : (Color)value;
+        this.from = from;
+        this.len = len;
     }
 }
 
@@ -60,11 +60,11 @@ public static class ParseSubtitles
         string sout = "";
         styles = new List<SubStyle>();
 
-        SubStyle bold       = new(SubStyles.BOLD);
-        SubStyle italic     = new(SubStyles.ITALIC);
-        SubStyle underline  = new(SubStyles.UNDERLINE);
-        SubStyle strikeout  = new(SubStyles.STRIKEOUT);
-        SubStyle color      = new(SubStyles.COLOR);
+        SubStyle bold = new(SubStyles.BOLD);
+        SubStyle italic = new(SubStyles.ITALIC);
+        SubStyle underline = new(SubStyles.UNDERLINE);
+        SubStyle strikeout = new(SubStyles.STRIKEOUT);
+        SubStyle color = new(SubStyles.COLOR);
 
         //SubStyle fontname      = new SubStyle(SubStyles.FONTNAME);
         //SubStyle fontsize      = new SubStyle(SubStyles.FONTSIZE);
@@ -73,12 +73,14 @@ public static class ParseSubtitles
 
         for (int i = 0; i < s.Length; i++)
         {
-            if (s[i] == '{') continue;
+            if (s[i] == '{')
+                continue;
 
             if (s[i] == '\\' && s[i - 1] == '{')
             {
                 int codeLen = s.IndexOf('}', i) - i;
-                if (codeLen == -1) continue;
+                if (codeLen == -1)
+                    continue;
 
                 string code = s.Substring(i, codeLen).Trim();
 
@@ -87,22 +89,26 @@ public static class ParseSubtitles
                     case 'c':
                         if (code.Length == 2)
                         {
-                            if (color.from == -1) break;
+                            if (color.from == -1)
+                                break;
 
                             color.len = pos - color.from;
-                            if (color.value != Color.Transparent) styles.Add(color);
+                            if (color.value != Color.Transparent)
+                                styles.Add(color);
                             color = new SubStyle(SubStyles.COLOR);
                         }
                         else
                         {
                             color.from = pos;
                             color.value = Color.Transparent;
-                            if (code.Length < 7) break;
+                            if (code.Length < 7)
+                                break;
 
                             int colorEnd = code.LastIndexOf("&");
-                            if (colorEnd < 6) break;
+                            if (colorEnd < 6)
+                                break;
 
-                            string hexColor = code[4..colorEnd ];
+                            string hexColor = code[4..colorEnd];
                             int red = int.Parse(hexColor.Substring(hexColor.Length - 2, 2), NumberStyles.HexNumber);
                             int green = 0;
                             int blue = 0;
@@ -125,7 +131,8 @@ public static class ParseSubtitles
                     case 'b':
                         if (code[2] == '0')
                         {
-                            if (bold.from == -1) break;
+                            if (bold.from == -1)
+                                break;
 
                             bold.len = pos - bold.from;
                             styles.Add(bold);
@@ -142,7 +149,8 @@ public static class ParseSubtitles
                     case 'u':
                         if (code[2] == '0')
                         {
-                            if (underline.from == -1) break;
+                            if (underline.from == -1)
+                                break;
 
                             underline.len = pos - underline.from;
                             styles.Add(underline);
@@ -158,7 +166,8 @@ public static class ParseSubtitles
                     case 's':
                         if (code[2] == '0')
                         {
-                            if (strikeout.from == -1) break;
+                            if (strikeout.from == -1)
+                                break;
 
                             strikeout.len = pos - strikeout.from;
                             styles.Add(strikeout);
@@ -174,7 +183,8 @@ public static class ParseSubtitles
                     case 'i':
                         if (code[2] == '0')
                         {
-                            if (italic.from == -1) break;
+                            if (italic.from == -1)
+                                break;
 
                             italic.len = pos - italic.from;
                             styles.Add(italic);
@@ -198,11 +208,16 @@ public static class ParseSubtitles
 
         // Non-Closing Codes
         int soutPostLast = sout.Length;
-        if (bold.from != -1) { bold.len = soutPostLast - bold.from; styles.Add(bold); }
-        if (italic.from != -1) { italic.len = soutPostLast - italic.from; styles.Add(italic); }
-        if (strikeout.from != -1) { strikeout.len = soutPostLast - strikeout.from; styles.Add(strikeout); }
-        if (underline.from != -1) { underline.len = soutPostLast - underline.from; styles.Add(underline); }
-        if (color.from != -1 && color.value != Color.Transparent) { color.len = soutPostLast - color.from; styles.Add(color); }
+        if (bold.from != -1)
+        { bold.len = soutPostLast - bold.from; styles.Add(bold); }
+        if (italic.from != -1)
+        { italic.len = soutPostLast - italic.from; styles.Add(italic); }
+        if (strikeout.from != -1)
+        { strikeout.len = soutPostLast - strikeout.from; styles.Add(strikeout); }
+        if (underline.from != -1)
+        { underline.len = soutPostLast - underline.from; styles.Add(underline); }
+        if (color.from != -1 && color.value != Color.Transparent)
+        { color.len = soutPostLast - color.from; styles.Add(color); }
 
         // Greek issue?
         sout = sout.Replace("ʼ", "Ά");
@@ -210,3 +225,4 @@ public static class ParseSubtitles
         return sout;
     }
 }
+

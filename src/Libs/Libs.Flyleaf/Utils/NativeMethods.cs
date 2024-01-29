@@ -71,12 +71,12 @@ public static partial class Utils
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
         [FlagsAttribute]
-        public enum EXECUTION_STATE :uint
+        public enum EXECUTION_STATE : uint
         {
-            ES_AWAYMODE_REQUIRED    = 0x00000040,
-            ES_CONTINUOUS           = 0x80000000,
-            ES_DISPLAY_REQUIRED     = 0x00000002,
-            ES_SYSTEM_REQUIRED      = 0x00000001
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
         }
 
         [DllImport("gdi32.dll")]
@@ -129,10 +129,10 @@ public static partial class Utils
         }
         public struct RECT
         {
-            public int Left     { get; set; }
-            public int Top      { get; set; }
-            public int Right    { get; set; }
-            public int Bottom   { get; set; }
+            public int Left { get; set; }
+            public int Top { get; set; }
+            public int Right { get; set; }
+            public int Bottom { get; set; }
         }
 
         [Flags]
@@ -158,16 +158,16 @@ public static partial class Utils
         [Flags]
         public enum WindowLongFlags : int
         {
-             GWL_EXSTYLE = -20,
-             GWLP_HINSTANCE = -6,
-             GWLP_HWNDPARENT = -8,
-             GWL_ID = -12,
-             GWL_STYLE = -16,
-             GWL_USERDATA = -21,
-             GWL_WNDPROC = -4,
-             DWLP_USER = 0x8,
-             DWLP_MSGRESULT = 0x0,
-             DWLP_DLGPROC = 0x4
+            GWL_EXSTYLE = -20,
+            GWLP_HINSTANCE = -6,
+            GWLP_HWNDPARENT = -8,
+            GWL_ID = -12,
+            GWL_STYLE = -16,
+            GWL_USERDATA = -21,
+            GWL_WNDPROC = -4,
+            DWLP_USER = 0x8,
+            DWLP_MSGRESULT = 0x0,
+            DWLP_DLGPROC = 0x4
         }
 
         [Flags]

@@ -13,66 +13,66 @@ public class Video : NotifyPropertyChanged
     /// Embedded Streams
     /// </summary>
     public ObservableCollection<VideoStream>
-                        Streams         => decoder?.VideoDemuxer.VideoStreams;
+                        Streams => decoder?.VideoDemuxer.VideoStreams;
 
     /// <summary>
     /// Whether the input has video and it is configured
     /// </summary>
-    public bool         IsOpened        { get => isOpened;          internal set => Set(ref _IsOpened, value); }
-    internal bool   _IsOpened, isOpened;
+    public bool IsOpened { get => isOpened; internal set => Set(ref _IsOpened, value); }
+    internal bool _IsOpened, isOpened;
 
-    public string       Codec           { get => codec;             internal set => Set(ref _Codec, value); }
+    public string Codec { get => codec; internal set => Set(ref _Codec, value); }
     internal string _Codec, codec;
 
     ///// <summary>
     ///// Video bitrate (Kbps)
     ///// </summary>
-    public double       BitRate         { get => bitRate;           internal set => Set(ref _BitRate, value); }
+    public double BitRate { get => bitRate; internal set => Set(ref _BitRate, value); }
     internal double _BitRate, bitRate;
 
-    public AspectRatio  AspectRatio     { get => aspectRatio;       internal set => Set(ref _AspectRatio, value); }
-    internal AspectRatio 
+    public AspectRatio AspectRatio { get => aspectRatio; internal set => Set(ref _AspectRatio, value); }
+    internal AspectRatio
                     _AspectRatio, aspectRatio;
 
     ///// <summary>
     ///// Total Dropped Frames
     ///// </summary>
-    public int          FramesDropped   { get => framesDropped;     internal set => Set(ref _FramesDropped, value); }
-    internal int    _FramesDropped, framesDropped;
+    public int FramesDropped { get => framesDropped; internal set => Set(ref _FramesDropped, value); }
+    internal int _FramesDropped, framesDropped;
 
     /// <summary>
     /// Total Frames
     /// </summary>
-    public int          FramesTotal     { get => framesTotal;       internal set => Set(ref _FramesTotal, value); }
-    internal int    _FramesTotal, framesTotal;
+    public int FramesTotal { get => framesTotal; internal set => Set(ref _FramesTotal, value); }
+    internal int _FramesTotal, framesTotal;
 
-    public int          FramesDisplayed { get => framesDisplayed;   internal set => Set(ref _FramesDisplayed, value); }
-    internal int    _FramesDisplayed, framesDisplayed;
+    public int FramesDisplayed { get => framesDisplayed; internal set => Set(ref _FramesDisplayed, value); }
+    internal int _FramesDisplayed, framesDisplayed;
 
-    public double       FPS             { get => fps;               internal set => Set(ref _FPS, value); }
+    public double FPS { get => fps; internal set => Set(ref _FPS, value); }
     internal double _FPS, fps;
 
     /// <summary>
     /// Actual Frames rendered per second (FPS)
     /// </summary>
-    public double       FPSCurrent      { get => fpsCurrent;        internal set => Set(ref _FPSCurrent, value); }
+    public double FPSCurrent { get => fpsCurrent; internal set => Set(ref _FPSCurrent, value); }
     internal double _FPSCurrent, fpsCurrent;
 
-    public string       PixelFormat     { get => pixelFormat;       internal set => Set(ref _PixelFormat, value); }
+    public string PixelFormat { get => pixelFormat; internal set => Set(ref _PixelFormat, value); }
     internal string _PixelFormat, pixelFormat;
 
-    public int          Width           { get => width;             internal set => Set(ref _Width, value); }
-    internal int    _Width, width;
+    public int Width { get => width; internal set => Set(ref _Width, value); }
+    internal int _Width, width;
 
-    public int          Height          { get => height;            internal set => Set(ref _Height, value); }
-    internal int    _Height, height;
+    public int Height { get => height; internal set => Set(ref _Height, value); }
+    internal int _Height, height;
 
-    public bool         VideoAcceleration
-                                                { get => videoAcceleration; internal set => Set(ref _VideoAcceleration, value); }
-    internal bool   _VideoAcceleration, videoAcceleration;
+    public bool VideoAcceleration
+    { get => videoAcceleration; internal set => Set(ref _VideoAcceleration, value); }
+    internal bool _VideoAcceleration, videoAcceleration;
 
-    public bool         ZeroCopy        { get => zeroCopy;          internal set => Set(ref _ZeroCopy, value); }
-    internal bool   _ZeroCopy, zeroCopy;
+    public bool ZeroCopy { get => zeroCopy; internal set => Set(ref _ZeroCopy, value); }
+    internal bool _ZeroCopy, zeroCopy;
 
     Action uiAction;
     Player player;
@@ -85,56 +85,57 @@ public class Video : NotifyPropertyChanged
 
         uiAction = () =>
         {
-            IsOpened            = IsOpened;
-            Codec               = Codec;
-            AspectRatio         = AspectRatio;
-            FramesTotal         = FramesTotal;
-            FPS                 = FPS;
-            PixelFormat         = PixelFormat;
-            Width               = Width;
-            Height              = Height;
-            VideoAcceleration   = VideoAcceleration;
-            ZeroCopy            = ZeroCopy;
+            IsOpened = IsOpened;
+            Codec = Codec;
+            AspectRatio = AspectRatio;
+            FramesTotal = FramesTotal;
+            FPS = FPS;
+            PixelFormat = PixelFormat;
+            Width = Width;
+            Height = Height;
+            VideoAcceleration = VideoAcceleration;
+            ZeroCopy = ZeroCopy;
 
-            FramesDisplayed     = FramesDisplayed;
-            FramesDropped       = FramesDropped;
+            FramesDisplayed = FramesDisplayed;
+            FramesDropped = FramesDropped;
         };
     }
 
     internal void Reset()
     {
-        codec              = null;
-        aspectRatio        = new AspectRatio(0, 0);
-        bitRate            = 0;
-        fps                = 0;
-        pixelFormat        = null;
-        width              = 0;
-        height             = 0;
-        framesTotal        = 0;
-        videoAcceleration  = false;
-        zeroCopy           = false;
-        isOpened           = false;
+        codec = null;
+        aspectRatio = new AspectRatio(0, 0);
+        bitRate = 0;
+        fps = 0;
+        pixelFormat = null;
+        width = 0;
+        height = 0;
+        framesTotal = 0;
+        videoAcceleration = false;
+        zeroCopy = false;
+        isOpened = false;
 
         player.UIAdd(uiAction);
     }
     internal void Refresh()
     {
-        if (decoder.VideoStream == null) { Reset(); return; }
+        if (decoder.VideoStream == null)
+        { Reset(); return; }
 
-        codec       = decoder.VideoStream.Codec;
+        codec = decoder.VideoStream.Codec;
         aspectRatio = decoder.VideoStream.AspectRatio;
-        fps         = decoder.VideoStream.FPS;
+        fps = decoder.VideoStream.FPS;
         pixelFormat = decoder.VideoStream.PixelFormatStr;
-        width       = decoder.VideoStream.Width;
-        height      = decoder.VideoStream.Height;
+        width = decoder.VideoStream.Width;
+        height = decoder.VideoStream.Height;
         framesTotal = decoder.VideoStream.TotalFrames;
         videoAcceleration
                     = decoder.VideoDecoder.VideoAccelerated;
-        zeroCopy    = decoder.VideoDecoder.ZeroCopy;
-        isOpened    =!decoder.VideoDecoder.Disposed;
+        zeroCopy = decoder.VideoDecoder.ZeroCopy;
+        isOpened = !decoder.VideoDecoder.Disposed;
 
         framesDisplayed = 0;
-        framesDropped   = 0;
+        framesDropped = 0;
 
         player.UIAdd(uiAction);
     }
@@ -148,7 +149,7 @@ public class Video : NotifyPropertyChanged
 
         player.Pause();
         decoder.OpenSuggestedVideo();
-        player.ReSync(decoder.VideoStream, (int) (player.CurTime / 10000), true);
+        player.ReSync(decoder.VideoStream, (int)(player.CurTime / 10000), true);
 
         if (wasPlaying || Config.Player.AutoPlay)
             player.Play();
@@ -188,3 +189,4 @@ public class Video : NotifyPropertyChanged
     }
     public void ToggleVideoAcceleration() => Config.Video.VideoAcceleration = !Config.Video.VideoAcceleration;
 }
+

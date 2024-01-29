@@ -15,10 +15,11 @@ namespace FlyleafLib.MediaFramework.MediaDecoder;
 
 public unsafe class SubtitlesDecoder : DecoderBase
 {
-    public SubtitlesStream  SubtitlesStream     => (SubtitlesStream) Stream;
+    public SubtitlesStream SubtitlesStream => (SubtitlesStream)Stream;
 
     public ConcurrentQueue<SubtitlesFrame>
-                            Frames              { get; protected set; } = new ConcurrentQueue<SubtitlesFrame>();
+                            Frames
+    { get; protected set; } = new ConcurrentQueue<SubtitlesFrame>();
 
     public SubtitlesDecoder(Config config, int uniqueId = -1) : base(config, uniqueId) { }
 
@@ -30,23 +31,25 @@ public unsafe class SubtitlesDecoder : DecoderBase
     public void Flush()
     {
         lock (lockActions)
-        lock (lockCodecCtx)
-        {
-            if (Disposed) return;
+            lock (lockCodecCtx)
+            {
+                if (Disposed)
+                    return;
 
-            if (Status == Status.Ended) Status = Status.Stopped;
-            //else if (Status == Status.Draining) Status = Status.Stopping;
+                if (Status == Status.Ended)
+                    Status = Status.Stopped;
+                //else if (Status == Status.Draining) Status = Status.Stopping;
 
-            DisposeFrames();
-            avcodec_flush_buffers(codecCtx);
-        }
+                DisposeFrames();
+                avcodec_flush_buffers(codecCtx);
+            }
     }
 
     protected override void RunInternal()
     {
         int ret = 0;
         int allowedErrors = Config.Decoder.MaxErrors;
-        AVPacket *packet;
+        AVPacket* packet;
 
         do
         {
@@ -54,15 +57,18 @@ public unsafe class SubtitlesDecoder : DecoderBase
             if (Frames.Count >= Config.Decoder.MaxSubsFrames)
             {
                 lock (lockStatus)
-                    if (Status == Status.Running) Status = Status.QueueFull;
+                    if (Status == Status.Running)
+                        Status = Status.QueueFull;
 
-                while (Frames.Count >= Config.Decoder.MaxSubsFrames && Status == Status.QueueFull) Thread.Sleep(20);
+                while (Frames.Count >= Config.Decoder.MaxSubsFrames && Status == Status.QueueFull)
+                    Thread.Sleep(20);
 
                 lock (lockStatus)
                 {
-                    if (Status != Status.QueueFull) break;
+                    if (Status != Status.QueueFull)
+                        break;
                     Status = Status.Running;
-                }       
+                }
             }
 
             // While Packets Queue Empty (Ended | Quit if Demuxer stopped | Wait until we get packets)
@@ -71,7 +77,8 @@ public unsafe class SubtitlesDecoder : DecoderBase
                 CriticalArea = true;
 
                 lock (lockStatus)
-                    if (Status == Status.Running) Status = Status.QueueEmpty;
+                    if (Status == Status.Running)
+                        Status = Status.QueueEmpty;
 
                 while (demuxer.SubtitlesPackets.Count == 0 && Status == Status.QueueEmpty)
                 {
@@ -82,7 +89,8 @@ public unsafe class SubtitlesDecoder : DecoderBase
                     }
                     else if (!demuxer.IsRunning)
                     {
-                        if (CanDebug) Log.Debug($"Demuxer is not running [Demuxer Status: {demuxer.Status}]");
+                        if (CanDebug)
+                            Log.Debug($"Demuxer is not running [Demuxer Status: {demuxer.Status}]");
 
                         int retries = 5;
 
@@ -90,37 +98,40 @@ public unsafe class SubtitlesDecoder : DecoderBase
                         {
                             retries--;
                             Thread.Sleep(10);
-                            if (demuxer.IsRunning) break;
+                            if (demuxer.IsRunning)
+                                break;
                         }
 
                         lock (demuxer.lockStatus)
-                        lock (lockStatus)
-                        {
-                            if (demuxer.Status == Status.Pausing || demuxer.Status == Status.Paused)
-                                Status = Status.Pausing;
-                            else if (demuxer.Status != Status.Ended)
-                                Status = Status.Stopping;
-                            else
-                                continue;
-                        }
+                            lock (lockStatus)
+                            {
+                                if (demuxer.Status == Status.Pausing || demuxer.Status == Status.Paused)
+                                    Status = Status.Pausing;
+                                else if (demuxer.Status != Status.Ended)
+                                    Status = Status.Stopping;
+                                else
+                                    continue;
+                            }
 
                         break;
                     }
-                    
+
                     Thread.Sleep(20);
                 }
 
                 lock (lockStatus)
                 {
                     CriticalArea = false;
-                    if (Status != Status.QueueEmpty) break;
+                    if (Status != Status.QueueEmpty)
+                        break;
                     Status = Status.Running;
                 }
             }
-            
+
             lock (lockCodecCtx)
             {
-                if (Status == Status.Stopped || demuxer.SubtitlesPackets.Count == 0) continue;
+                if (Status == Status.Stopped || demuxer.SubtitlesPackets.Count == 0)
+                    continue;
                 packet = demuxer.SubtitlesPackets.Dequeue();
                 int gotFrame = 0;
                 AVSubtitle sub = new();
@@ -128,15 +139,19 @@ public unsafe class SubtitlesDecoder : DecoderBase
                 if (ret < 0)
                 {
                     allowedErrors--;
-                    if (CanWarn) Log.Warn($"{FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})");
+                    if (CanWarn)
+                        Log.Warn($"{FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})");
 
-                    if (allowedErrors == 0) { Log.Error("Too many errors!"); Status = Status.Stopping; break; }
+                    if (allowedErrors == 0)
+                    { Log.Error("Too many errors!"); Status = Status.Stopping; break; }
 
                     continue;
                 }
-                        
-                if (gotFrame < 1 || sub.num_rects < 1 ) continue;
-                if (packet->pts == AV_NOPTS_VALUE) { avsubtitle_free(&sub); av_packet_free(&packet); continue; }
+
+                if (gotFrame < 1 || sub.num_rects < 1)
+                    continue;
+                if (packet->pts == AV_NOPTS_VALUE)
+                { avsubtitle_free(&sub); av_packet_free(&packet); continue; }
 
                 // TODO: CodecChanged? And when findstreaminfo is disabled as it is an external demuxer will not know the main demuxer's start time
                 if (!filledFromCodec)
@@ -149,7 +164,8 @@ public unsafe class SubtitlesDecoder : DecoderBase
                 }
 
                 var mFrame = ProcessSubtitlesFrame(packet, &sub);
-                if (mFrame != null) Frames.Enqueue(mFrame);
+                if (mFrame != null)
+                    Frames.Enqueue(mFrame);
 
                 avsubtitle_free(&sub);
                 av_packet_free(&packet);
@@ -162,11 +178,11 @@ public unsafe class SubtitlesDecoder : DecoderBase
 
         try
         {
-            string  line    = "";
-            byte[]  buffer;
-            var     rects   = sub->rects;
-            var     cur     = rects[0];
-            
+            string line = "";
+            byte[] buffer;
+            var rects = sub->rects;
+            var cur = rects[0];
+
             switch (cur->type)
             {
                 case AVSubtitleType.SUBTITLE_ASS:
@@ -176,7 +192,7 @@ public unsafe class SubtitlesDecoder : DecoderBase
                     break;
 
                 //case AVSubtitleType.SUBTITLE_BITMAP:
-                    //Log("Subtitles BITMAP -> Not Implemented yet");
+                //Log("Subtitles BITMAP -> Not Implemented yet");
 
                 default:
                     return null;
@@ -184,16 +200,18 @@ public unsafe class SubtitlesDecoder : DecoderBase
 
             SubtitlesFrame mFrame = new(line)
             {
-                duration    = (int)(sub->end_display_time - sub->start_display_time),
-                timestamp   = (long)(packet->pts * SubtitlesStream.Timebase) - demuxer.StartTime + Config.Subtitles.Delay
+                duration = (int)(sub->end_display_time - sub->start_display_time),
+                timestamp = (long)(packet->pts * SubtitlesStream.Timebase) - demuxer.StartTime + Config.Subtitles.Delay
             };
 
-            if (CanTrace) Log.Trace($"Processes {Utils.TicksToTime(mFrame.timestamp)}");
+            if (CanTrace)
+                Log.Trace($"Processes {Utils.TicksToTime(mFrame.timestamp)}");
 
             Config.Subtitles.Parser(mFrame);
 
             return mFrame;
-        } catch (Exception e) { Log.Error($"Failed to process frame ({e.Message})"); return null; }
+        }
+        catch (Exception e) { Log.Error($"Failed to process frame ({e.Message})"); return null; }
     }
 
     public void DisposeFrames()

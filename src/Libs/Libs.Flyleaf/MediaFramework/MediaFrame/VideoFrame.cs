@@ -9,10 +9,9 @@ namespace FlyleafLib.MediaFramework.MediaFrame;
 
 public unsafe class VideoFrame : FrameBase
 {
-    public ID3D11Texture2D[]            textures;       // Planes
-    public ID3D11ShaderResourceView[]   srvs;           // Views
+    public ID3D11Texture2D[] textures;       // Planes
+    public ID3D11ShaderResourceView[] srvs;           // Views
 
     // Zero-Copy
-    public int                          subresource;    // FFmpeg texture's array index
-    public AVBufferRef*                 bufRef;         // Lets ffmpeg to know that we still need it
+    public AVFrame* avFrame;        // Lets ffmpeg to know that we still need it
 }

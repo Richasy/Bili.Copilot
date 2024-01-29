@@ -17,16 +17,16 @@ namespace FlyleafLib.MediaPlayer;
 unsafe partial class Player
 {
     #region Events
-    public event EventHandler<OpenCompletedArgs>                        OpenCompleted; // Will be also used for subtitles
-    public event EventHandler<OpenPlaylistItemCompletedArgs>            OpenPlaylistItemCompleted;
-    public event EventHandler<OpenSessionCompletedArgs>                 OpenSessionCompleted;
+    public event EventHandler<OpenCompletedArgs> OpenCompleted; // Will be also used for subtitles
+    public event EventHandler<OpenPlaylistItemCompletedArgs> OpenPlaylistItemCompleted;
+    public event EventHandler<OpenSessionCompletedArgs> OpenSessionCompleted;
 
-    public event EventHandler<OpenAudioStreamCompletedArgs>             OpenAudioStreamCompleted;
-    public event EventHandler<OpenVideoStreamCompletedArgs>             OpenVideoStreamCompleted;
-    public event EventHandler<OpenSubtitlesStreamCompletedArgs>         OpenSubtitlesStreamCompleted;
+    public event EventHandler<OpenAudioStreamCompletedArgs> OpenAudioStreamCompleted;
+    public event EventHandler<OpenVideoStreamCompletedArgs> OpenVideoStreamCompleted;
+    public event EventHandler<OpenSubtitlesStreamCompletedArgs> OpenSubtitlesStreamCompleted;
 
-    public event EventHandler<OpenExternalAudioStreamCompletedArgs>     OpenExternalAudioStreamCompleted;
-    public event EventHandler<OpenExternalVideoStreamCompletedArgs>     OpenExternalVideoStreamCompleted;
+    public event EventHandler<OpenExternalAudioStreamCompletedArgs> OpenExternalAudioStreamCompleted;
+    public event EventHandler<OpenExternalVideoStreamCompletedArgs> OpenExternalVideoStreamCompleted;
     public event EventHandler<OpenExternalSubtitlesStreamCompletedArgs> OpenExternalSubtitlesStreamCompleted;
 
     private void OnOpenCompleted(OpenCompletedArgs args = null)
@@ -68,15 +68,16 @@ unsafe partial class Player
         Config.Audio.SetDelay(0);
         Audio.Refresh();
         canPlay = Video.IsOpened || Audio.IsOpened;
-        isLive  = MainDemuxer.IsLive;
-        duration= MainDemuxer.Duration;
-        if (Video.isOpened) duration -= VideoDemuxer.VideoStream.FrameDuration;
+        isLive = MainDemuxer.IsLive;
+        duration = MainDemuxer.Duration;
+        if (Video.isOpened)
+            duration -= VideoDemuxer.VideoStream.FrameDuration;
 
         UIAdd(() =>
         {
-            IsLive  = IsLive;
+            IsLive = IsLive;
             CanPlay = CanPlay;
-            Duration=Duration;
+            Duration = Duration;
         });
         UIAll();
     }
@@ -84,15 +85,16 @@ unsafe partial class Player
     {
         Video.Refresh();
         canPlay = Video.IsOpened || Audio.IsOpened;
-        isLive  = MainDemuxer.IsLive;
-        duration= MainDemuxer.Duration;
-        if (Video.isOpened) duration = Math.Max(0, duration - VideoDemuxer.VideoStream.FrameDuration);
+        isLive = MainDemuxer.IsLive;
+        duration = MainDemuxer.Duration;
+        if (Video.isOpened)
+            duration = Math.Max(0, duration - VideoDemuxer.VideoStream.FrameDuration);
 
         UIAdd(() =>
         {
-            IsLive  = IsLive;
+            IsLive = IsLive;
             CanPlay = CanPlay;
-            Duration=Duration;
+            Duration = Duration;
         });
         UIAll();
     }
@@ -136,7 +138,8 @@ unsafe partial class Player
     private void Decoder_OpenExternalSubtitlesStreamCompleted(object sender, OpenExternalSubtitlesStreamCompletedArgs e)
     {
         if (e.Success)
-            lock (lockSubtitles) ReSync(decoder.SubtitlesStream, decoder.GetCurTimeMs());
+            lock (lockSubtitles)
+                ReSync(decoder.SubtitlesStream, decoder.GetCurTimeMs());
     }
     #endregion
 
@@ -153,11 +156,12 @@ unsafe partial class Player
                 return args;
             }
 
-            if (CanInfo) Log.Info($"Opening {url_iostream}");
+            if (CanInfo)
+                Log.Info($"Opening {url_iostream}");
 
             Initialize(Status.Opening);
             var args2 = decoder.Open(url_iostream, defaultPlaylistItem, defaultVideo, defaultAudio, defaultSubtitles);
-            
+
             args.Url = args2.Url;
             args.IOStream = args2.IOStream;
             args.Error = args2.Error;
@@ -170,36 +174,38 @@ unsafe partial class Player
             else if (CanPlay)
             {
                 status = Status.Paused;
-                
+
                 if (Config.Player.AutoPlay)
                     Play();
             }
             else if (!defaultVideo && !defaultAudio)
             {
-                isLive  = MainDemuxer.IsLive;
-                duration= MainDemuxer.Duration;
+                isLive = MainDemuxer.IsLive;
+                duration = MainDemuxer.Duration;
                 UIAdd(() =>
                 {
-                    IsLive  = IsLive;
-                    Duration=Duration;
+                    IsLive = IsLive;
+                    Duration = Duration;
                 });
             }
 
             UIAdd(() =>
             {
-                LastError=LastError;
-                Status  = Status;
+                LastError = LastError;
+                Status = Status;
             });
 
             UIAll();
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenCompleted(args);
         }
@@ -210,7 +216,8 @@ unsafe partial class Player
 
         try
         {
-            if (CanInfo) Log.Info($"Opening subtitles {url}");
+            if (CanInfo)
+                Log.Info($"Opening subtitles {url}");
 
             if (!Video.IsOpened)
             {
@@ -226,11 +233,13 @@ unsafe partial class Player
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenCompleted(args);
         }
@@ -311,25 +320,27 @@ unsafe partial class Player
             else
             {
                 status = Status.Paused;
-                
+
                 if (Config.Player.AutoPlay)
                     Play();
             }
 
             UIAdd(() =>
             {
-                LastError=LastError;
-                Status  = Status;
+                LastError = LastError;
+                Status = Status;
             });
 
             UIAll();
 
             return args;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenSessionCompleted(args);
         }
@@ -377,30 +388,32 @@ unsafe partial class Player
             }
             else if (!defaultVideo && !defaultAudio)
             {
-                isLive  = MainDemuxer.IsLive;
-                duration= MainDemuxer.Duration;
+                isLive = MainDemuxer.IsLive;
+                duration = MainDemuxer.Duration;
                 UIAdd(() =>
                 {
-                    IsLive  = IsLive;
-                    Duration=Duration;
+                    IsLive = IsLive;
+                    Duration = Duration;
                 });
             }
 
             UIAdd(() =>
             {
-                LastError=LastError;
-                Status  = Status;
+                LastError = LastError;
+                Status = Status;
             });
 
             UIAll();
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenPlaylistItemCompleted(args);
         }
@@ -517,11 +530,13 @@ unsafe partial class Player
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             if (extStream is ExternalVideoStream)
                 OnOpenExternalVideoStreamCompleted((OpenExternalVideoStreamCompletedArgs)args);
@@ -585,21 +600,23 @@ unsafe partial class Player
                     while (stream.Demuxer.IsRunning && stream.Demuxer.GetPacketsPtr(stream.Type).Count < 3)
                         System.Threading.Thread.Sleep(20);
 
-                    ReSync(stream, (int) ((Duration - fromEnd - (DateTime.UtcNow.Ticks - delay))/ 10000));
+                    ReSync(stream, (int)((Duration - fromEnd - (DateTime.UtcNow.Ticks - delay)) / 10000));
                 }
                 else
-                    ReSync(stream, (int) (CurTime / 10000), true);
+                    ReSync(stream, (int)(CurTime / 10000), true);
             }
             else
                 isVideoSwitch = false;
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             if (stream is VideoStream)
                 OnOpenVideoStreamCompleted((OpenVideoStreamCompletedArgs)args);
@@ -669,7 +686,8 @@ unsafe partial class Player
          * HLS live resync on stream switch should be from the end not from the start (could have different cache/duration)
          */
 
-        if (stream == null) return;
+        if (stream == null)
+            return;
         //if (stream == null || (syncMs == 0 || (syncMs == -1 && decoder.GetCurTimeMs() == 0))) return; // Avoid initial open resync?
 
         if (stream.Demuxer.Type == MediaType.Video)
@@ -732,7 +750,7 @@ unsafe partial class Player
                 stream.Demuxer.Start();
                 decoder.GetDecoderPtr(stream.Type).Start();
             }
-        }    
+        }
     }
     #endregion
 
@@ -742,11 +760,11 @@ unsafe partial class Player
         lock (lockActions)
             if (taskOpenAsyncRuns)
                 return;
-        
+
         taskOpenAsyncRuns = true;
 
         Task.Run(() =>
-        { 
+        {
             if (IsDisposed)
                 return;
 
@@ -905,23 +923,23 @@ unsafe partial class Player
             OpenAsync();
         }
     }
-    
-    ConcurrentStack<OpenAsyncData> openInputs   = new();
+
+    ConcurrentStack<OpenAsyncData> openInputs = new();
     ConcurrentStack<OpenAsyncData> openSessions = new();
-    ConcurrentStack<OpenAsyncData> openItems    = new();
-    ConcurrentStack<OpenAsyncData> openVideo    = new();
-    ConcurrentStack<OpenAsyncData> openAudio    = new();
-    ConcurrentStack<OpenAsyncData> openSubtitles= new();
+    ConcurrentStack<OpenAsyncData> openItems = new();
+    ConcurrentStack<OpenAsyncData> openVideo = new();
+    ConcurrentStack<OpenAsyncData> openAudio = new();
+    ConcurrentStack<OpenAsyncData> openSubtitles = new();
     #endregion
 }
 
 public class OpenCompletedArgs
 {
-    public string       Url;
-    public Stream       IOStream;
-    public string       Error;
-    public bool         Success => Error == null;
-    public bool         IsSubtitles;
+    public string Url;
+    public Stream IOStream;
+    public string Error;
+    public bool Success => Error == null;
+    public bool IsSubtitles;
 
     public OpenCompletedArgs(string url = null, Stream iostream = null, string error = null, bool isSubtitles = false) { Url = url; IOStream = iostream; Error = error; IsSubtitles = isSubtitles; }
 }
@@ -941,12 +959,12 @@ class OpenAsyncData
     public bool defaultSubtitles;
 
     public OpenAsyncData(object url_iostream, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true, bool defaultSubtitles = true)
-        { this.url_iostream = url_iostream; this.defaultPlaylistItem = defaultPlaylistItem; this.defaultVideo = defaultVideo; this.defaultAudio = defaultAudio; this.defaultSubtitles = defaultSubtitles; }
+    { this.url_iostream = url_iostream; this.defaultPlaylistItem = defaultPlaylistItem; this.defaultVideo = defaultVideo; this.defaultAudio = defaultAudio; this.defaultSubtitles = defaultSubtitles; }
     public OpenAsyncData(Session session) => this.session = session;
     public OpenAsyncData(PlaylistItem playlistItem, bool defaultVideo = true, bool defaultAudio = true, bool defaultSubtitles = true)
-        { this.playlistItem = playlistItem; this.defaultVideo = defaultVideo; this.defaultAudio = defaultAudio; this.defaultSubtitles = defaultSubtitles; }
+    { this.playlistItem = playlistItem; this.defaultVideo = defaultVideo; this.defaultAudio = defaultAudio; this.defaultSubtitles = defaultSubtitles; }
     public OpenAsyncData(ExternalStream extStream, bool resync = true, bool defaultAudio = true, int streamIndex = -1)
-        { this.extStream = extStream; this.resync = resync; this.defaultAudio = defaultAudio; this.streamIndex = streamIndex; }
+    { this.extStream = extStream; this.resync = resync; this.defaultAudio = defaultAudio; this.streamIndex = streamIndex; }
     public OpenAsyncData(StreamBase stream, bool resync = true, bool defaultAudio = true)
-        { this.stream = stream; this.resync = resync; this.defaultAudio = defaultAudio; }
+    { this.stream = stream; this.resync = resync; this.defaultAudio = defaultAudio; }
 }

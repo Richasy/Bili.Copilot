@@ -2247,4 +2247,10 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="VideoDynamicNotification" xml:space="preserve">
     <value>新视频动态通知</value>
   </data>
+  <data name="VideoProcessor" xml:space="preserve">
+    <value>视频处理器</value>
+  </data>
+  <data name="VideoProcessorDescription" xml:space="preserve">
+    <value>选择以何种方式呈现视频（D3D11为Windows原生，Flyleaf为自定义渲染器）</value>
+  </data>
 </root>

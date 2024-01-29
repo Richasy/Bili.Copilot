@@ -64,20 +64,21 @@ partial class Player
             return false;
 
         player.Activity.RefreshActive();
-        
+
         if (key == Key.LeftAlt || key == Key.RightAlt || key == Key.LeftCtrl || key == Key.RightCtrl || key == Key.LeftShift || key == Key.RightShift)
             return false;
 
-        foreach(var binding in player.Config.Player.KeyBindings.Keys)
-            if (binding.Key     == key && !binding.IsKeyUp &&
-                binding.Alt     == (Keyboard.IsKeyDown(Key.LeftAlt)     || Keyboard.IsKeyDown(Key.RightAlt)) &&
-                binding.Ctrl    == (Keyboard.IsKeyDown(Key.LeftCtrl)    || Keyboard.IsKeyDown(Key.RightCtrl)) &&
-                binding.Shift   == (Keyboard.IsKeyDown(Key.LeftShift)   || Keyboard.IsKeyDown(Key.RightShift))
+        foreach (var binding in player.Config.Player.KeyBindings.Keys)
+            if (binding.Key == key && !binding.IsKeyUp &&
+                binding.Alt == (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)) &&
+                binding.Ctrl == (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) &&
+                binding.Shift == (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 )
             {
-                if (CanDebug) player.Log.Debug($"[Keys|Down] {(binding.Action == KeyBindingAction.Custom && binding.ActionName != null ? binding.ActionName : binding.Action)}");
+                if (CanDebug)
+                    player.Log.Debug($"[Keys|Down] {(binding.Action == KeyBindingAction.Custom && binding.ActionName != null ? binding.ActionName : binding.Action)}");
                 binding.ActionInternal?.Invoke();
-                
+
                 return true;
             }
 
@@ -92,13 +93,14 @@ partial class Player
             return false;
 
         foreach (var binding in player.Config.Player.KeyBindings.Keys)
-            if (binding.Key     == key && binding.IsKeyUp &&
-                binding.Alt     == (Keyboard.IsKeyDown(Key.LeftAlt)     || Keyboard.IsKeyDown(Key.RightAlt)) &&
-                binding.Ctrl    == (Keyboard.IsKeyDown(Key.LeftCtrl)    || Keyboard.IsKeyDown(Key.RightCtrl)) &&
-                binding.Shift   == (Keyboard.IsKeyDown(Key.LeftShift)   || Keyboard.IsKeyDown(Key.RightShift))
+            if (binding.Key == key && binding.IsKeyUp &&
+                binding.Alt == (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)) &&
+                binding.Ctrl == (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) &&
+                binding.Shift == (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                 )
             {
-                if (CanDebug) player.Log.Debug($"[Keys|Up] {(binding.Action == KeyBindingAction.Custom && binding.ActionName != null ? binding.ActionName : binding.Action)}");
+                if (CanDebug)
+                    player.Log.Debug($"[Keys|Up] {(binding.Action == KeyBindingAction.Custom && binding.ActionName != null ? binding.ActionName : binding.Action)}");
                 binding.ActionInternal?.Invoke();
 
                 return true;
@@ -114,7 +116,7 @@ public class KeysConfig
     /// Currently configured key bindings
     /// (Normally you should not access this directly)
     /// </summary>
-    public List<KeyBinding> Keys            { get ; set; }
+    public List<KeyBinding> Keys { get; set; }
 
     Player player;
 
@@ -122,7 +124,7 @@ public class KeysConfig
 
     public KeysConfig Clone()
     {
-        KeysConfig keys = (KeysConfig) MemberwiseClone();
+        KeysConfig keys = (KeysConfig)MemberwiseClone();
         keys.player = null;
         keys.Keys = null;
         return keys;
@@ -137,7 +139,7 @@ public class KeysConfig
 
         this.player = player;
 
-        foreach(var binding in Keys)
+        foreach (var binding in Keys)
         {
             if (binding.Action != KeyBindingAction.Custom)
                 binding.ActionInternal = GetKeyBindingAction(binding.Action);
@@ -157,7 +159,7 @@ public class KeysConfig
     /// <exception cref="Exception">Keybinding already exists</exception>
     public void AddCustom(Key key, bool isKeyUp, Action action, string actionName, bool alt = false, bool ctrl = false, bool shift = false)
     {
-        for (int i=0; i<Keys.Count; i++)
+        for (int i = 0; i < Keys.Count; i++)
             if (Keys[i].Key == key && Keys[i].Alt == alt && Keys[i].Ctrl == ctrl && Keys[i].Shift == shift)
                 throw new Exception($"Keybinding {(alt ? "Alt + " : "")}{(ctrl ? "Ctrl + " : "")}{(shift ? "Shift + " : "")}{key} already assigned");
 
@@ -175,7 +177,7 @@ public class KeysConfig
     /// <exception cref="Exception">Keybinding already exists</exception>
     public void Add(Key key, KeyBindingAction action, bool alt = false, bool ctrl = false, bool shift = false)
     {
-        for (int i=0; i<Keys.Count; i++)
+        for (int i = 0; i < Keys.Count; i++)
             if (Keys[i].Key == key && Keys[i].Alt == alt && Keys[i].Ctrl == ctrl && Keys[i].Shift == shift)
                 throw new Exception($"Keybinding {(alt ? "Alt + " : "")}{(ctrl ? "Ctrl + " : "")}{(shift ? "Shift + " : "")}{key} already assigned");
 
@@ -212,7 +214,7 @@ public class KeysConfig
     /// <param name="shift">If Shift is assigned</param>
     public void Remove(Key key, bool alt = false, bool ctrl = false, bool shift = false)
     {
-        for (int i=Keys.Count-1; i >=0; i--)
+        for (int i = Keys.Count - 1; i >= 0; i--)
             if (Keys[i].Key == key && Keys[i].Alt == alt && Keys[i].Ctrl == ctrl && Keys[i].Shift == shift)
                 Keys.RemoveAt(i);
     }
@@ -223,7 +225,7 @@ public class KeysConfig
     /// <param name="action">The assigned action</param>
     public void Remove(KeyBindingAction action)
     {
-        for (int i=Keys.Count-1; i >=0; i--)
+        for (int i = Keys.Count - 1; i >= 0; i--)
             if (Keys[i].Action == action)
                 Keys.RemoveAt(i);
     }
@@ -234,7 +236,7 @@ public class KeysConfig
     /// <param name="actionName">The assigned action's name</param>
     public void Remove(string actionName)
     {
-        for (int i=Keys.Count-1; i >=0; i--)
+        for (int i = Keys.Count - 1; i >= 0; i--)
             if (Keys[i].ActionName == actionName)
                 Keys.RemoveAt(i);
     }
@@ -254,65 +256,65 @@ public class KeysConfig
         else
             Keys.Clear();
 
-        Add(Key.OemOpenBrackets,    KeyBindingAction.AudioDelayRemove);
-        Add(Key.OemOpenBrackets,    KeyBindingAction.AudioDelayRemove2, false, true);
-        Add(Key.OemCloseBrackets,   KeyBindingAction.AudioDelayAdd);
-        Add(Key.OemCloseBrackets,   KeyBindingAction.AudioDelayAdd2, false, true);
+        Add(Key.OemOpenBrackets, KeyBindingAction.AudioDelayRemove);
+        Add(Key.OemOpenBrackets, KeyBindingAction.AudioDelayRemove2, false, true);
+        Add(Key.OemCloseBrackets, KeyBindingAction.AudioDelayAdd);
+        Add(Key.OemCloseBrackets, KeyBindingAction.AudioDelayAdd2, false, true);
 
-        Add(Key.OemSemicolon,       KeyBindingAction.SubtitlesDelayRemove);
-        Add(Key.OemSemicolon,       KeyBindingAction.SubtitlesDelayRemove2, false, true);
-        Add(Key.OemQuotes,          KeyBindingAction.SubtitlesDelayAdd);
-        Add(Key.OemQuotes,          KeyBindingAction.SubtitlesDelayAdd2, false, true);
+        Add(Key.OemSemicolon, KeyBindingAction.SubtitlesDelayRemove);
+        Add(Key.OemSemicolon, KeyBindingAction.SubtitlesDelayRemove2, false, true);
+        Add(Key.OemQuotes, KeyBindingAction.SubtitlesDelayAdd);
+        Add(Key.OemQuotes, KeyBindingAction.SubtitlesDelayAdd2, false, true);
 
-        Add(Key.V,                  KeyBindingAction.OpenFromClipboard, false, true);
-        Add(Key.O,                  KeyBindingAction.OpenFromFileDialog);
-        Add(Key.C,                  KeyBindingAction.CopyToClipboard, false, true);
-        Add(Key.C,                  KeyBindingAction.CopyItemToClipboard, false, false, true);
+        Add(Key.V, KeyBindingAction.OpenFromClipboard, false, true);
+        Add(Key.O, KeyBindingAction.OpenFromFileDialog);
+        Add(Key.C, KeyBindingAction.CopyToClipboard, false, true);
+        Add(Key.C, KeyBindingAction.CopyItemToClipboard, false, false, true);
 
-        Add(Key.Left,               KeyBindingAction.SeekBackward);
-        Add(Key.Left,               KeyBindingAction.SeekBackward2, false, true);
-        Add(Key.Right,              KeyBindingAction.SeekForward);
-        Add(Key.Right,              KeyBindingAction.SeekForward2, false, true);
-        Add(Key.Left,               KeyBindingAction.ShowPrevFrame, false, false, true);
-        Add(Key.Right,              KeyBindingAction.ShowNextFrame, false, false, true);
+        Add(Key.Left, KeyBindingAction.SeekBackward);
+        Add(Key.Left, KeyBindingAction.SeekBackward2, false, true);
+        Add(Key.Right, KeyBindingAction.SeekForward);
+        Add(Key.Right, KeyBindingAction.SeekForward2, false, true);
+        Add(Key.Left, KeyBindingAction.ShowPrevFrame, false, false, true);
+        Add(Key.Right, KeyBindingAction.ShowNextFrame, false, false, true);
 
-        Add(Key.Back,               KeyBindingAction.ToggleReversePlayback);
-        Add(Key.S,                  KeyBindingAction.ToggleSeekAccurate, false, true);
+        Add(Key.Back, KeyBindingAction.ToggleReversePlayback);
+        Add(Key.S, KeyBindingAction.ToggleSeekAccurate, false, true);
 
-        Add(Key.OemPlus,            KeyBindingAction.SpeedAdd);
-        Add(Key.OemPlus,            KeyBindingAction.SpeedAdd2, false, false, true);
-        Add(Key.OemMinus,           KeyBindingAction.SpeedRemove);
-        Add(Key.OemMinus,           KeyBindingAction.SpeedRemove2, false, false, true);
+        Add(Key.OemPlus, KeyBindingAction.SpeedAdd);
+        Add(Key.OemPlus, KeyBindingAction.SpeedAdd2, false, false, true);
+        Add(Key.OemMinus, KeyBindingAction.SpeedRemove);
+        Add(Key.OemMinus, KeyBindingAction.SpeedRemove2, false, false, true);
 
-        Add(Key.OemPlus,            KeyBindingAction.ZoomIn, false, true, false);
-        Add(Key.OemMinus,           KeyBindingAction.ZoomOut, false, true, false);
+        Add(Key.OemPlus, KeyBindingAction.ZoomIn, false, true, false);
+        Add(Key.OemMinus, KeyBindingAction.ZoomOut, false, true, false);
 
-        Add(Key.F,                  KeyBindingAction.ToggleFullScreen);
+        Add(Key.F, KeyBindingAction.ToggleFullScreen);
 
-        Add(Key.P,                  KeyBindingAction.TogglePlayPause);
-        Add(Key.Space,              KeyBindingAction.TogglePlayPause);
-        Add(Key.MediaPlayPause,     KeyBindingAction.TogglePlayPause);
-        Add(Key.Play,               KeyBindingAction.TogglePlayPause);
+        Add(Key.P, KeyBindingAction.TogglePlayPause);
+        Add(Key.Space, KeyBindingAction.TogglePlayPause);
+        Add(Key.MediaPlayPause, KeyBindingAction.TogglePlayPause);
+        Add(Key.Play, KeyBindingAction.TogglePlayPause);
 
-        Add(Key.A,                  KeyBindingAction.ToggleAudio, false, false, true);
-        Add(Key.S,                  KeyBindingAction.ToggleSubtitles, false, false, true);
-        Add(Key.V,                  KeyBindingAction.ToggleVideo, false, false, true);
-        Add(Key.H,                  KeyBindingAction.ToggleVideoAcceleration, false, true);
+        Add(Key.A, KeyBindingAction.ToggleAudio, false, false, true);
+        Add(Key.S, KeyBindingAction.ToggleSubtitles, false, false, true);
+        Add(Key.V, KeyBindingAction.ToggleVideo, false, false, true);
+        Add(Key.H, KeyBindingAction.ToggleVideoAcceleration, false, true);
 
-        Add(Key.T,                  KeyBindingAction.TakeSnapshot, false, true);
-        Add(Key.R,                  KeyBindingAction.ToggleRecording, false, true);
-        Add(Key.R,                  KeyBindingAction.ToggleKeepRatio);
+        Add(Key.T, KeyBindingAction.TakeSnapshot, false, true);
+        Add(Key.R, KeyBindingAction.ToggleRecording, false, true);
+        Add(Key.R, KeyBindingAction.ToggleKeepRatio);
 
-        Add(Key.M,                  KeyBindingAction.ToggleMute);
-        Add(Key.Up,                 KeyBindingAction.VolumeUp);
-        Add(Key.Down,               KeyBindingAction.VolumeDown);
+        Add(Key.M, KeyBindingAction.ToggleMute);
+        Add(Key.Up, KeyBindingAction.VolumeUp);
+        Add(Key.Down, KeyBindingAction.VolumeDown);
 
-        Add(Key.D0,                 KeyBindingAction.ResetAll);
-        Add(Key.X,                  KeyBindingAction.Flush, false, true);
+        Add(Key.D0, KeyBindingAction.ResetAll);
+        Add(Key.X, KeyBindingAction.Flush, false, true);
 
-        Add(Key.I,                  KeyBindingAction.ForceIdle);
-        Add(Key.Escape,             KeyBindingAction.NormalScreen);
-        Add(Key.Q,                  KeyBindingAction.Stop, false, true, false);
+        Add(Key.I, KeyBindingAction.ForceIdle);
+        Add(Key.Escape, KeyBindingAction.NormalScreen);
+        Add(Key.Q, KeyBindingAction.Stop, false, true, false);
     }
 
     private Action GetKeyBindingAction(KeyBindingAction action)
@@ -421,13 +423,13 @@ public class KeysConfig
             case KeyBindingAction.SpeedAdd:
                 return player.SpeedUp;
 
-                case KeyBindingAction.SpeedAdd2:
+            case KeyBindingAction.SpeedAdd2:
                 return player.SpeedUp2;
 
             case KeyBindingAction.SpeedRemove:
                 return player.SpeedDown;
 
-                case KeyBindingAction.SpeedRemove2:
+            case KeyBindingAction.SpeedRemove2:
                 return player.SpeedDown2;
 
             case KeyBindingAction.ShowPrevFrame:
@@ -486,14 +488,14 @@ public class KeysConfig
 }
 public class KeyBinding
 {
-    public bool             Alt             { get; set; }
-    public bool             Ctrl            { get; set; }
-    public bool             Shift           { get; set; }
-    public Key              Key             { get; set; }
-    public KeyBindingAction Action          { get; set; }
-    public string           ActionName      { get => Action == KeyBindingAction.Custom ? actionName : Action.ToString(); set => actionName = value; }
+    public bool Alt { get; set; }
+    public bool Ctrl { get; set; }
+    public bool Shift { get; set; }
+    public Key Key { get; set; }
+    public KeyBindingAction Action { get; set; }
+    public string ActionName { get => Action == KeyBindingAction.Custom ? actionName : Action.ToString(); set => actionName = value; }
     string actionName;
-    public bool             IsKeyUp         { get; set; }
+    public bool IsKeyUp { get; set; }
 
     /// <summary>
     /// Sets action for custom key binding
@@ -502,7 +504,7 @@ public class KeyBinding
     /// <param name="isKeyUp"></param>
     public void SetAction(Action action, bool isKeyUp)
     {
-        ActionInternal  = action;
+        ActionInternal = action;
         IsKeyUp = isKeyUp;
     }
 

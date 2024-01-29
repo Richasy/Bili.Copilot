@@ -23,7 +23,7 @@ public class PLSPlaylist
         if ((res = GetINIAttribute("playlist", "NumberOfEntries", filename)) != null)
             entries = int.Parse(res);
 
-        for (int i=1; i<=entries; i++)
+        for (int i = 1; i <= entries; i++)
         {
             if ((res = GetINIAttribute("playlist", $"File{i}", filename)) == null)
                 break;
@@ -45,14 +45,15 @@ public class PLSPlaylist
     public static string GetINIAttribute(string name, string key, string path)
     {
         StringBuilder sb = new(255);
-        return GetPrivateProfileString(name, key, "", sb, 255, path) > 0 
+        return GetPrivateProfileString(name, key, "", sb, 255, path) > 0
             ? sb.ToString() : null;
     }
 }
 
 public class PLSPlaylistItem
 {
-    public int      Duration    { get; set; }
-    public string   Title       { get; set; }
-    public string   Url         { get; set; }
+    public int Duration { get; set; }
+    public string Title { get; set; }
+    public string Url { get; set; }
 }
+

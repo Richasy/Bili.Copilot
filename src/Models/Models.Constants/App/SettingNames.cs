@@ -139,4 +139,5 @@ public enum SettingNames
     DynamicNotificationEnabled,
     IsNotifyEnabled,
     MessageNotificationEnabled,
+    VideoProcessor,
 }

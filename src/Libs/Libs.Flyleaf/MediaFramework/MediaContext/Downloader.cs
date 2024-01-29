@@ -34,24 +34,24 @@ public unsafe class Downloader : RunThreadBase
     /// <summary>
     /// The backend remuxer. Normally you shouldn't access this
     /// </summary>
-    public Remuxer      Remuxer             { get; private set; }
+    public Remuxer Remuxer { get; private set; }
 
     /// <summary>
     /// The current timestamp of the frame starting from 0 (Ticks)
     /// </summary>
-    public long         CurTime             { get => _CurTime; private set => Set(ref _CurTime,  value); }
+    public long CurTime { get => _CurTime; private set => Set(ref _CurTime, value); }
     long _CurTime;
 
     /// <summary>
     /// The total duration of the input (Ticks)
     /// </summary>
-    public long         Duration            { get => _Duration; private set => Set(ref _Duration, value); }
+    public long Duration { get => _Duration; private set => Set(ref _Duration, value); }
     long _Duration;
 
     /// <summary>
     /// The percentage of the current download process (0 for live streams)
     /// </summary>
-    public double       DownloadPercentage  { get => _DownloadPercentage;     set => Set(ref _DownloadPercentage,  value); }
+    public double DownloadPercentage { get => _DownloadPercentage; set => Set(ref _DownloadPercentage, value); }
     double _DownloadPercentage;
     double downPercentageFactor;
 
@@ -80,7 +80,7 @@ public unsafe class Downloader : RunThreadBase
     /// <param name="defaultVideo">Whether to open the default video stream from plugin suggestions</param>
     /// <param name="defaultAudio">Whether to open the default audio stream from plugin suggestions</param>
     /// <returns></returns>
-    public string Open(string url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object) url, defaultPlaylistItem, defaultVideo, defaultAudio);
+    public string Open(string url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object)url, defaultPlaylistItem, defaultVideo, defaultAudio);
 
     /// <summary>
     /// Opens a new media file (audio/video) and prepares it for download (blocking)
@@ -90,18 +90,19 @@ public unsafe class Downloader : RunThreadBase
     /// <param name="defaultVideo">Whether to open the default video stream from plugin suggestions</param>
     /// <param name="defaultAudio">Whether to open the default audio stream from plugin suggestions</param>
     /// <returns></returns>
-    public string Open(Stream stream, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object) stream, defaultPlaylistItem, defaultVideo, defaultAudio);
-    
+    public string Open(Stream stream, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true) => Open((object)stream, defaultPlaylistItem, defaultVideo, defaultAudio);
+
     internal string Open(object url, bool defaultPlaylistItem = true, bool defaultVideo = true, bool defaultAudio = true)
     {
         lock (lockActions)
         {
             Dispose();
 
-            Disposed= false;
-            Status  = Status.Opening;
+            Disposed = false;
+            Status = Status.Opening;
             var ret = DecCtx.Open(url, defaultPlaylistItem, defaultVideo, defaultAudio, false);
-            if (ret != null && ret.Error != null) return ret.Error;
+            if (ret != null && ret.Error != null)
+                return ret.Error;
 
             CurTime = 0;
             DownloadPercentage = 0;
@@ -124,20 +125,20 @@ public unsafe class Downloader : RunThreadBase
         lock (lockActions)
         {
             if (Status != Status.Opening || Disposed)
-                { OnDownloadCompleted(false); return; }
+            { OnDownloadCompleted(false); return; }
 
             if (useRecommendedExtension)
                 filename = $"{filename}.{(!DecCtx.VideoDemuxer.Disposed ? DecCtx.VideoDemuxer.Extension : DecCtx.AudioDemuxer.Extension)}";
 
             int ret = Remuxer.Open(filename);
             if (ret != 0)
-                { OnDownloadCompleted(false); return; }
+            { OnDownloadCompleted(false); return; }
 
             AddStreams(DecCtx.VideoDemuxer);
             AddStreams(DecCtx.AudioDemuxer);
 
             if (!Remuxer.HasStreams || Remuxer.WriteHeader() != 0)
-                { OnDownloadCompleted(false); return; }
+            { OnDownloadCompleted(false); return; }
 
             Start();
         }
@@ -145,7 +146,7 @@ public unsafe class Downloader : RunThreadBase
 
     private void AddStreams(Demuxer demuxer)
     {
-        for(int i=0; i<demuxer.EnabledStreams.Count; i++)
+        for (int i = 0; i < demuxer.EnabledStreams.Count; i++)
             if (Remuxer.AddStream(demuxer.AVStreamToStream[demuxer.EnabledStreams[i]].AVStream, demuxer.Type == MediaType.Audio) != 0)
                 Log.Warn($"Failed to add stream {demuxer.AVStreamToStream[demuxer.EnabledStreams[i]].Type} {demuxer.AVStreamToStream[demuxer.EnabledStreams[i]].StreamIndex}");
     }
@@ -155,17 +156,19 @@ public unsafe class Downloader : RunThreadBase
     /// </summary>
     public void Dispose()
     {
-        if (Disposed) return;
+        if (Disposed)
+            return;
 
         lock (lockActions)
         {
-            if (Disposed) return;
+            if (Disposed)
+                return;
 
             Stop();
 
             DecCtx.Dispose();
             Remuxer.Dispose();
-            
+
             Status = Status.Stopped;
             Disposed = true;
         }
@@ -173,7 +176,8 @@ public unsafe class Downloader : RunThreadBase
 
     protected override void RunInternal()
     {
-        if (!Remuxer.HasStreams) { OnDownloadCompleted(false); return; }
+        if (!Remuxer.HasStreams)
+        { OnDownloadCompleted(false); return; }
 
         // Don't allow audio to change our duration without video (TBR: requires timestamp of videodemuxer to wait)
         long resetBufferDuration = -1;
@@ -203,7 +207,8 @@ public unsafe class Downloader : RunThreadBase
             if ((Demuxer.Packets.Count == 0 && AudioDemuxer.Packets.Count == 0) || (hasAVDemuxers && (Demuxer.Packets.Count == 0 || AudioDemuxer.Packets.Count == 0)))
             {
                 lock (lockStatus)
-                    if (Status == Status.Running) Status = Status.QueueEmpty;
+                    if (Status == Status.Running)
+                        Status = Status.QueueEmpty;
 
                 while (Demuxer.Packets.Count == 0 && Status == Status.QueueEmpty)
                 {
@@ -211,7 +216,7 @@ public unsafe class Downloader : RunThreadBase
                     {
                         Status = Status.Ended;
                         if (Demuxer.Interrupter.Interrupted == 0)
-                        { 
+                        {
                             CurTime = _Duration;
                             DownloadPercentage = 100;
                         }
@@ -219,22 +224,23 @@ public unsafe class Downloader : RunThreadBase
                     }
                     else if (!Demuxer.IsRunning)
                     {
-                        if (CanDebug) Log.Debug($"Demuxer is not running [Demuxer Status: {Demuxer.Status}]");
+                        if (CanDebug)
+                            Log.Debug($"Demuxer is not running [Demuxer Status: {Demuxer.Status}]");
 
                         lock (Demuxer.lockStatus)
-                        lock (lockStatus)
-                        {
-                            if (Demuxer.Status == Status.Pausing || Demuxer.Status == Status.Paused)
-                                Status = Status.Pausing;
-                            else if (Demuxer.Status != Status.Ended)
-                                Status = Status.Stopping;
-                            else
-                                continue;
-                        }
+                            lock (lockStatus)
+                            {
+                                if (Demuxer.Status == Status.Pausing || Demuxer.Status == Status.Paused)
+                                    Status = Status.Pausing;
+                                else if (Demuxer.Status != Status.Ended)
+                                    Status = Status.Stopping;
+                                else
+                                    continue;
+                            }
 
                         break;
                     }
-                    
+
                     Thread.Sleep(20);
                 }
 
@@ -246,7 +252,8 @@ public unsafe class Downloader : RunThreadBase
 
                 lock (lockStatus)
                 {
-                    if (Status != Status.QueueEmpty) break;
+                    if (Status != Status.QueueEmpty)
+                        break;
                     Status = Status.Running;
                 }
             }
@@ -265,11 +272,11 @@ public unsafe class Downloader : RunThreadBase
                 }
                 else
                 {
-                    packet  = Demuxer.Packets.Peek();
+                    packet = Demuxer.Packets.Peek();
                     packet2 = AudioDemuxer.Packets.Peek();
 
-                    long ts1 = (long) ((packet->dts * Demuxer.AVStreamToStream[packet->stream_index].Timebase) - Demuxer.StartTime);
-                    long ts2 = (long) ((packet2->dts * AudioDemuxer.AVStreamToStream[packet2->stream_index].Timebase) - AudioDemuxer.StartTime);
+                    long ts1 = (long)((packet->dts * Demuxer.AVStreamToStream[packet->stream_index].Timebase) - Demuxer.StartTime);
+                    long ts2 = (long)((packet2->dts * AudioDemuxer.AVStreamToStream[packet2->stream_index].Timebase) - AudioDemuxer.StartTime);
 
                     if (ts2 <= ts1)
                     {
@@ -297,17 +304,19 @@ public unsafe class Downloader : RunThreadBase
                 secondTicks = curDT;
 
                 CurTime = Demuxer.hlsCtx != null
-                    ? (long) ((packet->dts * Demuxer.AVStreamToStream[packet->stream_index].Timebase) - startTime)
+                    ? (long)((packet->dts * Demuxer.AVStreamToStream[packet->stream_index].Timebase) - startTime)
                     : Demuxer.CurTime + Demuxer.BufferedDuration;
 
-                if (_Duration > 0) DownloadPercentage = CurTime / downPercentageFactor;
+                if (_Duration > 0)
+                    DownloadPercentage = CurTime / downPercentageFactor;
             }
 
             Remuxer.Write(packet, isAudioDemuxer);
 
         } while (Status == Status.Running);
 
-        if (resetBufferDuration != -1) DecCtx.AudioDemuxer.Config.BufferDuration = resetBufferDuration;
+        if (resetBufferDuration != -1)
+            DecCtx.AudioDemuxer.Config.BufferDuration = resetBufferDuration;
 
         if (Status != Status.Pausing && Status != Status.Paused)
             OnDownloadCompleted(Remuxer.WriteTrailer() == 0);

@@ -20,33 +20,35 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
 {
     #region Properties (Public)
 
-    public AudioEndpoint DefaultDevice      { get; private set; } = new() { Id = "0", Name = "Default" };
-    public AudioEndpoint CurrentDevice      { get; private set; } = new();
+    public AudioEndpoint DefaultDevice { get; private set; } = new() { Id = "0", Name = "Default" };
+    public AudioEndpoint CurrentDevice { get; private set; } = new();
 
     /// <summary>
     /// Whether no audio devices were found or audio failed to initialize
     /// </summary>
-    public bool         Failed              { get; private set; }
+    public bool Failed { get; private set; }
 
     /// <summary>
     /// List of Audio Capture Devices
     /// </summary>
-    public ObservableCollection<AudioDevice> 
-                        CapDevices          { get; set; } = new();
+    public ObservableCollection<AudioDevice>
+                        CapDevices
+    { get; set; } = new();
 
-    public void         RefreshCapDevices() => AudioDevice.RefreshDevices();
+    public void RefreshCapDevices() => AudioDevice.RefreshDevices();
 
     /// <summary>
     /// List of Audio Devices
     /// </summary>
-    public ObservableCollection<AudioEndpoint> 
-                        Devices             { get; private set; } = new();
+    public ObservableCollection<AudioEndpoint>
+                        Devices
+    { get; private set; } = new();
 
     private readonly object lockDevices = new();
     #endregion
 
     IMMDeviceEnumerator deviceEnum;
-    private object      locker = new();
+    private object locker = new();
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -83,8 +85,8 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
                     Devices.Add(new() { Id = device.Id, Name = device.FriendlyName });
             }
 
-            CurrentDevice.Id    = defaultDevice.Id;
-            CurrentDevice.Name  = defaultDevice.FriendlyName;
+            CurrentDevice.Id = defaultDevice.Id;
+            CurrentDevice.Name = defaultDevice.FriendlyName;
 
             if (Logger.CanInfo)
             {
@@ -103,7 +105,8 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
 
             deviceEnum.RegisterEndpointNotificationCallback(this);
 
-        } catch { Failed = true; }
+        }
+        catch { Failed = true; }
     }
     private void RefreshDevices()
     {
@@ -111,21 +114,21 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
         {
             Utils.UIInvokeIfRequired(() => // UI Required?
             {
-                List<AudioEndpoint> curs     = new();
-                List<AudioEndpoint> removed  = new();
+                List<AudioEndpoint> curs = new();
+                List<AudioEndpoint> removed = new();
 
                 lock (lockDevices)
                 {
-                    foreach(var device in deviceEnum.EnumAudioEndpoints(DataFlow.Render, DeviceStates.Active))
-                        curs.Add(new () { Id = device.Id, Name = device.FriendlyName });
+                    foreach (var device in deviceEnum.EnumAudioEndpoints(DataFlow.Render, DeviceStates.Active))
+                        curs.Add(new() { Id = device.Id, Name = device.FriendlyName });
 
-                    foreach(var cur in curs)
+                    foreach (var cur in curs)
                     {
                         bool exists = false;
                         foreach (var device in Devices)
                             if (cur.Id == device.Id)
-                                { exists = true; break; }
-                        
+                            { exists = true; break; }
+
                         if (!exists)
                         {
                             Engine.Log.Info($"Audio device {cur} added");
@@ -139,9 +142,9 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
                             continue;
 
                         bool exists = false;
-                        foreach(var cur in curs)
+                        foreach (var cur in curs)
                             if (cur.Id == device.Id)
-                                { exists = true; break; }
+                            { exists = true; break; }
 
                         if (!exists)
                         {
@@ -150,15 +153,15 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
                         }
                     }
 
-                    foreach(var device in removed)
+                    foreach (var device in removed)
                         Devices.Remove(device);
                 }
 
-                var defaultDevice =  deviceEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                var defaultDevice = deviceEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
                 if (defaultDevice != null && CurrentDevice.Id != defaultDevice.Id)
                 {
-                    CurrentDevice.Id    = defaultDevice.Id;
-                    CurrentDevice.Name  = defaultDevice.FriendlyName;
+                    CurrentDevice.Id = defaultDevice.Id;
+                    CurrentDevice.Name = defaultDevice.FriendlyName;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentDevice)));
                 }
 
@@ -166,9 +169,9 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
                 if (removed.Count > 0)
                     Task.Run(() =>
                     {
-                        foreach(var device in removed)
+                        foreach (var device in removed)
                         {
-                            foreach(var player in Engine.Players)
+                            foreach (var player in Engine.Players)
                                 if (player.Audio.Device == device)
                                     player.Audio.Device = DefaultDevice;
                         }
@@ -185,8 +188,8 @@ public class AudioEngine : CallbackBase, IMMNotificationClient, INotifyPropertyC
 
     public class AudioEndpoint
     {
-        public string Id    { get; set; }
-        public string Name  { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
 
         public override string ToString()
             => Name;

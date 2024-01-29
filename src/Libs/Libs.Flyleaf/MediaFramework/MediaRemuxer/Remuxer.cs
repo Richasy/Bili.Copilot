@@ -11,18 +11,18 @@ namespace FlyleafLib.MediaFramework.MediaRemuxer;
 
 public unsafe class Remuxer
 {
-    public int                  UniqueId            { get; set; }
-    public bool                 Disposed            { get; private set; } = true;
-    public string               Filename            { get; private set; }
-    public bool                 HasStreams          => mapInOutStreams2.Count > 0 || mapInOutStreams.Count > 0;
-    public bool                 HeaderWritten       { get; private set; }
+    public int UniqueId { get; set; }
+    public bool Disposed { get; private set; } = true;
+    public string Filename { get; private set; }
+    public bool HasStreams => mapInOutStreams2.Count > 0 || mapInOutStreams.Count > 0;
+    public bool HeaderWritten { get; private set; }
 
-    Dictionary<IntPtr, IntPtr>  mapInOutStreams     = new();
-    Dictionary<int, IntPtr>     mapInInStream       = new();
-    Dictionary<int, long>       mapInStreamToDts    = new();
-    Dictionary<IntPtr, IntPtr>  mapInOutStreams2    = new();
-    Dictionary<int, IntPtr>     mapInInStream2      = new();
-    Dictionary<int, long>       mapInStreamToDts2   = new();
+    Dictionary<IntPtr, IntPtr> mapInOutStreams = new();
+    Dictionary<int, IntPtr> mapInInStream = new();
+    Dictionary<int, long> mapInStreamToDts = new();
+    Dictionary<IntPtr, IntPtr> mapInOutStreams2 = new();
+    Dictionary<int, IntPtr> mapInInStream2 = new();
+    Dictionary<int, long> mapInStreamToDts2 = new();
 
     AVFormatContext* fmtCtx;
     AVOutputFormat* fmt;
@@ -38,7 +38,8 @@ public unsafe class Remuxer
         fixed (AVFormatContext** ptr = &fmtCtx)
             ret = avformat_alloc_output_context2(ptr, null, null, Filename);
 
-        if (ret < 0) return ret;
+        if (ret < 0)
+            return ret;
 
         fmt = fmtCtx->oformat;
         mapInStreamToDts = new Dictionary<int, long>();
@@ -51,23 +52,27 @@ public unsafe class Remuxer
     {
         int ret = -1;
 
-        if (in_stream == null || (in_stream->codecpar->codec_type != AVMEDIA_TYPE_VIDEO && in_stream->codecpar->codec_type != AVMEDIA_TYPE_AUDIO)) return ret;
-        
-        AVStream *out_stream;
+        if (in_stream == null || (in_stream->codecpar->codec_type != AVMEDIA_TYPE_VIDEO && in_stream->codecpar->codec_type != AVMEDIA_TYPE_AUDIO))
+            return ret;
+
+        AVStream* out_stream;
         var in_codecpar = in_stream->codecpar;
 
         out_stream = avformat_new_stream(fmtCtx, null);
-        if (out_stream == null) return -1;
+        if (out_stream == null)
+            return -1;
 
         ret = avcodec_parameters_copy(out_stream->codecpar, in_codecpar);
-        if (ret < 0) return ret;
-        
+        if (ret < 0)
+            return ret;
+
         // Copy metadata (currently only language)
         AVDictionaryEntry* b = null;
         while (true)
         {
             b = av_dict_get(in_stream->metadata, "", b, AV_DICT_IGNORE_SUFFIX);
-            if (b == null) break;
+            if (b == null)
+                break;
 
             if (Utils.BytePtrToStringUTF8(b->key).ToLower() == "language" || Utils.BytePtrToStringUTF8(b->key).ToLower() == "lang")
                 av_dict_set(&out_stream->metadata, Utils.BytePtrToStringUTF8(b->key), Utils.BytePtrToStringUTF8(b->value), 0);
@@ -100,17 +105,20 @@ public unsafe class Remuxer
 
     public int WriteHeader()
     {
-        if (!HasStreams) throw new Exception("No streams have been configured for the remuxer");
+        if (!HasStreams)
+            throw new Exception("No streams have been configured for the remuxer");
 
         int ret;
 
         ret = avio_open(&fmtCtx->pb, Filename, AVIO_FLAG_WRITE);
-        if (ret < 0) { Dispose(); return ret; }
+        if (ret < 0)
+        { Dispose(); return ret; }
 
         ret = avformat_write_header(fmtCtx, null);
 
-        if (ret < 0) { Dispose(); return ret; }
-        
+        if (ret < 0)
+        { Dispose(); return ret; }
+
         HeaderWritten = true;
 
         return 0;
@@ -120,12 +128,12 @@ public unsafe class Remuxer
     {
         lock (this)
         {
-            var mapInInStream       = !isAudioDemuxer? this.mapInInStream   : mapInInStream2;
-            var mapInOutStreams     = !isAudioDemuxer? this.mapInOutStreams : mapInOutStreams2;
-            var mapInStreamToDts    = !isAudioDemuxer? this.mapInStreamToDts: mapInStreamToDts2;
+            var mapInInStream = !isAudioDemuxer ? this.mapInInStream : mapInInStream2;
+            var mapInOutStreams = !isAudioDemuxer ? this.mapInOutStreams : mapInOutStreams2;
+            var mapInStreamToDts = !isAudioDemuxer ? this.mapInStreamToDts : mapInStreamToDts2;
 
-            AVStream* in_stream     =  (AVStream*) mapInInStream[packet->stream_index];
-            AVStream* out_stream    =  (AVStream*) mapInOutStreams[(IntPtr)in_stream];
+            AVStream* in_stream = (AVStream*)mapInInStream[packet->stream_index];
+            AVStream* out_stream = (AVStream*)mapInOutStreams[(IntPtr)in_stream];
 
             if (packet->dts != AV_NOPTS_VALUE)
             {
@@ -140,14 +148,14 @@ public unsafe class Remuxer
                 packet->dts = av_rescale_q_rnd(packet->dts - mapInStreamToDts[in_stream->index], in_stream->time_base, out_stream->time_base, AVRounding.AV_ROUND_NEAR_INF | AVRounding.AV_ROUND_PASS_MINMAX);
             }
             else
-            {   
+            {
                 packet->pts = packet->pts == AV_NOPTS_VALUE ? AV_NOPTS_VALUE : av_rescale_q_rnd(packet->pts, in_stream->time_base, out_stream->time_base, AVRounding.AV_ROUND_NEAR_INF | AVRounding.AV_ROUND_PASS_MINMAX);
                 packet->dts = AV_NOPTS_VALUE;
             }
 
-            packet->duration        = av_rescale_q(packet->duration,in_stream->time_base, out_stream->time_base);
-            packet->stream_index    = out_stream->index;
-            packet->pos             = -1;
+            packet->duration = av_rescale_q(packet->duration, in_stream->time_base, out_stream->time_base);
+            packet->stream_index = out_stream->index;
+            packet->pos = -1;
 
             int ret = av_interleaved_write_frame(fmtCtx, packet);
             av_packet_free(&packet);
@@ -159,7 +167,8 @@ public unsafe class Remuxer
     public int WriteTrailer() => Dispose();
     public int Dispose()
     {
-        if (Disposed) return -1;
+        if (Disposed)
+            return -1;
 
         int ret = 0;
 
