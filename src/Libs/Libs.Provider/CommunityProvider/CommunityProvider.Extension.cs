@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using Bilibili.Main.Community.Reply.V1;
 
@@ -10,6 +11,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class CommunityProvider
 {
+    private static readonly Lazy<CommunityProvider> _lazyInstance = new(() => new CommunityProvider());
     private readonly Dictionary<string, CursorReq> _mainCommentCursorCache;
     private readonly Dictionary<string, CursorReq> _detailCommentCursorCache;
     private (string Offset, string Baseline) _videoDynamicOffset;
@@ -18,5 +20,5 @@ public partial class CommunityProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static CommunityProvider Instance { get; } = new();
+    public static CommunityProvider Instance => _lazyInstance.Value;
 }

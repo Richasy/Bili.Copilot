@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class HomeProvider
 {
+    private static readonly Lazy<HomeProvider> _lazyInstance = new(() => new HomeProvider());
     private readonly Dictionary<string, (int OffsetId, int PageNumber)> _cacheVideoPartitionOffsets;
 
     private long _recommendOffsetId;
@@ -25,7 +27,7 @@ public partial class HomeProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static HomeProvider Instance { get; } = new HomeProvider();
+    public static HomeProvider Instance => _lazyInstance.Value;
 
     private static async Task<IEnumerable<Models.Data.Community.Partition>> GetPartitionCacheAsync()
     {

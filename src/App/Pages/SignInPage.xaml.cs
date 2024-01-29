@@ -26,6 +26,7 @@ public sealed partial class SignInPage : PageBase
         _authorizeProvider = AuthorizeProvider.Instance;
         InitializeComponent();
         VersionBlock.Text = AppToolkit.GetPackageVersion();
+        CoreViewModel.BackRequest += OnBackRequest;
     }
 
     /// <inheritdoc/>
@@ -34,6 +35,9 @@ public sealed partial class SignInPage : PageBase
         _authorizeProvider.QRCodeStatusChanged += OnQRCodeStatusChanged;
         await LoadQRCodeAsync();
     }
+
+    private void OnBackRequest(object sender, EventArgs e)
+        => WebContainer.Visibility = Visibility.Collapsed;
 
     private void OnQRCodeStatusChanged(object sender, Tuple<QRCodeStatus, TokenInfo> e)
     {
@@ -106,4 +110,13 @@ public sealed partial class SignInPage : PageBase
 
     private void OnDataUsageButtonClick(object sender, RoutedEventArgs e)
         => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+
+    private void OnWebSignInButtonClick(object sender, RoutedEventArgs e)
+    {
+        WebContainer.Visibility = Visibility.Visible;
+        if (OverlayFrame.Content is null)
+        {
+            OverlayFrame.Navigate(typeof(WebSignInPage));
+        }
+    }
 }

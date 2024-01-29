@@ -24,6 +24,8 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class LiveProvider
 {
+    private static readonly Lazy<LiveProvider> _lazyInstance = new(() => new LiveProvider());
+
     /// <summary>
     /// 直播间套接字.
     /// </summary>
@@ -42,7 +44,7 @@ public partial class LiveProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static LiveProvider Instance { get; } = new LiveProvider();
+    public static LiveProvider Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 对数据进行编码.

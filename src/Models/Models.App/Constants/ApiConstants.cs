@@ -58,6 +58,11 @@ public static class ApiConstants
         public const string QRCodeCheck = _passBase + "/x/passport-tv-login/qrcode/poll";
 
         /// <summary>
+        /// 确认登录二维码.
+        /// </summary>
+        public const string QRCodeConfirm = _passBase + "/x/passport-tv-login/h5/qrcode/confirm";
+
+        /// <summary>
         /// 网页导航.
         /// </summary>
         public const string WebNav = _apiBase + "/x/web-interface/nav";

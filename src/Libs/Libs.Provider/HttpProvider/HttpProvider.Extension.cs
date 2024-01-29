@@ -23,13 +23,14 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class HttpProvider
 {
+    private static readonly Lazy<HttpProvider> _lazyInstance = new(() => new HttpProvider());
     private static string _tempBuvid = string.Empty;
     private IFlurlClient _client;
 
     /// <summary>
     /// 实例.
     /// </summary>
-    public static HttpProvider Instance { get; } = new HttpProvider();
+    public static HttpProvider Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 网络客户端.
