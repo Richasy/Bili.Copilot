@@ -32,7 +32,10 @@ public sealed partial class CommentItemViewModel : ViewModelBase
 
     private void InitializeData()
     {
+        IsLiked = false;
         IsLiked = Data.CommunityInformation.IsLiked;
+
+        LikeCountText = string.Empty;
         LikeCountText = NumberToolkit.GetCountText(Data.CommunityInformation.LikeCount);
         PublishDateText = Data.PublishTime.Humanize();
         var replyCount = Data.CommunityInformation.ChildCommentCount;
