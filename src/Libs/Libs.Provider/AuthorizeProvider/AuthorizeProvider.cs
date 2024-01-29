@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,7 +18,6 @@ using Microsoft.UI.Xaml;
 using QRCoder;
 using Windows.Web.Http.Filters;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
-using static Bili.Copilot.Models.App.Constants.ServiceConstants;
 
 namespace Bili.Copilot.Libs.Provider;
 
@@ -166,7 +166,11 @@ public sealed partial class AuthorizeProvider
     {
         queryParameters ??= new Dictionary<string, string>();
 
-        queryParameters.Add(ServiceConstants.Query.Build, ServiceConstants.BuildNumber);
+        if (!queryParameters.ContainsKey(ServiceConstants.Query.Build))
+        {
+            queryParameters.Add(ServiceConstants.Query.Build, ServiceConstants.BuildNumber);
+        }
+
         GenerateAppKey(queryParameters, clientType);
 
         var token = string.Empty;
@@ -274,18 +278,10 @@ public sealed partial class AuthorizeProvider
         try
         {
             StopQRLoginListener();
-            var queryParameters = new Dictionary<string, string>
-            {
-                { Query.LocalId, _guid },
-            };
-            var httpProvider = HttpProvider.Instance;
-            var request = await HttpProvider.GetRequestMessageAsync(System.Net.Http.HttpMethod.Post, Passport.QRCode, queryParameters, clientType: RequestClientType.Login, needToken: false);
-            var response = await httpProvider.SendAsync(request);
-            var result = await HttpProvider.ParseAsync<ServerResponse<QRInfo>>(response);
-
-            _internalQRAuthCode = result.Data.AuthCode;
+            var qrCode = await GetQRCodeInfoAsync();
+            _internalQRAuthCode = qrCode.AuthCode;
             var generator = new QRCodeGenerator();
-            var data = generator.CreateQrCode(result.Data.Url, QRCodeGenerator.ECCLevel.Q);
+            var data = generator.CreateQrCode(qrCode.Url, QRCodeGenerator.ECCLevel.Q);
             var code = new QRCode(data);
             var image = code.GetGraphic(20);
             var ms = new MemoryStream();
@@ -297,6 +293,28 @@ public sealed partial class AuthorizeProvider
         {
             return default;
         }
+    }
+
+    /// <summary>
+    /// 使用 Cookie 登录.
+    /// </summary>
+    /// <param name="cookies">Cookie.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    public async Task SignInWithCookieAsync(Dictionary<string, string> cookies)
+    {
+        SaveCookies(cookies);
+        var qrCode = await GetQRCodeInfoAsync();
+
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "auth_code", qrCode.AuthCode },
+            { "build", "7082000" },
+        };
+        var httpProvider = HttpProvider.Instance;
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.QRCodeConfirm, queryParameters, clientType: RequestClientType.Login, needToken: false, needCsrf: true, needAppKey: false, needCookie: true);
+        var response = await httpProvider.SendAsync(request);
+        _ = await HttpProvider.ParseAsync<ServerResponse>(response);
+        await CheckQRStatusAsync(qrCode.AuthCode, false);
     }
 
     /// <summary>
@@ -362,6 +380,7 @@ public sealed partial class AuthorizeProvider
 
         SettingsToolkit.DeleteLocalSetting(SettingNames.BiliUserId);
         SettingsToolkit.DeleteLocalSetting(SettingNames.AuthorizeResult);
+        SettingsToolkit.DeleteLocalSetting(SettingNames.LocalCookie);
 
         if (_tokenInfo != null)
         {

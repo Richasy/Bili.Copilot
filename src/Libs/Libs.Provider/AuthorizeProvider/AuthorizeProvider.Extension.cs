@@ -17,6 +17,7 @@ using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml;
@@ -203,20 +204,10 @@ public partial class AuthorizeProvider
 
     private static long GetNowMilliSeconds() => DateTimeOffset.Now.ToLocalTime().ToUnixTimeMilliseconds();
 
-    private static void SaveCookie(CookieInfo cookieInfo)
-    {
-        var cookies = cookieInfo.Cookies.Select(p => (p.Name, p.Value)).ToDictionary();
-        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LocalCookie, JsonSerializer.Serialize(cookies));
-    }
-
-    private static async Task AccessBiliBiliAsync()
-    {
-        var req = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, CookieGetDomain, needToken: false, forceNoToken: true, needCookie: true);
-        var res = await HttpProvider.Instance.SendAsync(req);
-        var cookies = HttpProvider.GetCookieFromResponse(res);
-        SaveCookies(cookies);
-    }
-
+    /// <summary>
+    /// 保存Cookie.
+    /// </summary>
+    /// <param name="cookies">Cookie 信息.</param>
     private static void SaveCookies(Dictionary<string, string> cookies)
     {
         var localCookies = GetCookieDict();
@@ -232,7 +223,21 @@ public partial class AuthorizeProvider
             }
         }
 
-        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LocalCookie, JsonSerializer.Serialize(localCookies));
+        SettingsToolkit.WriteLocalSetting(SettingNames.LocalCookie, JsonSerializer.Serialize(localCookies));
+    }
+
+    private static void SaveCookie(CookieInfo cookieInfo)
+    {
+        var cookies = cookieInfo.Cookies.Select(p => (p.Name, p.Value)).ToDictionary();
+        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LocalCookie, JsonSerializer.Serialize(cookies));
+    }
+
+    private static async Task AccessBiliBiliAsync()
+    {
+        var req = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, CookieGetDomain, needToken: false, forceNoToken: true, needCookie: true);
+        var res = await HttpProvider.Instance.SendAsync(req);
+        var cookies = HttpProvider.GetCookieFromResponse(res);
+        SaveCookies(cookies);
     }
 
     private static string GetCorrespondPath(long timestamp)
@@ -269,11 +274,16 @@ public partial class AuthorizeProvider
             return;
         }
 
+        await CheckQRStatusAsync(_internalQRAuthCode);
+    }
+
+    private async Task CheckQRStatusAsync(string authCode, bool shouldSaveCookie = true)
+    {
         CleanQRCodeCancellationToken();
         _qrPollCancellationTokenSource = new CancellationTokenSource();
         var queryParameters = new Dictionary<string, string>
         {
-            { Query.AuthCode, _internalQRAuthCode },
+            { Query.AuthCode, authCode },
             { Query.LocalId, _guid },
             { Query.Guid, Guid.NewGuid().ToString() },
         };
@@ -285,9 +295,13 @@ public partial class AuthorizeProvider
             var response = await httpProvider.SendAsync(request, _qrPollCancellationTokenSource.Token);
             var result = await HttpProvider.ParseAsync<ServerResponse<TokenInfo>>(response);
 
-            // 保存cookie
-            SaveCookie(result.Data.CookieInfo);
+            if (shouldSaveCookie)
+            {
+                SaveCookie(result.Data.CookieInfo);
+            }
+
             SaveAuthorizeResult(result.Data);
+            SettingsToolkit.WriteLocalSetting(SettingNames.IsWebSignIn, !shouldSaveCookie);
             QRCodeStatusChanged?.Invoke(this, new Tuple<QRCodeStatus, TokenInfo>(QRCodeStatus.Success, result.Data));
         }
         catch (ServiceException se)
@@ -320,6 +334,23 @@ public partial class AuthorizeProvider
             _qrPollCancellationTokenSource.Dispose();
             _qrPollCancellationTokenSource = null;
         }
+    }
+
+    /// <summary>
+    /// 获取登录二维码信息.
+    /// </summary>
+    /// <returns><see cref="QRInfo"/>.</returns>
+    private async Task<QRInfo> GetQRCodeInfoAsync()
+    {
+        var queryParameters = new Dictionary<string, string>
+            {
+                { Query.LocalId, _guid },
+            };
+        var httpProvider = HttpProvider.Instance;
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.QRCode, queryParameters, clientType: RequestClientType.Login, needToken: false);
+        var response = await httpProvider.SendAsync(request);
+        var result = await HttpProvider.ParseAsync<ServerResponse<QRInfo>>(response);
+        return result.Data;
     }
 
     private async Task<bool> NetworkVerifyTokenAsync()

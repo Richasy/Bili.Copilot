@@ -175,6 +175,7 @@
         <None Remove="Pages\ViewLaterPage.xaml" />
         <None Remove="Pages\WebDavPage.xaml" />
         <None Remove="Pages\WebDavPlayerPage.xaml" />
+        <None Remove="Pages\WebSignInPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
         <None Remove="Controls\Base\ProgressButton\ProgressButton.xaml" />
@@ -286,6 +287,9 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Pages\WebSignInPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Controls\Settings\NotificationSettingSection.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>
