@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,13 +17,14 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class PgcProvider
 {
+    private static readonly Lazy<PgcProvider> _lazyInstance = new(() => new PgcProvider());
     private readonly Dictionary<PgcType, string> _pgcOffsetCache;
     private readonly Dictionary<PgcType, int> _pgcIndexCache;
 
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PgcProvider Instance { get; } = new PgcProvider();
+    public static PgcProvider Instance => _lazyInstance.Value;
 
     private static Dictionary<string, string> GetTabQueryParameters(PgcType type)
     {

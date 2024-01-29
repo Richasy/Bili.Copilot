@@ -24,10 +24,12 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class PlayerProvider
 {
+    private static readonly Lazy<PlayerProvider> _lazyInstance = new(() => new PlayerProvider());
+
     /// <summary>
     /// 实例.
     /// </summary>
-    public static PlayerProvider Instance { get; } = new PlayerProvider();
+    public static PlayerProvider Instance => _lazyInstance.Value;
 
     private static CancellationToken GetExpiryToken(int seconds = 5)
     {

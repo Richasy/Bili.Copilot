@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class AccountProvider
 {
+    private static readonly Lazy<AccountProvider> _lazyInstance = new(() => new AccountProvider());
     private readonly Dictionary<MessageType, MessageCursor> _messageOffsetCache;
     private readonly Dictionary<RelationType, int> _relationOffsetCache;
     private readonly Dictionary<string, int> _myFollowOffsetCache;
@@ -34,7 +36,7 @@ public sealed partial class AccountProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static AccountProvider Instance { get; } = new AccountProvider();
+    public static AccountProvider Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 已登录的用户Id.

@@ -17,6 +17,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class SearchProvider
 {
+    private static readonly Lazy<SearchProvider> _lazyInstance = new(() => new SearchProvider());
     private int _comprehensivePageNumber;
     private int _animePageNumber;
     private int _moviePageNumber;
@@ -27,7 +28,7 @@ public partial class SearchProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static SearchProvider Instance { get; } = new SearchProvider();
+    public static SearchProvider Instance => _lazyInstance.Value;
 
     private static Dictionary<string, string> GetSearchBasicQueryParameters(string keyword, string orderType, int pageNumber)
     {

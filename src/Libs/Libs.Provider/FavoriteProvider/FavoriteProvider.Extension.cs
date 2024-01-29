@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public sealed partial class FavoriteProvider
 {
+    private static readonly Lazy<FavoriteProvider> _lazyInstance = new(() => new FavoriteProvider());
     private int _videoFolderDetailPageNumber;
     private int _videoCollectFolderPageNumber;
     private int _videoCreatedFolderPageNumber;
@@ -26,7 +28,7 @@ public sealed partial class FavoriteProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static FavoriteProvider Instance { get; } = new FavoriteProvider();
+    public static FavoriteProvider Instance => _lazyInstance.Value;
 
     private static async Task<SeasonSet> GetPgcFavoriteListInternalAsync(string requestUrl, int pageNumber, int status)
     {

@@ -31,6 +31,7 @@ namespace Bili.Copilot.Libs.Provider;
 /// </summary>
 public partial class AuthorizeProvider
 {
+    private static readonly Lazy<AuthorizeProvider> _lazyInstance = new(() => new AuthorizeProvider());
     private readonly byte[] _mIXIN_KEY_ENC_TAB =
         [
             46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49, 33, 9, 42,
@@ -62,7 +63,7 @@ public partial class AuthorizeProvider
     /// <summary>
     /// 实例.
     /// </summary>
-    public static AuthorizeProvider Instance { get; } = new AuthorizeProvider();
+    public static AuthorizeProvider Instance => _lazyInstance.Value;
 
     /// <summary>
     /// 当前的授权状态.
