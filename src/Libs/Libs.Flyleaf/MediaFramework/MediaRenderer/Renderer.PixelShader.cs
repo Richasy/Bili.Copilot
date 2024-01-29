@@ -341,7 +341,7 @@ color = float4(
 
                         if (VideoStream.PixelComp0Depth > 8)
                         {
-                            curPSUniqueId += "a";
+                            curPSUniqueId += VideoStream.PixelComp0Depth;
 
                             for (int i = 0; i < VideoStream.PixelPlanes; i++)
                                 textDesc[i].Format = srvDesc[i].Format = Format.R16_UNorm;
@@ -505,7 +505,7 @@ color = float4(
 
                         if (VideoStream.PixelComp0Depth > 8)
                         {
-                            curPSUniqueId += "a";
+                            curPSUniqueId += VideoStream.PixelComp0Depth;
 
                             for (int i = 0; i < VideoStream.PixelPlanes; i++)
                                 textDesc[i].Format = srvDesc[i].Format = Format.R16_UNorm;
@@ -599,6 +599,11 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
     {
         try
         {
+            if (Device == null)
+            {
+                return default;
+            }
+
             VideoFrame mFrame = new();
             mFrame.timestamp = (long)(frame->pts * VideoStream.Timebase) - VideoDecoder.Demuxer.StartTime;
             if (CanTrace)
@@ -637,19 +642,17 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 }
             }
 
-            if (Device == null)
-            {
-                return default;
-            }
-
             if (curPSCase == PSCase.HWZeroCopy)
             {
                 mFrame.srvs = new ID3D11ShaderResourceView[2];
-                mFrame.bufRef = av_buffer_ref(frame->buf[0]);
                 srvDesc[0].Texture2DArray.FirstArraySlice = srvDesc[1].Texture2DArray.FirstArraySlice = (int)frame->data[1];
 
                 mFrame.srvs[0] = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[0]);
                 mFrame.srvs[1] = Device.CreateShaderResourceView(VideoDecoder.textureFFmpeg, srvDesc[1]);
+
+                mFrame.avFrame = av_frame_alloc();
+                av_frame_move_ref(mFrame.avFrame, frame);
+                return mFrame;
             }
 
             else if (curPSCase == PSCase.HW)
@@ -658,7 +661,7 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 mFrame.srvs = new ID3D11ShaderResourceView[2];
 
                 mFrame.textures[0] = Device.CreateTexture2D(textDesc[0]);
-                context?.CopySubresourceRegion(
+                context.CopySubresourceRegion(
                     mFrame.textures[0], 0, 0, 0, 0, // dst
                     VideoDecoder.textureFFmpeg, (int)frame->data[1],  // src
                     cropBox); // crop decoder's padding
@@ -669,8 +672,9 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
 
             else if (curPSCase == PSCase.HWD3D11VPZeroCopy)
             {
-                mFrame.subresource = (int)frame->data[1];
-                mFrame.bufRef = av_buffer_ref(frame->buf[0]); // TBR: should we ref all buf refs / the whole avframe?
+                mFrame.avFrame = av_frame_alloc();
+                av_frame_move_ref(mFrame.avFrame, frame);
+                return mFrame;
             }
 
             else if (curPSCase == PSCase.HWD3D11VP)
@@ -732,16 +736,14 @@ color = float4(Texture1.Sample(Sampler, input.Texture).rgb, 1.0);
                 }
             }
 
+            av_frame_unref(frame);
             return mFrame;
         }
         catch (Exception e)
         {
+            av_frame_unref(frame);
             Log.Error($"Failed to process frame ({e.Message})");
             return null;
-        }
-        finally
-        {
-            av_frame_unref(frame);
         }
     }
 

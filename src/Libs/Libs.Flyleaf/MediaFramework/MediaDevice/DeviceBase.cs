@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FlyleafLib.MediaFramework.MediaDevice;
 
-public class DeviceBase :DeviceBase<DeviceStreamBase>
+public class DeviceBase : DeviceBase<DeviceStreamBase>
 {
     public DeviceBase(string friendlyName, string symbolicLink) : base(friendlyName, symbolicLink)
     {
@@ -11,13 +11,14 @@ public class DeviceBase :DeviceBase<DeviceStreamBase>
 }
 
 public class DeviceBase<T>
-    where T: DeviceStreamBase
+    where T : DeviceStreamBase
 {
-    public string   FriendlyName            { get; }
-    public string   SymbolicLink            { get; }
-    public IList<T> 
-                    Streams                 { get; protected set; }
-    public string   Url                     { get; protected set; } // default Url
+    public string FriendlyName { get; }
+    public string SymbolicLink { get; }
+    public IList<T>
+                    Streams
+    { get; protected set; }
+    public string Url { get; protected set; } // default Url
 
     public DeviceBase(string friendlyName, string symbolicLink)
     {

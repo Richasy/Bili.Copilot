@@ -50,7 +50,8 @@ public static partial class Utils
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("itemsCount", Count);
-            int itemIdx = 0; foreach (var kvp in this)
+            int itemIdx = 0;
+            foreach (var kvp in this)
             {
                 info.AddValue(String.Format(CultureInfo.InvariantCulture, "Item{0}", itemIdx), kvp, typeof(KeyValuePair<TKey, TVal>));
                 itemIdx++;
@@ -114,10 +115,11 @@ public static partial class Utils
         public new TVal this[TKey key]
         {
             get => base[key];
-        
+
             set
             {
-                if (ContainsKey(key) && base[key].Equals(value)) return;
+                if (ContainsKey(key) && base[key].Equals(value))
+                    return;
 
                 if (CollectionChanged != null)
                 {

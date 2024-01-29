@@ -14,9 +14,10 @@ public class Activity : NotifyPropertyChanged
      */
 
     public ActivityMode Mode
-        {
+    {
         get => mode;
-        set {
+        set
+        {
 
             if (value == mode)
                 return;
@@ -34,15 +35,18 @@ public class Activity : NotifyPropertyChanged
                 swMouse.Restart();
 
             Utils.UI(() => SetMode());
-            }
         }
+    }
     internal ActivityMode _Mode = ActivityMode.FullActive, mode = ActivityMode.FullActive;
 
     /// <summary>
     /// Should use Timeout to Enable/Disable it. Use this only for temporary disable.
     /// </summary>
-    public bool IsEnabled           { get => _IsEnabled;
-        set {
+    public bool IsEnabled
+    {
+        get => _IsEnabled;
+        set
+        {
 
             if (value && _Timeout <= 0)
             {
@@ -53,7 +57,7 @@ public class Activity : NotifyPropertyChanged
                 }
                 else
                     _IsEnabled = false;
-                
+
             }
             else
             {
@@ -69,11 +73,11 @@ public class Activity : NotifyPropertyChanged
                 _IsEnabled = value;
                 RaiseUI(nameof(IsEnabled));
             }
-            }
         }
+    }
     bool _IsEnabled;
 
-    public int  Timeout             { get => _Timeout; set { _Timeout = value; IsEnabled = value > 0; } }
+    public int Timeout { get => _Timeout; set { _Timeout = value; IsEnabled = value > 0; } }
     int _Timeout;
 
     Player player;
@@ -96,16 +100,18 @@ public class Activity : NotifyPropertyChanged
         {
             lock (cursorLocker)
             {
-                while (Utils.NativeMethods.ShowCursor(false) >= 0) { }
+                while (Utils.NativeMethods.ShowCursor(false) >= 0)
+                { }
                 isCursorHidden = true;
             }
-            
-        }    
+
+        }
         else if (isCursorHidden && player.Activity.Mode == ActivityMode.FullActive)
         {
             lock (cursorLocker)
             {
-                while (Utils.NativeMethods.ShowCursor(true) < 0) { }
+                while (Utils.NativeMethods.ShowCursor(true) < 0)
+                { }
                 isCursorHidden = false;
             }
         }
@@ -118,7 +124,8 @@ public class Activity : NotifyPropertyChanged
     {
         if (!IsEnabled)
             mode = ActivityMode.FullActive;
-        else mode = swMouse.IsRunning && swMouse.ElapsedMilliseconds < Timeout
+        else
+            mode = swMouse.IsRunning && swMouse.ElapsedMilliseconds < Timeout
             ? ActivityMode.FullActive
             : swKeyboard.IsRunning && swKeyboard.ElapsedMilliseconds < Timeout ? ActivityMode.Active : ActivityMode.Idle;
     }
@@ -134,16 +141,16 @@ public class Activity : NotifyPropertyChanged
     /// <summary>
     /// Sets Mode to Active
     /// </summary>
-    public void ForceActive()       => Mode = ActivityMode.Active;
+    public void ForceActive() => Mode = ActivityMode.Active;
     /// <summary>
     /// Sets Mode to Full Active
     /// </summary>
-    public void ForceFullActive()   => Mode = ActivityMode.FullActive;
+    public void ForceFullActive() => Mode = ActivityMode.FullActive;
 
     /// <summary>
     /// Updates Active Timestamp
     /// </summary>
-    public void RefreshActive()     => swKeyboard.Restart();
+    public void RefreshActive() => swKeyboard.Restart();
 
     /// <summary>
     /// Updates Full Active Timestamp
@@ -163,13 +170,15 @@ public class Activity : NotifyPropertyChanged
                 {
                     lock (cursorLocker)
                     {
-                        while (Utils.NativeMethods.ShowCursor(true) < 0) { }
+                        while (Utils.NativeMethods.ShowCursor(true) < 0)
+                        { }
                         isCursorHidden = false;
-                        foreach(var player in Engine.Players)
+                        foreach (var player in Engine.Players)
                             player.Activity.RefreshFullActive();
                     }
-                    
-                } catch { }
+
+                }
+                catch { }
             }
 
             return false;

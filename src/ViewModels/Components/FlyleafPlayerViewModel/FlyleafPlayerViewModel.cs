@@ -58,6 +58,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         config.Subtitles.Enabled = true;
         config.Player.SeekAccurate = true;
         config.Decoder.ZeroCopy = ZeroCopy.Auto;
+        config.Video.VideoProcessor = SettingsToolkit.ReadLocalSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;

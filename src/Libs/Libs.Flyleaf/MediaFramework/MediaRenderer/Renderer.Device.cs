@@ -36,7 +36,7 @@ public unsafe partial class Renderer
         FeatureLevel.Level_9_2,
         FeatureLevel.Level_9_1
     };
-    static FeatureLevel[] featureLevels = new[] 
+    static FeatureLevel[] featureLevels = new[]
     {
         FeatureLevel.Level_11_0,
         FeatureLevel.Level_10_1,
@@ -48,20 +48,21 @@ public unsafe partial class Renderer
 
     ID3D11DeviceContext context;
 
-    ID3D11Buffer        vertexBuffer;
-    ID3D11InputLayout   vertexLayout;
+    ID3D11Buffer vertexBuffer;
+    ID3D11InputLayout vertexLayout;
+    ID3D11RasterizerState rasterizerState;
 
-    ID3D11VertexShader  ShaderVS;
-    ID3D11PixelShader   ShaderPS;
+    ID3D11VertexShader ShaderVS;
+    ID3D11PixelShader ShaderPS;
 
-    ID3D11Buffer        psBuffer;
-    PSBufferType        psBufferData = new();
+    ID3D11Buffer psBuffer;
+    PSBufferType psBufferData = new();
 
-    ID3D11Buffer        vsBuffer;
-    VSBufferType        vsBufferData = new();
+    ID3D11Buffer vsBuffer;
+    VSBufferType vsBufferData = new();
 
-    internal object     lockDevice = new();
-    bool                isFlushing;
+    internal object lockDevice = new();
+    bool isFlushing;
 
 
     public void Initialize(bool swapChain = true)
@@ -70,7 +71,8 @@ public unsafe partial class Renderer
         {
             try
             {
-                if (CanDebug) Log.Debug("Initializing");
+                if (CanDebug)
+                    Log.Debug("Initializing");
 
                 if (!Disposed)
                     Dispose();
@@ -79,21 +81,21 @@ public unsafe partial class Renderer
 
                 ID3D11Device tempDevice;
                 IDXGIAdapter1 adapter = null;
-                var creationFlags       = DeviceCreationFlags.BgraSupport /*| DeviceCreationFlags.VideoSupport*/; // Let FFmpeg failed for VA if does not support it
-                var creationFlagsWarp   = DeviceCreationFlags.None;
+                var creationFlags = DeviceCreationFlags.BgraSupport /*| DeviceCreationFlags.VideoSupport*/; // Let FFmpeg failed for VA if does not support it
+                var creationFlagsWarp = DeviceCreationFlags.None;
 
-                #if DEBUG
+#if DEBUG
                 if (D3D11.SdkLayersAvailable())
                 {
-                    creationFlags       |= DeviceCreationFlags.Debug;
-                    creationFlagsWarp   |= DeviceCreationFlags.Debug;
+                    creationFlags |= DeviceCreationFlags.Debug;
+                    creationFlagsWarp |= DeviceCreationFlags.Debug;
                 }
-                #endif
+#endif
 
                 // Finding User Definied adapter
                 if (!string.IsNullOrWhiteSpace(Config.Video.GPUAdapter) && Config.Video.GPUAdapter.ToUpper() != "WARP")
                 {
-                    for (int i=0; Engine.Video.Factory.EnumAdapters1(i, out adapter).Success; i++)
+                    for (int i = 0; Engine.Video.Factory.EnumAdapters1(i, out adapter).Success; i++)
                     {
                         if (adapter.Description1.Description == Config.Video.GPUAdapter)
                             break;
@@ -128,7 +130,7 @@ public unsafe partial class Renderer
                 }
 
                 Device = tempDevice.QueryInterface<ID3D11Device1>();
-                context= Device.ImmediateContext;
+                context = Device.ImmediateContext;
 
                 // Gets the default adapter from the D3D11 Device
                 if (adapter == null)
@@ -141,24 +143,32 @@ public unsafe partial class Renderer
                 else
                     Device.Tag = adapter.Description.Luid.ToString();
 
-                GPUAdapter = Engine.Video.GPUAdapters[adapter.Description1.Luid];
-                Config.Video.MaxVerticalResolutionAuto = GPUAdapter.MaxHeight;
-
-                if (CanDebug)
+                if (Engine.Video.GPUAdapters.ContainsKey(adapter.Description1.Luid))
                 {
-                    string dump = $"GPU Adapter\r\n{GPUAdapter}\r\n";
+                    GPUAdapter = Engine.Video.GPUAdapters[adapter.Description1.Luid];
+                    Config.Video.MaxVerticalResolutionAuto = GPUAdapter.MaxHeight;
 
-                    for (int i=0; i<GPUAdapter.Outputs.Count; i++)
-                        dump += $"[Output #{i+1}] {GPUAdapter.Outputs[i]}\r\n";
+                    if (CanDebug)
+                    {
+                        string dump = $"GPU Adapter\r\n{GPUAdapter}\r\n";
 
-                    Log.Debug(dump);
+                        for (int i = 0; i < GPUAdapter.Outputs.Count; i++)
+                            dump += $"[Output #{i + 1}] {GPUAdapter.Outputs[i]}\r\n";
+
+                        Log.Debug(dump);
+                    }
                 }
+                else
+                    Log.Debug($"GPU Adapter: Unknown (Possible WARP without Luid)");
+
 
                 tempDevice.Dispose();
                 adapter.Dispose();
 
-                using (var mthread    = Device.QueryInterface<ID3D11Multithread>()) mthread.SetMultithreadProtected(true);
-                using (var dxgidevice = Device.QueryInterface<IDXGIDevice1>())      dxgidevice.MaximumFrameLatency = 1;
+                using (var mthread = Device.QueryInterface<ID3D11Multithread>())
+                    mthread.SetMultithreadProtected(true);
+                using (var dxgidevice = Device.QueryInterface<IDXGIDevice1>())
+                    dxgidevice.MaximumFrameLatency = 1;
 
                 ReadOnlySpan<float> vertexBufferData = new float[]
                 {
@@ -174,7 +184,9 @@ public unsafe partial class Renderer
                 context.IASetVertexBuffer(0, vertexBuffer, sizeof(float) * 5);
 
                 InitPS();
-                
+
+                rasterizerState = Device.CreateRasterizerState(new(CullMode.None, FillMode.Solid));
+                context.RSSetState(rasterizerState);
 
                 ShaderVS = Device.CreateVertexShader(ShaderCompiler.VSBlob);
                 vertexLayout = Device.CreateInputLayout(inputElements, ShaderCompiler.VSBlob);
@@ -185,10 +197,10 @@ public unsafe partial class Renderer
 
                 psBuffer = Device.CreateBuffer(new BufferDescription()
                 {
-                    Usage           = ResourceUsage.Default,
-                    BindFlags       = BindFlags.ConstantBuffer,
-                    CPUAccessFlags  = CpuAccessFlags.None,
-                    ByteWidth       = sizeof(PSBufferType) + (16 - (sizeof(PSBufferType) % 16))
+                    Usage = ResourceUsage.Default,
+                    BindFlags = BindFlags.ConstantBuffer,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                    ByteWidth = sizeof(PSBufferType) + (16 - (sizeof(PSBufferType) % 16))
                 });
                 context.PSSetConstantBuffer(0, psBuffer);
                 psBufferData.hdrmethod = HDRtoSDRMethod.None;
@@ -196,27 +208,31 @@ public unsafe partial class Renderer
 
                 vsBuffer = Device.CreateBuffer(new BufferDescription()
                 {
-                    Usage           = ResourceUsage.Default,
-                    BindFlags       = BindFlags.ConstantBuffer,
-                    CPUAccessFlags  = CpuAccessFlags.None,
-                    ByteWidth       = sizeof(VSBufferType) + (16 - (sizeof(VSBufferType) % 16))
+                    Usage = ResourceUsage.Default,
+                    BindFlags = BindFlags.ConstantBuffer,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                    ByteWidth = sizeof(VSBufferType) + (16 - (sizeof(VSBufferType) % 16))
                 });
 
                 context.VSSetConstantBuffer(0, vsBuffer);
                 vsBufferData.mat = Matrix4x4.Identity;
                 context.UpdateSubresource(vsBufferData, vsBuffer);
-                
+
                 InitializeVideoProcessor();
                 // TBR: Device Removal Event
                 //ID3D11Device4 device4 = Device.QueryInterface<ID3D11Device4>(); device4.RegisterDeviceRemovedEvent(..);
 
-                if (CanInfo) Log.Info($"Initialized with Feature Level {(int)Device.FeatureLevel >> 12}.{((int)Device.FeatureLevel >> 8) & 0xf}");
+                if (CanInfo)
+                    Log.Info($"Initialized with Feature Level {(int)Device.FeatureLevel >> 12}.{((int)Device.FeatureLevel >> 8) & 0xf}");
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 if (string.IsNullOrWhiteSpace(Config.Video.GPUAdapter) || Config.Video.GPUAdapter.ToUpper() != "WARP")
                 {
-                    try { if (Device != null) Log.Warn($"Device Remove Reason = {Device.DeviceRemovedReason.Description}"); } catch { } // For troubleshooting
+                    try
+                    { if (Device != null) Log.Warn($"Device Remove Reason = {Device.DeviceRemovedReason.Description}"); }
+                    catch { } // For troubleshooting
 
                     Log.Warn($"Initialization failed ({e.Message}). Failling back to WARP device.");
                     Config.Video.GPUAdapter = "WARP";
@@ -243,18 +259,18 @@ public unsafe partial class Renderer
     }
     public void InitializeChildSwapChain(bool swapChain = true)
     {
-        if (child == null )
+        if (child == null)
             return;
 
         lock (lockDevice)
         {
-            child.lockDevice    = lockDevice;
-            child.VideoDecoder  = VideoDecoder;
-            child.Device        = Device;
-            child.context       = context;
-            child.curRatio      = curRatio;
-            child.VideoRect     = VideoRect;
-            child.videoProcessor= videoProcessor;
+            child.lockDevice = lockDevice;
+            child.VideoDecoder = VideoDecoder;
+            child.Device = Device;
+            child.context = context;
+            child.curRatio = curRatio;
+            child.VideoRect = VideoRect;
+            child.videoProcessor = videoProcessor;
             child.InitializeVideoProcessor(); // to use the same VP we need to set it's config in each present (means we don't update VP config as is different)
 
             if (swapChain)
@@ -268,7 +284,7 @@ public unsafe partial class Renderer
             child.SetViewport();
         }
     }
-    
+
     public void Dispose()
     {
         lock (lockDevice)
@@ -278,10 +294,11 @@ public unsafe partial class Renderer
 
             if (child != null)
                 DisposeChild();
-            
+
             Disposed = true;
 
-            if (CanDebug) Log.Debug("Disposing");
+            if (CanDebug)
+                Log.Debug("Disposing");
 
             VideoDecoder.DisposeFrame(LastFrame);
             RefreshLayout();
@@ -295,6 +312,7 @@ public unsafe partial class Renderer
             vsBuffer?.Dispose();
             vertexLayout?.Dispose();
             vertexBuffer?.Dispose();
+            rasterizerState?.Dispose();
             DisposeSwapChain();
 
             singleGpu?.Dispose();
@@ -304,7 +322,7 @@ public unsafe partial class Renderer
 
             if (rtv2 != null)
             {
-                for(int i = 0; i < rtv2.Length; i++)
+                for (int i = 0; i < rtv2.Length; i++)
                     rtv2[i].Dispose();
 
                 rtv2 = null;
@@ -312,7 +330,7 @@ public unsafe partial class Renderer
 
             if (backBuffer2 != null)
             {
-                for(int i = 0; i < backBuffer2.Length; i++)
+                for (int i = 0; i < backBuffer2.Length; i++)
                     backBuffer2[i]?.Dispose();
 
                 backBuffer2 = null;
@@ -327,12 +345,13 @@ public unsafe partial class Renderer
                 Device = null;
             }
 
-            #if DEBUG
+#if DEBUG
             ReportLiveObjects();
-            #endif
+#endif
 
             curRatio = 1.0f;
-            if (CanInfo) Log.Info("Disposed");
+            if (CanInfo)
+                Log.Info("Disposed");
         }
     }
     public void DisposeChild()
@@ -347,11 +366,11 @@ public unsafe partial class Renderer
 
             if (!isFlushing)
             {
-                child.Device        = null;
-                child.context       = null;
-                child.VideoDecoder  = null;
-                child.LastFrame     = null;
-                child               = null;
+                child.Device = null;
+                child.context = null;
+                child.VideoDecoder = null;
+                child.LastFrame = null;
+                child = null;
             }
         }
     }
@@ -365,7 +384,8 @@ public unsafe partial class Renderer
             var swapChainClbk = SwapChainWinUIClbk;
 
             IntPtr controlHandleReplica = IntPtr.Zero;
-            Action<IDXGISwapChain2> swapChainClbkReplica = null;;
+            Action<IDXGISwapChain2> swapChainClbkReplica = null;
+            ;
             if (child != null)
             {
                 controlHandleReplica = child.ControlHandle;
@@ -385,7 +405,7 @@ public unsafe partial class Renderer
         }
     }
 
-    #if DEBUG
+#if DEBUG
     public static void ReportLiveObjects()
     {
         try
@@ -395,9 +415,10 @@ public unsafe partial class Renderer
                 dxgiDebug.ReportLiveObjects(DXGI.DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
                 dxgiDebug.Dispose();
             }
-        } catch { }
+        }
+        catch { }
     }
-    #endif
+#endif
 
     [StructLayout(LayoutKind.Sequential)]
     struct PSBufferType
@@ -421,3 +442,4 @@ public unsafe partial class Renderer
         public Matrix4x4 mat;
     }
 }
+

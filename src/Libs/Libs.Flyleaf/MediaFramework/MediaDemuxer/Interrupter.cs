@@ -8,22 +8,23 @@ namespace FlyleafLib.MediaFramework.MediaDemuxer;
 
 public unsafe class Interrupter
 {
-    public int          ForceInterrupt  { get; set; }
-    public Requester    Requester       { get; private set; }
-    public int          Interrupted     { get; private set; }
-    public bool         Timedout        { get; private set; }
+    public int ForceInterrupt { get; set; }
+    public Requester Requester { get; private set; }
+    public int Interrupted { get; private set; }
+    public bool Timedout { get; private set; }
 
     Demuxer demuxer;
     Stopwatch sw = new();
     internal AVIOInterruptCB_callback interruptClbk;
     long curTimeoutMs;
-    
+
     internal int ShouldInterrupt(void* opaque)
     {
         if (demuxer.Status == Status.Stopping)
         {
-            if (CanDebug) demuxer.Log.Debug($"{Requester} Interrupt (Stopping) !!!");
-            
+            if (CanDebug)
+                demuxer.Log.Debug($"{Requester} Interrupt (Stopping) !!!");
+
             return Interrupted = 1;
         }
 
@@ -32,9 +33,10 @@ public unsafe class Interrupter
             if (Timedout)
                 return Interrupted = 1;
 
-            if (CanWarn) demuxer.Log.Warn($"{Requester} Timeout !!!! {sw.ElapsedMilliseconds} ms");
+            if (CanWarn)
+                demuxer.Log.Warn($"{Requester} Timeout !!!! {sw.ElapsedMilliseconds} ms");
 
-            Timedout    = true;
+            Timedout = true;
             Interrupted = 1;
             demuxer.OnTimedOut();
 
@@ -46,7 +48,8 @@ public unsafe class Interrupter
 
         if (ForceInterrupt != 0 && demuxer.allowReadInterrupts)
         {
-            if (CanTrace) demuxer.Log.Trace($"{Requester} Interrupt !!!");
+            if (CanTrace)
+                demuxer.Log.Trace($"{Requester} Interrupt !!!");
 
             return Interrupted = 1;
         }
@@ -56,54 +59,54 @@ public unsafe class Interrupter
 
     public Interrupter(Demuxer demuxer)
     {
-        this.demuxer    = demuxer;
-        interruptClbk   = ShouldInterrupt;
+        this.demuxer = demuxer;
+        interruptClbk = ShouldInterrupt;
     }
 
     public void ReadRequest()
     {
-        Requester   = Requester.Read;
+        Requester = Requester.Read;
 
         if (!demuxer.Config.AllowTimeouts)
             return;
 
-        curTimeoutMs= demuxer.IsLive ? demuxer.Config.readLiveTimeoutMs: demuxer.Config.readTimeoutMs;
+        curTimeoutMs = demuxer.IsLive ? demuxer.Config.readLiveTimeoutMs : demuxer.Config.readTimeoutMs;
         sw.Restart();
     }
 
     public void SeekRequest()
     {
-        Requester   = Requester.Seek;
+        Requester = Requester.Seek;
 
         if (!demuxer.Config.AllowTimeouts)
             return;
 
-        Timedout    = false;
-        curTimeoutMs= demuxer.Config.seekTimeoutMs;
+        Timedout = false;
+        curTimeoutMs = demuxer.Config.seekTimeoutMs;
         sw.Restart();
     }
 
     public void OpenRequest()
     {
-        Requester   = Requester.Open;
+        Requester = Requester.Open;
 
         if (!demuxer.Config.AllowTimeouts)
             return;
 
-        Timedout    = false;
-        curTimeoutMs= demuxer.Config.openTimeoutMs;
+        Timedout = false;
+        curTimeoutMs = demuxer.Config.openTimeoutMs;
         sw.Restart();
     }
 
     public void CloseRequest()
     {
-        Requester   = Requester.Close;
+        Requester = Requester.Close;
 
         if (!demuxer.Config.AllowTimeouts)
             return;
 
-        Timedout    = false;
-        curTimeoutMs= demuxer.Config.closeTimeoutMs;
+        Timedout = false;
+        curTimeoutMs = demuxer.Config.closeTimeoutMs;
         sw.Restart();
     }
 }

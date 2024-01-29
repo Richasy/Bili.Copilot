@@ -16,99 +16,99 @@ namespace FlyleafLib.MediaFramework.MediaContext;
 public partial class DecoderContext
 {
     #region Events
-    public event EventHandler<OpenCompletedArgs>                        OpenCompleted;
-    public event EventHandler<OpenSessionCompletedArgs>                 OpenSessionCompleted;
-    public event EventHandler<OpenSubtitlesCompletedArgs>               OpenSubtitlesCompleted;
-    public event EventHandler<OpenPlaylistItemCompletedArgs>            OpenPlaylistItemCompleted;
+    public event EventHandler<OpenCompletedArgs> OpenCompleted;
+    public event EventHandler<OpenSessionCompletedArgs> OpenSessionCompleted;
+    public event EventHandler<OpenSubtitlesCompletedArgs> OpenSubtitlesCompleted;
+    public event EventHandler<OpenPlaylistItemCompletedArgs> OpenPlaylistItemCompleted;
 
-    public event EventHandler<OpenAudioStreamCompletedArgs>             OpenAudioStreamCompleted;
-    public event EventHandler<OpenVideoStreamCompletedArgs>             OpenVideoStreamCompleted;
-    public event EventHandler<OpenSubtitlesStreamCompletedArgs>         OpenSubtitlesStreamCompleted;
+    public event EventHandler<OpenAudioStreamCompletedArgs> OpenAudioStreamCompleted;
+    public event EventHandler<OpenVideoStreamCompletedArgs> OpenVideoStreamCompleted;
+    public event EventHandler<OpenSubtitlesStreamCompletedArgs> OpenSubtitlesStreamCompleted;
 
-    public event EventHandler<OpenExternalAudioStreamCompletedArgs>     OpenExternalAudioStreamCompleted;
-    public event EventHandler<OpenExternalVideoStreamCompletedArgs>     OpenExternalVideoStreamCompleted;
+    public event EventHandler<OpenExternalAudioStreamCompletedArgs> OpenExternalAudioStreamCompleted;
+    public event EventHandler<OpenExternalVideoStreamCompletedArgs> OpenExternalVideoStreamCompleted;
     public event EventHandler<OpenExternalSubtitlesStreamCompletedArgs> OpenExternalSubtitlesStreamCompleted;
 
     public class OpenCompletedArgs
     {
-        public string       Url;
-        public Stream       IOStream;
-        public string       Error;
-        public bool         Success => Error == null;
+        public string Url;
+        public Stream IOStream;
+        public string Error;
+        public bool Success => Error == null;
         public OpenCompletedArgs(string url = null, Stream iostream = null, string error = null) { Url = url; IOStream = iostream; Error = error; }
     }
     public class OpenSubtitlesCompletedArgs
     {
-        public string       Url;
-        public string       Error;
-        public bool         Success => Error == null;
+        public string Url;
+        public string Error;
+        public bool Success => Error == null;
         public OpenSubtitlesCompletedArgs(string url = null, string error = null) { Url = url; Error = error; }
     }
     public class OpenSessionCompletedArgs
     {
-        public Session      Session;
-        public string       Error;
-        public bool         Success => Error == null;
+        public Session Session;
+        public string Error;
+        public bool Success => Error == null;
         public OpenSessionCompletedArgs(Session session = null, string error = null) { Session = session; Error = error; }
     }
     public class OpenPlaylistItemCompletedArgs
     {
         public PlaylistItem Item;
         public PlaylistItem OldItem;
-        public string       Error;
-        public bool         Success => Error == null;
-        public OpenPlaylistItemCompletedArgs(PlaylistItem item = null, PlaylistItem oldItem = null, string error = null) {  Item = item; OldItem = oldItem; Error = error; }
+        public string Error;
+        public bool Success => Error == null;
+        public OpenPlaylistItemCompletedArgs(PlaylistItem item = null, PlaylistItem oldItem = null, string error = null) { Item = item; OldItem = oldItem; Error = error; }
     }
     public class StreamOpenedArgs
     {
-        public StreamBase   Stream;
-        public StreamBase   OldStream;
-        public string       Error;
-        public bool         Success => Error == null;
-        public StreamOpenedArgs(StreamBase stream = null, StreamBase oldStream = null, string error = null) { Stream = stream; OldStream= oldStream; Error = error; }
+        public StreamBase Stream;
+        public StreamBase OldStream;
+        public string Error;
+        public bool Success => Error == null;
+        public StreamOpenedArgs(StreamBase stream = null, StreamBase oldStream = null, string error = null) { Stream = stream; OldStream = oldStream; Error = error; }
     }
-    public class OpenAudioStreamCompletedArgs : StreamOpenedArgs 
+    public class OpenAudioStreamCompletedArgs : StreamOpenedArgs
     {
-        public new AudioStream Stream   => (AudioStream)base.Stream;
-        public new AudioStream OldStream=> (AudioStream)base.OldStream;
-        public OpenAudioStreamCompletedArgs(AudioStream stream = null, AudioStream oldStream = null, string error = null): base(stream, oldStream, error) { }
+        public new AudioStream Stream => (AudioStream)base.Stream;
+        public new AudioStream OldStream => (AudioStream)base.OldStream;
+        public OpenAudioStreamCompletedArgs(AudioStream stream = null, AudioStream oldStream = null, string error = null) : base(stream, oldStream, error) { }
     }
     public class OpenVideoStreamCompletedArgs : StreamOpenedArgs
     {
-        public new VideoStream Stream   => (VideoStream)base.Stream;
-        public new VideoStream OldStream=> (VideoStream)base.OldStream;
-        public OpenVideoStreamCompletedArgs(VideoStream stream = null, VideoStream oldStream = null, string error = null): base(stream, oldStream, error) { }
+        public new VideoStream Stream => (VideoStream)base.Stream;
+        public new VideoStream OldStream => (VideoStream)base.OldStream;
+        public OpenVideoStreamCompletedArgs(VideoStream stream = null, VideoStream oldStream = null, string error = null) : base(stream, oldStream, error) { }
     }
     public class OpenSubtitlesStreamCompletedArgs : StreamOpenedArgs
     {
-        public new SubtitlesStream Stream   => (SubtitlesStream)base.Stream;
-        public new SubtitlesStream OldStream=> (SubtitlesStream)base.OldStream;
-        public OpenSubtitlesStreamCompletedArgs(SubtitlesStream stream = null, SubtitlesStream oldStream = null, string error = null): base(stream, oldStream, error) { }
+        public new SubtitlesStream Stream => (SubtitlesStream)base.Stream;
+        public new SubtitlesStream OldStream => (SubtitlesStream)base.OldStream;
+        public OpenSubtitlesStreamCompletedArgs(SubtitlesStream stream = null, SubtitlesStream oldStream = null, string error = null) : base(stream, oldStream, error) { }
     }
     public class ExternalStreamOpenedArgs : EventArgs
     {
-        public ExternalStream   ExtStream;
-        public ExternalStream   OldExtStream;
-        public string           Error;
-        public bool             Success => Error == null;
-        public ExternalStreamOpenedArgs(ExternalStream extStream = null, ExternalStream oldExtStream = null, string error = null) { ExtStream = extStream; OldExtStream= oldExtStream; Error = error; }
-    } 
+        public ExternalStream ExtStream;
+        public ExternalStream OldExtStream;
+        public string Error;
+        public bool Success => Error == null;
+        public ExternalStreamOpenedArgs(ExternalStream extStream = null, ExternalStream oldExtStream = null, string error = null) { ExtStream = extStream; OldExtStream = oldExtStream; Error = error; }
+    }
     public class OpenExternalAudioStreamCompletedArgs : ExternalStreamOpenedArgs
     {
-        public new ExternalAudioStream ExtStream   => (ExternalAudioStream)base.ExtStream;
-        public new ExternalAudioStream OldExtStream=> (ExternalAudioStream)base.OldExtStream;
-        public OpenExternalAudioStreamCompletedArgs(ExternalAudioStream extStream = null, ExternalAudioStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { } 
+        public new ExternalAudioStream ExtStream => (ExternalAudioStream)base.ExtStream;
+        public new ExternalAudioStream OldExtStream => (ExternalAudioStream)base.OldExtStream;
+        public OpenExternalAudioStreamCompletedArgs(ExternalAudioStream extStream = null, ExternalAudioStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { }
     }
     public class OpenExternalVideoStreamCompletedArgs : ExternalStreamOpenedArgs
     {
-        public new ExternalVideoStream ExtStream   => (ExternalVideoStream)base.ExtStream;
-        public new ExternalVideoStream OldExtStream=> (ExternalVideoStream)base.OldExtStream;
+        public new ExternalVideoStream ExtStream => (ExternalVideoStream)base.ExtStream;
+        public new ExternalVideoStream OldExtStream => (ExternalVideoStream)base.OldExtStream;
         public OpenExternalVideoStreamCompletedArgs(ExternalVideoStream extStream = null, ExternalVideoStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { }
     }
     public class OpenExternalSubtitlesStreamCompletedArgs : ExternalStreamOpenedArgs
     {
-        public new ExternalSubtitlesStream ExtStream   => (ExternalSubtitlesStream)base.ExtStream;
-        public new ExternalSubtitlesStream OldExtStream=> (ExternalSubtitlesStream)base.OldExtStream;
+        public new ExternalSubtitlesStream ExtStream => (ExternalSubtitlesStream)base.ExtStream;
+        public new ExternalSubtitlesStream OldExtStream => (ExternalSubtitlesStream)base.OldExtStream;
         public OpenExternalSubtitlesStreamCompletedArgs(ExternalSubtitlesStream extStream = null, ExternalSubtitlesStream oldExtStream = null, string error = null) : base(extStream, oldExtStream, error) { }
     }
 
@@ -121,7 +121,8 @@ public partial class DecoderContext
         }
 
         VideoDecoder.Renderer?.ClearScreen();
-        if (CanInfo) Log.Info($"[Open] {args.Url ?? "None"} {(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[Open] {args.Url ?? "None"} {(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenCompleted?.Invoke(this, args);
     }
     private void OnOpenSessionCompleted(OpenSessionCompletedArgs args = null)
@@ -133,7 +134,8 @@ public partial class DecoderContext
         }
 
         VideoDecoder.Renderer?.ClearScreen();
-        if (CanInfo) Log.Info($"[OpenSession] {args.Session.Url ?? "None"} - Item: {args.Session.PlaylistItem} {(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenSession] {args.Session.Url ?? "None"} - Item: {args.Session.PlaylistItem} {(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenSessionCompleted?.Invoke(this, args);
     }
     private void OnOpenSubtitles(OpenSubtitlesCompletedArgs args = null)
@@ -144,7 +146,8 @@ public partial class DecoderContext
             return;
         }
 
-        if (CanInfo) Log.Info($"[OpenSubtitles] {args.Url ?? "None"} {(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenSubtitles] {args.Url ?? "None"} {(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenSubtitlesCompleted?.Invoke(this, args);
     }
     private void OnOpenPlaylistItemCompleted(OpenPlaylistItemCompletedArgs args = null)
@@ -156,7 +159,8 @@ public partial class DecoderContext
         }
 
         VideoDecoder.Renderer?.ClearScreen();
-        if (CanInfo) Log.Info($"[OpenPlaylistItem] {(args.OldItem != null ? args.OldItem.Title : "None")} => {(args.Item != null ? args.Item.Title : "None")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenPlaylistItem] {(args.OldItem != null ? args.OldItem.Title : "None")} => {(args.Item != null ? args.Item.Title : "None")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenPlaylistItemCompleted?.Invoke(this, args);
     }
     private void OnOpenAudioStreamCompleted(OpenAudioStreamCompletedArgs args = null)
@@ -170,7 +174,8 @@ public partial class DecoderContext
         ClosedAudioStream = null;
         MainDemuxer = !VideoDemuxer.Disposed ? VideoDemuxer : AudioDemuxer;
 
-        if (CanInfo) Log.Info($"[OpenAudioStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenAudioStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenAudioStreamCompleted?.Invoke(this, args);
     }
     private void OnOpenVideoStreamCompleted(OpenVideoStreamCompletedArgs args = null)
@@ -184,7 +189,8 @@ public partial class DecoderContext
         ClosedVideoStream = null;
         MainDemuxer = !VideoDemuxer.Disposed ? VideoDemuxer : AudioDemuxer;
 
-        if (CanInfo) Log.Info($"[OpenVideoStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenVideoStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenVideoStreamCompleted?.Invoke(this, args);
     }
     private void OnOpenSubtitlesStreamCompleted(OpenSubtitlesStreamCompletedArgs args = null)
@@ -197,7 +203,8 @@ public partial class DecoderContext
 
         ClosedSubtitlesStream = null;
 
-        if (CanInfo) Log.Info($"[OpenSubtitlesStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenSubtitlesStream] #{(args.OldStream != null ? args.OldStream.StreamIndex.ToString() : "_")} => #{(args.Stream != null ? args.Stream.StreamIndex.ToString() : "_")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenSubtitlesStreamCompleted?.Invoke(this, args);
     }
     private void OnOpenExternalAudioStreamCompleted(OpenExternalAudioStreamCompletedArgs args = null)
@@ -211,7 +218,8 @@ public partial class DecoderContext
         ClosedAudioStream = null;
         MainDemuxer = !VideoDemuxer.Disposed ? VideoDemuxer : AudioDemuxer;
 
-        if (CanInfo) Log.Info($"[OpenExternalAudioStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenExternalAudioStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenExternalAudioStreamCompleted?.Invoke(this, args);
     }
     private void OnOpenExternalVideoStreamCompleted(OpenExternalVideoStreamCompletedArgs args = null)
@@ -225,7 +233,8 @@ public partial class DecoderContext
         ClosedVideoStream = null;
         MainDemuxer = !VideoDemuxer.Disposed ? VideoDemuxer : AudioDemuxer;
 
-        if (CanInfo) Log.Info($"[OpenExternalVideoStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenExternalVideoStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenExternalVideoStreamCompleted?.Invoke(this, args);
     }
     private void OnOpenExternalSubtitlesStreamCompleted(OpenExternalSubtitlesStreamCompletedArgs args = null)
@@ -238,7 +247,8 @@ public partial class DecoderContext
 
         ClosedSubtitlesStream = null;
 
-        if (CanInfo) Log.Info($"[OpenExternalSubtitlesStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error  + "]": "")}");
+        if (CanInfo)
+            Log.Info($"[OpenExternalSubtitlesStream] {(args.OldExtStream != null ? args.OldExtStream.Url : "None")} => {(args.ExtStream != null ? args.ExtStream.Url : "None")}{(!args.Success ? " [Error: " + args.Error + "]" : "")}");
         OpenExternalSubtitlesStreamCompleted?.Invoke(this, args);
     }
     #endregion
@@ -281,7 +291,8 @@ public partial class DecoderContext
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
@@ -305,7 +316,8 @@ public partial class DecoderContext
 
             return args;
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
@@ -375,11 +387,13 @@ public partial class DecoderContext
                 Seek(session.CurTime / 10000);
 
             return args;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenSessionCompleted(args);
         }
@@ -387,7 +401,7 @@ public partial class DecoderContext
     public OpenPlaylistItemCompletedArgs Open(PlaylistItem item, bool defaultVideo = true, bool defaultAudio = true, bool defaultSubtitles = true)
     {
         OpenPlaylistItemCompletedArgs args = new(item);
-        
+
         try
         {
             long stoppedTime = GetCurTime();
@@ -435,7 +449,7 @@ public partial class DecoderContext
 
             if (Playlist.Selected.Url != null || Playlist.Selected.IOStream != null)
                 args.Error = OpenDemuxerInput(VideoDemuxer, Playlist.Selected);
-            
+
             if (!args.Success)
                 return args;
 
@@ -460,11 +474,13 @@ public partial class DecoderContext
             }
 
             return args;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             OnOpenPlaylistItemCompleted(args);
         }
@@ -479,45 +495,45 @@ public partial class DecoderContext
 
             if (extStream is ExternalVideoStream)
             {
-                args = new OpenExternalVideoStreamCompletedArgs((ExternalVideoStream) extStream, Playlist.Selected.ExternalVideoStream);
+                args = new OpenExternalVideoStreamCompletedArgs((ExternalVideoStream)extStream, Playlist.Selected.ExternalVideoStream);
 
                 if (args.OldExtStream != null)
                     args.OldExtStream.Enabled = false;
 
-                Playlist.Selected.ExternalVideoStream = (ExternalVideoStream) extStream;
+                Playlist.Selected.ExternalVideoStream = (ExternalVideoStream)extStream;
 
-                foreach(var plugin in Plugins.Values)
+                foreach (var plugin in Plugins.Values)
                     plugin.OnOpenExternalVideo();
 
                 demuxer = VideoDemuxer;
             }
             else if (extStream is ExternalAudioStream)
             {
-                args = new OpenExternalAudioStreamCompletedArgs((ExternalAudioStream) extStream, Playlist.Selected.ExternalAudioStream);
+                args = new OpenExternalAudioStreamCompletedArgs((ExternalAudioStream)extStream, Playlist.Selected.ExternalAudioStream);
 
                 if (args.OldExtStream != null)
                     args.OldExtStream.Enabled = false;
 
-                Playlist.Selected.ExternalAudioStream = (ExternalAudioStream) extStream;
+                Playlist.Selected.ExternalAudioStream = (ExternalAudioStream)extStream;
 
-                foreach(var plugin in Plugins.Values)
+                foreach (var plugin in Plugins.Values)
                     plugin.OnOpenExternalAudio();
 
                 demuxer = AudioDemuxer;
             }
             else
             {
-                args = new OpenExternalSubtitlesStreamCompletedArgs((ExternalSubtitlesStream) extStream, Playlist.Selected.ExternalSubtitlesStream);
+                args = new OpenExternalSubtitlesStreamCompletedArgs((ExternalSubtitlesStream)extStream, Playlist.Selected.ExternalSubtitlesStream);
 
                 if (args.OldExtStream != null)
                     args.OldExtStream.Enabled = false;
 
-                Playlist.Selected.ExternalSubtitlesStream = (ExternalSubtitlesStream) extStream;
+                Playlist.Selected.ExternalSubtitlesStream = (ExternalSubtitlesStream)extStream;
 
                 if (!Playlist.Selected.ExternalSubtitlesStream.Downloaded)
                     DownloadSubtitles(Playlist.Selected.ExternalSubtitlesStream);
-                    
-                foreach(var plugin in Plugins.Values)
+
+                foreach (var plugin in Plugins.Values)
                     plugin.OnOpenExternalSubtitles();
 
                 demuxer = SubtitlesDemuxer;
@@ -574,11 +590,13 @@ public partial class DecoderContext
             extStream.Enabled = true;
 
             return args;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             args.Error = !args.Success ? args.Error + "\r\n" + e.Message : e.Message;
             return args;
-        } finally
+        }
+        finally
         {
             if (extStream is ExternalVideoStream)
                 OnOpenExternalVideoStreamCompleted((OpenExternalVideoStreamCompletedArgs)args);
@@ -598,94 +616,97 @@ public partial class DecoderContext
     private StreamOpenedArgs Open(StreamBase stream, bool defaultAudio = false)
     {
         StreamOpenedArgs args = null;
-        
+
         try
         {
             lock (stream.Demuxer.lockActions)
-            lock (stream.Demuxer.lockFmtCtx)
-            {
-                var oldStream = stream.Type == MediaType.Video ? VideoStream : (stream.Type == MediaType.Audio ? AudioStream : (StreamBase)SubtitlesStream);
-
-                // Close external demuxers when opening embedded
-                if (stream.Demuxer.Type == MediaType.Video)
+                lock (stream.Demuxer.lockFmtCtx)
                 {
-                    // TBR: if (stream.Type == MediaType.Video) | We consider that we can't have Embedded and External Video Streams at the same time
-                    if (stream.Type == MediaType.Audio) // TBR: && VideoStream != null)
+                    var oldStream = stream.Type == MediaType.Video ? VideoStream : (stream.Type == MediaType.Audio ? AudioStream : (StreamBase)SubtitlesStream);
+
+                    // Close external demuxers when opening embedded
+                    if (stream.Demuxer.Type == MediaType.Video)
                     {
-                        if (!EnableDecoding) AudioDemuxer.Dispose();
-                        if (Playlist.Selected.ExternalAudioStream != null)
+                        // TBR: if (stream.Type == MediaType.Video) | We consider that we can't have Embedded and External Video Streams at the same time
+                        if (stream.Type == MediaType.Audio) // TBR: && VideoStream != null)
                         {
-                            Playlist.Selected.ExternalAudioStream.Enabled = false;
-                            Playlist.Selected.ExternalAudioStream = null;
+                            if (!EnableDecoding)
+                                AudioDemuxer.Dispose();
+                            if (Playlist.Selected.ExternalAudioStream != null)
+                            {
+                                Playlist.Selected.ExternalAudioStream.Enabled = false;
+                                Playlist.Selected.ExternalAudioStream = null;
+                            }
+                        }
+                        else if (stream.Type == MediaType.Subs)
+                        {
+                            if (!EnableDecoding)
+                                SubtitlesDemuxer.Dispose();
+                            if (Playlist.Selected.ExternalSubtitlesStream != null)
+                            {
+                                Playlist.Selected.ExternalSubtitlesStream.Enabled = false;
+                                Playlist.Selected.ExternalSubtitlesStream = null;
+                            }
                         }
                     }
-                    else if (stream.Type == MediaType.Subs)
+                    else if (!EnableDecoding)
                     {
-                        if (!EnableDecoding) SubtitlesDemuxer.Dispose();
-                        if (Playlist.Selected.ExternalSubtitlesStream != null)
+                        // Disable embeded audio when enabling external audio (TBR)
+                        if (stream.Demuxer.Type == MediaType.Audio && stream.Type == MediaType.Audio && AudioStream != null && AudioStream.Demuxer.Type == MediaType.Video)
                         {
-                            Playlist.Selected.ExternalSubtitlesStream.Enabled = false;
-                            Playlist.Selected.ExternalSubtitlesStream = null;
+                            foreach (var aStream in VideoDemuxer.AudioStreams)
+                                VideoDemuxer.DisableStream(aStream);
                         }
                     }
-                }
-                else if (!EnableDecoding)
-                {
-                    // Disable embeded audio when enabling external audio (TBR)
-                    if (stream.Demuxer.Type == MediaType.Audio && stream.Type == MediaType.Audio && AudioStream != null && AudioStream.Demuxer.Type == MediaType.Video)
-                    {
-                        foreach (var aStream in VideoDemuxer.AudioStreams)
-                            VideoDemuxer.DisableStream(aStream);
-                    }
-                }
 
-                // Open Codec / Enable on demuxer
-                if (EnableDecoding)
-                {
-                    string ret = GetDecoderPtr(stream.Type).Open(stream);
-
-                    if (ret != null)
+                    // Open Codec / Enable on demuxer
+                    if (EnableDecoding)
                     {
+                        string ret = GetDecoderPtr(stream.Type).Open(stream);
+
+                        if (ret != null)
+                        {
                             return stream.Type == MediaType.Video
                             ? (args = new OpenVideoStreamCompletedArgs((VideoStream)stream, (VideoStream)oldStream, $"Failed to open video stream #{stream.StreamIndex}\r\n{ret}"))
                             : stream.Type == MediaType.Audio
                             ? (args = new OpenAudioStreamCompletedArgs((AudioStream)stream, (AudioStream)oldStream, $"Failed to open audio stream #{stream.StreamIndex}\r\n{ret}"))
                             : (args = new OpenSubtitlesStreamCompletedArgs((SubtitlesStream)stream, (SubtitlesStream)oldStream, $"Failed to open subtitles stream #{stream.StreamIndex}\r\n{ret}"));
                         }
-                }
-                else
-                    stream.Demuxer.EnableStream(stream);
-
-                // Open Audio based on new Video Stream (if not the same suggestion)
-                if (defaultAudio && stream.Type == MediaType.Video && Config.Audio.Enabled)
-                {
-                    bool requiresChange = true;
-                    SuggestAudio(out var aStream, out var aExtStream, VideoDemuxer.AudioStreams);
-
-                    if (AudioStream != null)
-                    {
-                        // External audio streams comparison
-                        if (Playlist.Selected.ExternalAudioStream != null && aExtStream != null && aExtStream.Index == Playlist.Selected.ExternalAudioStream.Index)
-                            requiresChange = false;
-                        // Embedded audio streams comparison
-                        else if (Playlist.Selected.ExternalAudioStream == null && aStream != null && aStream.StreamIndex == AudioStream.StreamIndex)
-                            requiresChange = false;
-                    }
-
-                    if (!requiresChange)
-                    {
-                        if (CanDebug) Log.Debug($"Audio no need to follow video");
                     }
                     else
-                    {
-                         if (aStream != null)
-                            Open(aStream);
-                        else if (aExtStream != null)
-                            Open(aExtStream);
+                        stream.Demuxer.EnableStream(stream);
 
-                         //RequiresResync = true;
+                    // Open Audio based on new Video Stream (if not the same suggestion)
+                    if (defaultAudio && stream.Type == MediaType.Video && Config.Audio.Enabled)
+                    {
+                        bool requiresChange = true;
+                        SuggestAudio(out var aStream, out var aExtStream, VideoDemuxer.AudioStreams);
+
+                        if (AudioStream != null)
+                        {
+                            // External audio streams comparison
+                            if (Playlist.Selected.ExternalAudioStream != null && aExtStream != null && aExtStream.Index == Playlist.Selected.ExternalAudioStream.Index)
+                                requiresChange = false;
+                            // Embedded audio streams comparison
+                            else if (Playlist.Selected.ExternalAudioStream == null && aStream != null && aStream.StreamIndex == AudioStream.StreamIndex)
+                                requiresChange = false;
+                        }
+
+                        if (!requiresChange)
+                        {
+                            if (CanDebug)
+                                Log.Debug($"Audio no need to follow video");
+                        }
+                        else
+                        {
+                            if (aStream != null)
+                                Open(aStream);
+                            else if (aExtStream != null)
+                                Open(aExtStream);
+
+                            //RequiresResync = true;
+                        }
                     }
-                }
 
                     return stream.Type == MediaType.Video
                     ? (args = new OpenVideoStreamCompletedArgs((VideoStream)stream, (VideoStream)oldStream))
@@ -693,10 +714,12 @@ public partial class DecoderContext
                     ? (args = new OpenAudioStreamCompletedArgs((AudioStream)stream, (AudioStream)oldStream))
                     : (args = new OpenSubtitlesStreamCompletedArgs((SubtitlesStream)stream, (SubtitlesStream)oldStream));
                 }
-        } catch(Exception e)
+        }
+        catch (Exception e)
         {
             return args = new StreamOpenedArgs(null, null, e.Message);
-        } finally
+        }
+        finally
         {
             if (stream.Type == MediaType.Video)
                 OnOpenVideoStreamCompleted((OpenVideoStreamCompletedArgs)args);
@@ -820,7 +843,8 @@ public partial class DecoderContext
                 }
             }
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.Debug($"OpenSuggestedSubtitles canceled? [{e.Message}]");
             return;
@@ -876,7 +900,8 @@ public partial class DecoderContext
                     Open(stream);
                 else if (extStream != null)
                     Open(extStream);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Log.Debug($"OpenSuggestedSubtitles canceled? [{e.Message}]");
             }
@@ -914,7 +939,7 @@ public partial class DecoderContext
                 if (demuxerInput.HTTPHeaders != null)
                 {
                     formatOpt["headers"] = "";
-                    foreach(var header in demuxerInput.HTTPHeaders)
+                    foreach (var header in demuxerInput.HTTPHeaders)
                         formatOpt["headers"] += header.Key + ": " + header.Value + "\r\n";
                 }
             }
@@ -934,13 +959,14 @@ public partial class DecoderContext
                 error = demuxer.Open(demuxerInput.IOStream);
 
             return error;
-        } finally
+        }
+        finally
         {
             // Restore HTTP Config
             if (Playlist.InputType == InputType.Web)
             {
                 formatOpt.Clear();
-                foreach(var opt in copied)
+                foreach (var opt in copied)
                     formatOpt.Add(opt.Key, opt.Value);
             }
 
@@ -989,3 +1015,4 @@ public partial class DecoderContext
     }
     #endregion
 }
+

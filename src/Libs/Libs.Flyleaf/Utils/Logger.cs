@@ -31,13 +31,13 @@ public static class Logger
 
     internal static Action<string>
                         Output = DevNullPtr;
-    static string       lastOutput = "";
+    static string lastOutput = "";
 
     static ConcurrentQueue<byte[]>
                         fileData = new();
-    static bool         fileTaskRunning;
-    static FileStream   fileStream;
-    static object       lockFileStream = new();
+    static bool fileTaskRunning;
+    static FileStream fileStream;
+    static object lockFileStream = new();
     static Dictionary<LogLevel, string>
                         logLevels = new();
 

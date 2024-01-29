@@ -12,22 +12,22 @@ namespace FlyleafLib.MediaFramework.MediaDevice;
 
 public class VideoDeviceStream : DeviceStreamBase
 {
-    public string   MajorType           { get; }
-    public string   SubType             { get; }
-    public int      FrameSizeWidth      { get; }
-    public int      FrameSizeHeight     { get; }
-    public int      FrameRate           { get; }
-    private string  FFmpegFormat        { get; }
+    public string MajorType { get; }
+    public string SubType { get; }
+    public int FrameSizeWidth { get; }
+    public int FrameSizeHeight { get; }
+    public int FrameRate { get; }
+    private string FFmpegFormat { get; }
 
     public VideoDeviceStream(string deviceName, Guid majorType, Guid subType, int frameSizeWidth, int frameSizeHeight, int frameRate, int frameRateDenominator) : base(deviceName)
     {
-        MajorType           = MediaTypeGuids.Video == majorType ? "Video" : "Unknown";
-        SubType             = GetPropertyName(subType);
-        FrameSizeWidth      = frameSizeWidth;
-        FrameSizeHeight     = frameSizeHeight;
-        FrameRate           = frameRate / frameRateDenominator;
-        FFmpegFormat        = GetFFmpegFormat(SubType);
-        Url                 = $"fmt://dshow?video={DeviceFriendlyName}&video_size={FrameSizeWidth}x{FrameSizeHeight}&framerate={FrameRate}&{FFmpegFormat}";
+        MajorType = MediaTypeGuids.Video == majorType ? "Video" : "Unknown";
+        SubType = GetPropertyName(subType);
+        FrameSizeWidth = frameSizeWidth;
+        FrameSizeHeight = frameSizeHeight;
+        FrameRate = frameRate / frameRateDenominator;
+        FFmpegFormat = GetFFmpegFormat(SubType);
+        Url = $"fmt://dshow?video={DeviceFriendlyName}&video_size={FrameSizeWidth}x{FrameSizeHeight}&framerate={FrameRate}&{FFmpegFormat}";
     }
 
     private static string GetPropertyName(Guid guid)

@@ -13,40 +13,40 @@ public class Playlist : NotifyPropertyChanged
     /// <summary>
     /// Url provided by user
     /// </summary>
-    public string       Url             { get => _Url;   set { string fixedUrl = FixFileUrl(value); SetUI(ref _Url, fixedUrl); } }
+    public string Url { get => _Url; set { string fixedUrl = FixFileUrl(value); SetUI(ref _Url, fixedUrl); } }
     string _Url;
 
     /// <summary>
     /// IOStream provided by user
     /// </summary>
-    public Stream       IOStream        { get; set; }
+    public Stream IOStream { get; set; }
 
     /// <summary>
     /// Playlist's folder base which can be used to save related files
     /// </summary>
-    public string       FolderBase      { get; set; }
+    public string FolderBase { get; set; }
 
     /// <summary>
     /// Playlist's title
     /// </summary>
-    public string       Title           { get => _Title; set => SetUI(ref _Title, value); }
+    public string Title { get => _Title; set => SetUI(ref _Title, value); }
     string _Title;
 
-    public int          ExpectingItems  { get => _ExpectingItems; set => SetUI(ref _ExpectingItems, value); }
+    public int ExpectingItems { get => _ExpectingItems; set => SetUI(ref _ExpectingItems, value); }
     int _ExpectingItems;
 
-    public bool         Completed       { get; set; }
+    public bool Completed { get; set; }
 
     /// <summary>
     /// Playlist's opened/selected item
     /// </summary>
-    public PlaylistItem Selected        { get => _Selected; internal set { SetUI(ref _Selected, value); UpdatePrevNextItem(); } }
+    public PlaylistItem Selected { get => _Selected; internal set { SetUI(ref _Selected, value); UpdatePrevNextItem(); } }
     PlaylistItem _Selected;
 
-    public PlaylistItem NextItem        { get => _NextItem; internal set => SetUI(ref _NextItem, value); }
+    public PlaylistItem NextItem { get => _NextItem; internal set => SetUI(ref _NextItem, value); }
     PlaylistItem _NextItem;
 
-    public PlaylistItem PrevItem        { get => _PrevItem; internal set => SetUI(ref _PrevItem, value); }
+    public PlaylistItem PrevItem { get => _PrevItem; internal set => SetUI(ref _PrevItem, value); }
     PlaylistItem _PrevItem;
 
     internal void UpdatePrevNextItem()
@@ -57,7 +57,7 @@ public class Playlist : NotifyPropertyChanged
             return;
         }
 
-        for (int i=0; i < Items.Count; i++)
+        for (int i = 0; i < Items.Count; i++)
         {
             if (Items[i] == Selected)
             {
@@ -72,12 +72,13 @@ public class Playlist : NotifyPropertyChanged
     /// <summary>
     /// Type of the provided input (such as File, UNC, Torrent, Web, etc.)
     /// </summary>
-    public InputType    InputType       { get; set; }
+    public InputType InputType { get; set; }
 
     // TODO: MediaType (Music/MusicClip/Movie/TVShow/etc.) probably should go per Playlist Item
 
     public ObservableCollection<PlaylistItem>
-                        Items           { get; set; } = new ObservableCollection<PlaylistItem>();
+                        Items
+    { get; set; } = new ObservableCollection<PlaylistItem>();
     object lockItems = new();
 
     long openCounter;
@@ -100,15 +101,15 @@ public class Playlist : NotifyPropertyChanged
 
         bool noupdate = _Url == null && _Title == null && _Selected == null;
 
-        _Url        = null;
-        _Title      = null;
-        _Selected   = null;
-        IOStream    = null;
-        FolderBase  = null;
-        Completed   = false;
+        _Url = null;
+        _Title = null;
+        _Selected = null;
+        IOStream = null;
+        FolderBase = null;
+        Completed = false;
         ExpectingItems = 0;
 
-        InputType   = InputType.Unknown;
+        InputType = InputType.Unknown;
 
         if (!noupdate)
             UI(() =>

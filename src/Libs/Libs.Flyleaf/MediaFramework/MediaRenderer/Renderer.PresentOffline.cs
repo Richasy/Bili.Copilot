@@ -19,16 +19,16 @@ namespace FlyleafLib.MediaFramework.MediaRenderer;
 public partial class Renderer
 {
     // Used for off screen rendering
-    Texture2DDescription                    singleStageDesc, singleGpuDesc;
-    ID3D11Texture2D                         singleStage;
-    ID3D11Texture2D                         singleGpu;
-    ID3D11RenderTargetView                  singleGpuRtv;
-    Viewport                                singleViewport;
+    Texture2DDescription singleStageDesc, singleGpuDesc;
+    ID3D11Texture2D singleStage;
+    ID3D11Texture2D singleGpu;
+    ID3D11RenderTargetView singleGpuRtv;
+    Viewport singleViewport;
 
     // Used for parallel off screen rendering
-    ID3D11RenderTargetView[]                rtv2;
-    ID3D11Texture2D[]                       backBuffer2;
-    bool[]                                  backBuffer2busy;
+    ID3D11RenderTargetView[] rtv2;
+    ID3D11Texture2D[] backBuffer2;
+    bool[] backBuffer2busy;
 
     unsafe internal void PresentOffline(VideoFrame frame, ID3D11RenderTargetView rtv, Viewport viewport)
     {
@@ -41,9 +41,9 @@ public partial class Renderer
             vc.VideoProcessorSetStreamDestRect(vp, 0, true, rect);
             vc.VideoProcessorSetOutputTargetRect(vp, true, rect);
 
-            if (frame.bufRef != null)
+            if (frame.avFrame != null)
             {
-                vpivd.Texture2D.ArraySlice = frame.subresource;
+                vpivd.Texture2D.ArraySlice = (int)frame.avFrame->data[1];
                 vd1.CreateVideoProcessorInputView(VideoDecoder.textureFFmpeg, vpe, vpivd, out vpiv);
             }
             else
@@ -82,18 +82,18 @@ public partial class Renderer
             {
                 frame ??= LastFrame;
 
-                if (Disposed || frame == null || (frame.textures == null && frame.bufRef == null))
+                if (Disposed || frame == null || (frame.textures == null && frame.avFrame == null))
                     return null;
 
                 if (width == -1 && height == -1)
                 {
-                    width  = VideoRect.Right;
+                    width = VideoRect.Right;
                     height = VideoRect.Bottom;
                 }
                 else if (width != -1 && height == -1)
                     height = (int)(width / curRatio);
                 else if (height != -1 && width == -1)
-                    width  = (int)(height * curRatio);
+                    width = (int)(height * curRatio);
 
                 if (singleStageDesc.Width != width || singleStageDesc.Height != height)
                 {
@@ -101,14 +101,14 @@ public partial class Renderer
                     singleStage?.Dispose();
                     singleGpuRtv?.Dispose();
 
-                    singleStageDesc.Width   = width;
-                    singleStageDesc.Height  = height;
-                    singleGpuDesc.Width     = width;
-                    singleGpuDesc.Height    = height;
+                    singleStageDesc.Width = width;
+                    singleStageDesc.Height = height;
+                    singleGpuDesc.Width = width;
+                    singleGpuDesc.Height = height;
 
                     singleStage = Device.CreateTexture2D(singleStageDesc);
-                    singleGpu   = Device.CreateTexture2D(singleGpuDesc);
-                    singleGpuRtv= Device.CreateRenderTargetView(singleGpu);
+                    singleGpu = Device.CreateTexture2D(singleGpuDesc);
+                    singleGpuRtv = Device.CreateRenderTargetView(singleGpu);
 
                     singleViewport = new Viewport(width, height);
                 }
@@ -122,7 +122,8 @@ public partial class Renderer
             context.CopyResource(singleStage, singleGpu);
             return GetBitmap(singleStage);
 
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Log.Warn($"GetBitmap failed with: {e.Message}");
             return null;
@@ -130,23 +131,23 @@ public partial class Renderer
     }
     public Bitmap GetBitmap(ID3D11Texture2D stageTexture)
     {
-        Bitmap bitmap   = new(stageTexture.Description.Width, stageTexture.Description.Height);
-        var db          = context.Map(stageTexture, 0, MapMode.Read, Vortice.Direct3D11.MapFlags.None);
-        var bitmapData  = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+        Bitmap bitmap = new(stageTexture.Description.Width, stageTexture.Description.Height);
+        var db = context.Map(stageTexture, 0, MapMode.Read, Vortice.Direct3D11.MapFlags.None);
+        var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
 
         if (db.RowPitch == bitmapData.Stride)
             MemoryHelpers.CopyMemory(bitmapData.Scan0, db.DataPointer, bitmap.Width * bitmap.Height * 4);
         else
         {
-            var sourcePtr   = db.DataPointer;
-            var destPtr     = bitmapData.Scan0;
+            var sourcePtr = db.DataPointer;
+            var destPtr = bitmapData.Scan0;
 
             for (int y = 0; y < bitmap.Height; y++)
             {
                 MemoryHelpers.CopyMemory(destPtr, sourcePtr, bitmap.Width * 4);
 
-                sourcePtr   = IntPtr.Add(sourcePtr, db.RowPitch);
-                destPtr     = IntPtr.Add(destPtr, bitmapData.Stride);
+                sourcePtr = IntPtr.Add(sourcePtr, db.RowPitch);
+                destPtr = IntPtr.Add(destPtr, bitmapData.Stride);
             }
         }
 
@@ -164,21 +165,22 @@ public partial class Renderer
     /// <returns></returns>
     public Bitmap ExtractFrame(VideoFrame frame)
     {
-        if (Device == null || frame == null) return null;
+        if (Device == null || frame == null)
+            return null;
 
         int subresource = -1;
 
         Texture2DDescription stageDesc = new()
         {
-            Usage       = ResourceUsage.Staging,
-            Width       = VideoDecoder.VideoStream.Width,
-            Height      = VideoDecoder.VideoStream.Height,
-            Format      = Format.B8G8R8A8_UNorm,
-            ArraySize   = 1,
-            MipLevels   = 1,
-            BindFlags   = BindFlags.None,
-            CPUAccessFlags      = CpuAccessFlags.Read,
-            SampleDescription   = new SampleDescription(1, 0)
+            Usage = ResourceUsage.Staging,
+            Width = VideoDecoder.VideoStream.Width,
+            Height = VideoDecoder.VideoStream.Height,
+            Format = Format.B8G8R8A8_UNorm,
+            ArraySize = 1,
+            MipLevels = 1,
+            BindFlags = BindFlags.None,
+            CPUAccessFlags = CpuAccessFlags.Read,
+            SampleDescription = new SampleDescription(1, 0)
         };
         var stage = Device.CreateTexture2D(stageDesc);
 
@@ -186,8 +188,9 @@ public partial class Renderer
         {
             while (true)
             {
-                for (int i=0; i<MaxOffScreenTextures; i++)
-                    if (!backBuffer2busy[i]) { subresource = i; break;}
+                for (int i = 0; i < MaxOffScreenTextures; i++)
+                    if (!backBuffer2busy[i])
+                    { subresource = i; break; }
 
                 if (subresource != -1)
                     break;
@@ -226,14 +229,14 @@ public partial class Renderer
         {
             backBuffer2[i] = Device.CreateTexture2D(new Texture2DDescription()
             {
-                Usage       = ResourceUsage.Default,
-                BindFlags   = BindFlags.RenderTarget,
-                Format      = Format.B8G8R8A8_UNorm,
-                Width       = VideoStream.Width,
-                Height      = VideoStream.Height,
+                Usage = ResourceUsage.Default,
+                BindFlags = BindFlags.RenderTarget,
+                Format = Format.B8G8R8A8_UNorm,
+                Width = VideoStream.Width,
+                Height = VideoStream.Height,
 
-                ArraySize   = 1,
-                MipLevels   = 1,
+                ArraySize = 1,
+                MipLevels = 1,
                 SampleDescription = new SampleDescription(1, 0)
             });
 
@@ -243,3 +246,4 @@ public partial class Renderer
         context.RSSetViewport(0, 0, VideoStream.Width, VideoStream.Height);
     }
 }
+

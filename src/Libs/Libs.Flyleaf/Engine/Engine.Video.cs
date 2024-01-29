@@ -15,21 +15,23 @@ public class VideoEngine
     /// List of Video Capture Devices
     /// </summary>
     public ObservableCollection<VideoDevice>
-                            CapDevices          { get; set; } = new();
-    public void             RefreshCapDevices() => VideoDevice.RefreshDevices();
+                            CapDevices
+    { get; set; } = new();
+    public void RefreshCapDevices() => VideoDevice.RefreshDevices();
 
     /// <summary>
     /// List of GPU Adpaters <see cref="Config.VideoConfig.GPUAdapter"/>
     /// </summary>
     public Dictionary<long, GPUAdapter>
-                            GPUAdapters         { get; private set; }
+                            GPUAdapters
+    { get; private set; }
 
     /// <summary>
     /// List of GPU Outputs from default GPU Adapter (Note: will no be updated on screen connect/disconnect)
     /// </summary>
-    public List<GPUOutput>  Screens             { get; private set; } = new List<GPUOutput>();
+    public List<GPUOutput> Screens { get; private set; } = new List<GPUOutput>();
 
-    internal IDXGIFactory2  Factory;
+    internal IDXGIFactory2 Factory;
 
     internal VideoEngine()
     {
@@ -42,28 +44,28 @@ public class VideoEngine
     private Dictionary<long, GPUAdapter> GetAdapters()
     {
         Dictionary<long, GPUAdapter> adapters = new();
-        
+
         string dump = "";
 
-        for (int i=0; Factory.EnumAdapters1(i, out var adapter).Success; i++)
+        for (int i = 0; Factory.EnumAdapters1(i, out var adapter).Success; i++)
         {
             bool hasOutput = false;
 
             List<GPUOutput> outputs = new();
 
             int maxHeight = 0;
-            for (int o=0; adapter.EnumOutputs(o, out var output).Success; o++)
+            for (int o = 0; adapter.EnumOutputs(o, out var output).Success; o++)
             {
                 GPUOutput gpout = new()
                 {
-                    Id        = GPUOutput.GPUOutputIdGenerator++,
-                    DeviceName= output.Description.DeviceName,
-                    Left      = output.Description.DesktopCoordinates.Left,
-                    Top       = output.Description.DesktopCoordinates.Top,
-                    Right     = output.Description.DesktopCoordinates.Right,
-                    Bottom    = output.Description.DesktopCoordinates.Bottom,
-                    IsAttached= output.Description.AttachedToDesktop,
-                    Rotation  = (int)output.Description.Rotation
+                    Id = GPUOutput.GPUOutputIdGenerator++,
+                    DeviceName = output.Description.DeviceName,
+                    Left = output.Description.DesktopCoordinates.Left,
+                    Top = output.Description.DesktopCoordinates.Top,
+                    Right = output.Description.DesktopCoordinates.Right,
+                    Bottom = output.Description.DesktopCoordinates.Bottom,
+                    IsAttached = output.Description.AttachedToDesktop,
+                    Rotation = (int)output.Description.Rotation
                 };
 
                 if (maxHeight < gpout.Height)
@@ -82,19 +84,19 @@ public class VideoEngine
 
             adapters[adapter.Description1.Luid] = new GPUAdapter()
             {
-                SystemMemory    = adapter.Description1.DedicatedSystemMemory,
-                VideoMemory     = adapter.Description1.DedicatedVideoMemory,
-                SharedMemory    = adapter.Description1.SharedSystemMemory,
-                Vendor          = VendorIdStr(adapter.Description1.VendorId),
-                Description     = adapter.Description1.Description,
-                Id              = adapter.Description1.DeviceId,
-                Luid            = adapter.Description1.Luid,
-                MaxHeight       = maxHeight,
-                HasOutput       = hasOutput,
-                Outputs         = outputs
+                SystemMemory = adapter.Description1.DedicatedSystemMemory,
+                VideoMemory = adapter.Description1.DedicatedVideoMemory,
+                SharedMemory = adapter.Description1.SharedSystemMemory,
+                Vendor = VendorIdStr(adapter.Description1.VendorId),
+                Description = adapter.Description1.Description,
+                Id = adapter.Description1.DeviceId,
+                Luid = adapter.Description1.Luid,
+                MaxHeight = maxHeight,
+                HasOutput = hasOutput,
+                Outputs = outputs
             };
 
-            dump += $"[#{i+1}] {adapters[adapter.Description1.Luid]}\r\n";
+            dump += $"[#{i + 1}] {adapters[adapter.Description1.Luid]}\r\n";
 
             adapter.Dispose();
         }
@@ -107,7 +109,7 @@ public class VideoEngine
     // Use instead System.Windows.Forms.Screen.FromPoint
     public GPUOutput GetScreenFromPosition(int top, int left)
     {
-        foreach(var screen in Screens)
+        foreach (var screen in Screens)
         {
             if (top >= screen.Top && top <= screen.Bottom && left >= screen.Left && left <= screen.Right)
                 return screen;
@@ -137,3 +139,4 @@ public class VideoEngine
         }
     }
 }
+

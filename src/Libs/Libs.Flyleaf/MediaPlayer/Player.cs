@@ -20,124 +20,124 @@ namespace FlyleafLib.MediaPlayer;
 public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 {
     #region Properties
-    public bool                 IsDisposed          { get; private set; }
+    public bool IsDisposed { get; private set; }
 
     /// <summary>
     /// FlyleafHost (WinForms, WPF or WinUI)
     /// </summary>
-    public IHostPlayer          Host                { get => _Host; set => Set(ref _Host, value); }
+    public IHostPlayer Host { get => _Host; set => Set(ref _Host, value); }
     IHostPlayer _Host;
 
     /// <summary>
     /// Player's Activity (Idle/Active/FullActive)
     /// </summary>
-    public Activity             Activity            { get; private set; }
+    public Activity Activity { get; private set; }
 
-    public Playlist             Playlist            => decoder.Playlist;
+    public Playlist Playlist => decoder.Playlist;
 
     /// <summary>
     /// Player's Audio (In/Out)
     /// </summary>
-    public Audio                Audio               { get; private set; }
+    public Audio Audio { get; private set; }
 
     /// <summary>
     /// Player's Video
     /// </summary>
-    public Video                Video               { get; private set; }
+    public Video Video { get; private set; }
 
     /// <summary>
     /// Player's Subtitles
     /// </summary>
-    public Subtitles            Subtitles           { get; private set; }
+    public Subtitles Subtitles { get; private set; }
 
     /// <summary>
     /// Player's Renderer
     /// (Normally you should not access this directly)
     /// </summary>
-    public Renderer             renderer            => decoder.VideoDecoder.Renderer;
+    public Renderer renderer => decoder.VideoDecoder.Renderer;
 
     /// <summary>
     /// Player's Decoder Context
     /// (Normally you should not access this directly)
     /// </summary>
-    public DecoderContext       decoder             { get; private set; }
+    public DecoderContext decoder { get; private set; }
 
     /// <summary>
     /// Audio Decoder
     /// (Normally you should not access this directly)
     /// </summary>
-    public AudioDecoder         AudioDecoder        => decoder.AudioDecoder;
+    public AudioDecoder AudioDecoder => decoder.AudioDecoder;
 
     /// <summary>
     /// Video Decoder
     /// (Normally you should not access this directly)
     /// </summary>
-    public VideoDecoder         VideoDecoder        => decoder.VideoDecoder;
+    public VideoDecoder VideoDecoder => decoder.VideoDecoder;
 
     /// <summary>
     /// Subtitles Decoder
     /// (Normally you should not access this directly)
     /// </summary>
-    public SubtitlesDecoder     SubtitlesDecoder    => decoder.SubtitlesDecoder;
+    public SubtitlesDecoder SubtitlesDecoder => decoder.SubtitlesDecoder;
 
     /// <summary>
     /// Main Demuxer (if video disabled or audio only can be AudioDemuxer instead of VideoDemuxer)
     /// (Normally you should not access this directly)
     /// </summary>
-    public Demuxer              MainDemuxer         => decoder.MainDemuxer;
+    public Demuxer MainDemuxer => decoder.MainDemuxer;
 
     /// <summary>
     /// Audio Demuxer
     /// (Normally you should not access this directly)
     /// </summary>
-    public Demuxer              AudioDemuxer        => decoder.AudioDemuxer;
+    public Demuxer AudioDemuxer => decoder.AudioDemuxer;
 
     /// <summary>
     /// Video Demuxer
     /// (Normally you should not access this directly)
     /// </summary>
-    public Demuxer              VideoDemuxer        => decoder.VideoDemuxer;
+    public Demuxer VideoDemuxer => decoder.VideoDemuxer;
 
     /// <summary>
     /// Subtitles Demuxer
     /// (Normally you should not access this directly)
     /// </summary>
-    public Demuxer              SubtitlesDemuxer    => decoder.SubtitlesDemuxer;
+    public Demuxer SubtitlesDemuxer => decoder.SubtitlesDemuxer;
 
 
     /// <summary>
     /// Player's incremental unique id
     /// </summary>
-    public int          PlayerId            { get; private set; }
+    public int PlayerId { get; private set; }
 
     /// <summary>
     /// Player's configuration (set once in the constructor)
     /// </summary>
-    public Config       Config              { get; protected set; }
+    public Config Config { get; protected set; }
 
     /// <summary>
     /// Player's Status
     /// </summary>
-    public Status       Status              { get => status;            private set => Set(ref _Status, value); }
+    public Status Status { get => status; private set => Set(ref _Status, value); }
     Status _Status = Status.Stopped, status = Status.Stopped;
-    public bool         IsPlaying           => status == Status.Playing;
+    public bool IsPlaying => status == Status.Playing;
 
     /// <summary>
     /// Whether the player's status is capable of accepting playback commands
     /// </summary>
-    public bool         CanPlay             { get => canPlay;           internal set => Set(ref _CanPlay, value); }
+    public bool CanPlay { get => canPlay; internal set => Set(ref _CanPlay, value); }
     internal bool _CanPlay, canPlay;
 
     /// <summary>
     /// The list of chapters
     /// </summary>
-    public List<Demuxer.Chapter> 
-                        Chapters            => VideoDemuxer?.Chapters;
+    public List<Demuxer.Chapter>
+                        Chapters => VideoDemuxer?.Chapters;
 
     /// <summary>
     /// Player's current time or user's current seek time (uses backward direction or accurate seek based on Config.Player.SeekAccurate)
     /// </summary>
-    public long         CurTime             { get => curTime;           set { if (Config.Player.SeekAccurate) SeekAccurate((int) (value/10000)); else Seek((int) (value/10000), false); } } // Note: forward seeking casues issues to some formats and can have serious delays (eg. dash with h264, dash with vp9 works fine)
+    public long CurTime { get => curTime; set { if (Config.Player.SeekAccurate) SeekAccurate((int)(value / 10000)); else Seek((int)(value / 10000), false); } } // Note: forward seeking casues issues to some formats and can have serious delays (eg. dash with h264, dash with vp9 works fine)
     long _CurTime, curTime;
     internal void UpdateCurTime()
     {
@@ -148,7 +148,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 
             if (MainDemuxer.IsHLSLive)
             {
-                curTime  = MainDemuxer.CurTime; // *speed ?
+                curTime = MainDemuxer.CurTime; // *speed ?
                 duration = MainDemuxer.Duration;
                 Duration = Duration;
             }
@@ -170,7 +170,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// <summary>
     /// Input's duration
     /// </summary>
-    public long         Duration            { get => duration;          private set => Set(ref _Duration, value); }
+    public long Duration { get => duration; private set => Set(ref _Duration, value); }
     long _Duration, duration;
 
     /// <summary>
@@ -188,34 +188,37 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
         isLive = MainDemuxer.IsLive;
         UI(() =>
         {
-            Duration= Duration;
-            IsLive  = IsLive;
+            Duration = Duration;
+            IsLive = IsLive;
         });
     }
 
     /// <summary>
     /// The current buffered duration in the demuxer
     /// </summary>
-    public long         BufferedDuration    { get => MainDemuxer == null ? 0 : MainDemuxer.BufferedDuration;
-                                                                        internal set => Set(ref _BufferedDuration, value); }
+    public long BufferedDuration
+    {
+        get => MainDemuxer == null ? 0 : MainDemuxer.BufferedDuration;
+        internal set => Set(ref _BufferedDuration, value);
+    }
     long _BufferedDuration;
 
     /// <summary>
     /// Whether the input is live (duration might not be 0 on live sessions to allow live seek, eg. hls)
     /// </summary>
-    public bool         IsLive              { get => isLive;            private set => Set(ref _IsLive, value); }
+    public bool IsLive { get => isLive; private set => Set(ref _IsLive, value); }
     bool _IsLive, isLive;
 
     ///// <summary>
     ///// Total bitrate (Kbps)
     ///// </summary>
-    public double       BitRate             { get => bitRate;           internal set => Set(ref _BitRate, value); }
+    public double BitRate { get => bitRate; internal set => Set(ref _BitRate, value); }
     internal double _BitRate, bitRate;
 
     /// <summary>
     /// Whether the player is recording
     /// </summary>
-    public bool         IsRecording
+    public bool IsRecording
     {
         get => decoder != null && decoder.IsRecording;
         private set { if (_IsRecording == value) return; _IsRecording = value; UI(() => Set(ref _IsRecording, value, false)); }
@@ -225,18 +228,19 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// <summary>
     /// Pan X Offset to change the X location
     /// </summary>
-    public int          PanXOffset          { get => renderer.PanXOffset; set { renderer.PanXOffset = value; Raise(nameof(PanXOffset)); } }
+    public int PanXOffset { get => renderer.PanXOffset; set { renderer.PanXOffset = value; Raise(nameof(PanXOffset)); } }
 
     /// <summary>
     /// Pan Y Offset to change the Y location
     /// </summary>
-    public int          PanYOffset          { get => renderer.PanYOffset; set { renderer.PanYOffset = value; Raise(nameof(PanYOffset)); } }
+    public int PanYOffset { get => renderer.PanYOffset; set { renderer.PanYOffset = value; Raise(nameof(PanYOffset)); } }
 
     /// <summary>
     /// Playback's speed (x1 - x4)
     /// </summary>
-    public double       Speed {
-        get => speed; 
+    public double Speed
+    {
+        get => speed;
         set
         {
             double newValue = Math.Round(value, 3);
@@ -244,16 +248,16 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
                 newValue = 0.125;
             else if (value > 16)
                 newValue = 16;
-            
+
             if (newValue == speed || (newValue > 1 && ReversePlayback))
                 return;
-            
-            AudioDecoder.Speed      = newValue;
-            VideoDecoder.Speed      = newValue;
-            speed                   = newValue;
-            decoder.RequiresResync  = true;
-            requiresBuffering       = true;
-            Subtitles.subsText      = "";
+
+            AudioDecoder.Speed = newValue;
+            VideoDecoder.Speed = newValue;
+            speed = newValue;
+            decoder.RequiresResync = true;
+            requiresBuffering = true;
+            Subtitles.subsText = "";
 
             UI(() =>
             {
@@ -267,7 +271,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// <summary>
     /// Pan zoom percentage (100 for 100%)
     /// </summary>
-    public int          Zoom
+    public int Zoom
     {
         get => (int)(renderer.Zoom * 100);
         set { renderer.SetZoom(renderer.Zoom = value / 100.0); RaiseUI(nameof(Zoom)); }
@@ -277,7 +281,9 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     /// <summary>
     /// Pan rotation angle (for D3D11 VP allowed values are 0, 90, 180, 270 only)
     /// </summary>
-    public uint Rotation            { get => renderer.Rotation; 
+    public uint Rotation
+    {
+        get => renderer.Rotation;
         set
         {
             renderer.Rotation = value;
@@ -286,9 +292,19 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     }
 
     /// <summary>
+    /// Pan Horizontal Flip (FlyleafVP only)
+    /// </summary>
+    public bool HFlip { get => renderer.HFlip; set => renderer.HFlip = value; }
+
+    /// <summary>
+    /// Pan Vertical Flip (FlyleafVP only)
+    /// </summary>
+    public bool VFlip { get => renderer.VFlip; set => renderer.VFlip = value; }
+
+    /// <summary>
     /// Whether to use reverse playback mode
     /// </summary>
-    public bool         ReversePlayback
+    public bool ReversePlayback
     {
         get => _ReversePlayback;
 
@@ -336,36 +352,37 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
                 }
 
                 reversePlaybackResync = false;
-                if (shouldPlay) Play();
+                if (shouldPlay)
+                    Play();
             }
         }
     }
     bool _ReversePlayback;
 
-    public object       Tag                 { get => tag; set => Set(ref  tag, value); }
+    public object Tag { get => tag; set => Set(ref tag, value); }
     object tag;
 
-    public string       LastError           { get => lastError; set => Set(ref _LastError, value); } 
+    public string LastError { get => lastError; set => Set(ref _LastError, value); }
     string _LastError, lastError;
     bool decoderHasEnded => decoder != null && (VideoDecoder.Status == MediaFramework.Status.Ended || (VideoDecoder.Disposed && AudioDecoder.Status == MediaFramework.Status.Ended));
     #endregion
 
     #region Properties Internal
-    readonly object lockActions  = new();
-    readonly object lockSubtitles= new();
+    readonly object lockActions = new();
+    readonly object lockSubtitles = new();
 
     bool taskSeekRuns;
     bool taskPlayRuns;
     bool taskOpenAsyncRuns;
 
-    readonly ConcurrentStack<SeekData>   seeks      = new();
-    readonly ConcurrentQueue<Action>     UIActions  = new();
+    readonly ConcurrentStack<SeekData> seeks = new();
+    readonly ConcurrentQueue<Action> UIActions = new();
 
-    internal AudioFrame     aFrame;
-    internal VideoFrame     vFrame;
+    internal AudioFrame aFrame;
+    internal VideoFrame vFrame;
     internal SubtitlesFrame sFrame, sFramePrev;
-    internal PlayerStats    stats = new();
-    internal LogHandler     Log;
+    internal PlayerStats stats = new();
+    internal LogHandler Log;
 
     internal bool requiresBuffering;
     bool reversePlaybackResync;
@@ -375,7 +392,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     bool isSubsSwitch;
     #endregion
 
-	public Player(Config config = null)
+    public Player(Config config = null)
     {
         if (config != null)
         {
@@ -391,13 +408,13 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
         Log = new LogHandler(("[#" + PlayerId + "]").PadRight(8, ' ') + " [Player        ] ");
         Log.Debug($"Creating Player (Usage = {Config.Player.Usage})");
 
-        Activity    = new Activity(this);
-        Audio       = new Audio(this);
-        Video       = new Video(this);
-        Subtitles   = new Subtitles(this);
+        Activity = new Activity(this);
+        Audio = new Audio(this);
+        Video = new Video(this);
+        Subtitles = new Subtitles(this);
 
         Config.SetPlayer(this);
-        
+
         if (Config.Player.Usage == Usage.Audio)
         {
             Config.Video.Enabled = false;
@@ -411,18 +428,18 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
             decoder.VideoDecoder.Renderer.forceNotExtractor = true;
 
         //decoder.OpenPlaylistItemCompleted              += Decoder_OnOpenExternalSubtitlesStreamCompleted;
-        
-        decoder.OpenAudioStreamCompleted               += Decoder_OpenAudioStreamCompleted;
-        decoder.OpenVideoStreamCompleted               += Decoder_OpenVideoStreamCompleted;
-        decoder.OpenSubtitlesStreamCompleted           += Decoder_OpenSubtitlesStreamCompleted;
 
-        decoder.OpenExternalAudioStreamCompleted       += Decoder_OpenExternalAudioStreamCompleted;
-        decoder.OpenExternalVideoStreamCompleted       += Decoder_OpenExternalVideoStreamCompleted;
-        decoder.OpenExternalSubtitlesStreamCompleted   += Decoder_OpenExternalSubtitlesStreamCompleted;
+        decoder.OpenAudioStreamCompleted += Decoder_OpenAudioStreamCompleted;
+        decoder.OpenVideoStreamCompleted += Decoder_OpenVideoStreamCompleted;
+        decoder.OpenSubtitlesStreamCompleted += Decoder_OpenSubtitlesStreamCompleted;
 
-        AudioDecoder.CBufAlloc      = () => { if (aFrame != null) aFrame.dataPtr = IntPtr.Zero; aFrame = null; Audio.ClearBuffer(); aFrame = null; };
-        AudioDecoder.CodecChanged   = Decoder_AudioCodecChanged;
-        VideoDecoder.CodecChanged   = Decoder_VideoCodecChanged;
+        decoder.OpenExternalAudioStreamCompleted += Decoder_OpenExternalAudioStreamCompleted;
+        decoder.OpenExternalVideoStreamCompleted += Decoder_OpenExternalVideoStreamCompleted;
+        decoder.OpenExternalSubtitlesStreamCompleted += Decoder_OpenExternalSubtitlesStreamCompleted;
+
+        AudioDecoder.CBufAlloc = () => { if (aFrame != null) aFrame.dataPtr = IntPtr.Zero; aFrame = null; Audio.ClearBuffer(); aFrame = null; };
+        AudioDecoder.CodecChanged = Decoder_AudioCodecChanged;
+        VideoDecoder.CodecChanged = Decoder_VideoCodecChanged;
         decoder.RecordingCompleted += (o, e) => { IsRecording = false; };
 
         status = Status.Stopped;
@@ -444,11 +461,12 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
             try
             {
                 Initialize();
-                Audio.Dispose(); 
+                Audio.Dispose();
                 decoder.Dispose();
                 Host?.Player_Disposed();
                 Log.Info("Disposed");
-            } catch (Exception e) { Log.Warn($"Disposed ({e.Message})"); }
+            }
+            catch (Exception e) { Log.Warn($"Disposed ({e.Message})"); }
 
             IsDisposed = true;
         }
@@ -463,7 +481,7 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
             bool wasPlaying = IsPlaying;
             Pause();
             VideoDecoder.RefreshMaxVideoFrames();
-            ReSync(decoder.VideoStream, (int) (CurTime / 10000), true);
+            ReSync(decoder.VideoStream, (int)(CurTime / 10000), true);
 
             if (wasPlaying)
                 Play();
@@ -472,21 +490,21 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
 
     private void ResetMe()
     {
-        canPlay     = false;
-        bitRate     = 0;
-        curTime     = 0;
-        duration    = 0;
-        isLive      = false;
-        lastError   = null;
+        canPlay = false;
+        bitRate = 0;
+        curTime = 0;
+        duration = 0;
+        isLive = false;
+        lastError = null;
 
         UIAdd(() =>
         {
-            BitRate     = BitRate;
-            Duration    = Duration;
-            IsLive      = IsLive;
-            Status      = Status;
-            CanPlay     = CanPlay;
-            LastError   = LastError;
+            BitRate = BitRate;
+            Duration = Duration;
+            IsLive = IsLive;
+            Status = Status;
+            CanPlay = CanPlay;
+            LastError = LastError;
             BufferedDuration = 0;
             Set(ref _CurTime, curTime, true, nameof(CurTime));
         });
@@ -501,7 +519,8 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
     }
     private void Initialize(Status status = Status.Stopped, bool andDecoder = true, bool isSwitch = false)
     {
-        if (CanDebug) Log.Debug($"Initializing");
+        if (CanDebug)
+            Log.Debug($"Initializing");
 
         lock (lockActions) // Required in case of OpenAsync and Stop requests
         {
@@ -514,7 +533,8 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
                 isVideoSwitch = false;
                 seeks.Clear();
 
-                while (taskPlayRuns || taskSeekRuns) Thread.Sleep(5);
+                while (taskPlayRuns || taskSeekRuns)
+                    Thread.Sleep(5);
 
                 if (andDecoder)
                 {
@@ -528,13 +548,16 @@ public unsafe partial class Player : NotifyPropertyChanged, IDisposable
                 VideoDemuxer.DisableReversePlayback();
                 ReversePlayback = false;
 
-                if (CanDebug) Log.Debug($"Initialized");
+                if (CanDebug)
+                    Log.Debug($"Initialized");
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Log.Error($"Initialize() Error: {e.Message}");
 
-            } finally
+            }
+            finally
             {
                 Engine.TimeEndPeriod1();
             }

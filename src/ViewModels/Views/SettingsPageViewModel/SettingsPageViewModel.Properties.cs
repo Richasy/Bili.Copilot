@@ -5,6 +5,7 @@ using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Player;
 using CommunityToolkit.Mvvm.ComponentModel;
+using FlyleafLib;
 using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
@@ -55,6 +56,9 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private PlayerType _webDavPlayerType;
+
+    [ObservableProperty]
+    private VideoProcessors _videoProcessor;
 
     [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
@@ -127,6 +131,9 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private bool _isVideoDynamicNotificationEnabled;
+
+    [ObservableProperty]
+    private bool _isVideoNativePlayer;
 
     /// <summary>
     /// 播放器显示模式可选集合.

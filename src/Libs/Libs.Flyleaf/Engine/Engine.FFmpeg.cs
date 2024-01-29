@@ -9,35 +9,41 @@ namespace FlyleafLib;
 
 public class FFmpegEngine
 {
-    public string   Folder          { get; private set; }
-    public string   Version         { get; private set; }
-    public bool     IsVer5OrGreater { get; private set; }
+    public string Folder { get; private set; }
+    public string Version { get; private set; }
+    public bool IsVer5OrGreater { get; private set; }
 
-    public bool     FiltersLoaded   { get; set; }
-    public bool     DevicesLoaded   { get; set; }
+    public bool FiltersLoaded { get; set; }
+    public bool DevicesLoaded { get; set; }
 
-    const int       AV_LOG_BUFFER_SIZE = 5 * 1024;
+    const int AV_LOG_BUFFER_SIZE = 5 * 1024;
+    internal AVRational AV_TIMEBASE_Q;
 
     internal FFmpegEngine()
     {
         try
         {
             Engine.Log.Info($"Loading FFmpeg libraries from '{Engine.Config.FFmpegPath}'");
-            Folder  = Utils.GetFolderPath(Engine.Config.FFmpegPath);
-            RootPath= Folder;
-            uint ver= avformat_version();
-            IsVer5OrGreater  = ver >> 16 > 58;
+            Folder = Utils.GetFolderPath(Engine.Config.FFmpegPath);
+            RootPath = Folder;
+            uint ver = avformat_version();
+            IsVer5OrGreater = ver >> 16 > 58;
             Version = $"{ver >> 16}.{(ver >> 8) & 255}.{ver & 255}";
-            
+
             if (Engine.Config.FFmpegDevices)
-                try { avdevice_register_all(); DevicesLoaded = true; } catch { Engine.Log.Error("FFmpeg failed to load avdevices/avfilters/postproc"); }
-            
-            try { avfilter_version(); FiltersLoaded = true; } catch { FiltersLoaded = false; }
+                try
+                { avdevice_register_all(); DevicesLoaded = true; }
+                catch { Engine.Log.Error("FFmpeg failed to load avdevices/avfilters/postproc"); }
+
+            try
+            { avfilter_version(); FiltersLoaded = true; }
+            catch { FiltersLoaded = false; }
 
             SetLogLevel();
-            
+            AV_TIMEBASE_Q = av_get_time_base_q();
             Engine.Log.Info($"FFmpeg Loaded (Location: {Folder}, Ver: {Version}) [Devices: {(DevicesLoaded ? "yes" : "no")}, Filters: {(FiltersLoaded ? "yes" : "no")}]");
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Engine.Log.Error($"Loading FFmpeg libraries '{Engine.Config.FFmpegPath}' failed\r\n{e.Message}\r\n{e.StackTrace}");
             throw new Exception($"Loading FFmpeg libraries '{Engine.Config.FFmpegPath}' failed");
@@ -60,12 +66,13 @@ public class FFmpegEngine
 
     internal unsafe static av_log_set_callback_callback LogFFmpeg = (p0, level, format, vl) =>
     {
-        if (level > av_log_get_level()) return;
+        if (level > av_log_get_level())
+            return;
 
-        byte*   buffer = stackalloc byte[AV_LOG_BUFFER_SIZE];
-        int     printPrefix = 1;
+        byte* buffer = stackalloc byte[AV_LOG_BUFFER_SIZE];
+        int printPrefix = 1;
         av_log_format_line2(p0, level, format, vl, buffer, AV_LOG_BUFFER_SIZE, &printPrefix);
-        string  line = Utils.BytePtrToStringUTF8(buffer);
+        string line = Utils.BytePtrToStringUTF8(buffer);
 
         Logger.Output($"{DateTime.Now.ToString(Engine.Config.LogDateTimeFormat)} | FFmpeg | {(FFmpegLogLevel)level,-7} | {line.Trim()}");
     };
@@ -80,15 +87,15 @@ public class FFmpegEngine
 
 public enum FFmpegLogLevel
 {
-    Quiet       =-0x08,
-    SkipRepeated= 0x01,
-    PrintLevel  = 0x02,
-    Fatal       = 0x08,
-    Error       = 0x10,
-    Warning     = 0x18,
-    Info        = 0x20,
-    Verbose     = 0x28,
-    Debug       = 0x30,
-    Trace       = 0x38,
-    MaxOffset   = 0x40,
+    Quiet = -0x08,
+    SkipRepeated = 0x01,
+    PrintLevel = 0x02,
+    Fatal = 0x08,
+    Error = 0x10,
+    Warning = 0x18,
+    Info = 0x20,
+    Verbose = 0x28,
+    Debug = 0x30,
+    Trace = 0x38,
+    MaxOffset = 0x40,
 }

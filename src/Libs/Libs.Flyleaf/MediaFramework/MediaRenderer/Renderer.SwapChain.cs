@@ -14,19 +14,19 @@ namespace FlyleafLib.MediaFramework.MediaRenderer;
 
 public partial class Renderer
 {
-    ID3D11Texture2D                         backBuffer;
-    ID3D11RenderTargetView                  backBufferRtv;
-    IDXGISwapChain1                         swapChain;
-    IDCompositionDevice                     dCompDevice;
-    IDCompositionVisual                     dCompVisual;
-    IDCompositionTarget                     dCompTarget;
+    ID3D11Texture2D backBuffer;
+    ID3D11RenderTargetView backBufferRtv;
+    IDXGISwapChain1 swapChain;
+    IDCompositionDevice dCompDevice;
+    IDCompositionVisual dCompVisual;
+    IDCompositionTarget dCompTarget;
 
-    const Int32         WM_NCDESTROY= 0x0082;
-    const Int32         WM_SIZE     = 0x0005;
-    const Int32         WS_EX_NOREDIRECTIONBITMAP
+    const Int32 WM_NCDESTROY = 0x0082;
+    const Int32 WM_SIZE = 0x0005;
+    const Int32 WS_EX_NOREDIRECTIONBITMAP
                                     = 0x00200000;
-    SubclassWndProc     wndProcDelegate;
-    IntPtr              wndProcDelegatePtr;
+    SubclassWndProc wndProcDelegate;
+    IntPtr wndProcDelegatePtr;
 
     // Support Windows 8+
     private SwapChainDescription1 GetSwapChainDesc(int width, int height, bool isComp = false, bool alpha = false)
@@ -36,12 +36,12 @@ public partial class Renderer
             return new()
             {
                 BufferUsage = Usage.RenderTargetOutput,
-                Format      = Config.Video.Swap10Bit ? Format.R10G10B10A2_UNorm : Format.B8G8R8A8_UNorm,
-                Width       = width,
-                Height      = height,
-                AlphaMode   = AlphaMode.Ignore,
-                SwapEffect  = isComp ? SwapEffect.FlipSequential : SwapEffect.Discard, // will this work for warp?
-                Scaling     = Scaling.Stretch,
+                Format = Config.Video.Swap10Bit ? Format.R10G10B10A2_UNorm : Format.B8G8R8A8_UNorm,
+                Width = width,
+                Height = height,
+                AlphaMode = AlphaMode.Ignore,
+                SwapEffect = isComp ? SwapEffect.FlipSequential : SwapEffect.Discard, // will this work for warp?
+                Scaling = Scaling.Stretch,
                 BufferCount = 1,
                 SampleDescription = new SampleDescription(1, 0)
             };
@@ -53,12 +53,12 @@ public partial class Renderer
             return new()
             {
                 BufferUsage = Usage.RenderTargetOutput,
-                Format      = Config.Video.Swap10Bit ? Format.R10G10B10A2_UNorm : (Config.Video.SwapForceR8G8B8A8 ? Format.R8G8B8A8_UNorm : Format.B8G8R8A8_UNorm),
-                Width       = width,
-                Height      = height,
-                AlphaMode   = alpha  ? AlphaMode.Premultiplied : AlphaMode.Ignore,
-                SwapEffect  = swapEffect,
-                Scaling     = isComp ? Scaling.Stretch : Scaling.None,
+                Format = Config.Video.Swap10Bit ? Format.R10G10B10A2_UNorm : (Config.Video.SwapForceR8G8B8A8 ? Format.R8G8B8A8_UNorm : Format.B8G8R8A8_UNorm),
+                Width = width,
+                Height = height,
+                AlphaMode = alpha ? AlphaMode.Premultiplied : AlphaMode.Ignore,
+                SwapEffect = swapEffect,
+                Scaling = isComp ? Scaling.Stretch : Scaling.None,
                 BufferCount = swapEffect == SwapEffect.FlipDiscard ? Math.Min(Config.Video.SwapBuffers, 2) : Config.Video.SwapBuffers,
                 SampleDescription = new SampleDescription(1, 0),
             };
@@ -74,12 +74,12 @@ public partial class Renderer
 
             if (Disposed && parent == null)
                 Initialize(false);
-            
-            ControlHandle   = handle;
-            RECT rect       = new();
-            GetWindowRect(ControlHandle,ref rect);
-            ControlWidth    = rect.Right  - rect.Left;
-            ControlHeight   = rect.Bottom - rect.Top;
+
+            ControlHandle = handle;
+            RECT rect = new();
+            GetWindowRect(ControlHandle, ref rect);
+            ControlWidth = rect.Right - rect.Left;
+            ControlHeight = rect.Bottom - rect.Top;
 
             try
             {
@@ -93,7 +93,7 @@ public partial class Renderer
                     Log.Info($"Initializing {(Config.Video.Swap10Bit ? "10-bit" : "8-bit")} composition swap chain with {Config.Video.SwapBuffers} buffers [Handle: {handle}]");
                     swapChain = Engine.Video.Factory.CreateSwapChainForComposition(Device, GetSwapChainDesc(ControlWidth, ControlHeight, true, true));
                     using (var dxgiDevice = Device.QueryInterface<IDXGIDevice>())
-                    dCompDevice = DComp.DCompositionCreateDevice<IDCompositionDevice>(dxgiDevice);
+                        dCompDevice = DComp.DCompositionCreateDevice<IDCompositionDevice>(dxgiDevice);
                     dCompDevice.CreateTargetForHwnd(handle, false, out dCompTarget).CheckError();
                     dCompDevice.CreateVisual(out dCompVisual).CheckError();
                     dCompVisual.SetContent(swapChain).CheckError();
@@ -108,8 +108,10 @@ public partial class Renderer
             {
                 if (string.IsNullOrWhiteSpace(Config.Video.GPUAdapter) || Config.Video.GPUAdapter.ToUpper() != "WARP")
                 {
-                    try { if (Device != null) Log.Warn($"Device Remove Reason = {Device.DeviceRemovedReason.Description}"); } catch { } // For troubleshooting
-                        
+                    try
+                    { if (Device != null) Log.Warn($"Device Remove Reason = {Device.DeviceRemovedReason.Description}"); }
+                    catch { } // For troubleshooting
+
                     Log.Warn($"[SwapChain] Initialization failed ({e.Message}). Failling back to WARP device.");
                     Config.Video.GPUAdapter = "WARP";
                     Flush();
@@ -122,10 +124,10 @@ public partial class Renderer
 
                 return;
             }
-            
-            backBuffer      = swapChain.GetBuffer<ID3D11Texture2D>(0);
-            backBufferRtv   = Device.CreateRenderTargetView(backBuffer);
-            SCDisposed      = false;
+
+            backBuffer = swapChain.GetBuffer<ID3D11Texture2D>(0);
+            backBufferRtv = Device.CreateRenderTargetView(backBuffer);
+            SCDisposed = false;
 
             if (!isFlushing) // avoid calling UI thread during Player.Stop
             {
@@ -159,7 +161,7 @@ public partial class Renderer
             }
             catch (Exception e)
             {
-                Log.Error($"Initialization failed [{e.Message}]"); 
+                Log.Error($"Initialization failed [{e.Message}]");
 
                 // TODO fallback to WARP?
 
@@ -167,9 +169,9 @@ public partial class Renderer
                 return;
             }
 
-            backBuffer      = swapChain.GetBuffer<ID3D11Texture2D>(0);
-            backBufferRtv   = Device.CreateRenderTargetView(backBuffer);
-            SCDisposed      = false;
+            backBuffer = swapChain.GetBuffer<ID3D11Texture2D>(0);
+            backBufferRtv = Device.CreateRenderTargetView(backBuffer);
+            SCDisposed = false;
             ResizeBuffers(1, 1);
 
             SwapChainWinUIClbk?.Invoke(swapChain.QueryInterface<IDXGISwapChain2>());
@@ -206,7 +208,12 @@ public partial class Renderer
                 ControlHandle = IntPtr.Zero;
             }
 
-            SwapChainWinUIClbk = null;
+            if (SwapChainWinUIClbk != null)
+            {
+                SwapChainWinUIClbk.Invoke(null);
+                SwapChainWinUIClbk = null;
+                swapChain?.Release(); // TBR: SwapChainPanel (SCP) should be disposed and create new instance instead (currently used from Template)
+            }
 
             dCompVisual?.Dispose();
             dCompTarget?.Dispose();
@@ -278,10 +285,11 @@ public partial class Renderer
     {
         float ratio;
         int x, y, newWidth, newHeight, xZoomPixels, yZoomPixels;
-        
+
         if (Config.Video.AspectRatio == AspectRatio.Keep)
             ratio = curRatio;
-        else ratio = Config.Video.AspectRatio == AspectRatio.Fill
+        else
+            ratio = Config.Video.AspectRatio == AspectRatio.Fill
             ? ControlWidth / (float)ControlHeight
             : Config.Video.AspectRatio == AspectRatio.Custom ? Config.Video.CustomAspectRatio.Value : Config.Video.AspectRatio.Value;
 
@@ -291,31 +299,31 @@ public partial class Renderer
         if (actualRotation == 90 || actualRotation == 270)
             ratio = 1 / ratio;
 
-        if (ratio < ControlWidth / (float) ControlHeight)
+        if (ratio < ControlWidth / (float)ControlHeight)
         {
             newHeight = (int)(ControlHeight * zoom);
             newWidth = (int)(newHeight * ratio);
 
-            SideXPixels = newWidth > ControlWidth && false ? 0 : (int) (ControlWidth - (ControlHeight * ratio)); // TBR
+            SideXPixels = newWidth > ControlWidth && false ? 0 : (int)(ControlWidth - (ControlHeight * ratio)); // TBR
             SideYPixels = 0;
 
             y = PanYOffset;
             x = PanXOffset + SideXPixels / 2;
 
             yZoomPixels = newHeight - ControlHeight;
-            xZoomPixels = newWidth - (ControlWidth - SideXPixels);   
+            xZoomPixels = newWidth - (ControlWidth - SideXPixels);
         }
         else
         {
             newWidth = (int)(ControlWidth * zoom);
             newHeight = (int)(newWidth / ratio);
 
-            SideYPixels = newHeight > ControlHeight && false ? 0 : (int) (ControlHeight - (ControlWidth / ratio));
+            SideYPixels = newHeight > ControlHeight && false ? 0 : (int)(ControlHeight - (ControlWidth / ratio));
             SideXPixels = 0;
 
             x = PanXOffset;
             y = PanYOffset + SideYPixels / 2;
-            
+
             xZoomPixels = newWidth - ControlWidth;
             yZoomPixels = newHeight - (ControlHeight - SideYPixels);
         }
@@ -329,57 +337,57 @@ public partial class Renderer
 
             if (GetViewport.Width < 1 || GetViewport.X + GetViewport.Width <= 0 || GetViewport.X >= ControlWidth || GetViewport.Y + GetViewport.Height <= 0 || GetViewport.Y >= ControlHeight)
             { // Out of screen
-                src = new RawRect(); 
+                src = new RawRect();
                 dst = new RawRect();
             }
             else
             {
-                int cropLeft    = GetViewport.X < 0 ? (int) GetViewport.X * -1 : 0;
-                int cropRight   = GetViewport.X + GetViewport.Width > ControlWidth ? (int) (GetViewport.X + GetViewport.Width - ControlWidth) : 0;
-                int cropTop     = GetViewport.Y < 0 ? (int) GetViewport.Y * -1 : 0;
-                int cropBottom  = GetViewport.Y + GetViewport.Height > ControlHeight ? (int) (GetViewport.Y + GetViewport.Height - ControlHeight) : 0;
+                int cropLeft = GetViewport.X < 0 ? (int)GetViewport.X * -1 : 0;
+                int cropRight = GetViewport.X + GetViewport.Width > ControlWidth ? (int)(GetViewport.X + GetViewport.Width - ControlWidth) : 0;
+                int cropTop = GetViewport.Y < 0 ? (int)GetViewport.Y * -1 : 0;
+                int cropBottom = GetViewport.Y + GetViewport.Height > ControlHeight ? (int)(GetViewport.Y + GetViewport.Height - ControlHeight) : 0;
 
                 dst = new RawRect(Math.Max((int)GetViewport.X, 0), Math.Max((int)GetViewport.Y, 0), Math.Min((int)GetViewport.Width + (int)GetViewport.X, ControlWidth), Math.Min((int)GetViewport.Height + (int)GetViewport.Y, ControlHeight));
-                    
+
                 if (_RotationAngle == 90)
                 {
                     src = new RawRect(
-                        (int) (cropTop * (VideoRect.Right / GetViewport.Height)),
-                        (int) (cropRight * (VideoRect.Bottom / GetViewport.Width)),
-                        VideoRect.Right - (int) (cropBottom * VideoRect.Right / GetViewport.Height),
-                        VideoRect.Bottom - (int) (cropLeft * VideoRect.Bottom / GetViewport.Width));
+                        (int)(cropTop * (VideoRect.Right / GetViewport.Height)),
+                        (int)(cropRight * (VideoRect.Bottom / GetViewport.Width)),
+                        VideoRect.Right - (int)(cropBottom * VideoRect.Right / GetViewport.Height),
+                        VideoRect.Bottom - (int)(cropLeft * VideoRect.Bottom / GetViewport.Width));
                 }
                 else if (_RotationAngle == 270)
                 {
                     src = new RawRect(
-                        (int) (cropBottom * VideoRect.Right / GetViewport.Height),
-                        (int) (cropLeft * VideoRect.Bottom / GetViewport.Width),
-                        VideoRect.Right - (int) (cropTop * VideoRect.Right / GetViewport.Height),
-                        VideoRect.Bottom - (int) (cropRight * VideoRect.Bottom / GetViewport.Width));
+                        (int)(cropBottom * VideoRect.Right / GetViewport.Height),
+                        (int)(cropLeft * VideoRect.Bottom / GetViewport.Width),
+                        VideoRect.Right - (int)(cropTop * VideoRect.Right / GetViewport.Height),
+                        VideoRect.Bottom - (int)(cropRight * VideoRect.Bottom / GetViewport.Width));
                 }
                 else if (_RotationAngle == 180)
                 {
                     src = new RawRect(
-                        (int) (cropRight * VideoRect.Right / GetViewport.Width),
-                        (int) (cropBottom * VideoRect.Bottom /GetViewport.Height),
-                        VideoRect.Right - (int) (cropLeft * VideoRect.Right / GetViewport.Width),
-                        VideoRect.Bottom - (int) (cropTop * VideoRect.Bottom / GetViewport.Height));
+                        (int)(cropRight * VideoRect.Right / GetViewport.Width),
+                        (int)(cropBottom * VideoRect.Bottom / GetViewport.Height),
+                        VideoRect.Right - (int)(cropLeft * VideoRect.Right / GetViewport.Width),
+                        VideoRect.Bottom - (int)(cropTop * VideoRect.Bottom / GetViewport.Height));
                 }
                 else
                 {
                     src = new RawRect(
-                        (int) (cropLeft * VideoRect.Right / GetViewport.Width),
-                        (int) (cropTop * VideoRect.Bottom / GetViewport.Height),
-                        VideoRect.Right - (int) (cropRight * VideoRect.Right / GetViewport.Width),
-                        VideoRect.Bottom - (int) (cropBottom * VideoRect.Bottom / GetViewport.Height));
+                        (int)(cropLeft * VideoRect.Right / GetViewport.Width),
+                        (int)(cropTop * VideoRect.Bottom / GetViewport.Height),
+                        VideoRect.Right - (int)(cropRight * VideoRect.Right / GetViewport.Width),
+                        VideoRect.Bottom - (int)(cropBottom * VideoRect.Bottom / GetViewport.Height));
                 }
             }
-            
+
             vc.VideoProcessorSetStreamSourceRect(vp, 0, true, src);
-            vc.VideoProcessorSetStreamDestRect  (vp, 0, true, dst);
+            vc.VideoProcessorSetStreamDestRect(vp, 0, true, dst);
             vc.VideoProcessorSetOutputTargetRect(vp, true, new RawRect(0, 0, ControlWidth, ControlHeight));
         }
-        
+
         if (refresh)
             Present();
     }
@@ -389,7 +397,7 @@ public partial class Renderer
         {
             if (SCDisposed)
                 return;
-                
+
             ControlWidth = width;
             ControlHeight = height;
 

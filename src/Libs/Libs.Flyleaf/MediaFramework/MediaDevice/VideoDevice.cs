@@ -21,8 +21,10 @@ public class VideoDevice : DeviceBase<VideoDeviceStream>
             Engine.Video.CapDevices.Clear();
 
             var devices = MediaFactory.MFEnumVideoDeviceSources();
-                foreach (var device in devices)
-                try { Engine.Video.CapDevices.Add(new VideoDevice(device.FriendlyName, device.SymbolicLink)); } catch(Exception) { }
+            foreach (var device in devices)
+                try
+                { Engine.Video.CapDevices.Add(new VideoDevice(device.FriendlyName, device.SymbolicLink)); }
+                catch (Exception) { }
         });
     }
 }

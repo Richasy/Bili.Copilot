@@ -11,25 +11,25 @@ namespace FlyleafLib.MediaFramework.MediaDecoder;
 
 public abstract unsafe class DecoderBase : RunThreadBase
 {
-    public MediaType                Type            { get; protected set; }
+    public MediaType Type { get; protected set; }
 
-    public bool                     OnVideoDemuxer  => demuxer?.Type == MediaType.Video;
-    public Demuxer                  Demuxer         => demuxer;
-    public StreamBase               Stream          { get; protected set; }
-    public AVCodecContext*          CodecCtx        => codecCtx;
-    public Action<DecoderBase>      CodecChanged    { get; set; }
-    public Config                   Config          { get; protected set; }
-    public double                   Speed           { get => speed; set { if (Disposed) { speed = value; return; } if (speed != value) OnSpeedChanged(value); } }
+    public bool OnVideoDemuxer => demuxer?.Type == MediaType.Video;
+    public Demuxer Demuxer => demuxer;
+    public StreamBase Stream { get; protected set; }
+    public AVCodecContext* CodecCtx => codecCtx;
+    public Action<DecoderBase> CodecChanged { get; set; }
+    public Config Config { get; protected set; }
+    public double Speed { get => speed; set { if (Disposed) { speed = value; return; } if (speed != value) OnSpeedChanged(value); } }
     protected double speed = 1, oldSpeed = 1;
     protected virtual void OnSpeedChanged(double value) { }
 
-    internal bool               filledFromCodec;
-    protected int               curSpeedFrame = 1;
-    protected AVFrame*          frame;
-    protected AVCodecContext*   codecCtx;
-    internal  object            lockCodecCtx    = new();
+    internal bool filledFromCodec;
+    protected int curSpeedFrame = 1;
+    protected AVFrame* frame;
+    protected AVCodecContext* codecCtx;
+    internal object lockCodecCtx = new();
 
-    protected Demuxer           demuxer;
+    protected Demuxer demuxer;
 
     public DecoderBase(Config config, int uniqueId = -1) : base(uniqueId)
     {
@@ -71,8 +71,8 @@ public abstract unsafe class DecoderBase : RunThreadBase
                     return "Cancelled";
 
                 int ret = -1;
-                Disposed= false;
-                Stream  = stream;
+                Disposed = false;
+                Stream = stream;
                 demuxer = stream.Demuxer;
 
                 // avcodec_find_decoder will use libdav1d which does not support hardware decoding (software fallback with openStream = false from av1 to default:libdav1d) [#340]
@@ -88,22 +88,24 @@ public abstract unsafe class DecoderBase : RunThreadBase
                 if (ret < 0)
                     return error = $"[{Type} avcodec_parameters_to_context] {FFmpegEngine.ErrorCodeToMsg(ret)} ({ret})";
 
-                codecCtx->pkt_timebase  = stream.AVStream->time_base;
-                //codecCtx->codec_id      = codec->id;
+                codecCtx->pkt_timebase = stream.AVStream->time_base;
+                codecCtx->codec_id = codec->id; // avcodec_parameters_to_context will change this we need to set Stream's Codec Id (eg we change mp2 to mp3)
 
                 if (Config.Decoder.ShowCorrupted)
                     codecCtx->flags |= AV_CODEC_FLAG_OUTPUT_CORRUPT;
 
                 if (Config.Decoder.LowDelay)
                     codecCtx->flags |= AV_CODEC_FLAG_LOW_DELAY;
-                    
-                try { ret = Setup(codec); } catch(Exception e) { return error = $"[{Type} Setup] {e.Message}"; }
+
+                try
+                { ret = Setup(codec); }
+                catch (Exception e) { return error = $"[{Type} Setup] {e.Message}"; }
                 if (ret < 0)
                     return error = $"[{Type} Setup] {ret}";
 
                 var codecOpts = Config.Decoder.GetCodecOptPtr(stream.Type);
                 AVDictionary* avopt = null;
-                foreach(var optKV in codecOpts)
+                foreach (var optKV in codecOpts)
                     av_dict_set(&avopt, optKV.Key, optKV.Value, 0);
 
                 ret = avcodec_open2(codecCtx, codec, avopt == null ? null : &avopt);
@@ -112,7 +114,7 @@ public abstract unsafe class DecoderBase : RunThreadBase
                 {
                     if (ret >= 0)
                     {
-                        AVDictionaryEntry *t = null;
+                        AVDictionaryEntry* t = null;
 
                         while ((t = av_dict_get(avopt, "", t, AV_DICT_IGNORE_SUFFIX)) != null)
                             Log.Debug($"Ignoring codec option {Utils.BytePtrToStringUTF8(t->key)}");
@@ -186,13 +188,13 @@ public abstract unsafe class DecoderBase : RunThreadBase
             if (codecCtx != null)
                 fixed (AVCodecContext** ptr = &codecCtx)
                     avcodec_free_context(ptr);
-            
-            codecCtx        = null;
-            demuxer         = null;
-            Stream          = null;
-            Status          = Status.Stopped;
-            curSpeedFrame   = (int)speed;
-            Disposed        = true;
+
+            codecCtx = null;
+            demuxer = null;
+            Stream = null;
+            Status = Status.Stopped;
+            curSpeedFrame = (int)speed;
+            Disposed = true;
             Log.Info("Disposed");
         }
     }

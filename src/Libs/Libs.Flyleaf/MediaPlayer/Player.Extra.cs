@@ -11,15 +11,18 @@ using FlyleafLib.MediaFramework.MediaRenderer;
 
 using static FlyleafLib.Utils;
 using static FlyleafLib.Logger;
+using FlyleafLib.Controls;
+using FlyleafLib.MediaFramework.MediaContext;
+using System.Collections.Concurrent;
 
 namespace FlyleafLib.MediaPlayer;
 
 unsafe partial class Player
 {
-    public bool IsOpenFileDialogOpen    { get; private set; }
+    public bool IsOpenFileDialogOpen { get; private set; }
 
-    
-    public void SeekBackward()  => SeekBackward_(Config.Player.SeekOffset);
+
+    public void SeekBackward() => SeekBackward_(Config.Player.SeekOffset);
     public void SeekBackward2() => SeekBackward_(Config.Player.SeekOffset2);
     public void SeekBackward3() => SeekBackward_(Config.Player.SeekOffset3);
     public void SeekBackward_(long offset)
@@ -30,14 +33,14 @@ unsafe partial class Player
         long seekTs = CurTime - (CurTime % offset) - offset;
 
         if (Config.Player.SeekAccurate)
-            SeekAccurate(Math.Max((int) (seekTs / 10000), 0));
+            SeekAccurate(Math.Max((int)(seekTs / 10000), 0));
         else
-            Seek(Math.Max((int) (seekTs / 10000), 0), false);
+            Seek(Math.Max((int)(seekTs / 10000), 0), false);
     }
 
-    public void SeekForward()   => SeekForward_(Config.Player.SeekOffset);
-    public void SeekForward2()  => SeekForward_(Config.Player.SeekOffset2);
-    public void SeekForward3()  => SeekForward_(Config.Player.SeekOffset3);
+    public void SeekForward() => SeekForward_(Config.Player.SeekOffset);
+    public void SeekForward2() => SeekForward_(Config.Player.SeekOffset2);
+    public void SeekForward3() => SeekForward_(Config.Player.SeekOffset3);
     public void SeekForward_(long offset)
     {
         if (!CanPlay)
@@ -63,7 +66,7 @@ unsafe partial class Player
 
     public void CopyToClipboard()
     {
-        if (decoder.Playlist.Url == null) 
+        if (decoder.Playlist.Url == null)
             Clipboard.SetText("");
         else
             Clipboard.SetText(decoder.Playlist.Url);
@@ -86,7 +89,7 @@ unsafe partial class Player
         System.Windows.Forms.OpenFileDialog openFileDialog = new();
         var res = openFileDialog.ShowDialog();
 
-        if(res == System.Windows.Forms.DialogResult.OK)
+        if (res == System.Windows.Forms.DialogResult.OK)
             OpenAsync(openFileDialog.FileName);
 
         Activity.IsEnabled = wasActivityEnabled;
@@ -95,7 +98,8 @@ unsafe partial class Player
 
     public void ShowFrame(int frameIndex)
     {
-        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive) return;
+        if (!Video.IsOpened || !CanPlay || VideoDemuxer.IsHLSLive)
+            return;
 
         lock (lockActions)
         {
@@ -108,13 +112,15 @@ unsafe partial class Player
             decoder.RequiresResync = true;
 
             vFrame = VideoDecoder.GetFrame(frameIndex);
-            if (vFrame == null) return;
+            if (vFrame == null)
+                return;
 
-            if (CanDebug) Log.Debug($"SFI: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
+            if (CanDebug)
+                Log.Debug($"SFI: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
 
             curTime = vFrame.timestamp;
             renderer.Present(vFrame);
-            reversePlaybackResync = true;                
+            reversePlaybackResync = true;
             vFrame = null;
 
             UI(() => UpdateCurTime());
@@ -143,7 +149,7 @@ unsafe partial class Player
             decoder.RequiresResync = true;
 
             if (shouldFlushNext)
-            {   
+            {
                 decoder.StopThreads();
                 decoder.Flush();
                 shouldFlushNext = false;
@@ -167,7 +173,8 @@ unsafe partial class Player
             if (vFrame == null)
                 return;
 
-            if (CanDebug) Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
+            if (CanDebug)
+                Log.Debug($"SFN: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
 
             curTime = curTime = vFrame.timestamp;
             renderer.Present(vFrame);
@@ -185,7 +192,7 @@ unsafe partial class Player
         lock (lockActions)
         {
             Pause();
-            
+
             if (Status == Status.Ended)
             {
                 status = Status.Paused;
@@ -216,7 +223,8 @@ unsafe partial class Player
                 int askedFrame = VideoDecoder.GetFrameNumber(CurTime) - 1;
                 //Log.Debug($"CurTime1: {TicksToTime(CurTime)}, Asked: {askedFrame}");
                 vFrame = VideoDecoder.GetFrame(askedFrame);
-                if (vFrame == null) return;
+                if (vFrame == null)
+                    return;
 
                 int recvFrame = VideoDecoder.GetFrameNumber(vFrame.timestamp);
                 //Log.Debug($"CurTime2: {TicksToTime(vFrame.timestamp)}, Got: {recvFrame}");
@@ -235,7 +243,8 @@ unsafe partial class Player
             if (vFrame == null)
                 return;
 
-            if (CanDebug) Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
+            if (CanDebug)
+                Log.Debug($"SFB: {VideoDecoder.GetFrameNumber(vFrame.timestamp)}");
 
             curTime = vFrame.timestamp;
             renderer.Present(vFrame);
@@ -244,16 +253,16 @@ unsafe partial class Player
         }
     }
 
-    public void SpeedUp()       => Speed += Config.Player.SpeedOffset;
-    public void SpeedUp2()      => Speed += Config.Player.SpeedOffset2;
-    public void SpeedDown()     => Speed -= Config.Player.SpeedOffset;
-    public void SpeedDown2()    => Speed -= Config.Player.SpeedOffset2;
+    public void SpeedUp() => Speed += Config.Player.SpeedOffset;
+    public void SpeedUp2() => Speed += Config.Player.SpeedOffset2;
+    public void SpeedDown() => Speed -= Config.Player.SpeedOffset;
+    public void SpeedDown2() => Speed -= Config.Player.SpeedOffset2;
 
-    public void RotateRight()   => renderer.Rotation = (renderer.Rotation + 90) % 360;
-    public void RotateLeft()    => renderer.Rotation = renderer.Rotation < 90 ? 360 + renderer.Rotation - 90 : renderer.Rotation - 90;
+    public void RotateRight() => renderer.Rotation = (renderer.Rotation + 90) % 360;
+    public void RotateLeft() => renderer.Rotation = renderer.Rotation < 90 ? 360 + renderer.Rotation - 90 : renderer.Rotation - 90;
 
-    public void FullScreen()    => Host?.Player_SetFullScreen(true);
-    public void NormalScreen()  => Host?.Player_SetFullScreen(false);
+    public void FullScreen() => Host?.Player_SetFullScreen(true);
+    public void NormalScreen() => Host?.Player_SetFullScreen(false);
     public void ToggleFullScreen()
     {
         if (Host == null)
@@ -280,7 +289,8 @@ unsafe partial class Player
             string filename = GetValidFileName(string.IsNullOrEmpty(Playlist.Selected.Title) ? "Record" : Playlist.Selected.Title) + $"_{new TimeSpan(CurTime):hhmmss}." + decoder.Extension;
             filename = FindNextAvailableFile(Path.Combine(Config.Player.FolderRecordings, filename));
             StartRecording(ref filename, false);
-        } catch { }
+        }
+        catch { }
     }
 
     /// <summary>
@@ -307,7 +317,8 @@ unsafe partial class Player
     }
     public void ToggleRecording()
     {
-        if (!CanPlay) return;
+        if (!CanPlay)
+            return;
 
         if (IsRecording)
             StopRecording();
@@ -341,7 +352,8 @@ unsafe partial class Player
                 // TBR: if frame is specified we don't know the frame's number
                 filename = GetValidFileName(string.IsNullOrEmpty(Playlist.Selected.Title) ? "Snapshot" : Playlist.Selected.Title) + $"_{(frame == null ? VideoDecoder.GetFrameNumber(CurTime).ToString() : "X")}.{Config.Player.SnapshotFormat}";
                 filename = FindNextAvailableFile(Path.Combine(Config.Player.FolderSnapshots, filename));
-            } catch { return; }
+            }
+            catch { return; }
         }
 
         string ext = GetUrlExtention(filename);
@@ -375,7 +387,9 @@ unsafe partial class Player
             return;
 
         Exception e = null;
-        try { snapshotBitmap.Save(filename, imageFormat); } catch (Exception e2) { e = e2; }
+        try
+        { snapshotBitmap.Save(filename, imageFormat); }
+        catch (Exception e2) { e = e2; }
         snapshotBitmap.Dispose();
 
         if (e != null)
@@ -393,8 +407,8 @@ unsafe partial class Player
     /// <returns></returns>
     public System.Drawing.Bitmap TakeSnapshotToBitmap(int width = -1, int height = -1, VideoFrame frame = null) => renderer?.GetBitmap(width, height, frame);
 
-    public void ZoomIn()         => Zoom += Config.Player.ZoomOffset;
-    public void ZoomOut()       { if (Zoom - Config.Player.ZoomOffset < 1) return; Zoom -= Config.Player.ZoomOffset; }
+    public void ZoomIn() => Zoom += Config.Player.ZoomOffset;
+    public void ZoomOut() { if (Zoom - Config.Player.ZoomOffset < 1) return; Zoom -= Config.Player.ZoomOffset; }
 
     /// <summary>
     /// Pan zoom in with center point
@@ -406,7 +420,7 @@ unsafe partial class Player
     /// Pan zoom out with center point
     /// </summary>
     /// <param name="p"></param>
-    public void ZoomOut(Point p){ double zoom = renderer.Zoom - Config.Player.ZoomOffset / 100.0; if (zoom < 0.001) return; renderer.ZoomWithCenterPoint(p, zoom); RaiseUI(nameof(Zoom)); }
+    public void ZoomOut(Point p) { double zoom = renderer.Zoom - Config.Player.ZoomOffset / 100.0; if (zoom < 0.001) return; renderer.ZoomWithCenterPoint(p, zoom); RaiseUI(nameof(Zoom)); }
 
     /// <summary>
     /// Pan zoom (no raise)
@@ -438,10 +452,14 @@ unsafe partial class Player
 
         UI(() =>
         {
-            if (npx) Raise(nameof(PanXOffset));
-            if (npy) Raise(nameof(PanYOffset));
-            if (npr) Raise(nameof(Rotation));
-            if (npz) Raise(nameof(Zoom));
+            if (npx)
+                Raise(nameof(PanXOffset));
+            if (npy)
+                Raise(nameof(PanYOffset));
+            if (npr)
+                Raise(nameof(Rotation));
+            if (npz)
+                Raise(nameof(Zoom));
         });
     }
 }

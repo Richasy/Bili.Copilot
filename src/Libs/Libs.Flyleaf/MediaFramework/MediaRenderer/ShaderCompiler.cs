@@ -45,7 +45,7 @@ internal static class ShaderCompiler
             if (bw2 != null)
             {
                 Engine.Log.Trace($"[ShaderCompiler] Found in cache {uniqueId}");
-                lock(bw2)
+                lock (bw2)
                     return device.CreatePixelShader(bw2.blob);
             }
 
@@ -69,7 +69,7 @@ internal static class ShaderCompiler
         if (defines != null)
         {
             definesMacro = new ShaderMacro[defines.Count + 1];
-            for(int i=0; i<defines.Count; i++)
+            for (int i = 0; i < defines.Count; i++)
                 definesMacro[i] = new ShaderMacro() { Name = defines[i], Definition = "" };
         }
 

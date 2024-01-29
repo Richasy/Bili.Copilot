@@ -18,48 +18,48 @@ public static class Engine
     /// <summary>
     /// Engine has been loaded and is ready for use
     /// </summary>
-    public static bool              IsLoaded        { get; private set; }
+    public static bool IsLoaded { get; private set; }
 
     /// <summary>
     /// Engine's configuration
     /// </summary>
-    public static EngineConfig      Config          { get; private set; }
+    public static EngineConfig Config { get; private set; }
 
     /// <summary>
     /// Audio Engine
     /// </summary>
-    public static AudioEngine       Audio           { get; private set; }
+    public static AudioEngine Audio { get; private set; }
 
     /// <summary>
     /// Video Engine
     /// </summary>
-    public static VideoEngine       Video           { get; private set; }
+    public static VideoEngine Video { get; private set; }
 
     /// <summary>
     /// Plugins Engine
     /// </summary>
-    public static PluginsEngine     Plugins         { get; private set; }
+    public static PluginsEngine Plugins { get; private set; }
 
     /// <summary>
     /// FFmpeg Engine
     /// </summary>
-    public static FFmpegEngine      FFmpeg          { get; private set; }
+    public static FFmpegEngine FFmpeg { get; private set; }
 
     /// <summary>
     /// List of active Players
     /// </summary>
-    public static List<Player>      Players         { get; private set; }
+    public static List<Player> Players { get; private set; }
 
-    public static event EventHandler 
+    public static event EventHandler
                     Loaded;
 
-    internal static LogHandler 
+    internal static LogHandler
                     Log;
 
-    static Thread   tMaster;
-    static object   lockEngine = new();
-    static bool     isLoading;
-    static int      timePeriod;
+    static Thread tMaster;
+    static object lockEngine = new();
+    static bool isLoading;
+    static int timePeriod;
 
     /// <summary>
     /// Initializes Flyleaf's Engine (Must be called from UI thread)
@@ -136,7 +136,7 @@ public static class Engine
         {
             Config.UIRefresh = false;
             Config.UIRefreshInterval = 1;
-                
+
             while (Players.Count != 0)
                 Players[0].Dispose();
         };
@@ -153,10 +153,10 @@ public static class Engine
     private static void StartInternalNonUI()
     {
         var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        Log.Info($"FlyleafLib {version.Major }.{version.Minor}.{version.Build}");
+        Log.Info($"FlyleafLib {version.Major}.{version.Minor}.{version.Build}");
 
-        FFmpeg  = new FFmpegEngine();
-        Video   = new VideoEngine();
+        FFmpeg = new FFmpegEngine();
+        Video = new VideoEngine();
         if (Config.FFmpegDevices)
             VideoDevice.RefreshDevices();
         Plugins = new PluginsEngine();
@@ -173,9 +173,9 @@ public static class Engine
         lock (Players)
             Players.Add(player);
     }
-    internal static int  GetPlayerPos(int playerId)
+    internal static int GetPlayerPos(int playerId)
     {
-        for (int i=0; i<Players.Count; i++)
+        for (int i = 0; i < Players.Count; i++)
             if (Players[i].PlayerId == playerId)
                 return i;
 
@@ -183,7 +183,8 @@ public static class Engine
     }
     internal static void DisposePlayer(Player player)
     {
-        if (player == null) return;
+        if (player == null)
+            return;
 
         DisposePlayer(player.PlayerId);
     }
@@ -193,7 +194,8 @@ public static class Engine
         {
             Log.Trace($"Disposing {playerId}");
             int pos = GetPlayerPos(playerId);
-            if (pos == -1) return;
+            if (pos == -1)
+                return;
 
             var player = Players[pos];
             player.DisposeInternal();
@@ -218,10 +220,10 @@ public static class Engine
     {
         Log.Info("Thread started");
 
-        int curLoop     = 0;
+        int curLoop = 0;
         int secondLoops = 1000 / Config.UIRefreshInterval;
-        long prevTicks  = DateTime.UtcNow.Ticks;
-        double curSecond= 0;
+        long prevTicks = DateTime.UtcNow.Ticks;
+        double curSecond = 0;
 
         do
         {
@@ -253,13 +255,13 @@ public static class Engine
                             if (player.Config.Player.Stats)
                             {
                                 var curStats = player.stats;
-                                long curTotalBytes  = player.VideoDemuxer.TotalBytes + player.AudioDemuxer.TotalBytes + player.SubtitlesDemuxer.TotalBytes;
-                                long curVideoBytes  = player.VideoDemuxer.VideoPackets.Bytes + player.AudioDemuxer.VideoPackets.Bytes + player.SubtitlesDemuxer.VideoPackets.Bytes;
-                                long curAudioBytes  = player.VideoDemuxer.AudioPackets.Bytes + player.AudioDemuxer.AudioPackets.Bytes + player.SubtitlesDemuxer.AudioPackets.Bytes;
+                                long curTotalBytes = player.VideoDemuxer.TotalBytes + player.AudioDemuxer.TotalBytes + player.SubtitlesDemuxer.TotalBytes;
+                                long curVideoBytes = player.VideoDemuxer.VideoPackets.Bytes + player.AudioDemuxer.VideoPackets.Bytes + player.SubtitlesDemuxer.VideoPackets.Bytes;
+                                long curAudioBytes = player.VideoDemuxer.AudioPackets.Bytes + player.AudioDemuxer.AudioPackets.Bytes + player.SubtitlesDemuxer.AudioPackets.Bytes;
 
-                                player.bitRate      = (curTotalBytes - curStats.TotalBytes) * 8 / 1000.0;
-                                player.Video.bitRate= (curVideoBytes - curStats.VideoBytes) * 8 / 1000.0;
-                                player.Audio.bitRate= (curAudioBytes - curStats.AudioBytes) * 8 / 1000.0;
+                                player.bitRate = (curTotalBytes - curStats.TotalBytes) * 8 / 1000.0;
+                                player.Video.bitRate = (curVideoBytes - curStats.VideoBytes) * 8 / 1000.0;
+                                player.Audio.bitRate = (curAudioBytes - curStats.AudioBytes) * 8 / 1000.0;
 
                                 curStats.TotalBytes = curTotalBytes;
                                 curStats.VideoBytes = curVideoBytes;
@@ -312,23 +314,25 @@ public static class Engine
 
                                     if (player.IsPlaying)
                                     {
-                                        player.Audio.FramesDisplayed= player.Audio.FramesDisplayed;
-                                        player.Audio.FramesDropped  = player.Audio.FramesDropped;
+                                        player.Audio.FramesDisplayed = player.Audio.FramesDisplayed;
+                                        player.Audio.FramesDropped = player.Audio.FramesDropped;
 
-                                        player.Video.FramesDisplayed= player.Video.FramesDisplayed;
-                                        player.Video.FramesDropped  = player.Video.FramesDropped;
-                                        player.Video.FPSCurrent     = player.Video.FPSCurrent;
+                                        player.Video.FramesDisplayed = player.Video.FramesDisplayed;
+                                        player.Video.FramesDropped = player.Video.FramesDropped;
+                                        player.Video.FPSCurrent = player.Video.FPSCurrent;
                                     }
                                 }
                             }
                         }
-                    } catch { }
+                    }
+                    catch { }
                 };
 
                 Utils.UI(action);
                 Thread.Sleep(Config.UIRefreshInterval);
 
-            } catch { curLoop = 0; }
+            }
+            catch { curLoop = 0; }
 
         } while (Config.UIRefresh);
 

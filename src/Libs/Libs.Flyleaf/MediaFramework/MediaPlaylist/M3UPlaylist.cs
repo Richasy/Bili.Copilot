@@ -7,16 +7,16 @@ namespace FlyleafLib.MediaFramework.MediaPlaylist;
 
 public class M3UPlaylistItem
 {
-    public long     Duration    { get; set; }
-    public string   Title       { get; set; }
-    public string   OriginalTitle
-                                { get; set; }
-    public string   Url         { get; set; }
-    public string   UserAgent   { get; set; }
-    public string   Referrer    { get; set; }
-    public bool     GeoBlocked  { get; set; }
-    public bool     Not_24_7    { get; set; }
-    public int      Height      { get; set; }
+    public long Duration { get; set; }
+    public string Title { get; set; }
+    public string OriginalTitle
+    { get; set; }
+    public string Url { get; set; }
+    public string UserAgent { get; set; }
+    public string Referrer { get; set; }
+    public bool GeoBlocked { get; set; }
+    public bool Not_24_7 { get; set; }
+    public int Height { get; set; }
 
     public Dictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();
 }
@@ -88,13 +88,15 @@ public class M3UPlaylist
                     if (item.UserAgent == null)
                     {
                         item.UserAgent = GetMatch(line, "http-user-agent\\s*=\\s*\"*(.*)\"*");
-                        if (item.UserAgent != null) continue;
+                        if (item.UserAgent != null)
+                            continue;
                     }
 
                     if (item.Referrer == null)
                     {
                         item.Referrer = GetMatch(line, "http-referrer\\s*=\\s*\"*(.*)\"*");
-                        if (item.Referrer != null) continue;
+                        if (item.Referrer != null)
+                            continue;
                     }
                 }
 
@@ -112,3 +114,4 @@ public class M3UPlaylist
         return match.Success && match.Groups.Count > 1 ? match.Groups[1].Value : null;
     }
 }
+

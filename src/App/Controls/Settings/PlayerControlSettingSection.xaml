@@ -36,6 +36,18 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </labs:SettingsCard>
+            <labs:SettingsCard
+                Description="{ext:Locale Name=VideoProcessorDescription}"
+                Header="{ext:Locale Name=VideoProcessor}"
+                Visibility="{x:Bind ViewModel.IsVideoNativePlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <ComboBox
+                    x:Name="VideoProcessorComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnVideoProcessorChanged">
+                    <ComboBoxItem Content="D3D11" />
+                    <ComboBoxItem Content="Flyleaf" />
+                </ComboBox>
+            </labs:SettingsCard>
             <labs:SettingsCard Description="{ext:Locale Name=PlayerControlModeDescription}" Header="{ext:Locale Name=PlayerControlMode}">
                 <ComboBox
                     x:Name="PlayerControlModeComboBox"
