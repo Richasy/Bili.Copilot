@@ -165,10 +165,10 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
                 }
             }
 
-            e.Handled = true;
-            if (MainFrame.Content is VideoPlayerPageBase page)
+            e.Handled = MainFrame.Content is not WebPlayerPage;
+            if (MainFrame.Content is VideoPlayerPage videoPage)
             {
-                page.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+                videoPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
             else if (MainFrame.Content is LivePlayerPage livePage)
             {
