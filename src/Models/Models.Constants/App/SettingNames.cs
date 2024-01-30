@@ -141,4 +141,5 @@ public enum SettingNames
     MessageNotificationEnabled,
     VideoProcessor,
     IsWebSignIn,
+    UseWebPlayer,
 }

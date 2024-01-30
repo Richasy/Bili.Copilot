@@ -20,6 +20,15 @@ internal class PlayerUtils
             Snapshot = snapshot,
             AttachedWindow = attachedWindow,
         };
+        if (IsWebPlayer())
+        {
+            AppToolkit.ChangeWindowTheme(attachedWindow, ElementTheme.Light);
+            _ = frame.Navigate(typeof(WebPlayerPage), navArgs);
+            TraceLogger.LogWebPlayerOpen();
+            attachedWindow.Activate();
+            return;
+        }
+
         if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
         {
             _ = frame.Navigate(typeof(VideoPlayerPage), navArgs);
@@ -60,4 +69,7 @@ internal class PlayerUtils
         _ = frame.Navigate(typeof(WebDavPlayerPage), items);
         attachedWindow.Activate();
     }
+
+    private static bool IsWebPlayer()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayer, false);
 }

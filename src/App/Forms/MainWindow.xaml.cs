@@ -57,6 +57,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         _appViewModel.RequestRead += OnRequestRead;
         _appViewModel.RequestShowImages += OnRequestShowImages;
         _appViewModel.BackRequest += OnBackRequestedAsync;
+        _appViewModel.RequestVerifyWebSignIn += OnRequestVerifyWebSignIn;
 
         MinWidth = 800;
         MinHeight = 640;
@@ -127,6 +128,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     private static bool IsMainWindowPlayer()
         => SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
 
+    private static bool IsWebPlayer()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayer, false);
+
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
     {
         if (_isInitialized)
@@ -192,7 +196,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
     {
-        if (IsMainWindowPlayer())
+        if (IsMainWindowPlayer() && !IsWebPlayer())
         {
             BeforeEnterPlayerPageAsync();
             PlayerUtils.InitializePlayer(e, PlayerFrame, this);
@@ -271,6 +275,17 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         if (OverlayFrame.Content is not FansPage)
         {
             _ = OverlayFrame.Navigate(typeof(FansPage), _appViewModel.Fans);
+        }
+    }
+
+    private void OnRequestVerifyWebSignIn(object sender, EventArgs e)
+    {
+        Activate();
+        MainSplitView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is not WebSignInPage)
+        {
+            _ = OverlayFrame.Navigate(typeof(WebSignInPage));
         }
     }
 
@@ -361,6 +376,15 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
             await Task.Delay(200);
             CustomTitleBar.Refresh();
+        }
+        else if (MainFrame.Content is SettingsPage settingsPage)
+        {
+            if (OverlayFrame.Content is WebSignInPage)
+            {
+                OverlayFrame.Navigate(typeof(Page));
+            }
+
+            settingsPage.ViewModel.WebPlayerInit();
         }
     }
 

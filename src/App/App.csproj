@@ -46,6 +46,7 @@
         <None Remove="Assets\qq_group_dark.jpg" />
         <None Remove="Assets\qq_group_light.jpg" />
         <None Remove="Assets\ReaderClean.js" />
+        <None Remove="Assets\WebPlayer.js" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\ChatMessageItemControl.xaml" />
@@ -142,6 +143,7 @@
         <None Remove="Controls\Settings\ThemeSettingSection.xaml" />
         <None Remove="Controls\Settings\TraditionalChineseSettingSection.xaml" />
         <None Remove="Controls\Settings\WebDavSettingSection.xaml" />
+        <None Remove="Controls\Settings\WebPlayerSettingSection.xaml" />
         <None Remove="Controls\TipDialog.xaml" />
         <None Remove="Controls\TipPopup.xaml" />
         <None Remove="Controls\UpdateDialog.xaml" />
@@ -175,6 +177,7 @@
         <None Remove="Pages\ViewLaterPage.xaml" />
         <None Remove="Pages\WebDavPage.xaml" />
         <None Remove="Pages\WebDavPlayerPage.xaml" />
+        <None Remove="Pages\WebPlayerPage.xaml" />
         <None Remove="Pages\WebSignInPage.xaml" />
         <None Remove="Styles\Overwrites.xaml" />
         <None Remove="Styles\TrayResources.xaml" />
@@ -287,6 +290,12 @@
       <Content Update="Assets\AppCenterSecret.txt">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </Content>
+      <Page Update="Pages\WebPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="Controls\Settings\WebPlayerSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
       <Page Update="Pages\WebSignInPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

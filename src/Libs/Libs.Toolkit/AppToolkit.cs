@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Bili.Copilot.Models.Constants.App;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.Foundation;
@@ -96,7 +97,7 @@ public static class AppToolkit
             hexCode = hexCode[1..];
         }
 
-        if(int.TryParse(hexCode, out var intValue))
+        if (int.TryParse(hexCode, out var intValue))
         {
             hexCode = intValue.ToString("X2");
         }
@@ -147,6 +148,28 @@ public static class AppToolkit
     {
         var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         element.RequestedTheme = localTheme;
+    }
+
+    /// <summary>
+    /// 更改窗口主题.
+    /// </summary>
+    /// <param name="window">窗口对象.</param>
+    /// <param name="theme">主题.</param>
+    public static void ChangeWindowTheme(Window window, ElementTheme theme)
+    {
+        if (theme == ElementTheme.Default)
+        {
+            window.AppWindow.TitleBar.ButtonHoverBackgroundColor = default;
+            window.AppWindow.TitleBar.ButtonHoverForegroundColor = default;
+        }
+        else if(theme == ElementTheme.Light)
+        {
+            window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+        }
+        else
+        {
+            window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+        }
     }
 
     /// <summary>

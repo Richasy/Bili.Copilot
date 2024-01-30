@@ -69,4 +69,32 @@ public class PlaySnapshot
     /// 是否以无痕模式浏览.
     /// </summary>
     public bool IsInPrivate { get; set; }
+
+    /// <summary>
+    /// 网页.
+    /// </summary>
+    public string WebLink
+    {
+        get
+        {
+            if (VideoType == VideoType.Video)
+            {
+                return VideoId.StartsWith("BV")
+                    ? $"https://www.bilibili.com/video/{VideoId}"
+                    : $"https://www.bilibili.com/video/av{VideoId}";
+            }
+            else if (VideoType == VideoType.Pgc)
+            {
+                return string.IsNullOrEmpty(VideoId)
+                    ? $"https://www.bilibili.com/bangumi/play/ss{SeasonId}"
+                    : $"https://www.bilibili.com/bangumi/play/ep{VideoId}";
+            }
+            else if (VideoType == VideoType.Live)
+            {
+                return $"https://live.bilibili.com/{VideoId}";
+            }
+
+            return string.Empty;
+        }
+    }
 }

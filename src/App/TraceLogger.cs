@@ -22,6 +22,7 @@ internal sealed class TraceLogger
     private const string HotSearchClickEvent = "HotSearchClick";
     private const string MainPageNavigationEvent = "MainPageNavigation";
     private const string PlayerOpenEvent = "PlayerOpen";
+    private const string WebPlayerOpenEvent = "WebPlayerOpen";
     private const string OnlyAudioChangedEvent = "OnlyAudioChanged";
     private const string RecordingStartEvent = "RecordingStart";
     private const string TakeScreenshotEvent = "TakeScreenshot";
@@ -93,6 +94,9 @@ internal sealed class TraceLogger
 
         Analytics.TrackEvent(PlayerOpenEvent, data);
     }
+
+    public static void LogWebPlayerOpen()
+        => Analytics.TrackEvent(WebPlayerOpenEvent);
 
     /// <summary>
     /// 查看有多少用户使用纯音频功能.

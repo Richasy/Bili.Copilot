@@ -135,6 +135,15 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _isVideoNativePlayer;
 
+    [ObservableProperty]
+    private bool _isWebSignIn;
+
+    [ObservableProperty]
+    private bool _useWebPlayer;
+
+    [ObservableProperty]
+    private string _webSignInStatus;
+
     /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>
