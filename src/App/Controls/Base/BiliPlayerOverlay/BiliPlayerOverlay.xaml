@@ -137,6 +137,28 @@
                                             <KeyboardAccelerator Key="Escape" IsEnabled="True" />
                                         </Button.KeyboardAccelerators>
                                     </Button>
+                                    <Button
+                                        x:Name="HiddenPlayNextButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator
+                                                Key="Down"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                                Modifiers="Control" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="HiddenPlayPreviousButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator
+                                                Key="Up"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                                Modifiers="Control" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
                                 </Grid>
                                 <Grid x:Name="PosterContainer" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPosterShown, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <local:ImageEx
@@ -588,6 +610,28 @@
                                         Style="{StaticResource HiddenButtonStyle}">
                                         <Button.KeyboardAccelerators>
                                             <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="HiddenPlayNextButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayNextCommand}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator
+                                                Key="Down"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayNextPart}"
+                                                Modifiers="Control" />
+                                        </Button.KeyboardAccelerators>
+                                    </Button>
+                                    <Button
+                                        x:Name="HiddenPlayPreviousButton"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayPreviousCommand}"
+                                        Style="{StaticResource HiddenButtonStyle}">
+                                        <Button.KeyboardAccelerators>
+                                            <KeyboardAccelerator
+                                                Key="Up"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CanPlayPreviousPart}"
+                                                Modifiers="Control" />
                                         </Button.KeyboardAccelerators>
                                     </Button>
                                 </Grid>

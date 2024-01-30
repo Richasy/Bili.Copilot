@@ -44,14 +44,16 @@ public sealed partial class HomeProvider
             { Query.PlatformSlim, "1" },
             { "feed_version", "CLIENT_SELECTED" },
             { "fresh_type", "0" },
+            { "web_location", "bilibili-electron" },
         };
 
         var request = await HttpProvider.GetRequestMessageAsync(
                        HttpMethod.Get,
                        ApiConstants.Home.Featured,
                        queryParameters,
-                       RequestClientType.Web,
-                       needCookie: true);
+                       needCookie: true,
+                       needCsrf: true,
+                       forceNoToken: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var data = await HttpProvider.ParseAsync<ServerResponse<WebRecommendResponse>>(response);
         var result = data.Data.Items
