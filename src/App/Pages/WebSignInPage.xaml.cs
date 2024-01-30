@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.App.Forms;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 
@@ -11,12 +12,25 @@ namespace Bili.Copilot.App.Pages;
 /// </summary>
 public sealed partial class WebSignInPage : PageBase
 {
+    private bool _isVerify;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="WebSignInPage"/> class.
     /// </summary>
     public WebSignInPage()
     {
         InitializeComponent();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        var currentWindow = CoreViewModel.ActivatedWindow;
+        if (currentWindow is MainWindow)
+        {
+            _isVerify = true;
+            BackButton.Visibility = Visibility.Collapsed;
+        }
     }
 
     /// <inheritdoc/>
@@ -41,6 +55,13 @@ public sealed partial class WebSignInPage : PageBase
             var cookieDict = cookies.Select(p => (p.Name, p.Value)).ToDictionary();
             if (cookieDict.Count > 0)
             {
+                if (_isVerify)
+                {
+                    SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.IsWebSignIn, true);
+                    CoreViewModel.BackCommand.Execute(default);
+                    return;
+                }
+
                 MainView.Visibility = Visibility.Collapsed;
                 LoadingOverlay.IsOpen = true;
                 LoadingOverlay.Text = ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.Verifying);
@@ -48,6 +69,7 @@ public sealed partial class WebSignInPage : PageBase
                 try
                 {
                     await AuthorizeProvider.Instance.SignInWithCookieAsync(cookieDict);
+                    MainView.CoreWebView2.NavigateToString("<p>你好哔哩.</p>");
                     CoreViewModel.BackCommand.Execute(default);
                 }
                 catch (Exception)

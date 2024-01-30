@@ -59,6 +59,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsNotificationEnabled = ReadSetting(SettingNames.IsNotifyEnabled, true);
         IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
         VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
+        WebPlayerInit();
         PreferCodecInit();
         DecodeInit();
         PlayerModeInit();
@@ -75,6 +76,16 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         InitializeWebDavConfigCommand.Execute(default);
 
         PropertyChanged += OnPropertyChanged;
+    }
+
+    /// <summary>
+    /// 网页播放器设置初始化.
+    /// </summary>
+    public void WebPlayerInit()
+    {
+        IsWebSignIn = ReadSetting(SettingNames.IsWebSignIn, false);
+        UseWebPlayer = ReadSetting(SettingNames.UseWebPlayer, false);
+        CheckWebSignInText();
     }
 
     private static void WriteSetting(SettingNames name, object value) => SettingsToolkit.WriteLocalSetting(name, value);
@@ -170,6 +181,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             case nameof(IsWebDavEnabled):
                 WriteSetting(SettingNames.IsWebDavEnabled, IsWebDavEnabled);
                 AppViewModel.Instance.CheckWebDavVisibilityCommand.Execute(default);
+                break;
+            case nameof(IsWebSignIn):
+                WriteSetting(SettingNames.IsWebSignIn, IsWebSignIn);
+                break;
+            case nameof(UseWebPlayer):
+                WriteSetting(SettingNames.UseWebPlayer, UseWebPlayer);
                 break;
             case nameof(SelectedWebDav):
                 if (SelectedWebDav != null && SelectedWebDav.Id != SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDav, string.Empty))
@@ -298,9 +315,15 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         };
     }
 
+    private void CheckWebSignInText()
+        => WebSignInStatus = IsWebSignIn ? ResourceToolkit.GetLocalizedString(StringNames.SignedIn) : ResourceToolkit.GetLocalizedString(StringNames.NotVerify);
+
     partial void OnAppThemeChanged(ElementTheme value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.AppTheme, value);
         CheckTheme();
     }
+
+    partial void OnIsWebSignInChanged(bool value)
+        => CheckWebSignInText();
 }

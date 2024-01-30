@@ -38,9 +38,10 @@
                     HorizontalAlignment="Left"
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Player}" />
-                <settings:PlayerModeSettingSection ViewModel="{x:Bind ViewModel}" />
-                <settings:PlayerControlSettingSection ViewModel="{x:Bind ViewModel}" />
-                <settings:RoamingSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:WebPlayerSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:PlayerModeSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
+                <settings:PlayerControlSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
+                <settings:RoamingSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
 
                 <TextBlock
                     Margin="0,8,0,4"
@@ -59,7 +60,7 @@
                 <settings:NotificationSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:LoggerSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:CacheSettingSection ViewModel="{x:Bind ViewModel}" />
-                <settings:TraditionalChineseSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:TraditionalChineseSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
 
                 <TextBlock
                     Margin="0,16,0,8"

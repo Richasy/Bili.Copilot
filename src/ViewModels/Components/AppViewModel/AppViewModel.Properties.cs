@@ -171,6 +171,11 @@ public sealed partial class AppViewModel
     public event EventHandler RequestFocusSearchBox;
 
     /// <summary>
+    /// 请求验证网页登录.
+    /// </summary>
+    public event EventHandler RequestVerifyWebSignIn;
+
+    /// <summary>
     /// 实例.
     /// </summary>
     public static AppViewModel Instance => _lazyInstance.Value;

@@ -18,7 +18,6 @@ using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels.Components;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
@@ -139,18 +138,7 @@ public sealed partial class AppViewModel : ViewModelBase
         foreach (var window in DisplayWindows)
         {
             (window.Content as FrameworkElement).RequestedTheme = theme;
-            if (theme == ElementTheme.Dark)
-            {
-                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-            }
-            else if (theme == ElementTheme.Light)
-            {
-                window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
-            }
-            else
-            {
-                window.AppWindow.TitleBar.ButtonForegroundColor = default;
-            }
+            AppToolkit.ChangeWindowTheme(window, theme);
         }
     }
 
@@ -226,6 +214,13 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         IsOverlayShown = true;
         RequestShowFavorites?.Invoke(this, type);
+    }
+
+    [RelayCommand]
+    private void VerifyWebSignIn()
+    {
+        IsOverlayShown = true;
+        RequestVerifyWebSignIn?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]
