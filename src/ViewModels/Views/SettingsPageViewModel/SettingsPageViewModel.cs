@@ -84,7 +84,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     public void WebPlayerInit()
     {
         IsWebSignIn = ReadSetting(SettingNames.IsWebSignIn, false);
-        UseWebPlayer = ReadSetting(SettingNames.UseWebPlayer, false);
+        UseWebPlayer = ReadSetting(SettingNames.UseWebPlayer, false) && IsWebSignIn;
         CheckWebSignInText();
     }
 

@@ -12,6 +12,7 @@ namespace Bili.Copilot.App.Pages;
 /// </summary>
 public sealed partial class WebPlayerPage : PageBase
 {
+    private const string UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 Edg/118.0.2048.1";
     private string _url;
     private Window _attachedWindow;
 
@@ -37,22 +38,44 @@ public sealed partial class WebPlayerPage : PageBase
     }
 
     /// <inheritdoc/>
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        try
+        {
+            MainView.NavigateToString(string.Empty);
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    /// <inheritdoc/>
     protected override async void OnPageLoaded()
     {
         LoadingOverlay.IsOpen = true;
 
         // 取消自动静音限制.
-        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--autoplay-policy=no-user-gesture-required");
+        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--autoplay-policy=no-user-gesture-required --enable-features=PlatformHEVCEncoderSupport --enable-features=HardwareMediaDecoding --enable-features=PlatformEncryptedDolbyVision");
         await MainView.EnsureCoreWebView2Async();
         MainView.CoreWebView2.Settings.IsStatusBarEnabled = false;
         MainView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
         MainView.CoreWebView2.Settings.AreDevToolsEnabled = true;
+        MainView.CoreWebView2.Settings.UserAgent = UserAgent;
         MainView.CoreWebView2.ContainsFullScreenElementChanged += OnContainsFullScreenElementChanged;
+        MainView.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
+        MainView.CoreWebView2.WebResourceRequested += OnWebResourceRequested;
+        MainView.CoreWebView2.NavigationStarting += OnNavigationStarting;
         if (!string.IsNullOrEmpty(_url))
         {
             MainView.CoreWebView2.Navigate(_url);
         }
     }
+
+    private void OnNavigationStarting(CoreWebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+        => args.RequestHeaders.SetHeader("User-Agent", UserAgent);
+
+    private void OnWebResourceRequested(CoreWebView2 sender, CoreWebView2WebResourceRequestedEventArgs args)
+        => args.Request.Headers.SetHeader("User-Agent", UserAgent);
 
     private void OnContainsFullScreenElementChanged(CoreWebView2 sender, object args)
     {

@@ -2269,6 +2269,6 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
     <value>使用網頁播放機</value>
   </data>
   <data name="UseWebPlayerDescription" xml:space="preserve">
-    <value>開啟後，應用將會使用網頁代替本地播放機（需要先進行登錄驗證）</value>
+    <value>開啟後，應用將會在播放單個視頻時使用網頁代替本地播放機（需要先進行登錄驗證）</value>
   </data>
 </root>
