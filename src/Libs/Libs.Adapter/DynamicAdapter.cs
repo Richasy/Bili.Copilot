@@ -127,8 +127,10 @@ public sealed class DynamicAdapter
             .Select(ConvertToDynamicInformation)
             .ToList();
 
-        var ups = reply.UpList.List.Where(p => p.LiveState != LiveState.LiveLive).Select(UserAdapter.ConvertToUserProfile).ToList();
-        return new DynamicView(list, ups, reply.UpList.Footprint);
+        var ups = reply.UpList != null
+            ? reply.UpList.List.Where(p => p.LiveState != LiveState.LiveLive).Select(UserAdapter.ConvertToUserProfile).ToList()
+            : new System.Collections.Generic.List<DynamicUper>();
+        return new DynamicView(list, ups, reply.UpList?.Footprint);
     }
 
     /// <summary>
