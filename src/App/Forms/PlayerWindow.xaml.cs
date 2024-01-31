@@ -109,6 +109,12 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
         if (!_isClosed)
         {
             args.Handled = true;
+            if (AppWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen
+                || AppWindow.Presenter.Kind == AppWindowPresenterKind.CompactOverlay)
+            {
+                AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+            }
+
             SaveCurrentWindowStats();
             this.Hide();
             _ = MainFrame.Navigate(typeof(Page));

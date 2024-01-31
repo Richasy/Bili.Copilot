@@ -25,6 +25,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
     private Button _refreshButton;
     private Button _openInBrowserButton;
     private Button _backButton;
+    private Button _closeButton;
     private Button _detailButton;
     private ButtonBase _backButton2;
     private SplitView _rootSplitView;
@@ -105,6 +106,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _openInBrowserButton = GetTemplateChild("OpenInBrowserButton") as Button;
         _backButton = GetTemplateChild("BackButton") as Button;
         _detailButton = GetTemplateChild("DetailButton") as Button;
+        _closeButton = GetTemplateChild("CloseButton") as Button;
         _backButton2 = GetTemplateChild("BackButton2") as HyperlinkButton;
         _rootSplitView = GetTemplateChild("RootSplitView") as SplitView;
         var sectionView = GetTemplateChild("SectionNavigationView") as NavigationView;
@@ -133,6 +135,7 @@ public sealed partial class BiliPlayerOverlay : ReactiveControl<PlayerDetailView
         _openInBrowserButton.Click += OnOpenInBrowserButtonClick;
         _backButton.Click += OnBackButtonClick;
         _backButton2.Click += OnBackButtonClick;
+        _closeButton.Click += OnCloseButtonClick;
         _detailButton.Click += OnDetailButtonClick;
         _rootSplitView.PaneOpened += OnRootSplitViewPaneChanged;
         _rootSplitView.PaneClosed += OnRootSplitViewPaneChanged;

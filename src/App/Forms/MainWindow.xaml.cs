@@ -401,6 +401,12 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             }
         }
 
+        if (AppWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen
+            || AppWindow.Presenter.Kind == AppWindowPresenterKind.CompactOverlay)
+        {
+            AppWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+        }
+
         var willHide = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
         if (_appViewModel.IsPlayerShown && PlayerFrame.Content is not null && willHide)
         {

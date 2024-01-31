@@ -105,6 +105,9 @@ public sealed partial class PlayerDetailViewModel
     private string _fullScreenText;
 
     [ObservableProperty]
+    private bool _isFullScreen;
+
+    [ObservableProperty]
     private string _compactOverlayText;
 
     [ObservableProperty]
