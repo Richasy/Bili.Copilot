@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -8,11 +9,15 @@ using System.Timers;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
+using Bili.Copilot.Models.Data.Dynamic;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using Windows.ApplicationModel;
+using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
 
 namespace Bili.Copilot.ViewModels.Components;
 
@@ -27,7 +32,8 @@ public sealed partial class NotificationViewModel : ViewModelBase
         _timer.Elapsed += OnTimerElapsedAsync;
     }
 
-    private static async Task CheckVideoDynamicNotificationsAsync()
+    [RelayCommand]
+    private async Task CheckVideoDynamicNotificationsAsync()
     {
         var lastSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
         var latestDynamics = await CommunityProvider.Instance.GetDynamicVideoListAsync(true);
@@ -35,6 +41,7 @@ public sealed partial class NotificationViewModel : ViewModelBase
         {
             var dynamics = latestDynamics.Dynamics.Where(p => p.DynamicType != Models.Constants.Community.DynamicItemType.Forward).ToList();
             var currentSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
+            var notifiedItems = new List<DynamicInformation>();
             if (currentSeen > lastSeen)
             {
                 // 有更新，发送通知.
@@ -80,19 +87,32 @@ public sealed partial class NotificationViewModel : ViewModelBase
                         .SetHeroImage(new Uri(cover))
                         .BuildNotification();
 
+                    notifiedItems.Add(d);
                     AppNotificationManager.Default.Show(notification);
                 }
+            }
+
+            if (_isTileSupport)
+            {
+                if (notifiedItems.Count == 0)
+                {
+                    dynamics.Take(5).ToList().ForEach(notifiedItems.Add);
+                }
+
+                UpdateTile(notifiedItems);
             }
         }
     }
 
     [RelayCommand]
-    private void TryStart()
+    private async Task TryStartAsync()
     {
         var isNotifyEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsNotifyEnabled, true);
         if (isNotifyEnabled && !_timer.Enabled)
         {
             _timer.Start();
+            await InitializeAsync();
+            CheckVideoDynamicNotificationsCommand.Execute(default);
         }
     }
 
@@ -102,6 +122,17 @@ public sealed partial class NotificationViewModel : ViewModelBase
         if (_timer.Enabled)
         {
             _timer.Stop();
+        }
+    }
+
+    private async Task InitializeAsync()
+    {
+        var entry = (await Package.Current.GetAppListEntriesAsync()).First();
+        _isTileSupport = StartScreenManager.GetDefault().SupportsAppListEntry(entry);
+
+        if (_isTileSupport)
+        {
+            TileUpdateManager.CreateTileUpdaterForApplication().EnableNotificationQueue(true);
         }
     }
 
