@@ -12,6 +12,7 @@ public sealed partial class NotificationViewModel
 {
     private static readonly Lazy<NotificationViewModel> _lazyInstance = new(() => new NotificationViewModel());
     private readonly Timer _timer;
+    private bool _isTileSupport;
 
     /// <summary>
     /// 实例.
