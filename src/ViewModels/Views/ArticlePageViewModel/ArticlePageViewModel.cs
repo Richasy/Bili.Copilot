@@ -92,7 +92,6 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
     {
         TryClear(Items);
         CurrentPartition = partition;
-        RequestScrollToTop?.Invoke(this, EventArgs.Empty);
         if (_caches.ContainsKey(partition))
         {
             var items = _caches[partition];
@@ -101,6 +100,8 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
                 var articleVM = new ArticleItemViewModel(data);
                 Items.Add(articleVM);
             }
+
+            ScrollToTop();
         }
         else
         {

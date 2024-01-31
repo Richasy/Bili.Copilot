@@ -79,19 +79,12 @@ public partial class PgcRecommendDetailViewModel : InformationFlowViewModel<Seas
         seasons = items?.ToList();
         _isEnd = isFinished;
 
-        var canScrollToTop = Items.Count == 0;
-
         seasons.ForEach(p =>
         {
             Items.Add(new SeasonItemViewModel(p));
         });
 
         IsEmpty = Items.Count == 0;
-
-        if (canScrollToTop && !IsEmpty)
-        {
-            RequestScrollToTop?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     /// <inheritdoc/>

@@ -222,7 +222,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
             }
         }
 
-        RequestScrollToTop?.Invoke(this, EventArgs.Empty);
+        ScrollToTop();
     }
 
     [RelayCommand]

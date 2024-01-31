@@ -38,7 +38,7 @@
             <Button
                 Grid.Column="1"
                 VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ReloadCommand}"
+                Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
                 IsEnabled="{x:Bind ViewModel.IsReloading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                 Style="{StaticResource IconButtonStyle}"
                 ToolTipService.ToolTip="{ext:Locale Name=Refresh}">

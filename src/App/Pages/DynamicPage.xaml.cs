@@ -25,7 +25,21 @@ public sealed partial class DynamicPage : DynamicPageBase
     {
         CoreViewModel.IsBackButtonShown = false;
         DynamicTypeSelection.SelectedIndex = (int)ViewModel.CurrentType;
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
         ViewModel.InitializeCommand.Execute(default);
+    }
+
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        if (ViewModel.CurrentType == DynamicDisplayType.Video)
+        {
+            VideoContentScrollViewer.ChangeView(default, 0, default);
+        }
+        else
+        {
+            AllDynamicDetail.ScrollToTop();
+        }
     }
 
     private async void OnDynamicTypeSegmentedSelectionChangedAsync(object sender, SelectionChangedEventArgs e)

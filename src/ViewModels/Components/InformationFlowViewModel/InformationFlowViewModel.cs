@@ -62,6 +62,12 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
     protected virtual string FormatException(string errorMsg) => errorMsg;
 
     /// <summary>
+    /// 滚动到顶部.
+    /// </summary>
+    protected void ScrollToTop()
+        => RequestScrollToTop?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>
     /// 清除错误信息.
     /// </summary>
     protected void ClearException()
@@ -106,6 +112,7 @@ public abstract partial class InformationFlowViewModel<T> : ViewModelBase
             IsReloading = true;
             await GetDataAsync();
             IsReloading = false;
+            ScrollToTop();
         }
         catch (Exception ex)
         {

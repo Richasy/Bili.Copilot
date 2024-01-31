@@ -30,7 +30,7 @@ public sealed partial class LivePartitionDetailModule : LivePartitionDetailModul
 
     private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
     {
-        await Task.Delay(200);
+        await Task.Delay(500);
         ContentScrollViewer.ChangeView(default, 0, default);
     }
 

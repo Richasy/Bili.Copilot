@@ -17,13 +17,13 @@ public sealed partial class PopularPage : PopularPageBase
     {
         InitializeComponent();
         ViewModel = PopularPageViewModel.Instance;
-        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
     }
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
     {
         CoreViewModel.IsBackButtonShown = false;
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
         ViewModel.InitializeCommand.Execute(default);
     }
 
