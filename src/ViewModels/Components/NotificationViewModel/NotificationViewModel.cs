@@ -29,13 +29,13 @@ public sealed partial class NotificationViewModel : ViewModelBase
 
     private static async Task CheckVideoDynamicNotificationsAsync()
     {
-        var lastSeen = SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty);
+        var lastSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
         var latestDynamics = await CommunityProvider.Instance.GetDynamicVideoListAsync(true);
         if (latestDynamics != null)
         {
             var dynamics = latestDynamics.Dynamics.Where(p => p.DynamicType != Models.Constants.Community.DynamicItemType.Forward).ToList();
-            var currentSeen = SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty);
-            if (currentSeen != lastSeen)
+            var currentSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
+            if (currentSeen > lastSeen)
             {
                 // 有更新，发送通知.
                 for (var i = 0; i < 3; i++)
@@ -47,7 +47,7 @@ public sealed partial class NotificationViewModel : ViewModelBase
 
                     var d = dynamics.ElementAt(i);
 
-                    if (d.Id == lastSeen)
+                    if (Convert.ToInt64(d.Id) <= lastSeen)
                     {
                         break;
                     }
