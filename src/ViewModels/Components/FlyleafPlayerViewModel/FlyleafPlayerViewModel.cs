@@ -66,6 +66,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         config.Video.Swap10Bit = true;
         config.Player.MinBufferDuration = TimeSpan.FromSeconds(10).Ticks;
         config.Decoder.LowDelay = true;
+        config.Audio.FiltersEnabled = true;
 
         var player = new Player(config);
         player.PropertyChanged += OnPlayerPropertyChanged;
