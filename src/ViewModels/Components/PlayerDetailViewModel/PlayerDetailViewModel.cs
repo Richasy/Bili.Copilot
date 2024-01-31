@@ -247,6 +247,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         }
 
         Player.Stop();
+        Player.IsStatsUpdated = false;
         if (_videoType is VideoType.Video
             or VideoType.Pgc)
         {

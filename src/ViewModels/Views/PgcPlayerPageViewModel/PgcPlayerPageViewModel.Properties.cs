@@ -21,7 +21,6 @@ public sealed partial class PgcPlayerPageViewModel
     private Action _playNextEpisodeAction;
     private Action _playPreviousEpisodeAction;
     private Window _attachedWindow;
-    private bool _isStatsUpdated;
 
     [ObservableProperty]
     private bool _isReloading;

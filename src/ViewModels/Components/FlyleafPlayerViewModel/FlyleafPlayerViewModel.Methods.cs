@@ -32,13 +32,13 @@ public sealed partial class FlyleafPlayerViewModel
     /// <returns><see cref="MediaStats"/>.</returns>
     public MediaStats GetMediaInformation()
     {
-        if (Player == null || !((Player)Player).CanPlay)
+        if (Player is not Player player || !player.CanPlay)
         {
             return null;
         }
 
-        var video = ((Player)Player).Video;
-        var audio = ((Player)Player).Audio;
+        var video = player.Video;
+        var audio = player.Audio;
         var fps = video?.FPS ?? -1;
         var width = video.Width;
         var height = video.Height;
@@ -66,6 +66,7 @@ public sealed partial class FlyleafPlayerViewModel
             AudioChannels = channels,
         };
 
+        IsStatsUpdated = true;
         return mediaInfo;
     }
 

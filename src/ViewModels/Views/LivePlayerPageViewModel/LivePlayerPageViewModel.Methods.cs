@@ -108,8 +108,8 @@ public sealed partial class LivePlayerPageViewModel
     {
         if (e.PropertyName.Equals(nameof(PlayerDetail.Status))
             && PlayerDetail.Status == PlayerStatus.Playing
-            && !_isStatsUpdated
             && PlayerDetail.Player != null
+            && !PlayerDetail.Player.IsStatsUpdated
             && PlayerDetail.Player.IsMediaStatsSupported)
         {
             UpdateLiveMediaInformation();
@@ -129,6 +129,5 @@ public sealed partial class LivePlayerPageViewModel
             PlayUrl = PlayerDetail.GetLivePlayUrl(),
         };
         Stats = media;
-        _isStatsUpdated = true;
     }
 }

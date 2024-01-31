@@ -59,6 +59,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsNotificationEnabled = ReadSetting(SettingNames.IsNotifyEnabled, true);
         IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
         VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
+        IsVideoNativePlayer = PlayerType == PlayerType.Native;
         WebPlayerInit();
         PreferCodecInit();
         DecodeInit();

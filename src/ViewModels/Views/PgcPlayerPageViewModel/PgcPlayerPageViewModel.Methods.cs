@@ -252,8 +252,8 @@ public sealed partial class PgcPlayerPageViewModel
     {
         if (e.PropertyName == nameof(PlayerDetail.Status)
             && PlayerDetail.Status == PlayerStatus.Playing
-            && !_isStatsUpdated
             && PlayerDetail.Player != null
+            && !PlayerDetail.Player.IsStatsUpdated
             && PlayerDetail.Player.IsMediaStatsSupported)
         {
             var info = PlayerDetail.Player.GetMediaInformation();
@@ -268,8 +268,6 @@ public sealed partial class PgcPlayerPageViewModel
                 AudioUrl = PlayerDetail.GetAudioPlayUrl(),
             };
             Stats = media;
-
-            _isStatsUpdated = true;
         }
     }
 }

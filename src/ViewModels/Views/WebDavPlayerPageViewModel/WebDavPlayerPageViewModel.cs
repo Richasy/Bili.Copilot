@@ -98,7 +98,6 @@ public sealed partial class WebDavPlayerPageViewModel : ViewModelBase, IDisposab
     {
         Playlist.Clear();
         ResetInfo();
-        _isStatsUpdated = false;
     }
 
     [RelayCommand]

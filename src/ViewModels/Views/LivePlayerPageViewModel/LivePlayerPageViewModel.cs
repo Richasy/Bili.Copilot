@@ -86,7 +86,6 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
     private void Reset()
     {
         View = null;
-        _isStatsUpdated = false;
         ResetTimers();
         ResetPublisher();
         ResetOverview();

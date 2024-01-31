@@ -20,7 +20,6 @@ public sealed partial class WebDavPlayerPageViewModel
     private WebDavConfig _config;
     private Action _playNextVideoAction;
     private Action _playPreviousVideoAction;
-    private bool _isStatsUpdated;
     private Window _attachedWindow;
 
     [ObservableProperty]
