@@ -78,4 +78,7 @@ public sealed partial class FlyleafPlayerViewModel
 
     /// <inheritdoc/>
     public bool IsMediaStatsSupported => true;
+
+    /// <inheritdoc/>
+    public bool IsStatsUpdated { get; set; }
 }

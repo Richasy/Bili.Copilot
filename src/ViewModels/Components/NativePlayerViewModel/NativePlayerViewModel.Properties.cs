@@ -77,4 +77,7 @@ public sealed partial class NativePlayerViewModel
 
     /// <inheritdoc/>
     public bool IsMediaStatsSupported => false;
+
+    /// <inheritdoc/>
+    public bool IsStatsUpdated { get; set; }
 }

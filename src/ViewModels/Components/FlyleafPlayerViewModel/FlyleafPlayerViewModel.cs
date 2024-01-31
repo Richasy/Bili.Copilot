@@ -46,7 +46,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
                 LogLevel = LogLevel.Debug,
                 LogOutput = ":debug",
 #endif
-                UIRefresh = false,
+                UIRefresh = true,
                 UICurTimePerSecond = true,
             };
             Engine.Start(engineConfig);
@@ -57,15 +57,15 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
         var config = new Config();
         config.Subtitles.Enabled = true;
         config.Player.SeekAccurate = true;
-        config.Decoder.ZeroCopy = ZeroCopy.Auto;
         config.Video.VideoProcessor = SettingsToolkit.ReadLocalSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
         config.Video.VideoAcceleration = SettingsToolkit.ReadLocalSetting(SettingNames.VideoAcceleration, true);
         config.Video.SwsForce = SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode) == DecodeType.SoftwareDecode;
         config.Video.SwsHighQuality = true;
-        config.Video.VSync = 1;
+        config.Video.VSync = 0;
         config.Video.ClearScreenOnOpen = true;
         config.Video.Swap10Bit = true;
-        config.Player.MinBufferDuration = TimeSpan.FromSeconds(5).Ticks;
+        config.Player.MinBufferDuration = TimeSpan.FromSeconds(10).Ticks;
+        config.Decoder.LowDelay = true;
 
         var player = new Player(config);
         player.PropertyChanged += OnPlayerPropertyChanged;
@@ -150,7 +150,7 @@ public sealed partial class FlyleafPlayerViewModel : ViewModelBase, IPlayerViewM
     public void SeekTo(TimeSpan time)
     {
         if (time.TotalMilliseconds >= Duration.TotalMilliseconds
-            || Math.Abs(time.TotalSeconds - Position.TotalSeconds) < 1)
+            || Math.Abs(time.TotalSeconds - Position.TotalSeconds) < 2)
         {
             return;
         }

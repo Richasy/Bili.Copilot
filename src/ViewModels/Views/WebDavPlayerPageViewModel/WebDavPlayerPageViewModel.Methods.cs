@@ -198,8 +198,8 @@ public sealed partial class WebDavPlayerPageViewModel
     {
         if (e.PropertyName == nameof(PlayerDetail.Status)
             && PlayerDetail.Status == PlayerStatus.Playing
-            && !_isStatsUpdated
             && PlayerDetail.Player != null
+            && !PlayerDetail.Player.IsStatsUpdated
             && PlayerDetail.Player.IsMediaStatsSupported)
         {
             var info = PlayerDetail.Player.GetMediaInformation();
@@ -210,8 +210,6 @@ public sealed partial class WebDavPlayerPageViewModel
 
             var media = new VideoMediaStats(info);
             Stats = media;
-
-            _isStatsUpdated = true;
         }
     }
 }

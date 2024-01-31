@@ -84,7 +84,6 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
     private void Clear()
     {
         View = null;
-        _isStatsUpdated = false;
         ResetOverview();
         ResetOperation();
         ResetCommunityInformation();

@@ -20,7 +20,6 @@ public sealed partial class LivePlayerPageViewModel
     private DispatcherTimer _heartBeatTimer;
     private string _presetRoomId;
     private Window _attachedWindow;
-    private bool _isStatsUpdated;
 
     [ObservableProperty]
     private LivePlayerView _view;

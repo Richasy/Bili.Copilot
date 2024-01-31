@@ -127,6 +127,11 @@ public interface IPlayerViewModel : INotifyPropertyChanged, IDisposable
     bool IsMediaStatsSupported { get; }
 
     /// <summary>
+    /// 是否已经更新媒体信息.
+    /// </summary>
+    bool IsStatsUpdated { get; set; }
+
+    /// <summary>
     /// 初始化.
     /// </summary>
     void Initialize();
