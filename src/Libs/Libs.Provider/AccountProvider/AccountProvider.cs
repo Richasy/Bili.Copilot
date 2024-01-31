@@ -507,7 +507,7 @@ public sealed partial class AccountProvider
             { "end_ts", _chatSessionOffset.ToString() },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatSessions, queryParameters, needRid: true, needCookie: true);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Account.ChatSessions, queryParameters, needRid: true, needCookie: true, forceNoToken: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var sessionResult = await HttpProvider.ParseAsync<ServerResponse<ChatSessionListResponse>>(response);
         _chatSessionOffset = sessionResult.Data.SessionList.LastOrDefault()?.SessionTimestamp ?? 0;

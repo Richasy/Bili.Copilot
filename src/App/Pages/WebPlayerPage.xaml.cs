@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.App.Controls.Base;
+using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Models.App.Args;
 using Microsoft.Web.WebView2.Core;
 using Windows.Storage;
@@ -92,6 +93,13 @@ public sealed partial class WebPlayerPage : PageBase
     private async void OnNavigationCompletedAsync(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
         LoadingOverlay.IsOpen = false;
+
+        var cookies = await sender.CoreWebView2.CookieManager.GetCookiesAsync(sender.Source.AbsoluteUri);
+        var cookieDict = cookies.Select(p => (p.Name, p.Value)).ToDictionary();
+        if (cookieDict.ContainsKey("bili_jct"))
+        {
+            AuthorizeProvider.SaveCookies(cookieDict);
+        }
 
         // 注入 js.
         var cleanFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/WebPlayer.js"));

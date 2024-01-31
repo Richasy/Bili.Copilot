@@ -89,6 +89,28 @@ public partial class AuthorizeProvider
     /// </summary>
     public string CurrentUserId { get; private set; }
 
+    /// <summary>
+    /// 保存Cookie.
+    /// </summary>
+    /// <param name="cookies">Cookie 信息.</param>
+    public static void SaveCookies(Dictionary<string, string> cookies)
+    {
+        var localCookies = GetCookieDict();
+        foreach (var cookie in cookies)
+        {
+            if (localCookies.ContainsKey(cookie.Key))
+            {
+                localCookies[cookie.Key] = cookie.Value;
+            }
+            else
+            {
+                localCookies.Add(cookie.Key, cookie.Value);
+            }
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.LocalCookie, JsonSerializer.Serialize(localCookies));
+    }
+
     internal static void GenerateAppKey(Dictionary<string, string> queryParameters, RequestClientType clientType, bool onlyAppKey = false)
     {
         if (clientType == RequestClientType.IOS)
@@ -203,28 +225,6 @@ public partial class AuthorizeProvider
     private static long GetNowSeconds() => DateTimeOffset.Now.ToLocalTime().ToUnixTimeSeconds();
 
     private static long GetNowMilliSeconds() => DateTimeOffset.Now.ToLocalTime().ToUnixTimeMilliseconds();
-
-    /// <summary>
-    /// 保存Cookie.
-    /// </summary>
-    /// <param name="cookies">Cookie 信息.</param>
-    private static void SaveCookies(Dictionary<string, string> cookies)
-    {
-        var localCookies = GetCookieDict();
-        foreach (var cookie in cookies)
-        {
-            if (localCookies.ContainsKey(cookie.Key))
-            {
-                localCookies[cookie.Key] = cookie.Value;
-            }
-            else
-            {
-                localCookies.Add(cookie.Key, cookie.Value);
-            }
-        }
-
-        SettingsToolkit.WriteLocalSetting(SettingNames.LocalCookie, JsonSerializer.Serialize(localCookies));
-    }
 
     private static void SaveCookie(CookieInfo cookieInfo)
     {

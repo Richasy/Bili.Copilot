@@ -58,6 +58,12 @@ public sealed partial class WebSignInPage : PageBase
                 if (_isVerify)
                 {
                     SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.IsWebSignIn, true);
+
+                    if (cookieDict.ContainsKey("bili_jct"))
+                    {
+                        AuthorizeProvider.SaveCookies(cookieDict);
+                    }
+
                     CoreViewModel.BackCommand.Execute(default);
                     return;
                 }
