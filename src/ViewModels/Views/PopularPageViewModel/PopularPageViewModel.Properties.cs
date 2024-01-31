@@ -53,11 +53,6 @@ public sealed partial class PopularPageViewModel
     private bool _isOverlayLoading;
 
     /// <summary>
-    /// 请求滚动到顶部.
-    /// </summary>
-    public event EventHandler RequestScrollToTop;
-
-    /// <summary>
     /// 实例.
     /// </summary>
     public static PopularPageViewModel Instance => _lazyInstance.Value;

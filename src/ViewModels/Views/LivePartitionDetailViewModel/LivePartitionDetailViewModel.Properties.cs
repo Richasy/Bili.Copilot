@@ -29,11 +29,6 @@ public sealed partial class LivePartitionDetailViewModel
     private bool _isEmpty;
 
     /// <summary>
-    /// 请求滚动到顶部.
-    /// </summary>
-    public event EventHandler RequestScrollToTop;
-
-    /// <summary>
     /// 实例.
     /// </summary>
     public static LivePartitionDetailViewModel Instance => _lazyInstance.Value;

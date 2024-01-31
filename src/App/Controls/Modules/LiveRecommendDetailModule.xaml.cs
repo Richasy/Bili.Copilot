@@ -17,6 +17,20 @@ public sealed partial class LiveRecommendDetailModule : LiveRecommendDetailModul
     {
         InitializeComponent();
         ViewModel = LiveRecommendDetailViewModel.Instance;
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+        => ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+        => ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
+
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        ContentScrollViewer.ChangeView(default, 0, default);
     }
 
     private void OnLiveViewIncrementalTriggered(object sender, System.EventArgs e)

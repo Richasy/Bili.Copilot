@@ -18,6 +18,15 @@ public sealed partial class AllDynamicDetailModule : DynamicAllModuleBase
         ViewModel = DynamicPageViewModel.Instance;
     }
 
+    /// <summary>
+    /// 滚动到顶部.
+    /// </summary>
+    public void ScrollToTop()
+    {
+        DynamicAllScrollViewer?.ChangeView(default, 0, default);
+        DynamicUserScrollViewer?.ChangeView(default, 0, default);
+    }
+
     private void OnDynamicViewIncrementalTriggered(object sender, EventArgs e)
         => ViewModel.IncrementalCommand.Execute(default);
 }

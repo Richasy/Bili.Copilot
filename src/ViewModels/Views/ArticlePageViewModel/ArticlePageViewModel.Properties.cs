@@ -31,11 +31,6 @@ public sealed partial class ArticlePageViewModel
     private double _navListColumnWidth;
 
     /// <summary>
-    /// 请求滚动到顶部.
-    /// </summary>
-    public event EventHandler RequestScrollToTop;
-
-    /// <summary>
     /// 实例.
     /// </summary>
     public static ArticlePageViewModel Instance => _lazyInstance.Value;

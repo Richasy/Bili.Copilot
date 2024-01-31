@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -27,6 +28,11 @@ public abstract partial class InformationFlowViewModel<T>
 
     [ObservableProperty]
     private string _errorText;
+
+    /// <summary>
+    /// 请求滚动到顶部.
+    /// </summary>
+    public event EventHandler RequestScrollToTop;
 
     /// <summary>
     /// 数据集合.

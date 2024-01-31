@@ -26,15 +26,18 @@ public sealed partial class ArticlePage : ArticlePageBase
     {
         CoreViewModel.IsBackButtonShown = false;
         ViewModel.InitializeCommand.Execute(default);
-        ViewModel.RequestScrollToTop += OnRequestScrollToTop;
+        ViewModel.RequestScrollToTop += OnRequestScrollToTopAsync;
     }
 
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
-        => ViewModel.RequestScrollToTop -= OnRequestScrollToTop;
+        => ViewModel.RequestScrollToTop -= OnRequestScrollToTopAsync;
 
-    private void OnRequestScrollToTop(object sender, EventArgs e)
-        => ContentScrollViewer.ChangeView(default, 0, default, true);
+    private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        ContentScrollViewer.ChangeView(default, 0, default);
+    }
 
     private void OnPartitionNavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {

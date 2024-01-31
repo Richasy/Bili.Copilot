@@ -11,7 +11,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer Style="{StaticResource PageScrollViewerStyle}" Visibility="{x:Bind ViewModel.IsAllDynamicSelected, Mode=OneWay}">
+        <ScrollViewer
+            x:Name="DynamicAllScrollViewer"
+            Style="{StaticResource PageScrollViewerStyle}"
+            Visibility="{x:Bind ViewModel.IsAllDynamicSelected, Mode=OneWay}">
             <Grid>
                 <base:VerticalRepeaterView
                     MaxWidth="700"
@@ -28,7 +31,10 @@
                 </base:VerticalRepeaterView>
             </Grid>
         </ScrollViewer>
-        <ScrollViewer Style="{StaticResource PageScrollViewerStyle}" Visibility="{x:Bind ViewModel.IsAllDynamicSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+        <ScrollViewer
+            x:Name="DynamicUserScrollViewer"
+            Style="{StaticResource PageScrollViewerStyle}"
+            Visibility="{x:Bind ViewModel.IsAllDynamicSelected, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid>
                 <base:VerticalRepeaterView
                     MaxWidth="700"

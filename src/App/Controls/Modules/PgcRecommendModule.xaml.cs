@@ -63,7 +63,7 @@ public sealed partial class PgcRecommendModule : PgcRecommendModuleBase
 
     private async void OnRequestScrollToTopAsync(object sender, EventArgs e)
     {
-        await Task.Delay(200);
+        await Task.Delay(500);
         ContentScrollViewer.ChangeView(0, 0, default);
     }
 
