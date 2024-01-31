@@ -170,6 +170,8 @@ public sealed partial class PlayerDetailViewModel
         CompactOverlayText = DisplayMode == PlayerDisplayMode.CompactOverlay
             ? ResourceToolkit.GetLocalizedString(StringNames.ExitCompactOverlay)
             : ResourceToolkit.GetLocalizedString(StringNames.EnterCompactOverlay);
+
+        IsFullScreen = DisplayMode == PlayerDisplayMode.FullScreen;
     }
 
     [RelayCommand]

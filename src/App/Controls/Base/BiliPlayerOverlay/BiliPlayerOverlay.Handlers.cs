@@ -469,9 +469,10 @@ public partial class BiliPlayerOverlay
         => _rootSplitView.IsPaneOpen = !_rootSplitView.IsPaneOpen;
 
     private void OnBackButtonClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.BackCommand.Execute(default);
-    }
+        => ViewModel.BackCommand.Execute(default);
+
+    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+        => ViewModel.AttachedWindow?.Close();
 
     private void OnRootSplitViewPaneChanged(SplitView sender, object args)
     {

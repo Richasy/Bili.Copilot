@@ -341,12 +341,13 @@
                                 </Grid>
                                 <Grid
                                     Margin="28"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Button
                                         x:Name="BackButton"
@@ -364,6 +365,7 @@
                                     <Border
                                         Grid.Column="1"
                                         Padding="8,4"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         Background="#CF000000"
                                         CornerRadius="{StaticResource ControlCornerRadius}">
@@ -374,6 +376,20 @@
                                             Text="{TemplateBinding Title}"
                                             TextWrapping="Wrap" />
                                     </Border>
+                                    <Button
+                                        x:Name="CloseButton"
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Margin="24,0,0,0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Close}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFullScreen}">
+                                        <local:FluentIcon FontSize="16" Symbol="Dismiss" />
+                                    </Button>
                                 </Grid>
 
                                 <Grid
@@ -423,6 +439,15 @@
                                         </Button>
                                     </StackPanel>
                                 </Grid>
+                                <ProgressBar
+                                    Height="3"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
+                                    Opacity="0.7"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -792,12 +817,13 @@
                                 </Grid>
                                 <Grid
                                     Margin="28"
-                                    HorizontalAlignment="Left"
+                                    HorizontalAlignment="Stretch"
                                     VerticalAlignment="Top"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Button
                                         x:Name="BackButton"
@@ -815,6 +841,7 @@
                                     <Border
                                         Grid.Column="1"
                                         Padding="8,4"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         Background="#CF000000"
                                         CornerRadius="{StaticResource ControlCornerRadius}">
@@ -825,6 +852,20 @@
                                             Text="{TemplateBinding Title}"
                                             TextWrapping="Wrap" />
                                     </Border>
+                                    <Button
+                                        x:Name="CloseButton"
+                                        Grid.Column="2"
+                                        Width="36"
+                                        Height="36"
+                                        Margin="24,0,0,0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource AccentButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Close}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFullScreen}">
+                                        <local:FluentIcon FontSize="16" Symbol="Dismiss" />
+                                    </Button>
                                 </Grid>
                                 <Grid
                                     Margin="20,12,0,0"
@@ -872,6 +913,16 @@
                                         </Button>
                                     </StackPanel>
                                 </Grid>
+
+                                <ProgressBar
+                                    Height="3"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
+                                    Opacity="0.7"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
