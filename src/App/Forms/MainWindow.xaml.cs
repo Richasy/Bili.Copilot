@@ -542,7 +542,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (_appViewModel.IsOverlayShown && !_appViewModel.IsTitleBarShown)
+        if (_appViewModel.IsPlayerShown && !_appViewModel.IsTitleBarShown)
         {
             SetNormalDragAreaAsync();
         }
@@ -550,7 +550,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnWindowKeyDown(object sender, PlayerKeyboardEventArgs e)
     {
-        if ((e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause) && _appViewModel.IsOverlayShown)
+        if ((e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause) && _appViewModel.IsPlayerShown)
         {
             if (e.Key == VirtualKey.Space)
             {
@@ -562,19 +562,19 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
             }
 
             e.Handled = true;
-            if (OverlayFrame.Content is VideoPlayerPageBase page)
+            if (PlayerFrame.Content is VideoPlayerPage videoPage)
             {
-                page.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
+                videoPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
-            else if (OverlayFrame.Content is LivePlayerPage livePage)
+            else if (PlayerFrame.Content is LivePlayerPage livePage)
             {
                 livePage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
-            else if (OverlayFrame.Content is PgcPlayerPage pgcPage)
+            else if (PlayerFrame.Content is PgcPlayerPage pgcPage)
             {
                 pgcPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
-            else if (OverlayFrame.Content is WebDavPlayerPage webDavPage)
+            else if (PlayerFrame.Content is WebDavPlayerPage webDavPage)
             {
                 webDavPage.ViewModel.PlayerDetail.PlayPauseCommand.Execute(default);
             }
