@@ -1,4 +1,14 @@
-﻿let elements = ['.video-page-game-card-small', '.bili-header', '.ad-report', '.video-card-ad-small', '.vcd', '.link-navbar-ctnr'];
+﻿let elements = [
+    '.video-page-game-card-small',
+    '.bili-header',
+    '.ad-report',
+    '.video-card-ad-small',
+    '.vcd',
+    '.link-navbar-ctnr',
+    '.act-now',
+    '#right-bottom-banner',
+    '.pop-live-small-mode'
+];
 let isFullWindowClicked = false;
 
 function hideElements() {

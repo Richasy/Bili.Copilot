@@ -60,7 +60,7 @@ public sealed partial class WebPlayerPage : PageBase
         await MainView.EnsureCoreWebView2Async();
         MainView.CoreWebView2.Settings.IsStatusBarEnabled = false;
         MainView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-        MainView.CoreWebView2.Settings.AreDevToolsEnabled = true;
+        MainView.CoreWebView2.Settings.AreDevToolsEnabled = false;
         MainView.CoreWebView2.Settings.UserAgent = UserAgent;
         MainView.CoreWebView2.ContainsFullScreenElementChanged += OnContainsFullScreenElementChanged;
         MainView.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);

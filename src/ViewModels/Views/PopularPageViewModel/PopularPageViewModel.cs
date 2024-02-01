@@ -77,7 +77,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
                 if (videos?.Count() < 7)
                 {
                     var nextVideos = await HomeProvider.Instance.RequestHotVideosAsync();
-                    videos = videos.Concat(nextVideos);
+                    videos = videos.Concat(nextVideos).Distinct();
                 }
 
                 break;
@@ -106,6 +106,12 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
             {
                 video.Publisher = default;
                 var videoVM = new VideoItemViewModel(video);
+
+                if (Items.Any(p => p.Data == video))
+                {
+                    continue;
+                }
+
                 Items.Add(videoVM);
             }
 
