@@ -15,7 +15,10 @@
 
     <Page.Resources>
         <DataTemplate x:Key="WebDavStorageGridItemTemplate" x:DataType="items:WebDavStorageItemViewModel">
-            <base:CardPanel Click="OnItemClick" DataContext="{x:Bind}">
+            <base:CardPanel
+                Click="OnItemClick"
+                DataContext="{x:Bind}"
+                IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
                 <Grid Margin="20,12" RowSpacing="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -26,14 +29,7 @@
                             HorizontalAlignment="Left"
                             FontFamily="Segoe UI Emoji"
                             FontSize="32"
-                            Glyph="&#x1F4C1;"
-                            Visibility="{x:Bind IsFolder}" />
-                        <FontIcon
-                            HorizontalAlignment="Left"
-                            FontFamily="Segoe UI Emoji"
-                            FontSize="32"
-                            Glyph="&#x1F39E;"
-                            Visibility="{x:Bind IsFolder, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                            Glyph="{x:Bind Icon}" />
                     </Grid>
                     <TextBlock
                         Grid.Row="1"
@@ -45,7 +41,10 @@
             </base:CardPanel>
         </DataTemplate>
         <DataTemplate x:Key="WebDavStorageListItemTemplate" x:DataType="items:WebDavStorageItemViewModel">
-            <base:CardPanel Click="OnItemClick" DataContext="{x:Bind}">
+            <base:CardPanel
+                Click="OnItemClick"
+                DataContext="{x:Bind}"
+                IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
                 <Grid Margin="12" ColumnSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -55,15 +54,8 @@
                         <FontIcon
                             HorizontalAlignment="Left"
                             FontFamily="Segoe UI Emoji"
-                            FontSize="28"
-                            Glyph="&#x1F4C1;"
-                            Visibility="{x:Bind IsFolder}" />
-                        <FontIcon
-                            HorizontalAlignment="Left"
-                            FontFamily="Segoe UI Emoji"
-                            FontSize="28"
-                            Glyph="&#x1F39E;"
-                            Visibility="{x:Bind IsFolder, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                            FontSize="32"
+                            Glyph="{x:Bind Icon}" />
                     </Grid>
                     <TextBlock
                         Grid.Column="1"

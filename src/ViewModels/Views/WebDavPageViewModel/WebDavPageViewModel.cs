@@ -89,6 +89,26 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         TryClear(CurrentItems);
 
         var previousPath = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavLastPath, "/");
+        if (string.IsNullOrEmpty(previousPath))
+        {
+            previousPath = "/";
+        }
+
+        var rootPath = new Uri(_config.Host).PathAndQuery.Split("?").First();
+        if (previousPath.StartsWith(rootPath))
+        {
+            var relativePath = previousPath.Substring(rootPath.Length);
+            var relativeSegs = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            for (var i = 0; i < relativeSegs.Length - 1; i++)
+            {
+                var segment = new WebDavPathSegment { Name = Uri.UnescapeDataString(relativeSegs[i]), Path = rootPath.TrimEnd('/') + "/" + string.Join('/', relativeSegs.Take(i + 1)) };
+                if (!PathSegments.Contains(segment))
+                {
+                    PathSegments.Add(segment);
+                }
+            }
+        }
+
         LoadPathCommand.Execute(previousPath);
     }
 
@@ -131,9 +151,9 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
             TryClear(CurrentItems);
             var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port, path);
             var items = (await _client.Propfind(server + path)).Resources.ToList();
+            var rootPath = new Uri(_config.Host).PathAndQuery.Split("?").First();
             items = items
-                .Where(p => p.IsCollection || p.ContentType.StartsWith("video"))
-                .Where(p => !p.IsHidden && p.Uri != path)
+                .Where(p => !p.IsHidden && p.Uri.Trim('/') != path.Trim('/') && p.Uri.Trim('/') != rootPath.Trim('/'))
                 .OrderBy(p => p.IsCollection)
                 .ThenBy(p => p.DisplayName)
                 .ToList();
@@ -156,7 +176,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
     [RelayCommand]
     private void OpenVideo(WebDavStorageItemViewModel item)
     {
-        var list = CurrentItems.Where(p => !p.IsFolder).ToList();
+        var list = CurrentItems.Where(p => !p.IsFolder && p.IsEnabled).ToList();
         foreach (var data in list)
         {
             data.IsSelected = data.Equals(item);
