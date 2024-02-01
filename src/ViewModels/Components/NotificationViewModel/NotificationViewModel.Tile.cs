@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.Generic;
+using System.Security;
 using Bili.Copilot.Models.Data.Dynamic;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Video;
@@ -44,18 +45,18 @@ public sealed partial class NotificationViewModel
                         <binding template="TileMedium" branding="name">
                             <image src="{cover}" placement="background" hint-overlay="60" />
                             <image src="{avatar}" placement="peek" hint-crop="circle" />
-                            <text hint-style="caption" hint-wrap="true">{title}</text>
+                            <text hint-style="caption" hint-wrap="true">{SecurityElement.Escape(title)}</text>
                         </binding>
                         <binding template="TileWide" branding="nameAndLogo">
                             <image src="{cover}" placement="background" hint-overlay="60" />
-                            <text hint-maxLines="2" hint-style="base" hint-wrap="true">{title}</text>
-                            <text hint-style="caption">{publisher}</text>
+                            <text hint-maxLines="2" hint-style="base" hint-wrap="true">{SecurityElement.Escape(title)}</text>
+                            <text hint-style="caption">{SecurityElement.Escape(publisher)}</text>
                         </binding>
                         <binding template="TileLarge" branding="nameAndLogo">
                             <image src="{cover}" placement="background" hint-overlay="60" />
-                            <text hint-style="subtitle" hint-wrap="true">{title}</text>
+                            <text hint-style="subtitle" hint-wrap="true">{SecurityElement.Escape(title)}</text>
                             <text hint-style="base"></text>
-                            <text hint-style="base">{publisher}</text>
+                            <text hint-style="base">{SecurityElement.Escape(publisher)}</text>
                         </binding>
                     </visual>
                 </tile>

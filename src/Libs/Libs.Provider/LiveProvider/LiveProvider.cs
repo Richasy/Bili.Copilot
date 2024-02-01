@@ -62,21 +62,16 @@ public partial class LiveProvider
             { Query.RoomId, roomId.ToString() },
             { Query.NoPlayUrl, "0" },
             { Query.Qn, quality.ToString() },
-            { Query.Codec, Uri.EscapeDataString("0,1") },
-            { Query.Device, "phone" },
-            { Query.DeviceName, Uri.EscapeDataString("iphone 14 pro max") },
-            { Query.Dolby, "1" },
+            { Query.Codec, Uri.EscapeDataString("0,1,2") },
+            { Query.Dolby, "5" },
             { Query.Format, Uri.EscapeDataString("0,1,2") },
-            { Query.Http, "1" },
             { Query.OnlyAudio, audioOnly ? "1" : "0" },
-            { Query.OnlyVideo, "0" },
             { Query.Protocol, Uri.EscapeDataString("0,1") },
-            { Query.NeedHdr, "0" },
             { Query.Mask, "1" },
-            { Query.PlayType, "0" },
+            { "panorama", "1" },
         };
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Live.WebPlayInformation, queryParameter, RequestClientType.Web, needAppKey: true);
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Live.WebPlayInformation, queryParameter, RequestClientType.IOS, needCookie: true, forceNoToken: true, needCsrf: true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<ServerResponse<LiveAppPlayInformation>>(response);
         return LiveAdapter.ConvertToLiveMediaInformation(result.Data);
