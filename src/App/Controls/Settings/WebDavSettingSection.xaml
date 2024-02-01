@@ -41,6 +41,7 @@
                 Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button
+                        MinWidth="120"
                         VerticalAlignment="Center"
                         Click="OnAddButtonClickAsync"
                         Content="{ext:Locale Name=AddService}" />
@@ -89,6 +90,7 @@
                                 Header="{x:Bind Name}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Button
+                                        MinWidth="120"
                                         VerticalAlignment="Center"
                                         Click="OnEditButtonClickAsync"
                                         Content="{ext:Locale Name=Edit}"
