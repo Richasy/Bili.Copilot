@@ -167,7 +167,7 @@ public class BiliChatMsg
     /// 接收方 Id.
     /// </summary>
     [JsonPropertyName("receiver_id")]
-    public int ReceiverId { get; set; }
+    public long ReceiverId { get; set; }
 
     /// <summary>
     /// 内容.
