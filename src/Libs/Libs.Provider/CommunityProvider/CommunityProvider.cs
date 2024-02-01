@@ -350,22 +350,16 @@ public partial class CommunityProvider
     /// <returns>视频动态响应.</returns>
     public async Task<DynamicView> GetDynamicVideoListAsync(bool latest = false)
     {
-        var type = string.IsNullOrEmpty(_videoDynamicOffset.Offset) ? Refresh.New : Refresh.History;
-        var req = latest
-            ? new DynVideoReq
-            {
-                RefreshType = Refresh.New,
-                LocalTime = 8,
-                Offset = string.Empty,
-                UpdateBaseline = string.Empty,
-            }
-            : new DynVideoReq
-            {
-                RefreshType = type,
-                LocalTime = 8,
-                Offset = _videoDynamicOffset.Offset,
-                UpdateBaseline = _videoDynamicOffset.Baseline,
-            };
+        var type = string.IsNullOrEmpty(_videoDynamicOffset.Offset) || latest ? Refresh.New : Refresh.History;
+        var offset = type == Refresh.New ? string.Empty : _videoDynamicOffset.Offset;
+        var baseline = type == Refresh.New ? string.Empty : _videoDynamicOffset.Baseline;
+        var req = new DynVideoReq
+        {
+            RefreshType = type,
+            LocalTime = 8,
+            Offset = offset,
+            UpdateBaseline = baseline,
+        };
 
         var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicVideo, req, true);
         var response = await HttpProvider.Instance.SendAsync(request);
@@ -377,7 +371,12 @@ public partial class CommunityProvider
         }
 
         var view = DynamicAdapter.ConvertToDynamicView(result);
-        SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LastReadVideoDynamicId, view.Dynamics.First().Id);
+
+        if (type == Refresh.New)
+        {
+            SettingsToolkit.WriteLocalSetting(Models.Constants.App.SettingNames.LastReadVideoDynamicId, view.Dynamics.First().Id);
+        }
+
         return view;
     }
 
