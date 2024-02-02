@@ -32,6 +32,11 @@ public sealed class SubtitleMeta
     /// </summary>
     public string Url { get; }
 
+    /// <summary>
+    /// 是否是AI字幕.
+    /// </summary>
+    public bool IsAI { get; set; }
+
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is SubtitleMeta information && Id == information.Id;
 

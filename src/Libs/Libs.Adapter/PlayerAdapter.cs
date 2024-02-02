@@ -143,7 +143,7 @@ public static class PlayerAdapter
     /// <param name="item">索引条目.</param>
     /// <returns><see cref="SubtitleMeta"/>.</returns>
     public static SubtitleMeta ConvertToSubtitleMeta(SubtitleIndexItem item)
-        => new(item.Id.ToString(), item.DisplayLanguage, item.Url);
+        => new(item.Id.ToString(), item.DisplayLanguage, item.Url) { IsAI = item.Type == 1 };
 
     /// <summary>
     /// 将字幕条目 <see cref="SubtitleItem"/> 转换成字幕信息.

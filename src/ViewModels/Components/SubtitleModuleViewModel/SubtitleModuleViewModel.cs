@@ -83,7 +83,7 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
         CurrentMeta = null;
         HasSubtitles = false;
 
-        if(!string.IsNullOrEmpty(CurrentSubtitle))
+        if (!string.IsNullOrEmpty(CurrentSubtitle))
         {
             CurrentSubtitle = string.Empty;
         }
@@ -102,6 +102,11 @@ public sealed partial class SubtitleModuleViewModel : ViewModelBase
             {
                 HasSubtitles = true;
                 data.ToList().ForEach(Metas.Add);
+
+                if (CurrentMeta == null && Metas.FirstOrDefault(p => !p.IsAI) != null)
+                {
+                    ChangeMetaCommand.Execute(Metas.First(p => !p.IsAI));
+                }
             }
         }
     }

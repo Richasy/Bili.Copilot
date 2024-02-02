@@ -466,7 +466,7 @@ public partial class PlayerProvider
             url = "https:" + url;
         }
 
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, url, clientType: RequestClientType.IOS, needCookie: true);
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync<SubtitleDetailResponse>(response);
         return result.Body.Select(PlayerAdapter.ConvertToSubtitleInformation).ToList();
