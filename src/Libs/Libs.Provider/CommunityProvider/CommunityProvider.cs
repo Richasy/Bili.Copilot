@@ -337,6 +337,10 @@ public partial class CommunityProvider
             UpdateBaseline = _comprehensiveDynamicOffset.Baseline,
         };
 
+#if !DEBUG
+        await Task.Delay(500);
+#endif
+
         var request = await HttpProvider.GetRequestMessageAsync(Community.DynamicAll, req, true);
         var response = await HttpProvider.Instance.SendAsync(request);
         var result = await HttpProvider.ParseAsync(response, DynAllReply.Parser);
