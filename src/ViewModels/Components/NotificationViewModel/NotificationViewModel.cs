@@ -28,19 +28,19 @@ public sealed partial class NotificationViewModel : ViewModelBase
 {
     private NotificationViewModel()
     {
-        _timer = new Timer(TimeSpan.FromMinutes(5).TotalMilliseconds);
+        _timer = new Timer(TimeSpan.FromMinutes(15).TotalMilliseconds);
         _timer.Elapsed += OnTimerElapsedAsync;
     }
 
     [RelayCommand]
     private async Task CheckVideoDynamicNotificationsAsync()
     {
-        var lastSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
+        var lastSeen = GetLastReadDynamicId();
         var latestDynamics = await CommunityProvider.Instance.GetDynamicVideoListAsync(true);
         if (latestDynamics != null)
         {
             var dynamics = latestDynamics.Dynamics.Where(p => p.DynamicType != Models.Constants.Community.DynamicItemType.Forward).ToList();
-            var currentSeen = Convert.ToInt64(SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty));
+            var currentSeen = GetLastReadDynamicId();
             var notifiedItems = new List<DynamicInformation>();
             if (currentSeen > lastSeen)
             {
@@ -101,6 +101,12 @@ public sealed partial class NotificationViewModel : ViewModelBase
 
                 UpdateTile(notifiedItems);
             }
+        }
+
+        long GetLastReadDynamicId()
+        {
+            var lastReadId = SettingsToolkit.ReadLocalSetting(SettingNames.LastReadVideoDynamicId, string.Empty);
+            return string.IsNullOrEmpty(lastReadId) ? 0 : Convert.ToInt64(lastReadId);
         }
     }
 
