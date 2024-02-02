@@ -48,5 +48,11 @@ public class SubtitleIndexItem
     /// </summary>
     [JsonPropertyName("subtitle_url")]
     public string Url { get; set; }
+
+    /// <summary>
+    /// 字幕类型.
+    /// </summary>
+    [JsonPropertyName("type")]
+    public int Type { get; set; }
 }
 
