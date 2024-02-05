@@ -83,6 +83,7 @@
         <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
         <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
         <None Remove="Controls\Danmaku\DanmakuView\DanmakuView.xaml" />
+        <None Remove="Controls\DebugDialog.xaml" />
         <None Remove="Controls\ErrorPanel.xaml" />
         <None Remove="Controls\Modules\AccountModule.xaml" />
         <None Remove="Controls\Modules\AllDynamicDetailModule.xaml" />
@@ -801,4 +802,10 @@
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
     </PropertyGroup>
+    <ItemGroup>
+      <CustomAdditionalCompileInputs Remove="Controls\DebugDialog.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Remove="Controls\DebugDialog.xaml" />
+    </ItemGroup>
 </Project>

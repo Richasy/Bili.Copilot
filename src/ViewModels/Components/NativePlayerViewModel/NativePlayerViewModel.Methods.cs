@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Args;
 using Bili.Copilot.Models.App.Constants;
@@ -49,6 +51,7 @@ public sealed partial class NativePlayerViewModel
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Referer", "https://www.bilibili.com");
         httpClient.DefaultRequestHeaders.Add("User-Agent", ServiceConstants.DefaultUserAgentString);
+        httpClient.DefaultRequestHeaders.Add("Cookie", AuthorizeProvider.GetCookieString());
         return httpClient;
     }
 
@@ -57,6 +60,7 @@ public sealed partial class NativePlayerViewModel
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Referer", "https://live.bilibili.com/");
         httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
+        httpClient.DefaultRequestHeaders.Add("Cookie", AuthorizeProvider.GetCookieString());
         return httpClient;
     }
 
@@ -118,7 +122,7 @@ public sealed partial class NativePlayerViewModel
 
         var videoStr =
                 $@"<Representation bandwidth=""{_video.Bandwidth}"" codecs=""{_video.Codecs}"" height=""{_video.Height}"" mimeType=""{_video.MimeType}"" id=""{_video.Id}"" width=""{_video.Width}"" startWithSap=""{_video.StartWithSap}"">
-                               <BaseURL></BaseURL>
+                               <BaseURL>{SecurityElement.Escape(_video.BaseUrl)}</BaseURL>
                                <SegmentBase indexRange=""{_video.IndexRange}"">
                                    <Initialization range=""{_video.Initialization}"" />
                                </SegmentBase>
@@ -130,7 +134,7 @@ public sealed partial class NativePlayerViewModel
         {
             audioStr =
                     $@"<Representation bandwidth=""{_audio.Bandwidth}"" codecs=""{_audio.Codecs}"" mimeType=""{_audio.MimeType}"" id=""{_audio.Id}"">
-                               <BaseURL></BaseURL>
+                               <BaseURL>{SecurityElement.Escape(_audio.BaseUrl)}</BaseURL>
                                <SegmentBase indexRange=""{_audio.IndexRange}"">
                                    <Initialization range=""{_audio.Initialization}"" />
                                </SegmentBase>
@@ -147,13 +151,6 @@ public sealed partial class NativePlayerViewModel
         var source = await AdaptiveMediaSource.CreateFromStreamAsync(stream, new Uri(_video.BaseUrl), "application/dash+xml", httpClient);
         source.MediaSource.AdvancedSettings.AllSegmentsIndependent = true;
         Debug.Assert(source.Status == AdaptiveMediaSourceCreationStatus.Success, "解析MPD失败");
-        source.MediaSource.DownloadRequested += (sender, args) =>
-        {
-            if (args.ResourceContentType == "audio/mp4" && _audio != null)
-            {
-                args.Result.ResourceUri = new Uri(_audio.BaseUrl);
-            }
-        };
 
         var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         var videoPlaybackItem = new MediaPlaybackItem(videoSource);
