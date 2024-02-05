@@ -20,9 +20,9 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
+        var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
         if (ContextFlyout != null)
         {
-            var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
             rootCard.ContextFlyout = ContextFlyout;
         }
         else
@@ -32,7 +32,24 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
             {
                 privatePlayItem.Click += OnPrivatePlayItemClick;
             }
+
+#if DEBUG
+            var debugItem = new MenuFlyoutItem();
+            debugItem.Text = "调试视频信息";
+            debugItem.Click += OnDebugItemClickAsync;
+            if (rootCard != null && rootCard.ContextFlyout is MenuFlyout flyout && flyout.Items != null)
+            {
+                flyout.Items.Add(debugItem);
+            }
+#endif
         }
+    }
+
+    private async void OnDebugItemClickAsync(object sender, RoutedEventArgs e)
+    {
+        var dialog = new DebugDialog(ViewModel.Data);
+        dialog.XamlRoot = XamlRoot;
+        await dialog.ShowAsync();
     }
 
     private void OnPrivatePlayItemClick(object sender, RoutedEventArgs e)
