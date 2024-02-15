@@ -448,7 +448,14 @@ public unsafe class Demuxer : RunThreadBase
             }
 
             if (isDevice)
-                Utils.UIInvoke(() => OpenFormat(url, inFmt, fmtOptExtra, out ret));
+            {
+                string fmtName = Utils.BytePtrToStringUTF8(inFmt->name);
+
+                if (fmtName == "decklink") // avoid using UI thread for decklink (STA should be enough for CoInitialize/CoCreateInstance)
+                    Utils.STAInvoke(() => OpenFormat(url, inFmt, fmtOptExtra, out ret));
+                else
+                    Utils.UIInvoke(() => OpenFormat(url, inFmt, fmtOptExtra, out ret));
+            }
             else
                 OpenFormat(url, inFmt, fmtOptExtra, out ret);
 

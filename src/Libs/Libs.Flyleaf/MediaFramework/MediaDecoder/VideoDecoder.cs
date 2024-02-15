@@ -645,7 +645,7 @@ public unsafe class VideoDecoder : DecoderBase
 
             avcodec_parameters_from_context(Stream.AVStream->codecpar, codecCtx);
             VideoStream.AVStream->time_base = codecCtx->pkt_timebase;
-            VideoStream.Refresh(codecCtx->sw_pix_fmt != AVPixelFormat.AV_PIX_FMT_NONE ? codecCtx->sw_pix_fmt : codecCtx->pix_fmt);
+            VideoStream.Refresh(codecCtx->sw_pix_fmt != AVPixelFormat.AV_PIX_FMT_NONE ? codecCtx->sw_pix_fmt : codecCtx->pix_fmt, frame);
 
             if (!(VideoStream.FPS > 0)) // NaN
             {
