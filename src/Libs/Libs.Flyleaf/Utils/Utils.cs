@@ -103,6 +103,21 @@ public static partial class Utils
             Application.Current.Dispatcher.Invoke(action);
     }
 
+    public static Thread STA(Action action)
+    {
+        Thread thread = new(() => action());
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+
+        return thread;
+    }
+
+    public static void STAInvoke(Action action)
+    {
+        Thread thread = STA(action);
+        thread.Join();
+    }
+
     public static int Align(int num, int align)
     {
         int mod = num % align;

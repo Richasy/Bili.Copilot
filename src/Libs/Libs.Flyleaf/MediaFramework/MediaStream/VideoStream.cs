@@ -43,7 +43,7 @@ public unsafe class VideoStream : StreamBase
         Refresh();
     }
 
-    public void Refresh(AVPixelFormat format = AVPixelFormat.AV_PIX_FMT_NONE)
+    public void Refresh(AVPixelFormat format = AVPixelFormat.AV_PIX_FMT_NONE, AVFrame* frame = null)
     {
         base.Refresh();
 
@@ -105,7 +105,12 @@ public unsafe class VideoStream : StreamBase
             //else
             ColorTransfer = AVStream->codecpar->color_trc;
 
-            Rotation = av_display_rotation_get(av_stream_get_side_data(AVStream, AVPacketSideDataType.AV_PKT_DATA_DISPLAYMATRIX, null));
+            // We get rotation from frame side data only from 1st frame in case of exif orientation (mainly for jpeg) - TBR if required to check for each frame
+            AVFrameSideData* frameSideData;
+            if (frame != null && (frameSideData = av_frame_get_side_data(frame, AVFrameSideDataType.AV_FRAME_DATA_DISPLAYMATRIX)) != null)
+                Rotation = av_display_rotation_get(frameSideData->data);
+            else
+                Rotation = av_display_rotation_get(av_stream_get_side_data(AVStream, AVPacketSideDataType.AV_PKT_DATA_DISPLAYMATRIX, null));
 
             PixelFormatDesc = av_pix_fmt_desc_get(PixelFormat);
             var comps = PixelFormatDesc->comp.ToArray();
