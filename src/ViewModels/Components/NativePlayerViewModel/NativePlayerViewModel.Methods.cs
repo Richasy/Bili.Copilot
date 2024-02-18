@@ -160,16 +160,15 @@ public sealed partial class NativePlayerViewModel
         player.Source = videoPlaybackItem;
     }
 
-    private async Task LoadLiveSourceAsync(string url)
+    private Task LoadLiveSourceAsync(string url)
     {
-        var httpClient = GetLiveClient();
-        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(url), httpClient);
-        var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
+        var videoSource = MediaSource.CreateFromUri(new Uri(url));
         var videoPlaybackItem = new MediaPlaybackItem(videoSource);
 
         var player = GetVideoPlayer();
         player.Source = videoPlaybackItem;
         Player = player;
+        return Task.CompletedTask;
     }
 
     private async Task LoadWebDavVideoAsync()
@@ -364,7 +363,6 @@ public sealed partial class NativePlayerViewModel
         if (player.PlaybackSession != null)
         {
             player.PlaybackSession.PositionChanged -= OnPlayerPositionChanged;
-            player.PlaybackSession.Position = TimeSpan.Zero;
             player.CommandManager.IsEnabled = true;
         }
 

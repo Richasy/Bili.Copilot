@@ -189,8 +189,37 @@ public sealed partial class DebugDialog : ContentDialog
                        .Replace("{audio}", audioStr)
                        .Replace("{bufferTime}", $"PT4S");
 
+        var filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $"\\dash.mpd";
+        await File.WriteAllTextAsync(filePath, mpdStr);
+        AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
+    }
+
+    private void OnCopyM3U8ButtonClickAsync(object sender, RoutedEventArgs e)
+    {
+        var m3u8Str = $"""
+            #EXTM3U
+            #EXT-X-VERSION:5
+            """;
+        if (_audio != null)
+        {
+            m3u8Str = m3u8Str + "\n" + $"""
+                #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="und",URI="{_audio.BaseUrl}"
+                """;
+            m3u8Str = m3u8Str + "\n" + $"""
+                #EXT-X-STREAM-INF:BANDWIDTH={_video.Bandwidth},RESOLUTION={_video.Width}x{_video.Height},CODECS="{_video.Codecs}",AUDIO="audio"
+                {_video.BaseUrl}
+                """;
+        }
+        else
+        {
+            m3u8Str = m3u8Str + "\n" + $"""
+                #EXT-X-STREAM-INF:BANDWIDTH={_video.Bandwidth},RESOLUTION={_video.Width}x{_video.Height},CODECS="{_video.Codecs}"
+                {_video.BaseUrl}
+                """;
+        }
+
         var dp = new DataPackage();
-        dp.SetText(mpdStr);
+        dp.SetText(m3u8Str);
         Clipboard.SetContent(dp);
         AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
     }
