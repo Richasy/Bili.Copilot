@@ -105,6 +105,8 @@ public partial class BiliPlayerOverlay
         _unitTimer.Start();
         _isForceHiddenTransportControls = true;
         HideAndResetMediaTransport();
+        _detailButton.Visibility = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
+                ? Visibility.Collapsed : Visibility.Visible;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -112,6 +114,8 @@ public partial class BiliPlayerOverlay
         CheckDanmakuZoom();
         ResizeSubtitle();
         ViewModel.DanmakuViewModel.CanShowDanmaku = e.NewSize.Width >= 480;
+        _danmakuView.DanmakuArea = ViewModel.DanmakuViewModel.DanmakuArea;
+        _danmakuView.DanmakuDuration = Convert.ToInt32((2.1 - ViewModel.DanmakuViewModel.DanmakuSpeed) * 10);
     }
 
     private void OnDanmakuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -258,7 +262,7 @@ public partial class BiliPlayerOverlay
                 _danmakuView?.PauseDanmaku();
             }
         }
-        else if (e.PropertyName == nameof(ViewModel.DisplayMode))
+        else if (e.PropertyName == nameof(ViewModel.DisplayMode) && _detailButton != null)
         {
             _detailButton.Visibility = ViewModel.DisplayMode == PlayerDisplayMode.CompactOverlay
                 ? Visibility.Collapsed : Visibility.Visible;

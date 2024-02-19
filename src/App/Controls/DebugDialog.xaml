@@ -39,10 +39,21 @@
                 Header="音频播放地址"
                 IsReadOnly="True"
                 TextWrapping="Wrap" />
-            <HyperlinkButton
-                HorizontalAlignment="Stretch"
-                Click="OnCopyDashButtonClickAsync"
-                Content="复制 DASH" />
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <HyperlinkButton
+                    HorizontalAlignment="Stretch"
+                    Click="OnCopyDashButtonClickAsync"
+                    Content="复制 DASH" />
+                <HyperlinkButton
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    Click="OnCopyM3U8ButtonClickAsync"
+                    Content="复制 m3u8" />
+            </Grid>
         </StackPanel>
         <ProgressRing x:Name="LoadingRing" Style="{StaticResource PageProgressRingStyle}" />
     </Grid>

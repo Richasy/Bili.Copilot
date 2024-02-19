@@ -39,7 +39,7 @@
             PanePlacement="Right">
             <SplitView.Pane>
                 <Grid>
-                    <Frame x:Name="SplitFrame" />
+                    <Frame x:Name="SplitFrame" Padding="0,16,0,0" />
                 </Grid>
             </SplitView.Pane>
             <Grid>

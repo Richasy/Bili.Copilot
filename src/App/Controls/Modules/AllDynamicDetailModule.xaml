@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Bili.Copilot.App.Controls.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls.Modules"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:Bili.Copilot.ViewModels"
@@ -51,5 +52,13 @@
                 </base:VerticalRepeaterView>
             </Grid>
         </ScrollViewer>
+
+        <base:EmptyHolder
+            Title="{ext:Locale Name=NoDynamics}"
+            Description="{ext:Locale Name=NoDynamicsDescription}"
+            Emoji="&#x1F631;"
+            Visibility="{x:Bind ViewModel.IsCurrentSpaceEmpty, Mode=OneWay}" />
+
+        <base:LoadingOverlapper IsOpen="{x:Bind ViewModel.IsAllLoading, Mode=OneWay}" Text="{ext:Locale Name=LoadingAndWait}" />
     </Grid>
 </local:DynamicAllModuleBase>

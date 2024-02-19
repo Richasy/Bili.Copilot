@@ -189,6 +189,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         IsBackButtonShown = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
 
         Player?.Stop();
+        IsBottomProgressEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.BottomProgressVisible, true);
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();
@@ -317,20 +318,13 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             else
             {
                 var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
-                if (_videoType == VideoType.Live)
+                Player = preferPlayer switch
                 {
-                    Player = new FlyleafPlayerViewModel();
-                }
-                else
-                {
-                    Player = preferPlayer switch
-                    {
-                        PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
+                    PlayerType.FFmpeg => new FlyleafPlayerViewModel(),
 
-                        // PlayerType.Vlc => new VlcPlayerViewModel(),
-                        _ => new NativePlayerViewModel(),
-                    };
-                }
+                    // PlayerType.Vlc => new VlcPlayerViewModel(),
+                    _ => new NativePlayerViewModel(),
+                };
             }
 
             Player.Initialize();

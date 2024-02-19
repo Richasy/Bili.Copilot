@@ -84,7 +84,7 @@
                                         Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishDateText}"
-                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.PublishTime}" />
+                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishTimeText}" />
                                 </Grid>
                                 <Grid Grid.Row="1">
                                     <base:EmoteTextBlock

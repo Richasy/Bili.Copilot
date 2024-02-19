@@ -439,15 +439,18 @@
                                         </Button>
                                     </StackPanel>
                                 </Grid>
-                                <ProgressBar
-                                    Height="3"
+                                <Grid
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Bottom"
-                                    Background="Transparent"
-                                    Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
-                                    Opacity="0.7"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
-                                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBottomProgressEnabled}">
+                                    <ProgressBar
+                                        Height="3"
+                                        Background="Transparent"
+                                        Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
+                                        Opacity="0.7"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                        Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"
@@ -914,15 +917,18 @@
                                     </StackPanel>
                                 </Grid>
 
-                                <ProgressBar
-                                    Height="3"
+                                <Grid
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Bottom"
-                                    Background="Transparent"
-                                    Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
-                                    Opacity="0.7"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
-                                    Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBottomProgressEnabled}">
+                                    <ProgressBar
+                                        Height="3"
+                                        Background="Transparent"
+                                        Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DurationSeconds}"
+                                        Opacity="0.7"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsShowMediaTransport, Converter={StaticResource BoolToVisibilityReverseConverter}}"
+                                        Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ProgressSeconds}" />
+                                </Grid>
                             </Grid>
                             <Grid
                                 x:Name="PlayErrorContainer"

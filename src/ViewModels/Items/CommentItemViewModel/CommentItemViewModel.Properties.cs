@@ -30,5 +30,8 @@ public sealed partial class CommentItemViewModel
     private string _publishDateText;
 
     [ObservableProperty]
+    private string _publishTimeText;
+
+    [ObservableProperty]
     private bool _isUserHighlight;
 }

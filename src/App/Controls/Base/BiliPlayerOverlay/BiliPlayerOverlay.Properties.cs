@@ -58,7 +58,7 @@ public partial class BiliPlayerOverlay
     /// <summary>
     /// 光标是否停留在覆盖层上.
     /// </summary>
-    public bool IsPointerStay { get; set; }
+    public bool IsPointerStay { get; set; } = true;
 
     /// <summary>
     /// 播放信息展示.

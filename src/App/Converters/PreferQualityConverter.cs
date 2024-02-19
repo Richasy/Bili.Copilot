@@ -18,6 +18,7 @@ internal sealed class PreferQualityConverter : IValueConverter
             {
                 PreferQuality.HDFirst => ResourceToolkit.GetLocalizedString(StringNames.HDFirst),
                 PreferQuality.HighQuality => ResourceToolkit.GetLocalizedString(StringNames.PreferHighQuality),
+                PreferQuality.UHDFirst => ResourceToolkit.GetLocalizedString(StringNames.UHDFirst),
                 _ => ResourceToolkit.GetLocalizedString(StringNames.Automatic),
             }
             : (object)string.Empty;
