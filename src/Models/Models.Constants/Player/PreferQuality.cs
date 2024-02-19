@@ -21,4 +21,9 @@ public enum PreferQuality
     /// 画质优先，会优先选取最高清晰度的片源.
     /// </summary>
     HighQuality,
+
+    /// <summary>
+    /// 超高清优先，会优先选取4K的片源.
+    /// </summary>
+    UHDFirst,
 }

@@ -55,15 +55,6 @@ public sealed partial class NativePlayerViewModel
         return httpClient;
     }
 
-    private static HttpClient GetLiveClient()
-    {
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("Referer", "https://live.bilibili.com/");
-        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)");
-        httpClient.DefaultRequestHeaders.Add("Cookie", AuthorizeProvider.GetCookieString());
-        return httpClient;
-    }
-
     private HttpClient GetWebDavHttpClient()
     {
         var handler = new HttpBaseProtocolFilter();
@@ -151,7 +142,6 @@ public sealed partial class NativePlayerViewModel
         var source = await AdaptiveMediaSource.CreateFromStreamAsync(stream, new Uri(_video.BaseUrl), "application/dash+xml", httpClient);
         source.MediaSource.AdvancedSettings.AllSegmentsIndependent = true;
         Debug.Assert(source.Status == AdaptiveMediaSourceCreationStatus.Success, "解析MPD失败");
-
         var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         var videoPlaybackItem = new MediaPlaybackItem(videoSource);
 

@@ -409,6 +409,11 @@ public sealed partial class PlayerDetailViewModel
             var hdQuality = isLive ? 10000 : 116;
             formatId = Formats.Where(p => !p.IsLimited && p.Quality <= hdQuality).Max(p => p.Quality);
         }
+        else if(preferQuality == PreferQuality.UHDFirst)
+        {
+            var uhdQuality = isLive ? Formats.Max(p => p.Quality) : 120;
+            formatId = Formats.Where(p => !p.IsLimited && p.Quality <= uhdQuality).Max(p => p.Quality);
+        }
         else if (preferQuality == PreferQuality.HighQuality)
         {
             formatId = Formats.Where(p => !p.IsLimited).Max(p => p.Quality);

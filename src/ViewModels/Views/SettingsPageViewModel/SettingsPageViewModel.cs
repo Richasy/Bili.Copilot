@@ -279,6 +279,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         {
             PreferQualities.Add(PreferQuality.Auto);
             PreferQualities.Add(PreferQuality.HDFirst);
+            PreferQualities.Add(PreferQuality.UHDFirst);
             PreferQualities.Add(PreferQuality.HighQuality);
         }
 
