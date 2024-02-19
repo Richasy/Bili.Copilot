@@ -59,6 +59,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsNotificationEnabled = ReadSetting(SettingNames.IsNotifyEnabled, true);
         IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
         VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
+        BottomProgressVisible = ReadSetting(SettingNames.BottomProgressVisible, true);
         IsVideoNativePlayer = PlayerType == PlayerType.Native;
         WebPlayerInit();
         PreferCodecInit();
@@ -218,6 +219,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(IsVideoDynamicNotificationEnabled):
                 WriteSetting(SettingNames.DynamicNotificationEnabled, IsVideoDynamicNotificationEnabled);
+                break;
+            case nameof(BottomProgressVisible):
+                WriteSetting(SettingNames.BottomProgressVisible, BottomProgressVisible);
                 break;
             default:
                 break;

@@ -38,6 +38,7 @@ public sealed partial class CommentItemViewModel : ViewModelBase
         LikeCountText = string.Empty;
         LikeCountText = NumberToolkit.GetCountText(Data.CommunityInformation.LikeCount);
         PublishDateText = Data.PublishTime.Humanize();
+        PublishTimeText = Data.PublishTime.ToLocalTime().ToString("yyyy/MM/dd HH:mm");
         var replyCount = Data.CommunityInformation.ChildCommentCount;
         if (replyCount > 0)
         {

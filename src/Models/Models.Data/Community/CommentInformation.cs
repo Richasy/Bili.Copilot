@@ -27,7 +27,7 @@ public sealed class CommentInformation
         string rootId,
         bool isTop,
         AccountInformation publisher,
-        DateTime publishTime,
+        DateTimeOffset publishTime,
         CommentCommunityInformation communityInformation)
     {
         Id = id;
@@ -67,7 +67,7 @@ public sealed class CommentInformation
     /// <summary>
     /// 发布时间.
     /// </summary>
-    public DateTime PublishTime { get; }
+    public DateTimeOffset PublishTime { get; }
 
     /// <summary>
     /// 社区信息.

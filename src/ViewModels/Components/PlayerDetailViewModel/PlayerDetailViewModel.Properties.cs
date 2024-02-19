@@ -173,6 +173,9 @@ public sealed partial class PlayerDetailViewModel
     [ObservableProperty]
     private bool _isInPlaylist;
 
+    [ObservableProperty]
+    private bool _isBottomProgressEnabled;
+
     /// <summary>
     /// 当需要显示临时消息时触发的事件.
     /// </summary>

@@ -22,7 +22,7 @@ public static class CommentAdapter
         var id = info.Id.ToString();
         var rootId = info.Root.ToString();
         var isTop = info.ReplyControl.IsAdminTop || info.ReplyControl.IsUpTop;
-        var publishTime = DateTimeOffset.FromUnixTimeSeconds(info.Ctime).DateTime;
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(info.Ctime);
         var user = UserAdapter.ConvertToAccountInformation(info.Member);
         var communityInfo = new CommentCommunityInformation(id, info.Like, Convert.ToInt32(info.Count), info.ReplyControl.Action == 1);
         var content = ImageAdapter.ConvertToEmoteText(info.Content);

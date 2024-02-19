@@ -189,6 +189,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         IsBackButtonShown = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main) == PlayerWindowBehavior.Main;
 
         Player?.Stop();
+        IsBottomProgressEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.BottomProgressVisible, true);
         if (_videoType == VideoType.Video)
         {
             await LoadVideoAsync();

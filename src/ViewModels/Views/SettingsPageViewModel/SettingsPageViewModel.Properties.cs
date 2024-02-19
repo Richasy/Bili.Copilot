@@ -144,6 +144,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private string _webSignInStatus;
 
+    [ObservableProperty]
+    private bool _bottomProgressVisible;
+
     /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>

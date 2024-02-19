@@ -142,4 +142,5 @@ public enum SettingNames
     VideoProcessor,
     IsWebSignIn,
     UseWebPlayer,
+    BottomProgressVisible,
 }
