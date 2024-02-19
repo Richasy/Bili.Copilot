@@ -57,11 +57,13 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
     {
         if ((IsVideoShown && _isVideoEnd)
             || (IsAllShown && _isAllEnd)
-            || (IsAllShown && SelectedUp != null && _isCurrentUserEnd))
+            || (IsAllShown && SelectedUp != null && _isCurrentUserEnd)
+            || _isGettingData)
         {
             return;
         }
 
+        _isGettingData = true;
         if (SelectedUp != null && IsAllShown)
         {
             var data = await CommunityProvider.GetUserDynamicAsync(SelectedUp.Data.Id, _userDynamicOffset);
@@ -139,6 +141,8 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
 
             IsEmpty = Items.Count == 0;
         }
+
+        _isGettingData = false;
     }
 
     [RelayCommand]
@@ -156,7 +160,10 @@ public sealed partial class DynamicPageViewModel : InformationFlowViewModel<Dyna
         _userDynamicOffset = string.Empty;
         TryClear(UserSpaceDynamics);
 
+        IsAllLoading = true;
         await GetDataAsync();
+        IsAllLoading = false;
+        ScrollToTop();
     }
 
     private void CheckModuleState()

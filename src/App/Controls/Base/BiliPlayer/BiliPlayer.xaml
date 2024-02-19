@@ -9,8 +9,11 @@
                 <ControlTemplate TargetType="local:BiliPlayer">
                     <Grid>
                         <Grid x:Name="RootGrid" Background="Black">
+                            <SwapChainPanel
+                                x:Name="SwapChainPanel"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch" />
                             <MediaPlayerElement x:Name="MediaElement" AreTransportControlsEnabled="False" />
-                            <SwapChainPanel x:Name="SwapChainPanel" />
                             <!--<lvs:VideoView x:Name="VlcVideoView" />-->
                         </Grid>
                         <ContentPresenter Content="{TemplateBinding Overlay}" />

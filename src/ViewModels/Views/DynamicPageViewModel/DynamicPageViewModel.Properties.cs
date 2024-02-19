@@ -21,6 +21,7 @@ public sealed partial class DynamicPageViewModel
     private string _userDynamicOffset;
     private bool _isCurrentUserEnd;
     private string _allFootprint;
+    private bool _isGettingData;
 
     [ObservableProperty]
     private DynamicDisplayType _currentType;
@@ -45,6 +46,9 @@ public sealed partial class DynamicPageViewModel
 
     [ObservableProperty]
     private UserItemViewModel _selectedUp;
+
+    [ObservableProperty]
+    private bool _isAllLoading;
 
     /// <summary>
     /// 实例.

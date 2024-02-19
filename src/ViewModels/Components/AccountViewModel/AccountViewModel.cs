@@ -6,6 +6,7 @@ using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.Constants.App;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
 using Windows.System;
 
 namespace Bili.Copilot.ViewModels;
@@ -45,10 +46,13 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// 登出.
     /// </summary>
     [RelayCommand]
-    private void SignOut()
+    private async Task SignOutAsync()
     {
         _isInitialized = false;
         AuthorizeProvider.Instance.SignOut();
+        var webview2 = new WebView2();
+        await webview2.EnsureCoreWebView2Async();
+        await webview2.CoreWebView2.Profile.ClearBrowsingDataAsync(Microsoft.Web.WebView2.Core.CoreWebView2BrowsingDataKinds.AllProfile);
         AppViewModel.Instance.RestartCommand.Execute(default);
     }
 

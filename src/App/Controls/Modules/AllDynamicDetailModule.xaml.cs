@@ -23,8 +23,8 @@ public sealed partial class AllDynamicDetailModule : DynamicAllModuleBase
     /// </summary>
     public void ScrollToTop()
     {
-        DynamicAllScrollViewer?.ChangeView(default, 0, default);
-        DynamicUserScrollViewer?.ChangeView(default, 0, default);
+        DynamicAllScrollViewer?.ChangeView(default, 1, default);
+        DynamicUserScrollViewer?.ChangeView(default, 1, default);
     }
 
     private void OnDynamicViewIncrementalTriggered(object sender, EventArgs e)
