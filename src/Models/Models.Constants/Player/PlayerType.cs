@@ -21,4 +21,9 @@ public enum PlayerType
     /// VLC解码，借助 LibVLCSharp.
     /// </summary>
     Vlc,
+
+    /// <summary>
+    /// MPV 播放器.
+    /// </summary>
+    Mpv,
 }

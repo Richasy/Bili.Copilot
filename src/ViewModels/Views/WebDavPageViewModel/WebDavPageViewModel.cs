@@ -3,12 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using WebDav;
@@ -182,7 +185,21 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
             data.IsSelected = data.Equals(item);
         }
 
-        AppViewModel.Instance.OpenWebDavCommand.Execute(list);
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
+        if (preferPlayer == PlayerType.Mpv)
+        {
+            Task.Run(() =>
+            {
+                var link = AppToolkit.GetWebDavServer(_config.Host, _config.Port, item.Data.Uri) + item.Data.Uri;
+                var command = $"mpv --http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config.UserName}:{_config.Password}"))}\\\" \\\"{link}\\\"";
+                var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
+                var process = Process.Start(startInfo);
+            });
+        }
+        else
+        {
+            AppViewModel.Instance.OpenWebDavCommand.Execute(list);
+        }
     }
 
     partial void OnIsListLayoutChanged(bool value)

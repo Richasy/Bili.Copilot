@@ -27,7 +27,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DecodeTypeCollection = new ObservableCollection<DecodeType>();
         PreferQualities = new ObservableCollection<PreferQuality>();
         PreferAudioQualities = new ObservableCollection<PreferAudio>();
-        PlayerTypes = new ObservableCollection<PlayerType>();
+        BiliPlayerTypes = new ObservableCollection<PlayerType>();
+        WebDavPlayerTypes = new ObservableCollection<PlayerType>();
         WebDavConfigs = new ObservableCollection<WebDavConfig>();
 
         InitializeSettings();
@@ -254,12 +255,19 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     private void PlayerTypeInit()
     {
-        if (PlayerTypes.Count == 0)
+        if (BiliPlayerTypes.Count == 0)
         {
-            PlayerTypes.Add(PlayerType.Native);
-            PlayerTypes.Add(PlayerType.FFmpeg);
+            BiliPlayerTypes.Add(PlayerType.Native);
+            BiliPlayerTypes.Add(PlayerType.FFmpeg);
 
             // PlayerTypes.Add(PlayerType.Vlc);
+        }
+
+        if (WebDavPlayerTypes.Count == 0)
+        {
+            WebDavPlayerTypes.Add(PlayerType.Native);
+            WebDavPlayerTypes.Add(PlayerType.FFmpeg);
+            WebDavPlayerTypes.Add(PlayerType.Mpv);
         }
 
         PlayerType = ReadSetting(SettingNames.PlayerType, PlayerType.Native);

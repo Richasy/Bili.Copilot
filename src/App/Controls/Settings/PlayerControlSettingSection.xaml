@@ -27,7 +27,7 @@
             <labs:SettingsCard Description="{ext:Locale Name=PlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
                 <ComboBox
                     MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    ItemsSource="{x:Bind ViewModel.BiliPlayerTypes, Mode=OneWay}"
                     SelectedItem="{x:Bind ViewModel.PlayerType, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="player:PlayerType">

@@ -27,7 +27,7 @@ public sealed partial class WebDavStorageItemViewModel : SelectableViewModel<Web
     {
         IsFolder = item.IsCollection;
 
-        var extension = Path.GetExtension(item.Uri);
+        var extension = Path.GetExtension(item.Uri).ToLower();
         if (IsFolder)
         {
             FileType = WebDavFileType.Directory;

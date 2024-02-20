@@ -173,9 +173,14 @@ public sealed partial class SettingsPageViewModel
     public ObservableCollection<PreferAudio> PreferAudioQualities { get; }
 
     /// <summary>
-    /// 播放器类型集合.
+    /// 哔哩哔哩播放器类型集合.
     /// </summary>
-    public ObservableCollection<PlayerType> PlayerTypes { get; }
+    public ObservableCollection<PlayerType> BiliPlayerTypes { get; }
+
+    /// <summary>
+    /// WebDAV 播放器类型集合.
+    /// </summary>
+    public ObservableCollection<PlayerType> WebDavPlayerTypes { get; }
 
     /// <summary>
     /// WebDav 配置集合.
