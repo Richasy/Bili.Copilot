@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -16,6 +15,7 @@ using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using WebDav;
+using Windows.Storage;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -190,17 +190,20 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         if (preferPlayer == PlayerType.Mpv)
         {
             var folderName = PathSegments.Last().Name;
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 var otherLinks = list.Select(p => $"#EXTINF:-1, {p.Data.DisplayName}\n{AppToolkit.GetWebDavServer(_config.Host, _config.Port, p.Data.Uri) + p.Data.Uri}");
                 var pl = string.Join("\n", otherLinks);
                 var m3uText = $"#EXTM3U\n{pl}";
-                var filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.m3u";
-                File.WriteAllText(filePath, m3uText);
+                var localFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"playlist_{DateTimeOffset.Now.ToUnixTimeSeconds()}.m3u");
+                var filePath = localFile.Path;
+                await FileIO.WriteTextAsync(localFile, m3uText).AsTask();
                 var index = CurrentItems.IndexOf(item);
                 var command = $"mpv --http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config.UserName}:{_config.Password}"))}\\\" --playlist-start={index} \\\"{filePath}\\\"";
                 var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
                 var process = Process.Start(startInfo);
+                process?.WaitForExit();
+                await localFile.DeleteAsync();
             });
         }
         else

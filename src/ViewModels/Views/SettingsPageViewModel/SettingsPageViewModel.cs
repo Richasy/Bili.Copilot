@@ -344,6 +344,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         {
             AppViewModel.Instance.ShowMessage(ResourceToolkit.GetLocalizedString(StringNames.NeedInstallMpv));
             WebDavPlayerType = oldValue;
+            OnPropertyChanged(nameof(WebDavPlayerType));
             return;
         }
 
