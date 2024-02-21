@@ -30,6 +30,9 @@ public sealed partial class DebugDialog : ContentDialog
     private readonly ObservableCollection<FormatInformation> _formats;
     private readonly ObservableCollection<VideoIdentifier> _parts;
     private readonly ObservableCollection<EpisodeInformation> _episodes;
+
+    private readonly AppViewModel _appViewModel;
+
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
     private SegmentInformation _audio;
@@ -42,6 +45,7 @@ public sealed partial class DebugDialog : ContentDialog
     public DebugDialog()
     {
         InitializeComponent();
+        _appViewModel = AppViewModel.Instance;
         _formats = new ObservableCollection<FormatInformation>();
         _parts = new ObservableCollection<VideoIdentifier>();
         _episodes = new ObservableCollection<EpisodeInformation>();
@@ -110,6 +114,7 @@ public sealed partial class DebugDialog : ContentDialog
     private async void OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         ShowLoading();
+        TraceLogger.LogLaunchDebug(_type);
 
         if (_type == VideoType.Video)
         {
@@ -314,6 +319,12 @@ public sealed partial class DebugDialog : ContentDialog
             var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
             var process = Process.Start(startInfo);
         });
+
+        var q = (QualityComboBox.SelectedItem as FormatInformation)?.Quality ?? 0;
+        if (q > 0)
+        {
+            TraceLogger.LogMpvLaunched(_type, q);
+        }
     }
 
     private async Task LoadPartAsync(VideoIdentifier part)

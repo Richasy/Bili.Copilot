@@ -7,6 +7,7 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Microsoft.UI.Xaml.Media.Imaging;
+using NLog;
 using Windows.System;
 
 namespace Bili.Copilot.App.Pages;
@@ -33,7 +34,14 @@ public sealed partial class SignInPage : PageBase
     protected override async void OnPageLoaded()
     {
         _authorizeProvider.QRCodeStatusChanged += OnQRCodeStatusChanged;
+        _authorizeProvider.QRCodeScanFailed += OnQRCodeScanFailed;
         await LoadQRCodeAsync();
+    }
+
+    private void OnQRCodeScanFailed(object sender, Exception e)
+    {
+        LogManager.GetCurrentClassLogger().Error(e);
+        TraceLogger.Instance.LogUnhandledException(e);
     }
 
     private void OnBackRequest(object sender, EventArgs e)

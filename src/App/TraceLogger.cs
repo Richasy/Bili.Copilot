@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.Bili;
 using Microsoft.AppCenter.Analytics;
 using Windows.Globalization;
 
@@ -32,6 +33,8 @@ internal sealed class TraceLogger
     private const string DownloadEvent = "Download";
     private const string DanmakuStatusChangedEvent = "DanmakuStatusChanged";
     private const string PlayerDisplayModeChangedEvent = "PlayerDisplayModeChanged";
+    private const string DebugLaunchedEvent = "DebugLaunched";
+    private const string MpvLaunchedEvent = "MpvLaunched";
 
     private readonly string _version;
     private readonly string _language;
@@ -185,6 +188,27 @@ internal sealed class TraceLogger
         };
 
         Analytics.TrackEvent(PlayerDisplayModeChangedEvent, data);
+    }
+
+    public static void LogLaunchDebug(VideoType type)
+    {
+        var data = new Dictionary<string, string>
+        {
+            { "VideoType", type.ToString() },
+        };
+
+        Analytics.TrackEvent(DebugLaunchedEvent, data);
+    }
+
+    public static void LogMpvLaunched(VideoType type, int quality)
+    {
+        var data = new Dictionary<string, string>
+        {
+            { "VideoType", type.ToString() },
+            { "Quality", quality.ToString() },
+        };
+
+        Analytics.TrackEvent(MpvLaunchedEvent, data);
     }
 
     public void LogAppLaunched()

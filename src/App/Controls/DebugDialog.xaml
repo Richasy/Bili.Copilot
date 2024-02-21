@@ -97,7 +97,8 @@
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     Click="OnOpenInMpvClickAsync"
-                    Content="{ext:Locale Name=OpenInMpv}" />
+                    Content="{ext:Locale Name=OpenInMpv}"
+                    IsEnabled="{x:Bind _appViewModel.IsMpvExist}" />
             </Grid>
         </StackPanel>
         <ProgressRing x:Name="LoadingRing" Style="{StaticResource PageProgressRingStyle}" />
