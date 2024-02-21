@@ -323,7 +323,11 @@ public partial class AuthorizeProvider
                     : se.Error.Code is 86038 or -3 ? QRCodeStatus.Expired : QRCodeStatus.Failed;
 
                 QRCodeStatusChanged?.Invoke(this, new Tuple<QRCodeStatus, TokenInfo>(qrStatus, null));
-                QRCodeScanFailed?.Invoke(this, new Exception($"QRCodeScanFailed - {se.Error.Code} | {se.Error.Message}"));
+
+                if (qrStatus == QRCodeStatus.Failed)
+                {
+                    QRCodeScanFailed?.Invoke(this, new Exception($"QRCodeScanFailed - {se.Error.Code} | {se.Error.Message}"));
+                }
             }
         }
     }
