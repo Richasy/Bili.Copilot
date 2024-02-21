@@ -3,15 +3,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.App.Other;
+using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using WebDav;
+using Windows.Storage;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -182,7 +186,30 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
             data.IsSelected = data.Equals(item);
         }
 
-        AppViewModel.Instance.OpenWebDavCommand.Execute(list);
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
+        if (preferPlayer == PlayerType.Mpv)
+        {
+            var folderName = PathSegments.Last().Name;
+            Task.Run(async () =>
+            {
+                var otherLinks = list.Select(p => $"#EXTINF:-1, {p.Data.DisplayName}\n{AppToolkit.GetWebDavServer(_config.Host, _config.Port, p.Data.Uri) + p.Data.Uri}");
+                var pl = string.Join("\n", otherLinks);
+                var m3uText = $"#EXTM3U\n{pl}";
+                var localFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"playlist_{DateTimeOffset.Now.ToUnixTimeSeconds()}.m3u");
+                var filePath = localFile.Path;
+                await FileIO.WriteTextAsync(localFile, m3uText).AsTask();
+                var index = CurrentItems.IndexOf(item);
+                var command = $"mpv --http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config.UserName}:{_config.Password}"))}\\\" --playlist-start={index} \\\"{filePath}\\\"";
+                var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
+                var process = Process.Start(startInfo);
+                process?.WaitForExit();
+                await localFile.DeleteAsync();
+            });
+        }
+        else
+        {
+            AppViewModel.Instance.OpenWebDavCommand.Execute(list);
+        }
     }
 
     partial void OnIsListLayoutChanged(bool value)

@@ -25,7 +25,7 @@
                 Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <ComboBox
                     MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.PlayerTypes, Mode=OneWay}"
+                    ItemsSource="{x:Bind ViewModel.WebDavPlayerTypes, Mode=OneWay}"
                     SelectedItem="{x:Bind ViewModel.WebDavPlayerType, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="player:PlayerType">

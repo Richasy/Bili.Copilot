@@ -24,6 +24,9 @@ internal sealed class PlayerTypeConverter : IValueConverter
                 case PlayerType.Vlc:
                     result = "VLC";
                     break;
+                case PlayerType.Mpv:
+                    result = "mpv";
+                    break;
                 default:
                     break;
             }
