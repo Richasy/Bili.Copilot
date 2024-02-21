@@ -9,6 +9,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Player;
 using Bili.Copilot.Models.Data.Live;
+using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
@@ -27,6 +28,8 @@ public sealed partial class DebugDialog : ContentDialog
     private readonly string _title;
 
     private readonly ObservableCollection<FormatInformation> _formats;
+    private readonly ObservableCollection<VideoIdentifier> _parts;
+    private readonly ObservableCollection<EpisodeInformation> _episodes;
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
     private SegmentInformation _audio;
@@ -40,6 +43,8 @@ public sealed partial class DebugDialog : ContentDialog
     {
         InitializeComponent();
         _formats = new ObservableCollection<FormatInformation>();
+        _parts = new ObservableCollection<VideoIdentifier>();
+        _episodes = new ObservableCollection<EpisodeInformation>();
         Loaded += OnLoadedAsync;
     }
 
@@ -63,6 +68,17 @@ public sealed partial class DebugDialog : ContentDialog
         _id = live.Identifier.Id;
         _type = VideoType.Live;
         _title = live.Identifier.Title;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DebugDialog"/> class.
+    /// </summary>
+    public DebugDialog(SeasonInformation season)
+        : this()
+    {
+        _id = season.Identifier.Id;
+        _type = VideoType.Pgc;
+        _title = season.Identifier.Title;
     }
 
     private static string GetVideoPreferCodecId()
@@ -97,22 +113,21 @@ public sealed partial class DebugDialog : ContentDialog
 
         if (_type == VideoType.Video)
         {
+            EpisodeComboBox.Visibility = Visibility.Collapsed;
             var view = await PlayerProvider.GetVideoDetailAsync(_id);
-            var currentPart = view.SubVideos.First();
-            _mediaInformation = await PlayerProvider.GetVideoMediaInformationAsync(view.Information.Identifier.Id, currentPart.Id);
-            _formats.Clear();
-            foreach (var item in _mediaInformation.Formats)
+            foreach (var item in view.SubVideos)
             {
-                _formats.Add(item);
+                _parts.Add(item);
             }
 
-            QualityComboBox.SelectedIndex = 0;
-            LoadVideoUrlsByFormatId(_formats.First().Quality);
+            PartComboBox.SelectedIndex = 0;
+            await LoadPartAsync(_parts.First());
         }
         else if (_type == VideoType.Live)
         {
             DashButton.IsEnabled = false;
             AudioUrlBox.Visibility = Visibility.Collapsed;
+            PartComboBox.Visibility = Visibility.Collapsed;
             var defaultQuality = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultLiveFormat, 400);
             _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(_id, defaultQuality, false);
             _formats.Clear();
@@ -123,6 +138,18 @@ public sealed partial class DebugDialog : ContentDialog
 
             QualityComboBox.SelectedIndex = _formats.IndexOf(_formats.First(p => p.Quality == defaultQuality));
             LoadLiveUrlsByFormatIdAsync(defaultQuality);
+        }
+        else if (_type == VideoType.Pgc)
+        {
+            PartComboBox.Visibility = Visibility.Collapsed;
+            var view = await PlayerProvider.GetPgcDetailAsync("0", _id);
+            foreach (var item in view.Episodes)
+            {
+                _episodes.Add(item);
+            }
+
+            EpisodeComboBox.SelectedIndex = 0;
+            await LoadEpisodeAsync(_episodes.First());
         }
 
         HideLoading();
@@ -210,7 +237,7 @@ public sealed partial class DebugDialog : ContentDialog
 
     private void OnQualityComboBoxChanged(object sender, SelectionChangedEventArgs e)
     {
-        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive)
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive || QualityComboBox.SelectedIndex == -1)
         {
             return;
         }
@@ -289,6 +316,54 @@ public sealed partial class DebugDialog : ContentDialog
         });
     }
 
+    private async Task LoadPartAsync(VideoIdentifier part)
+    {
+        _mediaInformation = await PlayerProvider.GetVideoMediaInformationAsync(_id, part.Id);
+        _formats.Clear();
+        foreach (var item in _mediaInformation.Formats)
+        {
+            _formats.Add(item);
+        }
+
+        QualityComboBox.SelectedIndex = 0;
+        LoadVideoUrlsByFormatId(_formats.First().Quality);
+    }
+
+    private async Task LoadEpisodeAsync(EpisodeInformation info)
+    {
+        _mediaInformation = await PlayerProvider.GetPgcMediaInformationAsync(info.PartId, info.Identifier.Id, info.SeasonType);
+        _formats.Clear();
+        foreach (var item in _mediaInformation.Formats)
+        {
+            _formats.Add(item);
+        }
+
+        QualityComboBox.SelectedIndex = 0;
+        LoadVideoUrlsByFormatId(_formats.First().Quality);
+    }
+
     private void OnOpenInMpvClickAsync(object sender, RoutedEventArgs e)
         => LoadDashVideoMpv();
+
+    private async void OnPartSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive)
+        {
+            return;
+        }
+
+        var part = (VideoIdentifier)PartComboBox.SelectedItem;
+        await LoadPartAsync(part);
+    }
+
+    private async void OnEpisodeSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive)
+        {
+            return;
+        }
+
+        var episode = (EpisodeInformation)EpisodeComboBox.SelectedItem;
+        await LoadEpisodeAsync(episode);
+    }
 }

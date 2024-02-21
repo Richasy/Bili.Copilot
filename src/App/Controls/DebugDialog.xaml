@@ -7,7 +7,9 @@
     xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pgc="using:Bili.Copilot.Models.Data.Pgc"
     xmlns:player="using:Bili.Copilot.Models.Data.Player"
+    xmlns:video="using:Bili.Copilot.Models.Data.Video"
     Title="{ext:Locale Name=DebugInformation}"
     CloseButtonText="{ext:Locale Name=Close}"
     DefaultButton="Close"
@@ -15,7 +17,48 @@
     mc:Ignorable="d">
 
     <Grid Width="360">
-        <StackPanel x:Name="DetailContainer" Spacing="12">
+        <StackPanel x:Name="DetailContainer" Spacing="8">
+            <Grid>
+                <ComboBox
+                    x:Name="PartComboBox"
+                    HorizontalAlignment="Stretch"
+                    Header="{ext:Locale Name=Parts}"
+                    ItemsSource="{x:Bind _parts}"
+                    SelectionChanged="OnPartSelectionChangedAsync">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="video:VideoIdentifier">
+                            <TextBlock Text="{x:Bind Title}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox
+                    x:Name="EpisodeComboBox"
+                    HorizontalAlignment="Stretch"
+                    Header="{ext:Locale Name=Episodes}"
+                    ItemsSource="{x:Bind _episodes}"
+                    SelectionChanged="OnEpisodeSelectionChangedAsync">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="pgc:EpisodeInformation">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Text="{x:Bind Index}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="{x:Bind Identifier.Title}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
             <ComboBox
                 x:Name="QualityComboBox"
                 HorizontalAlignment="Stretch"
