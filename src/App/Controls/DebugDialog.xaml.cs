@@ -25,7 +25,7 @@ public sealed partial class DebugDialog : ContentDialog
 {
     private readonly VideoType _type;
     private readonly string _id;
-    private readonly string _title;
+    private readonly string _seasonTitle;
 
     private readonly ObservableCollection<FormatInformation> _formats;
     private readonly ObservableCollection<VideoIdentifier> _parts;
@@ -33,6 +33,7 @@ public sealed partial class DebugDialog : ContentDialog
 
     private readonly AppViewModel _appViewModel;
 
+    private string _title;
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
     private SegmentInformation _audio;
@@ -83,6 +84,7 @@ public sealed partial class DebugDialog : ContentDialog
         _id = season.Identifier.Id;
         _type = VideoType.Pgc;
         _title = season.Identifier.Title;
+        _seasonTitle = _title;
     }
 
     private static string GetVideoPreferCodecId()
@@ -133,6 +135,7 @@ public sealed partial class DebugDialog : ContentDialog
             DashButton.IsEnabled = false;
             AudioUrlBox.Visibility = Visibility.Collapsed;
             PartComboBox.Visibility = Visibility.Collapsed;
+            EpisodeComboBox.Visibility = Visibility.Collapsed;
             var defaultQuality = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultLiveFormat, 400);
             _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(_id, defaultQuality, false);
             _formats.Clear();
@@ -342,6 +345,7 @@ public sealed partial class DebugDialog : ContentDialog
 
     private async Task LoadEpisodeAsync(EpisodeInformation info)
     {
+        _title = _seasonTitle + " - " + info.Identifier.Title;
         _mediaInformation = await PlayerProvider.GetPgcMediaInformationAsync(info.PartId, info.Identifier.Id, info.SeasonType);
         _formats.Clear();
         foreach (var item in _mediaInformation.Formats)
