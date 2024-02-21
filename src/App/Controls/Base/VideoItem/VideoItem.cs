@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Controls.Base;
@@ -32,16 +34,15 @@ public sealed partial class VideoItem : ReactiveControl<VideoItemViewModel>, IRe
             {
                 privatePlayItem.Click += OnPrivatePlayItemClick;
             }
+        }
 
-#if DEBUG
-            var debugItem = new MenuFlyoutItem();
-            debugItem.Text = "调试视频信息";
-            debugItem.Click += OnDebugItemClickAsync;
-            if (rootCard != null && rootCard.ContextFlyout is MenuFlyout flyout && flyout.Items != null)
-            {
-                flyout.Items.Add(debugItem);
-            }
-#endif
+        var debugItem = new MenuFlyoutItem();
+        debugItem.Text = ResourceToolkit.GetLocalizedString(StringNames.DebugInformation);
+        debugItem.Icon = new FluentIcon() { Symbol = FluentSymbol.Bug };
+        debugItem.Click += OnDebugItemClickAsync;
+        if (rootCard != null && rootCard.ContextFlyout is MenuFlyout flyout && flyout.Items != null)
+        {
+            flyout.Items.Add(debugItem);
         }
     }
 

@@ -62,6 +62,11 @@ public partial class AuthorizeProvider
     public event EventHandler<Tuple<QRCodeStatus, TokenInfo>> QRCodeStatusChanged;
 
     /// <summary>
+    /// 在二维码扫描失败时发生.
+    /// </summary>
+    public event EventHandler<Exception> QRCodeScanFailed;
+
+    /// <summary>
     /// 实例.
     /// </summary>
     public static AuthorizeProvider Instance => _lazyInstance.Value;
@@ -318,6 +323,11 @@ public partial class AuthorizeProvider
                     : se.Error.Code is 86038 or -3 ? QRCodeStatus.Expired : QRCodeStatus.Failed;
 
                 QRCodeStatusChanged?.Invoke(this, new Tuple<QRCodeStatus, TokenInfo>(qrStatus, null));
+
+                if (qrStatus == QRCodeStatus.Failed)
+                {
+                    QRCodeScanFailed?.Invoke(this, new Exception($"QRCodeScanFailed - {se.Error.Code} | {se.Error.Message}"));
+                }
             }
         }
     }

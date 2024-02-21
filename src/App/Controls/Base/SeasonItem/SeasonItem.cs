@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.ViewModels;
 
@@ -68,10 +70,19 @@ public sealed class SeasonItem : ReactiveControl<SeasonItemViewModel>, IRepeater
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
+        var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
         if (ContextFlyout != null)
         {
-            var rootCard = (FrameworkElement)GetTemplateChild("RootCard");
             rootCard.ContextFlyout = ContextFlyout;
+        }
+
+        var debugItem = new MenuFlyoutItem();
+        debugItem.Text = ResourceToolkit.GetLocalizedString(StringNames.DebugInformation);
+        debugItem.Icon = new FluentIcon() { Symbol = FluentSymbol.Bug };
+        debugItem.Click += OnDebugItemClickAsync;
+        if (rootCard != null && rootCard.ContextFlyout is MenuFlyout flyout && flyout.Items != null)
+        {
+            flyout.Items.Add(debugItem);
         }
     }
 
@@ -83,5 +94,12 @@ public sealed class SeasonItem : ReactiveControl<SeasonItemViewModel>, IRepeater
             var vm = new SeasonItemViewModel(information);
             instance.ViewModel = vm;
         }
+    }
+
+    private async void OnDebugItemClickAsync(object sender, RoutedEventArgs e)
+    {
+        var dialog = new DebugDialog(ViewModel.Data);
+        dialog.XamlRoot = XamlRoot;
+        await dialog.ShowAsync();
     }
 }

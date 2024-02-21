@@ -2295,4 +2295,19 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="NeedInstallMpv" xml:space="preserve">
     <value>MPV 是外挂播放器，助理没有在您当前设备上检测到 MPV，请下载 MPV 并将其添加到环境变量后重启应用</value>
   </data>
+  <data name="AudioUrl" xml:space="preserve">
+    <value>音频播放地址</value>
+  </data>
+  <data name="CopyDashContent" xml:space="preserve">
+    <value>复制 DASH 内容</value>
+  </data>
+  <data name="DebugInformation" xml:space="preserve">
+    <value>调试信息</value>
+  </data>
+  <data name="OpenInMpv" xml:space="preserve">
+    <value>在 MPV 中打开</value>
+  </data>
+  <data name="VideoUrl" xml:space="preserve">
+    <value>视频播放地址</value>
+  </data>
 </root>

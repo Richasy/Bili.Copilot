@@ -4,21 +4,65 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:Bili.Copilot.App.Extensions"
     xmlns:local="using:Bili.Copilot.App.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pgc="using:Bili.Copilot.Models.Data.Pgc"
     xmlns:player="using:Bili.Copilot.Models.Data.Player"
-    Title="调试信息"
-    CloseButtonText="关闭"
+    xmlns:video="using:Bili.Copilot.Models.Data.Video"
+    Title="{ext:Locale Name=DebugInformation}"
+    CloseButtonText="{ext:Locale Name=Close}"
     DefaultButton="Close"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <Grid Width="360">
-        <StackPanel x:Name="DetailContainer" Spacing="12">
+        <StackPanel x:Name="DetailContainer" Spacing="8">
+            <Grid>
+                <ComboBox
+                    x:Name="PartComboBox"
+                    HorizontalAlignment="Stretch"
+                    Header="{ext:Locale Name=Parts}"
+                    ItemsSource="{x:Bind _parts}"
+                    SelectionChanged="OnPartSelectionChangedAsync">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="video:VideoIdentifier">
+                            <TextBlock Text="{x:Bind Title}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox
+                    x:Name="EpisodeComboBox"
+                    HorizontalAlignment="Stretch"
+                    Header="{ext:Locale Name=Episodes}"
+                    ItemsSource="{x:Bind _episodes}"
+                    SelectionChanged="OnEpisodeSelectionChangedAsync">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="pgc:EpisodeInformation">
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Text="{x:Bind Index}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="{x:Bind Identifier.Title}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
             <ComboBox
                 x:Name="QualityComboBox"
                 HorizontalAlignment="Stretch"
-                Header="视频质量"
+                Header="{ext:Locale Name=Quality}"
                 ItemsSource="{x:Bind _formats}"
                 SelectionChanged="OnQualityComboBoxChanged">
                 <ComboBox.ItemTemplate>
@@ -30,13 +74,13 @@
             <TextBox
                 x:Name="VideoUrlBox"
                 Height="120"
-                Header="视频播放地址"
+                Header="{ext:Locale Name=VideoUrl}"
                 IsReadOnly="True"
                 TextWrapping="Wrap" />
             <TextBox
                 x:Name="AudioUrlBox"
                 Height="120"
-                Header="音频播放地址"
+                Header="{ext:Locale Name=AudioUrl}"
                 IsReadOnly="True"
                 TextWrapping="Wrap" />
             <Grid ColumnSpacing="12">
@@ -45,14 +89,16 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <HyperlinkButton
+                    x:Name="DashButton"
                     HorizontalAlignment="Stretch"
                     Click="OnCopyDashButtonClickAsync"
-                    Content="复制 DASH" />
+                    Content="{ext:Locale Name=CopyDashContent}" />
                 <HyperlinkButton
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
-                    Click="OnCopyM3U8ButtonClickAsync"
-                    Content="复制 m3u8" />
+                    Click="OnOpenInMpvClickAsync"
+                    Content="{ext:Locale Name=OpenInMpv}"
+                    IsEnabled="{x:Bind _appViewModel.IsMpvExist}" />
             </Grid>
         </StackPanel>
         <ProgressRing x:Name="LoadingRing" Style="{StaticResource PageProgressRingStyle}" />

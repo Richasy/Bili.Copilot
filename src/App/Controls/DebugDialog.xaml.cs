@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
 using System.Security;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
@@ -7,6 +8,8 @@ using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Player;
+using Bili.Copilot.Models.Data.Live;
+using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
@@ -22,12 +25,20 @@ public sealed partial class DebugDialog : ContentDialog
 {
     private readonly VideoType _type;
     private readonly string _id;
+    private readonly string _seasonTitle;
 
     private readonly ObservableCollection<FormatInformation> _formats;
+    private readonly ObservableCollection<VideoIdentifier> _parts;
+    private readonly ObservableCollection<EpisodeInformation> _episodes;
 
+    private readonly AppViewModel _appViewModel;
+
+    private string _title;
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
     private SegmentInformation _audio;
+
+    private LiveMediaInformation _liveMediaInformation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DebugDialog"/> class.
@@ -35,7 +46,10 @@ public sealed partial class DebugDialog : ContentDialog
     public DebugDialog()
     {
         InitializeComponent();
+        _appViewModel = AppViewModel.Instance;
         _formats = new ObservableCollection<FormatInformation>();
+        _parts = new ObservableCollection<VideoIdentifier>();
+        _episodes = new ObservableCollection<EpisodeInformation>();
         Loaded += OnLoadedAsync;
     }
 
@@ -47,6 +61,30 @@ public sealed partial class DebugDialog : ContentDialog
     {
         _id = string.IsNullOrEmpty(video.AlternateId) ? video.Identifier.Id : video.AlternateId;
         _type = VideoType.Video;
+        _title = video.Identifier.Title;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DebugDialog"/> class.
+    /// </summary>
+    public DebugDialog(LiveInformation live)
+        : this()
+    {
+        _id = live.Identifier.Id;
+        _type = VideoType.Live;
+        _title = live.Identifier.Title;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DebugDialog"/> class.
+    /// </summary>
+    public DebugDialog(SeasonInformation season)
+        : this()
+    {
+        _id = season.Identifier.Id;
+        _type = VideoType.Pgc;
+        _title = season.Identifier.Title;
+        _seasonTitle = _title;
     }
 
     private static string GetVideoPreferCodecId()
@@ -62,23 +100,64 @@ public sealed partial class DebugDialog : ContentDialog
         return id;
     }
 
+    private static string GetLivePreferCodecId()
+    {
+        var preferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264);
+        var id = preferCodec switch
+        {
+            PreferCodec.H265 => "hevc",
+            PreferCodec.Av1 => "av1",
+            _ => "avc",
+        };
+
+        return id;
+    }
+
     private async void OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         ShowLoading();
+        TraceLogger.LogLaunchDebug(_type);
 
         if (_type == VideoType.Video)
         {
+            EpisodeComboBox.Visibility = Visibility.Collapsed;
             var view = await PlayerProvider.GetVideoDetailAsync(_id);
-            var currentPart = view.SubVideos.First();
-            _mediaInformation = await PlayerProvider.GetVideoMediaInformationAsync(view.Information.Identifier.Id, currentPart.Id);
+            foreach (var item in view.SubVideos)
+            {
+                _parts.Add(item);
+            }
+
+            PartComboBox.SelectedIndex = 0;
+            await LoadPartAsync(_parts.First());
+        }
+        else if (_type == VideoType.Live)
+        {
+            DashButton.IsEnabled = false;
+            AudioUrlBox.Visibility = Visibility.Collapsed;
+            PartComboBox.Visibility = Visibility.Collapsed;
+            EpisodeComboBox.Visibility = Visibility.Collapsed;
+            var defaultQuality = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultLiveFormat, 400);
+            _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(_id, defaultQuality, false);
             _formats.Clear();
-            foreach (var item in _mediaInformation.Formats)
+            foreach (var item in _liveMediaInformation.Formats)
             {
                 _formats.Add(item);
             }
 
-            QualityComboBox.SelectedIndex = 0;
-            LoadVideoUrlsByFormatId(_formats.First().Quality);
+            QualityComboBox.SelectedIndex = _formats.IndexOf(_formats.First(p => p.Quality == defaultQuality));
+            LoadLiveUrlsByFormatIdAsync(defaultQuality);
+        }
+        else if (_type == VideoType.Pgc)
+        {
+            PartComboBox.Visibility = Visibility.Collapsed;
+            var view = await PlayerProvider.GetPgcDetailAsync("0", _id);
+            foreach (var item in view.Episodes)
+            {
+                _episodes.Add(item);
+            }
+
+            EpisodeComboBox.SelectedIndex = 0;
+            await LoadEpisodeAsync(_episodes.First());
         }
 
         HideLoading();
@@ -130,6 +209,28 @@ public sealed partial class DebugDialog : ContentDialog
         AudioUrlBox.Text = _audio?.BaseUrl ?? string.Empty;
     }
 
+    private async void LoadLiveUrlsByFormatIdAsync(int formatId)
+    {
+        VideoUrlBox.Text = string.Empty;
+
+        ShowLoading();
+        _liveMediaInformation = await LiveProvider.GetLiveMediaInformationAsync(_id, formatId, false);
+        HideLoading();
+
+        var codecId = GetLivePreferCodecId();
+        var playLines = _liveMediaInformation.Lines.Where(p => p.Quality == formatId);
+        if (playLines.Count() == 0)
+        {
+            playLines = _liveMediaInformation.Lines;
+        }
+
+        var url = playLines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Protocol == "http_hls");
+        url ??= playLines.SelectMany(p => p.Urls).FirstOrDefault(p => p.Protocol == "http_stream");
+        url ??= playLines.SelectMany(p => p.Urls).FirstOrDefault();
+        VideoUrlBox.Text = url.ToString();
+        HideLoading();
+    }
+
     private void ShowLoading()
     {
         LoadingRing.IsActive = true;
@@ -144,13 +245,21 @@ public sealed partial class DebugDialog : ContentDialog
 
     private void OnQualityComboBoxChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (_mediaInformation == null)
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive || QualityComboBox.SelectedIndex == -1)
         {
             return;
         }
 
         var format = _formats[QualityComboBox.SelectedIndex];
-        LoadVideoUrlsByFormatId(format.Quality);
+
+        if (_type == VideoType.Video)
+        {
+            LoadVideoUrlsByFormatId(format.Quality);
+        }
+        else if (_type == VideoType.Live)
+        {
+            LoadLiveUrlsByFormatIdAsync(format.Quality);
+        }
     }
 
     private async void OnCopyDashButtonClickAsync(object sender, RoutedEventArgs e)
@@ -187,40 +296,89 @@ public sealed partial class DebugDialog : ContentDialog
         audioStr = audioStr.Trim();
         mpdStr = mpdStr.Replace("{video}", videoStr)
                        .Replace("{audio}", audioStr)
-                       .Replace("{bufferTime}", $"PT4S");
+                       .Replace("{bufferTime}", $"PT20S");
 
-        var filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $"\\dash.mpd";
-        await File.WriteAllTextAsync(filePath, mpdStr);
+        var dp = new DataPackage();
+        dp.SetText(mpdStr);
+        Clipboard.SetContent(dp);
         AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
     }
 
-    private void OnCopyM3U8ButtonClickAsync(object sender, RoutedEventArgs e)
+    private void LoadDashVideoMpv()
     {
-        var m3u8Str = $"""
-            #EXTM3U
-            #EXT-X-VERSION:5
-            """;
-        if (_audio != null)
+        var httpParams = _type == VideoType.Live
+            ? $"--cookies --no-ytdl --user-agent=\\\"Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://live.bilibili.com\\\""
+            : $"--cookies --user-agent=\\\"{ServiceConstants.DefaultUserAgentString}\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://www.bilibili.com\\\"";
+        var videoUrl = VideoUrlBox.Text;
+        var audioUrl = AudioUrlBox.Text;
+        var command = $"mpv {httpParams} --title=\\\"{_title}\\\" \\\"{videoUrl}\\\"";
+        if (!string.IsNullOrEmpty(audioUrl))
         {
-            m3u8Str = m3u8Str + "\n" + $"""
-                #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio",DEFAULT=YES,AUTOSELECT=YES,LANGUAGE="und",URI="{_audio.BaseUrl}"
-                """;
-            m3u8Str = m3u8Str + "\n" + $"""
-                #EXT-X-STREAM-INF:BANDWIDTH={_video.Bandwidth},RESOLUTION={_video.Width}x{_video.Height},CODECS="{_video.Codecs}",AUDIO="audio"
-                {_video.BaseUrl}
-                """;
-        }
-        else
-        {
-            m3u8Str = m3u8Str + "\n" + $"""
-                #EXT-X-STREAM-INF:BANDWIDTH={_video.Bandwidth},RESOLUTION={_video.Width}x{_video.Height},CODECS="{_video.Codecs}"
-                {_video.BaseUrl}
-                """;
+            command += $" --audio-file=\\\"{audioUrl}\\\"";
         }
 
-        var dp = new DataPackage();
-        dp.SetText(m3u8Str);
-        Clipboard.SetContent(dp);
-        AppViewModel.Instance.ShowTip(ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success);
+        Task.Run(() =>
+        {
+            var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
+            var process = Process.Start(startInfo);
+        });
+
+        var q = (QualityComboBox.SelectedItem as FormatInformation)?.Quality ?? 0;
+        if (q > 0)
+        {
+            TraceLogger.LogMpvLaunched(_type, q);
+        }
+    }
+
+    private async Task LoadPartAsync(VideoIdentifier part)
+    {
+        _mediaInformation = await PlayerProvider.GetVideoMediaInformationAsync(_id, part.Id);
+        _formats.Clear();
+        foreach (var item in _mediaInformation.Formats)
+        {
+            _formats.Add(item);
+        }
+
+        QualityComboBox.SelectedIndex = 0;
+        LoadVideoUrlsByFormatId(_formats.First().Quality);
+    }
+
+    private async Task LoadEpisodeAsync(EpisodeInformation info)
+    {
+        _title = _seasonTitle + " - " + info.Identifier.Title;
+        _mediaInformation = await PlayerProvider.GetPgcMediaInformationAsync(info.PartId, info.Identifier.Id, info.SeasonType);
+        _formats.Clear();
+        foreach (var item in _mediaInformation.Formats)
+        {
+            _formats.Add(item);
+        }
+
+        QualityComboBox.SelectedIndex = 0;
+        LoadVideoUrlsByFormatId(_formats.First().Quality);
+    }
+
+    private void OnOpenInMpvClickAsync(object sender, RoutedEventArgs e)
+        => LoadDashVideoMpv();
+
+    private async void OnPartSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive)
+        {
+            return;
+        }
+
+        var part = (VideoIdentifier)PartComboBox.SelectedItem;
+        await LoadPartAsync(part);
+    }
+
+    private async void OnEpisodeSelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+    {
+        if ((_mediaInformation == null && _liveMediaInformation == null) || LoadingRing.IsActive)
+        {
+            return;
+        }
+
+        var episode = (EpisodeInformation)EpisodeComboBox.SelectedItem;
+        await LoadEpisodeAsync(episode);
     }
 }
