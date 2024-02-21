@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;

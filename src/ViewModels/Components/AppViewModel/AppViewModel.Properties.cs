@@ -196,4 +196,9 @@ public sealed partial class AppViewModel
 #pragma warning disable CA1822 // 将成员标记为 static
     public bool IsWebDavShown => SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
 #pragma warning restore CA1822 // 将成员标记为 static
+
+    /// <summary>
+    /// MPV 是否可用.
+    /// </summary>
+    public bool IsMpvExist { get; set; }
 }

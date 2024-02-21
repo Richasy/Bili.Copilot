@@ -172,9 +172,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 IsVideoNativePlayer = PlayerType == PlayerType.Native;
                 WriteSetting(SettingNames.PlayerType, PlayerType);
                 break;
-            case nameof(WebDavPlayerType):
-                WriteSetting(SettingNames.WebDavPlayerType, WebDavPlayerType);
-                break;
             case nameof(VideoProcessor):
                 WriteSetting(SettingNames.VideoProcessor, VideoProcessor);
                 break;
@@ -340,4 +337,16 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnIsWebSignInChanged(bool value)
         => CheckWebSignInText();
+
+    partial void OnWebDavPlayerTypeChanged(PlayerType oldValue, PlayerType newValue)
+    {
+        if (WebDavPlayerType == PlayerType.Mpv && !AppViewModel.Instance.IsMpvExist)
+        {
+            AppViewModel.Instance.ShowMessage(ResourceToolkit.GetLocalizedString(StringNames.NeedInstallMpv));
+            WebDavPlayerType = oldValue;
+            return;
+        }
+
+        WriteSetting(SettingNames.WebDavPlayerType, WebDavPlayerType);
+    }
 }

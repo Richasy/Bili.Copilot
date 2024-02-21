@@ -2292,4 +2292,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="UHDFirst" xml:space="preserve">
     <value>超高清（4K）优先</value>
   </data>
+  <data name="NeedInstallMpv" xml:space="preserve">
+    <value>MPV 是外挂播放器，助理没有在您当前设备上检测到 MPV，请下载 MPV 并将其添加到环境变量后重启应用</value>
+  </data>
 </root>

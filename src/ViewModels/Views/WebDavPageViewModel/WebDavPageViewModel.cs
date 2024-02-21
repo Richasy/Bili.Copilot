@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -188,10 +189,16 @@ public sealed partial class WebDavPageViewModel : ViewModelBase, IDisposable
         var preferPlayer = SettingsToolkit.ReadLocalSetting(Models.Constants.App.SettingNames.WebDavPlayerType, PlayerType.FFmpeg);
         if (preferPlayer == PlayerType.Mpv)
         {
+            var folderName = PathSegments.Last().Name;
             Task.Run(() =>
             {
-                var link = AppToolkit.GetWebDavServer(_config.Host, _config.Port, item.Data.Uri) + item.Data.Uri;
-                var command = $"mpv --http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config.UserName}:{_config.Password}"))}\\\" \\\"{link}\\\"";
+                var otherLinks = list.Select(p => $"#EXTINF:-1, {p.Data.DisplayName}\n{AppToolkit.GetWebDavServer(_config.Host, _config.Port, p.Data.Uri) + p.Data.Uri}");
+                var pl = string.Join("\n", otherLinks);
+                var m3uText = $"#EXTM3U\n{pl}";
+                var filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.m3u";
+                File.WriteAllText(filePath, m3uText);
+                var index = CurrentItems.IndexOf(item);
+                var command = $"mpv --http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_config.UserName}:{_config.Password}"))}\\\" --playlist-start={index} \\\"{filePath}\\\"";
                 var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
                 var process = Process.Start(startInfo);
             });

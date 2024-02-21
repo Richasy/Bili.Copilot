@@ -70,6 +70,7 @@ public sealed partial class AppViewModel : ViewModelBase
             Navigate(lastOpenPage);
             FixModuleViewModel.Instance.InitializeCommand.Execute(default);
             NotificationViewModel.Instance.TryStartCommand.Execute(default);
+            CheckMpvAvailable();
         }
     }
 
@@ -319,6 +320,22 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             item.IsSelected = CurrentPage == item.Data.Id;
         }
+    }
+
+    private void CheckMpvAvailable()
+    {
+        Task.Run(() =>
+        {
+            try
+            {
+                Process.Start("mpv", "--version");
+                IsMpvExist = true;
+            }
+            catch (Exception)
+            {
+                IsMpvExist = false;
+            }
+        });
     }
 
     partial void OnIsOverlayShownChanged(bool value)
