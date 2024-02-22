@@ -33,6 +33,7 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
         Lives = new ObservableCollection<LiveItemViewModel>();
         CurrentFilters = new ObservableCollection<SearchFilterViewModel>();
 
+        InitializeSearchModules();
         AttachIsRunningToAsyncCommand(p => IsReloadingModule = p, ReloadModuleCommand, SelectModuleCommand);
         AttachExceptionHandlerToAsyncCommand(DisplayException, ReloadModuleCommand, SelectModuleCommand);
     }
@@ -44,8 +45,8 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
     public void SetKeyword(string keyword)
     {
         Keyword = keyword;
-        TryClear(Items);
         BeforeReload();
+        SelectModuleCommand.Execute(Items.First());
     }
 
     /// <inheritdoc/>
@@ -65,34 +66,26 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
     /// <inheritdoc/>
     protected override async Task GetDataAsync()
     {
-        if (Items.Count == 0)
+        var moduleType = CurrentModule.Type;
+        if (CurrentFilters.Count == 0)
         {
-            InitializeSearchModules();
-            await SelectModuleAsync(Items.First());
-        }
-        else
-        {
-            var moduleType = CurrentModule.Type;
-            if (CurrentFilters.Count == 0)
+            if (!_filters.ContainsKey(moduleType))
             {
-                if (!_filters.ContainsKey(moduleType))
-                {
-                    await InitializeFiltersAsync(moduleType);
-                }
-
-                var filters = _filters[moduleType];
-                filters.ToList().ForEach(p => CurrentFilters.Add(p));
+                await InitializeFiltersAsync(moduleType);
             }
 
-            IsCurrentFilterEmpty = CurrentFilters.Count == 0;
-
-            if (_requestStatusCache.TryGetValue(moduleType, out var isEnd) && isEnd)
-            {
-                return;
-            }
-
-            await RequestDataAsync();
+            var filters = _filters[moduleType];
+            filters.ToList().ForEach(p => CurrentFilters.Add(p));
         }
+
+        IsCurrentFilterEmpty = CurrentFilters.Count == 0;
+
+        if (_requestStatusCache.TryGetValue(moduleType, out var isEnd) && isEnd)
+        {
+            return;
+        }
+
+        await RequestDataAsync();
     }
 
     /// <inheritdoc/>
@@ -142,7 +135,6 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
 
     private void InitializeSearchModules()
     {
-        TryClear(Items);
         Items.Add(GetModuleItemViewModel(SearchModuleType.Video, ResourceToolkit.GetLocalizedString(StringNames.Video)));
         Items.Add(GetModuleItemViewModel(SearchModuleType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime)));
         Items.Add(GetModuleItemViewModel(SearchModuleType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live)));
