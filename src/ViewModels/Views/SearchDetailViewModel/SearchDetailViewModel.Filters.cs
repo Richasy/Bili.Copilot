@@ -37,7 +37,7 @@ public sealed partial class SearchDetailViewModel
         }
         else
         {
-            _filters.Add(type, new List<SearchFilterViewModel>());
+            _filters[type] = new List<SearchFilterViewModel>();
         }
     }
 
@@ -70,7 +70,7 @@ public sealed partial class SearchDetailViewModel
         var orderVM = GetFilterViewModel(orderFilter);
         var durationVM = GetFilterViewModel(durationFilter);
         var partitionVM = GetFilterViewModel(partitionFilter);
-        _filters.Add(SearchModuleType.Video, new List<SearchFilterViewModel> { orderVM, durationVM, partitionVM });
+        _filters[SearchModuleType.Video] = new List<SearchFilterViewModel> { orderVM, durationVM, partitionVM };
     }
 
     private async Task InitializeArticleFiltersAsync()
@@ -92,7 +92,7 @@ public sealed partial class SearchDetailViewModel
 
         var orderVM = GetFilterViewModel(orderFilter);
         var partitionVM = GetFilterViewModel(partitionFilter);
-        _filters.Add(SearchModuleType.Article, new List<SearchFilterViewModel> { orderVM, partitionVM });
+        _filters[SearchModuleType.Article] = new List<SearchFilterViewModel> { orderVM, partitionVM };
     }
 
     private void InitializeUserFilters()
@@ -116,6 +116,6 @@ public sealed partial class SearchDetailViewModel
 
         var orderVM = GetFilterViewModel(orderFilter);
         var typeVM = GetFilterViewModel(typeFilter);
-        _filters.Add(SearchModuleType.User, new List<SearchFilterViewModel> { orderVM, typeVM });
+        _filters[SearchModuleType.User] = new List<SearchFilterViewModel> { orderVM, typeVM };
     }
 }

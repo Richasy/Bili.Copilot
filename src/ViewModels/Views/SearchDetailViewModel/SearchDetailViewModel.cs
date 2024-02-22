@@ -32,6 +32,7 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
         Articles = new ObservableCollection<ArticleItemViewModel>();
         Lives = new ObservableCollection<LiveItemViewModel>();
         CurrentFilters = new ObservableCollection<SearchFilterViewModel>();
+        Modules = new ObservableCollection<SearchModuleItemViewModel>();
 
         InitializeSearchModules();
         AttachIsRunningToAsyncCommand(p => IsReloadingModule = p, ReloadModuleCommand, SelectModuleCommand);
@@ -46,7 +47,7 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
     {
         Keyword = keyword;
         BeforeReload();
-        SelectModuleCommand.Execute(Items.First());
+        SelectModuleCommand.Execute(Modules.First());
     }
 
     /// <inheritdoc/>
@@ -101,7 +102,7 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
         ClearException();
         TryClear(CurrentFilters);
         CurrentModule = vm;
-        foreach (var item in Items)
+        foreach (var item in Modules)
         {
             item.IsSelected = item.Equals(vm);
         }
@@ -135,12 +136,12 @@ public sealed partial class SearchDetailViewModel : InformationFlowViewModel<Sea
 
     private void InitializeSearchModules()
     {
-        Items.Add(GetModuleItemViewModel(SearchModuleType.Video, ResourceToolkit.GetLocalizedString(StringNames.Video)));
-        Items.Add(GetModuleItemViewModel(SearchModuleType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime)));
-        Items.Add(GetModuleItemViewModel(SearchModuleType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live)));
-        Items.Add(GetModuleItemViewModel(SearchModuleType.User, ResourceToolkit.GetLocalizedString(StringNames.User)));
-        Items.Add(GetModuleItemViewModel(SearchModuleType.Movie, ResourceToolkit.GetLocalizedString(StringNames.Movie)));
-        Items.Add(GetModuleItemViewModel(SearchModuleType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.Video, ResourceToolkit.GetLocalizedString(StringNames.Video)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.Anime, ResourceToolkit.GetLocalizedString(StringNames.Anime)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.Live, ResourceToolkit.GetLocalizedString(StringNames.Live)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.User, ResourceToolkit.GetLocalizedString(StringNames.User)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.Movie, ResourceToolkit.GetLocalizedString(StringNames.Movie)));
+        Modules.Add(GetModuleItemViewModel(SearchModuleType.Article, ResourceToolkit.GetLocalizedString(StringNames.SpecialColumn)));
     }
 
     private void ClearCurrentModule()

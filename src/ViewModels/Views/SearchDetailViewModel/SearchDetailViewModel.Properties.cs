@@ -83,4 +83,9 @@ public sealed partial class SearchDetailViewModel
     /// 当前筛选器.
     /// </summary>
     public ObservableCollection<SearchFilterViewModel> CurrentFilters { get; }
+
+    /// <summary>
+    /// 搜索模块列表.
+    /// </summary>
+    public ObservableCollection<SearchModuleItemViewModel> Modules { get; }
 }

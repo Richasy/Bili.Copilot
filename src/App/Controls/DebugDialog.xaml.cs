@@ -59,7 +59,7 @@ public sealed partial class DebugDialog : ContentDialog
     public DebugDialog(VideoInformation video)
         : this()
     {
-        _id = string.IsNullOrEmpty(video.AlternateId) ? video.Identifier.Id : video.AlternateId;
+        _id = video.Identifier.Id;
         _type = VideoType.Video;
         _title = video.Identifier.Title;
     }

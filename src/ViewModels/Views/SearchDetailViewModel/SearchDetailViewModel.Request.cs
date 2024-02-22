@@ -59,7 +59,7 @@ public sealed partial class SearchDetailViewModel
         {
             foreach (var item in data.Metadata)
             {
-                var module = Items.FirstOrDefault(p => p.Type == item.Key);
+                var module = Modules.FirstOrDefault(p => p.Type == item.Key);
                 if (module != null)
                 {
                     module.IsEnabled = item.Value > 0;

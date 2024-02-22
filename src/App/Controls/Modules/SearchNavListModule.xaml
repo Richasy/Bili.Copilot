@@ -33,7 +33,7 @@
             Padding="12,0"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid>
-                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                <ItemsRepeater Margin="0,0,0,12" ItemsSource="{x:Bind ViewModel.Modules, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="viewmodels:SearchModuleItemViewModel">
                             <base:CardPanel
