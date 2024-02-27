@@ -177,7 +177,7 @@ public static class VideoAdapter
             bvid,
             description: description,
             subtitle: subtitle,
-            publishTime: publishTime.DateTime,
+            publishTime: publishTime,
             communityInformation: communityInfo);
     }
 
@@ -204,7 +204,7 @@ public static class VideoAdapter
             identifier,
             publisher,
             subtitle: subtitle,
-            publishTime: publishTime.DateTime,
+            publishTime: publishTime,
             communityInformation: communityInfo);
     }
 
@@ -324,7 +324,7 @@ public static class VideoAdapter
             identifier,
             null,
             subtitle: subtitle,
-            publishTime: publishDate.DateTime,
+            publishTime: publishDate,
             communityInformation: communityInfo);
     }
 
@@ -582,7 +582,7 @@ public static class VideoAdapter
             ? null
             : UserAdapter.ConvertToRoleProfile(arc.Author, AvatarSize.Size32);
         var description = TextToolkit.ConvertToTraditionalChineseIfNeeded(arc.Desc);
-        var publishTime = DateTimeOffset.FromUnixTimeSeconds(arc.Pubdate).DateTime;
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(arc.Pubdate).ToLocalTime();
         var communityInfo = CommunityAdapter.ConvertToVideoCommunityInformation(arc.Stat);
         var isOriginal = videoDetail.Arc.Copyright == 1;
 

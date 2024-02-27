@@ -46,6 +46,7 @@ public sealed partial class VideoPlayerPageViewModel
     private void InitializeOverview()
     {
         PublishTime = View.Information.PublishTime.Humanize();
+        PublishTimeText = View.Information.PublishTime.ToString("yyyy/MM/dd HH:mm");
         WatchingCountText = "--";
 
         View.Tags?.ToList().ForEach(Tags.Add);
