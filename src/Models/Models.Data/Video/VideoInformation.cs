@@ -44,7 +44,7 @@ public sealed class VideoInformation : IVideoBase
         string otherId = "",
         string description = "",
         string subtitle = "",
-        DateTime publishTime = default,
+        DateTimeOffset publishTime = default,
         IEnumerable<RoleProfile> collaborators = null,
         VideoCommunityInformation communityInformation = null,
         string highlight = default,
@@ -76,7 +76,7 @@ public sealed class VideoInformation : IVideoBase
     /// <summary>
     /// 发布时间.
     /// </summary>
-    public DateTime PublishTime { get; }
+    public DateTimeOffset PublishTime { get; }
 
     /// <summary>
     /// 发布者信息.

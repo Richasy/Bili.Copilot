@@ -135,7 +135,7 @@
                     IsTextSelectionEnabled="True"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind ViewModel.PublishTime, Mode=OneWay}"
-                    ToolTipService.ToolTip="{x:Bind ViewModel.View.Information.PublishTime}" />
+                    ToolTipService.ToolTip="{x:Bind ViewModel.PublishTimeText, Mode=OneWay}" />
                 <TextBlock
                     x:Name="TitleBlock"
                     HorizontalAlignment="Left"

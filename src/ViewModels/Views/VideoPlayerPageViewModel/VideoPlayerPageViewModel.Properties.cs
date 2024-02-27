@@ -40,6 +40,9 @@ public sealed partial class VideoPlayerPageViewModel
     private string _publishTime;
 
     [ObservableProperty]
+    private string _publishTimeText;
+
+    [ObservableProperty]
     private string _playCountText;
 
     [ObservableProperty]
