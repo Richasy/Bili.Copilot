@@ -58,7 +58,10 @@
                     <ComboBoxItem Content="{ext:Locale Name=Manual}" />
                 </ComboBox>
             </labs:SettingsCard>
-            <labs:SettingsCard Description="{ext:Locale Name=DecodeTypeDescription}" Header="{ext:Locale Name=DecodeType}">
+            <labs:SettingsCard
+                Description="{ext:Locale Name=DecodeTypeDescription}"
+                Header="{ext:Locale Name=DecodeType}"
+                Visibility="{x:Bind ViewModel.IsVideoNativePlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <ComboBox
                     MinWidth="120"
                     ItemsSource="{x:Bind ViewModel.DecodeTypeCollection, Mode=OneWay}"
@@ -70,10 +73,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </labs:SettingsCard>
-            <labs:SettingsCard
-                Description="{ext:Locale Name=PreferCodecDescription}"
-                Header="{ext:Locale Name=PreferCodec}"
-                Visibility="{x:Bind ViewModel.IsVideoNativePlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <labs:SettingsCard Description="{ext:Locale Name=PreferCodecDescription}" Header="{ext:Locale Name=PreferCodec}">
                 <ComboBox
                     MinWidth="120"
                     ItemsSource="{x:Bind ViewModel.PreferCodecCollection, Mode=OneWay}"

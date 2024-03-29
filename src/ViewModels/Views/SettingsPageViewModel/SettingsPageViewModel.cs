@@ -61,7 +61,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsVideoDynamicNotificationEnabled = ReadSetting(SettingNames.DynamicNotificationEnabled, true);
         VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
         BottomProgressVisible = ReadSetting(SettingNames.BottomProgressVisible, true);
-        IsVideoNativePlayer = PlayerType == PlayerType.Native;
         WebPlayerInit();
         PreferCodecInit();
         DecodeInit();
@@ -76,6 +75,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = AppToolkit.GetPackageVersion();
 
+        IsVideoNativePlayer = PlayerType == PlayerType.Native;
         InitializeWebDavConfigCommand.Execute(default);
 
         PropertyChanged += OnPropertyChanged;
