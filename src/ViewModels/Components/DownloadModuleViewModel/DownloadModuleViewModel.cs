@@ -104,13 +104,24 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task DownloadAsync()
+    private async Task DownloadAsync(string preferQuality = "")
     {
         var sb = new StringBuilder();
         sb.Append(_id);
 
         var token = await AuthorizeProvider.Instance.GetTokenAsync();
         sb.Append($" -token {token}");
+
+        var cookie = AuthorizeProvider.GetCookieString();
+        if (!string.IsNullOrEmpty(cookie))
+        {
+            sb.Append($" --cookie \"{cookie}\"");
+        }
+
+        if (!string.IsNullOrEmpty(preferQuality))
+        {
+            sb.Append($" -q \"{preferQuality}\"");
+        }
 
         var hasPartParams = false;
         var hasWorkDirParams = false;

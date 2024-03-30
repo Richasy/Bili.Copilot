@@ -284,14 +284,6 @@
                                             </DataTemplate>
                                         </ItemsRepeater.ItemTemplate>
                                     </ItemsRepeater>
-                                    <Slider
-                                        MinWidth="160"
-                                        HorizontalAlignment="Stretch"
-                                        Maximum="{x:Bind ViewModel.MaxPlaybackRate, Mode=OneWay}"
-                                        StepFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
-                                        TickFrequency="{x:Bind ViewModel.PlaybackRateStep, Mode=OneWay}"
-                                        TickPlacement="BottomRight"
-                                        Value="{x:Bind ViewModel.PlaybackRate, Mode=TwoWay}" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>

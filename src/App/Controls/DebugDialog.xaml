@@ -89,10 +89,10 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <HyperlinkButton
-                    x:Name="DashButton"
+                    x:Name="DownloadButton"
                     HorizontalAlignment="Stretch"
-                    Click="OnCopyDashButtonClickAsync"
-                    Content="{ext:Locale Name=CopyDashContent}" />
+                    Click="OnDownloadButtonClickAsync"
+                    Content="{ext:Locale Name=Download}" />
                 <HyperlinkButton
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"

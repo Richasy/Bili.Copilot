@@ -78,6 +78,10 @@
 
   一个用于哔哩哔哩视频下载的命令行工具，效果很好。在迁移到 WinAppSDK 后，哔哩助理简化了 BBDown 的调用，如果你的设备安装了 BBDown，可以直接点击视频内的下载按钮进行下载。视频内容会被下载至视频文件夹的 `哔哩下载` 目录中。
 
+  > **2024.03.30**  
+  > **BBDown 的开发似乎暂停了，我 fork 了一个新的分支 [Richasy/BBDown](https://github.com/Richasy/BBDown)，后续如果有需要，会在该仓库二次开发。**  
+  > **对于不了解如何安装 BBDown 的同学，[Richasy/BBDown](https://github.com/Richasy/BBDown) 也提供了一键安装的脚本，详情可在仓库内查看**
+
 哔哩助理也许会在未来集成更多的功能模块。
 
 ## 交流讨论
