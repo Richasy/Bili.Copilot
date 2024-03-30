@@ -507,7 +507,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoItem">
-                    <Grid>
+                    <Grid x:Name="RootCard">
                         <Grid.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}" Text="{ext:Locale Name=PlayInPrivate}">

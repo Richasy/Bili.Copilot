@@ -12,12 +12,19 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            Foreground="{ThemeResource TextFillColorDisabledBrush}"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{ext:Locale Name=DownloadTip}"
-            TextWrapping="Wrap"
-            Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <StackPanel Spacing="4" Visibility="{x:Bind ViewModel.IsSupported, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{ext:Locale Name=DownloadTip}"
+                TextWrapping="Wrap" />
+            <HyperlinkButton
+                HorizontalAlignment="Left"
+                Content="{ext:Locale Name=DownloadBBDown}"
+                FontSize="12"
+                NavigateUri="https://github.com/Richasy/BBDown?tab=readme-ov-file#%E5%AE%89%E8%A3%85-bbdown-%E5%8F%8A-ffmpeg" />
+        </StackPanel>
+
         <labs:SettingsExpander
             HorizontalAlignment="Stretch"
             Description="{ext:Locale Name=BasedOnBBDown}"

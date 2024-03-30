@@ -2310,4 +2310,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="VideoUrl" xml:space="preserve">
     <value>视频播放地址</value>
   </data>
+  <data name="DownloadBBDown" xml:space="preserve">
+    <value>下载 BBDown</value>
+  </data>
 </root>
