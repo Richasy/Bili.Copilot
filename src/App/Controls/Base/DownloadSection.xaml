@@ -65,13 +65,28 @@
                 </labs:SettingsCard>
                 <labs:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.IsMultiPartShown, Mode=OneWay}">
                     <StackPanel Spacing="4">
-                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=Parts}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{ext:Locale Name=Parts}" />
+                            <HyperlinkButton
+                                Grid.Column="1"
+                                Command="{x:Bind ViewModel.ToggleSelectAllCommand, Mode=OneWay}"
+                                Content="{x:Bind ViewModel.SelectAllText, Mode=OneWay}"
+                                FontSize="12" />
+                        </Grid>
+
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.Parts, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <UniformGridLayout
                                     MinColumnSpacing="4"
-                                    MinItemHeight="32"
-                                    MinItemWidth="32"
+                                    MinItemHeight="38"
+                                    MinItemWidth="40"
                                     MinRowSpacing="4" />
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
