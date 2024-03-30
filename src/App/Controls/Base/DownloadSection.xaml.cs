@@ -18,6 +18,7 @@ public sealed partial class DownloadSection : DownloadSectionBase
     {
         var context = (sender as FrameworkElement)?.DataContext as VideoIdentifierSelectableViewModel;
         context.IsSelected = !context.IsSelected;
+        ViewModel.CheckSelectAllStatusCommand.Execute(default);
     }
 
     private void OnDownloadButtonClick(object sender, RoutedEventArgs e)

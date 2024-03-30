@@ -31,6 +31,9 @@ public sealed partial class DownloadModuleViewModel
     [ObservableProperty]
     private bool _isBBDownConfigLinked;
 
+    [ObservableProperty]
+    private string _selectAllText;
+
     /// <summary>
     /// 视频类型.
     /// </summary>

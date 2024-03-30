@@ -52,6 +52,8 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
             Parts[i].Index = i + 1;
             Parts[i].IsSelected = true;
         }
+
+        CheckSelectAllStatus();
     }
 
     [RelayCommand]
@@ -182,6 +184,27 @@ public sealed partial class DownloadModuleViewModel : ViewModelBase
             {
             }
         }
+    }
+
+    [RelayCommand]
+    private void ToggleSelectAll()
+    {
+        var isSelected = Parts.All(p => p.IsSelected);
+        foreach (var part in Parts)
+        {
+            part.IsSelected = !isSelected;
+        }
+
+        CheckSelectAllStatus();
+    }
+
+    [RelayCommand]
+    private void CheckSelectAllStatus()
+    {
+        var isSelectAll = Parts.All(p => p.IsSelected);
+        SelectAllText = isSelectAll
+            ? ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.DeselectAll)
+            : ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.SelectAll);
     }
 
     partial void OnOpenFolderWhenDownloadedChanged(bool value)
