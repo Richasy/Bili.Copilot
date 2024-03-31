@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Diagnostics;
-using System.Security;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
 using Bili.Copilot.Models.App.Constants;
@@ -13,8 +12,6 @@ using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using Bili.Copilot.ViewModels;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 
 namespace Bili.Copilot.App.Controls;
 
@@ -268,6 +265,7 @@ public sealed partial class DebugDialog : ContentDialog
         var httpParams = _type == VideoType.Live
             ? $"--cookies --no-ytdl --user-agent=\\\"Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://live.bilibili.com\\\""
             : $"--cookies --user-agent=\\\"{ServiceConstants.DefaultUserAgentString}\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://www.bilibili.com\\\"";
+
         var videoUrl = VideoUrlBox.Text;
         var audioUrl = AudioUrlBox.Text;
         var command = $"mpv {httpParams} --title=\\\"{_title}\\\" \\\"{videoUrl}\\\"";

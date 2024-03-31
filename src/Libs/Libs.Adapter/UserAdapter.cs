@@ -216,7 +216,7 @@ public sealed class UserAdapter
         {
             User = profile,
             Level = user.Level,
-            IsVip = user.Vip.Status == 1,
+            IsVip = user.Vip?.Status == 1,
         };
     }
 
