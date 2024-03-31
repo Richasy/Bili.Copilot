@@ -344,6 +344,10 @@ public sealed partial class PlayerDetailViewModel
             {
                 Player.Play();
             }
+            else
+            {
+                Player.Pause();
+            }
 
             IsShowMediaTransport = true;
         });
