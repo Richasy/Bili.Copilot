@@ -43,6 +43,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
         Volume = SettingsToolkit.ReadLocalSetting(SettingNames.Volume, 100);
         PlaybackRate = SettingsToolkit.ReadLocalSetting(SettingNames.PlaybackRate, 1d);
+        IsPlaybackRateSliderEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.PlaybackRateSliderEnabled, false);
 
         Formats = new ObservableCollection<FormatInformation>();
         PlaybackRates = new ObservableCollection<PlaybackRateItemViewModel>();

@@ -143,4 +143,5 @@ public enum SettingNames
     IsWebSignIn,
     UseWebPlayer,
     BottomProgressVisible,
+    PlaybackRateSliderEnabled,
 }

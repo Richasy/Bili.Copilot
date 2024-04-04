@@ -176,6 +176,9 @@ public sealed partial class PlayerDetailViewModel
     [ObservableProperty]
     private bool _isBottomProgressEnabled;
 
+    [ObservableProperty]
+    private bool _isPlaybackRateSliderEnabled;
+
     /// <summary>
     /// 当需要显示临时消息时触发的事件.
     /// </summary>

@@ -101,6 +101,9 @@
             <labs:SettingsCard Description="{ext:Locale Name=BottomProgressVisibleDescription}" Header="{ext:Locale Name=BottomProgressVisible}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.BottomProgressVisible, Mode=TwoWay}" />
             </labs:SettingsCard>
+            <labs:SettingsCard Description="{ext:Locale Name=PlaybackRateSliderEnabledDescription}" Header="{ext:Locale Name=PlaybackRateSliderEnabled}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsPlaybackRateSliderVisible, Mode=TwoWay}" />
+            </labs:SettingsCard>
         </labs:SettingsExpander.Items>
     </labs:SettingsExpander>
 </local:SettingSection>

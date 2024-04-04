@@ -2298,4 +2298,10 @@ UGC優先級：分P &gt; 播放列表 &gt; 合集視頻 &gt; 關聯視頻 (如�
   <data name="SelectAll" xml:space="preserve">
     <value>全選</value>
   </data>
+  <data name="PlaybackRateSliderEnabled" xml:space="preserve">
+    <value>啟用倍速滑動控件</value>
+  </data>
+  <data name="PlaybackRateSliderEnabledDescription" xml:space="preserve">
+    <value>開啟后可以精確控制播放倍速</value>
+  </data>
 </root>
