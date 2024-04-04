@@ -147,6 +147,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _bottomProgressVisible;
 
+    [ObservableProperty]
+    private bool _isPlaybackRateSliderVisible;
+
     /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>
