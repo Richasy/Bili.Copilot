@@ -144,4 +144,5 @@ public enum SettingNames
     UseWebPlayer,
     BottomProgressVisible,
     PlaybackRateSliderEnabled,
+    UseMpvPlayer,
 }

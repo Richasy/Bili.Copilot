@@ -11,6 +11,7 @@ using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
 using Bili.Copilot.Models.Data.Local;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
@@ -27,6 +28,8 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase, IDisposable
     /// </summary>
     public PgcPlayerPageViewModel()
     {
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        _useMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
         FavoriteFolders = new ObservableCollection<VideoFavoriteFolderSelectableViewModel>();
         Sections = new ObservableCollection<PlayerSectionHeader>();
         Episodes = new ObservableCollection<EpisodeItemViewModel>();

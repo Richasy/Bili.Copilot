@@ -31,7 +31,8 @@ internal class PlayerUtils
 
         if (snapshot.VideoType == Models.Constants.Bili.VideoType.Video)
         {
-            _ = frame.Navigate(typeof(VideoPlayerPage), navArgs);
+            var pageType = IsMpvPlayer() ? typeof(VideoMpvPlayerPage) : typeof(VideoPlayerPage);
+            _ = frame.Navigate(pageType, navArgs);
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
         {
@@ -39,7 +40,8 @@ internal class PlayerUtils
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Pgc)
         {
-            _ = frame.Navigate(typeof(PgcPlayerPage), navArgs);
+            var pageType = IsMpvPlayer() ? typeof(PgcMpvPlayerPage) : typeof(PgcPlayerPage);
+            _ = frame.Navigate(pageType, navArgs);
         }
 
         TraceLogger.LogPlayerOpen(
@@ -47,7 +49,7 @@ internal class PlayerUtils
             SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264).ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQuality.HDFirst).ToString(),
             SettingsToolkit.ReadLocalSetting(SettingNames.DecodeType, DecodeType.HardwareDecode).ToString(),
-            SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native).ToString());
+            IsMpvPlayer() ? "mpv" : SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native).ToString());
         attachedWindow.Activate();
     }
 
@@ -59,7 +61,8 @@ internal class PlayerUtils
             AttachedWindow = attachedWindow,
         };
 
-        _ = frame.Navigate(typeof(VideoPlayerPage), navArgs);
+        var pageType = IsMpvPlayer() ? typeof(VideoMpvPlayerPage) : typeof(VideoPlayerPage);
+        _ = frame.Navigate(pageType, navArgs);
         attachedWindow.Activate();
     }
 
@@ -72,4 +75,7 @@ internal class PlayerUtils
 
     private static bool IsWebPlayer()
         => SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayer, false);
+
+    private static bool IsMpvPlayer()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
 }

@@ -1,13 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
+using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Constants;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
 using Bili.Copilot.Models.Constants.Player;
+using Bili.Copilot.Models.Data.Pgc;
 using Bili.Copilot.Models.Data.Player;
 using Bili.Copilot.Models.Data.Video;
 using CommunityToolkit.Mvvm.Input;
@@ -44,8 +49,13 @@ public sealed partial class PlayerDetailViewModel
         await InitializeOriginalVideoSourceAsync();
 
         var view = _viewData as VideoPlayerView;
-        SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
-        DanmakuViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id, _videoType);
+
+        if (!_useMpvPlayer)
+        {
+            SubtitleViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id);
+            DanmakuViewModel.SetData(view.Information.Identifier.Id, _currentPart.Id, _videoType);
+        }
+
         DownloadViewModel.SetData("av" + view.Information.Identifier.Id, view.SubVideos);
     }
 
@@ -79,7 +89,7 @@ public sealed partial class PlayerDetailViewModel
         if (string.IsNullOrEmpty(_currentPart.Id))
         {
             _currentPart = view.SubVideos.First();
-            if (IsInteractionVideo)
+            if (IsInteractionVideo && !_useMpvPlayer)
             {
                 InteractionViewModel.SetData(view.Information.Identifier.Id, default, view.InteractionVideo.GraphVersion);
             }
@@ -169,8 +179,15 @@ public sealed partial class PlayerDetailViewModel
 
         try
         {
-            await Player.SetSourceAsync(_video, _audio, IsAudioOnly);
-            StartTimers();
+            if (_useMpvPlayer)
+            {
+                await PlayWithMpvAsync(_video, _audio, IsAudioOnly);
+            }
+            else
+            {
+                await Player.SetSourceAsync(_video, _audio, IsAudioOnly);
+                StartTimers();
+            }
         }
         catch (Exception ex)
         {
@@ -213,5 +230,151 @@ public sealed partial class PlayerDetailViewModel
         InteractionViewModel.SetData(view.Information.Identifier.Id, default, view.InteractionVideo.GraphVersion);
         var part = view.SubVideos.FirstOrDefault();
         _ = ChangePartCommand.ExecuteAsync(part);
+    }
+
+    private async Task PlayWithMpvAsync(SegmentInformation video, SegmentInformation audio, bool audioOnly)
+    {
+        var httpParams = $"--cookies --user-agent=\"{ServiceConstants.DefaultUserAgentString}\" --http-header-fields=\"Cookie: {AuthorizeProvider.GetCookieString()}\" --http-header-fields=\"Referer: https://www.bilibili.com\"";
+        var videoUrl = video.BaseUrl;
+        var audioUrl = audio.BaseUrl;
+        var title = string.Empty;
+        var progress = TimeSpan.FromSeconds(ProgressSeconds);
+        var command = $"mpv {httpParams} --title=\"{title}\"";
+        if (_viewData is VideoPlayerView videoView)
+        {
+            title = videoView.Information.Identifier.Title;
+            if (videoView.Progress != null && videoView.Progress.Status == PlayedProgressStatus.Playing)
+            {
+                progress = TimeSpan.FromSeconds(videoView.Progress.Progress);
+            }
+
+            command += $" --script-opts=\"cid={_currentPart.Id}\"";
+        }
+        else if (_viewData is PgcPlayerView pgcView)
+        {
+            title = pgcView.Information.Identifier.Title;
+            if (pgcView.Progress != null && pgcView.Progress.Status == PlayedProgressStatus.Playing)
+            {
+                progress = TimeSpan.FromSeconds(pgcView.Progress.Progress);
+            }
+
+            command += $" --script-opts=\"cid={_currentEpisode.PartId}\"";
+        }
+
+        if (progress != TimeSpan.Zero)
+        {
+            command += $" --start=\"{progress.ToString(@"hh\:mm\:ss")}\"";
+        }
+
+        if (!string.IsNullOrEmpty(audioUrl) && audioOnly)
+        {
+            command += $" \"{audioUrl}\"";
+        }
+        else if (!audioOnly)
+        {
+            command += $" \"{videoUrl}\"";
+
+            if (!string.IsNullOrEmpty(audioUrl))
+            {
+                command += $" --audio-file=\"{audioUrl}\"";
+            }
+        }
+
+        try
+        {
+            ResetMpvPlayer();
+
+            await Task.Run(() =>
+            {
+                _mpvProcess = new Process();
+                _mpvProcess.StartInfo.FileName = "mpv";
+                _mpvProcess.StartInfo.Arguments = command;
+                _mpvProcess.StartInfo.UseShellExecute = false;
+                _mpvProcess.StartInfo.RedirectStandardOutput = true;
+                _mpvProcess.StartInfo.RedirectStandardError = true;
+                _mpvProcess.StartInfo.RedirectStandardInput = true;
+                _mpvProcess.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
+                _mpvProcess.StartInfo.StandardErrorEncoding = System.Text.Encoding.UTF8;
+                _mpvProcess.StartInfo.CreateNoWindow = true;
+                _mpvProcess.OutputDataReceived += OnMpvProcessDataReceived;
+                _mpvProcess.ErrorDataReceived += OnMpvProcessDataReceived;
+                _mpvProcess.Start();
+                _mpvProcess.BeginErrorReadLine();
+                _mpvProcess.BeginOutputReadLine();
+            });
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    private void OnMpvProcessDataReceived(object sender, DataReceivedEventArgs e)
+    {
+        var msg = e.Data;
+        if (string.IsNullOrEmpty(msg))
+        {
+            return;
+        }
+
+        if (msg.Contains("V:") || msg.Contains("A:"))
+        {
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                if (msg.Contains("Paused"))
+                {
+                    Status = PlayerStatus.Pause;
+                }
+                else if (msg.Contains("Buffering"))
+                {
+                    Status = PlayerStatus.Buffering;
+                }
+                else
+                {
+                    Status = PlayerStatus.Playing;
+                }
+            });
+
+            ParsePositionAndDuration();
+        }
+        else
+        {
+            if (_mpvDebugMessages.Count > 0 && _mpvDebugMessages.Last() == msg)
+            {
+                return;
+            }
+
+            if (_mpvDebugMessages.Count >= 5)
+            {
+                _mpvDebugMessages.RemoveAt(0);
+            }
+
+            _mpvDebugMessages.Add(msg);
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                MpvDebugString = string.Join('\n', _mpvDebugMessages);
+            });
+        }
+
+        bool ParsePositionAndDuration()
+        {
+            var position = TimeSpan.Zero;
+            var duration = TimeSpan.Zero;
+            var pattern = @"AV:\s*(\d{2}:\d{2}:\d{2}\.\d{3})\s*/\s*(\d{2}:\d{2}:\d{2}\.\d{3})";
+
+            var match = Regex.Match(msg, pattern);
+            if (match.Success)
+            {
+                position = TimeSpan.Parse(match.Groups[1].Value);
+                duration = TimeSpan.Parse(match.Groups[2].Value);
+
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    var args = new MediaPositionChangedEventArgs(position, duration);
+                    OnMediaPositionChanged(default, args);
+                });
+            }
+
+            return match.Success;
+        }
     }
 }

@@ -42,6 +42,7 @@
         <None Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
         <None Remove="Assets\ERROR_rgba.png" />
         <None Remove="Assets\FluentIcon.ttf" />
+        <None Remove="Assets\install-mpv.ps1" />
         <None Remove="Assets\not_login.png" />
         <None Remove="Assets\qq_group_dark.jpg" />
         <None Remove="Assets\qq_group_light.jpg" />
@@ -104,6 +105,7 @@
         <None Remove="Controls\Modules\LivePartitionDetailModule.xaml" />
         <None Remove="Controls\Modules\LiveRecommendDetailModule.xaml" />
         <None Remove="Controls\Modules\MessageDetailModule.xaml" />
+        <None Remove="Controls\Modules\MpvSettingsView.xaml" />
         <None Remove="Controls\Modules\MyFollowDetailModule.xaml" />
         <None Remove="Controls\Modules\PgcEpisodeView.xaml" />
         <None Remove="Controls\Modules\PgcExtraView.xaml" />
@@ -137,6 +139,7 @@
         <None Remove="Controls\Settings\CacheSettingSection.xaml" />
         <None Remove="Controls\Settings\CloseBehaviorSettingSection.xaml" />
         <None Remove="Controls\Settings\LoggerSettingSection.xaml" />
+        <None Remove="Controls\Settings\MpvSettingSection.xaml" />
         <None Remove="Controls\Settings\NotificationSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerControlSettingSection.xaml" />
         <None Remove="Controls\Settings\PlayerModeSettingSection.xaml" />
@@ -166,6 +169,7 @@
         <None Remove="Pages\LivePage.xaml" />
         <None Remove="Pages\LivePlayerPage.xaml" />
         <None Remove="Pages\MessagePage.xaml" />
+        <None Remove="Pages\PgcMpvPlayerPage.xaml" />
         <None Remove="Pages\PgcPlayerPage.xaml" />
         <None Remove="Pages\PopularPage.xaml" />
         <None Remove="Pages\ReaderPage.xaml" />
@@ -173,6 +177,7 @@
         <None Remove="Pages\SettingsPage.xaml" />
         <None Remove="Pages\SignInPage.xaml" />
         <None Remove="Pages\UserSpacePage.xaml" />
+        <None Remove="Pages\VideoMpvPlayerPage.xaml" />
         <None Remove="Pages\VideoPartitionPage.xaml" />
         <None Remove="Pages\VideoPlayerPage.xaml" />
         <None Remove="Pages\ViewLaterPage.xaml" />
@@ -807,5 +812,25 @@
     </ItemGroup>
     <ItemGroup>
       <Resource Remove="Controls\DebugDialog.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\PgcMpvPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Modules\MpvSettingsView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Pages\VideoMpvPlayerPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Controls\Settings\MpvSettingSection.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 </Project>

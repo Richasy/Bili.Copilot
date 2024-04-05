@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Toolkit;
@@ -32,6 +33,8 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     {
         AttachedWindow = attachedWindow;
         _dispatcherQueue = AttachedWindow.DispatcherQueue;
+        _useMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
+        _mpvDebugMessages = new List<string>();
         SubtitleViewModel = new SubtitleModuleViewModel();
         DanmakuViewModel = new DanmakuModuleViewModel();
         InteractionViewModel = new InteractionModuleViewModel();
@@ -103,7 +106,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// </summary>
     public void ActiveDisplay()
     {
-        if (_displayRequest != null)
+        if (_displayRequest != null || _useMpvPlayer)
         {
             return;
         }
@@ -120,7 +123,7 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
     /// </summary>
     public void ReleaseDisplay()
     {
-        if (_displayRequest == null)
+        if (_displayRequest == null || _useMpvPlayer)
         {
             return;
         }
@@ -176,11 +179,33 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
             CurrentFormat = null;
         }
 
+        ResetMpvPlayer();
         ResetPlayer();
         ResetMediaData();
         ResetVideoData();
         ResetLiveData();
         InitializePlaybackRates();
+    }
+
+    private void ResetMpvPlayer()
+    {
+        _mpvDebugMessages.Clear();
+
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            MpvDebugString = string.Empty;
+            ProgressText = "--";
+            DurationText = "--";
+        });
+
+        if (_mpvProcess != null)
+        {
+            _mpvProcess.ErrorDataReceived -= OnMpvProcessDataReceived;
+            _mpvProcess.OutputDataReceived -= OnMpvProcessDataReceived;
+            _mpvProcess.Kill();
+            _mpvProcess.Dispose();
+            _mpvProcess = default;
+        }
     }
 
     [RelayCommand]
@@ -372,5 +397,10 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
         {
             Player.IsLoop = value;
         }
+    }
+
+    partial void OnStatusChanged(PlayerStatus value)
+    {
+        IsPlaying = value == PlayerStatus.Playing;
     }
 }

@@ -178,7 +178,7 @@ public sealed partial class PlayerDetailViewModel
     private async Task ReportViewProgressAsync()
     {
         if (AuthorizeProvider.Instance.State != Models.Constants.Authorize.AuthorizeState.SignedIn
-            || Player == null
+            || (Player == null && !_useMpvPlayer)
             || _isInPrivate
             || _videoType == VideoType.WebDav)
         {
@@ -309,7 +309,7 @@ public sealed partial class PlayerDetailViewModel
         DurationText = NumberToolkit.FormatDurationText(e.Duration, e.Duration.Hours > 0);
         ProgressText = NumberToolkit.FormatDurationText(e.Position, e.Duration.Hours > 0);
 
-        if (_videoType != VideoType.WebDav)
+        if (_videoType != VideoType.WebDav && !_useMpvPlayer)
         {
             if (SubtitleViewModel.HasSubtitles)
             {

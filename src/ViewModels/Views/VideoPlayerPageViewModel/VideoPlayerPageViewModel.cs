@@ -33,6 +33,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase, IDisposabl
     public VideoPlayerPageViewModel()
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        _useMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
 
         Collaborators = new ObservableCollection<UserItemViewModel>();
         Tags = new ObservableCollection<Tag>();

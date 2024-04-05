@@ -142,6 +142,9 @@ public sealed partial class SettingsPageViewModel
     private bool _useWebPlayer;
 
     [ObservableProperty]
+    private bool _useMpvPlayer;
+
+    [ObservableProperty]
     private string _webSignInStatus;
 
     [ObservableProperty]

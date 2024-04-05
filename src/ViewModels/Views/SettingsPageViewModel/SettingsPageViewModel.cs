@@ -62,6 +62,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         VideoProcessor = ReadSetting(SettingNames.VideoProcessor, VideoProcessors.D3D11);
         BottomProgressVisible = ReadSetting(SettingNames.BottomProgressVisible, true);
         IsPlaybackRateSliderVisible = ReadSetting(SettingNames.PlaybackRateSliderEnabled, false);
+        UseMpvPlayer = ReadSetting(SettingNames.UseMpvPlayer, false);
         WebPlayerInit();
         PreferCodecInit();
         DecodeInit();
@@ -80,6 +81,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         InitializeWebDavConfigCommand.Execute(default);
 
         PropertyChanged += OnPropertyChanged;
+        AppViewModel.Instance.CheckMpvAvailableCommand.Execute(default);
     }
 
     /// <summary>
@@ -188,6 +190,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(UseWebPlayer):
                 WriteSetting(SettingNames.UseWebPlayer, UseWebPlayer);
+                break;
+            case nameof(UseMpvPlayer):
+                WriteSetting(SettingNames.UseMpvPlayer, UseMpvPlayer);
                 break;
             case nameof(SelectedWebDav):
                 if (SelectedWebDav != null && SelectedWebDav.Id != SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDav, string.Empty))

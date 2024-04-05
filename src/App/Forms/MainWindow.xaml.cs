@@ -131,6 +131,9 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     private static bool IsWebPlayer()
         => SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayer, false);
 
+    private static bool IsMpvPlayer()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
+
     private void OnTitleBarLoaded(object sender, RoutedEventArgs e)
     {
         if (_isInitialized)
@@ -196,7 +199,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnAppViewModelRequestPlay(object sender, PlaySnapshot e)
     {
-        if (IsMainWindowPlayer() && !IsWebPlayer())
+        if (IsMainWindowPlayer() && !IsWebPlayer() && !IsMpvPlayer())
         {
             BeforeEnterPlayerPageAsync();
             PlayerUtils.InitializePlayer(e, PlayerFrame, this);
@@ -209,7 +212,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
 
     private void OnAppViewModelRequestPlaylist(object sender, List<VideoInformation> e)
     {
-        if (IsMainWindowPlayer())
+        if (IsMainWindowPlayer() && !IsMpvPlayer())
         {
             BeforeEnterPlayerPageAsync();
             PlayerUtils.InitializePlayer(e, PlayerFrame, this);
@@ -428,6 +431,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         {
             KeyboardHook.Start();
             KeyboardHook.KeyDown += OnWindowKeyDown;
+            AppViewModel.Instance.CheckMpvAvailableCommand.Execute(default);
         }
 
         if (!_isInitialized)

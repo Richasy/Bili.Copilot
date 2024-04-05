@@ -322,19 +322,25 @@ public sealed partial class AppViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
     private void CheckMpvAvailable()
     {
         Task.Run(() =>
         {
+            var isMpvExist = false;
             try
             {
                 Process.Start("mpv", "--version");
-                IsMpvExist = true;
+                isMpvExist = true;
             }
             catch (Exception)
             {
-                IsMpvExist = false;
             }
+
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                IsMpvExist = isMpvExist;
+            });
         });
     }
 

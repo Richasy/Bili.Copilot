@@ -39,6 +39,7 @@
                     Style="{StaticResource BodyStrongTextBlockStyle}"
                     Text="{ext:Locale Name=Player}" />
                 <settings:WebPlayerSettingSection ViewModel="{x:Bind ViewModel}" />
+                <settings:MpvSettingSection ViewModel="{x:Bind ViewModel}" />
                 <settings:PlayerModeSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
                 <settings:PlayerControlSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />
                 <settings:RoamingSettingSection IsEnabled="{x:Bind ViewModel.UseWebPlayer, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" ViewModel="{x:Bind ViewModel}" />

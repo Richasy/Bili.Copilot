@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Data.Pgc;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
 namespace Bili.Copilot.ViewModels;
@@ -14,6 +15,8 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PgcPlayerPageViewModel
 {
+    private readonly DispatcherQueue _dispatcherQueue;
+    private readonly bool _useMpvPlayer;
     private string _presetEpisodeId;
     private string _presetSeasonId;
     private string _presetTitle;
@@ -111,6 +114,9 @@ public sealed partial class PgcPlayerPageViewModel
 
     [ObservableProperty]
     private bool _isShowInformation;
+
+    [ObservableProperty]
+    private bool _isShowMpvSettings;
 
     [ObservableProperty]
     private bool _isSectionsEmpty;
