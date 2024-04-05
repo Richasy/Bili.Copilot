@@ -30,6 +30,7 @@ public sealed partial class DebugDialog : ContentDialog
 
     private readonly AppViewModel _appViewModel;
 
+    private string _cid;
     private string _title;
     private MediaInformation _mediaInformation;
     private SegmentInformation _video;
@@ -264,7 +265,7 @@ public sealed partial class DebugDialog : ContentDialog
     {
         var httpParams = _type == VideoType.Live
             ? $"--cookies --no-ytdl --user-agent=\\\"Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://live.bilibili.com\\\""
-            : $"--cookies --user-agent=\\\"{ServiceConstants.DefaultUserAgentString}\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://www.bilibili.com\\\"";
+            : $"--cookies --user-agent=\\\"{ServiceConstants.DefaultUserAgentString}\\\" --http-header-fields=\\\"Cookie: {AuthorizeProvider.GetCookieString()}\\\" --http-header-fields=\\\"Referer: https://www.bilibili.com\\\" --script-opts=\\\"cid={_cid}\\\"";
 
         var videoUrl = VideoUrlBox.Text;
         var audioUrl = AudioUrlBox.Text;
@@ -296,6 +297,7 @@ public sealed partial class DebugDialog : ContentDialog
             _formats.Add(item);
         }
 
+        _cid = part.Id;
         QualityComboBox.SelectedIndex = 0;
         LoadVideoUrlsByFormatId(_formats.First().Quality);
     }
