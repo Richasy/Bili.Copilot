@@ -239,7 +239,7 @@ public sealed partial class PlayerDetailViewModel
         var audioUrl = audio.BaseUrl;
         var title = string.Empty;
         var progress = TimeSpan.FromSeconds(ProgressSeconds);
-        var command = $"mpv {httpParams} --title=\"{title}\"";
+        var command = $"mpv {httpParams}";
         if (_viewData is VideoPlayerView videoView)
         {
             title = videoView.Information.Identifier.Title;
@@ -259,6 +259,11 @@ public sealed partial class PlayerDetailViewModel
             }
 
             command += $" --script-opts=\"cid={_currentEpisode.PartId}\"";
+        }
+
+        if (!string.IsNullOrEmpty(title))
+        {
+            command += $" --title=\"{title}\"";
         }
 
         if (progress != TimeSpan.Zero)
