@@ -78,11 +78,13 @@ public sealed partial class LivePlayerPageViewModel
         {
             IsShowInformation = false;
             IsShowChat = false;
+            IsShowMpvSettings = false;
             return;
         }
 
         IsShowInformation = CurrentSection.Type == PlayerSectionType.LiveInformation;
         IsShowChat = CurrentSection.Type == PlayerSectionType.Chat;
+        IsShowMpvSettings = CurrentSection.Type == PlayerSectionType.MpvSettings;
     }
 
     private async void OnRequestOpenInBrowserAsync(object sender, EventArgs e) => await OpenInBroswerAsync();

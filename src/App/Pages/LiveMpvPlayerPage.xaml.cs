@@ -1,23 +1,23 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.App.Args;
+using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.ViewModels;
 
 namespace Bili.Copilot.App.Pages;
 
 /// <summary>
-/// PGC 内容播放页面.
+/// 视频播放 MPV 附属页面.
 /// </summary>
-public sealed partial class PgcPlayerPage : PgcPlayerPageBase
+public sealed partial class LiveMpvPlayerPage : LivePlayerPageBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PgcPlayerPage"/> class.
+    /// Initializes a new instance of the <see cref="LiveMpvPlayerPage"/> class.
     /// </summary>
-    public PgcPlayerPage()
+    public LiveMpvPlayerPage()
     {
         InitializeComponent();
-        ViewModel = new PgcPlayerPageViewModel();
+        ViewModel = new LivePlayerPageViewModel();
         DataContext = ViewModel;
     }
 
@@ -36,28 +36,22 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     {
         try
         {
-            ViewModel.PlayerDetail.Player.Dispose();
+            ViewModel.PlayerDetail.Player?.Dispose();
             await ViewModel.PlayerDetail.ReportViewProgressCommand.ExecuteAsync(default);
-            ViewModel.Dispose();
-            ViewModel = default;
+            ViewModel?.Dispose();
+            ViewModel = null;
         }
         catch (Exception)
         {
         }
     }
 
-    private void OnSectionHeaderItemInvoked(object sender, Models.App.Other.PlayerSectionHeader e)
+    private void OnSectionItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        if (ViewModel.CurrentSection != e)
+        var item = args.InvokedItem as PlayerSectionHeader;
+        if (ViewModel.CurrentSection != item)
         {
-            ViewModel.CurrentSection = e;
+            ViewModel.CurrentSection = item;
         }
     }
-}
-
-/// <summary>
-/// <see cref="PgcPlayerPage"/> 的基类.
-/// </summary>
-public abstract class PgcPlayerPageBase : PageBase<PgcPlayerPageViewModel>
-{
 }

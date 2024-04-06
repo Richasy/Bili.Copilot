@@ -36,7 +36,8 @@ internal class PlayerUtils
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Live)
         {
-            _ = frame.Navigate(typeof(LivePlayerPage), navArgs);
+            var pageType = IsMpvPlayer() ? typeof(LiveMpvPlayerPage) : typeof(LivePlayerPage);
+            _ = frame.Navigate(pageType, navArgs);
         }
         else if (snapshot.VideoType == Models.Constants.Bili.VideoType.Pgc)
         {

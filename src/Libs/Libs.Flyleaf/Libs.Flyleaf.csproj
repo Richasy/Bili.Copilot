@@ -12,7 +12,7 @@
 
   <ItemGroup>
       <PackageReference Include="FFmpeg.AutoGen" Version="5.1.2.3" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
       <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
       <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
