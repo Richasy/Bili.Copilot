@@ -22,6 +22,7 @@ namespace Bili.Copilot.App.Forms;
 /// </summary>
 public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWindow
 {
+    private readonly bool _useMpv;
     private bool _isInitialized;
     private bool _isClosed;
 
@@ -32,9 +33,11 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
     {
         InitializeComponent();
         AppWindow.Changed += OnAppWindowChanged;
-        MinWidth = 560;
+
+        _useMpv = SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
+        MinWidth = _useMpv ? 440 : 560;
         MinHeight = 320;
-        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+        AppWindow.TitleBar.PreferredHeightOption = _useMpv ? TitleBarHeightOption.Standard : TitleBarHeightOption.Standard;
 
         Activated += OnActivated;
         Closed += OnClosedAsync;
@@ -136,6 +139,11 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
+        if (_useMpv)
+        {
+            return;
+        }
+
         KeyboardHook.KeyDown -= OnWindowKeyDown;
         KeyboardHook.Stop();
         if (args.WindowActivationState != WindowActivationState.Deactivated)
@@ -219,6 +227,13 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
 
     private void MoveAndResize()
     {
+        if (_useMpv)
+        {
+            Width = 440;
+            Height = 700;
+            return;
+        }
+
         var lastPoint = GetSavedWindowPosition();
         var areas = DisplayArea.FindAll();
         var workArea = default(RectInt32);
@@ -243,6 +258,11 @@ public sealed partial class PlayerWindow : WindowBase, ITipWindow, IUserSpaceWin
 
     private void SaveCurrentWindowStats()
     {
+        if (_useMpv)
+        {
+            return;
+        }
+
         var left = AppWindow.Position.X;
         var top = AppWindow.Position.Y;
         var isMaximized = Windows.Win32.PInvoke.IsZoomed(new HWND(this.GetWindowHandle()));

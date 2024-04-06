@@ -45,6 +45,7 @@ public sealed partial class PgcPlayerPageViewModel
         IsShowEpisodes = CurrentSection.Type == PlayerSectionType.Episodes;
         IsShowExtras = CurrentSection.Type == PlayerSectionType.Extras;
         IsShowComments = CurrentSection.Type == PlayerSectionType.Comments;
+        IsShowMpvSettings = CurrentSection.Type == PlayerSectionType.MpvSettings;
     }
 
     [RelayCommand]

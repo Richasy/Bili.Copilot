@@ -16,6 +16,7 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class LivePlayerPageViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
+    private readonly bool _useMpvPlayer;
 
     private DispatcherTimer _heartBeatTimer;
     private string _presetRoomId;
@@ -59,6 +60,9 @@ public sealed partial class LivePlayerPageViewModel
 
     [ObservableProperty]
     private bool _isShowInformation;
+
+    [ObservableProperty]
+    private bool _isShowMpvSettings;
 
     [ObservableProperty]
     private PlayerDetailViewModel _playerDetail;

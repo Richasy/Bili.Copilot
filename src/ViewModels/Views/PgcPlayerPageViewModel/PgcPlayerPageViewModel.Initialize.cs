@@ -62,6 +62,11 @@ public sealed partial class PgcPlayerPageViewModel
         var hasExtras = View.Extras != null && View.Extras.Count > 0;
         var isShowExtraSection = false;
 
+        if (_useMpvPlayer)
+        {
+            Sections.Add(new PlayerSectionHeader(PlayerSectionType.MpvSettings, "MPV"));
+        }
+
         if (hasEpisodes)
         {
             CurrentEpisode = View.Episodes.FirstOrDefault(p => p.Identifier.Id == _presetEpisodeId);

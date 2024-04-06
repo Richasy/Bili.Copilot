@@ -2325,4 +2325,28 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="PlaybackRateSliderEnabledDescription" xml:space="preserve">
     <value>开启后可以精确控制播放倍速</value>
   </data>
+  <data name="DownloadMpv" xml:space="preserve">
+    <value>下载 MPV</value>
+  </data>
+  <data name="DownloadMpvFailed" xml:space="preserve">
+    <value>尝试下载 MPV 失败，请检查网络状况以确保可以连接到 Github，并且确认设备上已安装 PowerShell</value>
+  </data>
+  <data name="DownloadMpvTip" xml:space="preserve">
+    <value>应用将会从 Github 中下载 mpv-lazy 基础包进行安装，所以请您选择一个安装文件夹，mpv-lazy 的相关内容会被放置在该目录下，安装完成后，应用将自动重启。</value>
+  </data>
+  <data name="Paused" xml:space="preserve">
+    <value>已暂停</value>
+  </data>
+  <data name="Playing" xml:space="preserve">
+    <value>正在播放</value>
+  </data>
+  <data name="Replay" xml:space="preserve">
+    <value>重新播放</value>
+  </data>
+  <data name="UseMpvPlayer" xml:space="preserve">
+    <value>使用 MPV 播放器</value>
+  </data>
+  <data name="UseMpvPlayerDescription" xml:space="preserve">
+    <value>使用 MPV 作为外部播放器播放 BiliBili 视频</value>
+  </data>
 </root>

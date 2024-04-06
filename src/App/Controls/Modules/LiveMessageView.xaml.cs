@@ -33,7 +33,12 @@ public sealed partial class LiveMessageView : LiveMessageViewBase
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
-        => ViewModel.RequestDanmakusScrollToBottom -= OnRequestDanmakusScrollToBottomAsync;
+    {
+        if (ViewModel != null)
+        {
+            ViewModel.RequestDanmakusScrollToBottom -= OnRequestDanmakusScrollToBottomAsync;
+        }
+    }
 
     private async void OnRequestDanmakusScrollToBottomAsync(object sender, EventArgs e)
     {

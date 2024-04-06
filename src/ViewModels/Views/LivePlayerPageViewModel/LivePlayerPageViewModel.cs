@@ -31,12 +31,19 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
     public LivePlayerPageViewModel()
     {
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        _useMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseMpvPlayer, false);
         Danmakus = new ObservableCollection<LiveDanmakuInformation>();
         Sections = new ObservableCollection<PlayerSectionHeader>
         {
             new PlayerSectionHeader(PlayerSectionType.LiveInformation, ResourceToolkit.GetLocalizedString(StringNames.LiveInformation)),
             new PlayerSectionHeader(PlayerSectionType.Chat, ResourceToolkit.GetLocalizedString(StringNames.Chat)),
         };
+
+        if (_useMpvPlayer)
+        {
+            Sections.Insert(0, new PlayerSectionHeader(PlayerSectionType.MpvSettings, "MPV"));
+        }
+
         CurrentSection = Sections.First();
         IsSignedIn = AuthorizeProvider.Instance.State == AuthorizeState.SignedIn;
         AuthorizeProvider.Instance.StateChanged += OnAuthorizeStateChanged;

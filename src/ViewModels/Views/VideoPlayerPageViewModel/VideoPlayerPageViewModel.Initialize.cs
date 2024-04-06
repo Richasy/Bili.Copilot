@@ -94,6 +94,11 @@ public sealed partial class VideoPlayerPageViewModel
         var hasRelatedVideos = View.RelatedVideos != null && View.RelatedVideos.Count() > 0;
         var hasPlaylist = VideoPlaylist.Count > 0;
 
+        if (_useMpvPlayer)
+        {
+            Sections.Add(new PlayerSectionHeader(PlayerSectionType.MpvSettings, "MPV"));
+        }
+
         Sections.Add(new PlayerSectionHeader(PlayerSectionType.VideoInformation, ResourceToolkit.GetLocalizedString(StringNames.Information)));
 
         if (hasVideoParts)

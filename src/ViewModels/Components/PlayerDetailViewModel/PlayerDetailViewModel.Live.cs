@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
@@ -115,14 +116,55 @@ public sealed partial class PlayerDetailViewModel
 
             _currentLiveUrl = url;
             SettingsToolkit.WriteLocalSetting(SettingNames.DefaultLiveFormat, CurrentFormat.Quality);
-            InitializeLivePlayer(url.ToString());
+            await InitializeLivePlayerAsync(url.ToString());
         }
     }
 
-    private void InitializeLivePlayer(string url)
+    private async Task InitializeLivePlayerAsync(string url)
     {
-        Player.SetLiveSource(url, IsAudioOnly);
-        StartTimers();
+        if (_useMpvPlayer)
+        {
+            await PlayWithMpvAsync(url, IsAudioOnly);
+        }
+        else
+        {
+            Player.SetLiveSource(url, IsAudioOnly);
+            StartTimers();
+        }
+    }
+
+    private async Task PlayWithMpvAsync(string url, bool audioOnly)
+    {
+        var httpParams = $"--cookies --no-ytdl --user-agent=\"Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)\" --http-header-fields=\"Cookie: {AuthorizeProvider.GetCookieString()}\" --http-header-fields=\"Referer: https://live.bilibili.com\"";
+        var title = (_viewData as LivePlayerView).Information.Identifier.Title;
+        var command = $"mpv {httpParams} --title=\"{title}\" \"{url}\"";
+        try
+        {
+            ResetMpvPlayer();
+
+            Status = PlayerStatus.Buffering;
+            await Task.Run(() =>
+            {
+                _mpvProcess = new Process();
+                _mpvProcess.StartInfo.FileName = "mpv";
+                _mpvProcess.StartInfo.Arguments = command;
+                _mpvProcess.StartInfo.UseShellExecute = false;
+                _mpvProcess.StartInfo.RedirectStandardOutput = true;
+                _mpvProcess.StartInfo.RedirectStandardError = true;
+                _mpvProcess.StartInfo.RedirectStandardInput = true;
+                _mpvProcess.StartInfo.StandardOutputEncoding = System.Text.Encoding.UTF8;
+                _mpvProcess.StartInfo.StandardErrorEncoding = System.Text.Encoding.UTF8;
+                _mpvProcess.StartInfo.CreateNoWindow = true;
+                _mpvProcess.OutputDataReceived += OnMpvProcessDataReceived;
+                _mpvProcess.ErrorDataReceived += OnMpvProcessDataReceived;
+                _mpvProcess.Start();
+                _mpvProcess.BeginErrorReadLine();
+                _mpvProcess.BeginOutputReadLine();
+            });
+        }
+        catch (Exception)
+        {
+        }
     }
 
     [RelayCommand]

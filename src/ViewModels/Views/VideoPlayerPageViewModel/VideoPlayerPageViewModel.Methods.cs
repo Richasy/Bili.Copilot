@@ -67,6 +67,7 @@ public sealed partial class VideoPlayerPageViewModel
         IsShowParts = CurrentSection.Type == PlayerSectionType.VideoParts;
         IsShowComments = CurrentSection.Type == PlayerSectionType.Comments;
         IsShowVideoPlaylist = CurrentSection.Type == PlayerSectionType.Playlist;
+        IsShowMpvSettings = CurrentSection.Type == PlayerSectionType.MpvSettings;
     }
 
     [RelayCommand]

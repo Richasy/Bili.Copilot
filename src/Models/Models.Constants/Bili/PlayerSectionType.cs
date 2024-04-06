@@ -66,4 +66,9 @@ public enum PlayerSectionType
     /// 视频信息.
     /// </summary>
     VideoInformation,
+
+    /// <summary>
+    /// MPV 设置信息.
+    /// </summary>
+    MpvSettings,
 }

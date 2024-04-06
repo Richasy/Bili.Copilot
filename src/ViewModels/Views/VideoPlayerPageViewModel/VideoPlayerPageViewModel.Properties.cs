@@ -17,6 +17,7 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class VideoPlayerPageViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
+    private readonly bool _useMpvPlayer;
 
     private string _presetVideoId;
     private Action _playNextVideoAction;
@@ -122,6 +123,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     [ObservableProperty]
     private bool _isShowInformation;
+
+    [ObservableProperty]
+    private bool _isShowMpvSettings;
 
     [ObservableProperty]
     private bool _isReloading;

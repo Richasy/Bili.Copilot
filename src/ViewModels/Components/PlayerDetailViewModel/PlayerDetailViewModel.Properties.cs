@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows.Documents;
 using Bili.Copilot.Models.App.Other;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Bili;
@@ -22,6 +25,8 @@ namespace Bili.Copilot.ViewModels;
 public sealed partial class PlayerDetailViewModel
 {
     private readonly DispatcherQueue _dispatcherQueue;
+    private readonly bool _useMpvPlayer;
+    private readonly List<string> _mpvDebugMessages;
     private VideoType _videoType;
     private object _viewData;
     private bool _isInPrivate;
@@ -46,6 +51,8 @@ public sealed partial class PlayerDetailViewModel
     private double _originalDanmakuSpeed;
     private double _presetVolumeHoldTime;
     private bool _shouldMarkProgress;
+
+    private Process _mpvProcess;
 
     [ObservableProperty]
     private bool _isReloading;
@@ -178,6 +185,12 @@ public sealed partial class PlayerDetailViewModel
 
     [ObservableProperty]
     private bool _isPlaybackRateSliderEnabled;
+
+    [ObservableProperty]
+    private string _mpvDebugString;
+
+    [ObservableProperty]
+    private bool _isPlaying;
 
     /// <summary>
     /// 当需要显示临时消息时触发的事件.
