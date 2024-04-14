@@ -308,6 +308,11 @@ public static class ApiConstants
         /// 批量获取用户信息.
         /// </summary>
         public const string BatchUserInfo = _vcBase + "/account/v1/user/cards";
+
+        /// <summary>
+        /// 获取 BUVID 的信息.
+        /// </summary>
+        public const string Buvid = _apiBase + "/x/frontend/finger/spi";
     }
 
     public static class Partition
@@ -422,6 +427,11 @@ public static class ApiConstants
         /// 网页上的播放信息.
         /// </summary>
         public const string WebPlayInformation = _liveBase + "/xlive/web-room/v2/index/getRoomPlayInfo";
+
+        /// <summary>
+        /// 网页上的弹幕信息.
+        /// </summary>
+        public const string WebDanmakuInformation = _liveBase + "/xlive/web-room/v1/index/getDanmuInfo";
     }
 
     public static class Article

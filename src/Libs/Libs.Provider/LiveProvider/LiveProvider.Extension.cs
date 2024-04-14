@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -116,13 +117,35 @@ public partial class LiveProvider
         return outBuffer.ToArray();
     }
 
+    private static async Task<string> GetBuvidAsync()
+    {
+        var request = await HttpProvider.GetRequestMessageAsync(System.Net.Http.HttpMethod.Get, ApiConstants.Account.Buvid, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var buvidRes = await HttpProvider.ParseAsync<ServerResponse<BuvidResponse>>(response);
+        return buvidRes.Data.B3;
+    }
+
+    private static async Task<LiveDanmakuResponse> GetLiveDanmakuInfoAsync(string roomId)
+    {
+        var queryParameters = new Dictionary<string, string>
+        {
+            { "id", roomId },
+        };
+
+        var request = await HttpProvider.GetRequestMessageAsync(System.Net.Http.HttpMethod.Get, ApiConstants.Live.WebDanmakuInformation, queryParameters, needCookie: true);
+        var response = await HttpProvider.Instance.SendAsync(request);
+        var danmakuRes = await HttpProvider.ParseAsync<ServerResponse<LiveDanmakuResponse>>(response);
+        return danmakuRes.Data;
+    }
+
     private void InitializeLiveSocket()
     {
         ResetLiveConnection();
         _liveWebSocket = new ClientWebSocket();
+        _liveWebSocket.Options.SetRequestHeader("User-Agent", ServiceConstants.DefaultUserAgentString);
     }
 
-    private async Task ConnectLiveSocketAsync()
+    private async Task ConnectLiveSocketAsync(string host)
     {
         if (_isLiveSocketConnected)
         {
@@ -130,7 +153,7 @@ public partial class LiveProvider
         }
 
         InitializeLiveSocket();
-        await _liveWebSocket.ConnectAsync(new Uri(ApiConstants.Live.ChatSocket), _liveCancellationToken.Token);
+        await _liveWebSocket.ConnectAsync(new Uri($"wss://{host}/sub"), _liveCancellationToken.Token);
         _isLiveSocketConnected = _liveWebSocket?.State == WebSocketState.Open;
     }
 
@@ -188,7 +211,9 @@ public partial class LiveProvider
     {
         try
         {
+#if DEBUG
             Debug.WriteLine(jsonMessage);
+#endif
             var obj = JsonSerializer.Deserialize<JsonElement>(jsonMessage);
             var cmd = obj.GetProperty("cmd").ToString();
             if (cmd.Contains("DANMU_MSG"))
