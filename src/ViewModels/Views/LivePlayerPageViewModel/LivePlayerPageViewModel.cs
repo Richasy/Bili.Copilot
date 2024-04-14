@@ -113,7 +113,6 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase, IDisposable
             InitializeOverview();
 
             PlayerDetail.SetLiveData(View);
-            _ = LiveProvider.Instance.LoopLiveMessageAsync();
         }
         else
         {

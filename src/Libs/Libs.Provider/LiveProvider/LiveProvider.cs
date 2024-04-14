@@ -176,18 +176,24 @@ public partial class LiveProvider
         var data = await HttpProvider.ParseAsync<ServerResponse>(response);
         if (data.IsSuccess())
         {
-            await ConnectLiveSocketAsync();
+            var liveDanmaku = await GetLiveDanmakuInfoAsync(roomId);
+            await ConnectLiveSocketAsync(liveDanmaku.HostList.First().Host);
             if (_isLiveSocketConnected)
             {
+                var buvid = await GetBuvidAsync();
                 await SendLiveMessageAsync(
                             new
                             {
                                 roomid = Convert.ToInt32(roomId),
                                 uid = AccountProvider.Instance.UserId,
+                                buvid,
+                                protover = 2,
+                                key = liveDanmaku.Token,
                             },
                             7);
 
                 await SendHeartBeatAsync();
+                _ = LoopLiveMessageAsync();
             }
 
             return true;
@@ -255,9 +261,17 @@ public partial class LiveProvider
                 var result = await _liveWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), _liveCancellationToken.Token);
                 ParseLiveData(buffer.Take(result.Count).ToArray());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                if (ex is OperationCanceledException)
+                {
+                    return;
+                }
+
                 // Log data.
+#if DEBUG
+                Debug.WriteLine($"直播消息接收失败：{ex.Message}");
+#endif
             }
         }
     }

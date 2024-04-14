@@ -9,7 +9,7 @@ public static class ServiceConstants
 {
 #pragma warning disable SA1600 // Elements should be documented
     public const string DefaultAcceptString = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9";
-    public const string DefaultUserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0";
+    public const string DefaultUserAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69";
     public const string BuildNumber = "5520400";
     public const string Av = "av";
     public const string Bangumi = "bangumi";
@@ -65,6 +65,7 @@ public static class ServiceConstants
         public const string GeeType = "gee_type";
         public const string LocalId = "local_id";
         public const string Guid = "guid";
+        public const string UserId = "uid";
         public const string AuthCode = "auth_code";
         public const string PartitionId = "rid";
         public const string CreateTime = "ctime";
