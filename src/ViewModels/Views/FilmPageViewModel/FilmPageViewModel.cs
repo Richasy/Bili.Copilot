@@ -94,7 +94,7 @@ public sealed partial class FilmPageViewModel : ViewModelBase
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.FilmNavListColumnWidth, value);
         }

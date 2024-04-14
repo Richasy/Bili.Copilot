@@ -116,7 +116,7 @@ public sealed partial class ArticlePageViewModel : InformationFlowViewModel<Arti
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.ArticleNavListColumnWidth, value);
         }

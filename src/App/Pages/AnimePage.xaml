@@ -30,7 +30,7 @@
             HorizontalAlignment="Left"
             Binding="{x:Bind ViewModel.NavListColumnWidth, Mode=TwoWay}"
             Maximum="320"
-            Minimum="240" />
+            Minimum="180" />
 
         <Grid
             Grid.Column="2"

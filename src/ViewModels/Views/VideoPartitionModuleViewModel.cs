@@ -79,7 +79,7 @@ public sealed partial class VideoPartitionModuleViewModel : ViewModelBase
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.VideoPartitionNavListColumnWidth, value);
         }
