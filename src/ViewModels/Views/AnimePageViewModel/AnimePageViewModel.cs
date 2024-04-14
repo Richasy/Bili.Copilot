@@ -94,7 +94,7 @@ public sealed partial class AnimePageViewModel : ViewModelBase
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.AnimeNavListColumnWidth, value);
         }

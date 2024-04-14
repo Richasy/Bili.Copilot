@@ -178,7 +178,7 @@ public sealed partial class MessageDetailViewModel : InformationFlowViewModel<Me
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.MessageNavListColumnWidth, value);
         }

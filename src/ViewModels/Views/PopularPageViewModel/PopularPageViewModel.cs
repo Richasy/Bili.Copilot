@@ -268,7 +268,7 @@ public sealed partial class PopularPageViewModel : InformationFlowViewModel<Vide
 
     partial void OnNavListColumnWidthChanged(double value)
     {
-        if (value >= 240)
+        if (value >= 180)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.PopularNavListColumnWidth, value);
         }
