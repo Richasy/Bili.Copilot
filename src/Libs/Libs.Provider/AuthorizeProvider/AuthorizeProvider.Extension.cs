@@ -19,7 +19,6 @@ using Bili.Copilot.Models.BiliBili;
 using Bili.Copilot.Models.BiliBili.Others;
 using Bili.Copilot.Models.Constants.App;
 using Bili.Copilot.Models.Constants.Authorize;
-using HtmlAgilityPack;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
 using static Bili.Copilot.Models.App.Constants.ApiConstants;
@@ -421,7 +420,7 @@ public partial class AuthorizeProvider
                 AccessToken = data[Settings.AccessTokenKey].ToString(),
                 RefreshToken = data[Settings.RefreshTokenKey].ToString(),
                 Mid = Convert.ToInt64(data[Settings.UserIdKey]),
-                ExpiresIn = (int)data[Settings.ExpiresInKey],
+                ExpiresIn = (long)data[Settings.ExpiresInKey],
             };
 
             CurrentUserId = tokenInfo.Mid.ToString();
@@ -461,87 +460,6 @@ public partial class AuthorizeProvider
         }
 
         var mixinKey = Encoding.UTF8.GetString(binding.ToArray());
-        return mixinKey.Substring(0, 32);
-    }
-
-    private async Task TryUpdateCookieAsync()
-    {
-        var csrf = GetCsrfToken();
-        if (string.IsNullOrEmpty(csrf))
-        {
-            return;
-        }
-
-        var query = new Dictionary<string, string>
-        {
-            { "csrf", csrf },
-        };
-
-        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, Passport.CookieValidate, query, needCookie: true);
-        var response = await HttpProvider.Instance.SendAsync(request);
-        var result = await HttpProvider.ParseAsync<ServerResponse<CookieValidateResponse>>(response);
-
-#if FIRST_RUN
-        if (!(result.Data?.NeedRefresh ?? true))
-        {
-            return;
-        }
-#endif
-
-        var timestamp = result.Data is not null ? result.Data.Timestamp : DateTimeOffset.Now.ToUnixTimeSeconds();
-        var correspondPath = GetCorrespondPath(timestamp);
-        var refreshUrl = Passport.RefreshCsrf(correspondPath);
-        var htmlReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Get, refreshUrl, needCookie: true);
-        var htmlRes = await HttpProvider.Instance.SendAsync(htmlReq);
-        var html = await htmlRes.GetStringAsync();
-        var docEle = new HtmlDocument();
-        docEle.LoadHtml(html);
-        var csrfNode = docEle.DocumentNode.SelectSingleNode("//div[@id='1-name']");
-        var refreshCsrfToken = csrfNode.InnerText;
-        var refreshParams = new Dictionary<string, string>
-        {
-            { "csrf", csrf },
-            { "refresh_csrf", refreshCsrfToken },
-            { "source", "main_web" },
-            { "refresh_token",  _tokenInfo.RefreshToken },
-        };
-
-        var refreshReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.RefreshCookie, refreshParams, needCookie: true, needToken: false, forceNoToken: true);
-        var refreshResponse = await HttpProvider.Instance.SendAsync(refreshReq);
-        var refreshResult = await HttpProvider.ParseAsync<ServerResponse<CookieRefreshResponse>>(refreshResponse);
-
-        if (!string.IsNullOrEmpty(refreshResult.Data.RefreshToken))
-        {
-            if (refreshResponse.Cookies.Count > 0)
-            {
-                SaveCookies(HttpProvider.GetCookieFromResponse(refreshResponse));
-            }
-            else
-            {
-                await AccessBiliBiliAsync();
-            }
-
-            var oldRefreshToken = _tokenInfo.RefreshToken;
-            _tokenInfo.RefreshToken = refreshResult.Data.RefreshToken;
-            SaveAuthorizeResult(_tokenInfo);
-
-            var confirmParams = new Dictionary<string, string>
-            {
-                { "csrf", GetCsrfToken() },
-                { "refresh_token", oldRefreshToken },
-            };
-            var confirmReq = await HttpProvider.GetRequestMessageAsync(HttpMethod.Post, Passport.ConfirmCookie, confirmParams, needCookie: true);
-            _ = await HttpProvider.Instance.SendAsync(confirmReq);
-        }
-        else
-        {
-            Debug.WriteLine($"Cookie 刷新失败：{refreshResult.Data.Message}");
-        }
-
-        var newCsrf = GetCsrfToken();
-        if (csrf == newCsrf)
-        {
-            Debug.WriteLine("妈的");
-        }
+        return mixinKey[..32];
     }
 }

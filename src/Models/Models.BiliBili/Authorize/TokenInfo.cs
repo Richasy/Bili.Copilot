@@ -29,7 +29,7 @@ public class TokenInfo
     /// 过期时间.
     /// </summary>
     [JsonPropertyName("expires_in")]
-    public int ExpiresIn { get; set; }
+    public long ExpiresIn { get; set; }
 
     /// <summary>
     /// Cookies.
