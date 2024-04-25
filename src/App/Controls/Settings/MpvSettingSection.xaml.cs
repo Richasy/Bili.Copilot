@@ -22,7 +22,7 @@ public sealed partial class MpvSettingSection : SettingSection
     private async void OnDownloadButtonClickAsync(object sender, RoutedEventArgs e)
     {
         var hasPwsh = await AppToolkit.CheckPwshAvailabilityAsync();
-        if (hasPwsh)
+        if (!hasPwsh)
         {
             _appViewModel.ShowMessage(ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.NeedDownloadPwsh));
             return;
