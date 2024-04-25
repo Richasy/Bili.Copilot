@@ -112,7 +112,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
     {
         var playerBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowBehaviorType, PlayerWindowBehavior.Main);
         PlayerWindow window = default;
-        if (playerBehavior == PlayerWindowBehavior.Single)
+        if (playerBehavior == PlayerWindowBehavior.Single || (playerBehavior == PlayerWindowBehavior.Main && IsMpvPlayer()))
         {
             window = AppViewModel.Instance.DisplayWindows.OfType<PlayerWindow>().FirstOrDefault();
         }
