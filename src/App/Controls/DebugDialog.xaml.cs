@@ -18,7 +18,7 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// 用于显示调试信息的对话框.
 /// </summary>
-public sealed partial class DebugDialog : ContentDialog
+public sealed partial class DebugDialog : AppContentDialog
 {
     private readonly VideoType _type;
     private readonly string _id;

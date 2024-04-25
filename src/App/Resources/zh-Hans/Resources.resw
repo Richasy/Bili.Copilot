@@ -2349,4 +2349,7 @@ UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如�
   <data name="UseMpvPlayerDescription" xml:space="preserve">
     <value>使用 MPV 作为外部播放器播放 BiliBili 视频</value>
   </data>
+  <data name="NeedDownloadPwsh" xml:space="preserve">
+    <value>安装脚本需要 PowerShell 才能运行（不是设备预装的 Windows PowerShell），请先在设备上安装 PowerShell，你可以在微软商店搜索 PowerShell 下载安装。安装完成后重启应用，再尝试点击按钮下载 mpv</value>
+  </data>
 </root>

@@ -9,7 +9,7 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// WebDav 配置对话框.
 /// </summary>
-public sealed partial class WebDavConfigDialog : ContentDialog
+public sealed partial class WebDavConfigDialog : AppContentDialog
 {
     private readonly WebDavConfig _source;
     private readonly SettingsPageViewModel _pageVM;

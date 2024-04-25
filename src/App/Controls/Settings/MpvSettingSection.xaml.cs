@@ -21,6 +21,13 @@ public sealed partial class MpvSettingSection : SettingSection
 
     private async void OnDownloadButtonClickAsync(object sender, RoutedEventArgs e)
     {
+        var hasPwsh = await AppToolkit.CheckPwshAvailabilityAsync();
+        if (hasPwsh)
+        {
+            _appViewModel.ShowMessage(ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.NeedDownloadPwsh));
+            return;
+        }
+
         _appViewModel.ShowMessage(ResourceToolkit.GetLocalizedString(Models.Constants.App.StringNames.DownloadMpvTip));
         await Task.Delay(2000);
         var folder = await FileToolkit.PickFolderAsync(_appViewModel.ActivatedWindow);

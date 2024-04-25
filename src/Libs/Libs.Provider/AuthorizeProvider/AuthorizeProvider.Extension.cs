@@ -420,7 +420,7 @@ public partial class AuthorizeProvider
                 AccessToken = data[Settings.AccessTokenKey].ToString(),
                 RefreshToken = data[Settings.RefreshTokenKey].ToString(),
                 Mid = Convert.ToInt64(data[Settings.UserIdKey]),
-                ExpiresIn = (long)data[Settings.ExpiresInKey],
+                ExpiresIn = Convert.ToInt64(data[Settings.ExpiresInKey]),
             };
 
             CurrentUserId = tokenInfo.Mid.ToString();

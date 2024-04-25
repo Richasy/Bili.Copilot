@@ -7,7 +7,7 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// Prompt dialog when closing the window.
 /// </summary>
-public sealed partial class CloseWindowTipDialog : ContentDialog
+public sealed partial class CloseWindowTipDialog : AppContentDialog
 {
     /// <summary>
     /// Dependency property for <see cref="IsNeverAskChecked"/>.
