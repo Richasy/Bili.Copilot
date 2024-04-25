@@ -10,7 +10,7 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// 应用更新对话框.
 /// </summary>
-public sealed partial class UpdateDialog : ContentDialog
+public sealed partial class UpdateDialog : AppContentDialog
 {
     private readonly UpdateEventArgs _eventArgs;
 

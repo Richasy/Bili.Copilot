@@ -14,6 +14,7 @@ using Bili.Copilot.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Bili.Copilot.ViewModels;
 
@@ -192,6 +193,11 @@ public sealed partial class AppViewModel
     /// 显示的窗口列表.
     /// </summary>
     public List<Window> DisplayWindows { get; }
+
+    /// <summary>
+    /// 当前显示的对话框.
+    /// </summary>
+    public ContentDialog CurrentDialog { get; set; }
 
     /// <summary>
     /// 是否显示 Web DAV.

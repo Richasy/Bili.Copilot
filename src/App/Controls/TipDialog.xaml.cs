@@ -7,7 +7,7 @@ namespace Bili.Copilot.App.Controls;
 /// <summary>
 /// Tip dialog.
 /// </summary>
-public sealed partial class TipDialog : ContentDialog
+public sealed partial class TipDialog : AppContentDialog
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TipDialog"/> class.

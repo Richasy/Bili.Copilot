@@ -185,6 +185,8 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         {
             XamlRoot = Content.XamlRoot,
         };
+
+        AppViewModel.Instance.CurrentDialog?.Hide();
         _ = await dialog.ShowAsync();
     }
 
@@ -194,6 +196,8 @@ public sealed partial class MainWindow : WindowBase, ITipWindow, IUserSpaceWindo
         {
             XamlRoot = Content.XamlRoot,
         };
+
+        AppViewModel.Instance.CurrentDialog?.Hide();
         _ = await dialog.ShowAsync();
     }
 

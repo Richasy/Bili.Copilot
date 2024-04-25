@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Bili.Copilot.Models.Constants.App;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -192,5 +194,33 @@ public static class AppToolkit
         }
 
         return server;
+    }
+
+    /// <summary>
+    /// 检查是否安装了 PowerShell.
+    /// </summary>
+    /// <returns>是否安装.</returns>
+    public static async Task<bool> CheckPwshAvailabilityAsync()
+    {
+        var process = new Process();
+        process.StartInfo.FileName = "pwsh.exe";
+        process.StartInfo.Arguments = "--version";
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.RedirectStandardError = true;
+        process.StartInfo.CreateNoWindow = true;
+
+        try
+        {
+            process.Start();
+            var output = process.StandardOutput.ReadToEnd();
+            await process.WaitForExitAsync();
+
+            return !string.IsNullOrEmpty(output) && output.StartsWith("PowerShell");
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
