@@ -85,12 +85,6 @@ public class VideoSearchItem : SearchItemBase
         public string BvId { get; set; }
 
         /// <summary>
-        /// 分P Id.
-        /// </summary>
-        [JsonPropertyName("cid")]
-        public int Cid { get; set; }
-
-        /// <summary>
         /// 短链接.
         /// </summary>
         [JsonPropertyName("short_link")]

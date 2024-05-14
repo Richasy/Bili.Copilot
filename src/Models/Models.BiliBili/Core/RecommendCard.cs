@@ -20,12 +20,6 @@ public class RecommendCard
     public string CardGoto { get; set; }
 
     /// <summary>
-    /// 卡片参数.
-    /// </summary>
-    [JsonPropertyName("args")]
-    public RecommendCardArgs CardArgs { get; set; }
-
-    /// <summary>
     /// 偏移值标识符.
     /// </summary>
     [JsonPropertyName("idx")]
@@ -125,7 +119,7 @@ public class RecommendCardArgs
     /// 发布者Id.
     /// </summary>
     [JsonPropertyName("up_id")]
-    public int PublisherId { get; set; }
+    public long PublisherId { get; set; }
 
     /// <summary>
     /// 发布者名称.
@@ -161,7 +155,7 @@ public class RecommendCardArgs
     /// 视频Aid.
     /// </summary>
     [JsonPropertyName("aid")]
-    public int Aid { get; set; }
+    public long Aid { get; set; }
 }
 
 /// <summary>
@@ -173,13 +167,13 @@ public class PlayerArgs
     /// 视频的Aid.
     /// </summary>
     [JsonPropertyName("aid")]
-    public int Aid { get; set; }
+    public long Aid { get; set; }
 
     /// <summary>
     /// 视频第一个分P的Id.
     /// </summary>
     [JsonPropertyName("cid")]
-    public int Cid { get; set; }
+    public long Cid { get; set; }
 
     /// <summary>
     /// 视频类型，一般为av.
