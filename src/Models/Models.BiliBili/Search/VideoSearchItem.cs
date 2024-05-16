@@ -48,47 +48,5 @@ public class VideoSearchItem : SearchItemBase
     /// </summary>
     [JsonPropertyName("face")]
     public string Avatar { get; set; }
-
-    /// <summary>
-    /// 分享数据.
-    /// </summary>
-    [JsonPropertyName("share")]
-    public ShareData Share { get; set; }
-
-    /// <summary>
-    /// 分享数据.
-    /// </summary>
-    public class ShareData
-    {
-        /// <summary>
-        /// 类型.
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        /// <summary>
-        /// 视频数据.
-        /// </summary>
-        [JsonPropertyName("video")]
-        public Video Video { get; set; }
-    }
-
-    /// <summary>
-    /// 视频基本数据.
-    /// </summary>
-    public class Video
-    {
-        /// <summary>
-        /// BV Id.
-        /// </summary>
-        [JsonPropertyName("bvid")]
-        public string BvId { get; set; }
-
-        /// <summary>
-        /// 短链接.
-        /// </summary>
-        [JsonPropertyName("short_link")]
-        public string ShortLink { get; set; }
-    }
 }
 
