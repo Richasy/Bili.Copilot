@@ -1,74 +1,74 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÊÓÆµ×´Ì¬ĞÅÏ¢.
+/// è§†é¢‘çŠ¶æ€ä¿¡æ¯.
 /// </summary>
 public class VideoStatusInfo
 {
     /// <summary>
-    /// ÊÓÆµµÄAid.
+    /// è§†é¢‘çš„Aid.
     /// </summary>
     [JsonPropertyName("aid")]
-    public int Aid { get; set; }
+    public long Aid { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ²¥·ÅÊı.
+    /// è§†é¢‘æ’­æ”¾æ•°.
     /// </summary>
     [JsonPropertyName("view")]
     public long PlayCount { get; set; }
 
     /// <summary>
-    /// µ¯Ä»Êı.
+    /// å¼¹å¹•æ•°.
     /// </summary>
     [JsonPropertyName("danmaku")]
     public long DanmakuCount { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÆÀÂÛÊı.
+    /// è§†é¢‘è¯„è®ºæ•°.
     /// </summary>
     [JsonPropertyName("reply")]
     public long ReplyCount { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÊÕ²ØÊı.
+    /// è§†é¢‘æ”¶è—æ•°.
     /// </summary>
     [JsonPropertyName("favorite")]
     public long FavoriteCount { get; set; }
 
     /// <summary>
-    /// Í¶±ÒÊı.
+    /// æŠ•å¸æ•°.
     /// </summary>
     [JsonPropertyName("coin")]
     public long CoinCount { get; set; }
 
     /// <summary>
-    /// ·ÖÏíÊı.
+    /// åˆ†äº«æ•°.
     /// </summary>
     [JsonPropertyName("share")]
     public long ShareCount { get; set; }
 
     /// <summary>
-    /// µ±Ç°ÅÅÃû.
+    /// å½“å‰æ’å.
     /// </summary>
     [JsonPropertyName("now_rank")]
     public int CurrentRanking { get; set; }
 
     /// <summary>
-    /// ÀúÊ·×î¸ßÅÅÃû.
+    /// å†å²æœ€é«˜æ’å.
     /// </summary>
     [JsonPropertyName("his_rank")]
     public int HistoryRanking { get; set; }
 
     /// <summary>
-    /// µãÔŞÊı.
+    /// ç‚¹èµæ•°.
     /// </summary>
     [JsonPropertyName("like")]
     public long LikeCount { get; set; }
 
     /// <summary>
-    /// µã²ÈÊı.
+    /// ç‚¹è¸©æ•°.
     /// </summary>
     [JsonPropertyName("dislike")]
     public long DislikeCount { get; set; }
