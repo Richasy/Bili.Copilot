@@ -234,12 +234,6 @@ public class FavoriteMedia
     /// </summary>
     [JsonPropertyName("bvid")]
     public string BvId { get; set; }
-
-    /// <summary>
-    /// 社区信息.
-    /// </summary>
-    [JsonPropertyName("ugc")]
-    public FavoriteUgcInformation UgcInformation { get; set; }
 }
 
 /// <summary>
@@ -264,18 +258,6 @@ public class FavoriteMediaStat
     /// </summary>
     [JsonPropertyName("danmaku")]
     public int DanmakuCount { get; set; }
-}
-
-/// <summary>
-/// 收藏夹UGC内容信息.
-/// </summary>
-public class FavoriteUgcInformation
-{
-    /// <summary>
-    /// 首个分P Id.
-    /// </summary>
-    [JsonPropertyName("first_cid")]
-    public int FirstCid { get; set; }
 }
 
 /// <summary>
