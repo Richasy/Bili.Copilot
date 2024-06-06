@@ -74,8 +74,8 @@ public class VideoEpisode
     public int season_id { get; set; }
     public int section_id { get; set; }
     public int id { get; set; }
-    public int aid { get; set; }
-    public int cid { get; set; }
+    public long aid { get; set; }
+    public long cid { get; set; }
     public string title { get; set; }
     public int attribute { get; set; }
     public VideoEpisodeArc arc { get; set; }

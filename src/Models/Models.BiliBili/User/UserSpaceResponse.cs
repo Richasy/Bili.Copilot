@@ -293,7 +293,7 @@ public class UserSpaceVideoItem
     /// 首个分P的Id.
     /// </summary>
     [JsonPropertyName("first_cid")]
-    public int FirstCid { get; set; }
+    public long FirstCid { get; set; }
 }
 
 /// <summary>
