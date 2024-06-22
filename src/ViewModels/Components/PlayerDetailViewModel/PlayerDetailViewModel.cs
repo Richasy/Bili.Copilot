@@ -375,7 +375,6 @@ public sealed partial class PlayerDetailViewModel : ViewModelBase, IDisposable
 
                 Clear();
                 Formats.Clear();
-                PlaybackRates.Clear();
             }
 
             _disposedValue = true;

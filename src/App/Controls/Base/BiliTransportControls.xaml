@@ -266,7 +266,7 @@
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{ext:Locale Name=PlaybackRate}" />
-                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlaybackRates}">
+                                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.PlaybackRates, Mode=OneWay}">
                                         <ItemsRepeater.Layout>
                                             <StackLayout Orientation="Horizontal" Spacing="4" />
                                         </ItemsRepeater.Layout>
