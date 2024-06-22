@@ -501,7 +501,7 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="WideState">
                                     <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="1280" />
+                                        <AdaptiveTrigger MinWindowWidth="720" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="RootSplitView.DisplayMode" Value="Inline" />
@@ -979,7 +979,7 @@
                             <VisualStateGroup>
                                 <VisualState x:Name="WideState">
                                     <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="1280" />
+                                        <AdaptiveTrigger MinWindowWidth="720" />
                                     </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="RootSplitView.DisplayMode" Value="Inline" />
