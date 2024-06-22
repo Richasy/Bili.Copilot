@@ -54,7 +54,6 @@ public sealed partial class PlayerDetailViewModel
     private void ResetMediaData()
     {
         TryClear(Formats);
-        TryClear(PlaybackRates);
         IsShowProgressTip = false;
         IsShowMediaTransport = false;
         IsShowAutoCloseWindowTip = false;
