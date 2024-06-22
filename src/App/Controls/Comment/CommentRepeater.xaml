@@ -23,7 +23,8 @@
             <base:VerticalRepeaterView
                 Margin="16,0,16,12"
                 IncrementalTriggered="OnIncrementalTriggered"
-                ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+                Style="{StaticResource RepeaterStackStyle}">
                 <base:VerticalRepeaterView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:CommentItemViewModel">
                         <local:CommentItem ViewModel="{x:Bind}" />

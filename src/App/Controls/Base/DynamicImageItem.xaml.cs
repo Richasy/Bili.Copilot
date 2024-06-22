@@ -58,7 +58,7 @@ public sealed partial class DynamicImageItem : UserControl
             var columnCount = ActualWidth / 100;
             var lineCount = Math.Ceiling(imageCount * 1.0 / columnCount);
             var height = (lineCount * 100) + ((lineCount - 1) * 4);
-            if (!double.IsInfinity(height))
+            if (ImageRepeater != null && !double.IsInfinity(height) && height >= 0)
             {
                 ImageRepeater.Height = height;
             }
