@@ -1,116 +1,116 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ÉÔºóÔÙ¿´ÊÓÆµ.
+/// ç¨åå†çœ‹è§†é¢‘.
 /// </summary>
 public class ViewLaterVideo : VideoBase
 {
     /// <summary>
-    /// ÊÓÆµ±êÊ¶·û.
+    /// è§†é¢‘æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("aid")]
-    public int VideoId { get; set; }
+    public long VideoId { get; set; }
 
     /// <summary>
-    /// ¸å¼ş·ÖP×ÜÊı.
+    /// ç¨¿ä»¶åˆ†Pæ€»æ•°.
     /// </summary>
     [JsonPropertyName("videos")]
     public int PartCount { get; set; }
 
     /// <summary>
-    /// ·ÖÇøId.
+    /// åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("tid")]
     public int PartitionId { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÃû.
+    /// åˆ†åŒºå.
     /// </summary>
     [JsonPropertyName("tname")]
     public string PartitionName { get; set; }
 
     /// <summary>
-    /// ×ªÔØ»òÔ­´´£¬1-×ªÔØ£¬2-Ô­´´.
+    /// è½¬è½½æˆ–åŸåˆ›ï¼Œ1-è½¬è½½ï¼Œ2-åŸåˆ›.
     /// </summary>
     [JsonPropertyName("copyright")]
     public int Copyright { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ·âÃæ.
+    /// è§†é¢‘å°é¢.
     /// </summary>
     [JsonPropertyName("pic")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ¸å¼ş´´½¨Ê±¼ä.
+    /// ç¨¿ä»¶åˆ›å»ºæ—¶é—´.
     /// </summary>
     [JsonPropertyName("ctime")]
     public int CreateTime { get; set; }
 
     /// <summary>
-    /// ÊÓÆµÃèÊö.
+    /// è§†é¢‘æè¿°.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ×´Ì¬.
+    /// è§†é¢‘çŠ¶æ€.
     /// </summary>
     [JsonPropertyName("state")]
     public int State { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ·¢²¼ÕßĞÅÏ¢.
+    /// è§†é¢‘å‘å¸ƒè€…ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("owner")]
     public PublisherInfo Publisher { get; set; }
 
     /// <summary>
-    /// ÊÓÆµ²ÎÊı.
+    /// è§†é¢‘å‚æ•°.
     /// </summary>
     [JsonPropertyName("stat")]
     public VideoStatusInfo StatusInfo { get; set; }
 
     /// <summary>
-    /// ¹ØÁª¶¯Ì¬µÄÎÄ±¾ÄÚÈİ.
+    /// å…³è”åŠ¨æ€çš„æ–‡æœ¬å†…å®¹.
     /// </summary>
     [JsonPropertyName("dynamic")]
     public string DynamicText { get; set; }
 
     /// <summary>
-    /// ¶ÌÁ´½Ó.
+    /// çŸ­é“¾æ¥.
     /// </summary>
     [JsonPropertyName("short_link_v2")]
     public string ShortLink { get; set; }
 
     /// <summary>
-    /// ·ÖP Id.
+    /// åˆ†P Id.
     /// </summary>
     [JsonPropertyName("cid")]
-    public int PartId { get; set; }
+    public long PartId { get; set; }
 
     /// <summary>
-    /// ²¥·Å½ø¶È.
+    /// æ’­æ”¾è¿›åº¦.
     /// </summary>
     [JsonPropertyName("progress")]
     public int Progress { get; set; }
 
     /// <summary>
-    /// Ìí¼ÓÊ±¼ä.
+    /// æ·»åŠ æ—¶é—´.
     /// </summary>
     [JsonPropertyName("add_at")]
-    public int AddTime { get; set; }
+    public long AddTime { get; set; }
 
     /// <summary>
-    /// ÊÓÆµBVId.
+    /// è§†é¢‘BVId.
     /// </summary>
     [JsonPropertyName("bvid")]
     public string BvId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// å‰§é›†Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public int SeasonId { get; set; }

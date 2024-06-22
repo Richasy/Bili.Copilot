@@ -1,200 +1,200 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥²¥·ÅĞÅÏ¢.
+/// ç›´æ’­æ’­æ”¾ä¿¡æ¯.
 /// </summary>
 public class LiveAppPlayInformation
 {
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("room_id")]
     public int RoomId { get; set; }
 
     /// <summary>
-    /// ÓÃ»§Id.
+    /// ç”¨æˆ·Id.
     /// </summary>
     [JsonPropertyName("uid")]
     public long UserId { get; set; }
 
     /// <summary>
-    /// Ö±²¥×´Ì¬£¬1±íÊ¾ÕıÔÚÖ±²¥.
+    /// ç›´æ’­çŠ¶æ€ï¼Œ1è¡¨ç¤ºæ­£åœ¨ç›´æ’­.
     /// </summary>
     [JsonPropertyName("live_status")]
     public int LiveStatus { get; set; }
 
     /// <summary>
-    /// Ö±²¥Ê±¼ä.
+    /// ç›´æ’­æ—¶é—´.
     /// </summary>
     [JsonPropertyName("live_time")]
     public long LiveTime { get; set; }
 
     /// <summary>
-    /// ²¥·ÅĞÅÏ¢.
+    /// æ’­æ”¾ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("playurl_info")]
     public LiveAppPlayUrlInfo PlayUrlInfo { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·ÅµØÖ·ĞÅÏ¢.
+/// ç›´æ’­æ’­æ”¾åœ°å€ä¿¡æ¯.
 /// </summary>
 public class LiveAppPlayUrlInfo
 {
     /// <summary>
-    /// ²¥·ÅĞÅÏ¢.
+    /// æ’­æ”¾ä¿¡æ¯.
     /// </summary>
     [JsonPropertyName("playurl")]
     public LiveAppPlayData PlayUrl { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·ÅÁ´½Ó.
+/// ç›´æ’­æ’­æ”¾é“¾æ¥.
 /// </summary>
 public class LiveAppPlayData
 {
     /// <summary>
-    /// Ö±²¥¼äId.
+    /// ç›´æ’­é—´Id.
     /// </summary>
     [JsonPropertyName("cid")]
-    public int Cid { get; set; }
+    public long Cid { get; set; }
 
     /// <summary>
-    /// ÇåÎú¶ÈÁĞ±í.
+    /// æ¸…æ™°åº¦åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("g_qn_desc")]
     public List<LiveAppQualityDescription> Descriptions { get; set; }
 
     /// <summary>
-    /// ²¥·ÅÁ÷.
+    /// æ’­æ”¾æµ.
     /// </summary>
     [JsonPropertyName("stream")]
     public List<LiveAppPlayStream> StreamList { get; set; }
 }
 
 /// <summary>
-/// ÇåÎú¶ÈÃèÊö.
+/// æ¸…æ™°åº¦æè¿°.
 /// </summary>
 public class LiveAppQualityDescription
 {
     /// <summary>
-    /// ÇåÎú¶È±êÊ¶.
+    /// æ¸…æ™°åº¦æ ‡è¯†.
     /// </summary>
     [JsonPropertyName("qn")]
     public int Quality { get; set; }
 
     /// <summary>
-    /// ÃèÊö.
+    /// æè¿°.
     /// </summary>
     [JsonPropertyName("desc")]
     public string Description { get; set; }
 
     /// <summary>
-    /// HDR ±êÊ¶.
+    /// HDR æ ‡è¯†.
     /// </summary>
     [JsonPropertyName("hdr_desc")]
     public string HDRSign { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·ÅÁ÷.
+/// ç›´æ’­æ’­æ”¾æµ.
 /// </summary>
 public class LiveAppPlayStream
 {
     /// <summary>
-    /// Ğ­ÒéÃû³Æ.
+    /// åè®®åç§°.
     /// </summary>
     [JsonPropertyName("protocol_name")]
     public string ProtocolName { get; set; }
 
     /// <summary>
-    /// ¸ñÊ½ÁĞ±í.
+    /// æ ¼å¼åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("format")]
     public List<LiveAppPlayFormat> FormatList { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·Å¸ñÊ½.
+/// ç›´æ’­æ’­æ”¾æ ¼å¼.
 /// </summary>
 public class LiveAppPlayFormat
 {
     /// <summary>
-    /// ¸ñÊ½Ãû³Æ.
+    /// æ ¼å¼åç§°.
     /// </summary>
     [JsonPropertyName("format_name")]
     public string FormatName { get; set; }
 
     /// <summary>
-    /// ·ÖÇøId.
+    /// åˆ†åŒºId.
     /// </summary>
     [JsonPropertyName("codec")]
     public List<LiveAppPlayCodec> CodecList { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·Å½âÂëĞÅÏ¢.
+/// ç›´æ’­æ’­æ”¾è§£ç ä¿¡æ¯.
 /// </summary>
 public class LiveAppPlayCodec
 {
     /// <summary>
-    /// ½âÂëÃû.
+    /// è§£ç å.
     /// </summary>
     [JsonPropertyName("codec_name")]
     public string CodecName { get; set; }
 
     /// <summary>
-    /// µ±Ç°ÇåÎú¶È±êÊ¶.
+    /// å½“å‰æ¸…æ™°åº¦æ ‡è¯†.
     /// </summary>
     [JsonPropertyName("current_qn")]
     public int CurrentQuality { get; set; }
 
     /// <summary>
-    /// Ö§³ÖµÄÇåÎú¶È.
+    /// æ”¯æŒçš„æ¸…æ™°åº¦.
     /// </summary>
     [JsonPropertyName("accept_qn")]
     public List<int> AcceptQualities { get; set; }
 
     /// <summary>
-    /// »ù´¡Á´½Ó.
+    /// åŸºç¡€é“¾æ¥.
     /// </summary>
     [JsonPropertyName("base_url")]
     public string BaseUrl { get; set; }
 
     /// <summary>
-    /// ²¥·ÅµØÖ·ÁĞ±í.
+    /// æ’­æ”¾åœ°å€åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("url_info")]
     public List<LiveAppPlayUrl> Urls { get; set; }
 
     /// <summary>
-    /// ¶Å±ÈÀàĞÍ£¬0-¹Ø±Õ, 1-¿ªÆô.
+    /// æœæ¯”ç±»å‹ï¼Œ0-å…³é—­, 1-å¼€å¯.
     /// </summary>
     [JsonPropertyName("dolby_type")]
     public int DolbyType { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥²¥·ÅµØÖ·Æ´½ÓĞÅÏ¢.
+/// ç›´æ’­æ’­æ”¾åœ°å€æ‹¼æ¥ä¿¡æ¯.
 /// </summary>
 public class LiveAppPlayUrl
 {
     /// <summary>
-    /// ÓòÃû.
+    /// åŸŸå.
     /// </summary>
     [JsonPropertyName("host")]
     public string Host { get; set; }
 
     /// <summary>
-    /// ºó×º.
+    /// åç¼€.
     /// </summary>
     [JsonPropertyName("extra")]
     public string Extra { get; set; }
 
     /// <summary>
-    /// Á÷µÄÓĞĞ§Ê±¼ä£¬Í¨³£Îª1¸öĞ¡Ê±.
+    /// æµçš„æœ‰æ•ˆæ—¶é—´ï¼Œé€šå¸¸ä¸º1ä¸ªå°æ—¶.
     /// </summary>
     [JsonPropertyName("stream_ttl")]
     public int StreamTTL { get; set; }

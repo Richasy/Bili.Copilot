@@ -1,98 +1,98 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// »¥¶¯ÊÓÆµÑ¡ÏîÏìÓ¦.
+/// äº’åŠ¨è§†é¢‘é€‰é¡¹å“åº”.
 /// </summary>
 public class InteractionEdgeResponse
 {
     /// <summary>
-    /// ±êÌâ.
+    /// æ ‡é¢˜.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// Ñ¡ÇøÁĞ±í.
+    /// é€‰åŒºåˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("edges")]
     public InteractionEdge Edges { get; set; }
 
     /// <summary>
-    /// Òş²Ø±äÁ¿.
+    /// éšè—å˜é‡.
     /// </summary>
     [JsonPropertyName("hidden_vars")]
     public List<InteractionHiddenVariable> HiddenVariables { get; set; }
 }
 
 /// <summary>
-/// »¥¶¯ÊÓÆµÑ¡È¡.
+/// äº’åŠ¨è§†é¢‘é€‰å–.
 /// </summary>
 public class InteractionEdge
 {
     /// <summary>
-    /// »¥¶¯ÊÓÆµÎÊÌâ.
+    /// äº’åŠ¨è§†é¢‘é—®é¢˜.
     /// </summary>
     [JsonPropertyName("questions")]
     public List<InteractionQuestion> Questions { get; set; }
 }
 
 /// <summary>
-/// »¥¶¯ÊÓÆµÎÊÌâ.
+/// äº’åŠ¨è§†é¢‘é—®é¢˜.
 /// </summary>
 public class InteractionQuestion
 {
     /// <summary>
-    /// Ñ¡ÏîÁĞ±í.
+    /// é€‰é¡¹åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("choices")]
     public List<InteractionChoice> Choices { get; set; }
 }
 
 /// <summary>
-/// »¥¶¯ÊÓÆµÑ¡Ïî.
+/// äº’åŠ¨è§†é¢‘é€‰é¡¹.
 /// </summary>
 public class InteractionChoice
 {
     /// <summary>
-    /// Ñ¡ÏîId.
+    /// é€‰é¡¹Id.
     /// </summary>
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     /// <summary>
-    /// Ìõ¼şÓï¾ä.
+    /// æ¡ä»¶è¯­å¥.
     /// </summary>
     [JsonPropertyName("condition")]
     public string Condition { get; set; }
 
     /// <summary>
-    /// ¶ÔÓ¦·ÖP Id.
+    /// å¯¹åº”åˆ†P Id.
     /// </summary>
     [JsonPropertyName("cid")]
-    public int PartId { get; set; }
+    public long PartId { get; set; }
 
     /// <summary>
-    /// Ñ¡Ïî.
+    /// é€‰é¡¹.
     /// </summary>
     [JsonPropertyName("option")]
     public string Option { get; set; }
 }
 
 /// <summary>
-/// Òş²Ø±äÁ¿.
+/// éšè—å˜é‡.
 /// </summary>
 public class InteractionHiddenVariable
 {
     /// <summary>
-    /// Öµ.
+    /// å€¼.
     /// </summary>
     [JsonPropertyName("value")]
     public int Value { get; set; }
 
     /// <summary>
-    /// ±êÊ¶.
+    /// æ ‡è¯†.
     /// </summary>
     [JsonPropertyName("id_v2")]
     public string Id { get; set; }

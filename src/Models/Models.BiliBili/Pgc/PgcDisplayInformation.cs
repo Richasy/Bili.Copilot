@@ -299,7 +299,7 @@ public class PgcEpisodeDetail
     /// 视频Id.
     /// </summary>
     [JsonPropertyName("aid")]
-    public int Aid { get; set; }
+    public long Aid { get; set; }
 
     /// <summary>
     /// BV Id.
@@ -311,7 +311,7 @@ public class PgcEpisodeDetail
     /// 分P Id.
     /// </summary>
     [JsonPropertyName("cid")]
-    public int PartId { get; set; }
+    public long PartId { get; set; }
 
     /// <summary>
     /// 封面.
