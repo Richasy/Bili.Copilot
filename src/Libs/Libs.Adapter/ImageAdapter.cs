@@ -99,6 +99,7 @@ public static class ImageAdapter
         var text = TextToolkit.ConvertToTraditionalChineseIfNeeded(content.Message);
         var emotes = content.Emote;
         var emoteDict = new Dictionary<string, Image>();
+        var pictures = new List<Image>();
 
         // 判断是否有表情存在.
         if (emotes?.Count > 0)
@@ -117,6 +118,11 @@ public static class ImageAdapter
             emoteDict = null;
         }
 
-        return new EmoteText(text, emoteDict);
+        if (content.Pictures?.Count > 0)
+        {
+            pictures = content.Pictures.Select(p => ConvertToImage(p.ImgSrc, p.ImgWidth, p.ImgHeight)).ToList();
+        }
+
+        return new EmoteText(text, emoteDict, pictures);
     }
 }

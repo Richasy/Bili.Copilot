@@ -2,6 +2,7 @@
 
 using System.Text.RegularExpressions;
 using Bili.Copilot.Models.Data.Appearance;
+using Bili.Copilot.ViewModels;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media.Imaging;
 
@@ -26,6 +27,7 @@ public sealed class EmoteTextBlock : Control
 
     private RichTextBlock _richBlock;
     private RichTextBlock _flyoutRichBlock;
+    private DynamicImageItem _picturePanel;
     private Button _overflowButton;
     private bool _isOverflowInitialized;
 
@@ -62,6 +64,7 @@ public sealed class EmoteTextBlock : Control
     {
         _richBlock = GetTemplateChild("RichBlock") as RichTextBlock;
         _flyoutRichBlock = GetTemplateChild("FlyoutRichBlock") as RichTextBlock;
+        _picturePanel = GetTemplateChild("PicturePanel") as DynamicImageItem;
         _overflowButton = GetTemplateChild("OverflowButton") as Button;
 
         _richBlock.IsTextTrimmedChanged += OnIsTextTrimmedChanged;
@@ -93,6 +96,8 @@ public sealed class EmoteTextBlock : Control
             if (Text != null)
             {
                 para = ParseText();
+                _picturePanel.ItemsSource = Text?.Pictures;
+                _picturePanel.Visibility = Text.Pictures != null && Text.Pictures.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             }
 
             if (para != null)
@@ -119,6 +124,14 @@ public sealed class EmoteTextBlock : Control
                 _flyoutRichBlock.Blocks.Add(para);
             }
         }
+    }
+
+    private void OnImageTapped(object sender, TappedRoutedEventArgs e)
+    {
+        var image = sender as ImageEx;
+        var sources = Text.Pictures;
+        var index = sources.ToList().IndexOf(image.DataContext as Models.Data.Appearance.Image);
+        AppViewModel.Instance.ShowImagesCommand.Execute(new Models.App.Args.ShowImageEventArgs(sources, index));
     }
 
     private Paragraph ParseText()

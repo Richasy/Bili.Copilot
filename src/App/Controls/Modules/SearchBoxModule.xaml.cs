@@ -3,7 +3,7 @@
 using Bili.Copilot.App.Controls.Base;
 using Bili.Copilot.Models.Data.Search;
 using Bili.Copilot.ViewModels;
-using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
 
 namespace Bili.Copilot.App.Controls.Modules;
 

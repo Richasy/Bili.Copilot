@@ -12,10 +12,12 @@ public sealed class EmoteText
     /// </summary>
     /// <param name="text">完整文本.</param>
     /// <param name="emotes">表情索引.</param>
-    public EmoteText(string text, Dictionary<string, Image> emotes)
+    /// <param name="pictures">评论图片.</param>
+    public EmoteText(string text, Dictionary<string, Image> emotes, List<Image> pictures = default)
     {
         Text = text;
         Emotes = emotes;
+        Pictures = pictures;
     }
 
     /// <summary>
@@ -27,6 +29,11 @@ public sealed class EmoteText
     /// 表情索引.
     /// </summary>
     public Dictionary<string, Image> Emotes { get; }
+
+    /// <summary>
+    /// 评论图片.
+    /// </summary>
+    public List<Image> Pictures { get; }
 
     /// <inheritdoc/>
     public override bool Equals(object obj) => obj is EmoteText text && Text == text.Text;
