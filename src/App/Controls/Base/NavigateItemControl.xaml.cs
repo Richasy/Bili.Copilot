@@ -17,12 +17,12 @@ public sealed partial class NavigateItemControl : NavigateItemControlBase
 
     private void OnNavItemClick(object sender, RoutedEventArgs e)
     {
-        if (AppViewModel.Instance.CurrentPage == ViewModel.Data.Id)
+        if (AppViewModel.Instance.CurrentPage == ViewModel?.Data.Id)
         {
             return;
         }
 
-        AppViewModel.Instance.Navigate(ViewModel.Data.Id);
+        AppViewModel.Instance.Navigate(ViewModel?.Data?.Id ?? Models.Constants.App.PageType.Popular);
     }
 }
 
