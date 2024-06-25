@@ -113,13 +113,13 @@ public class PgcModuleItem
     /// 所属动漫或影视剧的Id.
     /// </summary>
     [JsonPropertyName("oid")]
-    public int OriginId { get; set; }
+    public long OriginId { get; set; }
 
     /// <summary>
     /// 剧集的季Id.
     /// </summary>
     [JsonPropertyName("season_id")]
-    public int SeasonId { get; set; }
+    public long SeasonId { get; set; }
 
     /// <summary>
     /// 剧集的标签.
@@ -179,7 +179,7 @@ public class PgcEpisode
     /// 剧集Id.
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
     /// 显示内容.
