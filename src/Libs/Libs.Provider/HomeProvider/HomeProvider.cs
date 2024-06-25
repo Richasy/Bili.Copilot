@@ -28,7 +28,7 @@ public sealed partial class HomeProvider
     {
         _hotOffsetId = 0;
         _recommendOffsetId = 0;
-        _cacheVideoPartitionOffsets = new Dictionary<string, (int OffsetId, int PageNumber)>();
+        _cacheVideoPartitionOffsets = new Dictionary<string, (long OffsetId, int PageNumber)>();
     }
 
     /// <summary>

@@ -1,55 +1,55 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ×Ó·ÖÇøÀàĞÍ¶¨Òå.
+/// å­åˆ†åŒºç±»å‹å®šä¹‰.
 /// </summary>
 public class SubPartition
 {
     /// <summary>
-    /// ÍÆ¼öÊÓÆµÁĞ±í.
+    /// æ¨èè§†é¢‘åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("recommend")]
     public List<PartitionVideo> RecommendVideos { get; set; }
 
     /// <summary>
-    /// ĞÂµÄÊÓÆµÁĞ±í.
+    /// æ–°çš„è§†é¢‘åˆ—è¡¨.
     /// </summary>
     [JsonPropertyName("new")]
     public List<PartitionVideo> NewVideos { get; set; }
 
     /// <summary>
-    /// ÏòÉÏË¢ĞÂµÄ±êÊ¶·û.
+    /// å‘ä¸Šåˆ·æ–°çš„æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("ctop")]
-    public int TopOffsetId { get; set; }
+    public long TopOffsetId { get; set; }
 
     /// <summary>
-    /// ÏòÏÂË¢ĞÂµÄ±êÊ¶·û.
+    /// å‘ä¸‹åˆ·æ–°çš„æ ‡è¯†ç¬¦.
     /// </summary>
     [JsonPropertyName("cbottom")]
-    public int BottomOffsetId { get; set; }
+    public long BottomOffsetId { get; set; }
 }
 
 /// <summary>
-/// ×Ó·ÖÇøµÄÍÆ¼öÄ£¿é.
+/// å­åˆ†åŒºçš„æ¨èæ¨¡å—.
 /// </summary>
 public class SubPartitionRecommend : SubPartition
 {
     /// <summary>
-    /// ºá·ù.
+    /// æ¨ªå¹….
     /// </summary>
     [JsonPropertyName("banner")]
     public RecommendBanner Banner { get; set; }
 
     /// <summary>
-    /// ÍÆ¼öÁĞ±íÏÂµÄºá·ù¶¨Òå.
+    /// æ¨èåˆ—è¡¨ä¸‹çš„æ¨ªå¹…å®šä¹‰.
     /// </summary>
     public class RecommendBanner
     {
         /// <summary>
-        /// ¶¥²ãºá·ù.
+        /// é¡¶å±‚æ¨ªå¹….
         /// </summary>
         [JsonPropertyName("top")]
         public List<PartitionBanner> TopBanners { get; set; }
@@ -57,12 +57,12 @@ public class SubPartitionRecommend : SubPartition
 }
 
 /// <summary>
-/// ³£¹æ×Ó·ÖÇø.
+/// å¸¸è§„å­åˆ†åŒº.
 /// </summary>
 public class SubPartitionDefault : SubPartition
 {
     /// <summary>
-    /// ¸ßÆµ±êÇ©.
+    /// é«˜é¢‘æ ‡ç­¾.
     /// </summary>
     [JsonPropertyName("top_tag")]
     public List<Tag> TopTags { get; set; }

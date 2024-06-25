@@ -16,11 +16,11 @@ namespace Bili.Copilot.Libs.Provider;
 public partial class HomeProvider
 {
     private static readonly Lazy<HomeProvider> _lazyInstance = new(() => new HomeProvider());
-    private readonly Dictionary<string, (int OffsetId, int PageNumber)> _cacheVideoPartitionOffsets;
+    private readonly Dictionary<string, (long OffsetId, int PageNumber)> _cacheVideoPartitionOffsets;
 
     private long _recommendOffsetId;
     private long _hotOffsetId;
-    private int _videoPartitionOffsetId = 0;
+    private long _videoPartitionOffsetId = 0;
     private int _videoPartitionPageNumber = 1;
     private string _currentPartitionId = string.Empty;
 
