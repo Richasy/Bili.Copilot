@@ -4,20 +4,20 @@
   <!-- This config may be incompatible with Jumpstart since it uses the same file.
        If we opt for Jumpstart, this may need to be migrated. -->
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)App.ruleset</CodeAnalysisRuleSet>
-	  <NoWarn>$(NoWarn);NU1701;CS9057;MSB3277;NETSDK1206</NoWarn>
+	  <NoWarn>$(NoWarn);NU1701;CS9057;MSB3277;NETSDK1206;NU1507;NU1008</NoWarn>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
-    <PackageReference Include="Microsoft.CodeAnalysis.Metrics">
-      <Version>3.3.4</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" PrivateAssets="all" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory).editorconfig" Link=".editorconfig" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
     <None Include="$(CodeAnalysisRuleSet)" Condition="'$(CodeAnalysisRuleSet)' != ''" Link="%(Filename)%(Extension)" />

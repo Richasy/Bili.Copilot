@@ -1,0 +1,86 @@
+<Project>
+  <ItemGroup>
+    <PackageVersion Include="Flurl.Http" Version="4.0.2" />
+    <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
+    <PackageVersion Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Bcl.Numerics" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="4.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageVersion Include="Polly" Version="8.4.1" />
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
+    <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
+    <PackageVersion Include="System.Memory.Data" Version="8.0.0" />
+    <PackageVersion Include="System.Numerics.Tensors" Version="8.0.0" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.2" />
+    <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
+    <!-- Microsoft.Extensions.* -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.2.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="8.5.0" />
+    <!-- Test -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Moq" Version="[4.18.4]" />
+    <PackageVersion Include="System.Threading.Channels" Version="8.0.0" />
+    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="8.0.0" />
+    <PackageVersion Include="Verify.Xunit" Version="23.5.2" />
+    <PackageVersion Include="xunit" Version="2.7.0" />
+    <PackageVersion Include="xunit.abstractions" Version="2.0.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <PackageVersion Include="xretry" Version="1.9.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <!-- Symbols -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <!-- Toolset -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0-preview.24225.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="xunit.analyzers" Version="1.14.0" />
+    <PackageReference Include="xunit.analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Moq.Analyzers" Version="0.1.0" />
+    <PackageReference Include="Moq.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.Analyzers" Version="[4.11.0]" />
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="[4.12.0]" />
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="[4.12.0]" />
+    <PackageReference Include="Roslynator.Formatting.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

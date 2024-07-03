@@ -1,20 +1,20 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// ßÙÁ¨ßÙÁ¨·şÎñÆ÷·µ»ØµÄÊı¾İÏìÓ¦½á¹¹ÀàĞÍ.
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class ServerResponse
 {
     /// <summary>
-    /// ÏìÓ¦´úÂë.
+    /// ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("code")]
     public int Code { get; set; }
 
     /// <summary>
-    /// ÏìÓ¦ÏûÏ¢.
+    /// ï¿½ï¿½Ó¦ï¿½ï¿½Ï¢.
     /// </summary>
     [JsonPropertyName("message")]
     public string Message { get; set; }
@@ -26,38 +26,38 @@ public class ServerResponse
     public int TTL { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÍøÂçÇëÇó´íÎó£¬¶ø·Ç·şÎñÆ÷´«»ØµÄ´íÎó.
+    /// ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ØµÄ´ï¿½ï¿½ï¿½.
     /// </summary>
     public bool IsHttpError { get; set; }
 
     /// <summary>
-    /// ÏìÓ¦½á¹ûÊÇ·ñÎª³É¹¦.
+    /// ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½É¹ï¿½.
     /// </summary>
-    /// <returns>³É¹¦»òÊ§°Ü.</returns>
+    /// <returns>ï¿½É¹ï¿½ï¿½ï¿½Ê§ï¿½ï¿½.</returns>
     public bool IsSuccess() => Code == 0;
 }
 
 /// <summary>
-/// ßÙÁ¨ßÙÁ¨·şÎñÆ÷·µ»ØµÄÊı¾İÏìÓ¦½á¹¹ÀàĞÍ.
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
-/// <typeparam name="T"><see cref="Data"/>¶ÔÓ¦µÄÀàĞÍ.</typeparam>
+/// <typeparam name="T"><see cref="Data"/>ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.</typeparam>
 public class ServerResponse<T> : ServerResponse
 {
     /// <summary>
-    /// ÏìÓ¦·µ»ØµÄÊı¾İ.
+    /// ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("data")]
     public T Data { get; set; }
 }
 
 /// <summary>
-/// ßÙÁ¨ßÙÁ¨·şÎñÆ÷·µ»ØµÄÊı¾İÏìÓ¦½á¹¹ÀàĞÍ.
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
-/// <typeparam name="T"><see cref="Result"/>¶ÔÓ¦µÄÀàĞÍ.</typeparam>
+/// <typeparam name="T"><see cref="Result"/>ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.</typeparam>
 public class ServerResponse2<T> : ServerResponse
 {
     /// <summary>
-    /// ÏìÓ¦·µ»ØµÄÊı¾İ.
+    /// ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("result")]
     public T Result { get; set; }

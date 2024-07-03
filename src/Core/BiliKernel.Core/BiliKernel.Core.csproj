@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- THIS PROPERTY GROUP MUST COME FIRST -->
+        <AssemblyName>Richasy.BiliKernel.Core</AssemblyName>
+        <RootNamespace>Richasy.BiliKernel</RootNamespace>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <NoWarn>$(NoWarn);SKEXP0001</NoWarn>
+        <EnablePackageValidation>true</EnablePackageValidation>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- NuGet Package Settings -->
+        <Title>Bili Kernel Core</Title>
+        <Description>
+            Bili Kernel core orchestration, runtime and functions.
+            This package is automatically installed by 'Richasy.BiliKernel' package with other useful packages.
+            Install this package manually only if you are selecting individual Bili Kernel components.
+        </Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Flurl.Http" />
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Polly" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+    </ItemGroup>
+</Project>
