@@ -13,7 +13,7 @@ public interface ILocalBiliTokenResolver
     /// 获取令牌.
     /// </summary>
     /// <returns><see cref="BiliToken"/>.</returns>
-    BiliToken GetToken();
+    BiliToken? GetToken();
 
     /// <summary>
     /// 保存令牌.

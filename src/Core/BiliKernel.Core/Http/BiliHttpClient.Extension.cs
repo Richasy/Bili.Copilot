@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Richasy.BiliKernel.Content;
@@ -46,7 +47,7 @@ public sealed partial class BiliHttpClient
             ?? throw new HttpOperationException("哔哩哔哩返回了一个空的响应");
         if (!responseContent.IsSuccess())
         {
-            throw new HttpOperationException($"哔哩哔哩返回了一个异常响应: {responseContent.Message ?? "N/A"}");
+            throw new HttpOperationException($"哔哩哔哩返回了一个异常响应: {responseContent.Message ?? "N/A"}", new System.Exception(JsonSerializer.Serialize(responseContent)));
         }
     }
 }
