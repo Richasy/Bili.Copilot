@@ -25,7 +25,6 @@ public sealed partial class BasicAuthenticator
         ILocalBiliCookiesResolver? localCookiesResolver,
         ILocalBiliTokenResolver? localTokenResolver)
     {
-        _guid = Guid.NewGuid().ToString("N");
         _cookieResolver = localCookiesResolver;
         _tokenResolver = localTokenResolver;
     }

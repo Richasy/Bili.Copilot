@@ -26,11 +26,12 @@ public sealed partial class BasicAuthenticator
     private const string LoginSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
     private const string BuildNumber = "5520400";
 
-    private readonly string _guid;
     private readonly ILocalBiliCookiesResolver? _cookieResolver;
     private readonly ILocalBiliTokenResolver? _tokenResolver;
 
+#pragma warning disable IDE1006 // 命名样式
     private static readonly byte[] MIXIN_KEY_ENC_TAB =
+#pragma warning restore IDE1006 // 命名样式
         [
             46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49, 33, 9, 42,
             19, 29, 28, 14, 39, 12, 38, 41, 13, 37, 48, 7, 16, 24, 55, 40, 61, 26, 17, 0, 1, 60,

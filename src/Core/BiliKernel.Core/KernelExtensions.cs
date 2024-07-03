@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Richasy.BiliKernel.Authenticator;
+using Richasy.BiliKernel.Http;
 
 namespace Richasy.BiliKernel;
 
@@ -12,6 +13,15 @@ namespace Richasy.BiliKernel;
 /// </summary>
 public static class KernelExtensions
 {
+    /// <summary>
+    /// 添加网络请求客户端.
+    /// </summary>
+    public static IKernelBuilder AddHttpClient(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<BiliHttpClient>();
+        return builder;
+    }
+
     /// <summary>
     /// 构建内核.
     /// </summary>
