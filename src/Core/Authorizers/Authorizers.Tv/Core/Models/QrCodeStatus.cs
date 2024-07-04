@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
-namespace Richasy.BiliKernel.Authorizers.Tv.Core;
+namespace Richasy.BiliKernel.Authorizers.TV.Core;
 
 /// <summary>
 /// 登录二维码的状态.

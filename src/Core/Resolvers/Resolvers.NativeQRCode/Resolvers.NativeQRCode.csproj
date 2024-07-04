@@ -2,18 +2,17 @@
 
     <PropertyGroup>
         <!-- THIS PROPERTY GROUP MUST COME FIRST -->
-        <AssemblyName>Richasy.BiliKernel.Authorizers.TV</AssemblyName>
+        <AssemblyName>Richasy.BiliKernel.Resolvers.NativeQRCode</AssemblyName>
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
         <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
-        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - TV Authorizer</Title>
-        <Description>Bili Kernel authorizers for BiliBili TV platform.</Description>
+        <Title>Bili Kernel - Native QRCode Resolver</Title>
+        <Description>Bili Kernel resolvers for QRCode.</Description>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,10 +22,6 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="QRCoder" />
     </ItemGroup>
 
 </Project>

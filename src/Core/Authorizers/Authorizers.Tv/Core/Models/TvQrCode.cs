@@ -2,12 +2,12 @@
 
 using System.Text.Json.Serialization;
 
-namespace Richasy.BiliKernel.Authorizers.Tv.Core;
+namespace Richasy.BiliKernel.Authorizers.TV.Core;
 
 /// <summary>
 /// 电视端二维码信息.
 /// </summary>
-public sealed class TvQrCode
+public sealed class TVQRCode
 {
     /// <summary>
     /// 获取二维码数据的地址.

@@ -8,6 +8,7 @@ using Polly;
 using System;
 using System.Linq;
 using Google.Protobuf;
+using System.Text.Json;
 
 namespace Richasy.BiliKernel.Http;
 
@@ -103,10 +104,11 @@ public sealed partial class BiliHttpClient
     /// <typeparam name="T">数据类型.</typeparam>
     /// <param name="response">响应.</param>
     /// <returns><see cref="Task{T}"/></returns>
-    public static Task<T> ParseAsync<T>(IFlurlResponse response)
+    public static async Task<T> ParseAsync<T>(IFlurlResponse response)
     {
         Verify.NotNull(response, nameof(response));
-        return response.GetJsonAsync<T>();
+        var contentText = await response.ResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+        return JsonSerializer.Deserialize<T>(contentText);
     }
 
     /// <summary>
@@ -121,7 +123,7 @@ public sealed partial class BiliHttpClient
     {
         Verify.NotNull(response, nameof(response));
         Verify.NotNull(parser, nameof(parser));
-        var bytes = await response.GetBytesAsync().ConfigureAwait(false);
+        var bytes = await response.ResponseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         return parser.ParseFrom(bytes.Skip(5).ToArray());
     }
 

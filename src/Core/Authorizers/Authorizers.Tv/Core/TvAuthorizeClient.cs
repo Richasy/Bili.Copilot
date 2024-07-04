@@ -14,21 +14,21 @@ using Richasy.BiliKernel.Content;
 using Richasy.BiliKernel.Http;
 using Richasy.BiliKernel.Models.Authorization;
 
-namespace Richasy.BiliKernel.Authorizers.Tv.Core;
+namespace Richasy.BiliKernel.Authorizers.TV.Core;
 
-internal sealed class TvAuthorizeClient
+internal sealed class TVAuthorizeClient
 {
     private readonly string _localId;
     private readonly BiliHttpClient _httpClient;
-    private readonly ILocalBiliCookiesResolver _localCookiesResolver;
-    private readonly ILocalBiliTokenResolver _localTokenResolver;
+    private readonly IBiliCookiesResolver _localCookiesResolver;
+    private readonly IBiliTokenResolver _localTokenResolver;
     private readonly BasicAuthenticator _basicAuthenticator;
     private bool _isScanCheckInvoking;
 
-    public TvAuthorizeClient(
+    public TVAuthorizeClient(
         BiliHttpClient httpClient,
-        ILocalBiliCookiesResolver localCookiesResolver,
-        ILocalBiliTokenResolver localTokenResolver,
+        IBiliCookiesResolver localCookiesResolver,
+        IBiliTokenResolver localTokenResolver,
         BasicAuthenticator basicAuthenticator)
     {
         _localId = Guid.NewGuid().ToString("N");
@@ -38,7 +38,27 @@ internal sealed class TvAuthorizeClient
         _basicAuthenticator = basicAuthenticator;
     }
 
-    public async Task<TvQrCode> GetQRCodeAsync(CancellationToken cancellationToken = default)
+    public async Task EnsureTokenValidAsync(CancellationToken cancellationToken = default)
+    {
+        var localToken = _localTokenResolver.GetToken();
+        BasicTokenCheck(localToken);
+        var expiredTime = DateTimeOffset.FromUnixTimeSeconds(localToken.ExpiresIn);
+        if (DateTimeOffset.Now < expiredTime)
+        {
+            return;
+        }
+
+        var newToken = await RefreshTokenAsync(cancellationToken).ConfigureAwait(false);
+        if (newToken != null)
+        {
+            SaveToken(newToken);
+            return;
+        }
+
+        throw new KernelException("令牌已过期，请重新登录");
+    }
+
+    public async Task<TVQRCode> GetQRCodeAsync(CancellationToken cancellationToken = default)
     {
         var parameters = new Dictionary<string, string>
         {
@@ -46,13 +66,13 @@ internal sealed class TvAuthorizeClient
         };
 
         var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Passport.QRCode));
-        _basicAuthenticator.AuthroizeRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true });
+        _basicAuthenticator.AuthroizeRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true, Device = Models.BiliDeviceType.Login });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-        var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<TvQrCode>>(response).ConfigureAwait(false);
+        var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<TVQRCode>>(response).ConfigureAwait(false);
         return responseObj.Data;
     }
 
-    public async Task<BiliToken?> WaitQRCodeScanAsync(TvQrCode code, CancellationToken cancellationToken = default)
+    public async Task<BiliToken?> WaitQRCodeScanAsync(TVQRCode code, CancellationToken cancellationToken = default)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -67,7 +87,7 @@ internal sealed class TvAuthorizeClient
             {
                 var token = await GetTokenIfCodeScannedAsync(code.AuthCode, cancellationToken).ConfigureAwait(false);
                 TrySaveCookiesFromToken(token);
-                _localTokenResolver.SaveToken(token);
+                SaveToken(token);
                 return token;
             }
             catch (Exception ex)
@@ -106,15 +126,31 @@ internal sealed class TvAuthorizeClient
         return default;
     }
 
-    public async Task<BiliToken> RefreshTokenAsync(CancellationToken cancellationToken = default)
+    public void SignOut()
     {
-        var localToken = _localTokenResolver.GetToken()
-            ?? throw new InvalidOperationException("没有本地缓存的令牌信息，请重新登录");
+        _localTokenResolver.RemoveToken();
+        _localCookiesResolver.RemoveCookies();
+    }
+
+    private static void BasicTokenCheck(BiliToken? localToken)
+    {
+        if (localToken == null)
+        {
+            throw new InvalidOperationException("没有本地缓存的令牌信息，请重新登录");
+        }
+
         if (string.IsNullOrEmpty(localToken.AccessToken)
-            || string.IsNullOrEmpty(localToken.RefreshToken))
+            || string.IsNullOrEmpty(localToken.RefreshToken)
+            || localToken.ExpiresIn < 1)
         {
             throw new KernelException("令牌信息不完整，请重新登录");
         }
+    }
+
+    private async Task<BiliToken> RefreshTokenAsync(CancellationToken cancellationToken = default)
+    {
+        var localToken = _localTokenResolver.GetToken();
+        BasicTokenCheck(localToken);
 
         var paramters = new Dictionary<string, string>
         {
@@ -159,5 +195,11 @@ internal sealed class TvAuthorizeClient
 
         var cookies = token.CookieInfo.Cookies.ToDictionary(cookie => cookie.Name!, cookie => cookie.Value ?? string.Empty);
         _localCookiesResolver.SaveCookies(cookies);
+    }
+
+    private void SaveToken(BiliToken token)
+    {
+        token.ExpiresIn = DateTimeOffset.Now.ToLocalTime().ToUnixTimeSeconds() + token.ExpiresIn;
+        _localTokenResolver.SaveToken(token);
     }
 }

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Richasy.BiliKernel.Bili.Authorization;
@@ -13,23 +14,17 @@ public interface IAuthenticationService
     /// 登录.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    Task SignInAsync();
+    Task SignInAsync(AuthorizeExecutionSettings? settings = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 登出.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    Task SignOutAsync();
-
-    /// <summary>
-    /// 刷新Token.
-    /// </summary>
-    /// <returns><see cref="Task"/>.</returns>
-    Task RefreshTokenAsync();
+    Task SignOutAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 确认令牌是否有效。如果无效则抛出异常.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    Task EnsureTokenAsync();
+    Task EnsureTokenAsync(CancellationToken cancellationToken = default);
 }

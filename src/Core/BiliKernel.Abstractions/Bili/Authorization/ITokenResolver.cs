@@ -5,9 +5,9 @@ using Richasy.BiliKernel.Models.Authorization;
 namespace Richasy.BiliKernel.Bili.Authorization;
 
 /// <summary>
-/// 本地访问令牌解析器.
+/// 访问令牌解析器.
 /// </summary>
-public interface ILocalBiliTokenResolver
+public interface IBiliTokenResolver
 {
     /// <summary>
     /// 获取令牌.
@@ -20,4 +20,9 @@ public interface ILocalBiliTokenResolver
     /// </summary>
     /// <param name="token">令牌信息.</param>
     void SaveToken(BiliToken token);
+
+    /// <summary>
+    /// 移除令牌.
+    /// </summary>
+    void RemoveToken();
 }

@@ -10,6 +10,7 @@
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     <PackageVersion Include="Polly" Version="8.4.1" />
+    <PackageVersion Include="QRCoder" Version="1.4.1" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
     <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
     <PackageVersion Include="System.Memory.Data" Version="8.0.0" />
@@ -44,6 +45,8 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
     <PackageVersion Include="xretry" Version="1.9.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <!--Console-->
+    <PackageVersion Include="Spectre.Console" Version="0.49.1" />
     <!-- Symbols -->
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <!-- Toolset -->

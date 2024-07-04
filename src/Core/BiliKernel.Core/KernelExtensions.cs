@@ -23,6 +23,15 @@ public static class KernelExtensions
     }
 
     /// <summary>
+    /// 添加基础认证器.
+    /// </summary>
+    public static IKernelBuilder AddBasicAuthenticator(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<BasicAuthenticator>();
+        return builder;
+    }
+
+    /// <summary>
     /// 构建内核.
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 namespace Richasy.BiliKernel.Bili.Authorization;
 
 /// <summary>
-/// 本地 Cookie 解析器.
+/// Cookie 解析器.
 /// </summary>
-public interface ILocalBiliCookiesResolver
+public interface IBiliCookiesResolver
 {
     /// <summary>
     /// 获取 Cookie 字符串.
@@ -26,4 +26,9 @@ public interface ILocalBiliCookiesResolver
     /// </summary>
     /// <param name="cookies">Cookie 列表.</param>
     void SaveCookies(Dictionary<string, string> cookies);
+
+    /// <summary>
+    /// 移除 Cookie.
+    /// </summary>
+    void RemoveCookies();
 }

@@ -16,18 +16,18 @@ namespace Richasy.BiliKernel.Authenticator;
 /// </summary>
 public sealed partial class BasicAuthenticator
 {
-    private const string AndroidKey = "27eb53fc9058f8c3";
-    private const string AndroidSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
+    private const string AndroidKey = "dfca71928277209b";
+    private const string AndroidSecret = "b5475a8825547a4fc26c7d518eaaa02e";
     private const string IOSKey = "27eb53fc9058f8c3";
     private const string IOSSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
     private const string WebKey = "aa1e74ee4874176e";
     private const string WebSecret = "54e6a9a31b911cd5fc0daa66ebf94bc4";
-    private const string LoginKey = "27eb53fc9058f8c3";
-    private const string LoginSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
+    private const string LoginKey = "4409e2ce8ffd12b8";
+    private const string LoginSecret = "59b43e04ad6965f34319062b478f83dd";
     private const string BuildNumber = "5520400";
 
-    private readonly ILocalBiliCookiesResolver? _cookieResolver;
-    private readonly ILocalBiliTokenResolver? _tokenResolver;
+    private readonly IBiliCookiesResolver? _cookieResolver;
+    private readonly IBiliTokenResolver? _tokenResolver;
 
 #pragma warning disable IDE1006 // 命名样式
     private static readonly byte[] MIXIN_KEY_ENC_TAB =
@@ -124,8 +124,7 @@ public sealed partial class BasicAuthenticator
 
     private static string GenerateQuery(Dictionary<string, string> parameters)
     {
-        var queryParameters = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
-        queryParameters.Sort();
+        var queryParameters = parameters.OrderBy(p => p.Key).Select(p => $"{p.Key}={p.Value}").ToList();
         return string.Join("&", queryParameters);
     }
 

@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Flurl.Http;
@@ -22,8 +21,8 @@ public sealed partial class BasicAuthenticator
     /// Initializes a new instance of the <see cref="BasicAuthenticator"/> class.
     /// </summary>
     public BasicAuthenticator(
-        ILocalBiliCookiesResolver? localCookiesResolver,
-        ILocalBiliTokenResolver? localTokenResolver)
+        IBiliCookiesResolver? localCookiesResolver,
+        IBiliTokenResolver? localTokenResolver)
     {
         _cookieResolver = localCookiesResolver;
         _tokenResolver = localTokenResolver;
