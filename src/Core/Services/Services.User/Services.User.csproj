@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- THIS PROPERTY GROUP MUST COME FIRST -->
+        <AssemblyName>Richasy.BiliKernel.Services.User</AssemblyName>
+        <RootNamespace>$(AssemblyName)</RootNamespace>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <VersionSuffix>alpha</VersionSuffix>
+        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- NuGet Package Settings -->
+        <Title>Bili Kernel - User Services</Title>
+        <Description>Bili Kernel user releated features.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+        <ProjectReference Include="..\..\BiliKernel.Core\BiliKernel.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Core\Models\" />
+    </ItemGroup>
+
+</Project>
