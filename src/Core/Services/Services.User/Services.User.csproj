@@ -25,8 +25,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Core\Models\" />
-    </ItemGroup>
-
 </Project>

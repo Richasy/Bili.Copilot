@@ -28,7 +28,7 @@ public sealed class UserDetailProfile
     /// <param name="isVip">是否为高级会员.</param>
     public UserDetailProfile(
         UserProfile user,
-        string intro,
+        string? intro,
         int level,
         bool isVip)
         : this(user)

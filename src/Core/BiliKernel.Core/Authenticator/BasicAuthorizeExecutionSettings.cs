@@ -13,19 +13,19 @@ public class BasicAuthorizeExecutionSettings
     /// Initializes a new instance of the <see cref="BasicAuthorizeExecutionSettings"/> class.
     /// </summary>
     public BasicAuthorizeExecutionSettings(
-        BiliDeviceType device = BiliDeviceType.Apple,
-        bool useTokenIfExist = true,
+        BiliApiType apiType = BiliApiType.App,
+        bool useToken = true,
         bool forceNoToken = false,
-        bool useCookieIfExist = false,
+        bool useCookie = false,
         bool onlyUseAppKey = false,
         bool needRID = false,
         bool needCSRF = false,
         string? additionalQuery = default)
     {
-        Device = device;
-        UseTokenIfExist = useTokenIfExist;
+        ApiType = apiType;
+        UseToken = useToken;
         ForceNoToken = forceNoToken;
-        UseCookieIfExist = useCookieIfExist;
+        UseCookie = useCookie;
         OnlyUseAppKey = onlyUseAppKey;
         NeedRID = needRID;
         NeedCSRF = needCSRF;
@@ -35,12 +35,12 @@ public class BasicAuthorizeExecutionSettings
     /// <summary>
     /// 设备类型.
     /// </summary>
-    public BiliDeviceType Device { get; set; }
+    public BiliApiType ApiType { get; set; }
 
     /// <summary>
     /// 是否需要Token.
     /// </summary>
-    public bool UseTokenIfExist { get; set; }
+    public bool UseToken { get; set; }
 
     /// <summary>
     /// 是否强制不使用Token.
@@ -50,7 +50,7 @@ public class BasicAuthorizeExecutionSettings
     /// <summary>
     /// 是否需要Cookie.
     /// </summary>
-    public bool UseCookieIfExist { get; set; }
+    public bool UseCookie { get; set; }
 
     /// <summary>
     /// 是否仅使用AppKey.

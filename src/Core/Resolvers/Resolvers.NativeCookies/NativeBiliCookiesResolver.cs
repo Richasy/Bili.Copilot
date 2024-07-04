@@ -14,17 +14,23 @@ namespace Richasy.BiliKernel.Resolvers.NativeCookies;
 public sealed class NativeBiliCookiesResolver : IBiliCookiesResolver
 {
     private const string CookieFileName = "cookie.json";
+    private Dictionary<string, string>? _cacheCookies;
 
     /// <inheritdoc/>
     public Dictionary<string, string> GetCookies()
     {
+        if (_cacheCookies?.Count > 0)
+        {
+            return _cacheCookies;
+        }
+
         if (File.Exists(CookieFileName))
         {
             var json = File.ReadAllText(CookieFileName);
-            return JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+            _cacheCookies = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
 
-        return [];
+        return _cacheCookies ?? [];
     }
 
     /// <inheritdoc/>
@@ -37,7 +43,10 @@ public sealed class NativeBiliCookiesResolver : IBiliCookiesResolver
 
     /// <inheritdoc/>
     public void SaveCookies(Dictionary<string, string> cookies)
-        => File.WriteAllText(CookieFileName, JsonSerializer.Serialize(cookies));
+    {
+        _cacheCookies = cookies;
+        File.WriteAllText(CookieFileName, JsonSerializer.Serialize(cookies));
+    }
 
     /// <inheritdoc/>
     public void RemoveCookies()
@@ -47,6 +56,7 @@ public sealed class NativeBiliCookiesResolver : IBiliCookiesResolver
             return;
         }
 
+        _cacheCookies = null;
         File.Delete(CookieFileName);
     }
 }

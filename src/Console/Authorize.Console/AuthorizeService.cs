@@ -26,6 +26,7 @@ public sealed class AuthorizeService : IHostedService
             .AddHttpClient()
             .AddBasicAuthenticator()
             .AddTVAuthentication()
+            .AddDefaultAuthenticationService<TVAuthenticationService>()
             .Build();
     }
 

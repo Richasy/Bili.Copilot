@@ -26,7 +26,7 @@ public sealed class UserProfile
     /// <param name="id">用户Id.</param>
     /// <param name="avatar">用户头像.</param>
     /// <param name="name">用户名.</param>
-    public UserProfile(string id, string name, BiliImage avatar)
+    public UserProfile(string id, string? name, BiliImage? avatar)
         : this(id)
     {
         Avatar = avatar;

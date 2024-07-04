@@ -15,5 +15,5 @@ public interface IUserProfileService
     /// <param name="executionSettings">执行设置.</param>
     /// <param name="cancellationToken">终止令牌.</param>
     /// <returns><see cref="UserDetailProfile"/>.</returns>
-    Task<UserDetailProfile> GetMyProfileAsync(UserExecutionSettings executionSettings, CancellationToken cancellationToken = default);
+    Task<UserDetailProfile> GetMyProfileAsync(UserExecutionSettings? executionSettings = default, CancellationToken cancellationToken = default);
 }

@@ -40,7 +40,7 @@ public sealed class TVAuthenticationService : IAuthenticationService
     /// <inheritdoc/>
     public Task EnsureTokenAsync(CancellationToken cancellationToken = default)
         => _client.EnsureTokenValidAsync(cancellationToken);
-
+    
     /// <inheritdoc/>
     public async Task SignInAsync(AuthorizeExecutionSettings? settings = default, CancellationToken cancellationToken = default)
     {

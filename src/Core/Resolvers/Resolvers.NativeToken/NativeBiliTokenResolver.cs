@@ -13,17 +13,23 @@ namespace Richasy.BiliKernel.Resolvers.NativeToken;
 public sealed class NativeBiliTokenResolver : IBiliTokenResolver
 {
     private const string TokenFileName = "token.json";
+    private BiliToken? _cacheToken;
 
     /// <inheritdoc/>
     public BiliToken? GetToken()
     {
+        if (_cacheToken != null)
+        {
+            return _cacheToken;
+        }
+
         if (File.Exists(TokenFileName))
         {
             var json = File.ReadAllText(TokenFileName);
-            return JsonSerializer.Deserialize<BiliToken>(json);
+            _cacheToken = JsonSerializer.Deserialize<BiliToken>(json);
         }
 
-        return null;
+        return _cacheToken;
     }
 
     /// <inheritdoc/>
@@ -34,10 +40,14 @@ public sealed class NativeBiliTokenResolver : IBiliTokenResolver
             return;
         }
 
+        _cacheToken = default;
         File.Delete(TokenFileName);
     }
 
     /// <inheritdoc/>
     public void SaveToken(BiliToken token)
-        => File.WriteAllText(TokenFileName, JsonSerializer.Serialize(token));
+    {
+        _cacheToken = token;
+        File.WriteAllText(TokenFileName, JsonSerializer.Serialize(token));
+    }
 }

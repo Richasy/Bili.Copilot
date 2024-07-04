@@ -9,6 +9,9 @@ using System.Threading;
 using System.Text;
 using System.Net.Http;
 using Richasy.BiliKernel.Bili.Authorization;
+using System.Text.Json;
+using Richasy.BiliKernel.Content;
+using System.IO;
 
 namespace Richasy.BiliKernel.Authenticator;
 
@@ -34,11 +37,11 @@ public sealed partial class BasicAuthenticator
     /// <param name="request">请求.</param>
     /// <param name="parameters">参数.</param>
     /// <param name="settings">请求设置.</param>
-    public void AuthroizeRequest(IFlurlRequest request, Dictionary<string, string>? parameters, BasicAuthorizeExecutionSettings? settings = default)
+    public void AuthroizeRequest(IFlurlRequest request, Dictionary<string, string>? parameters = default, BasicAuthorizeExecutionSettings? settings = default)
     {
         Verify.NotNull(request, nameof(request));
         var executionSettings = settings ?? new BasicAuthorizeExecutionSettings();
-        if (executionSettings.UseCookieIfExist && _cookieResolver != null)
+        if (executionSettings.UseCookie && _cookieResolver != null)
         {
             var cookies = _cookieResolver.GetCookies();
             request.WithCookies(cookies);
@@ -76,12 +79,12 @@ public sealed partial class BasicAuthenticator
             queryParameters.Add("build", BuildNumber);
         }
 
-        InitializeDeviceParameters(queryParameters, executionSettings.Device, executionSettings.OnlyUseAppKey);
+        InitializeDeviceParameters(queryParameters, executionSettings.ApiType, executionSettings.OnlyUseAppKey);
 
         if (!executionSettings.ForceNoToken)
         {
             var token = _tokenResolver?.GetToken();
-            if (token == null && executionSettings.UseTokenIfExist)
+            if (token == null && executionSettings.UseToken)
             {
                 throw new KernelException("需要令牌，但令牌不存在，请重新登录");
             }
@@ -100,7 +103,7 @@ public sealed partial class BasicAuthenticator
         }
         else
         {
-            var sign = GenerateSign(queryParameters, executionSettings.Device);
+            var sign = GenerateSign(queryParameters, executionSettings.ApiType);
             queryParameters.Add("sign", sign);
         }
 
@@ -119,7 +122,10 @@ public sealed partial class BasicAuthenticator
         return GenerateQuery(queryParameters);
     }
 
-    private async Task InitializeWbiAsync(CancellationToken cancellationToken = default)
+    /// <summary>
+    /// 初始化 Wbi.
+    /// </summary>
+    public async Task InitializeWbiAsync(CancellationToken cancellationToken = default)
     {
         using var client = new FlurlClient();
         var request = new FlurlRequest(BiliApis.Passport.WebNav);
@@ -130,9 +136,12 @@ public sealed partial class BasicAuthenticator
         }
 
         var response = await client.SendAsync(request, cancellationToken: cancellationToken).ConfigureAwait(false);
-        var result = await response.GetJsonAsync<WebNavResponse>().ConfigureAwait(false);
-        _img = result?.Img?.ImgUrl ?? string.Empty;
-        _sub = result?.Img?.SubUrl ?? string.Empty;
+        var responseText = await response.ResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+        var result = JsonSerializer.Deserialize<BiliDataResponse<WebNavResponse>>(responseText);
+        var img = result?.Data?.Img?.ImgUrl ?? string.Empty;
+        var sub = result?.Data?.Img?.SubUrl ?? string.Empty;
+        _img = Path.GetFileNameWithoutExtension(img);
+        _sub = Path.GetFileNameWithoutExtension(sub);
         _wbi = GenerateWbi(_img + _sub);
 
         string GenerateWbi(string key)

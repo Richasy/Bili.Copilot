@@ -3,27 +3,17 @@
 namespace Richasy.BiliKernel.Models;
 
 /// <summary>
-/// 哔哩设备类型.
+/// 哔哩 API 类型.
 /// </summary>
-public enum BiliDeviceType
+public enum BiliApiType
 {
     /// <summary>
-    /// iOS device.
+    /// App API，需要用到 access key.
     /// </summary>
-    Apple,
+    App,
 
     /// <summary>
-    /// Android device.
-    /// </summary>
-    Android,
-
-    /// <summary>
-    /// Web device.
+    /// 网页 API，需要用到 cookie.
     /// </summary>
     Web,
-
-    /// <summary>
-    /// Login specific.
-    /// </summary>
-    Login,
 }

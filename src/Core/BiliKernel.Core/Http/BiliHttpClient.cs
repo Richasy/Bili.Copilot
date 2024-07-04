@@ -29,7 +29,7 @@ public sealed partial class BiliHttpClient
         var cache = FlurlHttp.Clients.WithDefaults(builder => builder.AddMiddleware(() => new PollyHandler(policy)));
         _client = cache.GetOrAdd("Bili");
         _client
-            .WithHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+            .WithHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69")
             .WithTimeout(30);
     }
 

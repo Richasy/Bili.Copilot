@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Richasy.BiliKernel.Authenticator;
+using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Http;
 
 namespace Richasy.BiliKernel;
@@ -28,6 +29,16 @@ public static class KernelExtensions
     public static IKernelBuilder AddBasicAuthenticator(this IKernelBuilder builder)
     {
         builder.Services.AddSingleton<BasicAuthenticator>();
+        return builder;
+    }
+
+    /// <summary>
+    /// 添加默认的认证服务.
+    /// </summary>
+    public static IKernelBuilder AddDefaultAuthenticationService<T>(this IKernelBuilder builder)
+        where T : class, IAuthenticationService
+    {
+        builder.Services.AddSingleton<IAuthenticationService, T>();
         return builder;
     }
 

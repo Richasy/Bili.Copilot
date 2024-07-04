@@ -27,14 +27,19 @@ public enum UserGender
     Female = 2,
 }
 
-internal sealed class DefaultUserGenderrConverter : JsonConverter<UserGender?>
+/// <summary>
+/// 用户性别转换器.
+/// </summary>
+public sealed class DefaultUserGenderrConverter : JsonConverter<UserGender?>
 {
+    /// <inheritdoc/>
     public override UserGender? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetInt32();
         return (UserGender)value;
     }
 
+    /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, UserGender? value, JsonSerializerOptions options)
         => writer.WriteNumberValue((int)(value ?? UserGender.Secret));
 }
