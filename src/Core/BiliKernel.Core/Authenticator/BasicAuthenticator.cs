@@ -32,12 +32,12 @@ public sealed partial class BasicAuthenticator
     }
 
     /// <summary>
-    /// 生成请求参数.
+    /// 对 REST Api 请求进行授权.
     /// </summary>
     /// <param name="request">请求.</param>
     /// <param name="parameters">参数.</param>
     /// <param name="settings">请求设置.</param>
-    public void AuthroizeRequest(IFlurlRequest request, Dictionary<string, string>? parameters = default, BasicAuthorizeExecutionSettings? settings = default)
+    public void AuthroizeRestRequest(IFlurlRequest request, Dictionary<string, string>? parameters = default, BasicAuthorizeExecutionSettings? settings = default)
     {
         Verify.NotNull(request, nameof(request));
         var executionSettings = settings ?? new BasicAuthorizeExecutionSettings();
@@ -56,6 +56,45 @@ public sealed partial class BasicAuthenticator
         {
             request.Url.Query = GenerateAuthorizedQueryString(parameters, executionSettings);
         }
+    }
+
+    /// <summary>
+    /// 对 gRPC 请求进行授权.
+    /// </summary>
+    public void AuthorizeGrpcRequest(IFlurlRequest request, bool needToken = true)
+    {
+        Verify.NotNull(request);
+        var token = needToken ? _tokenResolver?.GetToken() : null;
+        var accessToken = token?.AccessToken ?? string.Empty;
+        var grpcConfig = new GrpcConfig(accessToken);
+        var userAgent = $"bili-inter/73300300 "
+            + $"os/ios model/{GrpcConfig.Model} mobi_app/iphone_i "
+            + $"osVer/{GrpcConfig.OSVersion} "
+            + $"network/{GrpcConfig.NetworkType} "
+            + $"grpc-objc/1.47.0 grpc-c/25.0.0 (ios; cronet_http)";
+
+        if (!string.IsNullOrEmpty(accessToken))
+        {
+            request.WithHeader("Authorization", $"identify_v1 {accessToken}");
+            request.WithHeader("x-bili-mid", token.UserId.ToString());
+        }
+
+        request.WithHeader("User-Agent", userAgent);
+        request.WithHeader("APP-KEY", GrpcConfig.MobileApp);
+        request.WithHeader("x-bili-device-bin", GrpcConfig.GetDeviceBin());
+        request.WithHeader("x-bili-fawkes-req-bin", GrpcConfig.GetFawkesreqBin());
+        request.WithHeader("x-bili-locale-bin", GrpcConfig.GetLocaleBin());
+        request.WithHeader("x-bili-metadata-bin", grpcConfig.GetMetadataBin());
+        request.WithHeader("x-bili-network-bin", GrpcConfig.GetNetworkBin());
+        request.WithHeader("x-bili-restriction-bin", GrpcConfig.GetRestrictionBin());
+        request.WithHeader("grpc-accept-encoding", "identity,deflate,gzip");
+        request.WithHeader("grpc-timeout", "20100m");
+        request.WithHeader("env", GrpcConfig.Envorienment);
+        request.WithHeader("Transfer-Encoding", "chunked");
+        request.WithHeader("TE", "trailers");
+        request.WithHeader("x-bili-aurora-eid", GrpcConfig.GetAuroraEid(token?.UserId ?? 0));
+        request.WithHeader("x-bili-trace-id", GrpcConfig.GetTraceId());
+        request.WithHeader("buvid", GetBuvid());
     }
 
     /// <summary>

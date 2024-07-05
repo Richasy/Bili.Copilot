@@ -50,7 +50,7 @@ internal sealed class MyInfo
     /// 性别.
     /// </summary>
     [JsonPropertyName("sex")]
-    [JsonConverter(typeof(DefaultUserGenderrConverter))]
+    [JsonConverter(typeof(DefaultUserGenderConverter))]
     public UserGender? Gender { get; set; }
 
     /// <summary>

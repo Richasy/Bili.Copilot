@@ -30,7 +30,7 @@ public enum UserGender
 /// <summary>
 /// 用户性别转换器.
 /// </summary>
-public sealed class DefaultUserGenderrConverter : JsonConverter<UserGender?>
+public sealed class DefaultUserGenderConverter : JsonConverter<UserGender?>
 {
     /// <inheritdoc/>
     public override UserGender? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

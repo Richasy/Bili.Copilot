@@ -25,4 +25,8 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Humanizer.Core.zh-Hans" />
+    </ItemGroup>
+
 </Project>

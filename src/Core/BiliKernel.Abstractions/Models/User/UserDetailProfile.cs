@@ -29,7 +29,7 @@ public sealed class UserDetailProfile
     public UserDetailProfile(
         UserProfile user,
         string? intro,
-        int level,
+        int? level,
         bool isVip)
         : this(user)
     {

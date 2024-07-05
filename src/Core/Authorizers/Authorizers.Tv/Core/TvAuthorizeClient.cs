@@ -66,7 +66,7 @@ internal sealed class TVAuthorizeClient
         };
 
         var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Passport.QRCode));
-        _basicAuthenticator.AuthroizeRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true });
+        _basicAuthenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<TVQRCode>>(response).ConfigureAwait(false);
         return responseObj.Data;
@@ -159,7 +159,7 @@ internal sealed class TVAuthorizeClient
         };
 
         var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Passport.RefreshToken));
-        _basicAuthenticator.AuthroizeRequest(request, paramters);
+        _basicAuthenticator.AuthroizeRestRequest(request, paramters);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<BiliToken>>(response).ConfigureAwait(false);
         var token = responseObj.Data;
@@ -178,7 +178,7 @@ internal sealed class TVAuthorizeClient
         };
 
         var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Passport.QRCodeCheck));
-        _basicAuthenticator.AuthroizeRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true });
+        _basicAuthenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings() { ForceNoToken = true });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<BiliToken>>(response).ConfigureAwait(false);
         var token = responseObj?.Data;

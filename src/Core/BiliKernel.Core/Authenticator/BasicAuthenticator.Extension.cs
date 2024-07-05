@@ -3,10 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net.NetworkInformation;
 using System.Text.Json.Serialization;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.BiliKernel.Http;
 using Richasy.BiliKernel.Models;
 
 namespace Richasy.BiliKernel.Authenticator;
@@ -37,6 +37,8 @@ public sealed partial class BasicAuthenticator
     private static string? _img;
     private static string? _sub;
     private static string? _wbi;
+
+    private static string? _buvid;
 
     private static string GetApiKey(BiliApiType deviceType)
     {
@@ -90,7 +92,7 @@ public sealed partial class BasicAuthenticator
     {
         var secret = GetApiSecret(device);
         var query = GenerateQuery(parameters);
-        return MD5Compute(query + secret);
+        return (query + secret).Md5ComputeHash();
     }
 
     private static string GenerateRID(Dictionary<string, string> parameters)
@@ -101,7 +103,7 @@ public sealed partial class BasicAuthenticator
         }
 
         var query = GenerateQuery(parameters);
-        return MD5Compute(query + _wbi);
+        return (query + _wbi).Md5ComputeHash();
     }
 
     private static string GenerateQuery(Dictionary<string, string> parameters)
@@ -115,18 +117,19 @@ public sealed partial class BasicAuthenticator
 
     private static long NowWithMilliSeconds() => DateTimeOffset.Now.ToLocalTime().ToUnixTimeMilliseconds();
 
-    private static string MD5Compute(string input)
+    private static string GetBuvid()
     {
-        using var provider = new MD5CryptoServiceProvider();
-        var tempData = Encoding.UTF8.GetBytes(input);
-        var hashData = provider.ComputeHash(tempData);
-        var builder = new StringBuilder();
-        foreach (var b in hashData)
+        if (string.IsNullOrEmpty(_buvid))
         {
-            builder.Append(b.ToString("x2"));
+            var macAddress = NetworkInterface.GetAllNetworkInterfaces()
+                 .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                 .Select(nic => nic.GetPhysicalAddress().ToString())
+                 .FirstOrDefault();
+            var buvidObj = new Buvid(macAddress);
+            _buvid = buvidObj.Generate();
         }
 
-        return builder.ToString();
+        return _buvid;
     }
 
     /// <summary>

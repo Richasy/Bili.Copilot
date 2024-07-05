@@ -23,12 +23,12 @@
 
     <ItemGroup>
         <PackageReference Include="Flurl.Http" />
-        <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="Polly" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+        <ProjectReference Include="..\BiliKernel.Grpc\BiliKernel.Grpc.csproj" />
     </ItemGroup>
 </Project>
