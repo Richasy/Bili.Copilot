@@ -216,7 +216,7 @@ internal sealed class MyProfileModule : IFeatureModule
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[bold]正在获取历史记录...[/]");
 
-        var group = await historyService.GetViewHistoryAsync(tabType: ViewHistoryTabType.All, cancellationToken: _cancellationToken).ConfigureAwait(false);
+        var group = await historyService.GetViewHistoryAsync(tabType: ViewHistoryTabType.Article, cancellationToken: _cancellationToken).ConfigureAwait(false);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine($"[bold]历史记录:[/]");
         var table = new Table();
@@ -225,10 +225,39 @@ internal sealed class MyProfileModule : IFeatureModule
         table.AddColumn("ID");
         table.AddColumns("类型");
         table.AddColumn("标题");
-        foreach (var item in group.Videos)
+
+        if (group.Videos != null)
         {
-            table.AddRow(item.Identifier.Id, item.GetExtensionIfNotNull<MediaType>(VideoExtensionDataId.MediaType).ToString(), item.Identifier.Title);
+            foreach (var item in group.Videos)
+            {
+                table.AddRow(item.Identifier.Id, item.GetExtensionIfNotNull<MediaType>(VideoExtensionDataId.MediaType).ToString(), item.Identifier.Title);
+            }
         }
+
+        if (group.Episodes != null)
+        {
+            foreach (var item in group.Episodes)
+            {
+                table.AddRow(item.Identifier.Id, MediaType.Pgc.ToString(), item.Identifier.Title);
+            }
+        }
+
+        if (group.Lives != null)
+        {
+            foreach (var item in group.Lives)
+            {
+                table.AddRow(item.Identifier.Id, MediaType.Live.ToString(), item.Identifier.Title);
+            }
+        }
+
+        if (group.Articles != null)
+        {
+            foreach (var item in group.Articles)
+            {
+                table.AddRow(item.Identifier.Id, "Article", item.Identifier.Title);
+            }
+        }
+
         AnsiConsole.Write(table);
 
         if (AnsiConsole.Confirm("是否返回？"))

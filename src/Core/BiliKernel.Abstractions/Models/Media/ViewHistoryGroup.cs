@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
 using System.Collections.Generic;
+using Richasy.BiliKernel.Models.Article;
 
 namespace Richasy.BiliKernel.Models.Media;
 
@@ -16,10 +17,32 @@ public sealed class ViewHistoryGroup
         ViewHistoryTabType tabType,
         IList<VideoInformation>? videos = default,
         IList<EpisodeInformation>? episodes = default,
+        IList<LiveInformation>? lives = default,
+        IList<ArticleInformation>? articles = default,
         long? offset = default)
     {
         Tab = tabType;
-        Videos = videos;
+
+        if (videos?.Count > 0)
+        {
+            Videos = videos;
+        }
+
+        if (episodes?.Count > 0)
+        {
+            Episodes = episodes;
+        }
+
+        if (lives?.Count > 0)
+        {
+            Lives = lives;
+        }
+
+        if (articles?.Count > 0)
+        {
+            Articles = articles;
+        }
+
         Offset = offset;
     }
 
@@ -37,6 +60,16 @@ public sealed class ViewHistoryGroup
     /// 剧集列表.
     /// </summary>
     public IList<EpisodeInformation>? Episodes { get; }
+
+    /// <summary>
+    /// 直播间列表.
+    /// </summary>
+    public IList<LiveInformation>? Lives { get; }
+
+    /// <summary>
+    /// 文章列表.
+    /// </summary>
+    public IList<ArticleInformation>? Articles { get; }
 
     /// <summary>
     /// 偏移量.

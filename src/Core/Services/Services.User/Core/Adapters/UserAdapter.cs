@@ -20,7 +20,7 @@ internal static class UserAdapter
     {
         var relation = user.Attribute switch
         {
-            0 => UserRelationStatus.Unfollow,
+            <=1 => UserRelationStatus.Unfollow,
             2 => UserRelationStatus.Following,
             3 => UserRelationStatus.Friends,
             _ => UserRelationStatus.Unknown,

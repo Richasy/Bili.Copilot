@@ -14,19 +14,16 @@ public sealed class EpisodeInformation : VideoBase
     /// Initializes a new instance of the <see cref="EpisodeInformation"/> class.
     /// </summary>
     /// <param name="identifier">单集标识.</param>
-    /// <param name="subtitle">副标题.</param>
     /// <param name="index">索引.</param>
     /// <param name="publishTime">发布时间.</param>
     /// <param name="communityInformation">社区信息.</param>
     public EpisodeInformation(
         VideoIdentifier identifier,
-        string? subtitle = default,
         int? index = default,
         DateTimeOffset? publishTime = default,
         VideoCommunityInformation? communityInformation = default)
     {
         Identifier = identifier;
-        Subtitle = subtitle;
         Index = index;
         PublishTime = publishTime;
         CommunityInformation = communityInformation;
@@ -43,11 +40,6 @@ public sealed class EpisodeInformation : VideoBase
     public int? Index { get; }
 
     /// <summary>
-    /// 副标题.
-    /// </summary>
-    public string? Subtitle { get; set; }
-
-    /// <summary>
     /// 社区信息.
     /// </summary>
     public VideoCommunityInformation? CommunityInformation { get; set; }
@@ -56,7 +48,7 @@ public sealed class EpisodeInformation : VideoBase
     public override bool Equals(object obj) => obj is EpisodeInformation information && EqualityComparer<VideoIdentifier>.Default.Equals(Identifier, information.Identifier);
 
     /// <inheritdoc/>
-    public override int GetHashCode() => Identifier.GetHashCode();
+    public override int GetHashCode() => HashCode.Combine(Identifier);
 }
 
 /// <summary>
@@ -64,6 +56,11 @@ public sealed class EpisodeInformation : VideoBase
 /// </summary>
 public static class EpisodeExtensionDataId
 {
+    /// <summary>
+    /// 副标题.
+    /// </summary>
+    public const string Subtitle = "Subtitle";
+
     /// <summary>
     /// 作为视频时的 AID.
     /// </summary>
@@ -98,4 +95,9 @@ public static class EpisodeExtensionDataId
     /// 是否为会员专属剧集.
     /// </summary>
     public const string IsVip = "IsVip";
+
+    /// <summary>
+    /// 收集时间.
+    /// </summary>
+    public const string CollectTime = "CollectTime";
 }

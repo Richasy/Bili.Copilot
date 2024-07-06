@@ -53,6 +53,12 @@ internal sealed class ViewHistoryClient
         var nextOffset = data.Cursor.Max;
         var videos = data.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardUgc)
             .Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
-        return new ViewHistoryGroup(tabType, videos, nextOffset);
+        var episodes = data.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardOgv)
+            .Select(p => p.ToEpisodeInformation()).ToList().AsReadOnly();
+        var lives = data.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardLive)
+            .Select(p => p.ToLiveInformation()).ToList().AsReadOnly();
+        var articles = data.Items.Where(p => p.CardItemCase == CursorItem.CardItemOneofCase.CardArticle)
+            .Select(p => p.ToArticleInformation()).ToList().AsReadOnly();
+        return new ViewHistoryGroup(tabType, videos, episodes, lives, articles, nextOffset);
     }
 }

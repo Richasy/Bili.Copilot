@@ -45,7 +45,7 @@ public abstract class VideoBase
     /// </summary>
     public T? GetExtensionIfNotNull<T>(string key)
     {
-        return ExtensionData == null || !ExtensionData.ContainsKey(key)
+        return ExtensionData?.ContainsKey(key) != true
             ? default
             : (T)ExtensionData[key];
     }
