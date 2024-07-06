@@ -36,7 +36,7 @@ public sealed partial class BiliHttpClient
         else if (contentType.Contains("grpc"))
         {
             var bytes = await response.ResponseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-            if (bytes.Length <= 5)
+            if (bytes.Length < 5)
             {
                 throw new HttpOperationException("哔哩哔哩返回了一个空的响应");
             }

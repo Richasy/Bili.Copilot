@@ -143,6 +143,16 @@ public static class BiliApis
         public const string ClearHistory = _grpcBase + "/bilibili.app.interface.v1.History/Clear";
 
         /// <summary>
+        /// 设置历史记录选项.
+        /// </summary>
+        public const string SetHistoryRecordOption = _apiBase + "/x/v2/history/shadow/set";
+
+        /// <summary>
+        /// 获取历史记录选项.
+        /// </summary>
+        public const string HistoryRecordOption = _apiBase + "/x/v2/history/shadow";
+
+        /// <summary>
         /// 获取粉丝列表.
         /// </summary>
         public const string Fans = _apiBase + "/x/relation/followers";

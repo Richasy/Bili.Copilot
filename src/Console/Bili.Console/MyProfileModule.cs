@@ -216,7 +216,7 @@ internal sealed class MyProfileModule : IFeatureModule
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[bold]正在获取历史记录...[/]");
 
-        var group = await historyService.GetViewHistoryAsync(tabType: ViewHistoryTabType.Article, cancellationToken: _cancellationToken).ConfigureAwait(false);
+        var group = await historyService.GetViewHistoryAsync(tabType: ViewHistoryTabType.Video, cancellationToken: _cancellationToken).ConfigureAwait(false);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine($"[bold]历史记录:[/]");
         var table = new Table();
@@ -259,6 +259,24 @@ internal sealed class MyProfileModule : IFeatureModule
         }
 
         AnsiConsole.Write(table);
+
+        var isHistoryEnabled = await historyService.IsHistoryEnabledAsync(_cancellationToken).ConfigureAwait(false);
+        if (isHistoryEnabled)
+        {
+            if (AnsiConsole.Confirm("是否停止记录观看历史？"))
+            {
+                await historyService.StopHistoryRecordingAsync(_cancellationToken).ConfigureAwait(false);
+                AnsiConsole.MarkupLine("[bold]已停止记录观看历史[/]");
+            }
+        }
+        else
+        {
+            if (AnsiConsole.Confirm("是否恢复记录观看历史？"))
+            {
+                await historyService.ResumeHistoryRecordingAsync(_cancellationToken).ConfigureAwait(false);
+                AnsiConsole.MarkupLine("[bold]已恢复记录观看历史[/]");
+            }
+        }
 
         if (AnsiConsole.Confirm("是否返回？"))
         {

@@ -18,6 +18,11 @@ public enum ViewHistoryTabType
     Video,
 
     /// <summary>
+    /// PGC.
+    /// </summary>
+    Pgc,
+
+    /// <summary>
     /// 直播.
     /// </summary>
     Live,
