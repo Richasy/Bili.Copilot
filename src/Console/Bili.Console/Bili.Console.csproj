@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\Core\Resolvers\Resolvers.NativeCookies\Resolvers.NativeCookies.csproj" />
     <ProjectReference Include="..\..\Core\Resolvers\Resolvers.NativeQRCode\Resolvers.NativeQRCode.csproj" />
     <ProjectReference Include="..\..\Core\Resolvers\Resolvers.NativeToken\Resolvers.NativeToken.csproj" />
+    <ProjectReference Include="..\..\Core\Services\Services.Media\Services.Media.csproj" />
     <ProjectReference Include="..\..\Core\Services\Services.User\Services.User.csproj" />
   </ItemGroup>
 

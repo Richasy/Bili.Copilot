@@ -1,6 +1,7 @@
 ﻿
 using System.Diagnostics;
 using Richasy.BiliKernel;
+using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 using Spectre.Console;
@@ -28,7 +29,7 @@ internal sealed class MyProfileModule : IFeatureModule
 
     public async Task RunAsync()
     {
-        var profileService = _kernel.GetRequiredService<IUserProfileService>();
+        var profileService = _kernel.GetRequiredService<IMyProfileService>();
 
         try
         {
@@ -38,7 +39,7 @@ internal sealed class MyProfileModule : IFeatureModule
                 new SelectionPrompt<MyProfileCommand>()
                     .Title("请选择操作")
                     .PageSize(10)
-                    .AddChoices(MyProfileCommand.MyFollow, MyProfileCommand.MyFans, MyProfileCommand.Back)
+                    .AddChoices(MyProfileCommand.MyFollow, MyProfileCommand.MyFans, MyProfileCommand.ViewLater, MyProfileCommand.Back)
                     .UseConverter(GetCommandName));
 
             if (command == MyProfileCommand.Back)
@@ -53,6 +54,10 @@ internal sealed class MyProfileModule : IFeatureModule
             {
                 await DisplayFansAsync().ConfigureAwait(false);
             }
+            else if (command == MyProfileCommand.ViewLater)
+            {
+                await DisplayViewLaterAsync().ConfigureAwait(false);
+            }
         }
         catch (Exception ex)
         {
@@ -66,6 +71,7 @@ internal sealed class MyProfileModule : IFeatureModule
             {
                 MyProfileCommand.MyFollow => "我的关注",
                 MyProfileCommand.MyFans => "我的粉丝",
+                MyProfileCommand.ViewLater => "稍后再看",
                 MyProfileCommand.Back => "返回",
                 _ => string.Empty,
             };
@@ -79,7 +85,7 @@ internal sealed class MyProfileModule : IFeatureModule
 
     private async Task DisplayUserInformationAsync()
     {
-        var profileService = _kernel.GetRequiredService<IUserProfileService>();
+        var profileService = _kernel.GetRequiredService<IMyProfileService>();
         _myInfo ??= await profileService.GetMyProfileAsync(_cancellationToken).ConfigureAwait(false);
         _myCommunityInfo ??= await profileService.GetMyCommunityInformationAsync(_cancellationToken).ConfigureAwait(false);
 
@@ -105,7 +111,7 @@ internal sealed class MyProfileModule : IFeatureModule
 
     private async Task DisplayFollowGroupAsync()
     {
-        var profileService = _kernel.GetRequiredService<IUserProfileService>();
+        var profileService = _kernel.GetRequiredService<IRelationshipService>();
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[bold]正在获取关注分组信息...[/]");
         var groups = await profileService.GetMyFollowUserGroupsAsync(_cancellationToken).ConfigureAwait(false);
@@ -143,7 +149,7 @@ internal sealed class MyProfileModule : IFeatureModule
 
     private async Task DisplayFansAsync()
     {
-        var profileService = _kernel.GetRequiredService<IUserProfileService>();
+        var profileService = _kernel.GetRequiredService<IRelationshipService>();
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine("[bold]正在获取粉丝列表...[/]");
 
@@ -168,11 +174,40 @@ internal sealed class MyProfileModule : IFeatureModule
             await _backFunc(string.Empty).ConfigureAwait(false);
         }
     }
+
+    private async Task DisplayViewLaterAsync()
+    {
+        var profileService = _kernel.GetRequiredService<IViewLaterService>();
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[bold]正在获取稍后再看列表...[/]");
+
+        var (videos, count) = await profileService.GetViewLaterSetAsync(1, _cancellationToken).ConfigureAwait(false);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine($"[bold]共有[green] {count} [/]个稍后再看视频[/]");
+        AnsiConsole.MarkupLine($"[bold]稍后再看列表 ({videos.Count}):[/]");
+
+        var table = new Table();
+        table.Border = TableBorder.Rounded;
+        table.LeftAligned();
+        table.AddColumn("AV号");
+        table.AddColumn("标题");
+        foreach (var video in videos)
+        {
+            table.AddRow(video.Identifier.Id, video.Identifier.Title);
+        }
+        AnsiConsole.Write(table);
+
+        if (AnsiConsole.Confirm("是否返回？"))
+        {
+            await _backFunc(string.Empty).ConfigureAwait(false);
+        }
+    }
 }
 
 internal enum MyProfileCommand
 {
     MyFollow,
     MyFans,
+    ViewLater,
     Back,
 }

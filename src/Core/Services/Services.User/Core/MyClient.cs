@@ -11,7 +11,6 @@ using Richasy.BiliKernel.Bili;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Content;
 using Richasy.BiliKernel.Http;
-using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 
 namespace Richasy.BiliKernel.Services.User.Core;
@@ -94,20 +93,6 @@ internal sealed class MyClient
         var users = responseObj.Data?.UserList?.Select(p => p.ToUserCard()).ToList().AsReadOnly()
             ?? throw new KernelException("无法获取用户粉丝数据");
         return (users, responseObj.Data.TotalCount);
-    }
-
-    public async Task<(IReadOnlyList<VideoInformation> Videos, int Count)> GetMyViewLaterAsync(int page = 0, CancellationToken cancellationToken = default)
-    {
-        var parameters = new Dictionary<string, string>
-        {
-            { "pn", page.ToString() },
-            { "ps", "40" },
-        };
-
-        var responseObj = await GetAsync<BiliDataResponse<ViewLaterResponse>>(BiliApis.Account.ViewLaterList, parameters, cancellationToken).ConfigureAwait(false);
-        var videos = responseObj.Data?.List?.Select(p => p.ToVideoInformation()).ToList().AsReadOnly()
-            ?? throw new KernelException("无法获取稍后再看视频数据");
-        return (videos, responseObj.Data.Count);
     }
 
     private async Task<T> GetAsync<T>(string url, Dictionary<string, string>? paramters = default, CancellationToken cancellationToken = default)

@@ -2,7 +2,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Richasy.BiliKernel.Services.User.Core;
+namespace Richasy.BiliKernel.Services.Media.Core;
 
 /// <summary>
 /// 视频状态信息.

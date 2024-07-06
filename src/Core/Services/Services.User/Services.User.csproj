@@ -1,32 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <!-- THIS PROPERTY GROUP MUST COME FIRST -->
-        <AssemblyName>Richasy.BiliKernel.Services.User</AssemblyName>
-        <RootNamespace>$(AssemblyName)</RootNamespace>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <VersionSuffix>alpha</VersionSuffix>
-        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
-        <Platforms>AnyCPU</Platforms>
+      <!-- THIS PROPERTY GROUP MUST COME FIRST -->
+      <AssemblyName>Richasy.BiliKernel.Services.User</AssemblyName>
+      <RootNamespace>$(AssemblyName)</RootNamespace>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <VersionSuffix>alpha</VersionSuffix>
+      <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+      <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <PropertyGroup>
-        <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - User Services</Title>
-        <Description>Bili Kernel user releated features.</Description>
+      <!-- NuGet Package Settings -->
+      <Title>Bili Kernel - User Services</Title>
+      <Description>Bili Kernel user releated features.</Description>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
-        <ProjectReference Include="..\..\BiliKernel.Core\BiliKernel.Core.csproj" />
+      <ProjectReference Include="..\..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+      <ProjectReference Include="..\..\BiliKernel.Core\BiliKernel.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+      <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Humanizer.Core.zh-Hans" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <InternalsVisibleTo Include="Richasy.BiliKernel.Services.Media" />
     </ItemGroup>
 
 </Project>

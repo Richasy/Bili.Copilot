@@ -22,7 +22,9 @@ internal sealed class BiliService : IHostedService
             .AddBasicAuthenticator()
             .AddTVAuthentication()
             .AddDefaultAuthenticationService<TVAuthenticationService>()
-            .AddUserProfileService()
+            .AddMyProfileService()
+            .AddRelationshipService()
+            .AddViewLaterService()
             .Build();
     }
 

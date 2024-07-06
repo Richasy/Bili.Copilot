@@ -9,14 +9,8 @@ internal static class UserAdapter
 {
     public static UserDetailProfile ToUserDetailProfile(this MyInfo info, double avatarSize)
     {
-        var user = CreateUserProfile(info.Mid, info.Name, info.Avatar, avatarSize);
+        var user = UserAdapterBase.CreateUserProfile(info.Mid, info.Name, info.Avatar, avatarSize);
         return new UserDetailProfile(user, info.Sign, info.Level, info.VIP?.Status == 1);
-    }
-
-    public static PublisherProfile ToPublisherProfile(this PublisherInfo info)
-    {
-        var user = CreateUserProfile(info.UserId, info.Publisher, info.PublisherAvatar, 48d);
-        return new PublisherProfile(user);
     }
 
     public static UserCommunityInformation ToUserCommunityInformation(this Mine mine)
@@ -35,15 +29,9 @@ internal static class UserAdapter
         return new(user.UserId.ToString(), relation: relation);
     }
 
-    public static UserProfile CreateUserProfile(long userId, string? userName, string? avatarUrl, double size)
-    {
-        var image = string.IsNullOrEmpty(avatarUrl) ? default : avatarUrl.ToImage(size);
-        return new UserProfile(userId.ToString(), userName, image);
-    }
-
     public static UserCard ToUserCard(this RelatedUser user)
     {
-        var userProfile = CreateUserProfile(user.UserId, user.Name, user.Avatar, 96d);
+        var userProfile = UserAdapterBase.CreateUserProfile(user.UserId, user.Name, user.Avatar, 96d);
         var communityInfo = user.ToUserCommunityInformation();
         var profile = new UserDetailProfile(userProfile, user.Sign, default, user.Vip.Status == 1);
         return new UserCard(profile, communityInfo);

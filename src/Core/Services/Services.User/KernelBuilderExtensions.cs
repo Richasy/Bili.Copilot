@@ -12,11 +12,20 @@ namespace Richasy.BiliKernel;
 public static class KernelBuilderExtensions
 {
     /// <summary>
-    /// 添加用户资料服务.
+    /// 添加个人资料服务，获取已登录用户的基础信息.
     /// </summary>
-    public static IKernelBuilder AddUserProfileService(this IKernelBuilder builder)
+    public static IKernelBuilder AddMyProfileService(this IKernelBuilder builder)
     {
-        builder.Services.AddSingleton<IUserProfileService, UserProfileService>();
+        builder.Services.AddSingleton<IMyProfileService, MyProfileService>();
+        return builder;
+    }
+
+    /// <summary>
+    /// 添加用户关系服务，处理诸如关注、粉丝等关系操作.
+    /// </summary>
+    public static IKernelBuilder AddRelationshipService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IRelationshipService, RelationshipService>();
         return builder;
     }
 }
