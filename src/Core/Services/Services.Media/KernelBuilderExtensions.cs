@@ -19,4 +19,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IViewLaterService, ViewLaterService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加观看历史服务.
+    /// </summary>
+    public static IKernelBuilder AddViewHistoryService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IViewHistoryService, ViewHistoryService>();
+        return builder;
+    }
 }

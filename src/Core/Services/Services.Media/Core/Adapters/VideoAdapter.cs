@@ -2,6 +2,7 @@
 
 using System;
 using System.Text.RegularExpressions;
+using Bilibili.App.Interface.V1;
 using Richasy.BiliKernel.Adapters;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
@@ -58,6 +59,32 @@ internal static class VideoAdapter
         }
 
         info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, isPgc ? MediaType.Pgc : MediaType.Video);
+
+        return info;
+    }
+
+    public static VideoInformation ToVideoInformation(this CursorItem cursorItem)
+    {
+        var video = cursorItem.CardUgc;
+        var viewTime = DateTimeOffset.FromUnixTimeSeconds(cursorItem.ViewAt).ToLocalTime();
+        var title = cursorItem.Title;
+        var aid = cursorItem.Kid.ToString();
+        var bvid = video.Bvid;
+        var owner = new PublisherInfo { Publisher = video.Name, UserId = video.Mid };
+        var cover = video.Cover.ToVideoCover();
+        var identifier = new VideoIdentifier(aid, title, video.Duration, cover: cover);
+        var communityInfo = new VideoCommunityInformation(cursorItem.Kid.ToString(), video.View);
+
+        var info = new VideoInformation(
+            identifier,
+            owner.ToPublisherProfile(),
+            bvid,
+            communityInformation: communityInfo);
+
+        info.AddExtensionIfNotNull(VideoExtensionDataId.CollectTime, viewTime);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Progress, Convert.ToInt32(video.Progress));
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, video.Cid);
 
         return info;
     }

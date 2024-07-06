@@ -7,6 +7,7 @@ using Richasy.BiliKernel.Authenticator;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Http;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Services.Media.Core;
 
@@ -25,13 +26,24 @@ public sealed class ViewLaterService : IViewLaterService
     public ViewLaterService(
         BiliHttpClient biliHttpClient,
         IAuthenticationService authenticationService,
-        IBiliTokenResolver tokenResolver,
         BasicAuthenticator basicAuthenticator)
     {
-        _viewLaterClient = new ViewLaterClient(biliHttpClient, authenticationService, tokenResolver, basicAuthenticator);
+        _viewLaterClient = new ViewLaterClient(biliHttpClient, authenticationService, basicAuthenticator);
     }
 
     /// <inheritdoc/>
     public Task<(IReadOnlyList<VideoInformation> Videos, int Count)> GetViewLaterSetAsync(int pageNumber = 0, CancellationToken cancellationToken = default)
         => _viewLaterClient.GetMyViewLaterAsync(pageNumber, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task AddAsync(string aid, CancellationToken cancellationToken = default)
+        => _viewLaterClient.AddAsync(aid, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task CleanAsync(ViewLaterCleanType cleanType, CancellationToken cancellationToken = default)
+        => _viewLaterClient.CleanAsync(cleanType, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task RemoveAsync(string[] aids, CancellationToken cancellationToken = default)
+        => _viewLaterClient.RemoveAsync(aids, cancellationToken);
 }

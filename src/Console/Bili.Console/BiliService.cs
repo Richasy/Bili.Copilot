@@ -25,6 +25,7 @@ internal sealed class BiliService : IHostedService
             .AddMyProfileService()
             .AddRelationshipService()
             .AddViewLaterService()
+            .AddViewHistoryService()
             .Build();
     }
 

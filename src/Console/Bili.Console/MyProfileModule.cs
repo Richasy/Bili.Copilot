@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Richasy.BiliKernel;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
+using Richasy.BiliKernel.Models;
+using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 using Spectre.Console;
 
@@ -39,7 +41,7 @@ internal sealed class MyProfileModule : IFeatureModule
                 new SelectionPrompt<MyProfileCommand>()
                     .Title("请选择操作")
                     .PageSize(10)
-                    .AddChoices(MyProfileCommand.MyFollow, MyProfileCommand.MyFans, MyProfileCommand.ViewLater, MyProfileCommand.Back)
+                    .AddChoices(MyProfileCommand.MyFollow, MyProfileCommand.MyFans, MyProfileCommand.ViewLater, MyProfileCommand.History, MyProfileCommand.Back)
                     .UseConverter(GetCommandName));
 
             if (command == MyProfileCommand.Back)
@@ -58,6 +60,10 @@ internal sealed class MyProfileModule : IFeatureModule
             {
                 await DisplayViewLaterAsync().ConfigureAwait(false);
             }
+            else if (command == MyProfileCommand.History)
+            {
+                await DisplayHistoryAsync().ConfigureAwait(false);
+            }
         }
         catch (Exception ex)
         {
@@ -72,6 +78,7 @@ internal sealed class MyProfileModule : IFeatureModule
                 MyProfileCommand.MyFollow => "我的关注",
                 MyProfileCommand.MyFans => "我的粉丝",
                 MyProfileCommand.ViewLater => "稍后再看",
+                MyProfileCommand.History => "历史记录",
                 MyProfileCommand.Back => "返回",
                 _ => string.Empty,
             };
@@ -202,6 +209,33 @@ internal sealed class MyProfileModule : IFeatureModule
             await _backFunc(string.Empty).ConfigureAwait(false);
         }
     }
+
+    private async Task DisplayHistoryAsync()
+    {
+        var historyService = _kernel.GetRequiredService<IViewHistoryService>();
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine("[bold]正在获取历史记录...[/]");
+
+        var group = await historyService.GetViewHistoryAsync(tabType: ViewHistoryTabType.All, cancellationToken: _cancellationToken).ConfigureAwait(false);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine($"[bold]历史记录:[/]");
+        var table = new Table();
+        table.Border = TableBorder.Rounded;
+        table.LeftAligned();
+        table.AddColumn("ID");
+        table.AddColumns("类型");
+        table.AddColumn("标题");
+        foreach (var item in group.Videos)
+        {
+            table.AddRow(item.Identifier.Id, item.GetExtensionIfNotNull<MediaType>(VideoExtensionDataId.MediaType).ToString(), item.Identifier.Title);
+        }
+        AnsiConsole.Write(table);
+
+        if (AnsiConsole.Confirm("是否返回？"))
+        {
+            await _backFunc(string.Empty).ConfigureAwait(false);
+        }
+    }
 }
 
 internal enum MyProfileCommand
@@ -209,5 +243,6 @@ internal enum MyProfileCommand
     MyFollow,
     MyFans,
     ViewLater,
+    History,
     Back,
 }

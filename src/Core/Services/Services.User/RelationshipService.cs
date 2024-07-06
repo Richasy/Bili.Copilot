@@ -38,14 +38,26 @@ public sealed class RelationshipService : IRelationshipService
     /// <inheritdoc/>
     public Task<IReadOnlyList<UserCard>> GetMyFollowUserGroupDetailAsync(string groupId, int pageNumber = 0, CancellationToken cancellationToken = default)
     {
-        pageNumber = pageNumber < 0 ? 0 : pageNumber + 1;
+        pageNumber = pageNumber < 0 ? 1 : pageNumber + 1;
         return _myClient.GetMyFollowUserGroupDetailAsync(groupId, pageNumber, cancellationToken);
     }
 
     /// <inheritdoc/>
     public Task<(IReadOnlyList<UserCard> Users, int Count)> GetMyFansAsync(int pageNumber = 0, CancellationToken cancellationToken = default)
     {
-        pageNumber = pageNumber < 0 ? 0 : pageNumber + 1;
+        pageNumber = pageNumber < 0 ? 1 : pageNumber + 1;
         return _myClient.GetMyFansAsync(pageNumber, cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public Task FollowUserAsync(string userId, CancellationToken cancellationToken = default)
+        => _myClient.ModifyRelationshipAsync(userId, isFollow: true, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task UnfollowUserAsync(string userId, CancellationToken cancellationToken = default)
+        => _myClient.ModifyRelationshipAsync(userId, isFollow: false, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<UserRelationStatus> GetRelationshipAsync(string userId, CancellationToken cancellationToken = default)
+        => _myClient.GetRelationshipAsync(userId, cancellationToken);
 }

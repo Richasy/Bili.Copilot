@@ -67,7 +67,7 @@ public sealed partial class BasicAuthenticator
         var token = needToken ? _tokenResolver?.GetToken() : null;
         var accessToken = token?.AccessToken ?? string.Empty;
         var grpcConfig = new GrpcConfig(accessToken);
-        var userAgent = $"bili-inter/73300300 "
+        var userAgent = $"bili-universal/80200100 "
             + $"os/ios model/{GrpcConfig.Model} mobi_app/iphone_i "
             + $"osVer/{GrpcConfig.OSVersion} "
             + $"network/{GrpcConfig.NetworkType} "
@@ -75,12 +75,11 @@ public sealed partial class BasicAuthenticator
 
         if (!string.IsNullOrEmpty(accessToken))
         {
-            request.WithHeader("Authorization", $"identify_v1 {accessToken}");
+            request.WithHeader("authorization", $"identify_v1 {accessToken}");
             request.WithHeader("x-bili-mid", token.UserId.ToString());
         }
 
-        request.WithHeader("User-Agent", userAgent);
-        request.WithHeader("APP-KEY", GrpcConfig.MobileApp);
+        request.WithHeader("user-agent", userAgent);
         request.WithHeader("x-bili-device-bin", GrpcConfig.GetDeviceBin());
         request.WithHeader("x-bili-fawkes-req-bin", GrpcConfig.GetFawkesreqBin());
         request.WithHeader("x-bili-locale-bin", GrpcConfig.GetLocaleBin());

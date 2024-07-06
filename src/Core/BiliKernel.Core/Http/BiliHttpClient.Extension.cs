@@ -35,12 +35,13 @@ public sealed partial class BiliHttpClient
         }
         else if (contentType.Contains("grpc"))
         {
-            response.Headers.TryGetFirst("Content-Length", out var lengthStr);
-            int.TryParse(lengthStr ?? "0", out var length);
-            if (length <= 5)
+            var bytes = await response.ResponseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            if (bytes.Length <= 5)
             {
                 throw new HttpOperationException("哔哩哔哩返回了一个空的响应");
             }
+
+            return;
         }
 
         var responseContent = await response.GetJsonAsync<BiliResponse>().ConfigureAwait(false)

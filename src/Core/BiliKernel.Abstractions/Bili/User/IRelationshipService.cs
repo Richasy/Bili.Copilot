@@ -26,4 +26,19 @@ public interface IRelationshipService
     /// 获取已登录用户的关注者.
     /// </summary>
     Task<(IReadOnlyList<UserCard> Users, int Count)> GetMyFansAsync(int pageNumber = 0, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 关注用户.
+    /// </summary>
+    Task FollowUserAsync(string userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 取消关注用户.
+    /// </summary>
+    Task UnfollowUserAsync(string userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 获取用户关系.
+    /// </summary>
+    Task<UserRelationStatus> GetRelationshipAsync(string userId, CancellationToken cancellationToken = default);
 }

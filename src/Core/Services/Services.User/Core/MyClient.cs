@@ -95,6 +95,32 @@ internal sealed class MyClient
         return (users, responseObj.Data.TotalCount);
     }
 
+    public async Task ModifyRelationshipAsync(string userId, bool isFollow, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "fid", userId },
+            { "act", isFollow ? "1" : "2" },
+        };
+
+        await _authenticationService.EnsureTokenAsync(cancellationToken).ConfigureAwait(false);
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Account.ModifyRelation));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<UserRelationStatus> GetRelationshipAsync(string userId, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "fid", userId },
+        };
+
+        var responseObj = await GetAsync<BiliDataResponse<UserRelationResponse>>(BiliApis.Account.Relation, parameters, cancellationToken).ConfigureAwait(false);
+        return responseObj.Data?.ToUserRelationStatus()
+            ?? throw new KernelException("无法获取用户关系数据");
+    }
+
     private async Task<T> GetAsync<T>(string url, Dictionary<string, string>? paramters = default, CancellationToken cancellationToken = default)
     {
         await _authenticationService.EnsureTokenAsync(cancellationToken).ConfigureAwait(false);

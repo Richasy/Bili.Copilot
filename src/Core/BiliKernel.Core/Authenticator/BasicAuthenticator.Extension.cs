@@ -20,7 +20,7 @@ public sealed partial class BasicAuthenticator
     private const string AppSecret = "c2ed53a74eeefe3cf99fbd01d8c9c375";
     private const string WebKey = "aa1e74ee4874176e";
     private const string WebSecret = "54e6a9a31b911cd5fc0daa66ebf94bc4";
-    private const string BuildNumber = "5520400";
+    private const string BuildNumber = "80200100";
 
     private readonly IBiliCookiesResolver? _cookieResolver;
     private readonly IBiliTokenResolver? _tokenResolver;

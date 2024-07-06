@@ -31,4 +31,14 @@ public enum UserRelationStatus
     /// 你和 TA 互相关注，也许是好友.
     /// </summary>
     Friends = 4,
+
+    /// <summary>
+    /// 你特别关注了 TA.
+    /// </summary>
+    SpeciallyFollowed = 100,
+
+    /// <summary>
+    /// 你已将 TA 拉黑.
+    /// </summary>
+    Blocked = 128,
 }
