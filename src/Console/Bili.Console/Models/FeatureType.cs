@@ -7,4 +7,6 @@ internal enum FeatureType
     My,
 
     PopularVideo,
+
+    VideoPartition,
 }

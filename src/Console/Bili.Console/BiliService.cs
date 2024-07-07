@@ -27,6 +27,7 @@ internal sealed class BiliService : IHostedService
             .AddViewLaterService()
             .AddViewHistoryService()
             .AddPopularVideoService()
+            .AddVideoPartitionService()
             .Build();
     }
 
@@ -73,6 +74,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Authorize => "登录授权",
                 FeatureType.My => "个人信息",
                 FeatureType.PopularVideo => "流行视频",
+                FeatureType.VideoPartition => "视频分区",
                 _ => throw new NotSupportedException(),
             };
         }
@@ -98,6 +100,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Authorize => new AuthorizeModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.My => new MyProfileModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.PopularVideo => new PopularVideoModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.VideoPartition => new VideoPartitionModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 

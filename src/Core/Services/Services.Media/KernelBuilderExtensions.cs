@@ -37,4 +37,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IPopularVideoService, PopularVideoService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加视频分区服务.
+    /// </summary>
+    public static IKernelBuilder AddVideoPartitionService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IVideoPartitionService, VideoPartitionService>();
+        return builder;
+    }
 }

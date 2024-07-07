@@ -208,6 +208,23 @@ internal static class VideoAdapter
             coinCount: statusInfo.CoinCount,
             commentCount: statusInfo.ReplyCount);
 
+    public static Partition ToPartition(this VideoPartition partition)
+    {
+        var id = partition.Tid.ToString();
+        var name = partition.Name;
+        var logo = string.IsNullOrEmpty(partition.Logo) || !partition.Logo.StartsWith("http")
+            ? null
+            : partition.Logo.ToImage();
+        var children = partition.Children?.Select(p=>p.ToPartition()).ToList();
+        if (children?.Count > 0)
+        {
+            children.Insert(0, new Partition(partition.Tid.ToString(), "推荐"));
+            children.ForEach(p => p.ParentId = id);
+        }
+
+        return new Partition(id, name, logo, children);
+    }
+
     /// <summary>
     /// 将数字简写文本中转换为大略的次数.
     /// </summary>

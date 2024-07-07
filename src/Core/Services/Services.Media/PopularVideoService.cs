@@ -28,11 +28,10 @@ public sealed class PopularVideoService : IPopularVideoService
     /// </summary>
     public PopularVideoService(
         BiliHttpClient httpClient,
-        IAuthenticationService authenticationService,
         IBiliTokenResolver tokenResolver,
         BasicAuthenticator authenticator)
     {
-        _client = new PopularVideoClient(httpClient, authenticationService, tokenResolver, authenticator);
+        _client = new PopularVideoClient(httpClient, tokenResolver, authenticator);
     }
 
     /// <inheritdoc/>

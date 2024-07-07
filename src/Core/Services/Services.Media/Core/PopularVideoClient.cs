@@ -19,18 +19,15 @@ namespace Richasy.BiliKernel.Services.Media.Core;
 internal sealed class PopularVideoClient
 {
     private readonly BiliHttpClient _httpClient;
-    private readonly IAuthenticationService _authenticationService;
     private readonly IBiliTokenResolver _tokenResolver;
     private readonly BasicAuthenticator _authenticator;
 
     public PopularVideoClient(
         BiliHttpClient httpClient,
-        IAuthenticationService authenticationService,
         IBiliTokenResolver tokenResolver,
         BasicAuthenticator authenticator)
     {
         _httpClient = httpClient;
-        _authenticationService = authenticationService;
         _authenticator = authenticator;
         _tokenResolver = tokenResolver;
     }
