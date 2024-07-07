@@ -1,5 +1,6 @@
 ﻿
 using System.Diagnostics;
+using Bili.Console.Models;
 using Richasy.BiliKernel;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
@@ -41,7 +42,7 @@ internal sealed class MyProfileModule : IFeatureModule
                 new SelectionPrompt<MyProfileCommand>()
                     .Title("请选择操作")
                     .PageSize(10)
-                    .AddChoices(MyProfileCommand.MyFollow, MyProfileCommand.MyFans, MyProfileCommand.ViewLater, MyProfileCommand.History, MyProfileCommand.Back)
+                    .AddChoices(Enum.GetValues<MyProfileCommand>())
                     .UseConverter(GetCommandName));
 
             if (command == MyProfileCommand.Back)
@@ -283,13 +284,4 @@ internal sealed class MyProfileModule : IFeatureModule
             await _backFunc(string.Empty).ConfigureAwait(false);
         }
     }
-}
-
-internal enum MyProfileCommand
-{
-    MyFollow,
-    MyFans,
-    ViewLater,
-    History,
-    Back,
 }

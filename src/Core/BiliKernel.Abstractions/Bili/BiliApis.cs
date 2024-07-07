@@ -366,7 +366,7 @@ public static class BiliApis
         /// <summary>
         /// 精选视频.
         /// </summary>
-        public const string Featured = _apiBase + "/x/web-interface/index/top/feed/rcmd";
+        public const string CuratedPlaylist = _apiBase + "/x/web-interface/index/top/feed/rcmd";
 
         /// <summary>
         /// 热门 - gRPC.

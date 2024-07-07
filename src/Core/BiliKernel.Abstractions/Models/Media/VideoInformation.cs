@@ -151,4 +151,9 @@ public static class VideoExtensionDataId
     /// 如果是番剧，这里是剧集 Id.
     /// </summary>
     public const string EpisodeId = "EpisodeId";
+
+    /// <summary>
+    /// 视频的附加菜单.
+    /// </summary>
+    public const string OverflowFlyout = "OverflowFlyout";
 }

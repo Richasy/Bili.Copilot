@@ -26,6 +26,7 @@ internal sealed class BiliService : IHostedService
             .AddRelationshipService()
             .AddViewLaterService()
             .AddViewHistoryService()
+            .AddPopularVideoService()
             .Build();
     }
 
@@ -71,6 +72,7 @@ internal sealed class BiliService : IHostedService
             {
                 FeatureType.Authorize => "登录授权",
                 FeatureType.My => "个人信息",
+                FeatureType.PopularVideo => "流行视频",
                 _ => throw new NotSupportedException(),
             };
         }
@@ -95,6 +97,7 @@ internal sealed class BiliService : IHostedService
             {
                 FeatureType.Authorize => new AuthorizeModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.My => new MyProfileModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.PopularVideo => new PopularVideoModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 

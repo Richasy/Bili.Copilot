@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Bilibili.App.Interface.V1;
 using Richasy.BiliKernel.Adapters;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.BiliKernel.Services.Media.Core.Models;
 
 namespace Richasy.BiliKernel.Services.Media.Core;
 
@@ -89,6 +91,113 @@ internal static class VideoAdapter
         return info;
     }
 
+    public static VideoInformation ToVideoInformation(this CuratedPlaylistVideo video)
+    {
+        var identifier = new VideoIdentifier(video.AvId.ToString(), video.Title, video.Duration, video.Cover.ToVideoCover());
+        var publisher = video.Owner.ToPublisherProfile();
+        var communityInfo = video.Stat.ToVideoCommunityInformation();
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(video.PublishTime ?? 0).ToLocalTime();
+        var info = new VideoInformation(
+            identifier,
+            publisher,
+            video.BvId,
+            publishTime,
+            communityInformation: communityInfo);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, video.Cid);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.RecommendReason, video.RecommendReason?.Content);
+
+        return info;
+    }
+
+    public static VideoInformation ToVideoInformation(this RecommendCard card)
+    {
+        var identifier = new VideoIdentifier(card.Args.Aid.ToString(), card.Title, card.PlayerArgs?.Duration, card.Cover.ToVideoCover());
+        var publisher = new PublisherInfo { Publisher = card.Args.UpName, UserId = card.Args.UpId ?? 0 };
+        var communityInfo = new VideoCommunityInformation(card.Args.Aid.ToString(), GetCountNumber(card.PlayCountText), GetCountNumber(card.DanmakuCountText));
+        var info = new VideoInformation(
+            identifier,
+            publisher.ToPublisherProfile(),
+            communityInformation: communityInfo);
+
+        var flyoutItems = card.OverflowFlyout.Where(p => p.Reasons != null).Select(p => new VideoOverflowFlyoutItem
+        {
+            Id = p.Type,
+            Title = p.Title,
+            Options = p.Reasons.ToDictionary(r => r.Id.ToString(), r => r.Name ?? string.Empty),
+        }).ToList();
+
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, card.PlayerArgs?.Cid);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.RecommendReason, card.RecommendReason);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.TagId, card.Args?.TagId);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.TagName, card.Args?.TagName);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.OverflowFlyout, new VideoOverflowFlyout { Items = flyoutItems });
+
+        return info;
+    }
+
+    public static VideoInformation ToVideoInformation(this Bilibili.App.Card.V1.Card card)
+    {
+        var v5 = card.SmallCoverV5;
+        var baseCard = v5.Base;
+        var shareInfo = baseCard.ThreePointV4.SharePlane;
+        var title = baseCard.Title;
+        var id = shareInfo.Aid.ToString();
+        var bvId = shareInfo.Bvid;
+        var publisherInfo = new PublisherInfo { Publisher = shareInfo.Author, UserId = shareInfo.AuthorId };
+        var description = shareInfo.Desc;
+
+        var cover = baseCard.Cover.ToVideoCover();
+        var highlight = v5.RcmdReasonStyle?.Text ?? string.Empty;
+        var duration = GetDurationSeconds(v5.CoverRightText1);
+        var identifier = new VideoIdentifier(id, title, duration, cover);
+
+        var playCount = GetCountNumber(baseCard.ThreePointV4.SharePlane.PlayNumber, "次");
+        var communityInfo = new VideoCommunityInformation(id, playCount);
+
+        var info = new VideoInformation(
+            identifier,
+            publisherInfo.ToPublisherProfile(),
+            bvId,
+            communityInformation: communityInfo);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Description, description);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.RecommendReason, highlight);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, shareInfo.FirstCid);
+
+        return info;
+    }
+
+    public static VideoInformation ToVideoInformation(this Bilibili.App.Show.V1.Item item)
+    {
+        var id = item.Param;
+        var title = item.Title;
+        var duration = item.Duration;
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(item.PubDate).ToLocalTime();
+
+        var user = new PublisherInfo { UserId = item.Mid, Publisher = item.Name, PublisherAvatar = item.Face }.ToPublisherProfile();
+        var cover = item.Cover.ToVideoCover();
+        var communityInfo = new VideoCommunityInformation(
+            item.Param,
+            item.Play,
+            item.Danmaku,
+            item.Like,
+            item.Pts,
+            item.Favourite,
+            commentCount: item.Reply);
+
+        var identifier = new VideoIdentifier(id, title, duration, cover);
+        var info = new VideoInformation(
+            identifier,
+            user,
+            publishTime: publishTime,
+            communityInformation: communityInfo);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, item.Cid);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        return info;
+    }
+
     public static VideoCommunityInformation ToVideoCommunityInformation(this VideoStatusInfo statusInfo)
         => new VideoCommunityInformation(
             statusInfo.Aid.ToString(),
@@ -98,4 +207,56 @@ internal static class VideoAdapter
             favoriteCount: statusInfo.FavoriteCount,
             coinCount: statusInfo.CoinCount,
             commentCount: statusInfo.ReplyCount);
+
+    /// <summary>
+    /// 将数字简写文本中转换为大略的次数.
+    /// </summary>
+    /// <param name="text">数字简写文本.</param>
+    /// <param name="removeText">需要先在简写文本中移除的内容.</param>
+    /// <returns>一个大概的次数，比如 <c>3.2万播放</c>，最终会返回 <c>32000</c>.</returns>
+    internal static double GetCountNumber(string text, string removeText = "")
+    {
+        if (!string.IsNullOrEmpty(removeText))
+        {
+            text = text.Replace(removeText, string.Empty).Trim();
+        }
+
+        // 对于目前的B站来说，汉字单位只有 `万` 和 `亿` 两种.
+        if (text.EndsWith("万"))
+        {
+            var num = Convert.ToDouble(text.Replace("万", string.Empty));
+            return num * 10000;
+        }
+        else if (text.EndsWith("亿"))
+        {
+            var num = Convert.ToDouble(text.Replace("亿", string.Empty));
+            return num * 100000000;
+        }
+
+        return double.TryParse(text, out var number) ? number : -1;
+    }
+
+    internal static int GetDurationSeconds(string durationText)
+    {
+        var colonCount = durationText.Count(p => p == ':');
+        var hourStr = string.Empty;
+        if (colonCount == 1)
+        {
+            durationText = "00:" + durationText;
+        }
+        else if (colonCount == 2)
+        {
+            var sp = durationText.Split(':');
+            durationText = string.Join(":", "00", sp[1], sp[2]);
+            hourStr = sp[0];
+        }
+
+        var ts = TimeSpan.Parse(durationText);
+        if (!string.IsNullOrEmpty(hourStr))
+        {
+            ts += TimeSpan.FromHours(Convert.ToInt32(hourStr));
+        }
+
+        return Convert.ToInt32(ts.TotalSeconds);
+    }
 }

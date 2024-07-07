@@ -5,4 +5,6 @@ internal enum FeatureType
     Authorize,
 
     My,
+
+    PopularVideo,
 }

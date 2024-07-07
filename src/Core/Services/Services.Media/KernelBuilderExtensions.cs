@@ -28,4 +28,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IViewHistoryService, ViewHistoryService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加流行视频服务.
+    /// </summary>
+    public static IKernelBuilder AddPopularVideoService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IPopularVideoService, PopularVideoService>();
+        return builder;
+    }
 }
