@@ -44,11 +44,12 @@ public sealed class VideoPartitionService : IVideoPartitionService
     /// <inheritdoc/>
     public Task<(IReadOnlyList<VideoInformation> Videos, long Offset, int NextPageNumber)> GetChildPartitionVideoListAsync(Partition childPartition, long offset = 0, int pageNumber = 0, PartitionVideoSortType sortType = PartitionVideoSortType.Default, CancellationToken cancellationToken = default)
     {
-        if (pageNumber < 1)
+        if (pageNumber < 0)
         {
-            pageNumber = 1;
+            pageNumber = 0;
         }
 
+        pageNumber++;
         return _client.GetChildPartitionVideoListAsync(childPartition, offset, pageNumber, sortType, cancellationToken);
     }
 }

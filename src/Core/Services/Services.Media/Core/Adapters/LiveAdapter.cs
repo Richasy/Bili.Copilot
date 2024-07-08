@@ -33,4 +33,34 @@ internal static class LiveAdapter
         info.AddExtensionIfNotNull(LiveExtensionDataId.IsLiving, live.Ststus != 0);
         return info;
     }
+
+    public static LiveInformation ToLiveInformation(this LiveRoomCard card)
+    {
+        var title = card.Title;
+        var roomId = card.RoomId.ToString();
+        var user = UserAdapterBase.CreateUserProfile(card.UserId ?? 0, card.UpName, default, 0d);
+        var viewerCount = VideoAdapter.GetCountNumber(card.CoverRightContent.Text);
+        var subtitle = card.CoverLeftContent.Text;
+        var cover = card.Cover.ToVideoCover();
+        var identifier = new VideoIdentifier(roomId, title, default, cover);
+        var info = new LiveInformation(identifier, user, default);
+        info.AddExtensionIfNotNull(LiveExtensionDataId.ViewerCount, viewerCount);
+        info.AddExtensionIfNotNull(LiveExtensionDataId.Subtitle, subtitle);
+        return info;
+    }
+
+    public static LiveInformation ToLiveInformation(this LiveFeedRoom room)
+    {
+        var title = room.Title;
+        var roomId = room.RoomId.ToString();
+        var viewerCount = room.ViewerCount;
+        var user = UserAdapterBase.CreateUserProfile(room.UserId ?? 0, room.UserName, room.UserAvatar, 48d);
+        var cover = room.Cover.ToVideoCover();
+        var subtitle = $"{room.AreaName} · {room.UserName}";
+        var identifier = new VideoIdentifier(roomId, title, default, cover);
+        var info = new LiveInformation(identifier, user);
+        info.AddExtensionIfNotNull(LiveExtensionDataId.ViewerCount, viewerCount);
+        info.AddExtensionIfNotNull(LiveExtensionDataId.Subtitle, subtitle);
+        return info;
+    }
 }

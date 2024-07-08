@@ -136,7 +136,7 @@ internal sealed class VideoPartitionClient
             .Select(p => p.ToVideoInformation());
 
         var offsetId = data.BottomOffsetId;
-        var nextPageNumber = !isDefaultOrder ? pageNumber + 1 : 1;
+        var nextPageNumber = !isDefaultOrder ? pageNumber : 1;
         return (videos.ToList().AsReadOnly(), offsetId, nextPageNumber);
     }
 }
