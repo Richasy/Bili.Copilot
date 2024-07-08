@@ -198,6 +198,21 @@ internal static class VideoAdapter
         return info;
     }
 
+    public static VideoInformation ToVideoInformation(this PartitionVideo video)
+    {
+        var identifier = new VideoIdentifier(video.Parameter, video.Title, video.Duration, video.Cover.ToVideoCover());
+        var communityInfo = new VideoCommunityInformation(video.Parameter, video.PlayCount, video.DanmakuCount, video.LikeCount, favoriteCount: video.FavouriteCount, commentCount: video.ReplyCount);
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(video.PublishDateTime ?? 0).ToLocalTime();
+        var info = new VideoInformation(
+            identifier,
+            default,
+            publishTime: publishTime,
+            communityInformation: communityInfo);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.Subtitle, video.PartitionName);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        return info;
+    }
+
     public static VideoCommunityInformation ToVideoCommunityInformation(this VideoStatusInfo statusInfo)
         => new VideoCommunityInformation(
             statusInfo.Aid.ToString(),
@@ -218,7 +233,6 @@ internal static class VideoAdapter
         var children = partition.Children?.Select(p=>p.ToPartition()).ToList();
         if (children?.Count > 0)
         {
-            children.Insert(0, new Partition(partition.Tid.ToString(), "推荐"));
             children.ForEach(p => p.ParentId = id);
         }
 

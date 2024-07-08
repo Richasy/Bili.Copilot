@@ -40,15 +40,33 @@ internal sealed class VideoPartitionModule : IFeatureModule
                 .AddChoices(_partitions)
                 .UseConverter(p => p.Name));
 
-        var rankingList = await _videoPartitionService.GetPartitionRankingListAsync(partition, _cancellationToken).ConfigureAwait(false);
         AnsiConsole.Clear();
-        AnsiConsole.MarkupLine($"正在获取 [green]{partition.Name}[/] 排行榜...");
 
+#if RANK
+        AnsiConsole.MarkupLine($"正在获取 [green]{partition.Name}[/] 排行榜...");
+        var rankingList = await _videoPartitionService.GetPartitionRankingListAsync(partition, _cancellationToken).ConfigureAwait(false);
+        
         var list = await _videoPartitionService.GetPartitionRankingListAsync(partition, _cancellationToken).ConfigureAwait(false);
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine($"{partition.Name}排行榜：");
 
         await RenderVideosAsync(list.ToDictionary(p => p.Identifier.Id, p => p.Identifier.Title!)).ConfigureAwait(false);
+#endif
+
+#if RECOMMEND
+        AnsiConsole.MarkupLine($"正在获取 [green]{partition.Name}[/] 推荐视频...");
+        var (videos, offset) = await _videoPartitionService.GetPartitionRecommendVideoListAsync(partition, 0, _cancellationToken).ConfigureAwait(false);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine($"{partition.Name}推荐视频：");
+        await RenderVideosAsync(videos.ToDictionary(p => p.Identifier.Id, p => p.Identifier.Title!)).ConfigureAwait(false);
+#endif
+
+        var firstChildPartition = partition.Children.FirstOrDefault();
+        AnsiConsole.MarkupLine($"正在获取 [green]{firstChildPartition.Name}[/] 子分区视频...");
+        var (videos, offset, nextPage) = await _videoPartitionService.GetChildPartitionVideoListAsync(firstChildPartition, sortType: PartitionVideoSortType.Play, cancellationToken: _cancellationToken).ConfigureAwait(false);
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine($"{firstChildPartition.Name}子分区视频：");
+        await RenderVideosAsync(videos.ToDictionary(p => p.Identifier.Id, p => p.Identifier.Title!)).ConfigureAwait(false);
     }
 
     public void Exit()

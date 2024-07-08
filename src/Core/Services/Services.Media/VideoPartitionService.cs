@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Richasy.BiliKernel.Authenticator;
-
-
-
-// Copyright (c) Richasy. All rights reserved.
-
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Http;
 using Richasy.BiliKernel.Models;
@@ -41,4 +36,19 @@ public sealed class VideoPartitionService : IVideoPartitionService
     /// <inheritdoc/>
     public Task<IReadOnlyList<VideoInformation>> GetPartitionRankingListAsync(Partition partition, CancellationToken cancellationToken)
         => _client.GetPartitionRankingListAsync(partition, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<(IReadOnlyList<VideoInformation> Videos, long Offset)> GetPartitionRecommendVideoListAsync(Partition partition, long offset = 0, CancellationToken cancellationToken = default)
+        => _client.GetPartitionRecommendVideoListAsync(partition, offset, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<(IReadOnlyList<VideoInformation> Videos, long Offset, int NextPageNumber)> GetChildPartitionVideoListAsync(Partition childPartition, long offset = 0, int pageNumber = 0, PartitionVideoSortType sortType = PartitionVideoSortType.Default, CancellationToken cancellationToken = default)
+    {
+        if (pageNumber < 1)
+        {
+            pageNumber = 1;
+        }
+
+        return _client.GetChildPartitionVideoListAsync(childPartition, offset, pageNumber, sortType, cancellationToken);
+    }
 }

@@ -50,4 +50,93 @@ internal sealed class VideoPartitionClient
         var responseObj = await BiliHttpClient.ParseAsync(response, RankListReply.Parser).ConfigureAwait(false);
         return responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
     }
+
+    public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset)> GetPartitionRecommendVideoListAsync(Partition partition, long offset, CancellationToken cancellationToken)
+    {
+        var isOffset = offset > 0;
+        var url = isOffset ? BiliApis.Partition.SubPartitionRecommendOffset : BiliApis.Partition.SubPartitionRecommend;
+        var parameters = new Dictionary<string, string>
+        {
+            { "rid", partition.Id },
+            { "pull", "0" },
+        };
+
+        if (isOffset)
+        {
+            parameters.Add("ctime", offset.ToString());
+        }
+
+        var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(url));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var data = (await BiliHttpClient.ParseAsync<BiliDataResponse<SubPartition>>(response).ConfigureAwait(false)).Data;
+        var videos = data.NewVideos
+            .Concat(data.RecommendVideos ?? new List<PartitionVideo>())
+            .Distinct()
+            .Select(p => p.ToVideoInformation());
+
+        var offsetId = data.BottomOffsetId;
+        return (videos.ToList().AsReadOnly(), offsetId);
+    }
+
+    public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset, int NextPageNumber)> GetChildPartitionVideoListAsync(Partition partition, long offset, int pageNumber, PartitionVideoSortType sort, CancellationToken cancellationToken)
+    {
+        var isDefaultOrder = sort == PartitionVideoSortType.Default;
+        var isOffset = offset > 0;
+        var url = isDefaultOrder
+                ? isOffset ? BiliApis.Partition.SubPartitionNormalOffset : BiliApis.Partition.SubPartitionNormal
+                : BiliApis.Partition.SubPartitionOrderOffset;
+        var parameters = new Dictionary<string, string>
+        {
+            { "rid", partition.Id },
+            { "pull", "0" },
+        };
+
+        if (isOffset)
+        {
+            parameters.Add("ctime", offset.ToString());
+        }
+
+        if (!isDefaultOrder)
+        {
+            var sortStr = sort switch
+            {
+                PartitionVideoSortType.Newest => "senddate",
+                PartitionVideoSortType.Play => "view",
+                PartitionVideoSortType.Danmaku => "danmaku",
+                PartitionVideoSortType.Favorite => "favorite",
+                _ => default,
+            };
+
+            parameters.Add("order", sortStr);
+            parameters.Add("pn", pageNumber.ToString());
+            parameters.Add("ps", "30");
+        }
+
+        var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(url));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        SubPartition data;
+        if (!isDefaultOrder)
+        {
+            var videoList = (await BiliHttpClient.ParseAsync<BiliDataResponse<List<PartitionVideo>>>(response).ConfigureAwait(false)).Data;
+            data = new SubPartition
+            {
+                NewVideos = videoList,
+            };
+        }
+        else
+        {
+            data = (await BiliHttpClient.ParseAsync<BiliDataResponse<SubPartition>>(response).ConfigureAwait(false)).Data;
+        }
+
+        var videos = data.NewVideos
+            .Concat(data.RecommendVideos ?? new List<PartitionVideo>())
+            .Distinct()
+            .Select(p => p.ToVideoInformation());
+
+        var offsetId = data.BottomOffsetId;
+        var nextPageNumber = !isDefaultOrder ? pageNumber + 1 : 1;
+        return (videos.ToList().AsReadOnly(), offsetId, nextPageNumber);
+    }
 }
