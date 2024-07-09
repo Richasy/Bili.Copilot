@@ -38,4 +38,10 @@ public static class ImageAdapter
     /// </summary>
     public static BiliImage ToPgcCover(this string uri)
         => ToImage(uri, 180, 240);
+
+    /// <summary>
+    /// 根据图片地址生成适用于文章卡片尺寸的缩略图地址.
+    /// </summary>
+    public static BiliImage ToArticleCover(this string uri)
+        => ToImage(uri, 400, 220);
 }

@@ -30,9 +30,10 @@ internal static class ArticleAdapter
             _ => UserRelationStatus.Unknown,
         };
 
-        var info = new ArticleInformation(identifier, user, relation);
+        var info = new ArticleInformation(identifier, user);
         info.AddExtensionIfNotNull(ArticleExtensionDataId.CollectTime, viewTime);
         info.AddExtensionIfNotNull(ArticleExtensionDataId.RecommendReason, string.IsNullOrEmpty(article.Badge) ? default : article.Badge);
+        info.AddExtensionIfNotNull(ArticleExtensionDataId.UserRelationStatus, relation);
         return info;
     }
 }

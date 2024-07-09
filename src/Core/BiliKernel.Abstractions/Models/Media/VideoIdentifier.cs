@@ -15,14 +15,12 @@ public readonly struct VideoIdentifier
     /// </summary>
     /// <param name="id">视频 Id.</param>
     /// <param name="title">视频名称.</param>
-    /// <param name="duration">视频时长.</param>
     /// <param name="cover">封面.</param>
-    public VideoIdentifier(string id, string? title, long? duration, BiliImage? cover)
+    public VideoIdentifier(string id, string? title, BiliImage? cover)
     {
         Id = id;
         Title = title;
         Cover = cover;
-        Duration = duration;
     }
 
     /// <summary>
@@ -34,11 +32,6 @@ public readonly struct VideoIdentifier
     /// 视频封面.
     /// </summary>
     public BiliImage? Cover { get; }
-
-    /// <summary>
-    /// 视频时长，以秒为单位.
-    /// </summary>
-    public long? Duration { get; }
 
     /// <summary>
     /// 视频 Id，属于网站的资源标识符.
@@ -65,5 +58,5 @@ public readonly struct VideoIdentifier
 
     /// <inheritdoc/>
     public override string ToString()
-        => $"{Title} | {TimeSpan.FromSeconds(Duration ?? 0)} | {Id}";
+        => $"{Title} | {Id}";
 }

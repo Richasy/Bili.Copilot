@@ -26,8 +26,8 @@ internal static class PgcAdapter
         var subtitle = episode.Subtitle;
         var cover = episode.Cover.ToVideoCover();
         var duration = episode.Duration;
-        var identifier = new VideoIdentifier(episodeId, title, duration, cover);
-        var info = new EpisodeInformation(identifier);
+        var identifier = new VideoIdentifier(episodeId, title, cover);
+        var info = new EpisodeInformation(identifier, duration);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Subtitle, subtitle);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.SeasonId, seasonId);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Aid, aid);
@@ -43,7 +43,7 @@ internal static class PgcAdapter
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(item.PublishTimeStamp).ToLocalTime();
         var tags = item.PublishIndex;
         var cover = item.Cover.ToPgcCover();
-        var identifier = new VideoIdentifier(id, title, default, cover);
+        var identifier = new VideoIdentifier(id, title, cover);
         var info = new SeasonInformation(identifier);
         var publishState = item.IsPublished == 1 ? "已更新" : "待发布";
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Subtitle, publishState);
@@ -60,7 +60,7 @@ internal static class PgcAdapter
         var cover = item.Cover.ToPgcCover();
         var highlight = item.BadgeText;
         var desc = item.AdditionalText;
-        var identifier = new VideoIdentifier(id, title, default, cover);
+        var identifier = new VideoIdentifier(id, title, cover);
         var info = new SeasonInformation(identifier);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.IsFinish, item.IsFinish == null ? default : item.IsFinish == 1);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Highlight, highlight);

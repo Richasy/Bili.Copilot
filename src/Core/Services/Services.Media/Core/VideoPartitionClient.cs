@@ -35,7 +35,9 @@ internal sealed class VideoPartitionClient
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<List<VideoPartition>>>(response).ConfigureAwait(false);
         var items = responseObj.Data.Where(p => p.IsNeedToShow()).Select(p => p.ToPartition()).ToList();
-        return items.AsReadOnly();
+        return items.Count == 0
+            ? throw new KernelException("视频分区数据为空")
+            : (IReadOnlyList<Partition>)items.AsReadOnly();
     }
 
     public async Task<IReadOnlyList<VideoInformation>> GetPartitionRankingListAsync(Partition partition, CancellationToken cancellationToken)
@@ -48,7 +50,9 @@ internal sealed class VideoPartitionClient
         _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, RankListReply.Parser).ConfigureAwait(false);
-        return responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
+        return responseObj.Items is null || responseObj.Items.Count == 0
+            ? throw new KernelException("无法获取到有效的视频列表，请稍后再试")
+            : (IReadOnlyList<VideoInformation>)responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
     }
 
     public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset)> GetPartitionRecommendVideoListAsync(Partition partition, long offset, CancellationToken cancellationToken)
@@ -76,7 +80,9 @@ internal sealed class VideoPartitionClient
             .Select(p => p.ToVideoInformation());
 
         var offsetId = data.BottomOffsetId;
-        return (videos.ToList().AsReadOnly(), offsetId);
+        return videos.Count() == 0
+            ? throw new KernelException("无法获取到有效的视频列表，请稍后再试")
+            : ((IReadOnlyList<VideoInformation> Videos, long Offset))(videos.ToList().AsReadOnly(), offsetId);
     }
 
     public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset, int NextPageNumber)> GetChildPartitionVideoListAsync(Partition partition, long offset, int pageNumber, PartitionVideoSortType sort, CancellationToken cancellationToken)
@@ -137,6 +143,9 @@ internal sealed class VideoPartitionClient
 
         var offsetId = data.BottomOffsetId;
         var nextPageNumber = !isDefaultOrder ? pageNumber : 1;
-        return (videos.ToList().AsReadOnly(), offsetId, nextPageNumber);
+
+        return videos.Count() == 0
+            ? throw new KernelException("无法获取到有效的视频列表，请稍后再试")
+            : ((IReadOnlyList<VideoInformation> Videos, long Offset, int NextPageNumber))(videos.ToList().AsReadOnly(), offsetId, nextPageNumber);
     }
 }

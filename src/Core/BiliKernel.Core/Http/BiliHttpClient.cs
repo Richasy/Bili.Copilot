@@ -99,6 +99,16 @@ public sealed partial class BiliHttpClient
     }
 
     /// <summary>
+    /// 直接获取字符串.
+    /// </summary>
+    public async Task<string> GetStringAsync(IFlurlRequest request, CancellationToken cancellationToken = default)
+    {
+        Verify.NotNull(request, nameof(request));
+        var response = await _client.SendAsync(request, cancellationToken: cancellationToken).ConfigureAwait(false);
+        return await response.ResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// 从响应中获取数据.
     /// </summary>
     /// <typeparam name="T">数据类型.</typeparam>

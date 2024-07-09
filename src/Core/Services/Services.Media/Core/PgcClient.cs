@@ -48,6 +48,12 @@ internal sealed class PgcClient
         var title = responseObj.Result.Title;
         var description = responseObj.Result.Subtitle;
         var timelineItems = responseObj.Result.Data.Select(p => p.ToTimelineInformation()).ToList().AsReadOnly();
+        if (timelineItems.Count == 0)
+        {
+            var name = isBangumi ? "番剧" : "国创";
+            throw new KernelException($"{name}时间线数据为空");
+        }
+
         return (title!, description!, timelineItems);
     }
 
@@ -101,7 +107,7 @@ internal sealed class PgcClient
             filters.Insert(0, orderFilter);
         }
 
-        return filters.AsReadOnly();
+        return filters.Count == 0 ? throw new KernelException("筛选条件为空") : (IReadOnlyList<Filter>)filters.AsReadOnly();
     }
 
     private async Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetPgcSeasonsWithFiltersAsync(Dictionary<string, string> parameters, Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
@@ -121,7 +127,9 @@ internal sealed class PgcClient
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<PgcIndexResultResponse>>(response).ConfigureAwait(false);
         var seasons = responseObj.Data.List.Select(p => p.ToSeasonInformation()).ToList().AsReadOnly();
-        return (seasons, responseObj.Data.HasNext != 0);
+        return seasons.Count == 0
+            ? throw new KernelException("无法获取到有效的剧集列表，请检查参数或稍后重试")
+            : ((IReadOnlyList<SeasonInformation> Seasons, bool HasNext))(seasons, responseObj.Data.HasNext != 0);
     }
 
     private static Dictionary<string, string> GetAnimeIndexParameters()

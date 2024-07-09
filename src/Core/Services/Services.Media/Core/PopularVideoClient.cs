@@ -48,7 +48,9 @@ internal sealed class PopularVideoClient
         _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { NeedCSRF = true, RequireCookie = true, ForceNoToken = true });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<CuratedPlaylistResponse>>(response).ConfigureAwait(false);
-        return responseObj.Data.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
+        return responseObj.Data is null || responseObj.Data.Items is null || responseObj.Data.Items.Count == 0
+            ? throw new KernelException("精选视频数据为空")
+            : (IReadOnlyList<VideoInformation>)responseObj.Data.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
     }
 
     public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset)> GetRecommendVideoListAsync(long offset, CancellationToken cancellationToken)
@@ -69,7 +71,9 @@ internal sealed class PopularVideoClient
         var nextOffset = responseObject.Data.Items.Last().Idx;
         var videos = responseObject.Data.Items.Where(p => p.CardGoto is "av")
             .Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
-        return (videos, nextOffset);
+        return videos.Count == 0
+            ? throw new KernelException("推荐视频数据为空")
+            : ((IReadOnlyList<VideoInformation> Videos, long Offset))(videos, nextOffset);
     }
 
     public async Task<(IReadOnlyList<VideoInformation> Videos, long Offset)> GetHotVideoListAsync(long offset, CancellationToken cancellationToken)
@@ -92,7 +96,9 @@ internal sealed class PopularVideoClient
                 && p.SmallCoverV5.Base.CardGoto == "av"
                 && !p.SmallCoverV5.Base.Uri.Contains("bangumi"));
         var nextOffset = videos.Last().SmallCoverV5.Base.Idx;
-        return (videos.Select(p => p.ToVideoInformation()).ToList().AsReadOnly(), nextOffset);
+        return videos.Count() == 0
+            ? throw new KernelException("热门视频数据为空")
+            : ((IReadOnlyList<VideoInformation> Videos, long Offset))(videos.Select(p => p.ToVideoInformation()).ToList().AsReadOnly(), nextOffset);
     }
 
     public async Task<IReadOnlyList<VideoInformation>> GetGlobalRankingListAsync(CancellationToken cancellationToken)
@@ -105,6 +111,8 @@ internal sealed class PopularVideoClient
         _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, RankListReply.Parser).ConfigureAwait(false);
-        return responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
+        return responseObj.Items is null || responseObj.Items.Count == 0
+            ? throw new KernelException("全站排行榜数据为空")
+            : (IReadOnlyList<VideoInformation>)responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
     }
 }

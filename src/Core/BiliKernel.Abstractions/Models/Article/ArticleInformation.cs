@@ -16,18 +16,15 @@ public sealed class ArticleInformation
     /// </summary>
     /// <param name="identifier">文章标识符.</param>
     /// <param name="user">用户资料.</param>
-    /// <param name="relation">关系.</param>
     /// <param name="publishDateTime">发布时间.</param>
     /// <param name="communityInformation">社区信息.</param>
     public ArticleInformation(
         ArticleIdentifier identifier,
         UserProfile? user = default,
-        UserRelationStatus? relation = default,
         DateTimeOffset? publishDateTime = default,
         ArticleCommunityInformation? communityInformation = default)
     {
         Identifier = identifier;
-        Relation = relation;
         Publisher = user;
         PublishDateTime = publishDateTime;
         CommunityInformation = communityInformation;
@@ -47,11 +44,6 @@ public sealed class ArticleInformation
     /// 发布时间.
     /// </summary>
     public DateTimeOffset? PublishDateTime { get; }
-
-    /// <summary>
-    /// 与 UP 主的关系.
-    /// </summary>
-    public UserRelationStatus? Relation { get; set; }
 
     /// <summary>
     /// 文章社区信息，包含点赞数、阅读数等.
@@ -135,4 +127,9 @@ public static class ArticleExtensionDataId
     /// 推荐理由.
     /// </summary>
     public const string RecommendReason = "RecommendReason";
+
+    /// <summary>
+    /// 与文章发布者的关系.
+    /// </summary>
+    public const string UserRelationStatus = "UserRelationStatus";
 }

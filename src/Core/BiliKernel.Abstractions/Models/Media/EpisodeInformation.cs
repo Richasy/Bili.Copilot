@@ -14,11 +14,13 @@ public sealed class EpisodeInformation : VideoBase
     /// Initializes a new instance of the <see cref="EpisodeInformation"/> class.
     /// </summary>
     /// <param name="identifier">单集标识.</param>
+    /// <param name="duration">视频时长.</param>
     /// <param name="index">索引.</param>
     /// <param name="publishTime">发布时间.</param>
     /// <param name="communityInformation">社区信息.</param>
     public EpisodeInformation(
         VideoIdentifier identifier,
+        long? duration = default,
         int? index = default,
         DateTimeOffset? publishTime = default,
         VideoCommunityInformation? communityInformation = default)
@@ -33,6 +35,11 @@ public sealed class EpisodeInformation : VideoBase
     /// 发布时间.
     /// </summary>
     public DateTimeOffset? PublishTime { get; }
+
+    /// <summary>
+    /// 视频时长，以秒为单位.
+    /// </summary>
+    public long? Duration { get; }
 
     /// <summary>
     /// 分集排序索引.

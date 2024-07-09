@@ -16,6 +16,7 @@ public sealed class VideoInformation : VideoBase
     /// </summary>
     /// <param name="identifier">视频标识信息.</param>
     /// <param name="publisher">视频发布者信息.</param>
+    /// <param name="duration">视频时长.</param>
     /// <param name="bvId">视频的 BV id.</param>
     /// <param name="publishTime">视频发布时间.</param>
     /// <param name="collaborators">视频合作者信息.</param>
@@ -23,6 +24,7 @@ public sealed class VideoInformation : VideoBase
     public VideoInformation(
         VideoIdentifier identifier,
         PublisherProfile publisher,
+        long? duration = default,
         string? bvId = default,
         DateTimeOffset? publishTime = default,
         IList<PublisherProfile>? collaborators = default,
@@ -35,6 +37,11 @@ public sealed class VideoInformation : VideoBase
         PublishTime = publishTime;
         CommunityInformation = communityInformation;
     }
+
+    /// <summary>
+    /// 视频时长，以秒为单位.
+    /// </summary>
+    public long? Duration { get; }
 
     /// <summary>
     /// 备用 Id.

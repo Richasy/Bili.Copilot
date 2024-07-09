@@ -33,8 +33,9 @@ internal sealed class LivePartitionClient
         _authenticator.AuthroizeRestRequest(request, settings: new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<LiveAreaResponse>>(response).ConfigureAwait(false);
-        return responseObj.Data.List.Select(p => p.ToPartition()).ToList().AsReadOnly()
-            ?? throw new KernelException("直播分区数据为空");
+        return responseObj.Data is null || responseObj.Data.List.Count == 0
+            ? throw new KernelException("直播分区数据为空")
+            : (IReadOnlyList<Partition>)responseObj.Data.List.Select(p => p.ToPartition()).ToList().AsReadOnly();
     }
 
     public async Task<(IReadOnlyList<LiveInformation> Lives, IReadOnlyList<LiveTag>? Tags, int NextPageNumber)> GetPartitionDetailAsync(Partition partition, LiveTag? tag = default, int pageNumber = 0, CancellationToken cancellationToken = default)
@@ -59,6 +60,11 @@ internal sealed class LivePartitionClient
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<LiveAreaDetailResponse>>(response).ConfigureAwait(false);
         var lives = responseObj.Data.List.Select(p => p.ToLiveInformation()).ToList().AsReadOnly();
         var tags = responseObj.Data.Tags.Select(p => p.ToLiveTag()).ToList().AsReadOnly();
+        if (lives.Count == 0)
+        {
+            throw new KernelException("无法获取到有效的直播间列表，请稍后再试");
+        }
+
         return (lives, tags, pageNumber);
     }
 }

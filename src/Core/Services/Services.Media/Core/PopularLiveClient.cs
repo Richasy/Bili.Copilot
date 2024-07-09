@@ -55,11 +55,8 @@ internal sealed class PopularLiveClient
             .Where(p => p.CardType.Contains("small_card") && p.CardData?.LiveCard != null)
             .Select(p => p.CardData.LiveCard.ToLiveInformation()).ToList().AsReadOnly();
 
-        if (recommendList.Count == 0)
-        {
-            throw new KernelException("直播信息流没有返回数据");
-        }
-
-        return (followList, recommendList, pageNumber);
+        return recommendList.Count == 0
+            ? throw new KernelException("直播信息流没有返回数据")
+            : ((IReadOnlyList<LiveInformation>? Follow, IReadOnlyList<LiveInformation>? Recommend, int NextPageNumber))(followList, recommendList, pageNumber);
     }
 }

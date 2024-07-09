@@ -10,4 +10,5 @@ internal enum FeatureType
     LivePartition,
     Anime,
     Entertainment,
+    Article,
 }

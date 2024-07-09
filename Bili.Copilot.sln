@@ -57,7 +57,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bili.Console", "src\Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliKernel.Grpc", "src\Core\BiliKernel.Grpc\BiliKernel.Grpc.csproj", "{ACC319DE-6453-4ED3-A9B7-D11D21CF66E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Media", "src\Core\Services\Services.Media\Services.Media.csproj", "{59761B52-E9A1-40EC-BF59-470F8AD11524}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Media", "src\Core\Services\Services.Media\Services.Media.csproj", "{59761B52-E9A1-40EC-BF59-470F8AD11524}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Article", "src\Core\Services\Services.Article\Services.Article.csproj", "{FB36F661-AF49-47D4-BD96-E0480BD51D90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -463,6 +465,22 @@ Global
 		{59761B52-E9A1-40EC-BF59-470F8AD11524}.Release|x64.Build.0 = Release|Any CPU
 		{59761B52-E9A1-40EC-BF59-470F8AD11524}.Release|x86.ActiveCfg = Release|Any CPU
 		{59761B52-E9A1-40EC-BF59-470F8AD11524}.Release|x86.Build.0 = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|ARM64.Build.0 = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|x64.Build.0 = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -490,6 +508,7 @@ Global
 		{BC1912AA-80CF-4309-90A5-8A19531E036F} = {B8DC244D-BD62-4F29-958D-341A83777050}
 		{ACC319DE-6453-4ED3-A9B7-D11D21CF66E7} = {FA4DA991-3892-465F-9789-7A351FD53033}
 		{59761B52-E9A1-40EC-BF59-470F8AD11524} = {FA4DA991-3892-465F-9789-7A351FD53033}
+		{FB36F661-AF49-47D4-BD96-E0480BD51D90} = {FA4DA991-3892-465F-9789-7A351FD53033}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A195D36-BD13-472D-B17E-5070E06D82C8}
