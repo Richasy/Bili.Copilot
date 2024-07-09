@@ -1,86 +1,86 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥¼ä·ÖÇø.
+/// Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class LiveArea
 {
     /// <summary>
-    /// ·ÖÇøId.
+    /// ï¿½ï¿½ï¿½ï¿½Id.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// Ãû³Æ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ±êÇ©µØÖ·.
+    /// ï¿½ï¿½Ç©ï¿½ï¿½Ö·.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// ±êÖ¾.
+    /// ï¿½ï¿½Ö¾.
     /// </summary>
     [JsonPropertyName("pic")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇø Id.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Id.
     /// </summary>
     [JsonPropertyName("parent_id")]
     public int ParentId { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøÃû.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("parent_name")]
     public string ParentName { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÀàÐÍ.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("area_type")]
     public int AreaType { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎªÐÂ·ÖÇø.
+    /// ï¿½Ç·ï¿½Îªï¿½Â·ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("is_new")]
     public bool IsNew { get; set; }
 }
 
 /// <summary>
-/// Ö±²¥¼ä·ÖÇø×é.
+/// Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class LiveAreaGroup
 {
     /// <summary>
-    /// ±êÊ¶·û.
+    /// ï¿½ï¿½Ê¶ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
-    /// Ãû³Æ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ¸¸·ÖÇøÀàÐÍ.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("parent_area_type")]
     public int ParentAreaType { get; set; }
 
     /// <summary>
-    /// ·ÖÇøÁÐ±í.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½.
     /// </summary>
     [JsonPropertyName("area_list")]
     public List<LiveArea> AreaList { get; set; }

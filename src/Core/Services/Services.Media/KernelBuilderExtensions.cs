@@ -55,4 +55,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IPopularLiveService, PopularLiveService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加直播分区服务.
+    /// </summary>
+    public static IKernelBuilder AddLivePartitionService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<ILivePartitionService, LivePartitionService>();
+        return builder;
+    }
 }

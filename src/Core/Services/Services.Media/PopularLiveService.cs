@@ -35,7 +35,7 @@ public sealed class PopularLiveService : IPopularLiveService
     {
         if (pageNumber < 0)
         {
-            pageNumber = 0;
+            throw new KernelException("页码不能小于0");
         }
 
         pageNumber++;

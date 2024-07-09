@@ -1,14 +1,14 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// Ö±²¥·ÖÇøÏìÓ¦½á¹û.
+/// Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½.
 /// </summary>
 public class LiveAreaResponse
 {
     /// <summary>
-    /// ÁÐ±í.
+    /// ï¿½Ð±ï¿½.
     /// </summary>
     [JsonPropertyName("list")]
     public List<LiveAreaGroup> List { get; set; }

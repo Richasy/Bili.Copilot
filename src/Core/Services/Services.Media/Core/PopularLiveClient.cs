@@ -54,6 +54,12 @@ internal sealed class PopularLiveClient
         var recommendList = responseObj.Data.CardList
             .Where(p => p.CardType.Contains("small_card") && p.CardData?.LiveCard != null)
             .Select(p => p.CardData.LiveCard.ToLiveInformation()).ToList().AsReadOnly();
+
+        if (recommendList.Count == 0)
+        {
+            throw new KernelException("直播信息流没有返回数据");
+        }
+
         return (followList, recommendList, pageNumber);
     }
 }

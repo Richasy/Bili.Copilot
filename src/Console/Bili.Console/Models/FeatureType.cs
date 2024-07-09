@@ -7,4 +7,5 @@ internal enum FeatureType
     PopularVideo,
     VideoPartition,
     PopularLive,
+    LivePartition,
 }

@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
 using System;
+using System.Linq;
 using Bilibili.App.Interface.V1;
 using Richasy.BiliKernel.Adapters;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 
@@ -62,5 +64,29 @@ internal static class LiveAdapter
         info.AddExtensionIfNotNull(LiveExtensionDataId.ViewerCount, viewerCount);
         info.AddExtensionIfNotNull(LiveExtensionDataId.Subtitle, subtitle);
         return info;
+    }
+
+    public static Partition ToPartition(this LiveAreaGroup group)
+    {
+        var id = group.Id.ToString();
+        var name = group.Name;
+        var children = group.AreaList.Select(p => p.ToPartition()).ToList();
+        return new Partition(id, name, children: children);
+    }
+
+    public static Partition ToPartition(this LiveArea area)
+    {
+        var id = area.Id.ToString();
+        var name = area.Name;
+        var logo = string.IsNullOrEmpty(area.Cover) ? default : area.Cover.ToImage();
+        return new Partition(id, name, logo, parentId: area.ParentId.ToString());
+    }
+
+    public static LiveTag ToLiveTag(this LiveAreaDetailTag tag)
+    {
+        var id = tag.Id.ToString();
+        var name = tag.Name;
+        var sortType = tag.SortType;
+        return new LiveTag(id, name, sortType);
     }
 }
