@@ -65,7 +65,7 @@ internal static class PgcAdapter
         info.AddExtensionIfNotNull(SeasonExtensionDataId.IsFinish, item.IsFinish == null ? default : item.IsFinish == 1);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Highlight, highlight);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Description, desc);
-        info.AddExtensionIfNotNull(SeasonExtensionDataId.Score, item.Score);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Score, string.IsNullOrEmpty(item.Score) ? default : double.Parse(item.Score));
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Subtitle, item.Subtitle);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.EpisodeId, item.FirstEpisode?.EpisodeId);
         return info;

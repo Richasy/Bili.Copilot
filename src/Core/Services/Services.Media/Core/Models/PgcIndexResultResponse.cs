@@ -59,7 +59,7 @@ internal sealed class PgcIndexItem
     public PgcIndexFirstEpisode FirstEpisode { get; set; }
 
     [JsonPropertyName("score")]
-    public double? Score { get; set; }
+    public string? Score { get; set; }
 }
 
 internal sealed class PgcIndexFirstEpisode

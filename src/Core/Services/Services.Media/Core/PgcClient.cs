@@ -10,6 +10,7 @@ using Richasy.BiliKernel.Authenticator;
 using Richasy.BiliKernel.Bili;
 using Richasy.BiliKernel.Content;
 using Richasy.BiliKernel.Http;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Services.Media.Core.Models;
@@ -50,9 +51,45 @@ internal sealed class PgcClient
         return (title!, description!, timelineItems);
     }
 
-    public async Task<IReadOnlyList<Filter>> GetAnimeFiltersAsync(CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Filter>> GetAnimeFiltersAsync(CancellationToken cancellationToken)
     {
         var parameters = GetAnimeIndexParameters();
+        return GetPgcIndexFiltersAsync(parameters, cancellationToken);
+    }
+
+    public Task<IReadOnlyList<Filter>> GetEntertainmentFiltersAsync(EntertainmentType type, CancellationToken cancellationToken)
+    {
+        var parameters = GetEntertainmentIndexParameters(type);
+        return GetPgcIndexFiltersAsync(parameters, cancellationToken);
+    }
+
+    public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetAnimeIndexWithFiltersAsync(Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
+    {
+        var parameters = GetAnimeIndexParameters();
+        return GetPgcSeasonsWithFiltersAsync(parameters, filters, page, cancellationToken);
+    }
+
+    public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetEntertainmentIndexWithFiltersAsync(EntertainmentType type, Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
+    {
+        var parameters = GetEntertainmentIndexParameters(type);
+        return GetPgcSeasonsWithFiltersAsync(parameters, filters, page, cancellationToken);
+    }
+
+    public async Task ToggleFollowAsync(string seasonId, bool isFollow, CancellationToken cancellationToken)
+    {
+        var paramters = new Dictionary<string, string>
+        {
+            { "season_id", seasonId }
+        };
+
+        var url = isFollow ? BiliApis.Pgc.Follow : BiliApis.Pgc.Unfollow;
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(url));
+        _authenticator.AuthroizeRestRequest(request, paramters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<IReadOnlyList<Filter>> GetPgcIndexFiltersAsync(Dictionary<string, string> parameters, CancellationToken cancellationToken)
+    {
         var request = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Pgc.IndexCondition));
         _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
@@ -67,9 +104,8 @@ internal sealed class PgcClient
         return filters.AsReadOnly();
     }
 
-    public async Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetAnimeIndexWithFiltersAsync(Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
+    private async Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetPgcSeasonsWithFiltersAsync(Dictionary<string, string> parameters, Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
     {
-        var parameters = GetAnimeIndexParameters();
         parameters.Add("pagesize", "30");
         parameters.Add("page", page.ToString());
         if (filters != null)
@@ -88,24 +124,28 @@ internal sealed class PgcClient
         return (seasons, responseObj.Data.HasNext != 0);
     }
 
-    public async Task ToggleFollowAsync(string seasonId, bool isFollow, CancellationToken cancellationToken)
-    {
-        var paramters = new Dictionary<string, string>
-        {
-            { "season_id", seasonId }
-        };
-
-        var url = isFollow ? BiliApis.Pgc.Follow : BiliApis.Pgc.Unfollow;
-        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(url));
-        _authenticator.AuthroizeRestRequest(request, paramters);
-        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
-    }
-
     private static Dictionary<string, string> GetAnimeIndexParameters()
     {
         return new Dictionary<string, string>
         {
             { "season_type", "1" },
+            { "type", "0" }
+        };
+    }
+
+    private static Dictionary<string, string> GetEntertainmentIndexParameters(EntertainmentType type)
+    {
+        var indexType = type switch
+        {
+            EntertainmentType.Movie => "2",
+            EntertainmentType.TV => "5",
+            EntertainmentType.Documentary => "3",
+            _ => throw new NotSupportedException()
+        };
+
+        return new Dictionary<string, string>
+        {
+            { "index_type", indexType },
             { "type", "0" }
         };
     }

@@ -73,4 +73,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IAnimeService, AnimeService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加电影/电视剧/纪录片服务.
+    /// </summary>
+    public static IKernelBuilder AddEntertainmentService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IEntertainmentService, EntertainmentService>();
+        return builder;
+    }
 }

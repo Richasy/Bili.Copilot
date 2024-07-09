@@ -31,6 +31,7 @@ internal sealed class BiliService : IHostedService
             .AddPopularLiveService()
             .AddLivePartitionService()
             .AddAnimeService()
+            .AddEntertainmentService()
             .Build();
     }
 
@@ -81,6 +82,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.PopularLive => "热门直播",
                 FeatureType.LivePartition => "直播分区",
                 FeatureType.Anime => "动漫",
+                FeatureType.Entertainment => "影视",
                 _ => throw new NotSupportedException(),
             };
         }
@@ -110,6 +112,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.PopularLive => new PopularLiveModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.LivePartition => new LivePartitionModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Anime => new AnimeModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.Entertainment => new EntertainmentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 

@@ -9,4 +9,5 @@ internal enum FeatureType
     PopularLive,
     LivePartition,
     Anime,
+    Entertainment,
 }
