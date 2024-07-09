@@ -19,6 +19,16 @@ public interface IArticleService
     Task<IReadOnlyList<Partition>> GetPartitionsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// 获取热门专栏分组.
+    /// </summary>
+    Task<Dictionary<int, string>> GetHotCategoriesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 获取热门文章.
+    /// </summary>
+    Task<IReadOnlyList<ArticleInformation>> GetHotArticlesAsync(int categoryId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// 获取推荐文章.
     /// </summary>
     Task<(IReadOnlyList<ArticleInformation> RecommendArticles, IReadOnlyList<ArticleInformation>? TopArticles, int NextPageNumber)> GetRecommendArticlesAsync(int pageNumber = 0, CancellationToken cancellationToken = default);

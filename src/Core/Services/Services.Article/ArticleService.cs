@@ -64,4 +64,12 @@ public sealed class ArticleService : IArticleService
         var (recommendArticles, topArticles) = await _client.GetPartitionArticlesAsync(default, default, pageNumber, cancellationToken).ConfigureAwait(false);
         return (recommendArticles, topArticles, pageNumber);
     }
+
+    /// <inheritdoc/>
+    public Task<Dictionary<int, string>> GetHotCategoriesAsync(CancellationToken cancellationToken = default)
+        => _client.GetHotCategoriesAsync(cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<ArticleInformation>> GetHotArticlesAsync(int categoryId, CancellationToken cancellationToken = default)
+        => _client.GetHotArticlesAsync(categoryId, cancellationToken);
 }

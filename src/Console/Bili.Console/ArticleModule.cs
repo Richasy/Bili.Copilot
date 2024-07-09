@@ -1,6 +1,5 @@
 ﻿using Richasy.BiliKernel;
 using Richasy.BiliKernel.Bili.Article;
-using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Article;
 using Spectre.Console;
 
@@ -13,7 +12,7 @@ internal sealed class ArticleModule : IFeatureModule
     private readonly Func<string, Task> _backFunc;
     private readonly IArticleService _articleService;
 
-    private IList<Partition> _partitions;
+    // private IList<Partition> _partitions;
 
     public ArticleModule(
         Kernel kernel,
@@ -28,6 +27,7 @@ internal sealed class ArticleModule : IFeatureModule
 
     public async Task RunAsync()
     {
+#if PARTITION
         if (_partitions == null)
         {
             var partitions = await _articleService.GetPartitionsAsync(_cancellationToken).ConfigureAwait(false);
@@ -64,6 +64,20 @@ internal sealed class ArticleModule : IFeatureModule
             var content = await _articleService.GetArticleContentAsync(firstArticle.Identifier, _cancellationToken).ConfigureAwait(false);
             AnsiConsole.MarkupLine(Markup.Escape(content));
         }
+#endif
+        var hotCategories = await _articleService.GetHotCategoriesAsync(_cancellationToken).ConfigureAwait(false);
+        var categoryId = AnsiConsole.Prompt(
+            new SelectionPrompt<KeyValuePair<int, string>>()
+                .Title("请选择热门专栏分区")
+                .PageSize(10)
+                .AddChoices(hotCategories.ToList())
+                .UseConverter(p => p.Value)).Key;
+
+        AnsiConsole.Clear();
+        AnsiConsole.MarkupLine($"正在获取 {hotCategories[categoryId]} 热门专栏文章...");
+        var hotArticles = await _articleService.GetHotArticlesAsync(categoryId, _cancellationToken).ConfigureAwait(false);
+        AnsiConsole.Clear();
+        DisplayArticles(hotArticles);
 
         if (AnsiConsole.Confirm("是否返回？"))
         {

@@ -463,6 +463,16 @@ public static class BiliApis
         /// 文章内容.
         /// </summary>
         public const string ArticleContent = "https://www.bilibili.com/read/native/";
+
+        /// <summary>
+        /// 热门分类.
+        /// </summary>
+        public const string HotCategories = _apiBase + "/x/article/rank/categories";
+
+        /// <summary>
+        /// 热门文章.
+        /// </summary>
+        public const string HotArticles = _apiBase + "/x/article/rank/list";
     }
 
     public static class Pgc

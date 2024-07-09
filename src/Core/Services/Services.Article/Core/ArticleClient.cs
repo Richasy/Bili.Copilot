@@ -32,6 +32,17 @@ internal sealed class ArticleClient
         _tokenResolver = tokenResolver;
     }
 
+    public async Task<Dictionary<int, string>> GetHotCategoriesAsync(CancellationToken cancellationToken)
+    {
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Article.HotCategories));
+        _authenticator.AuthroizeRestRequest(request, settings: new BasicAuthorizeExecutionSettings { RequireToken = false });
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<List<ArticleCategory>>>(response).ConfigureAwait(false);
+        return responseObj.Data is null || responseObj.Data.Count == 0
+            ? throw new KernelException("热门专栏分区数据为空")
+            : responseObj.Data.ToDictionary(p => Convert.ToInt32(p.Id), p => p.Name!);
+    }
+
     public async Task<IReadOnlyList<Partition>> GetPartitionsAsync(CancellationToken cancellationToken)
     {
         var request = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Article.Categories));
@@ -41,6 +52,22 @@ internal sealed class ArticleClient
         return responseObj.Data is null || responseObj.Data.Count == 0
             ? throw new KernelException("专栏分区数据为空")
             : (IReadOnlyList<Partition>)responseObj.Data.Select(p => p.ToPartition()).ToList().AsReadOnly();
+    }
+
+    public async Task<IReadOnlyList<ArticleInformation>> GetHotArticlesAsync(int categoryId, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "cid", categoryId.ToString() },
+        };
+
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Article.HotArticles));
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<List<Article>>>(response).ConfigureAwait(false);
+        return responseObj.Data is null || responseObj.Data.Count == 0
+            ? throw new KernelException("热门专栏文章数据为空")
+            : responseObj.Data.Select(p => p.ToArticleInformation()).ToList().AsReadOnly();
     }
 
     public async Task<(IReadOnlyList<ArticleInformation>, IReadOnlyList<ArticleInformation>?)> GetPartitionArticlesAsync(Partition? partition, ArticleSortType? sort, int pageNumber, CancellationToken cancellationToken)
