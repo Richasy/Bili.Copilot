@@ -1,146 +1,146 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// PGCÊ±¼äÏßÏìÓ¦½á¹û.
+/// PGCÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½.
 /// </summary>
 public class PgcTimeLineResponse
 {
     /// <summary>
-    /// ¸±±êÌâ.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("current_time_text")]
     public string Subtitle { get; set; }
 
     /// <summary>
-    /// ±êÇ©Ò³Id.
+    /// ï¿½ï¿½Ç©Ò³Id.
     /// </summary>
     [JsonPropertyName("data")]
     public List<PgcTimeLineItem> Data { get; set; }
 
     /// <summary>
-    /// µ¼º½±êÌâ.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("navigation_title")]
     public string Title { get; set; }
 }
 
 /// <summary>
-/// Ê±¼äÖáÌõÄ¿.
+/// Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿.
 /// </summary>
 public class PgcTimeLineItem
 {
     /// <summary>
-    /// ÈÕÆÚ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("date")]
     public string Date { get; set; }
 
     /// <summary>
-    /// ÈÕÆÚÊ±¼ä´Á.
+    /// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("date_ts")]
     public int DateTimeStamp { get; set; }
 
     /// <summary>
-    /// ÖÜ¼¸.
+    /// ï¿½Ü¼ï¿½.
     /// </summary>
     [JsonPropertyName("day_of_week")]
     public int DayOfWeek { get; set; }
 
     /// <summary>
-    /// Õ¼Î»·ûÎÄ±¾.
+    /// Õ¼Î»ï¿½ï¿½ï¿½Ä±ï¿½.
     /// </summary>
     [JsonPropertyName("day_update_text")]
     public string HolderText { get; set; }
 
     /// <summary>
-    /// ±êÇ©Ò³Id.
+    /// ï¿½ï¿½Ç©Ò³Id.
     /// </summary>
     [JsonPropertyName("episodes")]
     public List<TimeLineEpisode> Episodes { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÎª½ñÌì£¬0-²»ÊÇ£¬1-ÊÇ.
+    /// ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ì£¬0-ï¿½ï¿½ï¿½Ç£ï¿½1-ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("is_today")]
     public int IsToday { get; set; }
 }
 
 /// <summary>
-/// Ê±¼äÖá¾ç¼¯ÐÅÏ¢.
+/// Ê±ï¿½ï¿½ï¿½ï¿½ç¼¯ï¿½ï¿½Ï¢.
 /// </summary>
 public class TimeLineEpisode
 {
     /// <summary>
-    /// ·âÃæ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ·Ö¼¯Id.
+    /// ï¿½Ö¼ï¿½Id.
     /// </summary>
     [JsonPropertyName("episode_id")]
     public int EpisodeId { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñ¹Ø×¢£¬0-²»¹Ø×¢£¬1-¹Ø×¢.
+    /// ï¿½Ç·ï¿½ï¿½×¢ï¿½ï¿½0-ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½1-ï¿½ï¿½×¢.
     /// </summary>
     [JsonPropertyName("follow")]
     public int IsFollow { get; set; }
 
     /// <summary>
-    /// ·¢²¼µ½µÚ¼¸¼¯.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("pub_index")]
     public string PublishIndex { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä.
+    /// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("pub_time")]
     public string PublishTime { get; set; }
 
     /// <summary>
-    /// ·¢²¼Ê±¼ä´Á.
+    /// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("pub_ts")]
     public int PublishTimeStamp { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÒÑ¾­·¢²¼.
+    /// ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("published")]
     public int IsPublished { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// ï¿½ç¼¯Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public int SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯ÀàÐÍ.
+    /// ï¿½ç¼¯ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("season_type")]
     public int SeasonType { get; set; }
 
     /// <summary>
-    /// ¾ØÐÎ·âÃæ.
+    /// ï¿½ï¿½ï¿½Î·ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("square_cover")]
     public string SqureCover { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ï¿½ï¿½Ö·.
     /// </summary>
     [JsonPropertyName("url")]
     public string Url { get; set; }

@@ -8,4 +8,5 @@ internal enum FeatureType
     VideoPartition,
     PopularLive,
     LivePartition,
+    Anime,
 }

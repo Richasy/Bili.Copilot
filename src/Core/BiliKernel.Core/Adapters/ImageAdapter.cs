@@ -32,4 +32,10 @@ public static class ImageAdapter
     /// </summary>
     public static BiliImage ToVideoCover(this string uri)
         => ToImage(uri, 400, 240);
+
+    /// <summary>
+    /// 根据图片尺寸生成适用于专业内容的缩略图.
+    /// </summary>
+    public static BiliImage ToPgcCover(this string uri)
+        => ToImage(uri, 180, 240);
 }

@@ -64,4 +64,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<ILivePartitionService, LivePartitionService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加动漫服务.
+    /// </summary>
+    public static IKernelBuilder AddAnimeService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IAnimeService, AnimeService>();
+        return builder;
+    }
 }
