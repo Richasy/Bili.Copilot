@@ -23,9 +23,9 @@ public class BasicAuthorizeExecutionSettings
         string? additionalQuery = default)
     {
         ApiType = apiType;
-        UseToken = useToken;
+        RequireToken = useToken;
         ForceNoToken = forceNoToken;
-        UseCookie = useCookie;
+        RequireCookie = useCookie;
         OnlyUseAppKey = onlyUseAppKey;
         NeedRID = needRID;
         NeedCSRF = needCSRF;
@@ -40,7 +40,7 @@ public class BasicAuthorizeExecutionSettings
     /// <summary>
     /// 是否需要Token.
     /// </summary>
-    public bool UseToken { get; set; }
+    public bool RequireToken { get; set; }
 
     /// <summary>
     /// 是否强制不使用Token.
@@ -50,7 +50,7 @@ public class BasicAuthorizeExecutionSettings
     /// <summary>
     /// 是否需要Cookie.
     /// </summary>
-    public bool UseCookie { get; set; }
+    public bool RequireCookie { get; set; }
 
     /// <summary>
     /// 是否仅使用AppKey.

@@ -40,7 +40,7 @@ internal sealed class AnimeClient
         };
 
         var request = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Pgc.TimeLine));
-        _authenticator.AuthroizeRestRequest(request);
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliResultResponse<PgcTimeLineResponse>>(response).ConfigureAwait(false);
         var title = responseObj.Result.Title;

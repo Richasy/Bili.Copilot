@@ -30,7 +30,7 @@ internal sealed class LivePartitionClient
     public async Task<IReadOnlyList<Partition>> GetLivePartitionsAsync(CancellationToken cancellationToken)
     {
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(BiliApis.Live.LiveArea));
-        _authenticator.AuthroizeRestRequest(request);
+        _authenticator.AuthroizeRestRequest(request, settings: new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<LiveAreaResponse>>(response).ConfigureAwait(false);
         return responseObj.Data.List.Select(p => p.ToPartition()).ToList().AsReadOnly()
@@ -54,7 +54,7 @@ internal sealed class LivePartitionClient
         }
 
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(BiliApis.Live.AreaDetail));
-        _authenticator.AuthroizeRestRequest(request, parameters);
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<LiveAreaDetailResponse>>(response).ConfigureAwait(false);
         var lives = responseObj.Data.List.Select(p => p.ToLiveInformation()).ToList().AsReadOnly();

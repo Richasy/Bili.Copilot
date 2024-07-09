@@ -31,7 +31,7 @@ internal sealed class VideoPartitionClient
     public async Task<IReadOnlyList<Partition>> GetVideoPartitionsAsync(CancellationToken cancellationToken)
     {
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(BiliApis.Partition.PartitionIndex));
-        _authenticator.AuthroizeRestRequest(request);
+        _authenticator.AuthroizeRestRequest(request, settings: new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<List<VideoPartition>>>(response).ConfigureAwait(false);
         var items = responseObj.Data.Where(p => p.IsNeedToShow()).Select(p => p.ToPartition()).ToList();
@@ -45,7 +45,7 @@ internal sealed class VideoPartitionClient
             Rid = Convert.ToInt32(partition.Id),
         };
         var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Home.RankingGRPC), req);
-        _authenticator.AuthorizeGrpcRequest(request);
+        _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, RankListReply.Parser).ConfigureAwait(false);
         return responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
@@ -67,7 +67,7 @@ internal sealed class VideoPartitionClient
         }
 
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(url));
-        _authenticator.AuthroizeRestRequest(request, parameters);
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var data = (await BiliHttpClient.ParseAsync<BiliDataResponse<SubPartition>>(response).ConfigureAwait(false)).Data;
         var videos = data.NewVideos
@@ -114,7 +114,7 @@ internal sealed class VideoPartitionClient
         }
 
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(url));
-        _authenticator.AuthroizeRestRequest(request, parameters);
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { RequireToken = false });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         SubPartition data;
         if (!isDefaultOrder)

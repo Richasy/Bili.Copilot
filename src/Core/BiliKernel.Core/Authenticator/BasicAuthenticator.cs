@@ -41,7 +41,7 @@ public sealed partial class BasicAuthenticator
     {
         Verify.NotNull(request, nameof(request));
         var executionSettings = settings ?? new BasicAuthorizeExecutionSettings();
-        if (executionSettings.UseCookie && _cookieResolver != null)
+        if (executionSettings.RequireCookie && _cookieResolver != null)
         {
             var cookies = _cookieResolver.GetCookies();
             request.WithCookies(cookies);
@@ -61,10 +61,15 @@ public sealed partial class BasicAuthenticator
     /// <summary>
     /// 对 gRPC 请求进行授权.
     /// </summary>
-    public void AuthorizeGrpcRequest(IFlurlRequest request, bool needToken = true)
+    public void AuthorizeGrpcRequest(IFlurlRequest request, bool requireToken = true)
     {
         Verify.NotNull(request);
-        var token = needToken ? _tokenResolver?.GetToken() : null;
+        var token = _tokenResolver?.GetToken();
+        if (requireToken && token == null)
+        {
+            throw new KernelException("需要令牌，但令牌不存在，请重新登录");
+        }
+
         var accessToken = token?.AccessToken ?? string.Empty;
         var grpcConfig = new GrpcConfig(accessToken);
         var userAgent = $"bili-universal/80200100 "
@@ -122,7 +127,7 @@ public sealed partial class BasicAuthenticator
         if (!executionSettings.ForceNoToken)
         {
             var token = _tokenResolver?.GetToken();
-            if (token == null && executionSettings.UseToken)
+            if (token == null && executionSettings.RequireToken)
             {
                 throw new KernelException("需要令牌，但令牌不存在，请重新登录");
             }

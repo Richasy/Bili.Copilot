@@ -50,11 +50,16 @@ internal sealed class AnimeModule : IFeatureModule
             var itemTable = new Table();
             itemTable.AddColumn("标题");
             itemTable.AddColumn("状态");
-            foreach (var subItem in item.Seasons)
+
+            if (item.Seasons != null)
             {
-                var status = subItem.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Subtitle);
-                itemTable.AddRow(subItem.Identifier.Title, status);
+                foreach (var subItem in item.Seasons)
+                {
+                    var status = subItem.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Subtitle);
+                    itemTable.AddRow(subItem.Identifier.Title, status);
+                }
             }
+
             table.AddRow(new Markup(item.Date), itemTable);
         }
 

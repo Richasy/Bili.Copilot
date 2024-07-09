@@ -45,7 +45,7 @@ internal sealed class PopularVideoClient
         };
 
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(BiliApis.Home.CuratedPlaylist));
-        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { NeedCSRF = true, UseCookie = true, ForceNoToken = true });
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { NeedCSRF = true, RequireCookie = true, ForceNoToken = true });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<CuratedPlaylistResponse>>(response).ConfigureAwait(false);
         return responseObj.Data.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();
@@ -83,7 +83,7 @@ internal sealed class PopularVideoClient
         };
 
         var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Home.PopularGRPC), req);
-        _authenticator.AuthorizeGrpcRequest(request);
+        _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, PopularReply.Parser).ConfigureAwait(false);
         var videos = responseObj.Items
@@ -102,7 +102,7 @@ internal sealed class PopularVideoClient
             Rid = 0,
         };
         var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Home.RankingGRPC), req);
-        _authenticator.AuthorizeGrpcRequest(request);
+        _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, RankListReply.Parser).ConfigureAwait(false);
         return responseObj.Items.Select(p => p.ToVideoInformation()).ToList().AsReadOnly();

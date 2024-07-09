@@ -90,7 +90,7 @@ internal sealed class ViewHistoryClient
     public async Task<bool> GetIsHistoryEnabledAsync(CancellationToken cancellationToken)
     {
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Get, new Uri(BiliApis.Account.HistoryRecordOption));
-        _authenticator.AuthroizeRestRequest(request, default, new BasicAuthorizeExecutionSettings { ApiType = BiliApiType.Web, UseCookie = true, ForceNoToken = true });
+        _authenticator.AuthroizeRestRequest(request, default, new BasicAuthorizeExecutionSettings { ApiType = BiliApiType.Web, RequireCookie = true, ForceNoToken = true });
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<bool>>(response).ConfigureAwait(false);
         return !responseObj.Data;
@@ -104,7 +104,7 @@ internal sealed class ViewHistoryClient
         };
 
         var request = BiliHttpClient.CreateRequest(System.Net.Http.HttpMethod.Post, new Uri(BiliApis.Account.SetHistoryRecordOption));
-        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { ApiType = BiliApiType.Web, NeedCSRF = true, UseCookie = true, ForceNoToken = true });
+        _authenticator.AuthroizeRestRequest(request, parameters, new BasicAuthorizeExecutionSettings { ApiType = BiliApiType.Web, NeedCSRF = true, RequireCookie = true, ForceNoToken = true });
         await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
