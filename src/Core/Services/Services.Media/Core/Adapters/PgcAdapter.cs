@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Bilibili.App.Interface.V1;
 using Richasy.BiliKernel.Adapters;
+using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Services.Media.Core.Models;
 
@@ -52,6 +53,24 @@ internal static class PgcAdapter
         return info;
     }
 
+    public static SeasonInformation ToSeasonInformation(this PgcIndexItem item)
+    {
+        var title = item.Title;
+        var id = item.SeasonId.ToString();
+        var cover = item.Cover.ToPgcCover();
+        var highlight = item.BadgeText;
+        var desc = item.AdditionalText;
+        var identifier = new VideoIdentifier(id, title, default, cover);
+        var info = new SeasonInformation(identifier);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.IsFinish, item.IsFinish == null ? default : item.IsFinish == 1);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Highlight, highlight);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Description, desc);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Score, item.Score);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Subtitle, item.Subtitle);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.EpisodeId, item.FirstEpisode?.EpisodeId);
+        return info;
+    }
+
     public static TimelineInformation ToTimelineInformation(this PgcTimeLineItem item)
     {
         var seasons = item.Episodes?.Count > 0
@@ -60,5 +79,11 @@ internal static class PgcAdapter
         var date = DateTimeOffset.FromUnixTimeSeconds(item.DateTimeStamp).ToLocalTime();
         var isToday = date.Date.Equals(DateTimeOffset.Now.Date);
         return new TimelineInformation(item.Date, item.DayOfWeek, isToday, seasons);
+    }
+
+    public static Filter ToFilter(this PgcIndexFilter filter)
+    {
+        var conditions = filter.Values.Select(p => new Condition(p.Name, p.Keyword)).ToList();
+        return new Filter(filter.Name, filter.Field, conditions);
     }
 }

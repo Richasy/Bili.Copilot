@@ -1,8 +1,6 @@
-﻿
-using Richasy.BiliKernel.Bili.Media;
+﻿using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel;
 using Spectre.Console;
-using Richasy.BiliKernel.Models.Media;
 
 namespace Bili.Console;
 
@@ -33,6 +31,8 @@ internal sealed class AnimeModule : IFeatureModule
                 .AddChoices(["番剧", "国创"]));
 
         AnsiConsole.Clear();
+
+#if TIMELINE
         AnsiConsole.MarkupLine($"正在获取 {animeType} 的时间线");
 
         var (title, desc, items) = animeType == "番剧"
@@ -64,6 +64,34 @@ internal sealed class AnimeModule : IFeatureModule
         }
 
         AnsiConsole.Write(table);
+
+#endif
+        AnsiConsole.MarkupLine($"正在获取 {animeType} 的筛选条件");
+        var filters = await _animeService.GetAnimeFiltersAsync(_cancellationToken).ConfigureAwait(false);
+        var filterTable = new Table();
+        filterTable.AddColumn("名称");
+        filterTable.AddColumn("值列表");
+
+        foreach (var filter in filters)
+        {
+            var valueList = string.Join(", ", filter.Conditions.Select(p => p.Name));
+            filterTable.AddRow(filter.Name, valueList);
+        }
+
+        AnsiConsole.Write(filterTable);
+
+        AnsiConsole.WriteLine($"正在获取 {animeType} 的索引数据");
+        var (seasons, hasNext) = await _animeService.GetAnimeSeasonsWithFiltersAsync(null, 0, _cancellationToken).ConfigureAwait(false);
+        var seasonTable = new Table();
+        seasonTable.AddColumn("ID");
+        seasonTable.AddColumn("标题");
+
+        foreach (var item in seasons)
+        {
+            seasonTable.AddRow(item.Identifier.Id, item.Identifier.Title);
+        }
+
+        AnsiConsole.Write(seasonTable);
 
         if (AnsiConsole.Confirm("是否返回？"))
         {

@@ -1,104 +1,104 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// PGCË÷ÒýÉ¸Ñ¡½á¹ûÏìÓ¦.
+/// PGCï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦.
 /// </summary>
 public class PgcIndexResultResponse
 {
     /// <summary>
-    /// ÊÇ·ñ»¹ÓÐÏÂÒ»Ò³.
+    /// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ò³.
     /// </summary>
     [JsonPropertyName("has_next")]
     public int HasNext { get; set; }
 
     /// <summary>
-    /// ½á¹û.
+    /// ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("list")]
     public List<PgcIndexItem> List { get; set; }
 
     /// <summary>
-    /// µ±Ç°Ò³Âë.
+    /// ï¿½ï¿½Ç°Ò³ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("num")]
     public int PageNumber { get; set; }
 
     /// <summary>
-    /// Ã¿Ò³ÌõÄ¿Êý.
+    /// Ã¿Ò³ï¿½ï¿½Ä¿ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("size")]
     public int PageSize { get; set; }
 
     /// <summary>
-    /// ×ÜÊý.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("total")]
     public int TotalCount { get; set; }
 }
 
 /// <summary>
-/// PGCË÷ÒýÌõÄ¿.
+/// PGCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿.
 /// </summary>
 public class PgcIndexItem
 {
     /// <summary>
-    /// »ÕÕÂÎÄ±¾.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½.
     /// </summary>
     [JsonPropertyName("badge")]
     public string BadgeText { get; set; }
 
     /// <summary>
-    /// É¸Ñ¡Ìõ¼þ.
+    /// É¸Ñ¡ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("cover")]
     public string Cover { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾¸½¼ÓÎÄ±¾.
+    /// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½.
     /// </summary>
     [JsonPropertyName("index_show")]
     public string AdditionalText { get; set; }
 
     /// <summary>
-    /// ÊÇ·ñÍê½á.
+    /// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("is_finish")]
     public int IsFinish { get; set; }
 
     /// <summary>
-    /// ÍøÖ·.
+    /// ï¿½ï¿½Ö·.
     /// </summary>
     [JsonPropertyName("link")]
     public string Link { get; set; }
 
     /// <summary>
-    /// Ã½ÌåId.
+    /// Ã½ï¿½ï¿½Id.
     /// </summary>
     [JsonPropertyName("media_id")]
     public int MediaId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯Id.
+    /// ï¿½ç¼¯Id.
     /// </summary>
     [JsonPropertyName("season_id")]
     public int SeasonId { get; set; }
 
     /// <summary>
-    /// ¾ç¼¯ÀàÐÍ.
+    /// ï¿½ç¼¯ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("season_type")]
     public int SeasonType { get; set; }
 
     /// <summary>
-    /// ±êÌâ.
+    /// ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
     /// <summary>
-    /// ÅÅÐòÏÔÊ¾ÎÄ±¾.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä±ï¿½.
     /// </summary>
     [JsonPropertyName("order")]
     public string OrderText { get; set; }

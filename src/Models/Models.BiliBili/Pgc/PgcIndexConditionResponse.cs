@@ -1,80 +1,80 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+ï»¿// Copyright (c) Bili Copilot. All rights reserved.
 
 namespace Bili.Copilot.Models.BiliBili;
 
 /// <summary>
-/// PGCË÷ÒýÉ¸Ñ¡Ìõ¼þÏìÓ¦.
+/// PGCï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦.
 /// </summary>
 public class PgcIndexConditionResponse
 {
     /// <summary>
-    /// É¸Ñ¡Ìõ¼þ.
+    /// É¸Ñ¡ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("filter")]
     public List<PgcIndexFilter> FilterList { get; set; }
 
     /// <summary>
-    /// ÅÅÐò·½Ê½.
+    /// ï¿½ï¿½ï¿½ï¿½Ê½.
     /// </summary>
     [JsonPropertyName("order")]
     public List<PgcIndexOrder> OrderList { get; set; }
 }
 
 /// <summary>
-/// PGCË÷ÒýÉ¸Ñ¡Ìõ¼þ.
+/// PGCï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class PgcIndexFilter
 {
     /// <summary>
-    /// É¸Ñ¡¹Ø¼ü´Ê.
+    /// É¸Ñ¡ï¿½Ø¼ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("field")]
     public string Field { get; set; }
 
     /// <summary>
-    /// É¸Ñ¡ÌõÄ¿Ãû.
+    /// É¸Ñ¡ï¿½ï¿½Ä¿ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// ¿ÉÑ¡Öµ.
+    /// ï¿½ï¿½Ñ¡Öµ.
     /// </summary>
     [JsonPropertyName("values")]
     public List<PgcIndexFilterValue> Values { get; set; }
 }
 
 /// <summary>
-/// PGCË÷ÒýÉ¸Ñ¡Ìõ¼þ¿ÉÑ¡Öµ.
+/// PGCï¿½ï¿½ï¿½ï¿½É¸Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡Öµ.
 /// </summary>
 public class PgcIndexFilterValue
 {
     /// <summary>
-    /// ¹Ø¼ü´Ê.
+    /// ï¿½Ø¼ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("keyword")]
     public string Keyword { get; set; }
 
     /// <summary>
-    /// ÏÔÊ¾Ãû³Æ.
+    /// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }
 }
 
 /// <summary>
-/// PGCË÷ÒýÅÅÐòÌõ¼þ.
+/// PGCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 /// </summary>
 public class PgcIndexOrder
 {
     /// <summary>
-    /// ÅÅÐò¹Ø¼ü´Ê.
+    /// ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("field")]
     public string Field { get; set; }
 
     /// <summary>
-    /// ÅÅÐòÃû.
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
     /// </summary>
     [JsonPropertyName("name")]
     public string Name { get; set; }

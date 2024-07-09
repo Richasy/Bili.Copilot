@@ -121,4 +121,14 @@ public static class SeasonExtensionDataId
     /// 分集 ID.
     /// </summary>
     public const string EpisodeId = "EpisodeId";
+
+    /// <summary>
+    /// 评分.
+    /// </summary>
+    public const string Score = "Score";
+
+    /// <summary>
+    /// 是否完结.
+    /// </summary>
+    public const string IsFinish = "IsFinish";
 }
