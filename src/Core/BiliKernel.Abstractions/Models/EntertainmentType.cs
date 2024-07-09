@@ -8,6 +8,11 @@ namespace Richasy.BiliKernel.Models;
 public enum EntertainmentType
 {
     /// <summary>
+    /// 动漫.
+    /// </summary>
+    Anime,
+
+    /// <summary>
     /// 电影.
     /// </summary>
     Movie,

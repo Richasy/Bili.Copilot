@@ -14,9 +14,9 @@ public static class KernelBuilderExtensions
     /// <summary>
     /// 添加专栏文章服务.
     /// </summary>
-    public static IKernelBuilder AddArticleService(this IKernelBuilder builder)
+    public static IKernelBuilder AddArticleDiscoveryService(this IKernelBuilder builder)
     {
-        builder.Services.AddSingleton<IArticleService, ArticleService>();
+        builder.Services.AddSingleton<IArticleDiscoveryService, ArticleDiscoveryService>();
         return builder;
     }
 }

@@ -26,13 +26,10 @@ internal sealed class BiliService : IHostedService
             .AddRelationshipService()
             .AddViewLaterService()
             .AddViewHistoryService()
-            .AddPopularVideoService()
-            .AddVideoPartitionService()
-            .AddPopularLiveService()
-            .AddLivePartitionService()
-            .AddAnimeService()
-            .AddEntertainmentService()
-            .AddArticleService()
+            .AddVideoDiscoveryService()
+            .AddLiveDiscoveryService()
+            .AddEntertainmentDiscoveryService()
+            .AddArticleDiscoveryService()
             .Build();
     }
 

@@ -16,19 +16,19 @@ namespace Richasy.BiliKernel.Services.Article;
 /// <summary>
 /// 专栏服务.
 /// </summary>
-public sealed class ArticleService : IArticleService
+public sealed class ArticleDiscoveryService : IArticleDiscoveryService
 {
-    private readonly ArticleClient _client;
+    private readonly ArticleDiscoveryClient _client;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ArticleService"/> class.
+    /// Initializes a new instance of the <see cref="ArticleDiscoveryService"/> class.
     /// </summary>
-    public ArticleService(
+    public ArticleDiscoveryService(
         BiliHttpClient httpClient,
         BasicAuthenticator authenticator,
         IBiliTokenResolver tokenResolver)
     {
-        _client = new ArticleClient(httpClient, authenticator, tokenResolver);
+        _client = new ArticleDiscoveryClient(httpClient, authenticator, tokenResolver);
     }
 
     /// <inheritdoc/>

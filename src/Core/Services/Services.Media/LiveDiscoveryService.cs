@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Richasy.BiliKernel.Authenticator;
+using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Http;
 using Richasy.BiliKernel.Models;
@@ -15,18 +16,19 @@ namespace Richasy.BiliKernel.Services.Media;
 /// <summary>
 /// 直播分区服务.
 /// </summary>
-public sealed class LivePartitionService : ILivePartitionService
+public sealed class LiveDiscoveryService : ILiveDiscoveryService
 {
-    private readonly LivePartitionClient _client;
+    private readonly LiveDiscoveryClient _client;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LivePartitionService"/> class.
+    /// Initializes a new instance of the <see cref="LiveDiscoveryService"/> class.
     /// </summary>
-    public LivePartitionService(
+    public LiveDiscoveryService(
         BiliHttpClient httpClient,
-        BasicAuthenticator authenticator)
+        BasicAuthenticator authenticator,
+        IBiliTokenResolver tokenResolver)
     {
-        _client = new LivePartitionClient(httpClient, authenticator);
+        _client = new LiveDiscoveryClient(httpClient, authenticator, tokenResolver);
     }
 
     /// <inheritdoc/>
@@ -43,5 +45,17 @@ public sealed class LivePartitionService : ILivePartitionService
 
         pageNumber++;
         return _client.GetPartitionDetailAsync(partion, tag, pageNumber, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public Task<(IReadOnlyList<LiveInformation>? Follows, IReadOnlyList<LiveInformation>? Recommend, int NextPageNumber)> GetFeedAsync(int pageNumber = 0, CancellationToken cancellationToken = default)
+    {
+        if (pageNumber < 0)
+        {
+            throw new KernelException("页码不能小于0");
+        }
+
+        pageNumber++;
+        return _client.GetFeedAsync(pageNumber, cancellationToken);
     }
 }

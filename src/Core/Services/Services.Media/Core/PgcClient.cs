@@ -57,27 +57,15 @@ internal sealed class PgcClient
         return (title!, description!, timelineItems);
     }
 
-    public Task<IReadOnlyList<Filter>> GetAnimeFiltersAsync(CancellationToken cancellationToken)
-    {
-        var parameters = GetAnimeIndexParameters();
-        return GetPgcIndexFiltersAsync(parameters, cancellationToken);
-    }
-
     public Task<IReadOnlyList<Filter>> GetEntertainmentFiltersAsync(EntertainmentType type, CancellationToken cancellationToken)
     {
-        var parameters = GetEntertainmentIndexParameters(type);
+        var parameters = type == EntertainmentType.Anime ? GetAnimeIndexParameters() : GetEntertainmentIndexParameters(type);
         return GetPgcIndexFiltersAsync(parameters, cancellationToken);
-    }
-
-    public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetAnimeIndexWithFiltersAsync(Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
-    {
-        var parameters = GetAnimeIndexParameters();
-        return GetPgcSeasonsWithFiltersAsync(parameters, filters, page, cancellationToken);
     }
 
     public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetEntertainmentIndexWithFiltersAsync(EntertainmentType type, Dictionary<Filter, Condition>? filters, int page, CancellationToken cancellationToken)
     {
-        var parameters = GetEntertainmentIndexParameters(type);
+        var parameters = type == EntertainmentType.Anime ? GetAnimeIndexParameters() : GetEntertainmentIndexParameters(type);
         return GetPgcSeasonsWithFiltersAsync(parameters, filters, page, cancellationToken);
     }
 

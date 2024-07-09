@@ -10,7 +10,7 @@ internal sealed class ArticleModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IArticleService _articleService;
+    private readonly IArticleDiscoveryService _articleService;
 
     // private IList<Partition> _partitions;
 
@@ -22,7 +22,7 @@ internal sealed class ArticleModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _articleService = kernel.GetRequiredService<IArticleService>();
+        _articleService = kernel.GetRequiredService<IArticleDiscoveryService>();
     }
 
     public async Task RunAsync()

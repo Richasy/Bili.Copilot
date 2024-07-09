@@ -16,13 +16,13 @@ using Richasy.BiliKernel.Models.Article;
 
 namespace Richasy.BiliKernel.Services.Article.Core;
 
-internal sealed class ArticleClient
+internal sealed class ArticleDiscoveryClient
 {
     private readonly BiliHttpClient _httpClient;
     private readonly BasicAuthenticator _authenticator;
     private readonly IBiliTokenResolver _tokenResolver;
 
-    public ArticleClient(
+    public ArticleDiscoveryClient(
         BiliHttpClient httpClient,
         BasicAuthenticator authenticator,
         IBiliTokenResolver tokenResolver)

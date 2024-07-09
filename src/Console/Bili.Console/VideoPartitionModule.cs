@@ -10,7 +10,7 @@ internal sealed class VideoPartitionModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IVideoPartitionService _videoPartitionService;
+    private readonly IVideoDiscoveryService _videoPartitionService;
 
     private IList<Partition> _partitions;
 
@@ -22,7 +22,7 @@ internal sealed class VideoPartitionModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _videoPartitionService = kernel.GetRequiredService<IVideoPartitionService>();
+        _videoPartitionService = kernel.GetRequiredService<IVideoDiscoveryService>();
     }
 
     public async Task RunAsync()

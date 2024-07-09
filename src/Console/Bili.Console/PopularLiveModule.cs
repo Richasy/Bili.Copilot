@@ -10,7 +10,7 @@ internal sealed class PopularLiveModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IPopularLiveService _popularLiveService;
+    private readonly ILiveDiscoveryService _popularLiveService;
 
     public PopularLiveModule(
         Kernel kernel,
@@ -20,7 +20,7 @@ internal sealed class PopularLiveModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _popularLiveService = kernel.GetRequiredService<IPopularLiveService>();
+        _popularLiveService = kernel.GetRequiredService<ILiveDiscoveryService>();
     }
 
     public void Exit()

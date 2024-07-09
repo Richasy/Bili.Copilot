@@ -10,7 +10,7 @@ internal sealed class PopularVideoModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IPopularVideoService _popularVideoService;
+    private readonly IVideoDiscoveryService _popularVideoService;
 
     public PopularVideoModule(
         Kernel kernel,
@@ -20,7 +20,7 @@ internal sealed class PopularVideoModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _popularVideoService = kernel.GetRequiredService<IPopularVideoService>();
+        _popularVideoService = kernel.GetRequiredService<IVideoDiscoveryService>();
     }
 
     public async Task RunAsync()

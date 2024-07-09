@@ -7,7 +7,7 @@ using Richasy.BiliKernel.Adapters;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.User;
 
-namespace Richasy.BiliKernel.Services.Media.Core;
+namespace Richasy.BiliKernel.Services.User.Core;
 
 internal static class ArticleAdapter
 {

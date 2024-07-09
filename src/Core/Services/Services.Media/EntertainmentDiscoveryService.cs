@@ -14,26 +14,32 @@ namespace Richasy.BiliKernel.Services.Media;
 /// <summary>
 /// 电影/电视剧/纪录片服务.
 /// </summary>
-public sealed class EntertainmentService : IEntertainmentService
+public sealed class EntertainmentDiscoveryService : IEntertainmentDiscoveryService
 {
     private readonly PgcClient _client;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AnimeService"/> class.
+    /// Initializes a new instance of the <see cref="EntertainmentDiscoveryService"/> class.
     /// </summary>
-    public EntertainmentService(
+    public EntertainmentDiscoveryService(
         BiliHttpClient httpClient,
         BasicAuthenticator authenticator)
-    {
-        _client = new PgcClient(httpClient, authenticator);
-    }
+        => _client = new PgcClient(httpClient, authenticator);
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<Filter>> GetEntertainmentFiltersAsync(EntertainmentType type, CancellationToken cancellationToken = default)
+    public Task<(string Title, string Description, IReadOnlyList<TimelineInformation>)> GetBangumiTimelineAsync(CancellationToken cancellationToken = default)
+        => _client.GetAnimeTimelineAsync(true, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<(string Title, string Description, IReadOnlyList<TimelineInformation>)> GetDomesticTimelineAsync(CancellationToken cancellationToken = default)
+        => _client.GetAnimeTimelineAsync(false, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<Filter>> GetIndexFiltersAsync(EntertainmentType type, CancellationToken cancellationToken = default)
         => _client.GetEntertainmentFiltersAsync(type, cancellationToken);
 
     /// <inheritdoc/>
-    public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetEntertainmentSeasonsWithFiltersAsync(EntertainmentType type, Dictionary<Filter, Condition>? filters = null, int pageNumber = 0, CancellationToken cancellationToken = default)
+    public Task<(IReadOnlyList<SeasonInformation> Seasons, bool HasNext)> GetIndexSeasonsWithFiltersAsync(EntertainmentType type, Dictionary<Filter, Condition>? filters = null, int pageNumber = 0, CancellationToken cancellationToken = default)
     {
         if (pageNumber < 0)
         {

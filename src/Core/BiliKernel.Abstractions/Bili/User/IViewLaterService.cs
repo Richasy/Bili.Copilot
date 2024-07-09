@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 
-namespace Richasy.BiliKernel.Bili.Media;
+namespace Richasy.BiliKernel.Bili.User;
 
 /// <summary>
 /// 稍后再看服务.

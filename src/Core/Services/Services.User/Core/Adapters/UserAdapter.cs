@@ -36,4 +36,10 @@ internal static class UserAdapter
         var profile = new UserDetailProfile(userProfile, user.Sign, default, user.Vip.Status == 1);
         return new UserCard(profile, communityInfo);
     }
+
+    public static PublisherProfile ToPublisherProfile(this PublisherInfo info)
+    {
+        var user = UserAdapterBase.CreateUserProfile(info.UserId, info.Publisher, info.PublisherAvatar, 48d);
+        return new PublisherProfile(user);
+    }
 }

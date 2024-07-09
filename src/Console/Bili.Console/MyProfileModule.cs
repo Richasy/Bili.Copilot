@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Bili.Console.Models;
 using Richasy.BiliKernel;
-using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;

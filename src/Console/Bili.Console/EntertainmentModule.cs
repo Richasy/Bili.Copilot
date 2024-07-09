@@ -11,7 +11,7 @@ internal sealed class EntertainmentModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IEntertainmentService _entertainmentService;
+    private readonly IEntertainmentDiscoveryService _entertainmentService;
 
     public EntertainmentModule(
         Kernel kernel,
@@ -21,7 +21,7 @@ internal sealed class EntertainmentModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _entertainmentService = kernel.GetRequiredService<IEntertainmentService>();
+        _entertainmentService = kernel.GetRequiredService<IEntertainmentDiscoveryService>();
     }
 
     public async Task RunAsync()
@@ -30,12 +30,12 @@ internal sealed class EntertainmentModule : IFeatureModule
             new SelectionPrompt<EntertainmentType>()
                 .Title("请选择类型")
                 .PageSize(10)
-                .AddChoices(Enum.GetValues<EntertainmentType>())
+                .AddChoices(Enum.GetValues<EntertainmentType>().Where(p => p is not EntertainmentType.Anime))
                 .UseConverter(GetTypeName));
 
         AnsiConsole.Clear();
         AnsiConsole.MarkupLine($"正在获取 {entertainmentType} 的筛选条件");
-        var filters = await _entertainmentService.GetEntertainmentFiltersAsync(entertainmentType, _cancellationToken).ConfigureAwait(false);
+        var filters = await _entertainmentService.GetIndexFiltersAsync(entertainmentType, _cancellationToken).ConfigureAwait(false);
         var filterTable = new Table();
         filterTable.AddColumn("名称");
         filterTable.AddColumn("值列表");
@@ -49,7 +49,7 @@ internal sealed class EntertainmentModule : IFeatureModule
         AnsiConsole.Write(filterTable);
 
         AnsiConsole.WriteLine($"正在获取 {entertainmentType} 的索引数据");
-        var (seasons, hasNext) = await _entertainmentService.GetEntertainmentSeasonsWithFiltersAsync(entertainmentType, null, 0, _cancellationToken).ConfigureAwait(false);
+        var (seasons, hasNext) = await _entertainmentService.GetIndexSeasonsWithFiltersAsync(entertainmentType, null, 0, _cancellationToken).ConfigureAwait(false);
         var seasonTable = new Table();
         seasonTable.AddColumn("ID");
         seasonTable.AddColumn("标题");

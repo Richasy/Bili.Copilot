@@ -11,7 +11,7 @@ namespace Richasy.BiliKernel.Bili.Article;
 /// <summary>
 /// 专栏服务.
 /// </summary>
-public interface IArticleService
+public interface IArticleDiscoveryService
 {
     /// <summary>
     /// 获取专栏分区.

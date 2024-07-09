@@ -9,10 +9,16 @@ using Richasy.BiliKernel.Models.Media;
 namespace Richasy.BiliKernel.Bili.Media;
 
 /// <summary>
-/// 直播分区服务.
+/// 负责管理与展示直播相关的各种信息。
+/// 包括直播信息流，直播分区等功能。
 /// </summary>
-public interface ILivePartitionService
+public interface ILiveDiscoveryService
 {
+    /// <summary>
+    /// 获取直播信息流（包含关注的直播间和推荐直播间）.
+    /// </summary>
+    Task<(IReadOnlyList<LiveInformation>? Follows, IReadOnlyList<LiveInformation>? Recommend, int NextPageNumber)> GetFeedAsync(int pageNumber = 0, CancellationToken cancellationToken = default);
+
     /// <summary>
     /// 获取直播分区.
     /// </summary>

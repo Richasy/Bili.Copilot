@@ -9,7 +9,7 @@ internal sealed class AnimeModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly IAnimeService _animeService;
+    private readonly IEntertainmentDiscoveryService _animeService;
 
     public AnimeModule(
         Kernel kernel,
@@ -19,7 +19,7 @@ internal sealed class AnimeModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _animeService = kernel.GetRequiredService<IAnimeService>();
+        _animeService = kernel.GetRequiredService<IEntertainmentDiscoveryService>();
     }
 
     public async Task RunAsync()
@@ -67,7 +67,7 @@ internal sealed class AnimeModule : IFeatureModule
 
 #endif
         AnsiConsole.MarkupLine($"正在获取 {animeType} 的筛选条件");
-        var filters = await _animeService.GetAnimeFiltersAsync(_cancellationToken).ConfigureAwait(false);
+        var filters = await _animeService.GetIndexFiltersAsync(Richasy.BiliKernel.Models.EntertainmentType.Anime, _cancellationToken).ConfigureAwait(false);
         var filterTable = new Table();
         filterTable.AddColumn("名称");
         filterTable.AddColumn("值列表");
@@ -81,7 +81,7 @@ internal sealed class AnimeModule : IFeatureModule
         AnsiConsole.Write(filterTable);
 
         AnsiConsole.WriteLine($"正在获取 {animeType} 的索引数据");
-        var (seasons, hasNext) = await _animeService.GetAnimeSeasonsWithFiltersAsync(null, 0, _cancellationToken).ConfigureAwait(false);
+        var (seasons, hasNext) = await _animeService.GetIndexSeasonsWithFiltersAsync(Richasy.BiliKernel.Models.EntertainmentType.Anime, null, 0, _cancellationToken).ConfigureAwait(false);
         var seasonTable = new Table();
         seasonTable.AddColumn("ID");
         seasonTable.AddColumn("标题");

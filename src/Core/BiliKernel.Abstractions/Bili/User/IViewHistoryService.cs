@@ -6,7 +6,7 @@ using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 
-namespace Richasy.BiliKernel.Bili.Media;
+namespace Richasy.BiliKernel.Bili.User;
 
 /// <summary>
 /// 观看历史服务.

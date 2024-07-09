@@ -10,7 +10,7 @@ internal sealed class LivePartitionModule : IFeatureModule
     private readonly Kernel _kernel;
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
-    private readonly ILivePartitionService _livePartitionService;
+    private readonly ILiveDiscoveryService _livePartitionService;
 
     private IList<Partition> _partitions;
 
@@ -22,7 +22,7 @@ internal sealed class LivePartitionModule : IFeatureModule
         _kernel = kernel;
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
-        _livePartitionService = kernel.GetRequiredService<ILivePartitionService>();
+        _livePartitionService = kernel.GetRequiredService<ILiveDiscoveryService>();
     }
 
     public void Exit()

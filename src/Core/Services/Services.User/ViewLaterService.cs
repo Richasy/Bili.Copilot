@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Richasy.BiliKernel.Authenticator;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Http;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.BiliKernel.Services.Media.Core;
+using Richasy.BiliKernel.Services.User.Core;
 
-namespace Richasy.BiliKernel.Services.Media;
+namespace Richasy.BiliKernel.Services.User;
 
 /// <summary>
 /// 稍后再看服务.
