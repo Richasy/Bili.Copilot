@@ -56,7 +56,11 @@ internal static class MomentAdapter
 
         if (dataModule != null)
         {
-            communityInfo = CommunityAdapter.ConvertToMomentCommunityInformation(dataModule, momentId);
+            communityInfo = new MomentCommunityInformation(
+                momentId,
+                dataModule.Like,
+                dataModule.Reply,
+                dataModule.LikeInfo?.IsLike ?? false);
         }
 
         return new MomentInformation(

@@ -11,4 +11,5 @@ internal enum FeatureType
     Anime,
     Entertainment,
     Article,
+    Moment,
 }

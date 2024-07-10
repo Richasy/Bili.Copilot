@@ -38,6 +38,9 @@ public static class BasicExtensions
         return double.TryParse(text, out var number) ? number : -1;
     }
 
+    /// <summary>
+    /// 将时间文本转换为秒数.
+    /// </summary>
     public static int ToDurationSeconds(this string durationText)
     {
         var colonCount = durationText.Count(p => p == ':');

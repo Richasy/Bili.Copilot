@@ -30,6 +30,7 @@ internal sealed class BiliService : IHostedService
             .AddLiveDiscoveryService()
             .AddEntertainmentDiscoveryService()
             .AddArticleDiscoveryService()
+            .AddMomentService()
             .Build();
     }
 
@@ -75,6 +76,7 @@ internal sealed class BiliService : IHostedService
             {
                 FeatureType.Authorize => "登录授权",
                 FeatureType.My => "个人信息",
+                FeatureType.Moment => "动态",
                 FeatureType.PopularVideo => "流行视频",
                 FeatureType.VideoPartition => "视频分区",
                 FeatureType.PopularLive => "热门直播",
@@ -113,6 +115,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Anime => new AnimeModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Entertainment => new EntertainmentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Article => new ArticleModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.Moment => new MomentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 
