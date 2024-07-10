@@ -6,14 +6,14 @@
       <RootNamespace>$(AssemblyName)</RootNamespace>
       <TargetFramework>netstandard2.0</TargetFramework>
       <VersionSuffix>alpha</VersionSuffix>
-      <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+      <NoWarn>NU1507</NoWarn>
       <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <PropertyGroup>
       <!-- NuGet Package Settings -->
-      <Title>Bili Kernel - User Services</Title>
-      <Description>Bili Kernel user releated features.</Description>
+      <Title>哔哩核心 - 用户</Title>
+      <Description>获取登录用户的信息，包括观看历史/稍后再看等在内的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>

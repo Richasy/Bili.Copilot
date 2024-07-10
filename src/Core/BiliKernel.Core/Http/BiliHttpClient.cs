@@ -73,7 +73,7 @@ public sealed partial class BiliHttpClient
     /// <param name="request">请求信息.</param>
     /// <param name="cancellationToken">终止令牌.</param>
     /// <returns>响应结果.</returns>
-    /// <exception cref="HttpOperationException"></exception>
+    /// <exception cref="KernelException"></exception>
     /// <exception cref="KernelException"></exception>
     public async Task<IFlurlResponse> SendAsync(IFlurlRequest request, CancellationToken cancellationToken = default)
     {
@@ -84,13 +84,13 @@ public sealed partial class BiliHttpClient
             await ThrowIfResponseInvalidAsync(response).ConfigureAwait(false);
             return response;
         }
-        catch (HttpOperationException)
+        catch (KernelException)
         {
             throw;
         }
         catch (HttpRequestException httpEx)
         {
-            throw new HttpOperationException(httpEx.Message, httpEx);
+            throw new KernelException(httpEx.Message, httpEx);
         }
         catch (Exception ex)
         {

@@ -14,7 +14,7 @@ internal static class LiveAdapter
         var title = card.Title;
         var roomId = card.RoomId.ToString();
         var user = UserAdapterBase.CreateUserProfile(card.UserId ?? 0, card.UpName, default, 0d);
-        var viewerCount = VideoAdapter.GetCountNumber(card.CoverRightContent.Text);
+        var viewerCount = card.CoverRightContent.Text.ToCountNumber();
         var subtitle = card.CoverLeftContent.Text;
         var cover = card.Cover.ToVideoCover();
         var identifier = new VideoIdentifier(roomId, title, cover);

@@ -9,10 +9,8 @@
 
   <PropertyGroup>
     <!-- NuGet Package Settings -->
-    <Title>Bili Kernel gRPC</Title>
-    <Description>
-        Provider bilibili gRPC models and services.
-    </Description>
+    <Title>哔哩核心 - gRPC</Title>
+    <Description>包含 BiliBili 的核心 gRPC 服务定义，用于与 BiliBili 的 gRPC 服务进行通信.</Description>
   </PropertyGroup>
 
   <ItemGroup>

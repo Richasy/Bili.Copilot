@@ -13,12 +13,8 @@
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel Core</Title>
-        <Description>
-            Bili Kernel core orchestration, runtime and functions.
-            This package is automatically installed by 'Richasy.BiliKernel' package with other useful packages.
-            Install this package manually only if you are selecting individual Bili Kernel components.
-        </Description>
+        <Title>哔哩核心 - 内核</Title>
+        <Description>包含基础的通用组件，运行时和扩展方法。此包由 'Richasy.BiliKernel' 包自动安装，与其他有用的包一起安装。</Description>
     </PropertyGroup>
 
     <ItemGroup>

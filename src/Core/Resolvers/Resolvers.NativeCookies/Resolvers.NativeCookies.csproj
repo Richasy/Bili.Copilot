@@ -6,13 +6,13 @@
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
-        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+        <NoWarn>NU1507</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - Native Cookies Resolver</Title>
-        <Description>Bili Kernel resolvers for local cookies.</Description>
+        <Title>哔哩核心 - 本机 Cookie 存取器</Title>
+        <Description>会将登录 Cookie 存储在本地文件中，并进行读取和缓存的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>

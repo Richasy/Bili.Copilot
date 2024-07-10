@@ -35,7 +35,7 @@ internal static class VideoAdapter
     {
         var identifier = new VideoIdentifier(card.Args.Aid.ToString(), card.Title, card.Cover.ToVideoCover());
         var publisher = new PublisherInfo { Publisher = card.Args.UpName, UserId = card.Args.UpId ?? 0 };
-        var communityInfo = new VideoCommunityInformation(card.Args.Aid.ToString(), GetCountNumber(card.PlayCountText), GetCountNumber(card.DanmakuCountText));
+        var communityInfo = new VideoCommunityInformation(card.Args.Aid.ToString(), card.PlayCountText.ToCountNumber(), card.DanmakuCountText.ToCountNumber());
         var info = new VideoInformation(
             identifier,
             publisher.ToPublisherProfile(),
@@ -72,10 +72,10 @@ internal static class VideoAdapter
 
         var cover = baseCard.Cover.ToVideoCover();
         var highlight = v5.RcmdReasonStyle?.Text ?? string.Empty;
-        var duration = GetDurationSeconds(v5.CoverRightText1);
+        var duration = v5.CoverRightText1.ToDurationSeconds();
         var identifier = new VideoIdentifier(id, title, cover);
 
-        var playCount = GetCountNumber(baseCard.ThreePointV4.SharePlane.PlayNumber, "次");
+        var playCount = baseCard.ThreePointV4.SharePlane.PlayNumber.ToCountNumber("次");
         var communityInfo = new VideoCommunityInformation(id, playCount);
 
         var info = new VideoInformation(
@@ -162,57 +162,5 @@ internal static class VideoAdapter
         }
 
         return new Partition(id, name, logo, children);
-    }
-
-    /// <summary>
-    /// 将数字简写文本中转换为大略的次数.
-    /// </summary>
-    /// <param name="text">数字简写文本.</param>
-    /// <param name="removeText">需要先在简写文本中移除的内容.</param>
-    /// <returns>一个大概的次数，比如 <c>3.2万播放</c>，最终会返回 <c>32000</c>.</returns>
-    internal static double GetCountNumber(string text, string removeText = "")
-    {
-        if (!string.IsNullOrEmpty(removeText))
-        {
-            text = text.Replace(removeText, string.Empty).Trim();
-        }
-
-        // 对于目前的B站来说，汉字单位只有 `万` 和 `亿` 两种.
-        if (text.EndsWith("万"))
-        {
-            var num = Convert.ToDouble(text.Replace("万", string.Empty));
-            return num * 10000;
-        }
-        else if (text.EndsWith("亿"))
-        {
-            var num = Convert.ToDouble(text.Replace("亿", string.Empty));
-            return num * 100000000;
-        }
-
-        return double.TryParse(text, out var number) ? number : -1;
-    }
-
-    internal static int GetDurationSeconds(string durationText)
-    {
-        var colonCount = durationText.Count(p => p == ':');
-        var hourStr = string.Empty;
-        if (colonCount == 1)
-        {
-            durationText = "00:" + durationText;
-        }
-        else if (colonCount == 2)
-        {
-            var sp = durationText.Split(':');
-            durationText = string.Join(":", "00", sp[1], sp[2]);
-            hourStr = sp[0];
-        }
-
-        var ts = TimeSpan.Parse(durationText);
-        if (!string.IsNullOrEmpty(hourStr))
-        {
-            ts += TimeSpan.FromHours(Convert.ToInt32(hourStr));
-        }
-
-        return Convert.ToInt32(ts.TotalSeconds);
     }
 }

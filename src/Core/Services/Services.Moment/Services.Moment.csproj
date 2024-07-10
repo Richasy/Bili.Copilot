@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <!-- THIS PROPERTY GROUP MUST COME FIRST -->
-        <AssemblyName>Richasy.BiliKernel.Authorizers.TV</AssemblyName>
+        <AssemblyName>Richasy.BiliKernel.Services.Moment</AssemblyName>
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
@@ -12,8 +12,8 @@
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>哔哩核心 - 电视授权器</Title>
-        <Description>使用小电视（BiliBili TV版）相关接口进行授权验证的哔哩核心子模块</Description>
+        <Title>哔哩核心 - 动态</Title>
+        <Description>获取用户动态，个人空间内容的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,10 +23,6 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="QRCoder" />
     </ItemGroup>
 
 </Project>

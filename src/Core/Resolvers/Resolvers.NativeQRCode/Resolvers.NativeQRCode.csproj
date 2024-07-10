@@ -6,13 +6,13 @@
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
-        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+        <NoWarn>NU1507</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - Native QRCode Resolver</Title>
-        <Description>Bili Kernel resolvers for QRCode.</Description>
+        <Title>哔哩核心 - 本机二维码渲染器</Title>
+        <Description>会在本地生成一个包含二维码信息的临时图片，并调用系统默认的图片控件打开二维码的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>

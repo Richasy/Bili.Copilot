@@ -6,13 +6,13 @@
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
-        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+        <NoWarn>NU1507</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - Native Token Resolver</Title>
-        <Description>Bili Kernel resolvers for local token.</Description>
+        <Title>哔哩核心 - 本机令牌存取器</Title>
+        <Description>会将登录令牌以 JSON 文件的形式存储在本地，并进行读取和缓存的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>

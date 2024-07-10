@@ -90,16 +90,16 @@ internal sealed class TVAuthorizeClient
                 SaveToken(token);
                 return token;
             }
-            catch (Exception ex)
+            catch (KernelException ke)
             {
-                if (ex is KernelException ke && ke.InnerException is TaskCanceledException)
+                if (ke.InnerException is TaskCanceledException)
                 {
                     break;
                 }
 
-                if (ex is HttpOperationException he && he.InnerException is not null && he.InnerException.Message.Contains("Code"))
+                if (ke.InnerException is not null && ke.InnerException.Message.Contains("Code"))
                 {
-                    var error = JsonSerializer.Deserialize<BiliResponse>(he.InnerException.Message);
+                    var error = JsonSerializer.Deserialize<BiliResponse>(ke.InnerException.Message);
                     if (error != null)
                     {
                         var qrStatus = error.Code is 86090 or 86039
@@ -112,7 +112,7 @@ internal sealed class TVAuthorizeClient
                         }
                         else
                         {
-                            throw new Exception(qrStatus == QRCodeStatus.Expired ? "二维码已过期，请刷新二维码" : "二维码扫描失败", he.InnerException);
+                            throw new Exception(qrStatus == QRCodeStatus.Expired ? "二维码已过期，请刷新二维码" : "二维码扫描失败", ke.InnerException);
                         }
                     }
                 }

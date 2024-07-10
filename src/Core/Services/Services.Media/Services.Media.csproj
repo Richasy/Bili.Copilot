@@ -6,14 +6,14 @@
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <TargetFramework>netstandard2.0</TargetFramework>
         <VersionSuffix>alpha</VersionSuffix>
-        <NoWarn>SKEXP0001,SKEXP0070;NU1507</NoWarn>
+        <NoWarn>NU1507</NoWarn>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - Media Services</Title>
-        <Description>Bili Kernel media releated features.</Description>
+        <Title>哔哩核心 - 多媒体</Title>
+        <Description>用于获取 UGC / PGC 视频/直播等流媒体内容的哔哩核心子模块</Description>
     </PropertyGroup>
 
     <ItemGroup>

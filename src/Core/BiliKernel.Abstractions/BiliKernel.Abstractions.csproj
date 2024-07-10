@@ -10,8 +10,8 @@
 
     <PropertyGroup>
         <!-- NuGet Package Settings -->
-        <Title>Bili Kernel - Abstractions</Title>
-        <Description>Bili Kernel interfaces and abstractions. This package is automatically installed by Bili Kernel packages if needed.</Description>
+        <Title>哔哩核心 - 基础</Title>
+        <Description>哔哩核心的基础定义与接口抽象。此包由 'Richasy.BiliKernel' 包自动安装，与其他有用的包一起安装。</Description>
     </PropertyGroup>
 
     <ItemGroup>

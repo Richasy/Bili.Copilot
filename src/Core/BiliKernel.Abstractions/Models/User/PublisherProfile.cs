@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
+using System;
 using System.Collections.Generic;
 
 namespace Richasy.BiliKernel.Models.User;
@@ -51,5 +52,5 @@ public sealed class PublisherProfile
     public override bool Equals(object obj) => obj is PublisherProfile profile && EqualityComparer<UserProfile>.Default.Equals(User, profile.User);
 
     /// <inheritdoc/>
-    public override int GetHashCode() => User.GetHashCode();
+    public override int GetHashCode() => HashCode.Combine(User);
 }
