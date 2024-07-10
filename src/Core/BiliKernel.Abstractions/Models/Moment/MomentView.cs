@@ -17,14 +17,12 @@ public sealed class MomentView
         IReadOnlyList<MomentProfile>? users,
         string? offset,
         string? updateBaseline,
-        string? footprint,
         bool? hasMoreMoments)
     {
         Moments = moments;
         Users = users;
         Offset = offset;
         UpdateBaseline = updateBaseline;
-        Footprint = footprint;
         HasMoreMoments = hasMoreMoments;
     }
 
@@ -47,11 +45,6 @@ public sealed class MomentView
     /// 更新动态列表的基线，用于历史记录的请求.
     /// </summary>
     public string? UpdateBaseline { get; }
-
-    /// <summary>
-    /// 透传字段，用于标记用户已读的动态.
-    /// </summary>
-    public string? Footprint { get; }
 
     /// <summary>
     /// 是否还有更多动态.

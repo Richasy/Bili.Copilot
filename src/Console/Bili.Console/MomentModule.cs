@@ -1,5 +1,11 @@
-﻿using Richasy.BiliKernel;
+﻿#define COMPREHENSIVE
+
+using Richasy.BiliKernel;
 using Richasy.BiliKernel.Bili.Moment;
+
+#if USER
+using Richasy.BiliKernel.Models.User;
+#endif
 using Spectre.Console;
 
 namespace Bili.Console;
@@ -9,6 +15,7 @@ internal sealed class MomentModule : IFeatureModule
     private readonly CancellationToken _cancellationToken;
     private readonly Func<string, Task> _backFunc;
     private readonly IMomentDiscoveryService _momentService;
+    private readonly IMomentOperationService _operationService;
 
     public MomentModule(
         Kernel kernel,
@@ -18,6 +25,7 @@ internal sealed class MomentModule : IFeatureModule
         _cancellationToken = cancellationToken;
         _backFunc = backFunc;
         _momentService = kernel.GetRequiredService<IMomentDiscoveryService>();
+        _operationService = kernel.GetRequiredService<IMomentOperationService>();
     }
 
     public async Task RunAsync()
@@ -54,7 +62,14 @@ internal sealed class MomentModule : IFeatureModule
 
         AnsiConsole.Write(comprehensiveMomentTable);
 
+        var firstUser = comprehensiveMoments.Users.First(p => p.IsUnread);
+        if (AnsiConsole.Confirm($"是否标记 {firstUser.User.Name} 为已读？"))
+        {
+            await _operationService.MarkUserMomentAsReadAsync(firstUser, comprehensiveMoments.Offset).ConfigureAwait(false);
+        }
+
 #endif
+#if VIDEO
         AnsiConsole.MarkupLine("正在获取视频动态");
         var videoMoments = await _momentService.GetVideoMomentsAsync(null, null, _cancellationToken).ConfigureAwait(false);
         var videoMomentTable = new Table();
@@ -68,11 +83,12 @@ internal sealed class MomentModule : IFeatureModule
         }
 
         AnsiConsole.Write(videoMomentTable);
+#endif
 
-        if (AnsiConsole.Confirm("是否返回？"))
-        {
-            await _backFunc(string.Empty).ConfigureAwait(false);
-        }
+            if (AnsiConsole.Confirm("是否返回？"))
+            {
+                await _backFunc(string.Empty).ConfigureAwait(false);
+            }
     }
 
     public void Exit()

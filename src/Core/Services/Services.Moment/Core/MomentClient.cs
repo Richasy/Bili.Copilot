@@ -57,7 +57,7 @@ internal sealed class MomentClient
         };
 
         var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.DynamicAll), req);
-        _authenticator.AuthorizeGrpcRequest(request, false);
+        _authenticator.AuthorizeGrpcRequest(request);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, DynAllReply.Parser).ConfigureAwait(false);
         var moments = responseObj.DynamicList.List.Select(p => p.ToMomentInformation()).ToList().AsReadOnly();
@@ -65,7 +65,7 @@ internal sealed class MomentClient
         var nextBaseline = responseObj.DynamicList?.UpdateBaseline;
         var ups = responseObj.UpList?.List.Select(p => p.ToMomentProfile()).ToList().AsReadOnly();
         var hasMore = responseObj.DynamicList?.HasMore;
-        return new MomentView(moments, ups, nextOffset, nextBaseline, responseObj.UpList?.Footprint, hasMore);
+        return new MomentView(moments, ups, nextOffset, nextBaseline, hasMore);
     }
 
     public async Task<MomentView> GetVideoMomentsAsync(string? offset = default, string? baseline = default, CancellationToken cancellationToken = default)
@@ -79,7 +79,7 @@ internal sealed class MomentClient
         };
 
         var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.DynamicVideo), req);
-        _authenticator.AuthorizeGrpcRequest(request, false);
+        _authenticator.AuthorizeGrpcRequest(request);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, DynVideoReply.Parser).ConfigureAwait(false);
         var moments = responseObj.DynamicList.List.Where(p =>
@@ -93,6 +93,33 @@ internal sealed class MomentClient
         var nextBaseline = responseObj.DynamicList?.UpdateBaseline;
         var ups = responseObj.VideoUpList?.List.Select(p => p.ToMomentProfile()).ToList().AsReadOnly();
         var hasMore = responseObj.DynamicList?.HasMore;
-        return new MomentView(moments, ups, nextOffset, nextBaseline, default, hasMore);
+        return new MomentView(moments, ups, nextOffset, nextBaseline, hasMore);
+    }
+
+    public async Task LikeMomentAsync(MomentInformation moment, bool isLike, CancellationToken cancellationToken)
+    {
+        var req = new DynThumbReq
+        {
+            Type = isLike ? ThumbType.Thumb: ThumbType.Cancel,
+            DynId = Convert.ToInt64(moment.Id),
+            Uid = Convert.ToInt64(moment.User.Id),
+        };
+
+        var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.LikeDynamic), req);
+        _authenticator.AuthorizeGrpcRequest(request);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task MarkAsReadAsync(string userId, string? offset, CancellationToken cancellationToken)
+    {
+        var req = new DynAllUpdOffsetReq
+        {
+            HostUid = Convert.ToInt64(userId),
+            ReadOffset = offset ?? string.Empty,
+        };
+
+        var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.DynamicSpaceMarkRead), req);
+        _authenticator.AuthorizeGrpcRequest(request);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
 }

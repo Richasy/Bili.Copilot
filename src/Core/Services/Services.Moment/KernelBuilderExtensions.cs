@@ -14,9 +14,18 @@ public static class KernelBuilderExtensions
     /// <summary>
     /// 添加动态发现服务.
     /// </summary>
-    public static IKernelBuilder AddMomentService(this IKernelBuilder builder)
+    public static IKernelBuilder AddMomentDiscoveryService(this IKernelBuilder builder)
     {
         builder.Services.AddSingleton<IMomentDiscoveryService, MomentDiscoveryService>();
+        return builder;
+    }
+
+    /// <summary>
+    /// 添加动态操作服务.
+    /// </summary>
+    public static IKernelBuilder AddMomentOperationService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IMomentOperationService, MomentOperationService>();
         return builder;
     }
 }

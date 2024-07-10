@@ -25,7 +25,7 @@ public interface IMomentOperationService
     /// 将用户动态标记为已读.
     /// </summary>
     /// <remarks>
-    /// 在请求综合动态时，会包含偏移值 <paramref name="offset"/> 和足迹信息 <paramref name="footprint"/>，用于标记动态的已读状态.
+    /// 在请求综合动态或者用户空间动态时，会包含偏移值 <paramref name="offset"/>，用于标记动态的已读状态.
     /// </remarks>
-    Task MarkUserMomentAsReadAsync(MomentProfile user, string? offset = default, string? footprint = default, CancellationToken cancellationToken = default);
+    Task MarkUserMomentAsReadAsync(MomentProfile user, string offset, CancellationToken cancellationToken = default);
 }

@@ -30,7 +30,8 @@ internal sealed class BiliService : IHostedService
             .AddLiveDiscoveryService()
             .AddEntertainmentDiscoveryService()
             .AddArticleDiscoveryService()
-            .AddMomentService()
+            .AddMomentDiscoveryService()
+            .AddMomentOperationService()
             .Build();
     }
 
