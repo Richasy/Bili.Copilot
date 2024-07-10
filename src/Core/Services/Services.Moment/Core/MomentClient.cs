@@ -45,4 +45,54 @@ internal sealed class MomentClient
             ? throw new KernelException("没有获取到动态信息，请稍后重试")
             : ((IReadOnlyList<MomentInformation> Moments, string Offset, bool HasMore))(moments, responseObj.HistoryOffset, responseObj.HasMore);
     }
+
+    public async Task<MomentView> GetComprehensiveMomentsAsync(string? offset = default, string? baseline = default, CancellationToken cancellationToken = default)
+    {
+        var type = string.IsNullOrEmpty(offset) ? Refresh.New : Refresh.History;
+        var req = new DynAllReq
+        {
+            RefreshType = type,
+            Offset = offset ?? string.Empty,
+            UpdateBaseline = baseline ?? string.Empty,
+        };
+
+        var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.DynamicAll), req);
+        _authenticator.AuthorizeGrpcRequest(request, false);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var responseObj = await BiliHttpClient.ParseAsync(response, DynAllReply.Parser).ConfigureAwait(false);
+        var moments = responseObj.DynamicList.List.Select(p => p.ToMomentInformation()).ToList().AsReadOnly();
+        var nextOffset = responseObj.DynamicList?.HistoryOffset;
+        var nextBaseline = responseObj.DynamicList?.UpdateBaseline;
+        var ups = responseObj.UpList?.List.Select(p => p.ToMomentProfile()).ToList().AsReadOnly();
+        var hasMore = responseObj.DynamicList?.HasMore;
+        return new MomentView(moments, ups, nextOffset, nextBaseline, responseObj.UpList?.Footprint, hasMore);
+    }
+
+    public async Task<MomentView> GetVideoMomentsAsync(string? offset = default, string? baseline = default, CancellationToken cancellationToken = default)
+    {
+        var type = string.IsNullOrEmpty(offset) ? Refresh.New : Refresh.History;
+        var req = new DynVideoReq
+        {
+            RefreshType = type,
+            Offset = offset ?? string.Empty,
+            UpdateBaseline = baseline ?? string.Empty,
+        };
+
+        var request = BiliHttpClient.CreateRequest(new Uri(BiliApis.Community.DynamicVideo), req);
+        _authenticator.AuthorizeGrpcRequest(request, false);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        var responseObj = await BiliHttpClient.ParseAsync(response, DynVideoReply.Parser).ConfigureAwait(false);
+        var moments = responseObj.DynamicList.List.Where(p =>
+            p.CardType is DynamicType.Av
+            or DynamicType.Pgc
+            or DynamicType.UgcSeason)
+            .Select(p => p.ToMomentInformation())
+            .ToList()
+            .AsReadOnly();
+        var nextOffset = responseObj.DynamicList?.HistoryOffset;
+        var nextBaseline = responseObj.DynamicList?.UpdateBaseline;
+        var ups = responseObj.VideoUpList?.List.Select(p => p.ToMomentProfile()).ToList().AsReadOnly();
+        var hasMore = responseObj.DynamicList?.HasMore;
+        return new MomentView(moments, ups, nextOffset, nextBaseline, default, hasMore);
+    }
 }

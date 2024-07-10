@@ -17,13 +17,15 @@ public sealed class MomentView
         IReadOnlyList<MomentProfile>? users,
         string? offset,
         string? updateBaseline,
-        string? footprint)
+        string? footprint,
+        bool? hasMoreMoments)
     {
         Moments = moments;
         Users = users;
         Offset = offset;
         UpdateBaseline = updateBaseline;
         Footprint = footprint;
+        HasMoreMoments = hasMoreMoments;
     }
 
     /// <summary>
@@ -50,4 +52,9 @@ public sealed class MomentView
     /// 透传字段，用于标记用户已读的动态.
     /// </summary>
     public string? Footprint { get; }
+
+    /// <summary>
+    /// 是否还有更多动态.
+    /// </summary>
+    public bool? HasMoreMoments { get; }
 }

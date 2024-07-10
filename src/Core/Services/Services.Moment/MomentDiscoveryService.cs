@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,8 +34,10 @@ public sealed class MomentDiscoveryService : IMomentDiscoveryService
         => _momentClient.GetUserMomentsAsync(user, offset, cancellationToken);
 
     /// <inheritdoc/>
-    public Task<MomentView> GetComprehensiveMomentsAsync(string? offset = null, string? baseline = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public Task<MomentView> GetComprehensiveMomentsAsync(string? offset = null, string? baseline = null, CancellationToken cancellationToken = default)
+        => _momentClient.GetComprehensiveMomentsAsync(offset, baseline, cancellationToken);
 
     /// <inheritdoc/>
-    public Task<MomentView> GetVideoMomentsAsync(string? offset = null, string? baseline = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public Task<MomentView> GetVideoMomentsAsync(string? offset = null, string? baseline = null, CancellationToken cancellationToken = default)
+        => _momentClient.GetVideoMomentsAsync(offset, baseline, cancellationToken);
 }
