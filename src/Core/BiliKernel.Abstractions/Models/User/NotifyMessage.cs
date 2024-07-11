@@ -17,7 +17,7 @@ public sealed class NotifyMessage
     /// <param name="type">消息类型.</param>
     /// <param name="users">用户列表.</param>
     /// <param name="publishTime">发布时间.</param>
-    /// <param name="subtitle">副标题.</param>
+    /// <param name="business">通知的可读类型.</param>
     /// <param name="message">消息内容.</param>
     /// <param name="sourceContent">源内容.</param>
     /// <param name="sourceId">源内容标识符.</param>
@@ -27,7 +27,7 @@ public sealed class NotifyMessage
         NotifyMessageType type,
         IReadOnlyList<UserProfile> users,
         DateTimeOffset publishTime,
-        string? subtitle,
+        string? business,
         string? message,
         string? sourceContent,
         string? sourceId,
@@ -36,7 +36,7 @@ public sealed class NotifyMessage
         Type = type;
         Users = users;
         PublishTime = publishTime;
-        Subtitle = subtitle;
+        Business = business;
         Message = message;
         SourceContent = sourceContent;
         SourceId = sourceId;
@@ -61,9 +61,9 @@ public sealed class NotifyMessage
     public DateTimeOffset? PublishTime { get; }
 
     /// <summary>
-    /// 副标题.
+    /// 通知的可读类型.
     /// </summary>
-    public string? Subtitle { get; }
+    public string? Business { get; }
 
     /// <summary>
     /// 消息内容.

@@ -7,7 +7,7 @@ namespace Richasy.BiliKernel.Services.User.Core;
 /// <summary>
 /// 发布者信息.
 /// </summary>
-internal sealed class PublisherInfo
+internal class PublisherInfo
 {
     /// <summary>
     /// 视频发布者的Id.

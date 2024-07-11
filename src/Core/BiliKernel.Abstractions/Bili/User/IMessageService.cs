@@ -24,12 +24,20 @@ public interface IMessageService
     /// <remarks>
     /// 在第二次请求会话列表时，需要传入上一次请求的最早的一个会话的时间，以便获取更早的会话列表.
     /// </remarks>
-    Task<(IReadOnlyList<ChatSession> Sessions, bool HasNext)> GetChatSessionsAsync(DateTimeOffset? lastMessageTime = null, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<ChatSession> Sessions, bool HasNext)> GetChatSessionsAsync(DateTimeOffset? lastSessionTime = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 获取和指定用户的聊天消息（可以指定数目）.
     /// </summary>
-    Task<(IReadOnlyList<ChatMessage> Messages, bool HasMore)> GetChatMessageAsync(UserProfile user, int messageCount = 100, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<ChatMessage> Messages,long MaxNumber, bool HasMore)> GetChatMessagesAsync(UserProfile user, int messageCount = 100, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 标记聊天消息为已读.
+    /// </summary>
+    /// <remarks>
+    /// 最大消息序号 <paramref name="maxNumber"/> 可以从 <see cref="GetChatMessagesAsync(UserProfile, int, CancellationToken)"/> 方法的返回值中获取.
+    /// </remarks>
+    Task MarkChatMessagesAsReadAsync(UserProfile user, long maxNumber, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 发送聊天消息.

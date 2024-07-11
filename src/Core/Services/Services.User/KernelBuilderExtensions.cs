@@ -46,4 +46,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IViewHistoryService, ViewHistoryService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加消息服务.
+    /// </summary>
+    public static IKernelBuilder AddMessageService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IMessageService, MessageService>();
+        return builder;
+    }
 }
