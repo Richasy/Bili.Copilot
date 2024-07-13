@@ -13,7 +13,7 @@ internal static class VideoAdapter
 {
     public static VideoInformation ToVideoInformation(this CuratedPlaylistVideo video)
     {
-        var identifier = new VideoIdentifier(video.AvId.ToString(), video.Title, video.Cover.ToVideoCover());
+        var identifier = new MediaIdentifier(video.AvId.ToString(), video.Title, video.Cover.ToVideoCover());
         var publisher = video.Owner.ToPublisherProfile();
         var communityInfo = video.Stat.ToVideoCommunityInformation();
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(video.PublishTime ?? 0).ToLocalTime();
@@ -33,7 +33,7 @@ internal static class VideoAdapter
 
     public static VideoInformation ToVideoInformation(this RecommendCard card)
     {
-        var identifier = new VideoIdentifier(card.Args.Aid.ToString(), card.Title, card.Cover.ToVideoCover());
+        var identifier = new MediaIdentifier(card.Args.Aid.ToString(), card.Title, card.Cover.ToVideoCover());
         var publisher = new PublisherInfo { Publisher = card.Args.UpName, UserId = card.Args.UpId ?? 0 };
         var communityInfo = new VideoCommunityInformation(card.Args.Aid.ToString(), card.PlayCountText.ToCountNumber(), card.DanmakuCountText.ToCountNumber());
         var info = new VideoInformation(
@@ -73,7 +73,7 @@ internal static class VideoAdapter
         var cover = baseCard.Cover.ToVideoCover();
         var highlight = v5.RcmdReasonStyle?.Text ?? string.Empty;
         var duration = v5.CoverRightText1.ToDurationSeconds();
-        var identifier = new VideoIdentifier(id, title, cover);
+        var identifier = new MediaIdentifier(id, title, cover);
 
         var playCount = baseCard.ThreePointV4.SharePlane.PlayNumber.ToCountNumber("次");
         var communityInfo = new VideoCommunityInformation(id, playCount);
@@ -110,7 +110,7 @@ internal static class VideoAdapter
             item.Favourite,
             commentCount: item.Reply);
 
-        var identifier = new VideoIdentifier(id, title, cover);
+        var identifier = new MediaIdentifier(id, title, cover);
         var info = new VideoInformation(
             identifier,
             user,
@@ -124,7 +124,7 @@ internal static class VideoAdapter
 
     public static VideoInformation ToVideoInformation(this PartitionVideo video)
     {
-        var identifier = new VideoIdentifier(video.Parameter, video.Title, video.Cover.ToVideoCover());
+        var identifier = new MediaIdentifier(video.Parameter, video.Title, video.Cover.ToVideoCover());
         var communityInfo = new VideoCommunityInformation(video.Parameter, video.PlayCount, video.DanmakuCount, video.LikeCount, favoriteCount: video.FavouriteCount, commentCount: video.ReplyCount);
         var publishTime = DateTimeOffset.FromUnixTimeSeconds(video.PublishDateTime ?? 0).ToLocalTime();
         var info = new VideoInformation(

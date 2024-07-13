@@ -22,7 +22,7 @@ internal static class VideoAdapter
         var bvid = video.Bvid;
         var owner = new PublisherInfo { Publisher = video.Name, UserId = video.Mid };
         var cover = video.Cover.ToVideoCover();
-        var identifier = new VideoIdentifier(aid, title, cover);
+        var identifier = new MediaIdentifier(aid, title, cover);
         var communityInfo = new VideoCommunityInformation(cursorItem.Kid.ToString(), video.View);
 
         var info = new VideoInformation(
@@ -51,7 +51,7 @@ internal static class VideoAdapter
         var cover = video.Cover.ToVideoCover();
         var publisher = video.Owner.ToPublisherProfile();
         var communityInfo = video.Status.ToVideoCommunityInformation();
-        var identifier = new VideoIdentifier(id, title, cover);
+        var identifier = new MediaIdentifier(id, title, cover);
         var info = new VideoInformation(
             identifier,
             publisher,

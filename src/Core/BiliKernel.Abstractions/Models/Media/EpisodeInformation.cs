@@ -19,7 +19,7 @@ public sealed class EpisodeInformation : VideoBase
     /// <param name="publishTime">发布时间.</param>
     /// <param name="communityInformation">社区信息.</param>
     public EpisodeInformation(
-        VideoIdentifier identifier,
+        MediaIdentifier identifier,
         long? duration = default,
         int? index = default,
         DateTimeOffset? publishTime = default,
@@ -52,7 +52,7 @@ public sealed class EpisodeInformation : VideoBase
     public VideoCommunityInformation? CommunityInformation { get; set; }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) => obj is EpisodeInformation information && EqualityComparer<VideoIdentifier>.Default.Equals(Identifier, information.Identifier);
+    public override bool Equals(object obj) => obj is EpisodeInformation information && EqualityComparer<MediaIdentifier>.Default.Equals(Identifier, information.Identifier);
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Identifier);

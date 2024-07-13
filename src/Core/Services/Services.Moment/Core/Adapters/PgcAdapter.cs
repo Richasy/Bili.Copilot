@@ -18,7 +18,7 @@ internal static class PgcAdapter
         var cover = pgc.Cover.ToVideoCover();
         var duration = pgc.Duration;
 
-        var identifier = new VideoIdentifier(epId.ToString(), title, cover);
+        var identifier = new MediaIdentifier(epId.ToString(), title, cover);
         var info = new EpisodeInformation(identifier, duration);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Aid, aid);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.SeasonId, ssid);
@@ -36,7 +36,7 @@ internal static class PgcAdapter
         var cover = archive.Cover.ToVideoCover();
         var duration = archive.Duration;
 
-        var identifier = new VideoIdentifier(epid.ToString(), title, cover);
+        var identifier = new MediaIdentifier(epid.ToString(), title, cover);
         var info = new EpisodeInformation(identifier, duration);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Aid, aid);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.SeasonId, ssid);

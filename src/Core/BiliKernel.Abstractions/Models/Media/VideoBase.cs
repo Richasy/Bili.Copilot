@@ -12,7 +12,7 @@ public abstract class VideoBase
     /// <summary>
     /// 视频标识符.
     /// </summary>
-    public VideoIdentifier Identifier { get; protected set; }
+    public MediaIdentifier Identifier { get; protected set; }
 
     /// <summary>
     /// 扩展数据.

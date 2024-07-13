@@ -22,7 +22,7 @@ public sealed class VideoInformation : VideoBase
     /// <param name="collaborators">视频合作者信息.</param>
     /// <param name="communityInformation">社区信息.</param>
     public VideoInformation(
-        VideoIdentifier identifier,
+        MediaIdentifier identifier,
         PublisherProfile publisher,
         long? duration = default,
         string? bvId = default,
@@ -78,7 +78,7 @@ public sealed class VideoInformation : VideoBase
 
     /// <inheritdoc/>
     public override bool Equals(object obj)
-        => obj is VideoInformation information && EqualityComparer<VideoIdentifier>.Default.Equals(Identifier, information.Identifier);
+        => obj is VideoInformation information && EqualityComparer<MediaIdentifier>.Default.Equals(Identifier, information.Identifier);
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Identifier);

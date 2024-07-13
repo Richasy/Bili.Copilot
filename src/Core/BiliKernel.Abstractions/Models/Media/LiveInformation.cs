@@ -18,7 +18,7 @@ public sealed class LiveInformation : VideoBase
     /// <param name="user">正在直播的用户资料.</param>
     /// <param name="relation">与直播UP的关系.</param>
     public LiveInformation(
-        VideoIdentifier identifier,
+        MediaIdentifier identifier,
         UserProfile? user = default,
         UserRelationStatus? relation = default)
     {
@@ -38,7 +38,7 @@ public sealed class LiveInformation : VideoBase
     public UserRelationStatus? Relation { get; set; }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) => obj is LiveInformation information && EqualityComparer<VideoIdentifier>.Default.Equals(Identifier, information.Identifier);
+    public override bool Equals(object obj) => obj is LiveInformation information && EqualityComparer<MediaIdentifier>.Default.Equals(Identifier, information.Identifier);
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Identifier);

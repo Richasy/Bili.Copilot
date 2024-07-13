@@ -17,7 +17,7 @@ internal static class LiveAdapter
         var viewTime = DateTimeOffset.FromUnixTimeSeconds(item.ViewAt).ToLocalTime();
         var roomId = item.Kid.ToString();
         var cover = live.Cover.ToVideoCover();
-        var identifier = new VideoIdentifier(roomId, title, cover);
+        var identifier = new MediaIdentifier(roomId, title, cover);
         var user = UserAdapterBase.CreateUserProfile(live.Mid, live.Name, default, 0d);
         var relation = live.Relation.Status switch
         {

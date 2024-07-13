@@ -23,7 +23,7 @@ internal static class PgcAdapter
         var subtitle = episode.Subtitle;
         var cover = episode.Cover.ToVideoCover();
         var duration = episode.Duration;
-        var identifier = new VideoIdentifier(episodeId, title, cover);
+        var identifier = new MediaIdentifier(episodeId, title, cover);
         var info = new EpisodeInformation(identifier, duration);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Subtitle, subtitle);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.SeasonId, seasonId);

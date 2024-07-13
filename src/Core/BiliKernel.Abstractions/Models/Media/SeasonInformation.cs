@@ -17,7 +17,7 @@ public sealed class SeasonInformation : VideoBase
     /// <param name="communityInformation">社区交互信息.</param>
     /// <param name="isTracking">是否已追番/追剧.</param>
     public SeasonInformation(
-        VideoIdentifier identifier,
+        MediaIdentifier identifier,
         VideoCommunityInformation communityInformation = default,
         bool? isTracking = default)
     {
@@ -37,7 +37,7 @@ public sealed class SeasonInformation : VideoBase
     public bool? IsTracking { get; set; }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) => obj is SeasonInformation information && EqualityComparer<VideoIdentifier>.Default.Equals(Identifier, information.Identifier);
+    public override bool Equals(object obj) => obj is SeasonInformation information && EqualityComparer<MediaIdentifier>.Default.Equals(Identifier, information.Identifier);
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Identifier);

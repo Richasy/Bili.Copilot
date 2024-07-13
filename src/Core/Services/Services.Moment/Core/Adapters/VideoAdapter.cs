@@ -28,7 +28,7 @@ internal static class VideoAdapter
         var playCount = archive.View;
         var danmakuCount = archive.CoverLeftText1.ToCountNumber("弹幕");
         var communityInfo = new VideoCommunityInformation(archive.Avid.ToString(), playCount, danmakuCount);
-        var identifier = new VideoIdentifier(id.ToString(), title, cover);
+        var identifier = new MediaIdentifier(id.ToString(), title, cover);
         var info = new VideoInformation(identifier, default, duration, bvid, communityInformation: communityInfo);
         info.AddExtensionIfNotNull(VideoExtensionDataId.Cid, archive.Cid);
         info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, Models.MediaType.Video);

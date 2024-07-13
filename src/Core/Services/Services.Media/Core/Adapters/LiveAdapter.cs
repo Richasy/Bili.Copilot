@@ -17,7 +17,7 @@ internal static class LiveAdapter
         var viewerCount = card.CoverRightContent.Text.ToCountNumber();
         var subtitle = card.CoverLeftContent.Text;
         var cover = card.Cover.ToVideoCover();
-        var identifier = new VideoIdentifier(roomId, title, cover);
+        var identifier = new MediaIdentifier(roomId, title, cover);
         var info = new LiveInformation(identifier, user, default);
         info.AddExtensionIfNotNull(LiveExtensionDataId.ViewerCount, viewerCount);
         info.AddExtensionIfNotNull(LiveExtensionDataId.Subtitle, subtitle);
@@ -32,7 +32,7 @@ internal static class LiveAdapter
         var user = UserAdapterBase.CreateUserProfile(room.UserId ?? 0, room.UserName, room.UserAvatar, 48d);
         var cover = room.Cover.ToVideoCover();
         var subtitle = $"{room.AreaName} · {room.UserName}";
-        var identifier = new VideoIdentifier(roomId, title, cover);
+        var identifier = new MediaIdentifier(roomId, title, cover);
         var info = new LiveInformation(identifier, user);
         info.AddExtensionIfNotNull(LiveExtensionDataId.ViewerCount, viewerCount);
         info.AddExtensionIfNotNull(LiveExtensionDataId.Subtitle, subtitle);
