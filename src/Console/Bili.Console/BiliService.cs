@@ -32,6 +32,7 @@ internal sealed class BiliService : IHostedService
             .AddArticleDiscoveryService()
             .AddMomentDiscoveryService()
             .AddMomentOperationService()
+            .AddMessageService()
             .Build();
     }
 
@@ -85,6 +86,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Anime => "动漫",
                 FeatureType.Entertainment => "影视",
                 FeatureType.Article => "专栏文章",
+                FeatureType.Message => "消息",
                 _ => throw new NotSupportedException(),
             };
         }
@@ -117,6 +119,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Entertainment => new EntertainmentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Article => new ArticleModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Moment => new MomentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.Message => new MessageModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 

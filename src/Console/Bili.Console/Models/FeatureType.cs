@@ -4,6 +4,8 @@ internal enum FeatureType
 {
     Authorize,
     My,
+    Message,
+    Moment,
     PopularVideo,
     VideoPartition,
     PopularLive,
@@ -11,5 +13,4 @@ internal enum FeatureType
     Anime,
     Entertainment,
     Article,
-    Moment,
 }
