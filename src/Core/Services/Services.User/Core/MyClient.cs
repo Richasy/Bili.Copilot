@@ -12,6 +12,7 @@ using Richasy.BiliKernel.Bili;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Content;
 using Richasy.BiliKernel.Http;
+using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 
 namespace Richasy.BiliKernel.Services.User.Core;
@@ -277,6 +278,50 @@ internal sealed class MyClient
         return messages is null || messages.Count == 0
             ? throw new KernelException($"无法获取 {type} 消息")
             : ((IReadOnlyList<NotifyMessage> Messages, long OffsetId, long OffsetTime, bool HasMore))(messages!, cursor.Id, cursor.Time, !cursor.IsEnd);
+    }
+
+    public async Task<(IReadOnlyList<VideoFavoriteFolderGroup>, VideoFavoriteFolderDetail)> GetVideoFavoriteGroupsAsync(string userId, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "up_mid", userId },
+        };
+
+        var galleryResponse = await GetAsync<BiliDataResponse<VideoFavoriteGalleryResponse>>(BiliApis.Account.VideoFavoriteGallery, parameters, cancellationToken).ConfigureAwait(false);
+
+        parameters = new Dictionary<string, string>
+        {
+            { "up_mid", userId },
+            { "type", "2" },
+        };
+        var defaultFolderResponse = await GetAsync<BiliDataResponse<FavoriteDetailListResponse>>(BiliApis.Account.FavoriteList, parameters, cancellationToken).ConfigureAwait(false);
+
+        parameters = new Dictionary<string, string>
+        {
+            { "up_mid", userId },
+            { "ps", "20" },
+            { "pn", "1" },
+            { "platform", "web" },
+        };
+        var folderResponse = await GetAsync<BiliDataResponse<FavoriteDetailListResponse>>(BiliApis.Account.CollectList, parameters, cancellationToken).ConfigureAwait(false);
+        var defaultFolder = galleryResponse.Data.DefaultFavoriteList.ToVideoFavoriteFolderDetail();
+        var mineCreateFav = galleryResponse.Data.FavoriteFolderList.FirstOrDefault(ff => ff.Id == 1);
+
+        if (mineCreateFav is not null)
+        {
+            mineCreateFav.MediaList.List = defaultFolderResponse.Data.List.Where(fm => fm.Title != "默认收藏夹").ToList();
+        }
+
+        if (folderResponse.Data?.Count > 0)
+        {
+            var myCollectFav = galleryResponse.Data.FavoriteFolderList.FirstOrDefault(f => f.Id == 2);
+            myCollectFav.MediaList.List = folderResponse.Data.List;
+        }
+
+        var favoriteSets = galleryResponse.Data.FavoriteFolderList?
+            .Where(p => p.Id != 3)
+            .Select(p=> p.ToVideoFavoriteFolderGroup());
+        return (favoriteSets.ToList().AsReadOnly(), defaultFolder);
     }
 
     private async Task<T> GetAsync<T>(string url, Dictionary<string, string>? paramters = default, CancellationToken cancellationToken = default)

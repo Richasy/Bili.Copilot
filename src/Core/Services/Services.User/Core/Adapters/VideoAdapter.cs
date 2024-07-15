@@ -91,6 +91,26 @@ internal static class VideoAdapter
         return info;
     }
 
+    public static VideoInformation ToVideoInformation(this FavoriteMedia media)
+    {
+        var publisher = media.Publisher.ToPublisherProfile();
+        var cover = media.Cover.ToVideoCover();
+        var communityInfo = new VideoCommunityInformation(media.Id.ToString(), media.Stat.PlayCount, media.Stat.DanmakuCount, favoriteCount:media.Stat.FavoriteCount);
+        var collectTime = DateTimeOffset.FromUnixTimeSeconds(media.FavoriteTime).ToLocalTime();
+        var identifier = new MediaIdentifier(media.Id.ToString(), media.Title, cover);
+        var publishTime = DateTimeOffset.FromUnixTimeSeconds(media.PublishTime).ToLocalTime();
+        var info = new VideoInformation(
+            identifier,
+            publisher,
+            media.Duration,
+            media.BvId,
+            publishTime: publishTime,
+            communityInformation: communityInfo);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.MediaType, MediaType.Video);
+        info.AddExtensionIfNotNull(VideoExtensionDataId.CollectTime, collectTime);
+        return info;
+    }
+
     public static VideoCommunityInformation ToVideoCommunityInformation(this VideoStatusInfo statusInfo)
         => new VideoCommunityInformation(
             statusInfo.Aid.ToString(),
