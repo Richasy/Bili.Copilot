@@ -645,6 +645,11 @@ public static class BiliApis
         public const string HotSearch = _appBase + "/x/v2/search/trending/ranking";
 
         /// <summary>
+        /// 推荐搜索的关键词列表.
+        /// </summary>
+        public const string RecommendSearch = _appBase + "/x/v2/search/recommend";
+
+        /// <summary>
         /// 搜索推荐.
         /// </summary>
         public const string Square = _appBase + "/x/v2/search/square";
@@ -663,6 +668,16 @@ public static class BiliApis
         /// 搜索建议.
         /// </summary>
         public const string Suggestion = _grpcBase + "/bilibili.app.interface.v1.Search/Suggest3";
+
+        /// <summary>
+        /// 全部搜索.
+        /// </summary>
+        public const string SearchAll = _grpcBase + "/bilibili.polymer.app.search.v1.Search/SearchAll";
+
+        /// <summary>
+        /// 按类型搜索.
+        /// </summary>
+        public const string SearchByType = _grpcBase + "/bilibili.polymer.app.search.v1.Search/SearchByType";
 
         /// <summary>
         /// 子模块搜索，包括PGC，用户和文章.

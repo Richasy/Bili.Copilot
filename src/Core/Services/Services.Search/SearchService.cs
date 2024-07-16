@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Richasy.BiliKernel.Authenticator;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Http;
+using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Search;
 using Richasy.BiliKernel.Services.Search.Core;
 
@@ -29,6 +30,26 @@ public sealed class SearchService : ISearchService
     }
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<HotSearchItem>> GetTotalHotSearchAsync(CancellationToken cancellationToken = default)
-        => _client.GetTotalHotSearchAsync(cancellationToken);
+    public Task<IReadOnlyList<HotSearchItem>> GetTotalHotSearchAsync(int count = 30, CancellationToken cancellationToken = default)
+        => count <= 0 ? throw new KernelException("热搜榜单数量必须大于0") : _client.GetTotalHotSearchAsync(count, cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<IReadOnlyList<SearchRecommendItem>> GetSearchRecommendsAsync(CancellationToken cancellationToken = default)
+        => _client.GetSearchRecommendsAsync(cancellationToken);
+
+    /// <inheritdoc/>
+    public Task<(IReadOnlyList<VideoInformation> Videos, IReadOnlyList<SearchPartition>? Partitions, string? NextOffset)> GetComprehensiveSearchResultAsync(string keyword, string? offset = null, CancellationToken cancellationToken = default)
+    {
+        return string.IsNullOrWhiteSpace(keyword)
+            ? throw new KernelException("搜索关键字不能为空")
+            : _client.GetComprehensiveSearchResultAsync(keyword, offset, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public Task<(IReadOnlyList<SearchResultItem> Result, string? Offset)> GetPartitionSearchResultAsync(string keyword, SearchPartition partition, string? offset = null, CancellationToken cancellationToken = default)
+    {
+        return string.IsNullOrWhiteSpace(keyword)
+            ? throw new KernelException("搜索关键字不能为空")
+            : _client.GetPartitionSearchResultAsync(keyword, partition, offset, cancellationToken);
+    }
 }

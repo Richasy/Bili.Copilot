@@ -8,7 +8,7 @@ namespace Richasy.BiliKernel.Models.Search;
 /// <summary>
 /// 热搜条目.
 /// </summary>
-public sealed class HotSearchItem
+public sealed class HotSearchItem : SearchSuggestItemBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HotSearchItem"/> class.
@@ -35,16 +35,6 @@ public sealed class HotSearchItem
     /// 热搜标识符.
     /// </summary>
     public string Id { get; set; }
-
-    /// <summary>
-    /// 搜索关键词.
-    /// </summary>
-    public string Keyword { get; }
-
-    /// <summary>
-    /// 显示文本.
-    /// </summary>
-    public string Text { get; }
 
     /// <summary>
     /// 是否为直播间.

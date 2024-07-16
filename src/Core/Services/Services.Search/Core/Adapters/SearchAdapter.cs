@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Richasy. All rights reserved.
 
+using Bilibili.Polymer.App.Search.V1;
 using Richasy.BiliKernel.Adapters;
 using Richasy.BiliKernel.Models.Search;
 
@@ -17,5 +18,33 @@ internal static class SearchAdapter
             item.ShowLiveIcon,
             item.ResourceId?.ToString(),
             item.Icon?.ToImage());
+    }
+
+    public static SearchRecommendItem ToSearchRecommendItem(this WebSearchRecommendItem item)
+    {
+        return new SearchRecommendItem(
+            item.Id.ToString(),
+            item.Position,
+            item.Keyword,
+            item.Title
+        );
+    }
+
+    public static SearchPartition ToSearchPartition(this Nav nav)
+    {
+        return new SearchPartition(
+            nav.Type,
+            nav.Name,
+            nav.Pages is 0 ? default : nav.Pages,
+            nav.Total is 0 ? default : nav.Total);
+    }
+
+    public static SearchResultItem ToSearchResultItem(this Item item)
+    {
+        var season = item.ToSeasonInformation();
+        var article = item.ToArticleInformation();
+        var live = item.ToLiveInformation();
+        var user = item.ToUserProfile();
+        return new SearchResultItem(default, season, live, article, user);
     }
 }
