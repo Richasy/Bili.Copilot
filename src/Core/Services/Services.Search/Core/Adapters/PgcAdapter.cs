@@ -32,7 +32,7 @@ internal static class PgcAdapter
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Score, bangumi.Rating);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.PublishTime, DateTimeOffset.FromUnixTimeSeconds(bangumi.Ptime));
         info.AddExtensionIfNotNull(SeasonExtensionDataId.Highlight, bangumi.BadgesV2.FirstOrDefault()?.Text);
-        info.AddExtensionIfNotNull(SeasonExtensionDataId.Celebrity, bangumi.Staff);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Celebrity, bangumi.Cv);
         info.AddExtensionIfNotNull(SeasonExtensionDataId.EpisodeId, bangumi.Episodes.FirstOrDefault()?.Param);
         return info;
     }
