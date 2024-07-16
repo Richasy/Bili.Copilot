@@ -85,10 +85,6 @@ internal sealed class ArticleModule : IFeatureModule
         }
     }
 
-    public void Exit()
-    {
-    }
-
     private static void DisplayArticles(IReadOnlyList<ArticleInformation> articles)
     {
         var table = new Table();

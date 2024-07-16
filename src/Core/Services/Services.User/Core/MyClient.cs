@@ -12,6 +12,8 @@ using Richasy.BiliKernel.Bili;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Content;
 using Richasy.BiliKernel.Http;
+using Richasy.BiliKernel.Models;
+using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 
@@ -280,8 +282,10 @@ internal sealed class MyClient
             : ((IReadOnlyList<NotifyMessage> Messages, long OffsetId, long OffsetTime, bool HasMore))(messages!, cursor.Id, cursor.Time, !cursor.IsEnd);
     }
 
-    public async Task<(IReadOnlyList<VideoFavoriteFolderGroup>, VideoFavoriteFolderDetail)> GetVideoFavoriteGroupsAsync(string userId, CancellationToken cancellationToken)
+    public async Task<(IReadOnlyList<VideoFavoriteFolderGroup>, VideoFavoriteFolderDetail)> GetVideoFavoriteGroupsAsync(CancellationToken cancellationToken)
     {
+        var localToken = _tokenResolver.GetToken();
+        var userId = localToken.UserId.ToString();
         var parameters = new Dictionary<string, string>
         {
             { "up_mid", userId },
@@ -301,9 +305,11 @@ internal sealed class MyClient
             { "up_mid", userId },
             { "ps", "20" },
             { "pn", "1" },
-            { "platform", "web" },
         };
-        var folderResponse = await GetAsync<BiliDataResponse<FavoriteDetailListResponse>>(BiliApis.Account.CollectList, parameters, cancellationToken).ConfigureAwait(false);
+        var folderRequest = BiliHttpClient.CreateRequest(HttpMethod.Get, new Uri(BiliApis.Account.CollectList));
+        _authenticator.AuthroizeRestRequest(folderRequest, parameters, new BasicAuthorizeExecutionSettings() { ApiType = BiliApiType.Web, RequireCookie = true, NeedRID = true, ForceNoToken = true, });
+        var folderResponse = _httpClient.SendAsync(folderRequest, cancellationToken).ConfigureAwait(false);
+        var folderResponseObj = await BiliHttpClient.ParseAsync<BiliDataResponse<FavoriteDetailListResponse>>(await folderResponse).ConfigureAwait(false);
         var defaultFolder = galleryResponse.Data.DefaultFavoriteList.ToVideoFavoriteFolderDetail();
         var mineCreateFav = galleryResponse.Data.FavoriteFolderList.FirstOrDefault(ff => ff.Id == 1);
 
@@ -312,16 +318,125 @@ internal sealed class MyClient
             mineCreateFav.MediaList.List = defaultFolderResponse.Data.List.Where(fm => fm.Title != "默认收藏夹").ToList();
         }
 
-        if (folderResponse.Data?.Count > 0)
+        if (folderResponseObj.Data?.Count > 0)
         {
             var myCollectFav = galleryResponse.Data.FavoriteFolderList.FirstOrDefault(f => f.Id == 2);
-            myCollectFav.MediaList.List = folderResponse.Data.List;
+            myCollectFav.MediaList.List = folderResponseObj.Data.List;
         }
 
         var favoriteSets = galleryResponse.Data.FavoriteFolderList?
             .Where(p => p.Id != 3)
-            .Select(p=> p.ToVideoFavoriteFolderGroup());
+            .Select(p => p.ToVideoFavoriteFolderGroup());
         return (favoriteSets.ToList().AsReadOnly(), defaultFolder);
+    }
+
+    public async Task<(IReadOnlyList<ArticleInformation>, int)> GetFavoritesArticlesAsync(int pageNumber, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "pn", pageNumber.ToString() },
+            { "ps", "40" },
+        };
+
+        var responseObj = await GetAsync<BiliDataResponse<ArticleFavoriteListResponse>>(BiliApis.Account.ArticleFavorite, parameters, cancellationToken).ConfigureAwait(false);
+        var articles = responseObj.Data?.Items.Select(p => p.ToArticleInformation()).ToList().AsReadOnly()
+            ?? throw new KernelException("无法获取用户收藏的文章数据");
+        return (articles, responseObj.Data.Count);
+    }
+
+    public async Task<(IReadOnlyList<SeasonInformation>, int)> GetFavoritePgcListAsync(string url, int pageNumber, PgcFavoriteStatus status, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "pn", pageNumber.ToString() },
+            { "ps", "20" },
+            { "status", ((int)status).ToString() },
+        };
+
+        var responseObj = await GetAsync<BiliResultResponse<PgcFavoriteListResponse>>(url, parameters, cancellationToken).ConfigureAwait(false);
+        var seasons = responseObj.Result.FollowList.Select(p => p.ToSeasonInformation()).ToList().AsReadOnly();
+        return (seasons, responseObj.Result.Total ?? 0);
+    }
+
+    public async Task<(IReadOnlyList<VideoFavoriteFolder> Folders, IReadOnlyList<string> ContainerIds)> GetPlayingVideoFavoriteFoldersAsync(VideoInformation video, CancellationToken cancellationToken)
+    {
+        var localToken = _tokenResolver.GetToken();
+        var myId = localToken.UserId.ToString();
+        var parameters = new Dictionary<string, string>
+        {
+            { "up_mid", myId },
+            { "type", "2" },
+            { "rid", video.Identifier.Id },
+        };
+
+        var responseObj = await GetAsync<BiliDataResponse<FavoriteListResponse>>(BiliApis.Account.FavoriteList, parameters, cancellationToken).ConfigureAwait(false);
+        var items = responseObj.Data.List.Select(p => p.ToVideoFavoriteFolder());
+        var ids = responseObj.Data.List.Where(p => p.FavoriteState == 1).Select(p => p.Id.ToString()).ToList().AsReadOnly();
+        return (items.ToList().AsReadOnly(), ids);
+    }
+
+    public async Task<VideoFavoriteFolderDetail> GetVideoFavoriteFolderDetailAsync(VideoFavoriteFolder folder, int pageNumber, CancellationToken cancellationToken = default)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "media_id", folder.Id },
+            { "ps", "20" },
+            { "pn", pageNumber.ToString() },
+        };
+
+        var responseObj = await GetAsync<BiliDataResponse<VideoFavoriteListResponse>>(BiliApis.Account.VideoFavoriteDelta, parameters, cancellationToken).ConfigureAwait(false);
+        return responseObj.Data.ToVideoFavoriteFolderDetail();
+    }
+
+    public async Task UpdatePgcFavoriteStatusAsync(MediaIdentifier identifier, PgcFavoriteStatus status, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "season_id", identifier.Id },
+            { "status", ((int)status).ToString() },
+        };
+
+        await _authenticationService.EnsureTokenAsync(cancellationToken).ConfigureAwait(false);
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Account.UpdatePgcStatus));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task RemoveFavoriteVideoAsync(VideoFavoriteFolder folder, MediaIdentifier identifier, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "media_id", folder.Id },
+            { "resources", $"{identifier.Id}:2" },
+        };
+
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Account.UnFavoriteVideo));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task RemoveFavoritePgcAsync(MediaIdentifier identifier, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "season_id", identifier.Id },
+        };
+
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Account.UnFavoritePgc));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task RemoveFavoriteArticleAsync(ArticleIdentifier article, CancellationToken cancellationToken)
+    {
+        var parameters = new Dictionary<string, string>
+        {
+            { "id", article.Id },
+        };
+
+        var request = BiliHttpClient.CreateRequest(HttpMethod.Post, new Uri(BiliApis.Account.UnFavoriteArticle));
+        _authenticator.AuthroizeRestRequest(request, parameters);
+        await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<T> GetAsync<T>(string url, Dictionary<string, string>? paramters = default, CancellationToken cancellationToken = default)

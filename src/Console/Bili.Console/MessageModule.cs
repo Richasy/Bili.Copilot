@@ -57,8 +57,4 @@ internal sealed class MessageModule : IFeatureModule
             await _backFunc(string.Empty).ConfigureAwait(false);
         }
     }
-
-    public void Exit()
-    {
-    }
 }

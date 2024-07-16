@@ -69,10 +69,6 @@ internal sealed class VideoPartitionModule : IFeatureModule
         await RenderVideosAsync(videos.ToDictionary(p => p.Identifier.Id, p => p.Identifier.Title!)).ConfigureAwait(false);
     }
 
-    public void Exit()
-    {
-    }
-
     private async Task RenderVideosAsync(Dictionary<string, string> videos)
     {
         var table = new Table();

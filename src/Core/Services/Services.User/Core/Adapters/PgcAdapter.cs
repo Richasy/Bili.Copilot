@@ -4,6 +4,7 @@ using System;
 using System.Text.RegularExpressions;
 using Bilibili.App.Interface.V1;
 using Richasy.BiliKernel.Adapters;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 
 namespace Richasy.BiliKernel.Services.User.Core;
@@ -30,6 +31,27 @@ internal static class PgcAdapter
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.Aid, aid);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.CollectTime, viewTime);
         info.AddExtensionIfNotNull(EpisodeExtensionDataId.RecommendReason, string.IsNullOrEmpty(episode.Badge) ? default : episode.Badge);
+        return info;
+    }
+
+    public static SeasonInformation ToSeasonInformation(this FavoritePgcItem item)
+    {
+        var title = item.Title;
+        var subtitle = item.NewEpisode?.DisplayText;
+        var ssid = item.SeasonId.ToString();
+        var type = item.SeasonTypeName switch
+        {
+            "电影" => EntertainmentType.Movie,
+            "电视剧" => EntertainmentType.TV,
+            "纪录片" => EntertainmentType.Documentary,
+            _ => EntertainmentType.Anime,
+        };
+        var identifier = new MediaIdentifier(ssid, title, item.Cover.ToPgcCover());
+        var info = new SeasonInformation(identifier);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Subtitle, subtitle);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.PgcType, type);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.Highlight, item.BadgeText);
+        info.AddExtensionIfNotNull(SeasonExtensionDataId.EpisodeId, item.NewEpisode?.Id);
         return info;
     }
 }

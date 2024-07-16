@@ -78,8 +78,4 @@ internal sealed class EntertainmentModule : IFeatureModule
             };
         }
     }
-
-    public void Exit()
-    {
-    }
 }

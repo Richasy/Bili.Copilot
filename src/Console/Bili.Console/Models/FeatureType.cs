@@ -13,4 +13,5 @@ internal enum FeatureType
     Anime,
     Entertainment,
     Article,
+    Favorite,
 }

@@ -25,10 +25,6 @@ internal sealed class LivePartitionModule : IFeatureModule
         _livePartitionService = kernel.GetRequiredService<ILiveDiscoveryService>();
     }
 
-    public void Exit()
-    {
-    }
-
     public async Task RunAsync()
     {
         if (_partitions == null)

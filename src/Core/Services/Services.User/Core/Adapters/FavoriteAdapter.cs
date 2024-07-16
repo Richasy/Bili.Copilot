@@ -27,6 +27,15 @@ internal static class FavoriteAdapter
         return folder;
     }
 
+    public static VideoFavoriteFolder ToVideoFavoriteFolder(this FavoriteMeta meta)
+    {
+        var id = meta.Id.ToString();
+        var title = meta.Title;
+        var count = meta.MediaCount;
+
+        return new VideoFavoriteFolder(id, title, default, default, default, count);
+    }
+
     public static VideoFavoriteFolderDetail ToVideoFavoriteFolderDetail(this VideoFavoriteListResponse response)
     {
         var folder = (response.Detail ?? response.Information).ToVideoFavoriteFolder();

@@ -67,10 +67,6 @@ internal sealed class PopularVideoModule : IFeatureModule
         }
     }
 
-    public void Exit()
-    {
-    }
-
     public async Task DisplayCuratedListAsync()
     {
         AnsiConsole.Clear();

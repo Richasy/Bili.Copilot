@@ -23,10 +23,6 @@ internal sealed class PopularLiveModule : IFeatureModule
         _popularLiveService = kernel.GetRequiredService<ILiveDiscoveryService>();
     }
 
-    public void Exit()
-    {
-    }
-
     public async Task RunAsync()
     {
         AnsiConsole.MarkupLine("正在获取直播信息流...");

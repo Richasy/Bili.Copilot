@@ -55,4 +55,13 @@ public static class KernelBuilderExtensions
         builder.Services.AddSingleton<IMessageService, MessageService>();
         return builder;
     }
+
+    /// <summary>
+    /// 添加收藏管理服务.
+    /// </summary>
+    public static IKernelBuilder AddFavoriteService(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IFavoriteService, FavoriteService>();
+        return builder;
+    }
 }

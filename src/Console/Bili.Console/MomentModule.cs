@@ -90,8 +90,4 @@ internal sealed class MomentModule : IFeatureModule
                 await _backFunc(string.Empty).ConfigureAwait(false);
             }
     }
-
-    public void Exit()
-    {
-    }
 }

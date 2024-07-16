@@ -17,7 +17,7 @@ public interface IFavoriteService
     /// <summary>
     /// 获取用户的视频收藏夹分组.
     /// </summary>
-    Task<(IReadOnlyList<VideoFavoriteFolderGroup> Groups, VideoFavoriteFolderDetail Default)> GetVideoFavoriteGroupsAsync(string userId, CancellationToken cancellationToken = default);
+    Task<(IReadOnlyList<VideoFavoriteFolderGroup> Groups, VideoFavoriteFolderDetail Default)> GetVideoFavoriteGroupsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 获取播放视频时显示的收藏夹信息.
@@ -30,7 +30,7 @@ public interface IFavoriteService
     /// <summary>
     /// 获取视频收藏夹详情.
     /// </summary>
-    Task<VideoFavoriteFolderDetail> GetVideoFavoriteFolderDetailAsync(VideoFavoriteFolder folder, CancellationToken cancellationToken = default);
+    Task<(VideoFavoriteFolderDetail Detail, int? NextPageNumber)> GetVideoFavoriteFolderDetailAsync(VideoFavoriteFolder folder, int pageNumber = 0, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 获取当前用户的追番/追剧列表.

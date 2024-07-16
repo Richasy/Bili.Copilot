@@ -85,11 +85,6 @@ internal sealed class MyProfileModule : IFeatureModule
         }
     }
 
-    public void Exit()
-    {
-        // Do nothing.
-    }
-
     private async Task DisplayUserInformationAsync()
     {
         var profileService = _kernel.GetRequiredService<IMyProfileService>();

@@ -25,7 +25,9 @@ public static class ImageAdapter
     /// 根据图片地址及宽高信息生成缩略图地址.
     /// </summary>
     public static BiliImage ToImage(this string uri, double width, double height)
-        => new(new(uri), width, height, (w, h) => $"@{w}w_{h}h_1c_100q.jpg");
+    {
+        return string.IsNullOrEmpty(uri) ? default : new(new(uri), width, height, (w, h) => $"@{w}w_{h}h_1c_100q.jpg");
+    }
 
     /// <summary>
     /// 根据图片地址生成适用于视频卡片尺寸的缩略图地址.

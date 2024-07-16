@@ -36,4 +36,14 @@ internal static class ArticleAdapter
         info.AddExtensionIfNotNull(ArticleExtensionDataId.UserRelationStatus, relation);
         return info;
     }
+
+    public static ArticleInformation ToArticleInformation(this FavoriteArticleItem item)
+    {
+        var identifier = new ArticleIdentifier(item.Id.ToString(), item.Title, item.Summary, item.Images?.FirstOrDefault()?.ToArticleCover());
+        var collectTime = DateTimeOffset.FromUnixTimeSeconds(item.CollectTime).ToLocalTime();
+        var user = UserAdapterBase.CreateUserProfile(item.PublisherId, item.PublisherName, default, 0d);
+        var info = new ArticleInformation(identifier, user);
+        info.AddExtensionIfNotNull(ArticleExtensionDataId.CollectTime, collectTime);
+        return info;
+    }
 }

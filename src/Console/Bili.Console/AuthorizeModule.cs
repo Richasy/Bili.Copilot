@@ -51,11 +51,6 @@ internal sealed class AuthorizeModule : IFeatureModule
         await _backFunc(lastTip).ConfigureAwait(false);
     }
 
-    public void Exit()
-    {
-        // Do nothing.
-    }
-
     private async Task<bool> CheckAuthorizeStatusAsync()
     {
         var tokenResolver = _kernel.GetRequiredService<IAuthenticationService>();
