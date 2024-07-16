@@ -640,6 +640,11 @@ public static class BiliApis
     public static class Search
     {
         /// <summary>
+        /// 热搜榜单.
+        /// </summary>
+        public const string HotSearch = _appBase + "/x/v2/search/trending/ranking";
+
+        /// <summary>
         /// 搜索推荐.
         /// </summary>
         public const string Square = _appBase + "/x/v2/search/square";

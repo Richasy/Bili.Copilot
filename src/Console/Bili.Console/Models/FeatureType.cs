@@ -3,6 +3,7 @@
 internal enum FeatureType
 {
     Authorize,
+    Search,
     My,
     Message,
     Moment,

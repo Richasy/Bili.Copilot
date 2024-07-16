@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- THIS PROPERTY GROUP MUST COME FIRST -->
+        <AssemblyName>Richasy.BiliKernel.Services.Search</AssemblyName>
+        <RootNamespace>$(AssemblyName)</RootNamespace>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <VersionSuffix>alpha</VersionSuffix>
+        <NoWarn>NU1507</NoWarn>
+        <Platforms>AnyCPU</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- NuGet Package Settings -->
+        <Title>哔哩核心 - 搜索</Title>
+        <Description>提供内容搜索服务，热搜榜单的哔哩核心子模块</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+        <ProjectReference Include="..\..\BiliKernel.Core\BiliKernel.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+    </ItemGroup>
+
+</Project>

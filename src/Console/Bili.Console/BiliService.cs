@@ -34,6 +34,7 @@ internal sealed class BiliService : IHostedService
             .AddMomentOperationService()
             .AddMessageService()
             .AddFavoriteService()
+            .AddSearchService()
             .Build();
     }
 
@@ -84,6 +85,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Article => "专栏文章",
                 FeatureType.Message => "消息",
                 FeatureType.Favorite => "收藏夹",
+                FeatureType.Search => "搜索",
                 _ => throw new NotSupportedException(),
             };
         }
@@ -118,6 +120,7 @@ internal sealed class BiliService : IHostedService
                 FeatureType.Moment => new MomentModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Message => new MessageModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 FeatureType.Favorite => new FavoriteModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
+                FeatureType.Search => new SearchModule(_kernel, _cancellationToken, BackToFeatureSelectionAsync),
                 _ => throw new NotSupportedException(),
             };
 

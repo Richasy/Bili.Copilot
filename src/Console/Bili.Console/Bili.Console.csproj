@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Core\Services\Services.Article\Services.Article.csproj" />
     <ProjectReference Include="..\..\Core\Services\Services.Media\Services.Media.csproj" />
     <ProjectReference Include="..\..\Core\Services\Services.Moment\Services.Moment.csproj" />
+    <ProjectReference Include="..\..\Core\Services\Services.Search\Services.Search.csproj" />
     <ProjectReference Include="..\..\Core\Services\Services.User\Services.User.csproj" />
   </ItemGroup>
 
