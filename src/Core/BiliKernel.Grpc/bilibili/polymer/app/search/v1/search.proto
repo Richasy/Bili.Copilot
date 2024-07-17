@@ -531,6 +531,8 @@ message Item {
         SearchBangumiCard bangumi = 38;
         //
         SearchSportInlineCard esports_inline = 39;
+        //
+        SearchLiveRoom live_room = 50;
     }
 }
 
@@ -1011,7 +1013,7 @@ message SearchAuthorNewCard {
     //
     int32 is_inline_live = 26;
     //
-    repeated ThreePoint three_point = 27;
+    repeated ThreePoint32 three_point32 = 27;
     //
     int32 live_status = 28;
     //
@@ -1303,7 +1305,7 @@ message SearchInlineData {
     //
     Share share = 18;
     //
-    ThreePoint2 three_point = 19;
+    ThreePoint2 three_point32 = 19;
     //
     repeated ThreePointV2 three_point_v2 = 20;
     //
@@ -1390,6 +1392,38 @@ message SearchLiveCard {
     string show_card_desc2 = 10;
     //
     RightTopLiveBadge right_top_live_badge = 11;
+}
+
+//
+message SearchLiveRoom {
+    //
+    string title = 1;
+    //
+    string name = 2;
+    //
+    string cover = 3;
+    //
+    string uri = 4;
+    //
+    string param = 5;
+    //
+    WatchedShow watched_show = 6;
+    //
+    int64 room_id = 7;
+    //
+    string short_id = 8;
+    //
+    string goto = 9;
+    //
+    string area_v2_name = 10;
+    //
+    int32 online = 11;
+    //
+    int64 mid = 12;
+    //
+    int32 live_status = 13;
+    //
+    string live_link = 14;
 }
 
 //
@@ -1871,7 +1905,7 @@ message SearchVideoCard {
     //
     repeated ReasonStyle new_rec_tags = 4;
     //
-    repeated ThreePoint three_point = 5;
+    repeated ThreePoint32 three_point32 = 5;
     //
     Share share = 6;
     //
@@ -2079,7 +2113,7 @@ message Texts {
 }
 
 //
-message ThreePoint {
+message ThreePoint32 {
     //
     string type = 1;
     //

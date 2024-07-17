@@ -79,7 +79,7 @@ internal sealed class SearchModule : IFeatureModule
 
         AnsiConsole.Write(videoTable);
 
-        var firstPartition = partitions.FirstOrDefault(p => p.TotalItemCount > 0);
+        var firstPartition = partitions.FirstOrDefault(p => p.Id == 4);
         if (firstPartition is not null)
         {
             var (subItems, subOffset) = await _searchService.GetPartitionSearchResultAsync(keyword, firstPartition, cancellationToken: _cancellationToken).ConfigureAwait(false);
