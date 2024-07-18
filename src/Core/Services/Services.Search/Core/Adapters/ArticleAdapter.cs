@@ -9,9 +9,14 @@ namespace Richasy.BiliKernel.Services.Search.Core;
 
 internal static class ArticleAdapter
 {
-    public static ArticleInformation ToArticleInformation(this Item item)
+    public static ArticleInformation? ToArticleInformation(this Item item)
     {
         var article = item.Article;
+        if (article is null)
+        {
+            return default;
+        }
+
         var title = article.Title.Replace("<em class=\"keyword\">", string.Empty).Replace("</em>", string.Empty);
         var identifier = new ArticleIdentifier(article.Id.ToString(), title, article.Desc, article.ImageUrls.FirstOrDefault()?.ToArticleCover());
         var user = UserAdapterBase.CreateUserProfile(article.Mid, article.Name, default, 0d);

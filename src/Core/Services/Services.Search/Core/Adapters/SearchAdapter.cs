@@ -44,7 +44,7 @@ internal static class SearchAdapter
         var season = item.ToSeasonInformation();
         var article = item.ToArticleInformation();
         var live = item.ToLiveInformation();
-        var user = item.ToUserProfile();
+        var user = item.ToUserCard();
         return new SearchResultItem(default, season, live, article, user);
     }
 }

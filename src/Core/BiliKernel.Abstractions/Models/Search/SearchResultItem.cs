@@ -19,7 +19,7 @@ public sealed class SearchResultItem
         SeasonInformation? season = default,
         LiveInformation? live = default,
         ArticleInformation? article = default,
-        UserProfile? user = default)
+        UserCard? user = default)
     {
         Video = video;
         Season = season;
@@ -51,5 +51,11 @@ public sealed class SearchResultItem
     /// <summary>
     /// 用户信息.
     /// </summary>
-    public UserProfile? User { get; }
+    public UserCard? User { get; }
+
+    /// <summary>
+    /// 是否无效.
+    /// </summary>
+    public bool IsInvalid()
+        => Video is null && Season is null && Live is null && Article is null && User is null;
 }

@@ -92,7 +92,7 @@ internal sealed class SearchClient
         _authenticator.AuthorizeGrpcRequest(request, false);
         var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         var responseObj = await BiliHttpClient.ParseAsync(response, SearchByTypeResponse.Parser).ConfigureAwait(false);
-        var results = responseObj.Items.Select(p => p.ToSearchResultItem()).ToList().AsReadOnly();
+        var results = responseObj.Items.Select(p => p.ToSearchResultItem()).Where(p => !p.IsInvalid()).ToList().AsReadOnly();
         return (results, responseObj.Pagination?.Next);
     }
 }

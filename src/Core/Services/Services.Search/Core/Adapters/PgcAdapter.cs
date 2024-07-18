@@ -10,7 +10,7 @@ namespace Richasy.BiliKernel.Services.Search.Core;
 
 internal static class PgcAdapter
 {
-    public static SeasonInformation ToSeasonInformation(this Item item)
+    public static SeasonInformation? ToSeasonInformation(this Item item)
     {
         var bangumi = item.Bangumi;
         if (bangumi == null)

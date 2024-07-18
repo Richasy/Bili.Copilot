@@ -26,37 +26,45 @@ public sealed class UserDetailProfile
     /// <param name="intro">自我介绍或签名.</param>
     /// <param name="level">等级.</param>
     /// <param name="isVip">是否为高级会员.</param>
+    /// <param name="isHardcore">是否为硬核会员.</param>
     public UserDetailProfile(
         UserProfile user,
         string? intro,
         int? level,
-        bool isVip)
+        bool? isVip,
+        bool? isHardcore = default)
         : this(user)
     {
         Introduce = intro;
         Level = level;
         IsVip = isVip;
+        IsHardcore = isHardcore;
     }
 
     /// <summary>
     /// 用户资料.
     /// </summary>
-    public UserProfile User { get; set; }
+    public UserProfile User { get; }
 
     /// <summary>
     /// 个人介绍.
     /// </summary>
-    public string? Introduce { get; set; }
+    public string? Introduce { get; }
 
     /// <summary>
     /// 账户等级.
     /// </summary>
-    public int? Level { get; set; }
+    public int? Level { get; }
 
     /// <summary>
-    /// 是否为高级会员.
+    /// 是否为大会员.
     /// </summary>
-    public bool? IsVip { get; set; }
+    public bool? IsVip { get; }
+
+    /// <summary>
+    /// 是否为硬核会员.
+    /// </summary>
+    public bool? IsHardcore { get; }
 
     /// <inheritdoc/>
     public override bool Equals(object? obj) => obj is UserDetailProfile profile && EqualityComparer<UserProfile>.Default.Equals(User, profile.User);

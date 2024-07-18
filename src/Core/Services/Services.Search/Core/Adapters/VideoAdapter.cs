@@ -23,7 +23,7 @@ internal static class VideoAdapter
 
         // 这里的标题可能包含关键字标记，需要去除.
         var title = av.Title.Replace("<em class=\"keyword\">", string.Empty).Replace("</em>", string.Empty);
-        var identifier = new MediaIdentifier(aid, av.Title, av.Cover.ToVideoCover());
+        var identifier = new MediaIdentifier(aid, title, av.Cover.ToVideoCover());
         var user = UserAdapterBase.CreateUserProfile(av.Mid, av.Author, default, 0d);
         var communityInfo = new VideoCommunityInformation(aid, av.Play, av.Danmaku);
         var duration = av.Duration.ToDurationSeconds();
