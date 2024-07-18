@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\Users\zrich\Desktop\Logo.png</Source>
+    <SmallTileSource>C:\Users\zrich\Desktop\Logo.png</SmallTileSource>
+    <MediumTileSource>C:\Users\zrich\Desktop\Logo.png</MediumTileSource>
+    <WideTileSource>C:\Users\zrich\Desktop\Logo.png</WideTileSource>
+    <LargeTileSource>C:\Users\zrich\Desktop\Logo.png</LargeTileSource>
+    <AppIconSource>C:\Users\zrich\Desktop\Logo.png</AppIconSource>
+    <SplashScreenSource>C:\Users\zrich\Desktop\Logo.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\zrich\Desktop\Logo.png</PackageLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>
