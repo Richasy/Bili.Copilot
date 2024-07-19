@@ -5,6 +5,7 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <NoWarn>CS1570;NU1507;CS1591;</NoWarn>
+    <Configurations>Debug;Release;Publish</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

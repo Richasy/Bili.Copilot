@@ -7,6 +7,7 @@
     <Platforms>x86;x64;ARM64</Platforms>
     <UseWinUI>true</UseWinUI>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Configurations>Debug;Release;Publish</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Components\VlcPlayerViewModel\**" />

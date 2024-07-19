@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
       <AssemblyName>Bili.Copilot.Models.Grpc</AssemblyName>
       <RootNamespace>Bili.Copilot.Models.Grpc</RootNamespace>
+      <Configurations>Debug;Release;Publish</Configurations>
   </PropertyGroup>
 
     <ItemGroup>

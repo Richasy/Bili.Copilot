@@ -16,38 +16,9 @@
         <PackageCertificateKeyFile>App_TemporaryKey.pfx</PackageCertificateKeyFile>
         <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
         <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+        <Configurations>Debug;Release;Publish</Configurations>
     </PropertyGroup>
     <ItemGroup>
-      <Content Remove="Assets\ffmpeg\arm64\avcodec-59.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\avdevice-59.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\avfilter-8.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\avformat-59.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\avutil-57.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\postproc-56.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\swresample-4.dll" />
-      <Content Remove="Assets\ffmpeg\arm64\swscale-6.dll" />
-      <Content Remove="Assets\ffmpeg\x64\avcodec-59.dll" />
-      <Content Remove="Assets\ffmpeg\x64\avdevice-59.dll" />
-      <Content Remove="Assets\ffmpeg\x64\avfilter-8.dll" />
-      <Content Remove="Assets\ffmpeg\x64\avformat-59.dll" />
-      <Content Remove="Assets\ffmpeg\x64\avutil-57.dll" />
-      <Content Remove="Assets\ffmpeg\x64\postproc-56.dll" />
-      <Content Remove="Assets\ffmpeg\x64\swresample-4.dll" />
-      <Content Remove="Assets\ffmpeg\x64\swscale-6.dll" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Remove="Assets\AppCenterSecret.txt" />
-        <None Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
-        <None Remove="Assets\DashVideoTemplate.xml" />
-        <None Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
-        <None Remove="Assets\ERROR_rgba.png" />
-        <None Remove="Assets\FluentIcon.ttf" />
-        <None Remove="Assets\install-mpv.ps1" />
-        <None Remove="Assets\not_login.png" />
-        <None Remove="Assets\qq_group_dark.jpg" />
-        <None Remove="Assets\qq_group_light.jpg" />
-        <None Remove="Assets\ReaderClean.js" />
-        <None Remove="Assets\WebPlayer.js" />
         <None Remove="Controls\AppTitleBar.xaml" />
         <None Remove="Controls\Base\BiliPlayer\BiliPlayer.xaml" />
         <None Remove="Controls\Base\ChatMessageItemControl.xaml" />
@@ -241,62 +212,7 @@
         <ProjectReference Include="..\Models\Models.Data\Models.Data.csproj" />
         <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
-    <ItemGroup Condition="'$(Platform)'=='x64'">
-        <None Update="Assets\ffmpeg\x64\avcodec-59.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\avdevice-59.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\avfilter-8.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\avformat-59.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\avutil-57.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\postproc-56.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\swresample-4.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="Assets\ffmpeg\x64\swscale-6.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    <ItemGroup Condition="'$(Platform)'=='arm64'">
-        <None Update="Assets\ffmpeg\arm64\avcodec-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\avdevice-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\avfilter-8.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\avformat-59.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\avutil-57.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\postproc-56.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\swscale-6.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\ffmpeg\arm64\swresample-4.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
     <ItemGroup>
-      <Content Update="Assets\AppCenterSecret.txt">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Content>
       <Page Update="Pages\WebPlayerPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </Page>

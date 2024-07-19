@@ -8,9 +8,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="ms-appx:///Styles/Override.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!--  Other app resources here  -->
+
+            <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

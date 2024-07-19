@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>Bili.Copilot.Models.Constants</AssemblyName>
         <RootNamespace>Bili.Copilot.Models.Constants</RootNamespace>
+        <Configurations>Debug;Release;Publish</Configurations>
     </PropertyGroup>
 
     <ItemGroup>
