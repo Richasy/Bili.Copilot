@@ -147,6 +147,9 @@ public sealed partial class PlayerDetailViewModel
                     ?? filteredSegments.First();
             }
 
+            // 使用响应里有效的 URL
+            _video.BaseUrl = await PlayerProvider.GetAvailableUrlAsync([_video.BaseUrl, .._video.BackupUrls]);
+
             CurrentFormat = Formats.FirstOrDefault(p => p.Quality.ToString() == _video.Id);
             SettingsToolkit.WriteLocalSetting(SettingNames.DefaultVideoFormat, CurrentFormat.Quality);
         }
@@ -168,6 +171,9 @@ public sealed partial class PlayerDetailViewModel
                 _audio = _mediaInformation.AudioSegments.Where(p => p.Bandwidth < 100000).FirstOrDefault()
                     ?? _mediaInformation.AudioSegments.OrderBy(p => p.Bandwidth).First();
             }
+
+            // 使用响应里有效的 URL
+            _audio.BaseUrl = await PlayerProvider.GetAvailableUrlAsync([_audio.BaseUrl, .._audio.BackupUrls]);
         }
 
         if (_video == null)
