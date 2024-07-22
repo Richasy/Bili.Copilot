@@ -111,9 +111,10 @@ public sealed partial class NativePlayerViewModel
         var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(mpdFilePath));
         var mpdStr = await FileIO.ReadTextAsync(file);
 
+        var videoUrl = await PlayerProvider.GetAvailableUrlAsync([_video.BaseUrl, .._video.BackupUrls]);
         var videoStr =
                 $@"<Representation bandwidth=""{_video.Bandwidth}"" codecs=""{_video.Codecs}"" height=""{_video.Height}"" mimeType=""{_video.MimeType}"" id=""{_video.Id}"" width=""{_video.Width}"" startWithSap=""{_video.StartWithSap}"">
-                               <BaseURL>{SecurityElement.Escape(_video.BaseUrl)}</BaseURL>
+                               <BaseURL>{SecurityElement.Escape(videoUrl)}</BaseURL>
                                <SegmentBase indexRange=""{_video.IndexRange}"">
                                    <Initialization range=""{_video.Initialization}"" />
                                </SegmentBase>
@@ -123,9 +124,10 @@ public sealed partial class NativePlayerViewModel
 
         if (_audio != null)
         {
+            var audioUrl = await PlayerProvider.GetAvailableUrlAsync([_audio.BaseUrl, .._audio.BackupUrls]);
             audioStr =
                     $@"<Representation bandwidth=""{_audio.Bandwidth}"" codecs=""{_audio.Codecs}"" mimeType=""{_audio.MimeType}"" id=""{_audio.Id}"">
-                               <BaseURL>{SecurityElement.Escape(_audio.BaseUrl)}</BaseURL>
+                               <BaseURL>{SecurityElement.Escape(audioUrl)}</BaseURL>
                                <SegmentBase indexRange=""{_audio.IndexRange}"">
                                    <Initialization range=""{_audio.Initialization}"" />
                                </SegmentBase>
