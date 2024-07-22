@@ -145,4 +145,5 @@ public enum SettingNames
     BottomProgressVisible,
     PlaybackRateSliderEnabled,
     UseMpvPlayer,
+    NoP2P,
 }

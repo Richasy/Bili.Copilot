@@ -148,7 +148,16 @@ public sealed partial class PlayerDetailViewModel
             }
 
             // 使用响应里有效的 URL
-            _video.BaseUrl = await PlayerProvider.GetAvailableUrlAsync([_video.BaseUrl, .._video.BackupUrls]);
+#pragma warning disable SA1010
+            string[] videoUrls = [_video.BaseUrl, .._video.BackupUrls];
+#pragma warning restore SA1010
+
+            if (SettingsToolkit.ReadLocalSetting(SettingNames.NoP2P, false))
+            {
+                videoUrls = videoUrls.Where(url => !IsP2PUrl(url)).ToArray();
+            }
+
+            _video.BaseUrl = await PlayerProvider.GetAvailableUrlAsync(videoUrls);
 
             CurrentFormat = Formats.FirstOrDefault(p => p.Quality.ToString() == _video.Id);
             SettingsToolkit.WriteLocalSetting(SettingNames.DefaultVideoFormat, CurrentFormat.Quality);
@@ -172,8 +181,16 @@ public sealed partial class PlayerDetailViewModel
                     ?? _mediaInformation.AudioSegments.OrderBy(p => p.Bandwidth).First();
             }
 
+#pragma warning disable SA1010
+            string[] audioUrls = [_audio.BaseUrl, .._audio.BackupUrls];
+#pragma warning restore SA1010
+            if (SettingsToolkit.ReadLocalSetting(SettingNames.NoP2P, false))
+            {
+                audioUrls = audioUrls.Where(url => !IsP2PUrl(url)).ToArray();
+            }
+
             // 使用响应里有效的 URL
-            _audio.BaseUrl = await PlayerProvider.GetAvailableUrlAsync([_audio.BaseUrl, .._audio.BackupUrls]);
+            _audio.BaseUrl = await PlayerProvider.GetAvailableUrlAsync(audioUrls);
         }
 
         if (_video == null)
