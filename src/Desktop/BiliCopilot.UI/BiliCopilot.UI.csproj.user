@@ -18,7 +18,25 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Styles\Override.xaml">
+    <Page Update="Pages\ArticlePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CinemaPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\AnimePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\LivePartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\VideoPartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\MomentPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PopularPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\RootLayout.xaml">

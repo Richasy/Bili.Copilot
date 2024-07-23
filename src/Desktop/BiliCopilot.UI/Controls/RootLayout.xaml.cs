@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
+using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.Controls;
 
@@ -9,6 +11,8 @@ namespace BiliCopilot.UI.Controls;
 /// </summary>
 public sealed partial class RootLayout : LayoutUserControlBase
 {
+    private readonly NavigationViewModel _navigationViewModel = new();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="RootLayout"/> class.
     /// </summary>
@@ -27,6 +31,8 @@ public sealed partial class RootLayout : LayoutUserControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
+        _navigationViewModel.InitializeCommand.Execute(MainFrame);
+        NavView.SelectedItem = _navigationViewModel.MenuItems.First(p => p.IsSelected);
     }
 
     private void InitializeSubtitle()
@@ -59,6 +65,9 @@ public sealed partial class RootLayout : LayoutUserControlBase
     private void OnNavViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         _ = this;
+        var item = args.InvokedItemContainer as AppNavigationViewItem;
+        var context = item?.Tag as AppNavigationItemViewModel;
+        context?.NavigateCommand.Execute(default);
     }
 
     private void OnBackRequested(object sender, EventArgs e)

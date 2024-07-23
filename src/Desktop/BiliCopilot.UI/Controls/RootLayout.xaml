@@ -8,7 +8,20 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Richasy.WinUI.Share.ViewModels"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="AppNavItemTemplate" x:DataType="viewmodels:AppNavigationItemViewModel">
+            <base:AppNavigationViewItem
+                Content="{x:Bind Title}"
+                IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                SelectsOnInvoked="True"
+                Style="{StaticResource MainNavigationViewItemStyle}"
+                Symbol="{x:Bind Symbol}"
+                Tag="{x:Bind}" />
+        </DataTemplate>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -45,6 +58,8 @@
             Grid.Row="1"
             BackRequested="OnNavViewBackRequested"
             ItemInvoked="OnNavViewItemInvoked"
+            MenuItemTemplate="{StaticResource AppNavItemTemplate}"
+            MenuItemsSource="{x:Bind _navigationViewModel.MenuItems, Mode=OneWay}"
             SelectionFollowsFocus="Disabled"
             Style="{StaticResource MainNavigationViewStyle}">
             <Grid>

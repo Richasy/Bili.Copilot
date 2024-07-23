@@ -20,7 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\RootLayout.xaml" />
-    <None Remove="Styles\Override.xaml" />
+    <None Remove="Pages\AnimePage.xaml" />
+    <None Remove="Pages\ArticlePage.xaml" />
+    <None Remove="Pages\CinemaPage.xaml" />
+    <None Remove="Pages\LivePartitionPage.xaml" />
+    <None Remove="Pages\MomentPage.xaml" />
+    <None Remove="Pages\PopularPage.xaml" />
+    <None Remove="Pages\VideoPartitionPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +46,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
@@ -53,7 +60,40 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Styles\Override.xaml">
+    <Folder Include="Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ArticlePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CinemaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\AnimePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\LivePartitionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VideoPartitionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MomentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\PopularPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
