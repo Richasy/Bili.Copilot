@@ -50,10 +50,26 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentIcons.WinUI" />
+    <PackageReference Include="Microsoft.Windows.CsWin32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="NLog.Extensions.Logging" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Core\BiliKernel.Core.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUICookies\Resolvers.WinUICookies.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIQRCode\Resolvers.WinUIQRCode.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIToken\Resolvers.WinUIToken.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Article\Services.Article.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Media\Services.Media.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.User\Services.User.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
     <ProjectReference Include="..\Richasy.Controls.Share\Richasy.WinUI.Share.csproj" />
   </ItemGroup>
@@ -64,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Styles\" />
+    <Folder Include="Forms\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ArticlePage.xaml">

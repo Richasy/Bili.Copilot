@@ -9,4 +9,9 @@ public enum SettingNames
     HideWhenCloseWindow,
     ShouldAskBeforeWindowClosed,
     ShouldSkipStartup,
+    MainWindowPositionLeft,
+    MainWindowPositionTop,
+    IsMainWindowMaximized,
+    MainWindowHeight,
+    MainWindowWidth,
 }

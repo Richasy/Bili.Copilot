@@ -11,3 +11,5 @@ global using System.Threading.Tasks;
 global using Windows.ApplicationModel;
 global using Windows.ApplicationModel.Activation;
 global using Windows.Foundation;
+global using Windows.Win32;
+global using Windows.Win32.Foundation;
