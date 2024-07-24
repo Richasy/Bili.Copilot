@@ -196,7 +196,7 @@
                                             <RowDefinition x:Name="PaneContentGridToggleButtonRow" Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="0" />
+                                            <RowDefinition Height="4" />
                                             <!--  above list margin  -->
                                             <RowDefinition x:Name="ItemsContainerRow" Height="*" />
                                         </Grid.RowDefinitions>
@@ -220,8 +220,7 @@
                                         <Grid
                                             x:Name="AutoSuggestArea"
                                             Grid.Row="3"
-                                            MinHeight="{ThemeResource NavigationViewAutoSuggestAreaHeight}"
-                                            Margin="0,0,0,8"
+                                            Height="{ThemeResource NavigationViewAutoSuggestAreaHeight}"
                                             VerticalAlignment="Center">
                                             <ContentControl
                                                 x:Name="PaneAutoSuggestBoxPresenter"
@@ -243,9 +242,9 @@
                                         <!--  "Non header" content  -->
                                         <Grid x:Name="ItemsContainerGrid" Grid.Row="6">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                                <!--  MenuItems  -->
                                                 <RowDefinition Height="Auto" />
+                                                <!--  MenuItems  -->
+                                                <RowDefinition Height="*" />
                                                 <!--  Separator if overflow  -->
                                                 <RowDefinition Height="Auto" />
                                                 <!--  PaneFooter  -->
@@ -277,7 +276,11 @@
                                                 VerticalAlignment="Center"
                                                 Visibility="Collapsed" />
                                             <!--  FooterItems  -->
-                                            <ItemsRepeaterScrollHost Grid.Row="2">
+                                            <NavigationViewItemSeparator
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top" />
+                                            <ItemsRepeaterScrollHost Grid.Row="2" Margin="0,8,0,0">
                                                 <ScrollViewer
                                                     x:Name="FooterItemsScrollViewer"
                                                     VerticalAnchorRatio="1"
@@ -292,7 +295,7 @@
                                             <!--  PaneFooter  -->
                                             <ContentControl
                                                 x:Name="FooterContentBorder"
-                                                Grid.Row="2"
+                                                Grid.Row="3"
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 IsTabStop="False" />
@@ -450,11 +453,7 @@
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="PaneSeparatorStates">
                                 <VisualState x:Name="SeparatorCollapsed" />
-                                <VisualState x:Name="SeparatorVisible">
-                                    <VisualState.Setters>
-                                        <Setter Target="VisualItemsSeparator.Visibility" Value="Visible" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="SeparatorVisible" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>

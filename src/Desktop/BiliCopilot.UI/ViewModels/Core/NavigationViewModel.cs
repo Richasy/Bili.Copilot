@@ -51,6 +51,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         _navFrame = navFrame;
         MenuItems = [.. GetMenuItems()];
+        FooterItems = [.. GetFooterItems()];
     }
 
     private IReadOnlyList<AppNavigationItemViewModel> GetMenuItems()
@@ -59,11 +60,21 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         {
             GetItem<PopularPage>(StringNames.PopularSlim, FluentIcons.Common.Symbol.Rocket, true),
             GetItem<MomentPage>(StringNames.DynamicFeed, FluentIcons.Common.Symbol.DesignIdeas),
-            GetItem<VideoPartitionPage>(StringNames.Video, FluentIcons.Common.Symbol.Video),
+            GetItem<VideoPartitionPage>(StringNames.Video, FluentIcons.Common.Symbol.VideoClip),
             GetItem<LivePartitionPage>(StringNames.Live, FluentIcons.Common.Symbol.VideoChat),
             GetItem<AnimePage>(StringNames.Anime, FluentIcons.Common.Symbol.Dust),
             GetItem<CinemaPage>(StringNames.Cinema, FluentIcons.Common.Symbol.FilmstripPlay),
             GetItem<ArticlePage>(StringNames.Article, FluentIcons.Common.Symbol.DocumentBulletList),
+        };
+    }
+
+    private IReadOnlyList<AppNavigationItemViewModel> GetFooterItems()
+    {
+        return new List<AppNavigationItemViewModel>
+        {
+            GetItem<DownloadPage>(StringNames.Download, FluentIcons.Common.Symbol.CloudArrowDown),
+            GetItem<MessagePage>(StringNames.Message, FluentIcons.Common.Symbol.Chat),
+            GetItem<SettingsPage>(StringNames.Settings, FluentIcons.Common.Symbol.Settings),
         };
     }
 

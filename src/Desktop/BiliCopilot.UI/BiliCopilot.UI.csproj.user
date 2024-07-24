@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\DownloadPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\MessagePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\ArticlePage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -28,6 +34,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\LivePartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\VideoPartitionPage.xaml">

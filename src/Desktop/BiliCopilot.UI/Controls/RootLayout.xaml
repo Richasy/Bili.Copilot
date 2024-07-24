@@ -57,6 +57,7 @@
             x:Name="NavView"
             Grid.Row="1"
             BackRequested="OnNavViewBackRequested"
+            FooterMenuItemsSource="{x:Bind _navigationViewModel.FooterItems, Mode=OneWay}"
             ItemInvoked="OnNavViewItemInvoked"
             MenuItemTemplate="{StaticResource AppNavItemTemplate}"
             MenuItemsSource="{x:Bind _navigationViewModel.MenuItems, Mode=OneWay}"

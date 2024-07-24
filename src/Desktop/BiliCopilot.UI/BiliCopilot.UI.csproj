@@ -23,9 +23,12 @@
     <None Remove="Pages\AnimePage.xaml" />
     <None Remove="Pages\ArticlePage.xaml" />
     <None Remove="Pages\CinemaPage.xaml" />
+    <None Remove="Pages\DownloadPage.xaml" />
     <None Remove="Pages\LivePartitionPage.xaml" />
+    <None Remove="Pages\MessagePage.xaml" />
     <None Remove="Pages\MomentPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\VideoPartitionPage.xaml" />
   </ItemGroup>
 
@@ -130,4 +133,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|ARM64'">
     <Optimize>True</Optimize>
   </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\DownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MessagePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>
