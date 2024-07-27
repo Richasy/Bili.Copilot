@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
+using Windows.Storage;
+
 namespace BiliCopilot.UI;
 
 /// <summary>
@@ -7,7 +10,7 @@ namespace BiliCopilot.UI;
 /// </summary>
 public partial class App : Application
 {
-    private Window _window;
+    private const string Id = "Richasy.BiliCopilot";
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -25,7 +28,19 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        _window = new MainWindow();
-        _window.Activate();
+        var instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
+        if (instance.IsCurrent)
+        {
+            var rootFolder = ApplicationData.Current.LocalFolder;
+            var fullPath = $"{rootFolder.Path}\\Logger";
+            NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
+            GlobalDependencies.Initialize();
+            GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
+        }
+        else
+        {
+            var activatedArgs = instance.GetActivatedEventArgs();
+            _ = instance.RedirectActivationToAsync(activatedArgs).AsTask().ContinueWith(_ => Current.Exit());
+        }
     }
 }

@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Styles\Overrides.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\StartupPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Forms\StartupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\DownloadPage.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -31,7 +31,7 @@ public sealed partial class MainWindow : WindowBase
         AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
         MinWidth = WindowMinWidth;
         MinHeight = WindowMinHeight;
-        GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Add(this);
+        this.Get<AppViewModel>().Windows.Add(this);
 
         Activated += OnActivated;
         Closed += OnClosed;

@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Richasy.WinUI.Share.ViewModels;
@@ -8,16 +7,16 @@ using Richasy.WinUI.Share.ViewModels;
 namespace Richasy.WinUI.Share.Base;
 
 /// <summary>
-/// 用于布局的用户控件基类.
+/// 用于布局的页面基类.
 /// </summary>
-public abstract class LayoutUserControlBase : UserControl
+public abstract class LayoutPageBase : Page
 {
     private bool? _isBindingsInitialized;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LayoutUserControlBase"/> class.
+    /// Initializes a new instance of the <see cref="LayoutPageBase"/> class.
     /// </summary>
-    protected LayoutUserControlBase()
+    protected LayoutPageBase()
     {
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
@@ -31,14 +30,14 @@ public abstract class LayoutUserControlBase : UserControl
     /// <summary>
     /// 控件加载完成.
     /// </summary>
-    protected virtual void OnControlLoaded()
+    protected virtual void OnPageLoaded()
     {
     }
 
     /// <summary>
     /// 控件卸载完成.
     /// </summary>
-    protected virtual void OnControlUnloaded()
+    protected virtual void OnPageUnloaded()
     {
     }
 
@@ -50,7 +49,7 @@ public abstract class LayoutUserControlBase : UserControl
             _isBindingsInitialized = true;
         }
 
-        OnControlLoaded();
+        OnPageLoaded();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -64,22 +63,22 @@ public abstract class LayoutUserControlBase : UserControl
             _isBindingsInitialized = false;
         }
 
-        OnControlUnloaded();
+        OnPageUnloaded();
     }
 }
 
 /// <summary>
-/// 用于布局的用户控件基类.
+/// 用于布局的页面基类.
 /// </summary>
 /// <typeparam name="TViewModel">视图模型类型.</typeparam>
-public abstract class LayoutUserControlBase<TViewModel> : LayoutUserControlBase
+public abstract class LayoutPageBase<TViewModel> : LayoutPageBase
     where TViewModel : ViewModelBase
 {
     /// <summary>
     /// <see cref="ViewModel"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty ViewModelProperty =
-        DependencyProperty.Register(nameof(ViewModel), typeof(TViewModel), typeof(LayoutUserControlBase), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(ViewModel), typeof(TViewModel), typeof(LayoutPageBase), new PropertyMetadata(default));
 
     /// <summary>
     /// 视图模型.
@@ -89,29 +88,4 @@ public abstract class LayoutUserControlBase<TViewModel> : LayoutUserControlBase
         get => (TViewModel)GetValue(ViewModelProperty);
         set => SetValue(ViewModelProperty, value);
     }
-}
-
-/// <summary>
-/// 控件绑定.
-/// </summary>
-public sealed class ControlBindings
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ControlBindings"/> class.
-    /// </summary>
-    public ControlBindings(Action initialize, Action stopTracking)
-    {
-        Initialize = initialize;
-        StopTracking = stopTracking;
-    }
-
-    /// <summary>
-    /// 初始化.
-    /// </summary>
-    public Action Initialize { get; }
-
-    /// <summary>
-    /// 停止跟踪.
-    /// </summary>
-    public Action StopTracking { get; }
 }

@@ -3,9 +3,11 @@
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Dispatching;
 using NLog.Extensions.Logging;
 using Richasy.BiliKernel;
 using Richasy.BiliKernel.Authorizers.TV;
+using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI;
 
@@ -45,14 +47,22 @@ internal static class GlobalDependencies
             .AddMessageService()
             .AddFavoriteService()
             .AddSearchService()
+            .AddDispatcherQueue()
             .AddSingleton<AppViewModel>()
             .AddSingleton<StartupPageViewModel>()
             .Build();
     }
 
-    public static IKernelBuilder AddSingleton<T>(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddDispatcherQueue(this IKernelBuilder kernelBuilder)
     {
-        kernelBuilder.AddSingleton<T>();
+        kernelBuilder.Services.AddSingleton<DispatcherQueue>(_ => DispatcherQueue.GetForCurrentThread());
+        return kernelBuilder;
+    }
+
+    public static IKernelBuilder AddSingleton<T>(this IKernelBuilder kernelBuilder)
+        where T : class
+    {
+        kernelBuilder.Services.AddSingleton<T>();
         return kernelBuilder;
     }
 
@@ -74,9 +84,14 @@ internal static class GlobalDependencies
         where T : class
         => Kernel.GetRequiredService<T>();
 
-    private static async Task RenderQRCodeAsync(byte[] imageData)
+    public static T Get<T>(this ViewModelBase vm)
+        where T : class
+        => Kernel.GetRequiredService<T>();
+
+    private static Task RenderQRCodeAsync(byte[] imageData)
     {
         var vm = Kernel.GetRequiredService<StartupPageViewModel>();
-        await vm.RenderQRCodeCommand.ExecuteAsync(imageData).ConfigureAwait(true);
+        vm.RenderQRCodeCommand.Execute(imageData);
+        return Task.CompletedTask;
     }
 }

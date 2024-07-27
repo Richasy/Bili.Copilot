@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
     <None Remove="Pages\ArticlePage.xaml" />
     <None Remove="Pages\CinemaPage.xaml" />
@@ -29,7 +30,9 @@
     <None Remove="Pages\MomentPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\StartupPage.xaml" />
     <None Remove="Pages\VideoPartitionPage.xaml" />
+    <None Remove="Styles\Overrides.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +52,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
@@ -77,10 +81,6 @@
     <Page Update="Controls\RootLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\" />
-    <Folder Include="Forms\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ArticlePage.xaml">
@@ -155,6 +155,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Styles\Overrides.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\StartupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Forms\StartupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\DownloadPage.xaml">

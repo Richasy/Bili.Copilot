@@ -22,6 +22,9 @@ public sealed partial class RootLayout : LayoutUserControlBase
         InitializeSubtitle();
     }
 
+    /// <inheritdoc/>
+    protected override ControlBindings ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
+
     /// <summary>
     /// 获取主标题栏.
     /// </summary>

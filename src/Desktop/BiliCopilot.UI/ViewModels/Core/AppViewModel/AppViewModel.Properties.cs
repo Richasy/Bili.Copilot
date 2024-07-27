@@ -2,6 +2,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -12,6 +13,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class AppViewModel : ViewModelBase
 {
     private readonly ILogger<AppViewModel> _logger;
+    private readonly IBiliTokenResolver _tokenResolver;
 
     [ObservableProperty]
     private Window _activatedWindow;
