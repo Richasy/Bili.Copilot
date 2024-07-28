@@ -10,5 +10,8 @@ public sealed partial class PopularPage : Page
     /// <summary>
     /// Initializes a new instance of the <see cref="PopularPage"/> class.
     /// </summary>
-    public PopularPage() => InitializeComponent();
+    public PopularPage()
+    {
+        InitializeComponent();
+    }
 }

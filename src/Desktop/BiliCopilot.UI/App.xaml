@@ -12,6 +12,7 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <ResourceDictionary Source="ms-appx:///Richasy.WinUI.Share/Base/CustomNavigationViewResources.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overrides.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/CardControl/CardControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>

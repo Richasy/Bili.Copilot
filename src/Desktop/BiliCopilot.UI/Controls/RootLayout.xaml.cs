@@ -35,7 +35,12 @@ public sealed partial class RootLayout : LayoutUserControlBase
     protected override void OnControlLoaded()
     {
         _navigationViewModel.InitializeCommand.Execute(MainFrame);
-        NavView.SelectedItem = _navigationViewModel.MenuItems.First(p => p.IsSelected);
+        var selectedItem = _navigationViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
+        if (selectedItem is not null)
+        {
+            NavView.SelectedItem = selectedItem;
+            selectedItem.NavigateCommand.Execute(default);
+        }
     }
 
     private void InitializeSubtitle()

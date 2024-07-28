@@ -21,7 +21,9 @@
   <ItemGroup>
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
+    <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
+    <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
@@ -82,6 +84,10 @@
     <ProjectReference Include="..\Richasy.Controls.Share\Richasy.WinUI.Share.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Components\CardControl\CardControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\RootLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,6 +209,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\HeaderAccountControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\CardControl\CardControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
