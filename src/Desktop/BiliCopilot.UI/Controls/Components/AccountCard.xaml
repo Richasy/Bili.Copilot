@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:HeaderAccountControlBase
+    x:Class="BiliCopilot.UI.Controls.Components.AccountCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="12,12,12,8" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <PersonPicture
+            Width="48"
+            Height="48"
+            VerticalAlignment="Top"
+            ProfilePicture="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+
+        <StackPanel
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Spacing="4">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    Text="{x:Bind ViewModel.MyProfile.User.Name, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis" />
+                <Image
+                    Height="10"
+                    VerticalAlignment="Center"
+                    Source="{x:Bind ViewModel.MyProfile.Level, Mode=OneWay, Converter={StaticResource LevelImageConverter}}"
+                    Stretch="Uniform" />
+            </StackPanel>
+            <TextBlock
+                x:Name="IntroduceBlock"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.MyProfile.Introduce, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap">
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind ViewModel.MyProfile.Introduce, Mode=OneWay}" IsEnabled="{x:Bind IntroduceBlock.IsTextTrimmed, Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </TextBlock>
+            <HyperlinkButton
+                Margin="-4,-2,0,0"
+                Padding="4"
+                Command="{x:Bind ViewModel.SignOutCommand}"
+                Content="{ext:Locale Name=SignOut}"
+                FontSize="12" />
+        </StackPanel>
+    </Grid>
+</local:HeaderAccountControlBase>

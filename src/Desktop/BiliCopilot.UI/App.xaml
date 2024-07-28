@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Richasy.WinUI.Share.Converters"
-    xmlns:local="using:BiliCopilot.UI">
+    xmlns:local="using:BiliCopilot.UI"
+    xmlns:localConverters="using:BiliCopilot.UI.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,6 +22,9 @@
             <converters:ObjectToBoolConverter x:Key="ObjectToBoolReverseConverter" IsReverse="True" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
+            <localConverters:UriToBitmapConverter x:Key="BitmapConverter" />
+            <localConverters:LevelImageConverter x:Key="LevelImageConverter" />
+            <localConverters:CountConverter x:Key="CountConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

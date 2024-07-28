@@ -1086,6 +1086,12 @@
   <data name="My" xml:space="preserve">
     <value>我的</value>
   </data>
+  <data name="MyDynamic" xml:space="preserve">
+    <value>我的动态</value>
+  </data>
+  <data name="MyFans" xml:space="preserve">
+    <value>我的粉丝</value>
+  </data>
   <data name="MyFavorite" xml:space="preserve">
     <value>我的收藏</value>
   </data>
@@ -1094,6 +1100,9 @@
   </data>
   <data name="MyFavoriteFilm" xml:space="preserve">
     <value>我的追剧</value>
+  </data>
+  <data name="MyFollow" xml:space="preserve">
+    <value>我的关注</value>
   </data>
   <data name="MyWebPage" xml:space="preserve">
     <value>个人主页</value>

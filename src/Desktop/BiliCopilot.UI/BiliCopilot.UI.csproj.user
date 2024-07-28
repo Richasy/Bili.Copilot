@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\AccountCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\HeaderAccountControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Forms\WebSignInWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

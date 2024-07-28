@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +51,7 @@ internal static class GlobalDependencies
             .AddDispatcherQueue()
             .AddSingleton<AppViewModel>()
             .AddSingleton<StartupPageViewModel>()
+            .AddSingleton<AccountViewModel>()
             .Build();
     }
 
