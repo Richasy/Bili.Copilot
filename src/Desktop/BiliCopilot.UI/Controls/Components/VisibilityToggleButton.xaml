@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="BiliCopilot.UI.Controls.Components.VisibilityToggleButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Width="20"
+        Height="100"
+        VerticalAlignment="Center"
+        Background="{ThemeResource ControlAltFillColorTransparentBrush}">
+        <Grid
+            x:Name="BackGrid"
+            Width="20"
+            Height="30"
+            VerticalAlignment="Center"
+            Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{x:Bind CornerRadius, Mode=OneWay}"
+            Visibility="Collapsed" />
+        <Button
+            x:Name="Btn"
+            Width="20"
+            Height="30"
+            Padding="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            BorderThickness="0"
+            Click="OnBtnClick"
+            CornerRadius="{x:Bind CornerRadius, Mode=OneWay}"
+            Visibility="Collapsed">
+            <ic:SymbolIcon
+                x:Name="Icon"
+                FontSize="10"
+                Symbol="ChevronRight" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    EasingMode="EaseOut"
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    EasingMode="EaseOut"
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.HideAnimations>
+        </Button>
+    </Grid>
+</UserControl>

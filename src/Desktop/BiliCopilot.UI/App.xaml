@@ -26,6 +26,7 @@
             <localConverters:UriToBitmapConverter x:Key="BitmapConverter" />
             <localConverters:LevelImageConverter x:Key="LevelImageConverter" />
             <localConverters:CountConverter x:Key="CountConverter" />
+            <localConverters:GridLengthConverter x:Key="GridLengthConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

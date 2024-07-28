@@ -53,6 +53,7 @@ internal static class GlobalDependencies
             .AddSingleton<StartupPageViewModel>()
             .AddSingleton<AccountViewModel>()
             .AddSingleton<SearchViewModel>()
+            .AddSingleton<PopularPageViewModel>()
             .Build();
     }
 

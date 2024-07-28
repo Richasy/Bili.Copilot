@@ -16,6 +16,9 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
     /// </summary>
     public AppSearchBox() => InitializeComponent();
 
+    /// <inheritdoc/>
+    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
+
     private void OnKeywordChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         => ViewModel.ReloadSuggestionsCommand.Execute(default);
 

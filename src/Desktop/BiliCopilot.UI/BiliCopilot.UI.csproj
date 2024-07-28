@@ -24,6 +24,11 @@
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
+    <None Remove="Controls\Components\VisibilityToggleButton.xaml" />
+    <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
+    <None Remove="Controls\Popular\PopularSectionItemControl.xaml" />
+    <None Remove="Controls\Popular\PopularSideBody.xaml" />
+    <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
@@ -59,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
@@ -198,6 +204,21 @@
     <Resource Remove="Forms\WebSignInWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Popular\PopularRankParitionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSectionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Components\AppSearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,6 +239,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\Items\" />
+    <Page Update="Controls\Components\VisibilityToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

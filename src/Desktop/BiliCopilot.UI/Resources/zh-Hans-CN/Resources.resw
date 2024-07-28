@@ -801,6 +801,9 @@
   <data name="Generic" xml:space="preserve">
     <value>通用</value>
   </data>
+  <data name="GettingPartitions" xml:space="preserve">
+    <value>正在获取分区...</value>
+  </data>
   <data name="GlobalPlaybackRate" xml:space="preserve">
     <value>全局播放速率</value>
   </data>
@@ -1769,6 +1772,9 @@
   </data>
   <data name="Share" xml:space="preserve">
     <value>分享</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>显示</value>
   </data>
   <data name="ShowDanmaku" xml:space="preserve">
     <value>显示弹幕</value>

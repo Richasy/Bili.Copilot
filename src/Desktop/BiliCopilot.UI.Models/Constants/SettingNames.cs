@@ -14,4 +14,6 @@ public enum SettingNames
     IsMainWindowMaximized,
     MainWindowHeight,
     MainWindowWidth,
+    PopularPageNavColumnWidth,
+    IsPopularPageNavColumnManualHide,
 }
