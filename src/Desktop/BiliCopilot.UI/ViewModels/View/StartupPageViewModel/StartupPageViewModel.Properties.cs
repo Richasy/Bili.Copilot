@@ -22,6 +22,12 @@ public sealed partial class StartupPageViewModel
     [ObservableProperty]
     private string _version;
 
+    [ObservableProperty]
+    private string _errorTip;
+
+    [ObservableProperty]
+    private bool _isQRCodeLoading;
+
     /// <summary>
     /// 二维码图片控件.
     /// </summary>

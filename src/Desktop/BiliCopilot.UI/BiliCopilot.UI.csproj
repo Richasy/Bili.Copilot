@@ -21,6 +21,7 @@
   <ItemGroup>
     <None Remove="Controls\RootLayout.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
+    <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
     <None Remove="Pages\ArticlePage.xaml" />
     <None Remove="Pages\CinemaPage.xaml" />
@@ -180,5 +181,11 @@
     <Page Update="Pages\MessagePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Forms\WebSignInWindow.xaml" />
   </ItemGroup>
 </Project>

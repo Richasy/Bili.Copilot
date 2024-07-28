@@ -39,16 +39,39 @@ public sealed partial class StartupPageViewModel : ViewModelBase
     {
         Version = AppToolkit.GetPackageVersion();
         QRCodeImage = qrcodeImageControl;
-        _cancellationTokenSource ??= new CancellationTokenSource();
-        await _authenticationService.SignInAsync(cancellationToken: _cancellationTokenSource.Token).ConfigureAwait(true);
-        var isSignedIn = await CheckAuthorizeStatusAsync().ConfigureAwait(true);
-        if (isSignedIn)
+        await ReloadQRCodeAsync().ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    private async Task ReloadQRCodeAsync()
+    {
+        if (_cancellationTokenSource is not null)
         {
-            ExitCommand.Execute(true);
+            await _cancellationTokenSource.CancelAsync().ConfigureAwait(true);
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = null;
         }
-        else
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        try
         {
-            _logger.LogWarning("未能成功获取授权信息，扫码可能出现了异常.");
+            IsQRCodeLoading = true;
+            await _authenticationService.SignInAsync(cancellationToken: _cancellationTokenSource.Token).ConfigureAwait(true);
+            var isSignedIn = await CheckAuthorizeStatusAsync().ConfigureAwait(true);
+            if (isSignedIn)
+            {
+                ExitCommand.Execute(true);
+            }
+            else
+            {
+                _logger.LogWarning("未能成功获取授权信息，扫码可能出现了异常.");
+            }
+        }
+        catch (Exception ex)
+        {
+            IsQRCodeLoading = false;
+            ErrorTip = ex.Message;
+            _logger.LogInformation(ex, "登录过程中出现异常.");
         }
     }
 
@@ -82,6 +105,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
             var bitmap = new BitmapImage();
             await bitmap.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(true);
             QRCodeImage.Source = bitmap;
+            IsQRCodeLoading = false;
         });
     }
 

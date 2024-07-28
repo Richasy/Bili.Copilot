@@ -17,7 +17,7 @@ public sealed partial class MainWindow : WindowBase
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
-    private bool _isFirstActivated;
+    private bool _isFirstActivated = true;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.

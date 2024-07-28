@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Richasy.WinUI.Share.Converters"
     xmlns:local="using:BiliCopilot.UI">
     <Application.Resources>
         <ResourceDictionary>
@@ -13,6 +14,13 @@
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
+
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityReverseConverter" IsReverse="True" />
+            <converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+            <converters:ObjectToBoolConverter x:Key="ObjectToBoolReverseConverter" IsReverse="True" />
+            <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+            <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
