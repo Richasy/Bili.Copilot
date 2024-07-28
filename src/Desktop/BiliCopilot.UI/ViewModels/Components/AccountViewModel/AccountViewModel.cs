@@ -35,7 +35,15 @@ public sealed partial class AccountViewModel : ViewModelBase
         }
 
         IsInitializing = true;
-        MyProfile = await _myProfileService.GetMyProfileAsync().ConfigureAwait(true);
+        try
+        {
+            MyProfile = await _myProfileService.GetMyProfileAsync().ConfigureAwait(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "无法获取登录用户的资料");
+        }
+
         IsInitializing = false;
     }
 
@@ -47,10 +55,17 @@ public sealed partial class AccountViewModel : ViewModelBase
             return;
         }
 
-        var communityInformation = await _myProfileService.GetMyCommunityInformationAsync().ConfigureAwait(true);
-        MomentCount = communityInformation.MomentCount ?? 0;
-        FollowCount = communityInformation.FollowCount ?? 0;
-        FansCount = communityInformation.FansCount ?? 0;
+        try
+        {
+            var communityInformation = await _myProfileService.GetMyCommunityInformationAsync().ConfigureAwait(true);
+            MomentCount = communityInformation.MomentCount ?? 0;
+            FollowCount = communityInformation.FollowCount ?? 0;
+            FansCount = communityInformation.FansCount ?? 0;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "已登录用户的社区信息获取失败");
+        }
     }
 
     [RelayCommand]

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\Components\AccountCard.xaml" />
+    <None Remove="Controls\Components\AppSearchBox.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
@@ -191,6 +192,11 @@
     <Resource Remove="Forms\WebSignInWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Components\AppSearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Components\AccountCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,5 +205,8 @@
     <Page Update="Controls\Components\HeaderAccountControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Items\" />
   </ItemGroup>
 </Project>

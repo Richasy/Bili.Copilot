@@ -93,8 +93,8 @@
                             <Viewbox
                                 x:Name="PART_Icon"
                                 Grid.Column="3"
-                                MaxWidth="16"
-                                MaxHeight="16"
+                                MaxWidth="20"
+                                MaxHeight="20"
                                 Margin="16,0,0,0"
                                 VerticalAlignment="Center"
                                 x:DeferLoadStrategy="Lazy"
@@ -138,7 +138,7 @@
                                 Visibility="Collapsed">
                                 <ContentPresenter
                                     x:Name="PART_ContentPresenter"
-                                    HorizontalAlignment="Center"
+                                    HorizontalAlignment="Stretch"
                                     Content="{TemplateBinding Content}" />
                             </Grid>
 

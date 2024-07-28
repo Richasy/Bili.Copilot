@@ -245,7 +245,7 @@ public sealed partial class AppTitleBar
 
         if (Content is not null && _contentArea is not null)
         {
-            _interactableElementList.Add(_contentArea);
+            _interactableElementList.Add(Content as FrameworkElement);
         }
 
         if (Footer is not null && _footerArea is not null)

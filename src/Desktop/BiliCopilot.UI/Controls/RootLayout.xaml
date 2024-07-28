@@ -39,12 +39,13 @@
                 <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
             </base:AppTitleBar.IconElement>
 
-            <AutoSuggestBox
-                MinWidth="300"
+            <components:AppSearchBox
+                x:Name="SearchBox"
+                MinWidth="320"
                 MaxWidth="500"
-                Margin="8"
-                PlaceholderText="hasdasdas"
-                QueryIcon="Favorite" />
+                Margin="20,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
 
             <base:AppTitleBar.Footer>
                 <components:HeaderAccountControl />
@@ -80,6 +81,7 @@
                     <VisualState.Setters>
                         <Setter Target="MainTitleBar.Title" Value="" />
                         <Setter Target="MainTitleBar.Subtitle" Value="" />
+                        <Setter Target="SearchBox.Margin" Value="40,0,20,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

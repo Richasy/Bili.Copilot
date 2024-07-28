@@ -6,6 +6,12 @@
         <Setter Property="Padding" Value="20,0" />
     </Style>
 
+    <Style x:Key="PageScrollViewStyle" TargetType="ScrollView">
+        <Setter Property="HorizontalScrollMode" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Padding" Value="16,0" />
+    </Style>
+
     <Style x:Key="PageProgressRingStyle" TargetType="ProgressRing">
         <Setter Property="Width" Value="28" />
         <Setter Property="Height" Value="28" />
