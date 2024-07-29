@@ -48,8 +48,67 @@ public sealed partial class PopularPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task SelectSectionAsync(IPopularSectionItemViewModel vm)
     {
+        if (vm is null)
+        {
+            return;
+        }
+
         SelectedSection = vm;
-        await Task.CompletedTask.ConfigureAwait(true);
+        if (Videos.Count > 0)
+        {
+            _videoCache[SelectedSection] = Videos.ToList();
+        }
+        else
+        {
+            await Task.Delay(1000).ConfigureAwait(true);
+        }
+
+        Videos.Clear();
+        if (_videoCache.TryGetValue(vm, out var cacheVideos))
+        {
+            foreach (var video in cacheVideos)
+            {
+                Videos.Add(video);
+            }
+        }
+        else
+        {
+            if (IsVideoLoading)
+            {
+                return;
+            }
+
+            IsVideoLoading = true;
+            if (vm is PopularSectionItemViewModel section)
+            {
+                if (section.Type == PopularSectionType.Recommend)
+                {
+                    await LoadRecommendVideosAsync().ConfigureAwait(true);
+                }
+            }
+
+            IsVideoLoading = false;
+        }
+    }
+
+    private async Task LoadRecommendVideosAsync()
+    {
+        try
+        {
+            var (videos, nextOffset) = await _service.GetRecommendVideoListAsync().ConfigureAwait(true);
+            _recommendOffset = nextOffset;
+            if (videos is not null)
+            {
+                foreach (var item in videos)
+                {
+                    Videos.Add(new VideoItemViewModel(item));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试加载推荐视频时出错.");
+        }
     }
 
     private async Task LoadPartitionsAsync()

@@ -14,7 +14,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// </summary>
 public sealed class CardControl : Button
 {
-    private const float PointerOverOffsetY = -2f;
+    private const float PointerOverOffsetY = -4f;
 
     private static readonly TimeSpan _pointerOverShadowDuration = TimeSpan.FromMilliseconds(240);
     private static readonly TimeSpan _pressedShadowDuration = TimeSpan.FromMilliseconds(200);

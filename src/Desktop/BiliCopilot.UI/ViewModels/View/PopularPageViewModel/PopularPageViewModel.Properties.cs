@@ -15,6 +15,9 @@ public sealed partial class PopularPageViewModel
 {
     private readonly IVideoDiscoveryService _service;
     private readonly ILogger<PopularPageViewModel> _logger;
+    private readonly Dictionary<IPopularSectionItemViewModel, List<VideoItemViewModel>> _videoCache = new();
+
+    private long _recommendOffset;
 
     [ObservableProperty]
     private double _navColumnWidth;
@@ -24,6 +27,9 @@ public sealed partial class PopularPageViewModel
 
     [ObservableProperty]
     private bool _isPartitionLoading;
+
+    [ObservableProperty]
+    private bool _isVideoLoading;
 
     [ObservableProperty]
     private IPopularSectionItemViewModel _selectedSection;
@@ -37,4 +43,9 @@ public sealed partial class PopularPageViewModel
     /// 分区列表.
     /// </summary>
     public ObservableCollection<IPopularSectionItemViewModel> Sections { get; } = new();
+
+    /// <summary>
+    /// 视频列表.
+    /// </summary>
+    public ObservableCollection<VideoItemViewModel> Videos { get; } = new();
 }
