@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Height="44" ColumnSpacing="8">
+    <Grid ColumnSpacing="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
@@ -24,11 +24,11 @@
             Grid.Column="1"
             HorizontalAlignment="Left"
             Orientation="Horizontal"
-            Spacing="4">
+            Spacing="8">
             <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
             <TextBlock
-                VerticalAlignment="Center"
-                FontSize="12"
+                VerticalAlignment="Bottom"
+                FontSize="10"
                 Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                 Text="{ext:Locale Name=PartitionRank}" />
         </StackPanel>

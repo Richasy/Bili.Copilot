@@ -40,9 +40,14 @@ public sealed partial class SearchViewModel : ViewModelBase
             _recommendItems.AddRange(recommends);
         }
 
-        Suggestion.Clear();
         if (string.IsNullOrEmpty(Keyword.Trim()))
         {
+            if (Suggestion.Count == _recommendItems.Count)
+            {
+                return;
+            }
+
+            Suggestion.Clear();
             foreach (var item in _recommendItems)
             {
                 Suggestion.Add(new Richasy.BiliKernel.Models.Search.SearchSuggestItem(item.Text, item.Keyword));
@@ -52,6 +57,7 @@ public sealed partial class SearchViewModel : ViewModelBase
         {
             try
             {
+                Suggestion.Clear();
                 _cancellationTokenSource = new CancellationTokenSource();
                 var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token).ConfigureAwait(true);
                 if (suggests is not null)

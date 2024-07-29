@@ -1,5 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
+using BiliCopilot.UI.ViewModels.Items;
+using Richasy.WinUI.Share.Base;
+
 namespace BiliCopilot.UI.Controls.Popular;
 
 /// <summary>
@@ -15,12 +19,13 @@ public sealed partial class PopularSideBody : PopularPageControlBase
         InitializeComponent();
     }
 
-    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    /// <inheritdoc/>
+    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
+
+    private void OnSectionSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
-        var context = e.AddedItems.FirstOrDefault();
-        if (context != null)
-        {
-            // Selected.
-        }
+        _ = this;
+        var item = sender.SelectedItem as IPopularSectionItemViewModel;
+        Debug.WriteLine($"Section {item?.Title} selected.");
     }
 }

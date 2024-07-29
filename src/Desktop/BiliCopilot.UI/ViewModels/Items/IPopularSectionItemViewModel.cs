@@ -9,4 +9,8 @@ namespace BiliCopilot.UI.ViewModels.Items;
 /// </summary>
 public interface IPopularSectionItemViewModel : INotifyPropertyChanged
 {
+    /// <summary>
+    /// 区块标题.
+    /// </summary>
+    string Title { get; }
 }
