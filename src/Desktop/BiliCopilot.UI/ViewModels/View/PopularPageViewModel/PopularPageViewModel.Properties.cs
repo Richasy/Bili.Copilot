@@ -18,6 +18,7 @@ public sealed partial class PopularPageViewModel
     private readonly Dictionary<IPopularSectionItemViewModel, List<VideoItemViewModel>> _videoCache = new();
 
     private long _recommendOffset;
+    private long _hotOffset;
 
     [ObservableProperty]
     private double _navColumnWidth;
@@ -38,6 +39,11 @@ public sealed partial class PopularPageViewModel
     /// 区块加载完成.
     /// </summary>
     public event EventHandler SectionInitialized;
+
+    /// <summary>
+    /// 视频列表已完成更新.
+    /// </summary>
+    public event EventHandler VideoListUpdated;
 
     /// <summary>
     /// 分区列表.

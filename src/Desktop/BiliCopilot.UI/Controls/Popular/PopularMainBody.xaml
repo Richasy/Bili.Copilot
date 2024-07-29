@@ -12,7 +12,11 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView Style="{StaticResource PageScrollViewStyle}">
+        <ScrollView
+            x:Name="VideoScrollView"
+            SizeChanged="OnScrollViewSizeChanged"
+            Style="{StaticResource PageScrollViewStyle}"
+            ViewChanged="OnViewChanged">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}">
                     <ItemsRepeater.ItemTemplate>
@@ -23,13 +27,14 @@
                     <ItemsRepeater.Layout>
                         <UniformGridLayout
                             ItemsStretch="Fill"
-                            MinColumnSpacing="12"
+                            MinColumnSpacing="16"
                             MinItemHeight="220"
-                            MinItemWidth="172"
-                            MinRowSpacing="12" />
+                            MinItemWidth="186"
+                            MinRowSpacing="16" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>
+        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
     </Grid>
 </local:PopularPageControlBase>

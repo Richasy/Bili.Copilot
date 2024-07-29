@@ -40,8 +40,8 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
-        await LoadPartitionsAsync().ConfigureAwait(true);
         SelectSectionCommand.Execute(Sections.First());
+        await LoadPartitionsAsync().ConfigureAwait(true);
         SectionInitialized?.Invoke(this, EventArgs.Empty);
     }
 
@@ -53,12 +53,12 @@ public sealed partial class PopularPageViewModel : ViewModelBase
             return;
         }
 
-        SelectedSection = vm;
         if (Videos.Count > 0)
         {
             _videoCache[SelectedSection] = Videos.ToList();
         }
 
+        SelectedSection = vm;
         Videos.Clear();
         if (_videoCache.TryGetValue(vm, out var cacheVideos))
         {
@@ -69,57 +69,61 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         }
         else
         {
-            if (IsVideoLoading)
-            {
-                return;
-            }
-
-            IsVideoLoading = true;
-            if (vm is PopularSectionItemViewModel section)
-            {
-                if (section.Type == PopularSectionType.Recommend)
-                {
-                    await LoadRecommendVideosAsync().ConfigureAwait(true);
-                }
-            }
-
-            IsVideoLoading = false;
+            await LoadVideosAsync().ConfigureAwait(true);
         }
     }
 
-    private async Task LoadRecommendVideosAsync()
+    [RelayCommand]
+    private async Task LoadVideosAsync()
     {
-        try
+        if (IsVideoLoading)
         {
-            var (videos, nextOffset) = await _service.GetRecommendVideoListAsync().ConfigureAwait(true);
-            _recommendOffset = nextOffset;
-            if (videos is not null)
+            return;
+        }
+
+        IsVideoLoading = true;
+        if (SelectedSection is PopularSectionItemViewModel section)
+        {
+            if (section.Type == PopularSectionType.Recommend)
             {
-                foreach (var item in videos)
-                {
-                    Videos.Add(new VideoItemViewModel(item));
-                }
+                await LoadRecommendVideosAsync().ConfigureAwait(true);
+            }
+            else if (section.Type == PopularSectionType.Hot)
+            {
+                await LoadHotVideosAsync().ConfigureAwait(true);
+            }
+            else if (section.Type == PopularSectionType.Rank)
+            {
+                await LoadTotalRankVideosAsync().ConfigureAwait(true);
             }
         }
-        catch (Exception ex)
+        else if (SelectedSection is PopularRankPartitionViewModel partition)
         {
-            _logger.LogError(ex, "尝试加载推荐视频时出错.");
+            await LoadPartitionRankVideosAsync(partition.Data).ConfigureAwait(true);
         }
+
+        VideoListUpdated?.Invoke(this, EventArgs.Empty);
+        IsVideoLoading = false;
     }
 
-    private async Task LoadPartitionsAsync()
+    [RelayCommand]
+    private async Task RefreshVideoAsync()
     {
-        IsPartitionLoading = true;
-        var partitions = await _service.GetVideoPartitionsAsync().ConfigureAwait(true);
-        if (partitions != null)
+        Videos.Clear();
+        _videoCache.Remove(SelectedSection);
+        if (SelectedSection is PopularSectionItemViewModel section)
         {
-            foreach (var item in partitions)
+            if (section.Type == PopularSectionType.Recommend)
             {
-                Sections.Add(new PopularRankPartitionViewModel(item));
+                _recommendOffset = 0;
+            }
+            else if (section.Type == PopularSectionType.Hot)
+            {
+                _hotOffset = 0;
             }
         }
 
-        IsPartitionLoading = false;
+        await LoadVideosAsync().ConfigureAwait(true);
     }
 
     partial void OnNavColumnWidthChanged(double value)

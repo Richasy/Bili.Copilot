@@ -36,7 +36,8 @@
         <Button
             Grid.Column="1"
             VerticalAlignment="Center"
-            AutomationProperties.Name="{extensions:Locale Name=Refresh}">
+            AutomationProperties.Name="{extensions:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.RefreshVideoCommand}">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <ic:SymbolIcon
                     VerticalAlignment="Center"
