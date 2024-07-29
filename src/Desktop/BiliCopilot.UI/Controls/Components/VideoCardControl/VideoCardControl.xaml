@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Components">
-    <Style x:Key="PopularVideoCardStyle" TargetType="local:VideoCardControl">
+    <Style x:Key="RecommendVideoCardStyle" TargetType="local:VideoCardControl">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
@@ -48,21 +48,41 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
-                            <Grid
-                                Grid.Row="1"
-                                Padding="12,8"
-                                RowSpacing="4">
+                            <Grid Grid.Row="1" Padding="12,8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <Grid ColumnSpacing="8">
+                                <TextBlock
+                                    Margin="0,0,0,4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,0,0,4"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                                <Grid Grid.Row="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                     <StackPanel
+                                        Grid.Column="1"
                                         VerticalAlignment="Center"
                                         Orientation="Horizontal"
                                         Spacing="4">
@@ -77,29 +97,8 @@
                                             Style="{StaticResource CaptionTextBlockStyle}"
                                             Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}" />
                                     </StackPanel>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        MaxWidth="120"
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName, Converter={StaticResource ObjectToVisibilityConverter}}" />
                                 </Grid>
-                                <TextBlock
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap"
-                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+
                             </Grid>
                         </Grid>
                     </local:CardControl>

@@ -13,11 +13,11 @@
 
     <Grid>
         <ScrollView Style="{StaticResource PageScrollViewStyle}">
-            <Grid Margin="0,12">
+            <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
-                            <components:VideoCardControl Style="{StaticResource PopularVideoCardStyle}" ViewModel="{x:Bind}" />
+                            <components:VideoCardControl Style="{StaticResource RecommendVideoCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>

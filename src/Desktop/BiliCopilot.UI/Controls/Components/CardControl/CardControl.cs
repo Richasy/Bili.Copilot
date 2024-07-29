@@ -17,7 +17,7 @@ public sealed class CardControl : Button
     private const float PointerOverOffsetY = -4f;
 
     private static readonly TimeSpan _pointerOverShadowDuration = TimeSpan.FromMilliseconds(240);
-    private static readonly TimeSpan _pressedShadowDuration = TimeSpan.FromMilliseconds(200);
+    private static readonly TimeSpan _pressedShadowDuration = TimeSpan.FromMilliseconds(50);
     private static readonly TimeSpan _restShadowDuration = TimeSpan.FromMilliseconds(250);
 
     private Compositor _compositor;
@@ -37,24 +37,24 @@ public sealed class CardControl : Button
     {
         DefaultStyleKey = typeof(CardControl);
         _compositor = this.Get<AppViewModel>().ActivatedWindow.Compositor;
-        Loaded += OnLoadedAsync;
+        Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
 
     /// <inheritdoc/>
-    protected override async void OnApplyTemplate()
+    protected override void OnApplyTemplate()
     {
         _shadowContainer = GetTemplateChild("ShadowContainer") as FrameworkElement;
         ElementCompositionPreview.SetIsTranslationEnabled(_shadowContainer, true);
 
         _initialShadow = CommunityToolkit.WinUI.Effects.GetShadow(_shadowContainer);
         _templateApplied = true;
-        await ApplyShadowAnimationAsync().ConfigureAwait(true);
+        ApplyShadowAnimation();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        Loaded -= OnLoadedAsync;
+        Loaded -= OnLoaded;
         Unloaded -= OnUnloaded;
 
         UnregisterPropertyChangedCallback(IsPointerOverProperty, _pointerOverToken);
@@ -65,17 +65,17 @@ public sealed class CardControl : Button
         DestroyShadow();
     }
 
-    private async void OnLoadedAsync(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        _pointerOverToken = RegisterPropertyChangedCallback(IsPointerOverProperty, OnButtonStateChangedAsync);
-        _pressedToken = RegisterPropertyChangedCallback(IsPressedProperty, OnButtonStateChangedAsync);
+        _pointerOverToken = RegisterPropertyChangedCallback(IsPointerOverProperty, OnButtonStateChanged);
+        _pressedToken = RegisterPropertyChangedCallback(IsPressedProperty, OnButtonStateChanged);
         _loaded = true;
 
-        await ApplyShadowAnimationAsync().ConfigureAwait(true);
+        ApplyShadowAnimation();
     }
 
-    private async void OnButtonStateChangedAsync(DependencyObject sender, DependencyProperty dp)
-        => await ApplyShadowAnimationAsync().ConfigureAwait(true);
+    private void OnButtonStateChanged(DependencyObject sender, DependencyProperty dp)
+        => ApplyShadowAnimation();
 
     private void CreateShadow()
     {
@@ -110,23 +110,18 @@ public sealed class CardControl : Button
         _compositor = default;
     }
 
-    private async Task ApplyShadowAnimationAsync()
+    private void ApplyShadowAnimation()
     {
         if (!_templateApplied)
         {
             return;
         }
 
-        var duration = IsPointerOver ? _pointerOverShadowDuration : IsPressed ? _pressedShadowDuration : _restShadowDuration;
-        if (IsPointerOver)
-        {
-            await AnimationBuilder.Create().Translation(Axis.Y, PointerOverOffsetY, duration: duration, easingMode: Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseIn).StartAsync(this).ConfigureAwait(true);
-        }
-        else
-        {
-            await AnimationBuilder.Create().Translation(Axis.Y, 0, duration: duration, easingMode: Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut).StartAsync(this).ConfigureAwait(true);
-        }
-
+        var duration = IsPressed ? _pressedShadowDuration : IsPointerOver ? _pointerOverShadowDuration : _restShadowDuration;
+        var offset = IsPressed ? -2f : IsPointerOver ? PointerOverOffsetY : 0f;
+#pragma warning disable VSTHRD103 // Call async methods when in an async method
+        AnimationBuilder.Create().Translation(Axis.Y, offset, duration: duration, easingMode: Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseInOut).Start(this);
+#pragma warning restore VSTHRD103 // Call async methods when in an async method
         var shadowOpacity = GetShadowOpacity();
         var shadowRadius = GetShadowRadius();
         var shadowOffset = GetShadowOffset();

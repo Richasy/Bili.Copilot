@@ -58,10 +58,6 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         {
             _videoCache[SelectedSection] = Videos.ToList();
         }
-        else
-        {
-            await Task.Delay(1000).ConfigureAwait(true);
-        }
 
         Videos.Clear();
         if (_videoCache.TryGetValue(vm, out var cacheVideos))
