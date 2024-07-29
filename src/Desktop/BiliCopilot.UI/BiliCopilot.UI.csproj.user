@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Popular\PopularMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Popular\PopularRankParitionItemControl.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -11,11 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid
-        Padding="16,0"
-        BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-        BorderThickness="0,0,0,1"
-        ColumnSpacing="8">
+    <Grid Padding="16,0" ColumnSpacing="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />

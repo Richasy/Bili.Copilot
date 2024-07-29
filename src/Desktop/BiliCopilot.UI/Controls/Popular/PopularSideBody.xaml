@@ -30,6 +30,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ItemsView
+            x:Name="SectionView"
             Padding="2,8,8,8"
             ItemsSource="{x:Bind ViewModel.Sections}"
             ScrollViewer.HorizontalScrollMode="Disabled"
@@ -59,6 +60,7 @@
             Grid.Row="1"
             Padding="12,4"
             Orientation="Horizontal"
+            Spacing="12"
             Visibility="{x:Bind ViewModel.IsPartitionLoading, Mode=OneWay}">
             <ProgressBar
                 Width="20"
@@ -82,7 +84,7 @@
                     Duration="0:0:0.4" />
                 <animations:TranslationAnimation
                     From="0"
-                    To="20"
+                    To="0,20"
                     Duration="0:0:.4" />
             </animations:Implicit.HideAnimations>
         </StackPanel>

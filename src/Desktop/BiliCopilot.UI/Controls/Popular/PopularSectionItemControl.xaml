@@ -9,8 +9,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" Spacing="12">
+    <StackPanel Orientation="Horizontal" Spacing="10">
         <ic:SymbolIcon
+            Margin="2,0,0,0"
             VerticalAlignment="Center"
             FontSize="14"
             Symbol="{x:Bind ViewModel.Icon, Mode=OneWay}" />

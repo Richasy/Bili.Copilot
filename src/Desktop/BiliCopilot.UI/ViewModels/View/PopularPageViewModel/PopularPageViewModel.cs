@@ -41,6 +41,15 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
         await LoadPartitionsAsync().ConfigureAwait(true);
+        SelectSectionCommand.Execute(Sections.First());
+        SectionInitialized?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private async Task SelectSectionAsync(IPopularSectionItemViewModel vm)
+    {
+        SelectedSection = vm;
+        await Task.CompletedTask.ConfigureAwait(true);
     }
 
     private async Task LoadPartitionsAsync()

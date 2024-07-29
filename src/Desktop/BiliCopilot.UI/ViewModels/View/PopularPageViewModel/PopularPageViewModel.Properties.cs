@@ -25,6 +25,14 @@ public sealed partial class PopularPageViewModel
     [ObservableProperty]
     private bool _isPartitionLoading;
 
+    [ObservableProperty]
+    private IPopularSectionItemViewModel _selectedSection;
+
+    /// <summary>
+    /// 区块加载完成.
+    /// </summary>
+    public event EventHandler SectionInitialized;
+
     /// <summary>
     /// 分区列表.
     /// </summary>

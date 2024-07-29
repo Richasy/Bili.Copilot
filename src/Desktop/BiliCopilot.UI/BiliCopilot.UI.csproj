@@ -25,6 +25,7 @@
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\VisibilityToggleButton.xaml" />
+    <None Remove="Controls\Popular\PopularMainHeader.xaml" />
     <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
     <None Remove="Controls\Popular\PopularSectionItemControl.xaml" />
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
@@ -202,6 +203,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Popular\PopularRankParitionItemControl.xaml">

@@ -14,6 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="56" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,14 +22,21 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Height="1"
+            HorizontalAlignment="Stretch"
+            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <popular:PopularSideHeader Margin="0,0,-6,0" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <popular:PopularSideBody
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="0,0,-6,0"
             Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <popular:PopularMainHeader Grid.Column="2" Margin="-6,0,0,0" />
 
         <!--  左侧分栏大小控制器  -->
-        <Grid Grid.RowSpan="2" Grid.Column="1">
+        <Grid Grid.RowSpan="3" Grid.Column="1">
             <Border
                 Width="1"
                 HorizontalAlignment="Center"
