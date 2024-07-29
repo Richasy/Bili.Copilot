@@ -92,12 +92,12 @@ public sealed partial class PopularPageViewModel : ViewModelBase
             {
                 await LoadHotVideosAsync().ConfigureAwait(true);
             }
-            else if (section.Type == PopularSectionType.Rank)
+            else if (section.Type == PopularSectionType.Rank && Videos.Count == 0)
             {
                 await LoadTotalRankVideosAsync().ConfigureAwait(true);
             }
         }
-        else if (SelectedSection is PopularRankPartitionViewModel partition)
+        else if (SelectedSection is PopularRankPartitionViewModel partition && Videos.Count == 0)
         {
             await LoadPartitionRankVideosAsync(partition.Data).ConfigureAwait(true);
         }

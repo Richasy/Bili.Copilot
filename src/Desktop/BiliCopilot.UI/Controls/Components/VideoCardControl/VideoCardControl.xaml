@@ -15,11 +15,10 @@
                                 <RowDefinition Height="94" />
                             </Grid.RowDefinitions>
                             <Grid CornerRadius="4,4,0,0">
-                                <Image
+                                <local:CoverImage
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover, Converter={StaticResource BitmapConverter}}"
-                                    Stretch="UniformToFill" />
+                                    Uri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             </Grid>
                             <Border
                                 Margin="4"

@@ -14,14 +14,13 @@
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <Configurations>Debug;Release;Publish</Configurations>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Remove="Assets\logo.ico" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
+    <None Remove="Controls\Components\CoverImage.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\LoadingWidget.xaml" />
@@ -90,8 +89,8 @@
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.User\Services.User.csproj" />
+    <ProjectReference Include="..\..\Libs\WinUI.Share\src\Richasy.WinUI.Share.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
-    <ProjectReference Include="..\Richasy.Controls.Share\Richasy.WinUI.Share.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\CardControl\CardControl.xaml">
@@ -206,6 +205,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\CoverImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\LoadingWidget.xaml">
