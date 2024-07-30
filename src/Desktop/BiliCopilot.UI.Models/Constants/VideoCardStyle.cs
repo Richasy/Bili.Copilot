@@ -21,4 +21,9 @@ public enum VideoCardStyle
     /// 排行榜.
     /// </summary>
     Rank,
+
+    /// <summary>
+    /// 分区视频.
+    /// </summary>
+    Partition,
 }

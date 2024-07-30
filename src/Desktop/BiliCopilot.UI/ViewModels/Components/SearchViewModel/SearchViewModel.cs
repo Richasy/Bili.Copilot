@@ -29,14 +29,14 @@ public sealed partial class SearchViewModel : ViewModelBase
     {
         if (_cancellationTokenSource is not null)
         {
-            await _cancellationTokenSource.CancelAsync().ConfigureAwait(true);
+            await _cancellationTokenSource.CancelAsync();
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = null;
         }
 
         if (_recommendItems.Count == 0)
         {
-            var recommends = await _searchService.GetSearchRecommendsAsync().ConfigureAwait(true);
+            var recommends = await _searchService.GetSearchRecommendsAsync();
             _recommendItems.AddRange(recommends);
         }
 
@@ -59,7 +59,7 @@ public sealed partial class SearchViewModel : ViewModelBase
             {
                 Suggestion.Clear();
                 _cancellationTokenSource = new CancellationTokenSource();
-                var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token).ConfigureAwait(true);
+                var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token);
                 if (suggests is not null)
                 {
                     foreach (var item in suggests)
@@ -86,7 +86,7 @@ public sealed partial class SearchViewModel : ViewModelBase
         IsHotSearchLoading = true;
         try
         {
-            var hotSearches = await _searchService.GetTotalHotSearchAsync(30).ConfigureAwait(true);
+            var hotSearches = await _searchService.GetTotalHotSearchAsync(30);
             foreach (var item in hotSearches)
             {
                 HotSearchItems.Add(item);

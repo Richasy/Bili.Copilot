@@ -24,7 +24,7 @@
             SectionTemplate="{StaticResource SectionTemplate}" />
     </UserControl.Resources>
 
-    <Grid Padding="12,0">
+    <Grid Padding="16,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />

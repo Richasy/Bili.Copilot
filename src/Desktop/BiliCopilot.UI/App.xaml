@@ -28,6 +28,7 @@
             <localConverters:LevelImageConverter x:Key="LevelImageConverter" />
             <localConverters:CountConverter x:Key="CountConverter" />
             <localConverters:GridLengthConverter x:Key="GridLengthConverter" />
+            <localConverters:SortTypeTextConverter x:Key="SortTypeTextConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

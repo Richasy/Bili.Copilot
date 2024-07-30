@@ -20,4 +20,5 @@ public enum SettingNames
     VideoPartitionPageNavColumnWidth,
     IsVideoPartitionPageNavColumnManualHide,
     VideoPartitionPageLastSelectedPartitionId,
+    LastSelectedFeaturePage,
 }

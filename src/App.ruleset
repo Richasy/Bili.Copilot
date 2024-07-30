@@ -86,11 +86,11 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.NetAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.NetAnalyzers">
     <Rule Id="CA1416" Action="None" />
-    <Rule Id="CA2007" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="Microsoft.VisualStudio.Threading.Analyzers" RuleNamespace="Microsoft.VisualStudio.Threading.Analyzers">
     <Rule Id="VSTHRD100" Action="None" />
     <Rule Id="VSTHRD101" Action="None" />
+    <Rule Id="VSTHRD111" Action="None" />
     <Rule Id="VSTHRD200" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.VisualStudio.Threading.Analyzers.CSharp" RuleNamespace="Microsoft.VisualStudio.Threading.Analyzers.CSharp">

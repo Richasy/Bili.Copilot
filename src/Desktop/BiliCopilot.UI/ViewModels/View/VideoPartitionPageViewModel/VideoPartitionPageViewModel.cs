@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -32,8 +33,13 @@ public sealed partial class VideoPartitionPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task InitializeAsync()
     {
+        if (Partitions.Count > 0)
+        {
+            return;
+        }
+
         IsPartitionLoading = true;
-        var partitions = await _service.GetVideoPartitionsAsync().ConfigureAwait(true);
+        var partitions = await _service.GetVideoPartitionsAsync();
         if (partitions != null)
         {
             foreach (var item in partitions)
@@ -43,10 +49,34 @@ public sealed partial class VideoPartitionPageViewModel : ViewModelBase
         }
 
         IsPartitionLoading = false;
-        await Task.Delay(200).ConfigureAwait(true);
-        SectionInitialized?.Invoke(this, EventArgs.Empty);
+        await Task.Delay(200);
         var lastSelectedPartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.VideoPartitionPageLastSelectedPartitionId, Partitions.First().Data.Id);
         var partition = Partitions.FirstOrDefault(p => p.Data.Id == lastSelectedPartitionId) ?? Partitions.First();
+        SelectPartition(partition);
+        PartitionInitialized?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private void SelectPartition(VideoPartitionViewModel partition)
+    {
+        if (partition is null || partition.Data.Equals(SelectedPartition?.Data))
+        {
+            return;
+        }
+
+        if (_partitionCache.TryGetValue(partition.Data, out var detail))
+        {
+            SelectedPartition = detail;
+        }
+        else
+        {
+            var vm = new VideoPartitionDetailViewModel(partition, _service);
+            _partitionCache.Add(partition.Data, vm);
+            SelectedPartition = vm;
+            vm.InitializeCommand.Execute(default);
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.VideoPartitionPageLastSelectedPartitionId, partition.Data.Id);
     }
 
     partial void OnNavColumnWidthChanged(double value)

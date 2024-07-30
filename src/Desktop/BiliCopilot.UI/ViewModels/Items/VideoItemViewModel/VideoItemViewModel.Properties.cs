@@ -60,6 +60,11 @@ public sealed partial class VideoItemViewModel
     public double? DanmakuCount { get; set; }
 
     /// <summary>
+    /// 点赞数.
+    /// </summary>
+    public double? LikeCount { get; set; }
+
+    /// <summary>
     /// 标签名称.
     /// </summary>
     public string? TagName { get; init; }

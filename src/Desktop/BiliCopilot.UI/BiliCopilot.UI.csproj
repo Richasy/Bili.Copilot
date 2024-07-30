@@ -33,6 +33,9 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionItemControl.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionMainBody.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionMainHeader.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionSideBody.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
@@ -69,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
@@ -207,6 +211,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">

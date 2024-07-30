@@ -29,6 +29,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         PublishRelativeTime = info.PublishTime?.Humanize(culture: new CultureInfo("zh-CN"));
         PlayCount = info.CommunityInformation?.PlayCount;
         DanmakuCount = info.CommunityInformation?.DanmakuCount;
+        LikeCount = info.CommunityInformation?.LikeCount;
         TagName = info.GetExtensionIfNotNull<string?>(VideoExtensionDataId.TagName);
         RecommendReason = info.GetExtensionIfNotNull<string?>(VideoExtensionDataId.RecommendReason);
         Subtitle = info.GetExtensionIfNotNull<string?>(VideoExtensionDataId.Subtitle);

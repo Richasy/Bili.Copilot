@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
       <SubType>Designer</SubType>
     </Page>

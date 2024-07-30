@@ -31,23 +31,7 @@
                         Margin="8,0"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         Style="{StaticResource AppItemContainerStyle}">
-                        <Grid Padding="12,0" ColumnSpacing="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Width="18"
-                                Height="18"
-                                VerticalAlignment="Center"
-                                Source="{x:Bind Logo, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
-                                Stretch="Uniform" />
-                            <TextBlock
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind Title, Mode=OneWay}" />
-                        </Grid>
+                        <local:VideoPartitionItemControl Margin="12,0" ViewModel="{x:Bind}" />
                     </ItemContainer>
                 </DataTemplate>
             </ItemsView.ItemTemplate>

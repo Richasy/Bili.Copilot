@@ -37,7 +37,7 @@ public sealed partial class AccountViewModel : ViewModelBase
         IsInitializing = true;
         try
         {
-            MyProfile = await _myProfileService.GetMyProfileAsync().ConfigureAwait(true);
+            MyProfile = await _myProfileService.GetMyProfileAsync();
         }
         catch (Exception ex)
         {
@@ -57,7 +57,7 @@ public sealed partial class AccountViewModel : ViewModelBase
 
         try
         {
-            var communityInformation = await _myProfileService.GetMyCommunityInformationAsync().ConfigureAwait(true);
+            var communityInformation = await _myProfileService.GetMyCommunityInformationAsync();
             MomentCount = communityInformation.MomentCount ?? 0;
             FollowCount = communityInformation.FollowCount ?? 0;
             FansCount = communityInformation.FansCount ?? 0;

@@ -1,32 +1,60 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Popular;
+namespace BiliCopilot.UI.Controls.VideoPartition;
 
 /// <summary>
-/// 流行视频页面主体.
+/// 视频分区主体.
 /// </summary>
-public sealed partial class PopularMainBody : PopularPageControlBase
+public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControlBase
 {
+    private long _viewModelChangedToken;
+    private VideoPartitionDetailViewModel _viewModel;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="PopularMainBody"/> class.
+    /// Initializes a new instance of the <see cref="VideoPartitionMainBody"/> class.
     /// </summary>
-    public PopularMainBody()
-    {
-        InitializeComponent();
-    }
+    public VideoPartitionMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
-        => ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+    {
+        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
+        if (ViewModel is null)
+        {
+            return;
+        }
+
+        _viewModel = ViewModel;
+        ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+    }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
-        => ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+    {
+        _viewModel = default;
+        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
+        if (ViewModel is not null)
+        {
+            ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+        }
+    }
+
+    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        if (_viewModel is not null)
+        {
+            _viewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+        }
+
+        _viewModel = ViewModel;
+        _viewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+    }
 
     private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
     {
@@ -47,7 +75,7 @@ public sealed partial class PopularMainBody : PopularPageControlBase
 
     private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize.Width > 100)
+        if (e.NewSize.Width > 100 && ViewModel is not null)
         {
             CheckVideoCount();
         }

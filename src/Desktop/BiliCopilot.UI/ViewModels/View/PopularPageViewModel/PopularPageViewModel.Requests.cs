@@ -17,7 +17,7 @@ public sealed partial class PopularPageViewModel
     {
         try
         {
-            var (videos, nextOffset) = await _service.GetRecommendVideoListAsync(_recommendOffset).ConfigureAwait(true);
+            var (videos, nextOffset) = await _service.GetRecommendVideoListAsync(_recommendOffset);
             _recommendOffset = nextOffset;
             TryAddVideos(videos, VideoCardStyle.Recommend);
         }
@@ -31,7 +31,7 @@ public sealed partial class PopularPageViewModel
     {
         try
         {
-            var (videos, nextOffset) = await _service.GetHotVideoListAsync(_hotOffset).ConfigureAwait(true);
+            var (videos, nextOffset) = await _service.GetHotVideoListAsync(_hotOffset);
             _hotOffset = nextOffset;
             TryAddVideos(videos, VideoCardStyle.Hot);
         }
@@ -45,7 +45,7 @@ public sealed partial class PopularPageViewModel
     {
         try
         {
-            var videos = await _service.GetGlobalRankingListAsync().ConfigureAwait(true);
+            var videos = await _service.GetGlobalRankingListAsync();
             TryAddVideos(videos, VideoCardStyle.Rank);
         }
         catch (Exception ex)
@@ -58,7 +58,7 @@ public sealed partial class PopularPageViewModel
     {
         try
         {
-            var videos = await _service.GetPartitionRankingListAsync(partition).ConfigureAwait(true);
+            var videos = await _service.GetPartitionRankingListAsync(partition);
             TryAddVideos(videos, VideoCardStyle.Rank);
         }
         catch (Exception ex)
@@ -70,7 +70,7 @@ public sealed partial class PopularPageViewModel
     private async Task LoadPartitionsAsync()
     {
         IsPartitionLoading = true;
-        var partitions = await _service.GetVideoPartitionsAsync().ConfigureAwait(true);
+        var partitions = await _service.GetVideoPartitionsAsync();
         if (partitions != null)
         {
             foreach (var item in partitions)

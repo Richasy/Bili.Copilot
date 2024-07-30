@@ -20,23 +20,29 @@ public sealed partial class PopularSideBody : PopularPageControlBase
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
-        => ViewModel.SectionInitialized += OnSectionInitialized;
+    {
+        ViewModel.SectionInitialized += OnSectionInitialized;
+        CheckSectionSelection();
+    }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
         => ViewModel.SectionInitialized -= OnSectionInitialized;
 
     private void OnSectionInitialized(object? sender, EventArgs e)
-    {
-        if (ViewModel.SelectedSection is not null)
-        {
-            SectionView.Select(ViewModel.Sections.IndexOf(ViewModel.SelectedSection));
-        }
-    }
+        => CheckSectionSelection();
 
     private void OnSectionSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var item = sender.SelectedItem as IPopularSectionItemViewModel;
         ViewModel.SelectSectionCommand.Execute(item);
+    }
+
+    private void CheckSectionSelection()
+    {
+        if (ViewModel.SelectedSection is not null)
+        {
+            SectionView.Select(ViewModel.Sections.IndexOf(ViewModel.SelectedSection));
+        }
     }
 }

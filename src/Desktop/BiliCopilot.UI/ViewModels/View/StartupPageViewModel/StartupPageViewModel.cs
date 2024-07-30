@@ -39,7 +39,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
     {
         Version = AppToolkit.GetPackageVersion();
         QRCodeImage = qrcodeImageControl;
-        await ReloadQRCodeAsync().ConfigureAwait(true);
+        await ReloadQRCodeAsync();
     }
 
     [RelayCommand]
@@ -47,7 +47,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
     {
         if (_cancellationTokenSource is not null)
         {
-            await _cancellationTokenSource.CancelAsync().ConfigureAwait(true);
+            await _cancellationTokenSource.CancelAsync();
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = null;
         }
@@ -56,8 +56,8 @@ public sealed partial class StartupPageViewModel : ViewModelBase
         try
         {
             IsQRCodeLoading = true;
-            await _authenticationService.SignInAsync(cancellationToken: _cancellationTokenSource.Token).ConfigureAwait(true);
-            var isSignedIn = await CheckAuthorizeStatusAsync().ConfigureAwait(true);
+            await _authenticationService.SignInAsync(cancellationToken: _cancellationTokenSource.Token);
+            var isSignedIn = await CheckAuthorizeStatusAsync();
             if (isSignedIn)
             {
                 ExitCommand.Execute(true);
@@ -80,7 +80,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
     {
         if (_cancellationTokenSource is not null)
         {
-            await _cancellationTokenSource.CancelAsync().ConfigureAwait(true);
+            await _cancellationTokenSource.CancelAsync();
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = null;
         }
@@ -103,7 +103,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
         {
             using var stream = new MemoryStream(imageData);
             var bitmap = new BitmapImage();
-            await bitmap.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(true);
+            await bitmap.SetSourceAsync(stream.AsRandomAccessStream()).AsTask();
             QRCodeImage.Source = bitmap;
             IsQRCodeLoading = false;
         });

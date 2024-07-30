@@ -80,7 +80,7 @@ public sealed partial class WebSignInWindow : WindowBase
             var cookieDict = cookies.Select(p => (p.Name, p.Value)).ToDictionary();
             if (cookieDict.Count > 0)
             {
-                await this.Get<IAuthenticationService>().SignInAsync(new Richasy.BiliKernel.Bili.AuthorizeExecutionSettings { Cookies = cookieDict }, _cancellationTokenSource.Token).ConfigureAwait(true);
+                await this.Get<IAuthenticationService>().SignInAsync(new Richasy.BiliKernel.Bili.AuthorizeExecutionSettings { Cookies = cookieDict }, _cancellationTokenSource.Token);
                 _cancellationTokenSource = default;
                 Close();
             }

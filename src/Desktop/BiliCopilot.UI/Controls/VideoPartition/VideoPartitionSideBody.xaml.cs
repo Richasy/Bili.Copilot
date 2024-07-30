@@ -16,10 +16,33 @@ public sealed partial class VideoPartitionSideBody : VideoPartitionSideBodyBase
     /// </summary>
     public VideoPartitionSideBody() => InitializeComponent();
 
+    /// <inheritdoc/>
+    protected override void OnControlLoaded()
+    {
+        ViewModel.PartitionInitialized += OnPartitionInitialized;
+        CheckPartitionSelection();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnControlUnloaded()
+        => ViewModel.PartitionInitialized -= OnPartitionInitialized;
+
+    private void OnPartitionInitialized(object? sender, EventArgs e)
+        => CheckPartitionSelection();
+
     private void OnPartitionSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var item = sender.SelectedItem as VideoPartitionViewModel;
-        _ = this;
+        ViewModel.SelectPartitionCommand.Execute(item);
+    }
+
+    private void CheckPartitionSelection()
+    {
+        if (ViewModel.SelectedPartition is not null)
+        {
+            var partition = ViewModel.Partitions.FirstOrDefault(p => p.Equals(ViewModel.SelectedPartition.Data));
+            PartitionView.Select(ViewModel.Partitions.IndexOf(partition));
+        }
     }
 }
 

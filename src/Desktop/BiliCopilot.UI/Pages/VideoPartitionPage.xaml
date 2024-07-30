@@ -33,6 +33,15 @@
             Grid.Row="2"
             Margin="0,0,-6,0"
             Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <videopartition:VideoPartitionMainHeader
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            ViewModel="{x:Bind ViewModel.SelectedPartition, Mode=OneWay}" />
+        <videopartition:VideoPartitionMainBody
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            ViewModel="{x:Bind ViewModel.SelectedPartition, Mode=OneWay}" />
 
         <!--  左侧分栏大小控制器  -->
         <Grid Grid.RowSpan="3" Grid.Column="1">

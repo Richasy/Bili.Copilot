@@ -40,8 +40,8 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
-        await LoadPartitionsAsync().ConfigureAwait(true);
-        await Task.Delay(200).ConfigureAwait(true);
+        await LoadPartitionsAsync();
+        await Task.Delay(200);
         var lastSelectedSectionId = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageLastSelectedSectionId, PopularSectionType.Recommend.ToString());
         if (int.TryParse(lastSelectedSectionId, out var partitionId))
         {
@@ -99,7 +99,7 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         }
         else
         {
-            await LoadVideosAsync().ConfigureAwait(true);
+            await LoadVideosAsync();
         }
     }
 
@@ -116,20 +116,20 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         {
             if (section.Type == PopularSectionType.Recommend)
             {
-                await LoadRecommendVideosAsync().ConfigureAwait(true);
+                await LoadRecommendVideosAsync();
             }
             else if (section.Type == PopularSectionType.Hot)
             {
-                await LoadHotVideosAsync().ConfigureAwait(true);
+                await LoadHotVideosAsync();
             }
             else if (section.Type == PopularSectionType.Rank && Videos.Count == 0)
             {
-                await LoadTotalRankVideosAsync().ConfigureAwait(true);
+                await LoadTotalRankVideosAsync();
             }
         }
         else if (SelectedSection is PopularRankPartitionViewModel partition && Videos.Count == 0)
         {
-            await LoadPartitionRankVideosAsync(partition.Data).ConfigureAwait(true);
+            await LoadPartitionRankVideosAsync(partition.Data);
         }
 
         VideoListUpdated?.Invoke(this, EventArgs.Empty);
@@ -153,7 +153,7 @@ public sealed partial class PopularPageViewModel : ViewModelBase
             }
         }
 
-        await LoadVideosAsync().ConfigureAwait(true);
+        await LoadVideosAsync();
     }
 
     partial void OnNavColumnWidthChanged(double value)

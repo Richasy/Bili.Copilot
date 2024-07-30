@@ -36,6 +36,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             throw new InvalidOperationException("导航框架未初始化.");
         }
 
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFeaturePage, pageKey);
         var pageType = Type.GetType(pageKey)
             ?? throw new InvalidOperationException("无法找到页面.");
         _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
@@ -56,9 +57,10 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
     private IReadOnlyList<AppNavigationItemViewModel> GetMenuItems()
     {
-        return new List<AppNavigationItemViewModel>
+        var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, typeof(PopularPage).FullName);
+        var list = new List<AppNavigationItemViewModel>
         {
-            GetItem<PopularPage>(StringNames.PopularSlim, FluentIcons.Common.Symbol.Rocket, true),
+            GetItem<PopularPage>(StringNames.PopularSlim, FluentIcons.Common.Symbol.Rocket),
             GetItem<MomentPage>(StringNames.DynamicFeed, FluentIcons.Common.Symbol.DesignIdeas),
             GetItem<VideoPartitionPage>(StringNames.Video, FluentIcons.Common.Symbol.VideoClip),
             GetItem<LivePartitionPage>(StringNames.Live, FluentIcons.Common.Symbol.VideoChat),
@@ -66,6 +68,18 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             GetItem<CinemaPage>(StringNames.Cinema, FluentIcons.Common.Symbol.FilmstripPlay),
             GetItem<ArticlePage>(StringNames.Article, FluentIcons.Common.Symbol.DocumentBulletList),
         };
+
+        foreach (var item in list)
+        {
+            item.IsSelected = item.PageKey == lastSelectedPage;
+        }
+
+        if (!list.Any(p => p.IsSelected))
+        {
+            list[0].IsSelected = true;
+        }
+
+        return list;
     }
 
     private IReadOnlyList<AppNavigationItemViewModel> GetFooterItems()
