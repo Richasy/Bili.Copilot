@@ -33,6 +33,8 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionSideBody.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
@@ -207,6 +209,11 @@
     <Resource Remove="Forms\WebSignInWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Components\CoverImage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +280,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Popular\PopularSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

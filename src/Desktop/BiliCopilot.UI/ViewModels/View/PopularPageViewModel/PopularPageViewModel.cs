@@ -41,6 +41,7 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
         await LoadPartitionsAsync().ConfigureAwait(true);
+        await Task.Delay(200).ConfigureAwait(true);
         var lastSelectedSectionId = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageLastSelectedSectionId, PopularSectionType.Recommend.ToString());
         if (int.TryParse(lastSelectedSectionId, out var partitionId))
         {

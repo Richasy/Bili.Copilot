@@ -22,9 +22,7 @@ public sealed partial class PopularMainBody : PopularPageControlBase
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
-    {
-        ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
-    }
+        => ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
 
     private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
     {

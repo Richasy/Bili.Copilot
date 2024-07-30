@@ -17,4 +17,7 @@ public enum SettingNames
     PopularPageNavColumnWidth,
     IsPopularPageNavColumnManualHide,
     PopularPageLastSelectedSectionId,
+    VideoPartitionPageNavColumnWidth,
+    IsVideoPartitionPageNavColumnManualHide,
+    VideoPartitionPageLastSelectedPartitionId,
 }

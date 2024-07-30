@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
+<local:VideoPartitionPageBase
     x:Class="BiliCopilot.UI.Pages.VideoPartitionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:videopartition="using:BiliCopilot.UI.Controls.VideoPartition"
     mc:Ignorable="d">
 
-    <Grid />
-</Page>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{x:Bind ViewModel.NavColumnWidth, Mode=OneWay, Converter={StaticResource GridLengthConverter}}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Height="1"
+            HorizontalAlignment="Stretch"
+            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <videopartition:VideoPartitionSideHeader Margin="0,0,-6,0" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <videopartition:VideoPartitionSideBody
+            Grid.Row="2"
+            Margin="0,0,-6,0"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+
+        <!--  左侧分栏大小控制器  -->
+        <Grid Grid.RowSpan="3" Grid.Column="1">
+            <Border
+                Width="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+                Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <community:PropertySizer
+                HorizontalAlignment="Center"
+                Binding="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
+                Maximum="300"
+                Minimum="220"
+                Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <components:VisibilityToggleButton
+                Margin="0,0,-20,0"
+                VerticalAlignment="Stretch"
+                Click="OnNavVisibilityButtonClick"
+                CornerRadius="0,4,4,0"
+                IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}" />
+        </Grid>
+    </Grid>
+</local:VideoPartitionPageBase>

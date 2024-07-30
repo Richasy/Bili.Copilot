@@ -13,10 +13,7 @@ public sealed partial class PopularPage : PopularPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="PopularPage"/> class.
     /// </summary>
-    public PopularPage()
-    {
-        InitializeComponent();
-    }
+    public PopularPage() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
