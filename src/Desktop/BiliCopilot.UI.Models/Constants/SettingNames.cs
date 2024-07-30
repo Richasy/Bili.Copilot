@@ -16,4 +16,5 @@ public enum SettingNames
     MainWindowWidth,
     PopularPageNavColumnWidth,
     IsPopularPageNavColumnManualHide,
+    PopularPageLastSelectedSectionId,
 }

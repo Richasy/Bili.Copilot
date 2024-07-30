@@ -25,8 +25,8 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         _service = discoveryService;
         _logger = logger;
 
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PopularPageNavColumnWidth, 240d);
-        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsPopularPageNavColumnManualHide, false);
+        NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageNavColumnWidth, 240d);
+        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsPopularPageNavColumnManualHide, false);
     }
 
     [RelayCommand]
@@ -40,8 +40,30 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
         Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
-        SelectSectionCommand.Execute(Sections.First());
         await LoadPartitionsAsync().ConfigureAwait(true);
+        var lastSelectedSectionId = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageLastSelectedSectionId, PopularSectionType.Recommend.ToString());
+        if (int.TryParse(lastSelectedSectionId, out var partitionId))
+        {
+            var section = Sections.OfType<PopularRankPartitionViewModel>().FirstOrDefault(p => p.Data.Id == partitionId.ToString());
+            if (section != null)
+            {
+                SelectSectionCommand.Execute(section);
+            }
+            else
+            {
+                SelectSectionCommand.Execute(Sections.First());
+            }
+        }
+        else if (Enum.TryParse<PopularSectionType>(lastSelectedSectionId, out var sectionType))
+        {
+            var section = Sections.OfType<PopularSectionItemViewModel>().First(p => p.Type == sectionType);
+            SelectSectionCommand.Execute(section);
+        }
+        else
+        {
+            SelectSectionCommand.Execute(Sections.First());
+        }
+
         SectionInitialized?.Invoke(this, EventArgs.Empty);
     }
 
@@ -59,6 +81,13 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         }
 
         SelectedSection = vm;
+        var sectionId = vm switch
+        {
+            PopularSectionItemViewModel section => section.Type.ToString(),
+            PopularRankPartitionViewModel partition => partition.Data.Id,
+            _ => string.Empty
+        };
+        SettingsToolkit.WriteLocalSetting(SettingNames.PopularPageLastSelectedSectionId, sectionId);
         Videos.Clear();
         if (_videoCache.TryGetValue(vm, out var cacheVideos))
         {
