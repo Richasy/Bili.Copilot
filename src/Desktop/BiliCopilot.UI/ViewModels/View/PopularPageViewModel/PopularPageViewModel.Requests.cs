@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Models;
@@ -18,7 +19,7 @@ public sealed partial class PopularPageViewModel
         {
             var (videos, nextOffset) = await _service.GetRecommendVideoListAsync(_recommendOffset).ConfigureAwait(true);
             _recommendOffset = nextOffset;
-            TryAddVideos(videos);
+            TryAddVideos(videos, VideoCardStyle.Recommend);
         }
         catch (Exception ex)
         {
@@ -32,7 +33,7 @@ public sealed partial class PopularPageViewModel
         {
             var (videos, nextOffset) = await _service.GetHotVideoListAsync(_hotOffset).ConfigureAwait(true);
             _hotOffset = nextOffset;
-            TryAddVideos(videos);
+            TryAddVideos(videos, VideoCardStyle.Hot);
         }
         catch (Exception ex)
         {
@@ -45,7 +46,7 @@ public sealed partial class PopularPageViewModel
         try
         {
             var videos = await _service.GetGlobalRankingListAsync().ConfigureAwait(true);
-            TryAddVideos(videos);
+            TryAddVideos(videos, VideoCardStyle.Rank);
         }
         catch (Exception ex)
         {
@@ -58,7 +59,7 @@ public sealed partial class PopularPageViewModel
         try
         {
             var videos = await _service.GetPartitionRankingListAsync(partition).ConfigureAwait(true);
-            TryAddVideos(videos);
+            TryAddVideos(videos, VideoCardStyle.Rank);
         }
         catch (Exception ex)
         {
@@ -81,13 +82,13 @@ public sealed partial class PopularPageViewModel
         IsPartitionLoading = false;
     }
 
-    private void TryAddVideos(IReadOnlyList<VideoInformation> videos)
+    private void TryAddVideos(IReadOnlyList<VideoInformation> videos, VideoCardStyle style)
     {
         if (videos is not null)
         {
             foreach (var item in videos)
             {
-                Videos.Add(new VideoItemViewModel(item));
+                Videos.Add(new VideoItemViewModel(item, style));
             }
         }
     }

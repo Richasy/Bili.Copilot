@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using CommunityToolkit.Mvvm.ComponentModel;
+using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -9,30 +9,63 @@ namespace BiliCopilot.UI.ViewModels.Items;
 /// </summary>
 public sealed partial class VideoItemViewModel
 {
-    [ObservableProperty]
-    private string _title;
+    /// <summary>
+    /// 样式.
+    /// </summary>
+    public VideoCardStyle Style { get; }
 
-    [ObservableProperty]
-    private Uri _cover;
+    /// <summary>
+    /// 标题.
+    /// </summary>
+    public string Title { get; init; }
 
-    [ObservableProperty]
-    private string? _author;
+    /// <summary>
+    /// 副标题.
+    /// </summary>
+    public string Subtitle { get; init; }
 
-    [ObservableProperty]
-    private string? _duration;
+    /// <summary>
+    /// 封面.
+    /// </summary>
+    public Uri Cover { get; init; }
 
-    [ObservableProperty]
-    private string? _publishRelativeTime;
+    /// <summary>
+    /// 作者.
+    /// </summary>
+    public string Author { get; init; }
 
-    [ObservableProperty]
-    private Uri? _avatar;
+    /// <summary>
+    /// 视频时长.
+    /// </summary>
+    public string? Duration { get; init; }
 
-    [ObservableProperty]
-    private double? _playCount;
+    /// <summary>
+    /// 发布时间.
+    /// </summary>
+    public string? PublishRelativeTime { get; init; }
 
-    [ObservableProperty]
-    private string? _tagName;
+    /// <summary>
+    /// 作者头像.
+    /// </summary>
+    public Uri? Avatar { get; init; }
 
-    [ObservableProperty]
-    private string? _recommendReason;
+    /// <summary>
+    /// 播放数.
+    /// </summary>
+    public double? PlayCount { get; init; }
+
+    /// <summary>
+    /// 弹幕数.
+    /// </summary>
+    public double? DanmakuCount { get; set; }
+
+    /// <summary>
+    /// 标签名称.
+    /// </summary>
+    public string? TagName { get; init; }
+
+    /// <summary>
+    /// 推荐理由.
+    /// </summary>
+    public string? RecommendReason { get; init; }
 }

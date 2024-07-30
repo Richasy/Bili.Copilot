@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -14,6 +15,11 @@
             <Border.Background>
                 <ImageBrush x:Name="BackgroundBrush" Stretch="UniformToFill" />
             </Border.Background>
+            <labs:Shimmer
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CornerRadius="{x:Bind CornerRadius, Mode=OneWay}"
+                IsActive="{x:Bind IsImageOpened, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
         </Border>
     </Grid>
 </base:CardImageBase>

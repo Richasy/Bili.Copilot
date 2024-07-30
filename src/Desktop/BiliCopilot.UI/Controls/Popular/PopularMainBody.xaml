@@ -11,6 +11,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <DataTemplate x:Key="RecommendStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource RecommendVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="HotStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource HotVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="RankStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource RankVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:VideoCardTemplateSelector
+            x:Key="CardSelector"
+            HotTemplate="{StaticResource HotStyle}"
+            RankTemplate="{StaticResource RankStyle}"
+            RecommendTemplate="{StaticResource RecommendStyle}" />
+    </UserControl.Resources>
+
     <Grid>
         <ScrollView
             x:Name="VideoScrollView"
@@ -21,14 +38,20 @@
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
-                            <components:VideoCardControl Style="{StaticResource RecommendVideoCardStyle}" ViewModel="{x:Bind}" />
+                            <ContentControl
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Content="{x:Bind}"
+                                ContentTemplateSelector="{StaticResource CardSelector}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>
                         <UniformGridLayout
                             ItemsStretch="Fill"
                             MinColumnSpacing="16"
-                            MinItemHeight="220"
+                            MinItemHeight="240"
                             MinItemWidth="186"
                             MinRowSpacing="16" />
                     </ItemsRepeater.Layout>
