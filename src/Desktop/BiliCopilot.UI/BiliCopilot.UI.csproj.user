@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\PgcPoster.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
       <SubType>Designer</SubType>
     </Page>

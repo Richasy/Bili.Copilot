@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <base:CardImageBase
-    x:Class="BiliCopilot.UI.Controls.Components.CoverImage"
+    x:Class="BiliCopilot.UI.Controls.Components.PgcPoster"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUI.Share.Base"

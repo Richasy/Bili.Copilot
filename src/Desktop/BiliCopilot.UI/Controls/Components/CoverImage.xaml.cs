@@ -13,7 +13,7 @@ namespace BiliCopilot.UI.Controls.Components;
 public sealed partial class CoverImage : CardImageBase
 {
     private const uint DefaultWidth = 400;
-    private const uint DefaultHeight = 240;
+    private const uint DefaultHeight = 220;
     private CanvasImageSource? _canvasImageSource;
 
     /// <summary>
