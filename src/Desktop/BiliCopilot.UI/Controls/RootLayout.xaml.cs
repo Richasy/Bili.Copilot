@@ -64,6 +64,8 @@ public sealed partial class RootLayout : LayoutUserControlBase
         {
             MainTitleBar.Subtitle = string.Join(" | ", subtitles);
         }
+#else
+        _ = this;
 #endif
     }
 
