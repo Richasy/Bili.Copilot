@@ -20,7 +20,6 @@
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
-    <None Remove="Controls\Components\CoverImage.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\LoadingWidget.xaml" />
@@ -230,11 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\CoverImage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

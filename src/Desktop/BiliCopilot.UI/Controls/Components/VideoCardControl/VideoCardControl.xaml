@@ -16,11 +16,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="102" />
                             </Grid.RowDefinitions>
-                            <local:CoverImage
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="4,4,0,0"
-                                Uri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
                                 Margin="4"
                                 Padding="4"
@@ -116,11 +112,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="102" />
                             </Grid.RowDefinitions>
-                            <local:CoverImage
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="4,4,0,0"
-                                Uri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
                                 Margin="4"
                                 Padding="4"
@@ -216,11 +208,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="102" />
                             </Grid.RowDefinitions>
-                            <local:CoverImage
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="4,4,0,0"
-                                Uri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Grid
                                 Margin="6"
                                 HorizontalAlignment="Left"
@@ -338,11 +326,7 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="102" />
                             </Grid.RowDefinitions>
-                            <local:CoverImage
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="4,4,0,0"
-                                Uri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
                                 Margin="4"
                                 Padding="4"

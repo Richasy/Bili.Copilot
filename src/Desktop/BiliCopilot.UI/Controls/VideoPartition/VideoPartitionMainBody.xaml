@@ -28,7 +28,7 @@
                             ItemsStretch="Fill"
                             MinColumnSpacing="16"
                             MinItemHeight="240"
-                            MinItemWidth="186"
+                            MinItemWidth="200"
                             MinRowSpacing="16" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>

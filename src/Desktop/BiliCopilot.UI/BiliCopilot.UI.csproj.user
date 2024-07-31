@@ -36,9 +36,6 @@
     <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Components\CoverImage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Components\LoadingWidget.xaml">
       <SubType>Designer</SubType>
     </Page>
