@@ -72,7 +72,7 @@ public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoP
         if (IsRecommend)
         {
             _recommendOffset = 0;
-            _recommendVideoCache.Clear();
+            _recommendVideoCache?.Clear();
         }
         else
         {

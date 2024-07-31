@@ -65,10 +65,6 @@
                     From="1.0"
                     To="0.0"
                     Duration="0:0:0.4" />
-                <animations:TranslationAnimation
-                    From="0"
-                    To="0,20"
-                    Duration="0:0:.4" />
             </animations:Implicit.HideAnimations>
         </StackPanel>
         <animations:Implicit.ShowAnimations>
