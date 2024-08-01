@@ -109,24 +109,26 @@ public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoP
         Videos.Clear();
         if (IsRecommend && _recommendVideoCache is not null && _recommendVideoCache.Count > 0)
         {
-            using var delay = Videos.DelayNotifications();
             foreach (var item in _recommendVideoCache)
             {
-                delay.Add(item);
+                Videos.Add(item);
             }
         }
         else if (_childPartitionVideoCache.TryGetValue(CurrentPartition.Data.Id, out var cache))
         {
-            using var delay = Videos.DelayNotifications();
             foreach (var item in cache)
             {
-                delay.Add(item);
+                Videos.Add(item);
             }
         }
 
         if (Videos.Count == 0)
         {
             await LoadVideosAsync();
+        }
+        else
+        {
+            VideoListUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -192,7 +194,6 @@ public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoP
     {
         if (videos is not null)
         {
-            using var delay = Videos.DelayNotifications();
             foreach (var item in videos)
             {
                 Videos.Add(new VideoItemViewModel(item, style));

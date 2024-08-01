@@ -39,5 +39,5 @@ public sealed partial class VideoPartitionPageViewModel
     /// <summary>
     /// 主分区.
     /// </summary>
-    public ObservableCollectionEx<VideoPartitionViewModel> Partitions { get; } = new();
+    public ObservableCollection<VideoPartitionViewModel> Partitions { get; } = new();
 }

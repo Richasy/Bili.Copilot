@@ -37,11 +37,9 @@ public sealed partial class PopularPageViewModel : ViewModelBase
             return;
         }
 
-        var delay = Sections.DelayNotifications();
-        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
-        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
-        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
-        delay.Dispose();
+        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
+        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
+        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
         await LoadPartitionsAsync();
         await Task.Delay(200);
         var lastSelectedSectionId = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageLastSelectedSectionId, PopularSectionType.Recommend.ToString());
@@ -94,11 +92,12 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Videos.Clear();
         if (_videoCache.TryGetValue(vm, out var cacheVideos))
         {
-            using var delay = Videos.DelayNotifications();
             foreach (var video in cacheVideos)
             {
-                delay.Add(video);
+                Videos.Add(video);
             }
+
+            VideoListUpdated?.Invoke(this, EventArgs.Empty);
         }
         else
         {
@@ -136,6 +135,7 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         }
 
         VideoListUpdated?.Invoke(this, EventArgs.Empty);
+        await Task.Delay(200);
         IsVideoLoading = false;
     }
 
@@ -163,13 +163,13 @@ public sealed partial class PopularPageViewModel : ViewModelBase
     {
         if (value > 0)
         {
-            SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.PopularPageNavColumnWidth, value);
+            SettingsToolkit.WriteLocalSetting(SettingNames.PopularPageNavColumnWidth, value);
         }
     }
 
     partial void OnIsNavColumnManualHideChanged(bool value)
     {
-        SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsPopularPageNavColumnManualHide, value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PopularPageNavColumnWidth, 240d);
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsPopularPageNavColumnManualHide, value);
+        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageNavColumnWidth, 240d);
     }
 }

@@ -42,15 +42,14 @@ public sealed partial class VideoPartitionPageViewModel : ViewModelBase
         var partitions = await _service.GetVideoPartitionsAsync();
         if (partitions != null)
         {
-            using var delay = Partitions.DelayNotifications();
             foreach (var item in partitions)
             {
-                delay.Add(new VideoPartitionViewModel(item));
+                Partitions.Add(new VideoPartitionViewModel(item));
             }
         }
 
         IsPartitionLoading = false;
-        await Task.Delay(500);
+        await Task.Delay(200);
         var lastSelectedPartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.VideoPartitionPageLastSelectedPartitionId, Partitions.First().Data.Id);
         var partition = Partitions.FirstOrDefault(p => p.Data.Id == lastSelectedPartitionId) ?? Partitions.First();
         SelectPartition(partition);

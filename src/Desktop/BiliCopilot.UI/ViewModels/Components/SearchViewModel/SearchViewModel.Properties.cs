@@ -28,10 +28,10 @@ public sealed partial class SearchViewModel
     /// <summary>
     /// 搜索建议.
     /// </summary>
-    public ObservableCollectionEx<SearchSuggestItem> Suggestion { get; } = new();
+    public ObservableCollection<SearchSuggestItem> Suggestion { get; } = new();
 
     /// <summary>
     /// 热搜列表.
     /// </summary>
-    public ObservableCollectionEx<HotSearchItem> HotSearchItems { get; } = new();
+    public ObservableCollection<HotSearchItem> HotSearchItems { get; } = new();
 }

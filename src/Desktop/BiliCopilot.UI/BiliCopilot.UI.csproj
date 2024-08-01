@@ -81,7 +81,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
-    <PackageReference Include="ObservableCollectionEx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />

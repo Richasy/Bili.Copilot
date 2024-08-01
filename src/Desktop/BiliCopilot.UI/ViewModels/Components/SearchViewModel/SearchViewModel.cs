@@ -48,10 +48,9 @@ public sealed partial class SearchViewModel : ViewModelBase
             }
 
             Suggestion.Clear();
-            using var delay = Suggestion.DelayNotifications();
             foreach (var item in _recommendItems)
             {
-                delay.Add(new Richasy.BiliKernel.Models.Search.SearchSuggestItem(item.Text, item.Keyword));
+                Suggestion.Add(new Richasy.BiliKernel.Models.Search.SearchSuggestItem(item.Text, item.Keyword));
             }
         }
         else
@@ -63,10 +62,9 @@ public sealed partial class SearchViewModel : ViewModelBase
                 var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token);
                 if (suggests is not null)
                 {
-                    using var delay = Suggestion.DelayNotifications();
                     foreach (var item in suggests)
                     {
-                        delay.Add(item);
+                        Suggestion.Add(item);
                     }
                 }
             }
@@ -89,10 +87,9 @@ public sealed partial class SearchViewModel : ViewModelBase
         try
         {
             var hotSearches = await _searchService.GetTotalHotSearchAsync(30);
-            using var delay = HotSearchItems.DelayNotifications();
             foreach (var item in hotSearches)
             {
-                delay.Add(item);
+                HotSearchItems.Add(item);
             }
         }
         catch (Exception ex)

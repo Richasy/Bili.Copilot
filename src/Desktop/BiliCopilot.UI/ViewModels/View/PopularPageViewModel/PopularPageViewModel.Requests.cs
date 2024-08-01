@@ -73,10 +73,9 @@ public sealed partial class PopularPageViewModel
         var partitions = await _service.GetVideoPartitionsAsync();
         if (partitions != null)
         {
-            using var delay = Sections.DelayNotifications();
             foreach (var item in partitions)
             {
-                delay.Add(new PopularRankPartitionViewModel(item));
+                Sections.Add(new PopularRankPartitionViewModel(item));
             }
         }
 
@@ -87,10 +86,9 @@ public sealed partial class PopularPageViewModel
     {
         if (videos is not null)
         {
-            using var delay = Videos.DelayNotifications();
             foreach (var item in videos)
             {
-                delay.Add(new VideoItemViewModel(item, style));
+                Videos.Add(new VideoItemViewModel(item, style));
             }
         }
     }
