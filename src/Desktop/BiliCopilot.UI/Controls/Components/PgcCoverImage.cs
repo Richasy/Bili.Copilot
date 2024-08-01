@@ -17,7 +17,7 @@ public sealed class PgcCoverImage : ImageExBase
     public static readonly DependencyProperty BlurRatioProperty =
         DependencyProperty.Register(nameof(BlurRatio), typeof(double), typeof(PgcCoverImage), new PropertyMetadata(0.33));
 
-    private static readonly VerticalBlurCrossFadeEffect _crossFadeEffect = new();
+    private static readonly BlurCanvasEffect _crossFadeEffect = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcCoverImage"/> class.
@@ -62,7 +62,6 @@ public sealed class PgcCoverImage : ImageExBase
         _crossFadeEffect.Theme = App.Current.RequestedTheme;
         _crossFadeEffect.SourceRectangle = sourceRect;
         _crossFadeEffect.DestinationRectangle = destinationRect;
-        _crossFadeEffect.BlurMainImage = false;
 
         using var ds = CanvasImageSource.CreateDrawingSession(ClearColor);
         ds.DrawImage(_crossFadeEffect, destinationRect, destinationRect);
