@@ -55,6 +55,7 @@ internal static class GlobalDependencies
             .AddSingleton<SearchViewModel>()
             .AddSingleton<PopularPageViewModel>()
             .AddSingleton<VideoPartitionPageViewModel>()
+            .AddSingleton<AnimePageViewModel>()
             .Build();
     }
 

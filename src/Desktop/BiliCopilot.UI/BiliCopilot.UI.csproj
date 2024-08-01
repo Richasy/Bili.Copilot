@@ -17,6 +17,7 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Anime\AnimeSideHeader.xaml" />
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
@@ -298,6 +299,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeSideHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

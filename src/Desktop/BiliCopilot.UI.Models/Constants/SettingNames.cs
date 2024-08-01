@@ -21,4 +21,7 @@ public enum SettingNames
     IsVideoPartitionPageNavColumnManualHide,
     VideoPartitionPageLastSelectedPartitionId,
     LastSelectedFeaturePage,
+    AnimePageNavColumnWidth,
+    IsAnimePageNavColumnManualHide,
+    AnimePageLastSelectedSectionType,
 }

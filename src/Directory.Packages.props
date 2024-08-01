@@ -1,13 +1,14 @@
 <Project>
   <ItemGroup>
-    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230830" />
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240731-build.1703" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.0.240109" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240709-build.1082" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240709-build.1082" />
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
-    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.249" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.252-ci" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
