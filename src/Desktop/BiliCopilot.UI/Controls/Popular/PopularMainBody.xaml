@@ -29,11 +29,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollView
-            x:Name="VideoScrollView"
-            SizeChanged="OnScrollViewSizeChanged"
-            Style="{StaticResource PageScrollViewStyle}"
-            ViewChanged="OnViewChanged">
+        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}">
                     <ItemsRepeater.ItemTemplate>

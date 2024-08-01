@@ -37,9 +37,11 @@ public sealed partial class PopularPageViewModel : ViewModelBase
             return;
         }
 
-        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
-        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
-        Sections.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
+        var delay = Sections.DelayNotifications();
+        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Balloon, ResourceToolkit.GetLocalizedString(StringNames.Recommend), PopularSectionType.Recommend));
+        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.Fire, ResourceToolkit.GetLocalizedString(StringNames.Hot), PopularSectionType.Hot));
+        delay.Add(new PopularSectionItemViewModel(FluentIcons.Common.Symbol.RibbonStar, ResourceToolkit.GetLocalizedString(StringNames.Rank), PopularSectionType.Rank));
+        delay.Dispose();
         await LoadPartitionsAsync();
         await Task.Delay(200);
         var lastSelectedSectionId = SettingsToolkit.ReadLocalSetting(SettingNames.PopularPageLastSelectedSectionId, PopularSectionType.Recommend.ToString());
@@ -71,7 +73,7 @@ public sealed partial class PopularPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task SelectSectionAsync(IPopularSectionItemViewModel vm)
     {
-        if (vm is null)
+        if (vm is null || vm == SelectedSection)
         {
             return;
         }
@@ -92,9 +94,10 @@ public sealed partial class PopularPageViewModel : ViewModelBase
         Videos.Clear();
         if (_videoCache.TryGetValue(vm, out var cacheVideos))
         {
+            using var delay = Videos.DelayNotifications();
             foreach (var video in cacheVideos)
             {
-                Videos.Add(video);
+                delay.Add(video);
             }
         }
         else

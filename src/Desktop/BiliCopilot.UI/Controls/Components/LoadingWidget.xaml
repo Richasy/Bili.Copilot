@@ -44,10 +44,6 @@
                 From="1"
                 To="0"
                 Duration="0:0:0.24" />
-            <animations:TranslationAnimation
-                From="0,0"
-                To="0,20"
-                Duration="0:0:0.2" />
         </animations:Implicit.HideAnimations>
     </StackPanel>
 </UserControl>

@@ -15,8 +15,8 @@ public sealed class VideoCoverImage : ImageExBase
     /// </summary>
     public VideoCoverImage()
     {
-        DecodeWidth = 400;
-        DecodeHeight = 220;
+        DecodeWidth = 336;
+        DecodeHeight = 189;
     }
 
     /// <inheritdoc/>
@@ -24,7 +24,10 @@ public sealed class VideoCoverImage : ImageExBase
     {
         var bitmapWidth = canvasBitmap.SizeInPixels.Width;
         var bitmapHeight = canvasBitmap.SizeInPixels.Height;
+        var sourceRect = new Rect(0, 0, bitmapWidth, bitmapHeight);
+        var destRect = new Rect(0, 0, DecodeWidth, DecodeHeight);
+        var cropRect = GetCenterCropRect(destRect, sourceRect);
         using var drawingSession = CanvasImageSource.CreateDrawingSession(ClearColor);
-        drawingSession.DrawImage(canvasBitmap, new Rect(0, 0, DecodeWidth, DecodeHeight), new Rect(0, 0, bitmapWidth, bitmapHeight));
+        drawingSession.DrawImage(canvasBitmap, destRect, cropRect);
     }
 }

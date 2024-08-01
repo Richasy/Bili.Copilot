@@ -53,5 +53,5 @@ public sealed partial class VideoPartitionDetailViewModel
     /// <summary>
     /// 显示的视频列表.
     /// </summary>
-    public ObservableCollection<VideoItemViewModel> Videos { get; } = new();
+    public ObservableCollectionEx<VideoItemViewModel> Videos { get; } = new();
 }

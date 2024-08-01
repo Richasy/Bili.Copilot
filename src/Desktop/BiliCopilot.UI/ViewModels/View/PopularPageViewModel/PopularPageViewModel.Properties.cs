@@ -48,10 +48,10 @@ public sealed partial class PopularPageViewModel
     /// <summary>
     /// 分区列表.
     /// </summary>
-    public ObservableCollection<IPopularSectionItemViewModel> Sections { get; } = new();
+    public ObservableCollectionEx<IPopularSectionItemViewModel> Sections { get; } = new();
 
     /// <summary>
     /// 视频列表.
     /// </summary>
-    public ObservableCollection<VideoItemViewModel> Videos { get; } = new();
+    public ObservableCollectionEx<VideoItemViewModel> Videos { get; } = new();
 }

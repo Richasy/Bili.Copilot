@@ -23,7 +23,6 @@
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\LoadingWidget.xaml" />
-    <None Remove="Controls\Components\PgcPoster.xaml" />
     <None Remove="Controls\Components\VideoCardControl\VideoCardControl.xaml" />
     <None Remove="Controls\Components\VisibilityToggleButton.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
@@ -82,6 +81,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
+    <PackageReference Include="ObservableCollectionEx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
@@ -301,11 +301,5 @@
     <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\Components\PgcPoster.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\Components\PgcPoster.xaml" />
   </ItemGroup>
 </Project>

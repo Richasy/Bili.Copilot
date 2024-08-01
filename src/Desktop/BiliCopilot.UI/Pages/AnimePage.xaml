@@ -15,7 +15,7 @@
             Height="240"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <components:PgcPoster CornerRadius="{StaticResource ControlCornerRadius}" Uri="https://i0.hdslb.com/bfs/bangumi/image/1d2eb8d863e3d0aa9d6557ae5b32764159953d8b.jpg@256w_342h_1c_100q.jpg" />
+            <components:PgcCoverImage CornerRadius="{StaticResource ControlCornerRadius}" Source="https://i0.hdslb.com/bfs/bangumi/image/1d2eb8d863e3d0aa9d6557ae5b32764159953d8b.jpg@256w_342h_1c_100q.jpg" />
         </components:CardControl>
     </Grid>
 </Page>

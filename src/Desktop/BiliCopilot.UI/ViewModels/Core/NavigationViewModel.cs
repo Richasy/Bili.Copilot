@@ -39,7 +39,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFeaturePage, pageKey);
         var pageType = Type.GetType(pageKey)
             ?? throw new InvalidOperationException("无法找到页面.");
-        _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+        _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
     }
 
     [RelayCommand]

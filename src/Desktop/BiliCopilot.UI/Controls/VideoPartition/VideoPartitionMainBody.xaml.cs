@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
+using CommunityToolkit.WinUI.Animations;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.VideoPartition;
@@ -22,7 +23,7 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
+    protected override async void OnControlLoaded()
     {
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
@@ -32,17 +33,26 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
 
         _viewModel = ViewModel;
         ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+        VideoScrollView.ViewChanged += OnViewChanged;
+        VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
+        await AnimationBuilder.Create().Opacity(to: 0, duration: TimeSpan.FromMilliseconds(30)).StartAsync(VideoScrollView);
+        VideoScrollView.ScrollTo(0, 0, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
+        await AnimationBuilder.Create().Opacity(to: 1, duration: TimeSpan.FromMilliseconds(300)).StartAsync(VideoScrollView);
+        CheckVideoCount();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        _viewModel = default;
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
         }
+
+        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
+        VideoScrollView.ViewChanged -= OnViewChanged;
+        VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
+        _viewModel = default;
     }
 
     private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
