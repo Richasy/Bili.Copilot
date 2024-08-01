@@ -11,11 +11,11 @@
 
     <Grid>
         <components:CardControl
-            Width="160"
-            Height="240"
+            Width="200"
+            Height="286"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-            <components:PgcCoverImage CornerRadius="{StaticResource ControlCornerRadius}" Source="https://i0.hdslb.com/bfs/bangumi/image/1d2eb8d863e3d0aa9d6557ae5b32764159953d8b.jpg@256w_342h_1c_100q.jpg" />
+            <components:PgcCoverImage CornerRadius="{StaticResource ControlCornerRadius}" Source="https://i0.hdslb.com/bfs/bangumi/image/6dd3cd3b6105071f0c2e22032c3196175117333f.jpg" />
         </components:CardControl>
     </Grid>
 </Page>

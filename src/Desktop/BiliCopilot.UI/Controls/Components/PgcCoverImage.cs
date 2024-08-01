@@ -3,6 +3,7 @@
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Richasy.WinUI.Share.Base;
+using Richasy.WinUI.Share.Effects;
 
 namespace BiliCopilot.UI.Controls.Components;
 
@@ -17,15 +18,15 @@ public sealed class PgcCoverImage : ImageExBase
     public static readonly DependencyProperty BlurRatioProperty =
         DependencyProperty.Register(nameof(BlurRatio), typeof(double), typeof(PgcCoverImage), new PropertyMetadata(0.33));
 
-    private static readonly BlurCanvasEffect _crossFadeEffect = new();
+    private static readonly BlurCanvasEffect _blurEffect = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcCoverImage"/> class.
     /// </summary>
     public PgcCoverImage()
     {
-        DecodeWidth = 256;
-        DecodeHeight = 380;
+        DecodeWidth = 320;
+        DecodeHeight = 460;
     }
 
     /// <summary>
@@ -53,17 +54,16 @@ public sealed class PgcCoverImage : ImageExBase
         Rect sourceRect)
     {
         var crossfadeOffset = CanvasImageSource.ConvertDipsToPixels((float)(DecodeHeight - (DecodeHeight * BlurRatio)), CanvasDpiRounding.Round);
-        var crossfadeLength = CanvasImageSource.ConvertDipsToPixels(55, CanvasDpiRounding.Round);
+        var crossfadeLength = CanvasImageSource.ConvertDipsToPixels(60, CanvasDpiRounding.Round);
 
-        _crossFadeEffect.Source = canvasBitmap;
-        _crossFadeEffect.BlurAmount = CanvasImageSource.ConvertDipsToPixels(12, CanvasDpiRounding.Round);
-        _crossFadeEffect.CrossfadeVerticalOffset = crossfadeOffset;
-        _crossFadeEffect.CrossfadeVerticalLength = crossfadeLength;
-        _crossFadeEffect.Theme = App.Current.RequestedTheme;
-        _crossFadeEffect.SourceRectangle = sourceRect;
-        _crossFadeEffect.DestinationRectangle = destinationRect;
+        _blurEffect.Source = canvasBitmap;
+        _blurEffect.BlurAmount = CanvasImageSource.ConvertDipsToPixels(20, CanvasDpiRounding.Round);
+        _blurEffect.CrossfadeVerticalOffset = crossfadeOffset;
+        _blurEffect.CrossfadeVerticalLength = crossfadeLength;
+        _blurEffect.SourceRectangle = sourceRect;
+        _blurEffect.DestinationRectangle = destinationRect;
 
         using var ds = CanvasImageSource.CreateDrawingSession(ClearColor);
-        ds.DrawImage(_crossFadeEffect, destinationRect, destinationRect);
+        ds.DrawImage(_blurEffect, destinationRect, destinationRect);
     }
 }
