@@ -17,7 +17,11 @@
         <DataTemplate x:Key="TimelineSideBodyTemplate" x:DataType="components1:AnimeTimelineViewModel">
             <anime:AnimeTimelineSideControl ViewModel="{x:Bind}" />
         </DataTemplate>
+        <DataTemplate x:Key="TimelineMainBodyTemplate" x:DataType="components1:AnimeTimelineViewModel">
+            <anime:AnimeTimelineMainControl ViewModel="{x:Bind}" />
+        </DataTemplate>
         <extensions:AnimePageControlTemplateSelector x:Key="SideBodySelector" TimelineTemplate="{StaticResource TimelineSideBodyTemplate}" />
+        <extensions:AnimePageControlTemplateSelector x:Key="MainBodySelector" TimelineTemplate="{StaticResource TimelineMainBodyTemplate}" />
     </Page.Resources>
 
     <Grid>
@@ -41,14 +45,21 @@
         <ContentControl
             Grid.Row="2"
             Margin="0,0,-6,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"
             Content="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
             ContentTemplateSelector="{StaticResource SideBodySelector}"
-            DataContext="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
+            Style="{StaticResource AppContentControlStyle}"
             Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <anime:AnimeMainHeader
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            VerticalAlignment="Center" />
+        <ContentControl
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="-6,0,0,0"
+            Content="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
+            ContentTemplateSelector="{StaticResource MainBodySelector}"
+            Style="{StaticResource AppContentControlStyle}" />
 
         <!--  左侧分栏大小控制器  -->
         <Grid Grid.RowSpan="3" Grid.Column="1">
@@ -71,12 +82,5 @@
                 CornerRadius="0,4,4,0"
                 IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}" />
         </Grid>
-        <!--<components:CardControl
-            Width="200"
-            Height="286"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <components:PgcCoverImage CornerRadius="{StaticResource ControlCornerRadius}" Source="https://i0.hdslb.com/bfs/bangumi/image/6dd3cd3b6105071f0c2e22032c3196175117333f.jpg" />
-        </components:CardControl>-->
     </Grid>
 </local:AnimePageBase>

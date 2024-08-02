@@ -17,7 +17,9 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\Anime\AnimeMainHeader.xaml" />
     <None Remove="Controls\Anime\AnimeSideHeader.xaml" />
+    <None Remove="Controls\Anime\AnimeTimelineMainControl.xaml" />
     <None Remove="Controls\Anime\AnimeTimelineSideControl.xaml" />
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
@@ -25,6 +27,7 @@
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\LoadingWidget.xaml" />
+    <None Remove="Controls\Components\SeasonCardControl\SeasonCardControl.xaml" />
     <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
     <None Remove="Controls\Components\TimelineControl.xaml" />
     <None Remove="Controls\Components\VideoCardControl\VideoCardControl.xaml" />
@@ -214,6 +217,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\SeasonCardControl\SeasonCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeTimelineMainControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">

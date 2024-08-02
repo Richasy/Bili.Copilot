@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
@@ -62,12 +63,12 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IAnimeSectio
                 var seasons = new List<SeasonInformation>();
                 if (domestic.Seasons is not null)
                 {
-                    seasons.Concat(domestic.Seasons);
+                    seasons = seasons.Concat(domestic.Seasons).ToList();
                 }
 
                 if (bangumi.Seasons is not null)
                 {
-                    seasons.Concat(bangumi.Seasons);
+                    seasons = seasons.Concat(bangumi.Seasons).ToList();
                 }
 
                 seasons = seasons.OrderBy(p => p.GetExtensionIfNotNull<DateTimeOffset>(SeasonExtensionDataId.PublishTime)).ToList();
@@ -107,6 +108,9 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IAnimeSectio
             return;
         }
 
+        var pageVM = this.Get<AnimePageViewModel>();
+        pageVM.Title = vm.DayOfWeek;
+        pageVM.Subtitle = vm.Date;
         SelectedTimeline = vm;
     }
 }

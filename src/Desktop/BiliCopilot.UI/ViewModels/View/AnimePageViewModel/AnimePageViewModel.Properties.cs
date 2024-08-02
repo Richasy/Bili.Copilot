@@ -22,6 +22,12 @@ public sealed partial class AnimePageViewModel
     private bool _isNavColumnManualHide;
 
     [ObservableProperty]
+    private string _title;
+
+    [ObservableProperty]
+    private string _subtitle;
+
+    [ObservableProperty]
     private IReadOnlyCollection<IAnimeSectionDetailViewModel>? _sections;
 
     [ObservableProperty]

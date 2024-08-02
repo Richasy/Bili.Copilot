@@ -35,12 +35,9 @@
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
                             <ContentControl
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
                                 Content="{x:Bind}"
-                                ContentTemplateSelector="{StaticResource CardSelector}" />
+                                ContentTemplateSelector="{StaticResource CardSelector}"
+                                Style="{StaticResource AppContentControlStyle}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>

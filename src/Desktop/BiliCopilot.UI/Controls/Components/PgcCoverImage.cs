@@ -26,7 +26,7 @@ public sealed class PgcCoverImage : ImageExBase
     public PgcCoverImage()
     {
         DecodeWidth = 320;
-        DecodeHeight = 460;
+        DecodeHeight = 480;
     }
 
     /// <summary>
