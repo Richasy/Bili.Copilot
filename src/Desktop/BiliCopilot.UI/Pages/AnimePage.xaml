@@ -6,10 +6,19 @@
     xmlns:anime="using:BiliCopilot.UI.Controls.Anime"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:components1="using:BiliCopilot.UI.ViewModels.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="TimelineSideBodyTemplate" x:DataType="components1:AnimeTimelineViewModel">
+            <anime:AnimeTimelineSideControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <extensions:AnimePageControlTemplateSelector x:Key="SideBodySelector" TimelineTemplate="{StaticResource TimelineSideBodyTemplate}" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -29,6 +38,18 @@
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <anime:AnimeSideHeader Margin="0,0,-6,0" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <ContentControl
+            Grid.Row="2"
+            Margin="0,0,-6,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
+            ContentTemplateSelector="{StaticResource SideBodySelector}"
+            DataContext="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+
         <!--  左侧分栏大小控制器  -->
         <Grid Grid.RowSpan="3" Grid.Column="1">
             <Border

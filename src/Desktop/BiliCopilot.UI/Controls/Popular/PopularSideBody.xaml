@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
@@ -25,10 +26,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         <ItemsView
             x:Name="SectionView"
             Padding="2,8,8,8"
@@ -56,34 +53,10 @@
                 <StackLayout Spacing="8" />
             </ItemsView.Layout>
         </ItemsView>
-        <StackPanel
-            Grid.Row="1"
-            Padding="12,4"
-            Orientation="Horizontal"
-            Spacing="12"
-            Visibility="{x:Bind ViewModel.IsPartitionLoading, Mode=OneWay}">
-            <ProgressBar
-                Width="20"
-                VerticalAlignment="Center"
-                IsIndeterminate="True" />
-            <TextBlock
-                VerticalAlignment="Center"
-                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{extensions:Locale Name=GettingPartitions}" />
-            <animations:Implicit.ShowAnimations>
-                <animations:OpacityAnimation
-                    From="0.0"
-                    To="1.0"
-                    Duration="0:0:0.5" />
-            </animations:Implicit.ShowAnimations>
-            <animations:Implicit.HideAnimations>
-                <animations:OpacityAnimation
-                    From="1.0"
-                    To="0.0"
-                    Duration="0:0:0.4" />
-            </animations:Implicit.HideAnimations>
-        </StackPanel>
+        <components:SideBottomLoadingWidget
+            VerticalAlignment="Bottom"
+            Text="{extensions:Locale Name=GettingPartitions}"
+            Visibility="{x:Bind ViewModel.IsPartitionLoading, Mode=OneWay}" />
         <animations:Implicit.ShowAnimations>
             <animations:TranslationAnimation
                 From="-20,0"

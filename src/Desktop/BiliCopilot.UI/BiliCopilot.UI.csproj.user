@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\TimelineControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Anime\AnimeTimelineSideControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Anime\AnimeSideHeader.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Anime;
@@ -23,6 +23,7 @@ public sealed partial class AnimeSideHeader : AnimePageControlBase
     {
         ViewModel.SectionInitialized += OnSectionInitialized;
         SectionSelector.SelectionChanged += OnSectionSelectionChanged;
+        CheckSectionInitialization();
         CheckSectionSelection();
     }
 
@@ -33,18 +34,20 @@ public sealed partial class AnimeSideHeader : AnimePageControlBase
         SectionSelector.SelectionChanged -= OnSectionSelectionChanged;
     }
 
-    private void OnSectionInitialized(object? sender, EventArgs e) => CheckSectionSelection();
-
-    private void OnSectionSelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void OnSectionInitialized(object? sender, EventArgs e)
     {
-        if (SectionSelector.SelectedItem is null || ViewModel.Sections is null)
+        CheckSectionInitialization();
+        CheckSectionSelection();
+    }
+
+    private void OnSectionSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
+    {
+        if (sender.SelectedItem?.Tag is not IAnimeSectionDetailViewModel vm)
         {
             return;
         }
 
-        var index = SectionSelector.SelectedIndex;
-        var section = ViewModel.Sections.First(p => p.SectionType == (AnimeSectionType)index);
-        ViewModel.SelectSectionCommand.Execute(section);
+        ViewModel.SelectSectionCommand.Execute(vm);
     }
 
     private void CheckSectionSelection()
@@ -54,6 +57,21 @@ public sealed partial class AnimeSideHeader : AnimePageControlBase
             return;
         }
 
-        SectionSelector.SelectedIndex = (int)ViewModel.SelectedSection.SectionType;
+        SectionSelector.SelectedItem = SectionSelector.Items.FirstOrDefault(p => p.Tag == ViewModel.SelectedSection);
+    }
+
+    private void CheckSectionInitialization()
+    {
+        if (ViewModel?.Sections is null || SectionSelector is null || SectionSelector.Items.Count > 0)
+        {
+            return;
+        }
+
+        foreach (var vm in ViewModel.Sections)
+        {
+            var item = SectionTemplate.LoadContent() as SelectorBarItem;
+            item.DataContext = vm;
+            SectionSelector.Items.Add(item);
+        }
     }
 }

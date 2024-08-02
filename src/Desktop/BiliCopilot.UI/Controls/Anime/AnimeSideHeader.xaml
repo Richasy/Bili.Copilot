@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Anime.AnimeSideHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,6 +17,13 @@
     <UserControl.Resources>
         <converters:AnimeSectionTextConverter x:Key="AnimeSectionTextConverter" />
         <converters:AnimeSectionIconConverter x:Key="AnimeSectionIconConverter" />
+        <DataTemplate x:Name="SectionTemplate" x:DataType="items:IAnimeSectionDetailViewModel">
+            <SelectorBarItem Tag="{x:Bind}" ToolTipService.ToolTip="{x:Bind SectionType, Converter={StaticResource AnimeSectionTextConverter}}">
+                <SelectorBarItem.Icon>
+                    <ic:SymbolIcon FontSize="16" Symbol="{x:Bind SectionType, Converter={StaticResource AnimeSectionIconConverter}}" />
+                </SelectorBarItem.Icon>
+            </SelectorBarItem>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid Padding="16,0" ColumnSpacing="8">
@@ -27,26 +35,29 @@
             VerticalAlignment="Center"
             Style="{StaticResource BodyStrongTextBlockStyle}"
             Text="{x:Bind ViewModel.SelectedSection.SectionType, Mode=OneWay, Converter={StaticResource AnimeSectionTextConverter}}" />
-        <community:Segmented
+        <SelectorBar
             x:Name="SectionSelector"
             Grid.Column="1"
-            VerticalAlignment="Center"
-            SingleSelectionFollowsFocus="False">
-            <community:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=TimeChart}">
-                <community:SegmentedItem.Icon>
-                    <ic:SymbolIcon FontSize="12" Symbol="Timeline" />
-                </community:SegmentedItem.Icon>
-            </community:SegmentedItem>
-            <community:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=Bangumi}">
-                <community:SegmentedItem.Icon>
-                    <ic:SymbolIcon Symbol="Cookies" />
-                </community:SegmentedItem.Icon>
-            </community:SegmentedItem>
-            <community:SegmentedItem ToolTipService.ToolTip="{ext:Locale Name=DomesticAnime}">
-                <community:SegmentedItem.Icon>
-                    <ic:SymbolIcon Symbol="FastAcceleration" />
-                </community:SegmentedItem.Icon>
-            </community:SegmentedItem>
-        </community:Segmented>
+            VerticalAlignment="Center" />
+        <animations:Implicit.ShowAnimations>
+            <animations:TranslationAnimation
+                From="-20,0"
+                To="0,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:TranslationAnimation
+                From="0,0"
+                To="-20,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.HideAnimations>
     </Grid>
 </local:AnimePageControlBase>

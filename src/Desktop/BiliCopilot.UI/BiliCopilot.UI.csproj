@@ -18,12 +18,15 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\Anime\AnimeSideHeader.xaml" />
+    <None Remove="Controls\Anime\AnimeTimelineSideControl.xaml" />
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\LoadingWidget.xaml" />
+    <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
+    <None Remove="Controls\Components\TimelineControl.xaml" />
     <None Remove="Controls\Components\VideoCardControl\VideoCardControl.xaml" />
     <None Remove="Controls\Components\VisibilityToggleButton.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
@@ -211,6 +214,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\TimelineControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeTimelineSideControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
