@@ -2,7 +2,7 @@
 
 using BiliCopilot.UI.ViewModels.Items;
 
-namespace BiliCopilot.UI.Controls.Anime;
+namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
 /// 侧边栏时间轴.

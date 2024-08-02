@@ -18,13 +18,16 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Pgc\CinemaSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\IndexFilterItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\SeasonCardControl\SeasonCardControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Anime\AnimeTimelineMainControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Anime\AnimeMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">
@@ -33,10 +36,10 @@
     <Page Update="Controls\Components\TimelineControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Anime\AnimeTimelineSideControl.xaml">
+    <Page Update="Controls\Pgc\EntertainmentIndexMainControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Anime\AnimeSideHeader.xaml">
+    <Page Update="Controls\Pgc\EntertainmentIndexSideControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">

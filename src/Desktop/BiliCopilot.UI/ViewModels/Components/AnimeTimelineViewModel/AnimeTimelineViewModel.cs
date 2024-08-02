@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
@@ -13,7 +12,7 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// <summary>
 /// 动漫时间线视图模型.
 /// </summary>
-public sealed partial class AnimeTimelineViewModel : ViewModelBase, IAnimeSectionDetailViewModel
+public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionDetailViewModel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AnimeTimelineViewModel"/> class.
@@ -101,6 +100,19 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IAnimeSectio
     }
 
     [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        if (SelectedTimeline is not null)
+        {
+            SelectedTimeline.Items = default;
+        }
+
+        Timelines.Clear();
+        SelectedTimeline = default;
+        await InitializeAsync();
+    }
+
+    [RelayCommand]
     private void SelectTimeline(TimelineItemViewModel vm)
     {
         if (vm is null || SelectedTimeline == vm)
@@ -108,9 +120,6 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IAnimeSectio
             return;
         }
 
-        var pageVM = this.Get<AnimePageViewModel>();
-        pageVM.Title = vm.DayOfWeek;
-        pageVM.Subtitle = vm.Date;
         SelectedTimeline = vm;
     }
 }

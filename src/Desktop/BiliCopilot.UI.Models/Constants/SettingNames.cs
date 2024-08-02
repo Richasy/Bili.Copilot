@@ -24,4 +24,7 @@ public enum SettingNames
     AnimePageNavColumnWidth,
     IsAnimePageNavColumnManualHide,
     AnimePageLastSelectedSectionType,
+    CinemaPageNavColumnWidth,
+    IsCinemaPageNavColumnManualHide,
+    CinemaPageLastSelectedSectionType,
 }

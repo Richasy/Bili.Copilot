@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:AnimeTimelineControlBase
-    x:Class="BiliCopilot.UI.Controls.Anime.AnimeTimelineMainControl"
+<local:EntertainmentIndexControlBase
+    x:Class="BiliCopilot.UI.Controls.Pgc.EntertainmentIndexMainControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.Anime"
+    xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollView x:Name="SeasonScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedTimeline.Items, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:SeasonItemViewModel">
-                            <components:SeasonCardControl ViewModel="{x:Bind}" />
+                            <components:SeasonCardControl Style="{StaticResource IndexSeasonCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>
@@ -30,6 +30,6 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollView>
-        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsTimelineLoading, Mode=OneWay}" />
+        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsSeasonLoading, Mode=OneWay}" />
     </Grid>
-</local:AnimeTimelineControlBase>
+</local:EntertainmentIndexControlBase>

@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.View;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Anime;
+namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
 /// 动漫页面控件基类.

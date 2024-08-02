@@ -5,8 +5,8 @@
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:local="using:BiliCopilot.UI.Controls.Components">
 
-    <Style BasedOn="{StaticResource DefaultSeasonCardStyle}" TargetType="local:SeasonCardControl" />
-    <Style x:Key="DefaultSeasonCardStyle" TargetType="local:SeasonCardControl">
+    <Style BasedOn="{StaticResource TimelineSeasonCardStyle}" TargetType="local:SeasonCardControl" />
+    <Style x:Key="TimelineSeasonCardStyle" TargetType="local:SeasonCardControl">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
@@ -23,21 +23,76 @@
                                 <base:TrimTextBlock
                                     FontWeight="Bold"
                                     Foreground="White"
-                                    MaxLines="2"
+                                    MaxLines="1"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
                                 <Border
                                     Padding="8,4"
                                     HorizontalAlignment="Left"
-                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
                                     <Border.Background>
                                         <SolidColorBrush Opacity="0.24" Color="Black" />
                                     </Border.Background>
-                                    <TextBlock
+                                    <base:TrimTextBlock
+                                        FontSize="12"
                                         Foreground="White"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        MaxLines="1"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle}" />
                                 </Border>
                             </StackPanel>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="IndexSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <local:CardControl>
+                        <Grid>
+                            <local:PgcCoverImage
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}"
+                                ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            <StackPanel
+                                Padding="12,8"
+                                VerticalAlignment="Bottom"
+                                Spacing="8">
+                                <base:TrimTextBlock
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    MaxLines="1"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                                <Border
+                                    Padding="8,4"
+                                    HorizontalAlignment="Left"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                    <Border.Background>
+                                        <SolidColorBrush Opacity="0.24" Color="Black" />
+                                    </Border.Background>
+                                    <base:TrimTextBlock
+                                        FontSize="12"
+                                        Foreground="White"
+                                        MaxLines="1"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle}" />
+                                </Border>
+                            </StackPanel>
+                            <Border
+                                Margin="8"
+                                Padding="8,4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{ThemeResource AccentFillColorTertiaryBrush}"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <TextBlock
+                                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
+                            </Border>
                         </Grid>
                     </local:CardControl>
                 </ControlTemplate>

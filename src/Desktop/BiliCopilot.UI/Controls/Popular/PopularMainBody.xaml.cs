@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using CommunityToolkit.WinUI.Animations;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Popular;
@@ -13,24 +12,18 @@ public sealed partial class PopularMainBody : PopularPageControlBase
     /// <summary>
     /// Initializes a new instance of the <see cref="PopularMainBody"/> class.
     /// </summary>
-    public PopularMainBody()
-    {
-        InitializeComponent();
-    }
+    public PopularMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
-    protected override async void OnControlLoaded()
+    protected override void OnControlLoaded()
     {
         ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
         VideoScrollView.ViewChanged += OnViewChanged;
         VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
 
-        await AnimationBuilder.Create().Opacity(to: 0, duration: TimeSpan.FromMilliseconds(30)).StartAsync(VideoScrollView);
-        VideoScrollView.ScrollTo(0, 0, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
-        await AnimationBuilder.Create().Opacity(to: 1, duration: TimeSpan.FromMilliseconds(300)).StartAsync(VideoScrollView);
         CheckVideoCount();
     }
 

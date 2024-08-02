@@ -19,5 +19,7 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover.Uri;
         Subtitle = data.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Subtitle);
+        Highlight = data.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Highlight);
+        Score = data.GetExtensionIfNotNull<double>(SeasonExtensionDataId.Score);
     }
 }

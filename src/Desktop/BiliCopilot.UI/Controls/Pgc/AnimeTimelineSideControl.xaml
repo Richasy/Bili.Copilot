@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <local:AnimeTimelineControlBase
-    x:Class="BiliCopilot.UI.Controls.Anime.AnimeTimelineSideControl"
+    x:Class="BiliCopilot.UI.Controls.Pgc.AnimeTimelineSideControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.Anime"
+    xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     VerticalAlignment="Stretch"
     mc:Ignorable="d">

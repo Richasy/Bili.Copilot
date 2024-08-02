@@ -3,20 +3,20 @@
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.VideoPartition;
+namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
-/// 视频分区主体.
+/// 娱乐索引主体.
 /// </summary>
-public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControlBase
+public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexControlBase
 {
     private long _viewModelChangedToken;
-    private VideoPartitionDetailViewModel _viewModel;
+    private EntertainmentIndexViewModel _viewModel;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionMainBody"/> class.
+    /// Initializes a new instance of the <see cref="EntertainmentIndexMainControl"/> class.
     /// </summary>
-    public VideoPartitionMainBody() => InitializeComponent();
+    public EntertainmentIndexMainControl() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -24,8 +24,9 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        VideoScrollView.ViewChanged += OnViewChanged;
-        VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
+        SeasonScrollView.ViewChanged += OnViewChanged;
+        SeasonScrollView.SizeChanged += OnScrollViewSizeChanged;
+
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
@@ -33,8 +34,8 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
         }
 
         _viewModel = ViewModel;
-        ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
-        CheckVideoCount();
+        ViewModel.ItemsUpdated += OnItemsUpdatedAsync;
+        CheckSeasonCount();
     }
 
     /// <inheritdoc/>
@@ -42,12 +43,12 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     {
         if (ViewModel is not null)
         {
-            ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+            ViewModel.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
         UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        VideoScrollView.ViewChanged -= OnViewChanged;
-        VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
+        SeasonScrollView.ViewChanged -= OnViewChanged;
+        SeasonScrollView.SizeChanged -= OnScrollViewSizeChanged;
         _viewModel = default;
     }
 
@@ -55,45 +56,46 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     {
         if (_viewModel is not null)
         {
-            _viewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+            _viewModel.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
         _viewModel = ViewModel;
-        _viewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+        SeasonScrollView.ScrollTo(0, 0, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
+        _viewModel.ItemsUpdated += OnItemsUpdatedAsync;
     }
 
-    private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
+    private async void OnItemsUpdatedAsync(object? sender, EventArgs e)
     {
         await Task.Delay(500);
-        CheckVideoCount();
+        CheckSeasonCount();
     }
 
     private void OnViewChanged(ScrollView sender, object args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 40)
+            if (SeasonScrollView.ExtentHeight - SeasonScrollView.ViewportHeight - SeasonScrollView.VerticalOffset <= 40)
             {
-                ViewModel.LoadVideosCommand.Execute(default);
+                ViewModel.RequestIndexCommand.Execute(default);
             }
         });
     }
 
     private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize.Width > 100 && ViewModel is not null)
+        if (e.NewSize.Width > 100)
         {
-            CheckVideoCount();
+            CheckSeasonCount();
         }
     }
 
-    private void CheckVideoCount()
+    private void CheckSeasonCount()
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ScrollableHeight <= 0)
+            if (SeasonScrollView.ScrollableHeight <= 0)
             {
-                ViewModel.LoadVideosCommand.Execute(default);
+                ViewModel.RequestIndexCommand.Execute(default);
             }
         });
     }

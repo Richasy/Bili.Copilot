@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
@@ -12,21 +11,21 @@ using Richasy.WinUI.Share.ViewModels;
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
-/// 动漫页面视图模型.
+/// 影院页面视图模型.
 /// </summary>
-public sealed partial class AnimePageViewModel : ViewModelBase
+public sealed partial class CinemaPageViewModel : ViewModelBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AnimePageViewModel"/> class.
+    /// Initializes a new instance of the <see cref="CinemaPageViewModel"/> class.
     /// </summary>
-    public AnimePageViewModel(
+    public CinemaPageViewModel(
         IEntertainmentDiscoveryService discoveryService,
-        ILogger<AnimePageViewModel> logger)
+        ILogger<CinemaPageViewModel> logger)
     {
         _service = discoveryService;
         _logger = logger;
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageNavColumnWidth, 240d);
-        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsAnimePageNavColumnManualHide, false);
+        NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageNavColumnWidth, 240d);
+        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsCinemaPageNavColumnManualHide, false);
     }
 
     [RelayCommand]
@@ -37,14 +36,15 @@ public sealed partial class AnimePageViewModel : ViewModelBase
             return;
         }
 
-        var list = new List<IPgcSectionDetailViewModel>
+        var list = new List<EntertainmentIndexViewModel>
         {
-            new AnimeTimelineViewModel(_service),
-            new EntertainmentIndexViewModel(PgcSectionType.Anime, _service),
+            new EntertainmentIndexViewModel(PgcSectionType.Movie, _service),
+            new EntertainmentIndexViewModel(PgcSectionType.TV, _service),
+            new EntertainmentIndexViewModel(PgcSectionType.Documentary, _service),
         };
 
         Sections = list.AsReadOnly();
-        var lastType = SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageLastSelectedSectionType, PgcSectionType.Timeline);
+        var lastType = SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageLastSelectedSectionType, PgcSectionType.Movie);
         var section = Sections.FirstOrDefault(p => p.SectionType == lastType);
         await Task.Delay(500);
         SelectSection(section ?? Sections.First());
@@ -52,7 +52,7 @@ public sealed partial class AnimePageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void SelectSection(IPgcSectionDetailViewModel section)
+    private void SelectSection(EntertainmentIndexViewModel section)
     {
         if (SelectedSection?.Equals(section) == true)
         {
@@ -60,7 +60,7 @@ public sealed partial class AnimePageViewModel : ViewModelBase
         }
 
         SelectedSection = section;
-        SettingsToolkit.WriteLocalSetting(SettingNames.AnimePageLastSelectedSectionType, section.SectionType);
+        SettingsToolkit.WriteLocalSetting(SettingNames.CinemaPageLastSelectedSectionType, section.SectionType);
         section.InitializeCommand.Execute(default);
     }
 
@@ -68,13 +68,13 @@ public sealed partial class AnimePageViewModel : ViewModelBase
     {
         if (value > 0)
         {
-            SettingsToolkit.WriteLocalSetting(SettingNames.AnimePageNavColumnWidth, value);
+            SettingsToolkit.WriteLocalSetting(SettingNames.CinemaPageNavColumnWidth, value);
         }
     }
 
     partial void OnIsNavColumnManualHideChanged(bool value)
     {
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsAnimePageNavColumnManualHide, value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageNavColumnWidth, 240d);
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsCinemaPageNavColumnManualHide, value);
+        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageNavColumnWidth, 240d);
     }
 }

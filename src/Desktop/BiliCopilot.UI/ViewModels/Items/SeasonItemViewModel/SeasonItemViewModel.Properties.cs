@@ -15,10 +15,20 @@ public sealed partial class SeasonItemViewModel
     /// <summary>
     /// 副标题.
     /// </summary>
-    public string Subtitle { get; init; }
+    public string? Subtitle { get; init; }
+
+    /// <summary>
+    /// 高亮内容.
+    /// </summary>
+    public string? Highlight { get; init; }
 
     /// <summary>
     /// 封面.
     /// </summary>
     public Uri Cover { get; init; }
+
+    /// <summary>
+    /// 评分.
+    /// </summary>
+    public double? Score { get; set; }
 }

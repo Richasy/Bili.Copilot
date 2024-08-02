@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Anime;
+namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
 /// 侧边栏头部.
@@ -42,7 +42,7 @@ public sealed partial class AnimeSideHeader : AnimePageControlBase
 
     private void OnSectionSelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
     {
-        if (sender.SelectedItem?.Tag is not IAnimeSectionDetailViewModel vm)
+        if (sender.SelectedItem?.Tag is not IPgcSectionDetailViewModel vm)
         {
             return;
         }

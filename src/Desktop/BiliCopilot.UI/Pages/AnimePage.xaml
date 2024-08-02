@@ -3,7 +3,6 @@
     x:Class="BiliCopilot.UI.Pages.AnimePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:anime="using:BiliCopilot.UI.Controls.Anime"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:components1="using:BiliCopilot.UI.ViewModels.Components"
@@ -11,17 +10,30 @@
     xmlns:extensions="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pgc="using:BiliCopilot.UI.Controls.Pgc"
     mc:Ignorable="d">
 
     <Page.Resources>
         <DataTemplate x:Key="TimelineSideBodyTemplate" x:DataType="components1:AnimeTimelineViewModel">
-            <anime:AnimeTimelineSideControl ViewModel="{x:Bind}" />
+            <pgc:AnimeTimelineSideControl ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Key="TimelineMainBodyTemplate" x:DataType="components1:AnimeTimelineViewModel">
-            <anime:AnimeTimelineMainControl ViewModel="{x:Bind}" />
+            <pgc:AnimeTimelineMainControl ViewModel="{x:Bind}" />
         </DataTemplate>
-        <extensions:AnimePageControlTemplateSelector x:Key="SideBodySelector" TimelineTemplate="{StaticResource TimelineSideBodyTemplate}" />
-        <extensions:AnimePageControlTemplateSelector x:Key="MainBodySelector" TimelineTemplate="{StaticResource TimelineMainBodyTemplate}" />
+        <DataTemplate x:Key="IndexSideBodyTemplate" x:DataType="components1:EntertainmentIndexViewModel">
+            <pgc:EntertainmentIndexSideControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="IndexMainBodyTemplate" x:DataType="components1:EntertainmentIndexViewModel">
+            <pgc:EntertainmentIndexMainControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <extensions:AnimePageControlTemplateSelector
+            x:Key="SideBodySelector"
+            IndexTemplate="{StaticResource IndexSideBodyTemplate}"
+            TimelineTemplate="{StaticResource TimelineSideBodyTemplate}" />
+        <extensions:AnimePageControlTemplateSelector
+            x:Key="MainBodySelector"
+            IndexTemplate="{StaticResource IndexMainBodyTemplate}"
+            TimelineTemplate="{StaticResource TimelineMainBodyTemplate}" />
     </Page.Resources>
 
     <Grid>
@@ -35,13 +47,16 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.ChildrenTransitions>
+            <RepositionThemeTransition  IsStaggeringEnabled="False" />
+        </Grid.ChildrenTransitions>
         <Border
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="1"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-        <anime:AnimeSideHeader Margin="0,0,-6,0" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <pgc:AnimeSideHeader Margin="0,0,-6,0" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <ContentControl
             Grid.Row="2"
             Margin="0,0,-6,0"
@@ -49,7 +64,7 @@
             ContentTemplateSelector="{StaticResource SideBodySelector}"
             Style="{StaticResource AppContentControlStyle}"
             Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <anime:AnimeMainHeader
+        <pgc:AnimeMainHeader
             Grid.Column="2"
             Margin="-6,0,0,0"
             VerticalAlignment="Center" />

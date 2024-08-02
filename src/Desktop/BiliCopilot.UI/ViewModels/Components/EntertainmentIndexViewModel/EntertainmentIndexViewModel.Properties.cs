@@ -10,29 +10,33 @@ using Richasy.BiliKernel.Bili.Media;
 namespace BiliCopilot.UI.ViewModels.Components;
 
 /// <summary>
-/// 动漫时间线视图模型.
+/// 娱乐索引视图模型.
 /// </summary>
-public sealed partial class AnimeTimelineViewModel
+public sealed partial class EntertainmentIndexViewModel
 {
     private readonly IEntertainmentDiscoveryService _service;
-    private readonly ILogger<AnimeTimelineViewModel> _logger;
+    private readonly ILogger<EntertainmentIndexViewModel> _logger;
+    private int _pageNumer;
 
     [ObservableProperty]
-    private bool _isTimelineLoading;
+    private IReadOnlyCollection<IndexFilterViewModel>? _filters;
 
     [ObservableProperty]
-    private TimelineItemViewModel _selectedTimeline;
+    private bool _isFilterLoading;
+
+    [ObservableProperty]
+    private bool _isSeasonLoading;
 
     /// <summary>
-    /// 时间线加载完成.
+    /// 条目已更新.
     /// </summary>
-    public event EventHandler TimelineInitialized;
+    public event EventHandler ItemsUpdated;
 
     /// <inheritdoc/>
-    public PgcSectionType SectionType => PgcSectionType.Timeline;
+    public PgcSectionType SectionType { get; }
 
     /// <summary>
-    /// 时间线.
+    /// 剧集列表.
     /// </summary>
-    public ObservableCollection<TimelineItemViewModel> Timelines { get; } = new();
+    public ObservableCollection<SeasonItemViewModel> Items { get; } = new();
 }

@@ -16,7 +16,7 @@ public sealed class PgcCoverImage : ImageExBase
     /// <see cref="BlurRatio"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty BlurRatioProperty =
-        DependencyProperty.Register(nameof(BlurRatio), typeof(double), typeof(PgcCoverImage), new PropertyMetadata(0.33));
+        DependencyProperty.Register(nameof(BlurRatio), typeof(double), typeof(PgcCoverImage), new PropertyMetadata(0.35));
 
     private static readonly BlurCanvasEffect _blurEffect = new();
 
@@ -54,10 +54,10 @@ public sealed class PgcCoverImage : ImageExBase
         Rect sourceRect)
     {
         var crossfadeOffset = CanvasImageSource.ConvertDipsToPixels((float)(DecodeHeight - (DecodeHeight * BlurRatio)), CanvasDpiRounding.Round);
-        var crossfadeLength = CanvasImageSource.ConvertDipsToPixels(60, CanvasDpiRounding.Round);
+        var crossfadeLength = CanvasImageSource.ConvertDipsToPixels(68, CanvasDpiRounding.Round);
 
         _blurEffect.Source = canvasBitmap;
-        _blurEffect.BlurAmount = CanvasImageSource.ConvertDipsToPixels(20, CanvasDpiRounding.Round);
+        _blurEffect.BlurAmount = CanvasImageSource.ConvertDipsToPixels(28, CanvasDpiRounding.Round);
         _blurEffect.CrossfadeVerticalOffset = crossfadeOffset;
         _blurEffect.CrossfadeVerticalLength = crossfadeLength;
         _blurEffect.SourceRectangle = sourceRect;

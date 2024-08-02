@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:AnimePageControlBase
-    x:Class="BiliCopilot.UI.Controls.Anime.AnimeSideHeader"
+<local:CinemaPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Pgc.CinemaSideHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
-    xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.Anime"
+    xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <converters:AnimeSectionTextConverter x:Key="AnimeSectionTextConverter" />
-        <converters:AnimeSectionIconConverter x:Key="AnimeSectionIconConverter" />
-        <DataTemplate x:Name="SectionTemplate" x:DataType="items:IAnimeSectionDetailViewModel">
-            <SelectorBarItem Tag="{x:Bind}" ToolTipService.ToolTip="{x:Bind SectionType, Converter={StaticResource AnimeSectionTextConverter}}">
+        <converters:PgcSectionTextConverter x:Key="SectionTextConverter" />
+        <converters:PgcSectionIconConverter x:Key="SectionIconConverter" />
+        <DataTemplate x:Name="SectionTemplate" x:DataType="items:IPgcSectionDetailViewModel">
+            <SelectorBarItem Tag="{x:Bind}" ToolTipService.ToolTip="{x:Bind SectionType, Converter={StaticResource SectionTextConverter}}">
                 <SelectorBarItem.Icon>
-                    <ic:SymbolIcon FontSize="16" Symbol="{x:Bind SectionType, Converter={StaticResource AnimeSectionIconConverter}}" />
+                    <ic:SymbolIcon FontSize="16" Symbol="{x:Bind SectionType, Converter={StaticResource SectionIconConverter}}" />
                 </SelectorBarItem.Icon>
             </SelectorBarItem>
         </DataTemplate>
@@ -34,7 +32,7 @@
         <TextBlock
             VerticalAlignment="Center"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="{x:Bind ViewModel.SelectedSection.SectionType, Mode=OneWay, Converter={StaticResource AnimeSectionTextConverter}}" />
+            Text="{x:Bind ViewModel.SelectedSection.SectionType, Mode=OneWay, Converter={StaticResource SectionTextConverter}}" />
         <SelectorBar
             x:Name="SectionSelector"
             Grid.Column="1"
@@ -60,4 +58,4 @@
                 Duration="0:0:0.2" />
         </animations:Implicit.HideAnimations>
     </Grid>
-</local:AnimePageControlBase>
+</local:CinemaPageControlBase>

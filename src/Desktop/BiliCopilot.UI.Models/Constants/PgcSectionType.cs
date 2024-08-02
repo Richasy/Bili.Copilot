@@ -3,9 +3,9 @@
 namespace BiliCopilot.UI.Models.Constants;
 
 /// <summary>
-/// 动漫分区类型.
+/// PGC分区类型.
 /// </summary>
-public enum AnimeSectionType
+public enum PgcSectionType
 {
     /// <summary>
     /// 时间表.
@@ -13,12 +13,22 @@ public enum AnimeSectionType
     Timeline,
 
     /// <summary>
-    /// 番剧.
+    /// 动漫.
     /// </summary>
-    Bangumi,
+    Anime,
 
     /// <summary>
-    /// 国创.
+    /// 电影.
     /// </summary>
-    Domestic,
+    Movie,
+
+    /// <summary>
+    /// 电视剧.
+    /// </summary>
+    TV,
+
+    /// <summary>
+    /// 纪录片.
+    /// </summary>
+    Documentary,
 }

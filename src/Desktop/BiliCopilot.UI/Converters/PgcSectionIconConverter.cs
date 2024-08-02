@@ -5,16 +5,18 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class AnimeSectionIconConverter : IValueConverter
+internal sealed class PgcSectionIconConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        var sectionType = (AnimeSectionType)value;
+        var sectionType = (PgcSectionType)value;
         return sectionType switch
         {
-            AnimeSectionType.Timeline => FluentIcons.Common.Symbol.Timeline,
-            AnimeSectionType.Bangumi => FluentIcons.Common.Symbol.Cookies,
-            AnimeSectionType.Domestic => FluentIcons.Common.Symbol.FastAcceleration,
+            PgcSectionType.Timeline => FluentIcons.Common.Symbol.Timeline,
+            PgcSectionType.Anime => FluentIcons.Common.Symbol.Dust,
+            PgcSectionType.Movie => FluentIcons.Common.Symbol.MoviesAndTv,
+            PgcSectionType.TV => FluentIcons.Common.Symbol.Tv,
+            PgcSectionType.Documentary => FluentIcons.Common.Symbol.EarthLeaf,
             _ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null)
         };
     }

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
@@ -8,12 +8,12 @@ using Richasy.BiliKernel.Bili.Media;
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
-/// 动漫页面视图模型.
+/// 影院页面视图模型.
 /// </summary>
-public sealed partial class AnimePageViewModel
+public sealed partial class CinemaPageViewModel
 {
     private readonly IEntertainmentDiscoveryService _service;
-    private readonly ILogger<AnimePageViewModel> _logger;
+    private readonly ILogger<CinemaPageViewModel> _logger;
 
     [ObservableProperty]
     private double _navColumnWidth;
@@ -22,10 +22,10 @@ public sealed partial class AnimePageViewModel
     private bool _isNavColumnManualHide;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IPgcSectionDetailViewModel>? _sections;
+    private IReadOnlyCollection<EntertainmentIndexViewModel>? _sections;
 
     [ObservableProperty]
-    private IPgcSectionDetailViewModel? _selectedSection;
+    private EntertainmentIndexViewModel? _selectedSection;
 
     /// <summary>
     /// 区块加载完成.

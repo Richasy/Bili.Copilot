@@ -33,6 +33,11 @@ public partial class App : Application
         {
             var rootFolder = ApplicationData.Current.LocalFolder;
             var fullPath = $"{rootFolder.Path}\\Logger";
+            if (!Directory.Exists(fullPath))
+            {
+                _ = Directory.CreateDirectory(fullPath);
+            }
+
             NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);

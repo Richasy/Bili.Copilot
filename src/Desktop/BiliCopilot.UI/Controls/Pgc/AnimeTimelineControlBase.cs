@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Anime;
+namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
 /// 时间轴控件基类.
