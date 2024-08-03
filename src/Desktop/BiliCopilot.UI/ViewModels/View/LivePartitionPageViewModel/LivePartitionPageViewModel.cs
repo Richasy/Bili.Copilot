@@ -177,6 +177,17 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
                 }
             }
 
+            if (follows is not null)
+            {
+                foreach (var item in follows)
+                {
+                    if (!FollowRooms.Any(p => p.Equals(item)))
+                    {
+                        FollowRooms.Add(new LiveItemViewModel(item));
+                    }
+                }
+            }
+
             _recommendOffset = nextPage;
             RecommendUpdated?.Invoke(this, EventArgs.Empty);
         }

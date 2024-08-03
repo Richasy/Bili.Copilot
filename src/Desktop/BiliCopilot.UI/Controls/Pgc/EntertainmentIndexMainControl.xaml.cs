@@ -93,7 +93,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (SeasonScrollView.ScrollableHeight <= 0)
+            if (SeasonScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
                 ViewModel.RequestIndexCommand.Execute(default);
             }

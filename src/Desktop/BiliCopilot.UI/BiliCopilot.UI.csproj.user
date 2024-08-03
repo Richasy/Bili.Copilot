@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\EmptyHolder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LiveSubPartitionMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>

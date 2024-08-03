@@ -64,7 +64,7 @@ public sealed partial class PopularMainBody : PopularPageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ScrollableHeight <= 0)
+            if (VideoScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
                 ViewModel.LoadVideosCommand.Execute(default);
             }

@@ -64,7 +64,7 @@ public sealed partial class LiveRecommendMainBody : LivePartitionPageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (LiveScrollView.ScrollableHeight <= 0)
+            if (LiveScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
                 ViewModel.LoadRecommendRoomsCommand.Execute(default);
             }

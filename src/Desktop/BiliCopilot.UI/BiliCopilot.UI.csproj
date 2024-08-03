@@ -18,12 +18,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
+    <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -364,6 +366,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\EmptyHolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveSubPartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">

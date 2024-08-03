@@ -153,7 +153,7 @@ public sealed class CardControl : Button
         => IsPointerOver ? 12f : IsPressed ? 2f : 6f;
 
     private float GetShadowOpacity()
-        => IsPointerOver ? 0.2f : IsPressed ? 0.12f : 0.02f;
+        => IsPointerOver ? 0.14f : IsPressed ? 0.09f : 0.02f;
 
     private Vector3 GetShadowOffset()
         => new Vector3(0, IsPointerOver ? 4f : IsPressed ? 0f : 2f, 0);

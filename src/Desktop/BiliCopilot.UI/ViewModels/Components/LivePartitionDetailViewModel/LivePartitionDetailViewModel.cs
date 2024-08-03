@@ -42,6 +42,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         }
 
         TryAddRooms(lives);
+        CurrentTag = tags.First();
         _childPartitionOffsetCache[tags.First()] = nextPageNumber;
         IsLiveLoading = false;
         Initialized?.Invoke(this, EventArgs.Empty);
@@ -54,6 +55,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         _childPartitionOffsetCache.Remove(CurrentTag);
 
         Rooms.Clear();
+        _preventLoadMore = false;
         await LoadRoomsAsync();
     }
 
@@ -65,6 +67,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
             return;
         }
 
+        _preventLoadMore = false;
         if (Rooms.Count > 0)
         {
             _childPartitionRoomCache[CurrentTag] = Rooms.ToList();
@@ -106,6 +109,11 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
 
     private async Task LoadChildPartitionRoomsAsync()
     {
+        if (_preventLoadMore)
+        {
+            return;
+        }
+
         try
         {
             var pn = 0;
@@ -120,6 +128,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         }
         catch (Exception ex)
         {
+            _preventLoadMore = true;
             _logger.LogError(ex, $"尝试加载 {Data.Data.Name}/{CurrentTag.Name} 分区视频时出错.");
         }
     }

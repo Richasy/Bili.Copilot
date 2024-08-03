@@ -69,4 +69,9 @@ public sealed partial class LivePartitionPageViewModel
     /// 推荐直播间.
     /// </summary>
     public ObservableCollection<LiveItemViewModel> RecommendRooms { get; } = new();
+
+    /// <summary>
+    /// 关注的直播间.
+    /// </summary>
+    public ObservableCollection<LiveItemViewModel> FollowRooms { get; } = new();
 }

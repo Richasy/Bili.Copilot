@@ -42,10 +42,7 @@
             HorizontalScrollMode="Enabled"
             VerticalScrollBarVisibility="Hidden"
             VerticalScrollMode="Disabled">
-            <SelectorBar
-                x:Name="Selector"
-                Margin="0,4,0,0"
-                SelectionChanged="OnSelectorChanged" />
+            <SelectorBar x:Name="Selector" Margin="0,4,0,0" />
         </ScrollViewer>
 
         <Grid Grid.Column="2">

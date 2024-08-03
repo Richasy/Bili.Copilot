@@ -21,6 +21,9 @@ public sealed partial class AnimeTimelineViewModel
     private bool _isTimelineLoading;
 
     [ObservableProperty]
+    private bool _isEmpty;
+
+    [ObservableProperty]
     private TimelineItemViewModel _selectedTimeline;
 
     /// <summary>

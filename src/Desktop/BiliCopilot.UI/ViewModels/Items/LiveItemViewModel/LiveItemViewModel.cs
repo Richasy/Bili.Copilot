@@ -19,6 +19,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover.Uri;
         Author = data.User?.Name;
+        Avatar = data.User?.Avatar?.Uri;
         ViewerCount = data.GetExtensionIfNotNull<double>(LiveExtensionDataId.ViewerCount);
         Subtitle = data.GetExtensionIfNotNull<string>(VideoExtensionDataId.Subtitle);
     }

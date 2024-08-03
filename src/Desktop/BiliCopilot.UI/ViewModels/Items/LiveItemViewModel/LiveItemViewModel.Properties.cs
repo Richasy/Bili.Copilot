@@ -31,4 +31,9 @@ public sealed partial class LiveItemViewModel
     /// 作者.
     /// </summary>
     public string? Author { get; init; }
+
+    /// <summary>
+    /// 作者头像.
+    /// </summary>
+    public Uri? Avatar { get; init; }
 }

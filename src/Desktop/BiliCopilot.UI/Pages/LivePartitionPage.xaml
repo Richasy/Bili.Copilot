@@ -59,7 +59,14 @@
         <livepartition:LiveRecommendMainBody
             Grid.Row="2"
             Grid.Column="4"
-            Margin="-6,0,0,0" />
+            Margin="-6,0,0,0"
+            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
+        <livepartition:LiveSubPartitionMainBody
+            Grid.Row="2"
+            Grid.Column="4"
+            Margin="-6,0,0,0"
+            ViewModel="{x:Bind ViewModel.SelectedDetail, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
 
         <!--  左侧主分栏大小控制器  -->
         <components:ColumnSplitter

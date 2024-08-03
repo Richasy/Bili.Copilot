@@ -26,6 +26,7 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
+        Selector.SelectionChanged += OnSelectorChanged;
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
@@ -40,6 +41,7 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        Selector.SelectionChanged -= OnSelectorChanged;
         _viewModel = default;
         UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)

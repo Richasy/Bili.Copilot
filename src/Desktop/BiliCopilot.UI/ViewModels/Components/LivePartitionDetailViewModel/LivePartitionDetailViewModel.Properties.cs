@@ -19,6 +19,8 @@ public sealed partial class LivePartitionDetailViewModel
     private readonly Dictionary<LiveTag, List<LiveItemViewModel>> _childPartitionRoomCache = new();
     private readonly Dictionary<LiveTag, int> _childPartitionOffsetCache = new();
 
+    private bool _preventLoadMore;
+
     [ObservableProperty]
     private IReadOnlyCollection<LiveTag>? _children;
 

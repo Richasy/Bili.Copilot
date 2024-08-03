@@ -33,6 +33,7 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionD
         }
 
         IsTimelineLoading = true;
+        CheckEmpty();
         IReadOnlyList<TimelineInformation> bangumiTimelines = default;
         IReadOnlyList<TimelineInformation> domesticTimelines = default;
         var tasks = new List<Task>
@@ -95,6 +96,7 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionD
         finally
         {
             IsTimelineLoading = false;
+            CheckEmpty();
             TimelineInitialized?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -122,4 +124,7 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionD
 
         SelectedTimeline = vm;
     }
+
+    private void CheckEmpty()
+        => IsEmpty = Timelines.Count == 0 && !IsTimelineLoading;
 }
