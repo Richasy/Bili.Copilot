@@ -8,12 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="12,8">
+    <Grid Padding="16,12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Spacing="4">
+        <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBlock
                 VerticalAlignment="Center"
                 Style="{StaticResource BodyStrongTextBlockStyle}"

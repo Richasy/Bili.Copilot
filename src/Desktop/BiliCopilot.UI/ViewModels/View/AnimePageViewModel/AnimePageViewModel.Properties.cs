@@ -16,12 +16,6 @@ public sealed partial class AnimePageViewModel
     private readonly ILogger<AnimePageViewModel> _logger;
 
     [ObservableProperty]
-    private double _navColumnWidth;
-
-    [ObservableProperty]
-    private bool _isNavColumnManualHide;
-
-    [ObservableProperty]
     private IReadOnlyCollection<IPgcSectionDetailViewModel>? _sections;
 
     [ObservableProperty]

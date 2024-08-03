@@ -21,12 +21,6 @@ public sealed partial class PopularPageViewModel
     private long _hotOffset;
 
     [ObservableProperty]
-    private double _navColumnWidth;
-
-    [ObservableProperty]
-    private bool _isNavColumnManualHide;
-
-    [ObservableProperty]
     private bool _isPartitionLoading;
 
     [ObservableProperty]

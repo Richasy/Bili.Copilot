@@ -16,12 +16,6 @@ public sealed partial class CinemaPageViewModel
     private readonly ILogger<CinemaPageViewModel> _logger;
 
     [ObservableProperty]
-    private double _navColumnWidth;
-
-    [ObservableProperty]
-    private bool _isNavColumnManualHide;
-
-    [ObservableProperty]
     private IReadOnlyCollection<EntertainmentIndexViewModel>? _sections;
 
     [ObservableProperty]

@@ -48,7 +48,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.ChildrenTransitions>
-            <RepositionThemeTransition  IsStaggeringEnabled="False" />
+            <RepositionThemeTransition IsStaggeringEnabled="False" />
         </Grid.ChildrenTransitions>
         <Border
             Grid.Row="1"
@@ -77,25 +77,10 @@
             Style="{StaticResource AppContentControlStyle}" />
 
         <!--  左侧分栏大小控制器  -->
-        <Grid Grid.RowSpan="3" Grid.Column="1">
-            <Border
-                Width="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Stretch"
-                Background="{ThemeResource DividerStrokeColorDefaultBrush}"
-                Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-            <community:PropertySizer
-                HorizontalAlignment="Center"
-                Binding="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
-                Maximum="300"
-                Minimum="220"
-                Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-            <components:VisibilityToggleButton
-                Margin="0,0,-20,0"
-                VerticalAlignment="Stretch"
-                Click="OnNavVisibilityButtonClick"
-                CornerRadius="0,4,4,0"
-                IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}" />
-        </Grid>
+        <components:ColumnSplitter
+            Grid.RowSpan="3"
+            Grid.Column="1"
+            ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
+            IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}" />
     </Grid>
 </local:AnimePageBase>

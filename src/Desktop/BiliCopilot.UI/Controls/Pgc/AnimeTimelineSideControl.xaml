@@ -27,7 +27,7 @@
                 </DataTemplate>
             </ItemsView.ItemTemplate>
             <ItemsView.Layout>
-                <StackLayout Spacing="4" />
+                <StackLayout Spacing="8" />
             </ItemsView.Layout>
         </ItemsView>
         <components:SideBottomLoadingWidget Text="{ext:Locale Name=LoadingAndWait}" Visibility="{x:Bind ViewModel.IsTimelineLoading, Mode=OneWay}" />

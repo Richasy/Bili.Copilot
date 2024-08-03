@@ -1,19 +1,19 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// 影院页面视图模型.
 /// </summary>
-public sealed partial class CinemaPageViewModel : ViewModelBase
+public sealed partial class CinemaPageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CinemaPageViewModel"/> class.
@@ -24,9 +24,10 @@ public sealed partial class CinemaPageViewModel : ViewModelBase
     {
         _service = discoveryService;
         _logger = logger;
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageNavColumnWidth, 240d);
-        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsCinemaPageNavColumnManualHide, false);
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey() => nameof(CinemaPage);
 
     [RelayCommand]
     private async Task InitializeAsync()
@@ -62,19 +63,5 @@ public sealed partial class CinemaPageViewModel : ViewModelBase
         SelectedSection = section;
         SettingsToolkit.WriteLocalSetting(SettingNames.CinemaPageLastSelectedSectionType, section.SectionType);
         section.InitializeCommand.Execute(default);
-    }
-
-    partial void OnNavColumnWidthChanged(double value)
-    {
-        if (value > 0)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.CinemaPageNavColumnWidth, value);
-        }
-    }
-
-    partial void OnIsNavColumnManualHideChanged(bool value)
-    {
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsCinemaPageNavColumnManualHide, value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageNavColumnWidth, 240d);
     }
 }

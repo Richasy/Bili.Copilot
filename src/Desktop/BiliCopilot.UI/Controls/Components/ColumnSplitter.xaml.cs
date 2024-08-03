@@ -1,0 +1,79 @@
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using Richasy.WinUI.Share.Base;
+
+namespace BiliCopilot.UI.Controls.Components;
+
+/// <summary>
+/// 分割器.
+/// </summary>
+public sealed partial class ColumnSplitter : LayoutUserControlBase
+{
+    /// <summary>
+    /// <see cref="IsHide"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsHideProperty =
+        DependencyProperty.Register(nameof(IsHide), typeof(bool), typeof(ColumnSplitter), new PropertyMetadata(default));
+
+    /// <summary>
+    /// <see cref="ColumnWidth"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty ColumnWidthProperty =
+        DependencyProperty.Register(nameof(ColumnWidth), typeof(double), typeof(ColumnSplitter), new PropertyMetadata(default));
+
+    /// <summary>
+    /// <see cref="MinColumnWidth"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty MinColumnWidthProperty =
+        DependencyProperty.Register(nameof(MinColumnWidth), typeof(double), typeof(ColumnSplitter), new PropertyMetadata(220d));
+
+    /// <summary>
+    /// <see cref="MaxColumnWidth"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty MaxColumnWidthProperty =
+        DependencyProperty.Register(nameof(MaxColumnWidth), typeof(double), typeof(ColumnSplitter), new PropertyMetadata(300d));
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ColumnSplitter"/> class.
+    /// </summary>
+    public ColumnSplitter() => InitializeComponent();
+
+    /// <summary>
+    /// 是否进入隐藏状态.
+    /// </summary>
+    public bool IsHide
+    {
+        get => (bool)GetValue(IsHideProperty);
+        set => SetValue(IsHideProperty, value);
+    }
+
+    /// <summary>
+    /// 列宽度.
+    /// </summary>
+    public double ColumnWidth
+    {
+        get => (double)GetValue(ColumnWidthProperty);
+        set => SetValue(ColumnWidthProperty, value);
+    }
+
+    /// <summary>
+    /// 最小列宽度.
+    /// </summary>
+    public double MinColumnWidth
+    {
+        get => (double)GetValue(MinColumnWidthProperty);
+        set => SetValue(MinColumnWidthProperty, value);
+    }
+
+    /// <summary>
+    /// 最大列宽度.
+    /// </summary>
+    public double MaxColumnWidth
+    {
+        get => (double)GetValue(MaxColumnWidthProperty);
+        set => SetValue(MaxColumnWidthProperty, value);
+    }
+
+    /// <inheritdoc/>
+    protected override ControlBindings ControlBindings => Bindings is null ? default : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
+}

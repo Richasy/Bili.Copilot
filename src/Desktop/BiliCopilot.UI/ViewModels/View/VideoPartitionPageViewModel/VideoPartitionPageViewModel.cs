@@ -1,20 +1,20 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// 视频分区页面视图模型.
 /// </summary>
-public sealed partial class VideoPartitionPageViewModel : ViewModelBase
+public sealed partial class VideoPartitionPageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PopularPageViewModel"/> class.
@@ -29,6 +29,9 @@ public sealed partial class VideoPartitionPageViewModel : ViewModelBase
         NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.VideoPartitionPageNavColumnWidth, 240d);
         IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsVideoPartitionPageNavColumnManualHide, false);
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey() => nameof(VideoPartitionPage);
 
     [RelayCommand]
     private async Task InitializeAsync()
@@ -77,19 +80,5 @@ public sealed partial class VideoPartitionPageViewModel : ViewModelBase
         }
 
         SettingsToolkit.WriteLocalSetting(SettingNames.VideoPartitionPageLastSelectedPartitionId, partition.Data.Id);
-    }
-
-    partial void OnNavColumnWidthChanged(double value)
-    {
-        if (value > 0)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.VideoPartitionPageNavColumnWidth, value);
-        }
-    }
-
-    partial void OnIsNavColumnManualHideChanged(bool value)
-    {
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsVideoPartitionPageNavColumnManualHide, value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.VideoPartitionPageNavColumnWidth, 240d);
     }
 }

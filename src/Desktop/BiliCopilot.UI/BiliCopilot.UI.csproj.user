@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\ColumnSplitter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>

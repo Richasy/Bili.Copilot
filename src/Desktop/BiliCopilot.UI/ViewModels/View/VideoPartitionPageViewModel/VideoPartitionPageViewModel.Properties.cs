@@ -20,12 +20,6 @@ public sealed partial class VideoPartitionPageViewModel
     private readonly Dictionary<Partition, VideoPartitionDetailViewModel> _partitionCache = new();
 
     [ObservableProperty]
-    private double _navColumnWidth;
-
-    [ObservableProperty]
-    private bool _isNavColumnManualHide;
-
-    [ObservableProperty]
     private bool _isPartitionLoading;
 
     [ObservableProperty]

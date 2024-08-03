@@ -1,20 +1,20 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// 动漫页面视图模型.
 /// </summary>
-public sealed partial class AnimePageViewModel : ViewModelBase
+public sealed partial class AnimePageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AnimePageViewModel"/> class.
@@ -25,9 +25,10 @@ public sealed partial class AnimePageViewModel : ViewModelBase
     {
         _service = discoveryService;
         _logger = logger;
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageNavColumnWidth, 240d);
-        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting(SettingNames.IsAnimePageNavColumnManualHide, false);
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey() => nameof(AnimePage);
 
     [RelayCommand]
     private async Task InitializeAsync()
@@ -62,19 +63,5 @@ public sealed partial class AnimePageViewModel : ViewModelBase
         SelectedSection = section;
         SettingsToolkit.WriteLocalSetting(SettingNames.AnimePageLastSelectedSectionType, section.SectionType);
         section.InitializeCommand.Execute(default);
-    }
-
-    partial void OnNavColumnWidthChanged(double value)
-    {
-        if (value > 0)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.AnimePageNavColumnWidth, value);
-        }
-    }
-
-    partial void OnIsNavColumnManualHideChanged(bool value)
-    {
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsAnimePageNavColumnManualHide, value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageNavColumnWidth, 240d);
     }
 }
