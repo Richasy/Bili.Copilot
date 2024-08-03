@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/CardControl/CardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/VideoCardControl/VideoCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/SeasonCardControl/SeasonCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/LiveCardControl/LiveCardControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>

@@ -34,6 +34,12 @@ public sealed partial class ColumnSplitter : LayoutUserControlBase
         DependencyProperty.Register(nameof(MaxColumnWidth), typeof(double), typeof(ColumnSplitter), new PropertyMetadata(300d));
 
     /// <summary>
+    /// <see cref="IsHideButtonEnabled"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsHideButtonEnabledProperty =
+        DependencyProperty.Register(nameof(IsHideButtonEnabled), typeof(bool), typeof(ColumnSplitter), new PropertyMetadata(true));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ColumnSplitter"/> class.
     /// </summary>
     public ColumnSplitter() => InitializeComponent();
@@ -72,6 +78,15 @@ public sealed partial class ColumnSplitter : LayoutUserControlBase
     {
         get => (double)GetValue(MaxColumnWidthProperty);
         set => SetValue(MaxColumnWidthProperty, value);
+    }
+
+    /// <summary>
+    /// 是否显示隐藏按钮.
+    /// </summary>
+    public bool IsHideButtonEnabled
+    {
+        get => (bool)GetValue(IsHideButtonEnabledProperty);
+        set => SetValue(IsHideButtonEnabledProperty, value);
     }
 
     /// <inheritdoc/>

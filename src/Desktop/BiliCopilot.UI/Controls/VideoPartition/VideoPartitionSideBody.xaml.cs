@@ -32,7 +32,7 @@ public sealed partial class VideoPartitionSideBody : VideoPartitionSideBodyBase
 
     private void OnPartitionSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
-        var item = sender.SelectedItem as VideoPartitionViewModel;
+        var item = sender.SelectedItem as PartitionViewModel;
         ViewModel.SelectPartitionCommand.Execute(item);
     }
 

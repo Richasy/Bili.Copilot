@@ -47,7 +47,7 @@ public sealed partial class VideoPartitionPageViewModel : LayoutPageViewModelBas
         {
             foreach (var item in partitions)
             {
-                Partitions.Add(new VideoPartitionViewModel(item));
+                Partitions.Add(new PartitionViewModel(item));
             }
         }
 
@@ -60,7 +60,7 @@ public sealed partial class VideoPartitionPageViewModel : LayoutPageViewModelBas
     }
 
     [RelayCommand]
-    private void SelectPartition(VideoPartitionViewModel partition)
+    private void SelectPartition(PartitionViewModel partition)
     {
         if (partition is null || partition.Data.Equals(SelectedPartition?.Data))
         {

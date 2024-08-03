@@ -70,7 +70,7 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
             return;
         }
 
-        var item = sender.SelectedItem.Tag as VideoPartitionViewModel;
+        var item = sender.SelectedItem.Tag as PartitionViewModel;
         if (item is not null && item != ViewModel.CurrentPartition)
         {
             ViewModel.ChangeChildPartitionCommand.Execute(item);

@@ -26,7 +26,7 @@ public sealed partial class VideoPartitionDetailViewModel
     private IReadOnlyCollection<PartitionVideoSortType> _sortTypes;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoPartitionViewModel> _children;
+    private IReadOnlyCollection<PartitionViewModel> _children;
 
     [ObservableProperty]
     private PartitionVideoSortType _selectedSortType;
@@ -38,7 +38,7 @@ public sealed partial class VideoPartitionDetailViewModel
     private bool _isVideoLoading;
 
     [ObservableProperty]
-    private VideoPartitionViewModel _currentPartition;
+    private PartitionViewModel _currentPartition;
 
     /// <summary>
     /// 初始化完成.

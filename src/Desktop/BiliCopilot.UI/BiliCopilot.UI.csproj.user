@@ -18,6 +18,21 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LiveRecommendMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionSubSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionMainSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\ColumnSplitter.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -46,9 +61,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\VideoPartition\VideoPartitionItemControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\VideoPartition\VideoPartitionMainHeader.xaml">

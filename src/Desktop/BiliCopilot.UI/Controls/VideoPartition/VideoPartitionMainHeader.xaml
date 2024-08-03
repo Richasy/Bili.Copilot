@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -26,7 +27,7 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <local:VideoPartitionItemControl
+        <components:PartitionItemControl
             VerticalAlignment="Center"
             FontWeight="Bold"
             ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />

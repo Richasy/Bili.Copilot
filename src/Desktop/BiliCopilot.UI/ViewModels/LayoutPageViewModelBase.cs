@@ -34,6 +34,12 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     /// <returns>页面名称.</returns>
     protected abstract string GetPageKey();
 
+    /// <summary>
+    /// 导航栏手动关闭时的行为.
+    /// </summary>
+    protected virtual void IsNavManualHideChanged(bool value)
+        => NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", 240d);
+
     partial void OnNavColumnWidthChanged(double value)
     {
         if (value > 0)
@@ -45,6 +51,6 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     partial void OnIsNavColumnManualHideChanged(bool value)
     {
         SettingsToolkit.WriteLocalSetting($"Is{GetPageKey()}NavColumnManualHide", value);
-        NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", 240d);
+        IsNavManualHideChanged(value);
     }
 }

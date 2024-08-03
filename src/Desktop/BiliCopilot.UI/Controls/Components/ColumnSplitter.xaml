@@ -24,9 +24,12 @@
             Minimum="{x:Bind MinColumnWidth, Mode=OneWay}"
             Visibility="{x:Bind IsHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <local:VisibilityToggleButton
+            x:Name="ToggleBtn"
             Margin="0,0,-32,0"
             VerticalAlignment="Stretch"
-            CornerRadius="0,4,4,0"
+            x:Load="{x:Bind IsEnabled, Mode=OneWay}"
+            CornerRadius="0,6,6,0"
+            IsEnabled="{x:Bind IsHideButtonEnabled, Mode=OneWay}"
             IsHide="{x:Bind IsHide, Mode=TwoWay}" />
     </Grid>
 </base:LayoutUserControlBase>

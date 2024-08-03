@@ -15,13 +15,13 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// <summary>
 /// 视频分区详情视图模型.
 /// </summary>
-public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoPartitionViewModel>
+public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<PartitionViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPartitionDetailViewModel"/> class.
     /// </summary>
     public VideoPartitionDetailViewModel(
-        VideoPartitionViewModel partition,
+        PartitionViewModel partition,
         IVideoDiscoveryService service)
         : base(partition)
     {
@@ -41,7 +41,7 @@ public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoP
         {
             var children = Data.Children.ToList();
             var rcmdPartition = new Partition(Data.Data.Id, ResourceToolkit.GetLocalizedString(StringNames.Recommend));
-            children.Insert(0, new VideoPartitionViewModel(rcmdPartition));
+            children.Insert(0, new PartitionViewModel(rcmdPartition));
             Children = [.. children];
         }
 
@@ -85,7 +85,7 @@ public sealed partial class VideoPartitionDetailViewModel : ViewModelBase<VideoP
     }
 
     [RelayCommand]
-    private async Task ChangeChildPartitionAsync(VideoPartitionViewModel partition)
+    private async Task ChangeChildPartitionAsync(PartitionViewModel partition)
     {
         if (partition is null || partition.Data.Equals(CurrentPartition?.Data))
         {

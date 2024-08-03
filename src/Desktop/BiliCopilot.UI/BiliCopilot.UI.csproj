@@ -19,6 +19,11 @@
   <ItemGroup>
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
+    <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -45,7 +50,7 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
-    <None Remove="Controls\VideoPartition\VideoPartitionItemControl.xaml" />
+    <None Remove="Controls\VideoPartition\PartitionItemControl.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainBody.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainHeader.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionSideBody.xaml" />
@@ -265,7 +270,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\VideoPartition\VideoPartitionItemControl.xaml">
+    <Page Update="Controls\VideoPartition\PartitionItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -359,6 +364,31 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveRecommendMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionSubSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionMainSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
