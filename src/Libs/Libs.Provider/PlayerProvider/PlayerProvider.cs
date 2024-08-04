@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -516,5 +517,45 @@ public partial class PlayerProvider
         var response = await HttpProvider.Instance.SendAsync(request, new CancellationTokenSource(TimeSpan.FromSeconds(3)).Token);
         var result = await HttpProvider.ParseAsync<ServerResponse<VideoStatusInfo>>(response);
         return CommunityAdapter.ConvertToVideoCommunityInformation(result.Data);
+    }
+
+    /// <summary>
+    /// 在一批 URL 中获取可用的 URL.
+    /// </summary>
+    /// <param name="urls">URL 集合.</param>
+    /// <returns>可用的 URL.</returns>
+    /// <exception cref="Exception">无法获取可用的视频 URL.</exception>
+    public static async Task<string> GetAvailableUrlAsync(string[] urls)
+    {
+        foreach (var url in urls)
+        {
+            if (await IsUrlAvailableAsync(url))
+            {
+                return url;
+            }
+        }
+
+        throw new Exception("没有可用的视频流 URL");
+    }
+
+    /// <summary>
+    /// 检查 URL 是否可用.
+    /// </summary>
+    /// <param name="url">URL.</param>
+    /// <returns>URL 是否可用.</returns>
+    public static async Task<bool> IsUrlAvailableAsync(string url)
+    {
+        var request = await HttpProvider.GetRequestMessageAsync(HttpMethod.Head, url, needCsrf: true, clientType: RequestClientType.IOS);
+        request.Headers.AddOrReplace("Referer", "https://www.bilibili.com/");
+        try
+        {
+            var response =
+                await HttpProvider.Instance.SendAsync(request, new CancellationTokenSource(TimeSpan.FromSeconds(3)).Token);
+            return response.StatusCode == (int)HttpStatusCode.OK;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

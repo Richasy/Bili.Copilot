@@ -153,6 +153,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _isPlaybackRateSliderVisible;
 
+    [ObservableProperty]
+    private bool _noP2P;
+
     /// <summary>
     /// 播放器显示模式可选集合.
     /// </summary>

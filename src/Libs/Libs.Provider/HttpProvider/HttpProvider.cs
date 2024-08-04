@@ -56,7 +56,7 @@ public sealed partial class HttpProvider
     {
         FlurlRequest requestMessage;
 
-        if (needCsrf && !queryParams.ContainsKey("csrf"))
+        if (needCsrf && queryParams != null && !queryParams.ContainsKey("csrf"))
         {
             queryParams.Add("csrf", AuthorizeProvider.GetCsrfToken());
         }

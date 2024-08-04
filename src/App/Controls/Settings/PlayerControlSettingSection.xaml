@@ -104,6 +104,9 @@
             <labs:SettingsCard Description="{ext:Locale Name=PlaybackRateSliderEnabledDescription}" Header="{ext:Locale Name=PlaybackRateSliderEnabled}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsPlaybackRateSliderVisible, Mode=TwoWay}" />
             </labs:SettingsCard>
+            <labs:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.NoP2P, Mode=TwoWay}" />
+            </labs:SettingsCard>
         </labs:SettingsExpander.Items>
     </labs:SettingsExpander>
 </local:SettingSection>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Bili.Copilot.Libs.Provider;
 using Bili.Copilot.Libs.Toolkit;
@@ -25,6 +26,11 @@ namespace Bili.Copilot.ViewModels;
 /// </summary>
 public sealed partial class PlayerDetailViewModel
 {
+    private readonly Regex _p2PRegex = P2PRegex();
+
+    [GeneratedRegex("(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
+    private static partial Regex P2PRegex();
+
     private static string GetVideoPreferCodecId()
     {
         var preferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodec.H264);
@@ -444,5 +450,11 @@ public sealed partial class PlayerDetailViewModel
         }
 
         return formatId;
+    }
+
+    private bool IsP2PUrl(string url)
+    {
+        var uri = new Uri(url);
+        return _p2PRegex.IsMatch(uri.Host);
     }
 }

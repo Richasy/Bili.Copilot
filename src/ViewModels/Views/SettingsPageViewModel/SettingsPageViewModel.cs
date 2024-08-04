@@ -63,6 +63,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         BottomProgressVisible = ReadSetting(SettingNames.BottomProgressVisible, true);
         IsPlaybackRateSliderVisible = ReadSetting(SettingNames.PlaybackRateSliderEnabled, false);
         UseMpvPlayer = ReadSetting(SettingNames.UseMpvPlayer, false);
+        NoP2P = ReadSetting(SettingNames.NoP2P, false);
         WebPlayerInit();
         PreferCodecInit();
         DecodeInit();
@@ -229,6 +230,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
                 break;
             case nameof(IsPlaybackRateSliderVisible):
                 WriteSetting(SettingNames.PlaybackRateSliderEnabled, IsPlaybackRateSliderVisible);
+                break;
+            case nameof(NoP2P):
+                WriteSetting(SettingNames.NoP2P, NoP2P);
                 break;
             default:
                 break;
