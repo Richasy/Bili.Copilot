@@ -3,17 +3,17 @@
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.VideoPartition;
+namespace BiliCopilot.UI.Controls.ArticlePartition;
 
 /// <summary>
-/// 视频分区主区域头部.
+/// 文章分区头部.
 /// </summary>
-public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailControlBase
+public sealed partial class ArticlePartitionMainHeader : ArticlePartitionDetailControlBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionMainHeader"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionMainHeader"/> class.
     /// </summary>
-    public VideoPartitionMainHeader() => InitializeComponent();
+    public ArticlePartitionMainHeader() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
@@ -21,7 +21,7 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
     private void OnSortTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.Any()
-            && e.AddedItems[0] is PartitionVideoSortType sortType
+            && e.AddedItems[0] is ArticleSortType sortType
             && sortType != ViewModel.SelectedSortType)
         {
             ViewModel.ChangeSortTypeCommand.Execute(sortType);

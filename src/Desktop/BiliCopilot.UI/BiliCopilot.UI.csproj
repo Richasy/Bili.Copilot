@@ -17,6 +17,10 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\ArticlePartition\ArticlePartitionMainBody.xaml" />
+    <None Remove="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml" />
+    <None Remove="Controls\ArticlePartition\ArticlePartitionSideBody.xaml" />
+    <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
@@ -60,7 +64,7 @@
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
-    <None Remove="Pages\ArticlePage.xaml" />
+    <None Remove="Pages\ArticlePartitionPage.xaml" />
     <None Remove="Pages\CinemaPage.xaml" />
     <None Remove="Pages\DownloadPage.xaml" />
     <None Remove="Pages\LivePartitionPage.xaml" />
@@ -127,7 +131,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\ArticlePage.xaml">
+    <Page Update="Pages\ArticlePartitionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -366,6 +370,26 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\EmptyHolder.xaml">

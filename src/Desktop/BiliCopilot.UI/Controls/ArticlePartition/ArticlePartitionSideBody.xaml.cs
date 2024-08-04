@@ -4,17 +4,17 @@ using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.VideoPartition;
+namespace BiliCopilot.UI.Controls.ArticlePartition;
 
 /// <summary>
-/// 视频分区侧边导航栏主体.
+/// 文章分区侧边栏.
 /// </summary>
-public sealed partial class VideoPartitionSideBody : VideoPartitionSideBodyBase
+public sealed partial class ArticlePartitionSideBody : ArticlePartitionSideBodyBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionSideBody"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionSideBody"/> class.
     /// </summary>
-    public VideoPartitionSideBody() => InitializeComponent();
+    public ArticlePartitionSideBody() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -50,12 +50,12 @@ public sealed partial class VideoPartitionSideBody : VideoPartitionSideBodyBase
 }
 
 /// <summary>
-/// 视频分区页面侧边栏主体的基类.
+/// 文章分区侧边栏基类.
 /// </summary>
-public abstract class VideoPartitionSideBodyBase : LayoutUserControlBase<VideoPartitionPageViewModel>
+public abstract class ArticlePartitionSideBodyBase : LayoutUserControlBase<ArticlePartitionPageViewModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionSideBodyBase"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionSideBodyBase"/> class.
     /// </summary>
-    protected VideoPartitionSideBodyBase() => ViewModel = this.Get<VideoPartitionPageViewModel>();
+    protected ArticlePartitionSideBodyBase() => ViewModel = this.Get<ArticlePartitionPageViewModel>();
 }

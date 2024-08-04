@@ -66,7 +66,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             GetItem<LivePartitionPage>(StringNames.Live, FluentIcons.Common.Symbol.VideoChat),
             GetItem<AnimePage>(StringNames.Anime, FluentIcons.Common.Symbol.Dust),
             GetItem<CinemaPage>(StringNames.Cinema, FluentIcons.Common.Symbol.FilmstripPlay),
-            GetItem<ArticlePage>(StringNames.Article, FluentIcons.Common.Symbol.DocumentBulletList),
+            GetItem<ArticlePartitionPage>(StringNames.Article, FluentIcons.Common.Symbol.DocumentBulletList),
         };
 
         foreach (var item in list)

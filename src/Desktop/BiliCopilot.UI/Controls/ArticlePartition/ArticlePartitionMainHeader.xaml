@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPartitionDetailControlBase
-    x:Class="BiliCopilot.UI.Controls.VideoPartition.VideoPartitionMainHeader"
+<local:ArticlePartitionDetailControlBase
+    x:Class="BiliCopilot.UI.Controls.ArticlePartition.ArticlePartitionMainHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
-    xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
-    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.VideoPartition"
+    xmlns:local="using:BiliCopilot.UI.Controls.ArticlePartition"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Richasy.BiliKernel.Models"
     mc:Ignorable="d">
@@ -45,7 +43,7 @@
                 SelectionChanged="OnSortTypeSelectionChanged"
                 Visibility="{x:Bind ViewModel.IsRecommend, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="models:PartitionVideoSortType">
+                    <DataTemplate x:DataType="models:ArticleSortType">
                         <TextBlock Text="{x:Bind Converter={StaticResource SortTypeTextConverter}}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -121,4 +119,4 @@
             </Button>
         </Grid>
     </Grid>
-</local:VideoPartitionDetailControlBase>
+</local:ArticlePartitionDetailControlBase>

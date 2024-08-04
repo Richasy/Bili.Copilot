@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\EmptyHolder.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -135,7 +147,7 @@
     <Page Update="Pages\MessagePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\ArticlePage.xaml">
+    <Page Update="Pages\ArticlePartitionPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\CinemaPage.xaml">

@@ -6,14 +6,14 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Pages;
 
 /// <summary>
-/// 视频分区页面.
+/// 文章分区页面.
 /// </summary>
-public sealed partial class VideoPartitionPage : VideoPartitionPageBase
+public sealed partial class ArticlePartitionPage : ArticlePartitionPageBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionPage"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionPage"/> class.
     /// </summary>
-    public VideoPartitionPage() => InitializeComponent();
+    public ArticlePartitionPage() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -24,12 +24,12 @@ public sealed partial class VideoPartitionPage : VideoPartitionPageBase
 }
 
 /// <summary>
-/// 视频分区页面基类.
+/// 文章分区页面基类.
 /// </summary>
-public abstract class VideoPartitionPageBase : LayoutPageBase<VideoPartitionPageViewModel>
+public abstract class ArticlePartitionPageBase : LayoutPageBase<ArticlePartitionPageViewModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionPageBase"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionPageBase"/> class.
     /// </summary>
-    protected VideoPartitionPageBase() => ViewModel = this.Get<VideoPartitionPageViewModel>();
+    protected ArticlePartitionPageBase() => ViewModel = this.Get<ArticlePartitionPageViewModel>();
 }

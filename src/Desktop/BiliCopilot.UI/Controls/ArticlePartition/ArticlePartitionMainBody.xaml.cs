@@ -4,20 +4,20 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.VideoPartition;
+namespace BiliCopilot.UI.Controls.ArticlePartition;
 
 /// <summary>
-/// 视频分区主体.
+/// 文章分区主体.
 /// </summary>
-public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControlBase
+public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailControlBase
 {
     private long _viewModelChangedToken;
-    private VideoPartitionDetailViewModel _viewModel;
+    private ArticlePartitionDetailViewModel _viewModel;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionMainBody"/> class.
+    /// Initializes a new instance of the <see cref="ArticlePartitionMainBody"/> class.
     /// </summary>
-    public VideoPartitionMainBody() => InitializeComponent();
+    public ArticlePartitionMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -25,8 +25,8 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        VideoScrollView.ViewChanged += OnViewChanged;
-        VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
+        ArticleScrollView.ViewChanged += OnViewChanged;
+        ArticleScrollView.SizeChanged += OnScrollViewSizeChanged;
         Selector.SelectionChanged += OnSelectorChanged;
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
@@ -35,10 +35,10 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
         }
 
         _viewModel = ViewModel;
-        ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+        ViewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
         ViewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
-        CheckVideoCount();
+        CheckArticleCount();
     }
 
     /// <inheritdoc/>
@@ -47,13 +47,13 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
         if (ViewModel is not null)
         {
             ViewModel.Initialized -= OnViewModelInitialized;
-            ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+            ViewModel.ArticleListUpdated -= OnArticleListUpdatedAsync;
         }
 
         UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         Selector.SelectionChanged -= OnSelectorChanged;
-        VideoScrollView.ViewChanged -= OnViewChanged;
-        VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
+        ArticleScrollView.ViewChanged -= OnViewChanged;
+        ArticleScrollView.SizeChanged -= OnScrollViewSizeChanged;
         _viewModel = default;
     }
 
@@ -62,11 +62,11 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
         if (_viewModel is not null)
         {
             _viewModel.Initialized -= OnViewModelInitialized;
-            _viewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
+            _viewModel.ArticleListUpdated -= OnArticleListUpdatedAsync;
         }
 
         _viewModel = ViewModel;
-        _viewModel.VideoListUpdated += OnVideoListUpdatedAsync;
+        _viewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
         _viewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
     }
@@ -74,10 +74,10 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     private void OnViewModelInitialized(object? sender, EventArgs e)
         => InitializeChildPartitions();
 
-    private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
+    private async void OnArticleListUpdatedAsync(object? sender, EventArgs e)
     {
         await Task.Delay(500);
-        CheckVideoCount();
+        CheckArticleCount();
     }
 
     private void OnSelectorChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
@@ -118,9 +118,9 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 40)
+            if (ArticleScrollView.ExtentHeight - ArticleScrollView.ViewportHeight - ArticleScrollView.VerticalOffset <= 40)
             {
-                ViewModel.LoadVideosCommand.Execute(default);
+                ViewModel.LoadArticlesCommand.Execute(default);
             }
         });
     }
@@ -129,17 +129,17 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
     {
         if (e.NewSize.Width > 100 && ViewModel is not null)
         {
-            CheckVideoCount();
+            CheckArticleCount();
         }
     }
 
-    private void CheckVideoCount()
+    private void CheckArticleCount()
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (ArticleScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
-                ViewModel.LoadVideosCommand.Execute(default);
+                ViewModel.LoadArticlesCommand.Execute(default);
             }
         });
     }

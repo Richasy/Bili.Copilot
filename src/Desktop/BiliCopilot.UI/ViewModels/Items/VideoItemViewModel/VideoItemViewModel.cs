@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using Humanizer;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.Globalization;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -20,13 +21,14 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     public VideoItemViewModel(VideoInformation info, VideoCardStyle style)
         : base(info)
     {
+        var primaryLan = ApplicationLanguages.Languages[0];
         Style = style;
         Title = info.Identifier.Title;
         Cover = info.Identifier.Cover.Uri;
         Author = info.Publisher?.User?.Name;
         Avatar = info.Publisher?.User?.Avatar?.Uri;
         Duration = AppToolkit.FormatDuration(TimeSpan.FromSeconds(info.Duration ?? 0));
-        PublishRelativeTime = info.PublishTime?.Humanize(culture: new CultureInfo("zh-CN"));
+        PublishRelativeTime = info.PublishTime?.Humanize(culture: new CultureInfo(primaryLan));
         PlayCount = info.CommunityInformation?.PlayCount;
         DanmakuCount = info.CommunityInformation?.DanmakuCount;
         LikeCount = info.CommunityInformation?.LikeCount;

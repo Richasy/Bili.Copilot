@@ -27,4 +27,5 @@ public enum SettingNames
     CinemaPageNavColumnWidth,
     IsCinemaPageNavColumnManualHide,
     CinemaPageLastSelectedSectionType,
+    ArticlePartitionPageLastSelectedPartitionId,
 }

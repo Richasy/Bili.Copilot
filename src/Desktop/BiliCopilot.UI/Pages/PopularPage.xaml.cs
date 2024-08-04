@@ -19,13 +19,7 @@ public sealed partial class PopularPage : PopularPageBase
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
-    protected override void OnPageLoaded()
-    {
-        ViewModel.InitializeCommand.Execute(default);
-    }
-
-    private void OnNavVisibilityButtonClick(object sender, EventArgs e)
-        => ViewModel.IsNavColumnManualHide = !ViewModel.IsNavColumnManualHide;
+    protected override void OnPageLoaded() => ViewModel.InitializeCommand.Execute(default);
 }
 
 /// <summary>
