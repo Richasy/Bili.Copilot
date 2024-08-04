@@ -15,11 +15,19 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <PersonPicture
-            Width="48"
-            Height="48"
-            VerticalAlignment="Top"
-            ProfilePicture="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+        <Grid VerticalAlignment="Top">
+            <PersonPicture
+                Width="48"
+                Height="48"
+                DisplayName="{x:Bind ViewModel.MyProfile.User.Name, Mode=OneWay}"
+                ProfilePicture="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+            <Image
+                Width="16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Source="ms-appx:///Assets/vip.png"
+                Visibility="{x:Bind ViewModel.MyProfile.IsVip, Mode=OneWay}" />
+        </Grid>
 
         <StackPanel
             Grid.Column="1"

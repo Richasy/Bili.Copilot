@@ -39,14 +39,11 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             throw new InvalidOperationException("导航框架未初始化.");
         }
 
-        if (_overFrame.BackStack.Count > 0)
-        {
-            _overFrame.BackStack.Clear();
-        }
-
         if (IsOverlayOpen)
         {
             IsOverlayOpen = false;
+            _overFrame.Navigate(typeof(Page));
+            _overFrame.BackStack.Clear();
             return;
         }
 

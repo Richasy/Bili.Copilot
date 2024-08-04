@@ -16,22 +16,18 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Grid
-                                Width="52"
-                                Height="52"
-                                VerticalAlignment="Top">
-                                <Ellipse
-                                    Width="52"
-                                    Height="52"
-                                    VerticalAlignment="Center"
-                                    Fill="{ThemeResource AccentFillColorDefaultBrush}"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <Grid VerticalAlignment="Top">
                                 <PersonPicture
                                     Width="48"
                                     Height="48"
-                                    VerticalAlignment="Center"
                                     DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
                                     ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
+                                <Image
+                                    Width="16"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Source="ms-appx:///Assets/vip.png"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip}" />
                             </Grid>
                             <Grid Grid.Column="1" RowSpacing="4">
                                 <Grid.RowDefinitions>
@@ -66,6 +62,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorDisabledBrush}"
                                         IsTextSelectionEnabled="True"
