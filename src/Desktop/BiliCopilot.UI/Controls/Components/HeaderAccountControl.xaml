@@ -43,7 +43,10 @@
                             <ic:SymbolIcon Symbol="DesignIdeas" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem KeyboardAcceleratorTextOverride="{x:Bind ViewModel.FollowCount, Mode=OneWay, Converter={StaticResource CountConverter}}" Text="{ext:Locale Name=MyFollow}">
+                    <MenuFlyoutItem
+                        Command="{x:Bind ViewModel.ShowFollowsCommand}"
+                        KeyboardAcceleratorTextOverride="{x:Bind ViewModel.FollowCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                        Text="{ext:Locale Name=MyFollow}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="PeopleEye" />
                         </MenuFlyoutItem.Icon>

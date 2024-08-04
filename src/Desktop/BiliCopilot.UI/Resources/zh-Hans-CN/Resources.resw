@@ -801,6 +801,9 @@
   <data name="Generic" xml:space="preserve">
     <value>通用</value>
   </data>
+  <data name="GettingGroups" xml:space="preserve">
+    <value>正在获取分组</value>
+  </data>
   <data name="GettingPartitions" xml:space="preserve">
     <value>正在获取分区...</value>
   </data>
@@ -1168,7 +1171,7 @@
     <value>当前目录下没有可用的文件</value>
   </data>
   <data name="NoFollows" xml:space="preserve">
-    <value>该用户还没有关注任何人</value>
+    <value>空无一人的关注列表~</value>
   </data>
   <data name="NoHistoryVideos" xml:space="preserve">
     <value>没有最近的视频历史记录</value>

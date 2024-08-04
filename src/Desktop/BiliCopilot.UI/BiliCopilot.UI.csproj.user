@@ -18,10 +18,22 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Controls\Users\FansPageBody.xaml">
+    <Page Update="Controls\Users\FollowsMainBody.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Users\FansPageHeader.xaml">
+    <Page Update="Controls\Users\FollowsMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FollowsSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FollowsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FansBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FansHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">

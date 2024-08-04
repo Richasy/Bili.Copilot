@@ -15,12 +15,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <users:FansPageHeader />
+        <users:FansHeader />
         <Border
             Grid.Row="1"
             Height="1"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-        <users:FansPageBody Grid.Row="2" />
+        <users:FansBody Grid.Row="2" />
     </Grid>
 </local:FansPageBase>

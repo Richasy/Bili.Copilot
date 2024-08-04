@@ -28,4 +28,5 @@ public enum SettingNames
     IsCinemaPageNavColumnManualHide,
     CinemaPageLastSelectedSectionType,
     ArticlePartitionPageLastSelectedPartitionId,
+    FollowsPageLastSelectedGroupId,
 }

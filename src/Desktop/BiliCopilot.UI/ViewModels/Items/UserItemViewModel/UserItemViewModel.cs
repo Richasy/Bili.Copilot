@@ -22,7 +22,7 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
         Name = data.Profile.User.Name;
         Avatar = data.Profile.User.Avatar.Uri;
         Description = string.IsNullOrEmpty(data.Profile.Introduce) ? ResourceToolkit.GetLocalizedString(StringNames.NoSelfIntroduce) : data.Profile.Introduce;
-        IsFollowed = data.Community.Relation is not UserRelationStatus.Unfollow and UserRelationStatus.Unknown;
+        IsFollowed = data.Community.Relation != UserRelationStatus.Unknown && data.Community.Relation != UserRelationStatus.Unfollow;
         IsVip = data.Profile.IsVip ?? false;
         Level = data.Profile.Level;
     }

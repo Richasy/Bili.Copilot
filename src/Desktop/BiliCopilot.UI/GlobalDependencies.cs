@@ -61,6 +61,7 @@ internal static class GlobalDependencies
             .AddSingleton<AnimePageViewModel>()
             .AddSingleton<CinemaPageViewModel>()
             .AddSingleton<FansPageViewModel>()
+            .AddSingleton<FollowsPageViewModel>()
             .Build();
     }
 

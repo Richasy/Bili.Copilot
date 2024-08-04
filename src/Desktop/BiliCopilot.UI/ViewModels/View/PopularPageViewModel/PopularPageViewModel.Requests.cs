@@ -70,13 +70,21 @@ public sealed partial class PopularPageViewModel
     private async Task LoadPartitionsAsync()
     {
         IsPartitionLoading = true;
-        var partitions = await _service.GetVideoPartitionsAsync();
-        if (partitions != null)
+
+        try
         {
-            foreach (var item in partitions)
+            var partitions = await _service.GetVideoPartitionsAsync();
+            if (partitions != null)
             {
-                Sections.Add(new PopularRankPartitionViewModel(item));
+                foreach (var item in partitions)
+                {
+                    Sections.Add(new PopularRankPartitionViewModel(item));
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试加载视频分区列表时出错.");
         }
 
         IsPartitionLoading = false;

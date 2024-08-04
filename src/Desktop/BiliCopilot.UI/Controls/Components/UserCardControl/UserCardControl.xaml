@@ -11,18 +11,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:UserCardControl">
                     <local:CardControl x:Name="RootCard" BorderThickness="0">
-                        <Grid Padding="12" ColumnSpacing="16">
+                        <Grid Padding="12,12,12,8" ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid
-                                Width="50"
-                                Height="50"
+                                Width="52"
+                                Height="52"
                                 VerticalAlignment="Top">
                                 <Ellipse
-                                    Width="50"
-                                    Height="50"
+                                    Width="52"
+                                    Height="52"
                                     VerticalAlignment="Center"
                                     Fill="{ThemeResource AccentFillColorDefaultBrush}"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -73,15 +73,16 @@
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}" />
                                     <Button
                                         Grid.Column="1"
-                                        Width="24"
-                                        Height="24"
+                                        Width="20"
+                                        Height="20"
+                                        Margin="0,-4,0,0"
                                         VerticalAlignment="Center"
                                         CornerRadius="12"
                                         Style="{StaticResource SmallIconButtonStyle}">
                                         <Grid>
                                             <Ellipse
-                                                Width="24"
-                                                Height="24"
+                                                Width="20"
+                                                Height="20"
                                                 Fill="{ThemeResource AccentFillColorDefaultBrush}"
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}" />
                                             <ic:SymbolIcon

@@ -57,8 +57,11 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
-    <None Remove="Controls\Users\FansPageBody.xaml" />
-    <None Remove="Controls\Users\FansPageHeader.xaml" />
+    <None Remove="Controls\Users\FansBody.xaml" />
+    <None Remove="Controls\Users\FansHeader.xaml" />
+    <None Remove="Controls\Users\FollowsMainBody.xaml" />
+    <None Remove="Controls\Users\FollowsMainHeader.xaml" />
+    <None Remove="Controls\Users\FollowsSideBody.xaml" />
     <None Remove="Controls\VideoPartition\PartitionItemControl.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainBody.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainHeader.xaml" />
@@ -74,6 +77,7 @@
     <None Remove="Pages\MessagePage.xaml" />
     <None Remove="Pages\MomentPage.xaml" />
     <None Remove="Pages\Overlay\FansPage.xaml" />
+    <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
@@ -376,12 +380,22 @@
     <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Users\FansPageBody.xaml">
+    <Page Update="Controls\Users\FollowsSideBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Users\FansPageHeader.xaml">
+    <Page Update="Pages\Overlay\FollowsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FansBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FansHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -457,6 +471,17 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Overlay\FansPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Users\FollowsMainHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Users\FollowsMainHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FollowsMainBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

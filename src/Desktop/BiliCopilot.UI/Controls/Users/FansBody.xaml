@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <local:FansPageControlBase
-    x:Class="BiliCopilot.UI.Controls.Users.FansPageBody"
+    x:Class="BiliCopilot.UI.Controls.Users.FansBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Users"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -23,13 +24,19 @@
                         <UniformGridLayout
                             ItemsStretch="Fill"
                             MinColumnSpacing="16"
-                            MinItemHeight="90"
+                            MinItemHeight="84"
                             MinItemWidth="220"
                             MinRowSpacing="16" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>
+
+        <components:EmptyHolder
+            Description="{ext:Locale Name=NoFans}"
+            Emoji="&#x1F92A;"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
         <components:LoadingWidget Visibility="{x:Bind ViewModel.IsUserLoading, Mode=OneWay}" />
     </Grid>
 </local:FansPageControlBase>

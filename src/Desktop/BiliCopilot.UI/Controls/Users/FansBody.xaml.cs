@@ -7,12 +7,12 @@ namespace BiliCopilot.UI.Controls.Users;
 /// <summary>
 /// 粉丝页面主体.
 /// </summary>
-public sealed partial class FansPageBody : FansPageControlBase
+public sealed partial class FansBody : FansPageControlBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FansPageBody"/> class.
+    /// Initializes a new instance of the <see cref="FansBody"/> class.
     /// </summary>
-    public FansPageBody() => InitializeComponent();
+    public FansBody() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);

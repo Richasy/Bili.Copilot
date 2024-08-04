@@ -22,12 +22,16 @@ public sealed partial class PopularSideBody : PopularPageControlBase
     protected override void OnControlLoaded()
     {
         ViewModel.SectionInitialized += OnSectionInitialized;
+        SectionView.SelectionChanged += OnSectionSelectionChanged;
         CheckSectionSelection();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
-        => ViewModel.SectionInitialized -= OnSectionInitialized;
+    {
+        ViewModel.SectionInitialized -= OnSectionInitialized;
+        SectionView.SelectionChanged -= OnSectionSelectionChanged;
+    }
 
     private void OnSectionInitialized(object? sender, EventArgs e)
         => CheckSectionSelection();
