@@ -50,6 +50,7 @@ internal static class GlobalDependencies
             .AddSearchService()
             .AddDispatcherQueue()
             .AddSingleton<AppViewModel>()
+            .AddSingleton<NavigationViewModel>()
             .AddSingleton<StartupPageViewModel>()
             .AddSingleton<AccountViewModel>()
             .AddSingleton<SearchViewModel>()
@@ -59,6 +60,7 @@ internal static class GlobalDependencies
             .AddSingleton<ArticlePartitionPageViewModel>()
             .AddSingleton<AnimePageViewModel>()
             .AddSingleton<CinemaPageViewModel>()
+            .AddSingleton<FansPageViewModel>()
             .Build();
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<base:LayoutUserControlBase
+<local:RootLayoutBase
     x:Class="BiliCopilot.UI.Controls.RootLayout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -34,6 +34,7 @@
             x:Name="MainTitleBar"
             Title="{ext:Locale Name=AppName}"
             BackRequested="OnBackRequested"
+            IsBackButtonVisible="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}"
             IsBackEnabled="True">
             <base:AppTitleBar.IconElement>
                 <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
@@ -56,14 +57,17 @@
             x:Name="NavView"
             Grid.Row="1"
             BackRequested="OnNavViewBackRequested"
-            FooterMenuItemsSource="{x:Bind _navigationViewModel.FooterItems, Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterItems, Mode=OneWay}"
             ItemInvoked="OnNavViewItemInvoked"
             MenuItemTemplate="{StaticResource AppNavItemTemplate}"
-            MenuItemsSource="{x:Bind _navigationViewModel.MenuItems, Mode=OneWay}"
+            MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
             SelectionFollowsFocus="Disabled"
             Style="{StaticResource MainNavigationViewStyle}">
             <Grid>
-                <Frame x:Name="MainFrame" />
+                <Frame x:Name="MainFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                <Grid x:Name="OverlayGrid" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}">
+                    <Frame x:Name="OverlayFrame" />
+                </Grid>
             </Grid>
         </NavigationView>
 
@@ -87,4 +91,4 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-</base:LayoutUserControlBase>
+</local:RootLayoutBase>

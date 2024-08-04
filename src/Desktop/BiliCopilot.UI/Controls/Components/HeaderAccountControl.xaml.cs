@@ -13,10 +13,7 @@ public sealed partial class HeaderAccountControl : HeaderAccountControlBase
     /// <summary>
     /// Initializes a new instance of the <see cref="HeaderAccountControl"/> class.
     /// </summary>
-    public HeaderAccountControl()
-    {
-        InitializeComponent();
-    }
+    public HeaderAccountControl() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);

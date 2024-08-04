@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:FansPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Users.FansPageHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Users"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            VerticalAlignment="Center"
+            Style="{StaticResource BodyStrongTextBlockStyle}"
+            Text="{ext:Locale Name=MyFans}" />
+        <StackPanel
+            Grid.Column="1"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=FansCount}" />
+                <Run
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind local:FansPageHeader.CountText(ViewModel.TotalCount), Mode=OneWay}" />
+            </TextBlock>
+            <Button
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.RefreshCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="ArrowSync" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</local:FansPageControlBase>

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
@@ -13,6 +14,7 @@ namespace BiliCopilot.UI.ViewModels.Components;
 public sealed partial class AccountViewModel
 {
     private readonly IMyProfileService _myProfileService;
+    private readonly NavigationViewModel _navService;
     private readonly ILogger<AccountViewModel> _logger;
 
     [ObservableProperty]

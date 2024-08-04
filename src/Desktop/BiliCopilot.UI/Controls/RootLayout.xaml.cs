@@ -9,10 +9,8 @@ namespace BiliCopilot.UI.Controls;
 /// <summary>
 /// 根布局，用于包裹整个应用程序的布局.
 /// </summary>
-public sealed partial class RootLayout : LayoutUserControlBase
+public sealed partial class RootLayout : RootLayoutBase
 {
-    private readonly NavigationViewModel _navigationViewModel = new();
-
     /// <summary>
     /// Initializes a new instance of the <see cref="RootLayout"/> class.
     /// </summary>
@@ -34,8 +32,8 @@ public sealed partial class RootLayout : LayoutUserControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _navigationViewModel.InitializeCommand.Execute(MainFrame);
-        var selectedItem = _navigationViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
+        ViewModel.Initialize(MainFrame, OverlayFrame);
+        var selectedItem = ViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
         if (selectedItem is not null)
         {
             NavView.SelectedItem = selectedItem;
@@ -81,6 +79,16 @@ public sealed partial class RootLayout : LayoutUserControlBase
     }
 
     private void OnBackRequested(object sender, EventArgs e)
-    {
-    }
+        => ViewModel.Back();
+}
+
+/// <summary>
+/// 根布局基类.
+/// </summary>
+public abstract class RootLayoutBase : LayoutUserControlBase<NavigationViewModel>
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RootLayoutBase"/> class.
+    /// </summary>
+    protected RootLayoutBase() => ViewModel = this.Get<NavigationViewModel>();
 }

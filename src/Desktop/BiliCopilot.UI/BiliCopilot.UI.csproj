@@ -25,6 +25,7 @@
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
@@ -56,6 +57,8 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\Users\FansPageBody.xaml" />
+    <None Remove="Controls\Users\FansPageHeader.xaml" />
     <None Remove="Controls\VideoPartition\PartitionItemControl.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainBody.xaml" />
     <None Remove="Controls\VideoPartition\VideoPartitionMainHeader.xaml" />
@@ -70,6 +73,7 @@
     <None Remove="Pages\LivePartitionPage.xaml" />
     <None Remove="Pages\MessagePage.xaml" />
     <None Remove="Pages\MomentPage.xaml" />
+    <None Remove="Pages\Overlay\FansPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
@@ -372,6 +376,21 @@
     <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Users\FansPageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FansPageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -433,6 +452,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Pgc\CinemaSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\FansPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

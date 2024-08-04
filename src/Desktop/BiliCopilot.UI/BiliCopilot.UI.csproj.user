@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Users\FansPageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FansPageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FansPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
       <SubType>Designer</SubType>
     </Page>

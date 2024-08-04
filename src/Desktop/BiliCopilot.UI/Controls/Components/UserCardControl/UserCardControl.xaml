@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+    <Style x:Key="DefaultUserCardStyle" TargetType="local:UserCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:UserCardControl">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                        <Grid Padding="12" ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                Width="50"
+                                Height="50"
+                                VerticalAlignment="Top">
+                                <Ellipse
+                                    Width="50"
+                                    Height="50"
+                                    VerticalAlignment="Center"
+                                    Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <PersonPicture
+                                    Width="48"
+                                    Height="48"
+                                    VerticalAlignment="Center"
+                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
+                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
+                            </Grid>
+                            <Grid Grid.Column="1" RowSpacing="4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <base:TrimTextBlock
+                                        FontWeight="Bold"
+                                        MaxLines="1"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}" />
+                                    <Image
+                                        Grid.Column="1"
+                                        Height="9"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Level, Converter={StaticResource LevelImageConverter}}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Level, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                </Grid>
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}" />
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                                        IsTextSelectionEnabled="True"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="24"
+                                        Height="24"
+                                        VerticalAlignment="Center"
+                                        CornerRadius="12"
+                                        Style="{StaticResource SmallIconButtonStyle}">
+                                        <Grid>
+                                            <Ellipse
+                                                Width="24"
+                                                Height="24"
+                                                Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}" />
+                                            <ic:SymbolIcon
+                                                FontSize="10"
+                                                IconVariant="Regular"
+                                                Symbol="Heart"
+                                                ToolTipService.ToolTip="{ext:Locale Name=Follow}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                                            <ic:SymbolIcon
+                                                FontSize="10"
+                                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                                IconVariant="Filled"
+                                                Symbol="Heart"
+                                                ToolTipService.ToolTip="{ext:Locale Name=Followed}"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}" />
+                                        </Grid>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultUserCardStyle}" TargetType="local:UserCardControl" />
+</ResourceDictionary>

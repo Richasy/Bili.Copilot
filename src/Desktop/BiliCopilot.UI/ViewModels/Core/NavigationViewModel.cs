@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -15,6 +14,10 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class NavigationViewModel : ViewModelBase, INavServiceViewModel
 {
     private Frame? _navFrame;
+    private Frame? _overFrame;
+
+    [ObservableProperty]
+    private bool _isOverlayOpen;
 
     /// <summary>
     /// 导航条目列表.
@@ -36,21 +39,86 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             throw new InvalidOperationException("导航框架未初始化.");
         }
 
+        if (_overFrame.BackStack.Count > 0)
+        {
+            _overFrame.BackStack.Clear();
+        }
+
+        if (IsOverlayOpen)
+        {
+            IsOverlayOpen = false;
+            return;
+        }
+
+        var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, string.Empty);
+        if (lastSelectedPage == pageKey && _navFrame.Content is not null && _navFrame.Content.GetType().FullName == lastSelectedPage)
+        {
+            return;
+        }
+
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFeaturePage, pageKey);
         var pageType = Type.GetType(pageKey)
             ?? throw new InvalidOperationException("无法找到页面.");
         _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
     }
 
-    [RelayCommand]
-    private void Initialize(Frame navFrame)
+    /// <inheritdoc/>
+    public void NavigateToOver(string pageKey, object? parameter = null)
     {
-        if (_navFrame is not null)
+        if (_overFrame is null)
+        {
+            throw new InvalidOperationException("导航框架未初始化.");
+        }
+
+        if (_overFrame.BackStack.Count > 0)
+        {
+            _overFrame.BackStack.Clear();
+        }
+
+        var pageType = Type.GetType(pageKey)
+            ?? throw new InvalidOperationException("无法找到页面.");
+        _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+        IsOverlayOpen = true;
+    }
+
+    /// <summary>
+    /// 尝试返回.
+    /// </summary>
+    public void Back()
+    {
+        for (var i = _overFrame.BackStack.Count - 1; i >= 0; i--)
+        {
+            if (_overFrame.BackStack[i].SourcePageType.FullName == typeof(Page).FullName)
+            {
+                _overFrame.BackStack.RemoveAt(i);
+            }
+        }
+
+        if (_overFrame.CanGoBack)
+        {
+            _overFrame.GoBack();
+        }
+        else
+        {
+            _overFrame.Navigate(typeof(Page));
+            _overFrame.BackStack.Clear();
+            _overFrame.Content = default;
+            IsOverlayOpen = false;
+        }
+    }
+
+    /// <summary>
+    /// 初始化导航视图模型.
+    /// </summary>
+    public void Initialize(Frame navFrame, Frame overFrame)
+    {
+        if (_navFrame is not null && _overFrame is not null)
         {
             return;
         }
 
         _navFrame = navFrame;
+        _overFrame = overFrame;
         MenuItems = [.. GetMenuItems()];
         FooterItems = [.. GetFooterItems()];
     }

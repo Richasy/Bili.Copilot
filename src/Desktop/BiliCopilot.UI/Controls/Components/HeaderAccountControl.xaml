@@ -48,7 +48,10 @@
                             <ic:SymbolIcon Symbol="PeopleEye" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem KeyboardAcceleratorTextOverride="{x:Bind ViewModel.FansCount, Mode=OneWay, Converter={StaticResource CountConverter}}" Text="{ext:Locale Name=MyFans}">
+                    <MenuFlyoutItem
+                        Command="{x:Bind ViewModel.ShowFansCommand}"
+                        KeyboardAcceleratorTextOverride="{x:Bind ViewModel.FansCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                        Text="{ext:Locale Name=MyFans}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="PeopleCommunity" />
                         </MenuFlyoutItem.Icon>

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -20,8 +21,10 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// </summary>
     public AccountViewModel(
         IMyProfileService myProfileService,
+        NavigationViewModel navService,
         ILogger<AccountViewModel> logger)
     {
+        _navService = navService;
         _myProfileService = myProfileService;
         _logger = logger;
     }
@@ -86,4 +89,8 @@ public sealed partial class AccountViewModel : ViewModelBase
 
         await Launcher.LaunchUriAsync(new Uri($"https://space.bilibili.com/{MyProfile.User.Id}"));
     }
+
+    [RelayCommand]
+    private void ShowFans()
+        => _navService.NavigateToOver(typeof(FansPage).FullName, MyProfile.User.Id);
 }
