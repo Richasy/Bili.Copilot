@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Richasy.WinUI.Share.Base;
-using Windows.Devices.Input;
 
 namespace BiliCopilot.UI.Controls.Components;
 
@@ -25,8 +24,6 @@ public sealed partial class VisibilityToggleButton : LayoutUserControlBase
     /// </summary>
     public static readonly DependencyProperty IsHideProperty =
         DependencyProperty.Register(nameof(IsHide), typeof(bool), typeof(VisibilityToggleButton), new PropertyMetadata(default, new PropertyChangedCallback(OnIsHideChanged)));
-
-    private bool _isTouchDevice;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VisibilityToggleButton"/> class.
@@ -74,21 +71,7 @@ public sealed partial class VisibilityToggleButton : LayoutUserControlBase
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
-    {
-        var touchCapabilities = new TouchCapabilities();
-        ShowButton();
-        _isTouchDevice = touchCapabilities.TouchPresent > 0;
-        if (_isTouchDevice)
-        {
-            Root.Height = 50;
-        }
-        else
-        {
-            HideButton();
-        }
-
-        CheckButtonStates();
-    }
+        => CheckButtonStates();
 
     private static void OnIsHideChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -122,22 +105,12 @@ public sealed partial class VisibilityToggleButton : LayoutUserControlBase
 
     private void ShowButton()
     {
-        if (_isTouchDevice)
-        {
-            return;
-        }
-
         Btn.Visibility = Visibility.Visible;
         BackgroundGrid.Visibility = Visibility.Visible;
     }
 
     private void HideButton()
     {
-        if (_isTouchDevice)
-        {
-            return;
-        }
-
         Btn.Visibility = Visibility.Collapsed;
         BackgroundGrid.Visibility = Visibility.Collapsed;
     }
