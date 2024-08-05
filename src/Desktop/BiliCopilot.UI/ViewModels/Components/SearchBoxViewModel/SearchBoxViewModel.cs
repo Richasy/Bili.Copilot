@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Threading;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
@@ -11,14 +12,14 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// <summary>
 /// 搜索视图模型.
 /// </summary>
-public sealed partial class SearchViewModel : ViewModelBase
+public sealed partial class SearchBoxViewModel : ViewModelBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SearchViewModel"/> class.
+    /// Initializes a new instance of the <see cref="SearchBoxViewModel"/> class.
     /// </summary>
-    public SearchViewModel(
+    public SearchBoxViewModel(
         ISearchService searchService,
-        ILogger<SearchViewModel> logger)
+        ILogger<SearchBoxViewModel> logger)
     {
         _searchService = searchService;
         _logger = logger;
@@ -27,13 +28,7 @@ public sealed partial class SearchViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReloadSuggestionsAsync()
     {
-        if (_cancellationTokenSource is not null)
-        {
-            await _cancellationTokenSource.CancelAsync();
-            _cancellationTokenSource.Dispose();
-            _cancellationTokenSource = null;
-        }
-
+        TryCancelSuggest();
         if (_recommendItems.Count == 0)
         {
             var recommends = await _searchService.GetSearchRecommendsAsync();
@@ -98,5 +93,27 @@ public sealed partial class SearchViewModel : ViewModelBase
         }
 
         IsHotSearchLoading = false;
+    }
+
+    [RelayCommand]
+    private void TryCancelSuggest()
+    {
+        if (_cancellationTokenSource is not null)
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = null;
+        }
+    }
+
+    [RelayCommand]
+    private void Search(string keyword)
+    {
+        if (string.IsNullOrEmpty(keyword))
+        {
+            return;
+        }
+
+        this.Get<NavigationViewModel>().Search(keyword);
     }
 }

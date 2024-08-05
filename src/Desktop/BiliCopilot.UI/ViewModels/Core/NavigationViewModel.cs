@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Richasy.WinUI.Share.ViewModels;
@@ -76,6 +77,20 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             ?? throw new InvalidOperationException("无法找到页面.");
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;
+    }
+
+    /// <summary>
+    /// 执行搜索.
+    /// </summary>
+    public void Search(string keyword)
+    {
+        if (_overFrame is not null && _overFrame.Content is SearchPage page)
+        {
+            page.ViewModel.SearchCommand.Execute(keyword);
+            return;
+        }
+
+        NavigateToOver(typeof(SearchPage).FullName, keyword);
     }
 
     /// <summary>

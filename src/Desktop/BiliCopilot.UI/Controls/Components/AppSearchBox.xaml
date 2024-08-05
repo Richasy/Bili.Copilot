@@ -20,6 +20,7 @@
             ItemsSource="{x:Bind ViewModel.Suggestion}"
             PlaceholderText="{ext:Locale Name=SearchTip}"
             QueryIcon="Find"
+            QuerySubmitted="OnQuerySubmitted"
             Text="{x:Bind ViewModel.Keyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             TextChanged="OnKeywordChanged"
             UpdateTextOnSelect="False">

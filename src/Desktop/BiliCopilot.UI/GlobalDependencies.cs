@@ -53,7 +53,7 @@ internal static class GlobalDependencies
             .AddSingleton<NavigationViewModel>()
             .AddSingleton<StartupPageViewModel>()
             .AddSingleton<AccountViewModel>()
-            .AddSingleton<SearchViewModel>()
+            .AddSingleton<SearchBoxViewModel>()
             .AddSingleton<PopularPageViewModel>()
             .AddSingleton<VideoPartitionPageViewModel>()
             .AddSingleton<LivePartitionPageViewModel>()
@@ -62,6 +62,7 @@ internal static class GlobalDependencies
             .AddSingleton<CinemaPageViewModel>()
             .AddSingleton<FansPageViewModel>()
             .AddSingleton<FollowsPageViewModel>()
+            .AddSingleton<SearchPageViewModel>()
             .Build();
     }
 

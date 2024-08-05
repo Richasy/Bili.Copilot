@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Search\SearchHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\SearchPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
       <SubType>Designer</SubType>
     </Page>

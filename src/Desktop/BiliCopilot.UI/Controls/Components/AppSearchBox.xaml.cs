@@ -20,7 +20,12 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     private void OnKeywordChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        => ViewModel.ReloadSuggestionsCommand.Execute(default);
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            ViewModel.ReloadSuggestionsCommand.Execute(default);
+        }
+    }
 
     private void OnBoxGettingFocus(UIElement sender, Microsoft.UI.Xaml.Input.GettingFocusEventArgs args)
     {
@@ -40,19 +45,35 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
         if (context is not null)
         {
             ViewModel.Keyword = context.Keyword;
+            ViewModel.SearchCommand.Execute(context.Keyword);
         }
 
         HotSearchFlyout.Hide();
+    }
+
+    private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (args.ChosenSuggestion is SearchSuggestItem item)
+        {
+            ViewModel.SearchCommand.Execute(item.Keyword);
+        }
+        else if (!string.IsNullOrEmpty(args.QueryText))
+        {
+            ViewModel.SearchCommand.Execute(args.QueryText);
+        }
+
+        ViewModel.TryCancelSuggestCommand.Execute(default);
+        ViewModel.Suggestion.Clear();
     }
 }
 
 /// <summary>
 /// 应用搜索框的基类.
 /// </summary>
-public abstract class AppSearchBoxBase : LayoutUserControlBase<SearchViewModel>
+public abstract class AppSearchBoxBase : LayoutUserControlBase<SearchBoxViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AppSearchBoxBase"/> class.
     /// </summary>
-    protected AppSearchBoxBase() => ViewModel = this.Get<SearchViewModel>();
+    protected AppSearchBoxBase() => ViewModel = this.Get<SearchBoxViewModel>();
 }

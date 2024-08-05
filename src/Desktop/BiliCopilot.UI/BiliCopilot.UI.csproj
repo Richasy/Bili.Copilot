@@ -58,6 +58,7 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\Search\SearchHeader.xaml" />
     <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
@@ -80,6 +81,7 @@
     <None Remove="Pages\MomentPage.xaml" />
     <None Remove="Pages\Overlay\FansPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
+    <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
@@ -494,7 +496,17 @@
     <Resource Remove="Controls\ShimmerLayout.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Pages\Overlay\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
