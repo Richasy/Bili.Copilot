@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Richasy.WinUI.Share.Base;
+
 namespace BiliCopilot.UI.Controls.LivePartition;
 
 /// <summary>
@@ -10,8 +12,8 @@ public sealed partial class LivePartitionMainHeader : LivePartitionPageControlBa
     /// <summary>
     /// Initializes a new instance of the <see cref="LivePartitionMainHeader"/> class.
     /// </summary>
-    public LivePartitionMainHeader()
-    {
-        InitializeComponent();
-    }
+    public LivePartitionMainHeader() => InitializeComponent();
+
+    /// <inheritdoc/>
+    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 }

@@ -47,6 +47,11 @@
             </ItemsRepeater>
         </ScrollViewer>
 
+        <local:LiveSubPartitionSelector
+            Grid.Column="1"
+            ViewModel="{x:Bind ViewModel.SelectedDetail, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+
         <Button
             Grid.Column="2"
             VerticalAlignment="Center"

@@ -1,27 +1,22 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
-using Richasy.BiliKernel.Models;
-using Richasy.WinUI.Share.Base;
+using Richasy.BiliKernel.Models.Media;
 
-namespace BiliCopilot.UI.Controls.VideoPartition;
+namespace BiliCopilot.UI.Controls.LivePartition;
 
 /// <summary>
-/// 视频分区主区域头部.
+/// 直播子分区选择器.
 /// </summary>
-public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailControlBase
+public sealed partial class LiveSubPartitionSelector : LiveSubPartitionControlBase
 {
     private long _viewModelChangedToken;
-    private VideoPartitionDetailViewModel _viewModel;
+    private LivePartitionDetailViewModel _viewModel;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPartitionMainHeader"/> class.
+    /// Initializes a new instance of the <see cref="LiveSubPartitionSelector"/> class.
     /// </summary>
-    public VideoPartitionMainHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
+    public LiveSubPartitionSelector() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -35,20 +30,19 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
 
         _viewModel = ViewModel;
         ViewModel.Initialized += OnViewModelInitialized;
-        InitializeChildPartitions();
+        InitializeTags();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        Selector.SelectionChanged -= OnSelectorChanged;
+        _viewModel = default;
+        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.Initialized -= OnViewModelInitialized;
         }
-
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        Selector.SelectionChanged -= OnSelectorChanged;
-        _viewModel = default;
     }
 
     private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
@@ -64,22 +58,12 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
         }
 
         _viewModel = ViewModel;
-        _viewModel.Initialized += OnViewModelInitialized;
-        InitializeChildPartitions();
+        ViewModel.Initialized += OnViewModelInitialized;
+        InitializeTags();
     }
 
     private void OnViewModelInitialized(object? sender, EventArgs e)
-        => InitializeChildPartitions();
-
-    private void OnSortTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems.Any()
-            && e.AddedItems[0] is PartitionVideoSortType sortType
-            && sortType != ViewModel.SelectedSortType)
-        {
-            ViewModel.ChangeSortTypeCommand.Execute(sortType);
-        }
-    }
+        => InitializeTags();
 
     private void OnSelectorChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
     {
@@ -88,14 +72,14 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
             return;
         }
 
-        var item = sender.SelectedItem.Tag as PartitionViewModel;
-        if (item is not null && item != ViewModel.CurrentPartition)
+        var item = sender.SelectedItem.Tag as LiveTag;
+        if (item is not null && item != ViewModel.CurrentTag)
         {
             ViewModel.ChangeChildPartitionCommand.Execute(item);
         }
     }
 
-    private void InitializeChildPartitions()
+    private void InitializeTags()
     {
         Selector.Items.Clear();
         if (ViewModel.Children is not null)
@@ -104,14 +88,12 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
             {
                 Selector.Items.Add(new SelectorBarItem()
                 {
-                    Text = item.Title ?? default,
+                    Text = item.Name ?? default,
                     Tag = item,
                 });
             }
         }
 
-        Selector.SelectedItem = ViewModel.IsRecommend
-            ? Selector.Items.FirstOrDefault()
-            : Selector.Items.FirstOrDefault(p => p.Tag == ViewModel.CurrentPartition);
+        Selector.SelectedItem = Selector.Items.FirstOrDefault(p => p.Tag == ViewModel.CurrentTag);
     }
 }

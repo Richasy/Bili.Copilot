@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:LiveSubPartitionMainBodyBase
+<local:LiveSubPartitionControlBase
     x:Class="BiliCopilot.UI.Controls.LivePartition.LiveSubPartitionMainBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -15,16 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ScrollViewer
-            Padding="16,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch"
-            HorizontalScrollBarVisibility="Hidden"
-            HorizontalScrollMode="Enabled"
-            VerticalScrollBarVisibility="Hidden"
-            VerticalScrollMode="Disabled">
-            <SelectorBar x:Name="Selector" />
-        </ScrollViewer>
+        
         <ScrollView
             x:Name="LiveScrollView"
             Grid.Row="1"
@@ -49,4 +40,4 @@
         </ScrollView>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLiveLoading, Mode=OneWay}" />
     </Grid>
-</local:LiveSubPartitionMainBodyBase>
+</local:LiveSubPartitionControlBase>

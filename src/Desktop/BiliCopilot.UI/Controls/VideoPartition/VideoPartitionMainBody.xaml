@@ -10,21 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <ScrollViewer
-            Padding="16,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch"
-            HorizontalScrollBarVisibility="Hidden"
-            HorizontalScrollMode="Enabled"
-            VerticalScrollBarVisibility="Hidden"
-            VerticalScrollMode="Disabled">
-            <SelectorBar x:Name="Selector" />
-        </ScrollViewer>
+    <Grid>
         <ScrollView
             x:Name="VideoScrollView"
             Grid.Row="1"

@@ -11,22 +11,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <ScrollViewer
-            Margin="0,0,0,8"
-            Padding="16,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch"
-            HorizontalScrollBarVisibility="Hidden"
-            HorizontalScrollMode="Enabled"
-            VerticalScrollBarVisibility="Hidden"
-            VerticalScrollMode="Disabled"
-            Visibility="{x:Bind ViewModel.Children, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <SelectorBar x:Name="Selector" />
-        </ScrollViewer>
         <ScrollView
             x:Name="ArticleScrollView"
             Grid.Row="1"

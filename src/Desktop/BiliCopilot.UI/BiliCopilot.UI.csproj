@@ -31,6 +31,7 @@
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -491,5 +492,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\ShimmerLayout.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
