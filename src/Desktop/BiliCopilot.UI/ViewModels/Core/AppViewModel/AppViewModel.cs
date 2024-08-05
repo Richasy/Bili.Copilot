@@ -36,6 +36,7 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         if (_tokenResolver.GetToken() is not null)
         {
+            IsInitialLoading = true;
             new MainWindow().Activate();
         }
         else

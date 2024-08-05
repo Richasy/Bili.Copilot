@@ -41,6 +41,7 @@ public sealed partial class AccountViewModel : ViewModelBase
         try
         {
             MyProfile = await _myProfileService.GetMyProfileAsync();
+            this.Get<AppViewModel>().IsInitialLoading = false;
         }
         catch (Exception ex)
         {

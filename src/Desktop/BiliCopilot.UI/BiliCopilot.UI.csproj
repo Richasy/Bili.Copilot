@@ -57,6 +57,7 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
     <None Remove="Controls\Users\FollowsMainBody.xaml" />
@@ -484,5 +485,11 @@
     <Page Update="Controls\Users\FollowsMainBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\ShimmerLayout.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\ShimmerLayout.xaml" />
   </ItemGroup>
 </Project>

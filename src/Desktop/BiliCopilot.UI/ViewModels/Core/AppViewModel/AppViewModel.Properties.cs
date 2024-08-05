@@ -18,6 +18,9 @@ public sealed partial class AppViewModel : ViewModelBase
     [ObservableProperty]
     private Window _activatedWindow;
 
+    [ObservableProperty]
+    private bool _isInitialLoading;
+
     /// <summary>
     /// 已创建的窗口列表.
     /// </summary>

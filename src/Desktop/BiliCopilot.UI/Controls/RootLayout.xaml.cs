@@ -11,12 +11,15 @@ namespace BiliCopilot.UI.Controls;
 /// </summary>
 public sealed partial class RootLayout : RootLayoutBase
 {
+    private readonly AppViewModel _appViewModel;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="RootLayout"/> class.
     /// </summary>
     public RootLayout()
     {
         InitializeComponent();
+        _appViewModel = this.Get<AppViewModel>();
         InitializeSubtitle();
     }
 
