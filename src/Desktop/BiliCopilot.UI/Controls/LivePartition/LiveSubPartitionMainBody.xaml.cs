@@ -66,6 +66,11 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionMainBodyB
             _viewModel.LiveListUpdated -= OnLiveListUpdatedAsync;
         }
 
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         _viewModel = ViewModel;
         ViewModel.Initialized += OnViewModelInitialized;
         ViewModel.LiveListUpdated += OnLiveListUpdatedAsync;

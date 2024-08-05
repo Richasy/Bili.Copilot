@@ -18,7 +18,7 @@
         Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}"
         BorderThickness="1"
-        CornerRadius="20"
+        CornerRadius="24"
         Orientation="Horizontal"
         Spacing="8">
         <ProgressRing

@@ -59,6 +59,11 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
             _viewModel.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         _viewModel = ViewModel;
         SeasonScrollView.ScrollTo(0, 0, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
         _viewModel.ItemsUpdated += OnItemsUpdatedAsync;

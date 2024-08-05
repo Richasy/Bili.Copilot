@@ -65,6 +65,11 @@ public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailCon
             _viewModel.ArticleListUpdated -= OnArticleListUpdatedAsync;
         }
 
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         _viewModel = ViewModel;
         _viewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
         _viewModel.Initialized += OnViewModelInitialized;

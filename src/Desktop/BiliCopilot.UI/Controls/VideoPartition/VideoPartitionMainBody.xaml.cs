@@ -65,6 +65,11 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
             _viewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
         }
 
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         _viewModel = ViewModel;
         _viewModel.VideoListUpdated += OnVideoListUpdatedAsync;
         _viewModel.Initialized += OnViewModelInitialized;
