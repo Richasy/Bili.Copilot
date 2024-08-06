@@ -40,15 +40,19 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             throw new InvalidOperationException("导航框架未初始化.");
         }
 
+        var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, string.Empty);
         if (IsOverlayOpen)
         {
             IsOverlayOpen = false;
             _overFrame.Navigate(typeof(Page));
             _overFrame.BackStack.Clear();
-            return;
+
+            if (pageKey == lastSelectedPage)
+            {
+                return;
+            }
         }
 
-        var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, string.Empty);
         if (lastSelectedPage == pageKey && _navFrame.Content is not null && _navFrame.Content.GetType().FullName == lastSelectedPage)
         {
             return;
