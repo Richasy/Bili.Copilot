@@ -1143,6 +1143,9 @@
   <data name="NextPartTipTemplate" xml:space="preserve">
     <value>下一个：{0}</value>
   </data>
+  <data name="NoArticles" xml:space="preserve">
+    <value>没有找到符合要求的文章</value>
+  </data>
   <data name="NoConvert" xml:space="preserve">
     <value>不转换</value>
   </data>
@@ -1175,6 +1178,9 @@
   </data>
   <data name="NoHistoryVideos" xml:space="preserve">
     <value>没有最近的视频历史记录</value>
+  </data>
+  <data name="NoLiveRooms" xml:space="preserve">
+    <value>没有找到符合要求的直播间</value>
   </data>
   <data name="NoMessage" xml:space="preserve">
     <value>正在等待发言</value>
@@ -1229,6 +1235,9 @@
   </data>
   <data name="NotVerify" xml:space="preserve">
     <value>未验证</value>
+  </data>
+  <data name="NoUsers" xml:space="preserve">
+    <value>没有找到符合要求的用户</value>
   </data>
   <data name="NoUserVideoSearchResult" xml:space="preserve">
     <value>没有在该用户下找到指定关键词的视频</value>

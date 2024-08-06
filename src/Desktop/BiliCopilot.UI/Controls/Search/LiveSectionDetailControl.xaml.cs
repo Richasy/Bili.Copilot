@@ -6,14 +6,14 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Search;
 
 /// <summary>
-/// PGC搜索分区详情控件.
+/// 直播搜索分区详情控件.
 /// </summary>
-public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBase
+public sealed partial class LiveSectionDetailControl : LiveSectionDetailControlBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PgcSectionDetailControl"/> class.
+    /// Initializes a new instance of the <see cref="LiveSectionDetailControl"/> class.
     /// </summary>
-    public PgcSectionDetailControl() => InitializeComponent();
+    public LiveSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -22,31 +22,31 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
-        PgcScrollView.ViewChanged += OnViewChanged;
-        PgcScrollView.SizeChanged += OnScrollViewSizeChanged;
+        LiveScrollView.ViewChanged += OnViewChanged;
+        LiveScrollView.SizeChanged += OnScrollViewSizeChanged;
 
-        CheckPgcCount();
+        CheckLiveCount();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         ViewModel.ListUpdated -= OnListUpdatedAsync;
-        PgcScrollView.ViewChanged -= OnViewChanged;
-        PgcScrollView.SizeChanged -= OnScrollViewSizeChanged;
+        LiveScrollView.ViewChanged -= OnViewChanged;
+        LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)
     {
         await Task.Delay(500);
-        CheckPgcCount();
+        CheckLiveCount();
     }
 
     private void OnViewChanged(ScrollView sender, object args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 40)
+            if (LiveScrollView.ExtentHeight - LiveScrollView.ViewportHeight - LiveScrollView.VerticalOffset <= 40)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -57,15 +57,15 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     {
         if (e.NewSize.Width > 100)
         {
-            CheckPgcCount();
+            CheckLiveCount();
         }
     }
 
-    private void CheckPgcCount()
+    private void CheckLiveCount()
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (LiveScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -74,8 +74,8 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
 }
 
 /// <summary>
-/// PGC搜索分区详情控件基类.
+/// 直播搜索分区详情控件基类.
 /// </summary>
-public abstract class PgcSectionDetailControlBase : LayoutUserControlBase<PgcSearchSectionDetailViewModel>
+public abstract class LiveSectionDetailControlBase : LayoutUserControlBase<LiveSearchSectionDetailViewModel>
 {
 }

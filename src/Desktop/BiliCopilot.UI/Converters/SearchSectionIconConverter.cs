@@ -15,9 +15,9 @@ internal sealed class SearchSectionIconConverter : IValueConverter
             SearchSectionType.Video => FluentIcons.Common.Symbol.VideoClip,
             SearchSectionType.Anime => FluentIcons.Common.Symbol.Dust,
             SearchSectionType.Live => FluentIcons.Common.Symbol.Live,
-            SearchSectionType.User => FluentIcons.Common.Symbol.Person5,
+            SearchSectionType.User => FluentIcons.Common.Symbol.People,
             SearchSectionType.Cinema => FluentIcons.Common.Symbol.MoviesAndTv,
-            SearchSectionType.Article => FluentIcons.Common.Symbol.Document,
+            SearchSectionType.Article => FluentIcons.Common.Symbol.DocumentBulletList,
             _ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null)
         };
     }

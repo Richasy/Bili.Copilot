@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -11,25 +10,24 @@ using Richasy.WinUI.Share.ViewModels;
 namespace BiliCopilot.UI.ViewModels.Components;
 
 /// <summary>
-/// PGC搜索分区详情视图模型.
+/// 文章搜索分区详情视图模型.
 /// </summary>
-public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISearchSectionDetailViewModel
+public sealed partial class ArticleSearchSectionDetailViewModel : ViewModelBase, ISearchSectionDetailViewModel
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PgcSearchSectionDetailViewModel"/> class.
+    /// Initializes a new instance of the <see cref="ArticleSearchSectionDetailViewModel"/> class.
     /// </summary>
-    public PgcSearchSectionDetailViewModel(
+    public ArticleSearchSectionDetailViewModel(
         ISearchService service)
     {
         _service = service;
-        _logger = this.Get<ILogger<PgcSearchSectionDetailViewModel>>();
+        _logger = this.Get<ILogger<ArticleSearchSectionDetailViewModel>>();
     }
 
     /// <inheritdoc/>
     public void Initialize(string keyword, SearchPartition partition)
     {
         Clear();
-        SectionType = (SearchSectionType)partition.Id;
         _partition = partition;
         Count = partition.TotalItemCount;
         IsEmpty = Count == 0;
@@ -66,16 +64,17 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
             var (result, nextOffset) = await _service.GetPartitionSearchResultAsync(_keyword, _partition, _offset);
             _offset = nextOffset;
             _canRequest = !string.IsNullOrEmpty(_offset);
+
             foreach (var item in result)
             {
-                Items.Add(new SeasonItemViewModel(item.Season));
+                Items.Add(new ArticleItemViewModel(item.Article));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"加载{SectionType}搜索结果时出错.");
+            _logger.LogError(ex, $"加载文章搜索结果时出错.");
         }
         finally
         {

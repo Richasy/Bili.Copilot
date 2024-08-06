@@ -36,4 +36,9 @@ public sealed partial class ArticleItemViewModel
     /// 发布时间.
     /// </summary>
     public string? PublishRelativeTime { get; init; }
+
+    /// <summary>
+    /// 点赞数.
+    /// </summary>
+    public double? LikeCount { get; set; }
 }

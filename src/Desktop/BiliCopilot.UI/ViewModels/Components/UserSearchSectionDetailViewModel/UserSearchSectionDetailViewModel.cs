@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -11,25 +10,24 @@ using Richasy.WinUI.Share.ViewModels;
 namespace BiliCopilot.UI.ViewModels.Components;
 
 /// <summary>
-/// PGC搜索分区详情视图模型.
+/// 用户搜索分区详情视图模型.
 /// </summary>
-public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISearchSectionDetailViewModel
+public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, ISearchSectionDetailViewModel
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PgcSearchSectionDetailViewModel"/> class.
+    /// Initializes a new instance of the <see cref="UserSearchSectionDetailViewModel"/> class.
     /// </summary>
-    public PgcSearchSectionDetailViewModel(
+    public UserSearchSectionDetailViewModel(
         ISearchService service)
     {
         _service = service;
-        _logger = this.Get<ILogger<PgcSearchSectionDetailViewModel>>();
+        _logger = this.Get<ILogger<UserSearchSectionDetailViewModel>>();
     }
 
     /// <inheritdoc/>
     public void Initialize(string keyword, SearchPartition partition)
     {
         Clear();
-        SectionType = (SearchSectionType)partition.Id;
         _partition = partition;
         Count = partition.TotalItemCount;
         IsEmpty = Count == 0;
@@ -68,14 +66,14 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in result)
             {
-                Items.Add(new SeasonItemViewModel(item.Season));
+                Items.Add(new UserItemViewModel(item.User));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"加载{SectionType}搜索结果时出错.");
+            _logger.LogError(ex, $"加载用户搜索结果时出错.");
         }
         finally
         {

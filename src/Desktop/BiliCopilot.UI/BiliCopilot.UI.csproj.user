@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Search\ArticleSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\UserSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\LiveSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Search\PgcSectionDetailControl.xaml">
       <SubType>Designer</SubType>
     </Page>

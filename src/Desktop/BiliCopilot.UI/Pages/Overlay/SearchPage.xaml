@@ -21,9 +21,24 @@
             <search:PgcSectionDetailControl ViewModel="{x:Bind}" />
         </DataTemplate>
 
+        <DataTemplate x:Key="LiveSectionTemplate" x:DataType="components1:LiveSearchSectionDetailViewModel">
+            <search:LiveSectionDetailControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserSectionTemplate" x:DataType="components1:UserSearchSectionDetailViewModel">
+            <search:UserSectionDetailControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ArticleSectionTemplate" x:DataType="components1:ArticleSearchSectionDetailViewModel">
+            <search:ArticleSectionDetailControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+
         <ext:SearchSectionTemplateSelector
             x:Key="SectionSelector"
+            ArticleTemplate="{StaticResource ArticleSectionTemplate}"
+            LiveTemplate="{StaticResource LiveSectionTemplate}"
             PgcTemplate="{StaticResource PgcSectionTemplate}"
+            UserTemplate="{StaticResource UserSectionTemplate}"
             VideoTemplate="{StaticResource VideoSectionTemplate}" />
     </Page.Resources>
 

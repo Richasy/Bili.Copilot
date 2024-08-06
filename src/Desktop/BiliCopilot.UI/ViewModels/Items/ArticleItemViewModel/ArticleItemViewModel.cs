@@ -26,5 +26,6 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
         Author = data.Publisher?.Name;
         Avatar = data.Publisher?.Avatar?.Uri;
         PublishRelativeTime = data.PublishDateTime.Humanize(culture: new CultureInfo(primaryLan));
+        LikeCount = data.CommunityInformation?.LikeCount;
     }
 }

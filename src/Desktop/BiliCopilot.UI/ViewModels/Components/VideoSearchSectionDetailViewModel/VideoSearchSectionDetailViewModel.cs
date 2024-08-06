@@ -80,6 +80,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
             IsLoading = true;
             var (videos, _, nextOffset) = await _service.GetComprehensiveSearchResultAsync(_keyword, _offset);
             _offset = nextOffset;
+            _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in videos)
             {
                 Items.Add(new VideoItemViewModel(item, VideoCardStyle.Search));

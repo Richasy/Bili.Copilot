@@ -113,6 +113,9 @@ public sealed partial class SearchPageViewModel : LayoutPageViewModelBase
         var sectionDetail = type switch
         {
             SearchSectionType.Anime or SearchSectionType.Cinema => (ISearchSectionDetailViewModel)new PgcSearchSectionDetailViewModel(_service),
+            SearchSectionType.Live => new LiveSearchSectionDetailViewModel(_service),
+            SearchSectionType.User => new UserSearchSectionDetailViewModel(_service),
+            SearchSectionType.Article => new ArticleSearchSectionDetailViewModel(_service),
             _ => default
         };
 

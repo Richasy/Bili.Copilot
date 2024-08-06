@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Components">
 
@@ -64,6 +65,69 @@
                                         TextWrapping="NoWrap"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime, Converter={StaticResource ObjectToVisibilityConverter}}" />
                                 </Grid>
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            </Grid>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchArticleCardStyle" TargetType="local:ArticleCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ArticleCardControl">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="80" />
+                            </Grid.RowDefinitions>
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <Grid
+                                Margin="6"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Grid.Background>
+                                    <SolidColorBrush Opacity="0.55" Color="Black" />
+                                </Grid.Background>
+                                <StackPanel
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Spacing="4"
+                                    ToolTipService.ToolTip="{ext:Locale Name=LikeCount}">
+                                    <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="10"
+                                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                        Symbol="ThumbLike" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
+                                        TextLineBounds="Tight" />
+                                </StackPanel>
+                            </Grid>
+                            <Grid
+                                Grid.Row="1"
+                                Padding="12,8,12,12"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <base:TrimTextBlock
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 <base:TrimTextBlock
                                     Grid.Row="1"
                                     HorizontalAlignment="Left"

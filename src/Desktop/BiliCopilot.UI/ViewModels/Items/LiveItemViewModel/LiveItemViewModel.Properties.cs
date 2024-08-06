@@ -36,4 +36,9 @@ public sealed partial class LiveItemViewModel
     /// 作者头像.
     /// </summary>
     public Uri? Avatar { get; init; }
+
+    /// <summary>
+    /// 标签名称.
+    /// </summary>
+    public string? TagName { get; set; }
 }

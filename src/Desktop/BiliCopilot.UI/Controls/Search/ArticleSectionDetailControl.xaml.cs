@@ -6,14 +6,14 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Search;
 
 /// <summary>
-/// PGC搜索分区详情控件.
+/// 文章搜索分区详情控件.
 /// </summary>
-public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBase
+public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailControlBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PgcSectionDetailControl"/> class.
+    /// Initializes a new instance of the <see cref="ArticleSectionDetailControl"/> class.
     /// </summary>
-    public PgcSectionDetailControl() => InitializeComponent();
+    public ArticleSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
@@ -22,31 +22,31 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
-        PgcScrollView.ViewChanged += OnViewChanged;
-        PgcScrollView.SizeChanged += OnScrollViewSizeChanged;
+        ArticleScrollView.ViewChanged += OnViewChanged;
+        ArticleScrollView.SizeChanged += OnScrollViewSizeChanged;
 
-        CheckPgcCount();
+        CheckArticleCount();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         ViewModel.ListUpdated -= OnListUpdatedAsync;
-        PgcScrollView.ViewChanged -= OnViewChanged;
-        PgcScrollView.SizeChanged -= OnScrollViewSizeChanged;
+        ArticleScrollView.ViewChanged -= OnViewChanged;
+        ArticleScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)
     {
         await Task.Delay(500);
-        CheckPgcCount();
+        CheckArticleCount();
     }
 
     private void OnViewChanged(ScrollView sender, object args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 40)
+            if (ArticleScrollView.ExtentHeight - ArticleScrollView.ViewportHeight - ArticleScrollView.VerticalOffset <= 40)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -57,15 +57,15 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     {
         if (e.NewSize.Width > 100)
         {
-            CheckPgcCount();
+            CheckArticleCount();
         }
     }
 
-    private void CheckPgcCount()
+    private void CheckArticleCount()
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (ArticleScrollView.ScrollableHeight <= 0 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -74,8 +74,8 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
 }
 
 /// <summary>
-/// PGC搜索分区详情控件基类.
+/// 文章搜索分区详情控件基类.
 /// </summary>
-public abstract class PgcSectionDetailControlBase : LayoutUserControlBase<PgcSearchSectionDetailViewModel>
+public abstract class ArticleSectionDetailControlBase : LayoutUserControlBase<ArticleSearchSectionDetailViewModel>
 {
 }
