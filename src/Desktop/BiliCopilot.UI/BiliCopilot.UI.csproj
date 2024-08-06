@@ -59,6 +59,9 @@
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
     <None Remove="Controls\Search\SearchHeader.xaml" />
+    <None Remove="Controls\Search\SearchSectionItemControl.xaml" />
+    <None Remove="Controls\Search\SearchSideBody.xaml" />
+    <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
@@ -494,6 +497,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\ShimmerLayout.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\VideoSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchSectionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Overlay\SearchPage.xaml">

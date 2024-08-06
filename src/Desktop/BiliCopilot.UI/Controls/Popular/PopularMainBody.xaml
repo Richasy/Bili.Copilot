@@ -31,7 +31,7 @@
     <Grid>
         <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}" Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
                             <ContentControl
@@ -40,14 +40,6 @@
                                 Style="{StaticResource AppContentControlStyle}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="240"
-                            MinItemWidth="200"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

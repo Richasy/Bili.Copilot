@@ -26,4 +26,9 @@ public enum VideoCardStyle
     /// 分区视频.
     /// </summary>
     Partition,
+
+    /// <summary>
+    /// 搜索.
+    /// </summary>
+    Search,
 }

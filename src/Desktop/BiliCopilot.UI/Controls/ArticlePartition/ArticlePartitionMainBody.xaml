@@ -16,20 +16,12 @@
             Grid.Row="1"
             Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" Layout="{StaticResource ArticleLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:ArticleItemViewModel">
                             <components:ArticleCardControl Style="{StaticResource PartitionArticleCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="200"
-                            MinItemWidth="200"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

@@ -33,6 +33,46 @@
             <localConverters:CountConverter x:Key="CountConverter" />
             <localConverters:GridLengthConverter x:Key="GridLengthConverter" />
             <localConverters:SortTypeTextConverter x:Key="SortTypeTextConverter" />
+
+            <UniformGridLayout
+                x:Key="VideoLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="240"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="PgcLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="266"
+                MinItemWidth="148"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="LiveLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="200"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="ArticleLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="200"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="UserLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="84"
+                MinItemWidth="220"
+                MinRowSpacing="16" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

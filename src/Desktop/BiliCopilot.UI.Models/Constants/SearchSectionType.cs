@@ -10,30 +10,30 @@ public enum SearchSectionType
     /// <summary>
     /// 视频.
     /// </summary>
-    Video,
+    Video = 0,
 
     /// <summary>
     /// 动漫.
     /// </summary>
-    Anime,
+    Anime = 7,
 
     /// <summary>
     /// 直播.
     /// </summary>
-    Live,
+    Live = 4,
 
     /// <summary>
     /// 用户.
     /// </summary>
-    User,
+    User = 2,
 
     /// <summary>
     /// 影视.
     /// </summary>
-    Cinema,
+    Cinema = 8,
 
     /// <summary>
     /// 文章.
     /// </summary>
-    Article,
+    Article = 6,
 }

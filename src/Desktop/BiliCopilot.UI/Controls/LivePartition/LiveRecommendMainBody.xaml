@@ -13,20 +13,12 @@
     <Grid>
         <ScrollView x:Name="LiveScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.RecommendRooms, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.RecommendRooms, Mode=OneWay}" Layout="{StaticResource LiveLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:LiveItemViewModel">
                             <components:LiveCardControl Style="{StaticResource RecommendLiveCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="200"
-                            MinItemWidth="200"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

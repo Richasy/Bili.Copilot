@@ -14,20 +14,12 @@
     <Grid>
         <ScrollView x:Name="SeasonScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedTimeline.Items, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedTimeline.Items, Mode=OneWay}" Layout="{StaticResource PgcLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:SeasonItemViewModel">
                             <components:SeasonCardControl Style="{StaticResource TimelineSeasonCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="266"
-                            MinItemWidth="148"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

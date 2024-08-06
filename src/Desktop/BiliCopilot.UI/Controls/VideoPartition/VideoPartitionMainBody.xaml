@@ -16,20 +16,12 @@
             Grid.Row="1"
             Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos, Mode=OneWay}" Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
                             <components:VideoCardControl Style="{StaticResource PartitionVideoCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="240"
-                            MinItemWidth="200"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

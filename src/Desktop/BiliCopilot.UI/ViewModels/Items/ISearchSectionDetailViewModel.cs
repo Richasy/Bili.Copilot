@@ -2,6 +2,7 @@
 
 using System.ComponentModel;
 using BiliCopilot.UI.Models.Constants;
+using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Search;
 
 namespace BiliCopilot.UI.ViewModels.Items;
@@ -22,7 +23,22 @@ public interface ISearchSectionDetailViewModel : INotifyPropertyChanged
     public bool IsEmpty { get; }
 
     /// <summary>
+    /// 数量.
+    /// </summary>
+    public int? Count { get; }
+
+    /// <summary>
+    /// 首次加载数据.
+    /// </summary>
+    IAsyncRelayCommand TryFirstLoadCommand { get; }
+
+    /// <summary>
     /// 初始化.
     /// </summary>
-    internal void Initialize(string keyword, SearchPartition partition);
+    void Initialize(string keyword, SearchPartition partition);
+
+    /// <summary>
+    /// 清理数据.
+    /// </summary>
+    void Clear();
 }

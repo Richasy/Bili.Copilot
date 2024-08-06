@@ -14,20 +14,12 @@
     <Grid>
         <ScrollView x:Name="UserScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Users}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Users}" Layout="{StaticResource UserLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:UserItemViewModel">
                             <components:UserCardControl ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <UniformGridLayout
-                            ItemsStretch="Fill"
-                            MinColumnSpacing="16"
-                            MinItemHeight="84"
-                            MinItemWidth="220"
-                            MinRowSpacing="16" />
-                    </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
         </ScrollView>

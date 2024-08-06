@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SearchPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Search.SearchSideBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Search"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsView
+            x:Name="SectionView"
+            Padding="2,8,8,8"
+            ItemsSource="{x:Bind ViewModel.Sections, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="items:ISearchSectionDetailViewModel">
+                    <ItemContainer
+                        Height="40"
+                        Margin="8,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        Style="{StaticResource AppItemContainerStyle}">
+                        <local:SearchSectionItemControl ViewModel="{x:Bind}" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+        <components:SideBottomLoadingWidget
+            VerticalAlignment="Bottom"
+            Text="{ext:Locale Name=GettingPartitions}"
+            Visibility="{x:Bind ViewModel.IsSearching, Mode=OneWay}" />
+        <animations:Implicit.ShowAnimations>
+            <animations:TranslationAnimation
+                From="-20,0"
+                To="0,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:TranslationAnimation
+                From="0,0"
+                To="-20,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.HideAnimations>
+    </Grid>
+</local:SearchPageControlBase>

@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Search\PgcSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\VideoSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\SearchSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\SearchSectionItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Search\SearchHeader.xaml">
       <SubType>Designer</SubType>
     </Page>

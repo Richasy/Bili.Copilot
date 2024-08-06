@@ -1182,6 +1182,9 @@
   <data name="None" xml:space="preserve">
     <value>无</value>
   </data>
+  <data name="NoPgcSeasons" xml:space="preserve">
+    <value>没有找到符合要求的剧集</value>
+  </data>
   <data name="NoReply" xml:space="preserve">
     <value>目前还没有评论</value>
   </data>
