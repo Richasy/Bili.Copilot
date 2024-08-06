@@ -64,6 +64,7 @@
     <None Remove="Controls\Search\SearchSectionItemControl.xaml" />
     <None Remove="Controls\Search\SearchSideBody.xaml" />
     <None Remove="Controls\Search\UserSectionDetailControl.xaml" />
+    <None Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
@@ -545,5 +546,11 @@
     <Page Update="Controls\Search\SearchHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
   </ItemGroup>
 </Project>

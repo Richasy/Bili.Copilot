@@ -30,6 +30,9 @@
     <Page Update="Controls\Search\PgcSectionDetailControl.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Controls\Search\VideoSearchExtraHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Search\VideoSectionDetailControl.xaml">
       <SubType>Designer</SubType>
     </Page>

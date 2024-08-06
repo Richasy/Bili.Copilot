@@ -5,6 +5,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Search;
 using Richasy.WinUI.Share.ViewModels;
@@ -24,12 +25,14 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
     {
         _service = service;
         _logger = this.Get<ILogger<VideoSearchSectionDetailViewModel>>();
+        Sorts = Enum.GetValues<ComprehensiveSearchSortType>().ToList();
     }
 
     /// <inheritdoc/>
     public void Initialize(string keyword, SearchPartition partition)
     {
         Clear();
+        Sort = ComprehensiveSearchSortType.Default;
         _keyword = keyword;
     }
 
@@ -78,7 +81,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         try
         {
             IsLoading = true;
-            var (videos, _, nextOffset) = await _service.GetComprehensiveSearchResultAsync(_keyword, _offset);
+            var (videos, _, nextOffset) = await _service.GetComprehensiveSearchResultAsync(_keyword, _offset, Sort);
             _offset = nextOffset;
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in videos)
@@ -97,5 +100,27 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         {
             IsLoading = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        var keyword = _keyword;
+        Clear();
+        _keyword = keyword;
+        _canRequest = true;
+        await LoadItemsAsync();
+    }
+
+    [RelayCommand]
+    private void ChangeSortType(ComprehensiveSearchSortType type)
+    {
+        if (Sort == type)
+        {
+            return;
+        }
+
+        Sort = type;
+        RefreshCommand.Execute(default);
     }
 }

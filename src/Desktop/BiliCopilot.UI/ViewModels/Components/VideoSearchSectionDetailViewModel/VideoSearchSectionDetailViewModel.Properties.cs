@@ -6,6 +6,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
+using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 
@@ -30,6 +31,12 @@ public sealed partial class VideoSearchSectionDetailViewModel
 
     [ObservableProperty]
     private int? _count;
+
+    [ObservableProperty]
+    private ComprehensiveSearchSortType _sort;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<ComprehensiveSearchSortType> _sorts;
 
     /// <summary>
     /// 列表已完成更新.
