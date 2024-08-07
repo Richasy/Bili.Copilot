@@ -1221,6 +1221,9 @@
   <data name="NotificationSettingDescription" xml:space="preserve">
     <value>在应用运行期间提醒你有新的内容</value>
   </data>
+  <data name="NoTitleVideo" xml:space="preserve">
+    <value>无标题视频</value>
+  </data>
   <data name="NotSupportContent" xml:space="preserve">
     <value>不受支持的内容</value>
   </data>

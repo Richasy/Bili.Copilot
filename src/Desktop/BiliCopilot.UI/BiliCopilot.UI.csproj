@@ -33,7 +33,11 @@
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMainBody.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveSideBody.xaml" />
     <None Remove="Controls\Moment\MomentHeader.xaml" />
+    <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
@@ -555,6 +559,26 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentUperItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">

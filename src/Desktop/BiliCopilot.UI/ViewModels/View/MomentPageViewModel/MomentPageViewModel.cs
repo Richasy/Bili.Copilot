@@ -33,6 +33,7 @@ public sealed partial class MomentPageViewModel : ViewModelBase
         Sections = new List<IMomentSectionDetailViewModel>
         {
             new VideoMomentSectionDetailViewModel(_momentDiscoveryService),
+            new ComprehensiveMomentSectionDetailViewModel(_momentDiscoveryService),
         };
 
         SelectSectionCommand.Execute(Sections.First());

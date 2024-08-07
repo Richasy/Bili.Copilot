@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Moment\ComprehensiveMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentUperItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -62,7 +62,7 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
             {
                 _offset = view.Offset;
                 _baseline = view.UpdateBaseline;
-                _preventLoadMore = view.HasMoreMoments == true;
+                _preventLoadMore = view.HasMoreMoments != true;
                 foreach (var item in view.Moments.Select(p => new MomentItemViewModel(p)))
                 {
                     Items.Add(item);

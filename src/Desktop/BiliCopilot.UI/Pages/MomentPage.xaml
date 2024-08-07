@@ -15,7 +15,13 @@
         <DataTemplate x:Key="VideoTemplate" x:DataType="components:VideoMomentSectionDetailViewModel">
             <moment:VideoMomentSectionDetailControl ViewModel="{x:Bind}" />
         </DataTemplate>
-        <ext:MomentSectionTemplateSelector x:Key="Selector" VideoTemplate="{StaticResource VideoTemplate}" />
+        <DataTemplate x:Key="ComprehensiveTemplate" x:DataType="components:ComprehensiveMomentSectionDetailViewModel">
+            <moment:ComprehensiveMomentSectionDetailControl ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:MomentSectionTemplateSelector
+            x:Key="Selector"
+            ComprehensiveTemplate="{StaticResource ComprehensiveTemplate}"
+            VideoTemplate="{StaticResource VideoTemplate}" />
     </Page.Resources>
 
     <Grid>

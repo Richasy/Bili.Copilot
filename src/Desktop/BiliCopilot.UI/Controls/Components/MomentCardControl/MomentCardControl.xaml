@@ -16,6 +16,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
@@ -55,27 +56,21 @@
                                     <ic:SymbolIcon FontSize="12" Symbol="Feed" />
                                 </Button>
                             </Grid>
-                            <local:PgcCoverImage
+                            <local:VideoCoverImage
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                BlurRatio="0.42"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
                                 DecodeHeight="280"
-                                DecodeWidth="400"
+                                DecodeWidth="380"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoCover}" />
                             <base:TrimTextBlock
-                                Grid.Row="1"
-                                Margin="8"
+                                Grid.Row="2"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                FontSize="12"
-                                FontWeight="Bold"
-                                Foreground="White"
-                                MaxLines="2"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                            <Grid Grid.Row="2" RowSpacing="6">
+                                FontSize="13"
+                                MaxLines="1"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}" />
+                            <Grid Grid.Row="3" RowSpacing="6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
@@ -84,7 +79,6 @@
                                     <ToggleButton
                                         VerticalAlignment="Center"
                                         Background="Transparent"
-                                        BorderThickness="0"
                                         IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
                                         ToolTipService.ToolTip="{ext:Locale Name=Like}">
                                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -102,7 +96,99 @@
                                     <Button
                                         VerticalAlignment="Center"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Reply}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <ic:SymbolIcon
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                Symbol="ChatEmpty" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCount, Converter={StaticResource CountConverter}}"
+                                                TextLineBounds="Tight" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FullMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                        <Grid Padding="12" RowSpacing="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <PersonPicture
+                                    Width="36"
+                                    Height="36"
+                                    VerticalAlignment="Center"
+                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
+                                <StackPanel
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Spacing="2">
+                                    <TextBlock
+                                        MaxLines="1"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        MaxLines="1"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Tip}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock
+                                Grid.Row="1"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description.Text}"
+                                TextWrapping="Wrap" />
+                            <ContentPresenter Grid.Row="2" />
+                            <Grid Grid.Row="3" RowSpacing="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <ToggleButton
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
+                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Like}">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <ic:SymbolIcon
+                                                VerticalAlignment="Center"
+                                                FontSize="12"
+                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
+                                                Symbol="ThumbLike" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
+                                                TextLineBounds="Tight" />
+                                        </StackPanel>
+                                    </ToggleButton>
+                                    <Button
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
                                         ToolTipService.ToolTip="{ext:Locale Name=Reply}">
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <ic:SymbolIcon

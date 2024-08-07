@@ -80,8 +80,8 @@
                 x:Key="MomentLayout"
                 ItemsStretch="Fill"
                 MinColumnSpacing="16"
-                MinItemHeight="300"
-                MinItemWidth="280"
+                MinItemHeight="292"
+                MinItemWidth="240"
                 MinRowSpacing="16" />
         </ResourceDictionary>
     </Application.Resources>

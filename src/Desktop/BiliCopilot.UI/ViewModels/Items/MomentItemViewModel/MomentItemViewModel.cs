@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
@@ -26,8 +28,13 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         Description = data.Description;
         if (FindVideoInformation() is VideoInformation vinfo)
         {
-            VideoTitle = vinfo.Identifier.Title;
+            VideoTitle = vinfo.Identifier.Title ?? ResourceToolkit.GetLocalizedString(StringNames.NoTitleVideo);
             VideoCover = vinfo.Identifier.Cover.Uri;
+        }
+        else if (FindEpisodeInformation() is EpisodeInformation einfo)
+        {
+            VideoTitle = einfo.Identifier.Title;
+            VideoCover = einfo.Identifier.Cover.Uri;
         }
     }
 
@@ -40,6 +47,20 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         else if (Data.Data is MomentInformation minfo && minfo.Data is VideoInformation vinfo2)
         {
             return vinfo2;
+        }
+
+        return default;
+    }
+
+    private EpisodeInformation? FindEpisodeInformation()
+    {
+        if (Data.Data is EpisodeInformation einfo)
+        {
+            return einfo;
+        }
+        else if (Data.Data is MomentInformation minfo && minfo.Data is EpisodeInformation einfo2)
+        {
+            return einfo2;
         }
 
         return default;
