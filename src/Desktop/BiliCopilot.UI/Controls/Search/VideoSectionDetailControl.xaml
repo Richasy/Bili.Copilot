@@ -25,7 +25,7 @@
         </ScrollView>
 
         <components:EmptyHolder
-            Description="{ext:Locale Name=NoUserVideoSearchResult}"
+            Description="{ext:Locale Name=NoSpecificData}"
             Emoji="&#x1F39E;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 

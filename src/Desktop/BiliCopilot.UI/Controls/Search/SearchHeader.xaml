@@ -48,19 +48,19 @@
             Style="{StaticResource AppContentControlStyle}" />
         <Button
             Grid.Column="2"
-            Width="32"
-            Height="32"
-            Padding="0"
             VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
             AutomationProperties.Name="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.SelectedSection.RefreshCommand, Mode=OneWay}"
+            IsEnabled="{x:Bind ViewModel.SelectedSection.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
-            <ic:SymbolIcon
-                VerticalAlignment="Center"
-                FontSize="12"
-                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                Symbol="ArrowSync" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <ic:SymbolIcon
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Symbol="ArrowSync" />
+                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+            </StackPanel>
         </Button>
     </Grid>
 </local:SearchPageControlBase>

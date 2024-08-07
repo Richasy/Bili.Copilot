@@ -81,4 +81,13 @@ public sealed partial class ArticleSearchSectionDetailViewModel : ViewModelBase,
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        var keyword = _keyword;
+        var partition = _partition;
+        Initialize(keyword, partition);
+        await LoadItemsAsync();
+    }
 }

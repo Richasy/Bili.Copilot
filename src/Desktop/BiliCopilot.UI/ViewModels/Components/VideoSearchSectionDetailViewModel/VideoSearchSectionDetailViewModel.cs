@@ -98,6 +98,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         }
         finally
         {
+            IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
     }

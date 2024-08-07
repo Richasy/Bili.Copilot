@@ -33,6 +33,11 @@ public interface ISearchSectionDetailViewModel : INotifyPropertyChanged
     IAsyncRelayCommand TryFirstLoadCommand { get; }
 
     /// <summary>
+    /// 刷新命令.
+    /// </summary>
+    IAsyncRelayCommand RefreshCommand { get; }
+
+    /// <summary>
     /// 初始化.
     /// </summary>
     void Initialize(string keyword, SearchPartition partition);

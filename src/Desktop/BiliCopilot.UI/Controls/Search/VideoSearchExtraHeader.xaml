@@ -20,7 +20,7 @@
             x:Name="SortComboBox"
             MinWidth="120"
             VerticalAlignment="Center"
-            IsEnabled="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+            IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             ItemsSource="{x:Bind ViewModel.Sorts, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.Sort, Mode=OneWay}"
             SelectionChanged="OnSortComboBoxChanged">
