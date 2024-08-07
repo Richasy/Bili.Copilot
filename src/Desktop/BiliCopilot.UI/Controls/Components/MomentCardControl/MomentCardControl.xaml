@@ -15,7 +15,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
@@ -57,8 +57,11 @@
                             </Grid>
                             <local:PgcCoverImage
                                 Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                BlurRatio="0.42"
                                 CornerRadius="{StaticResource ControlCornerRadius}"
-                                DecodeHeight="250"
+                                DecodeHeight="280"
                                 DecodeWidth="400"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoCover}" />
                             <base:TrimTextBlock
@@ -72,10 +75,7 @@
                                 MaxLines="2"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                            <Grid
-                                Grid.Row="2"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                            <Grid Grid.Row="2" RowSpacing="6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
