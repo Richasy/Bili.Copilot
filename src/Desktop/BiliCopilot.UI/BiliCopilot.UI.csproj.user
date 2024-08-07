@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\VideoMomentSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Search\ArticleSectionDetailControl.xaml">
       <SubType>Designer</SubType>
     </Page>

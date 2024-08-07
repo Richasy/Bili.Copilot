@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -19,5 +20,28 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         IsLiked = data.CommunityInformation?.IsLiked ?? false;
         LikeCount = data.CommunityInformation?.LikeCount;
         CommentCount = data.CommunityInformation?.CommentCount;
+        Author = data.User?.Name;
+        Avatar = data.User?.Avatar.Uri;
+        Tip = data.Tip;
+        Description = data.Description;
+        if (FindVideoInformation() is VideoInformation vinfo)
+        {
+            VideoTitle = vinfo.Identifier.Title;
+            VideoCover = vinfo.Identifier.Cover.Uri;
+        }
+    }
+
+    private VideoInformation? FindVideoInformation()
+    {
+        if (Data.Data is VideoInformation vinfo)
+        {
+            return vinfo;
+        }
+        else if (Data.Data is MomentInformation minfo && minfo.Data is VideoInformation vinfo2)
+        {
+            return vinfo2;
+        }
+
+        return default;
     }
 }

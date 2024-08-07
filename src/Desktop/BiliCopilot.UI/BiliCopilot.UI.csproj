@@ -25,6 +25,7 @@
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
@@ -32,6 +33,8 @@
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\Moment\MomentHeader.xaml" />
+    <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -552,5 +555,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\VideoMomentSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

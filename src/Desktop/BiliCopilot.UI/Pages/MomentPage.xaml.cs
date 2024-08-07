@@ -1,17 +1,32 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.View;
+using Richasy.WinUI.Share.Base;
+
 namespace BiliCopilot.UI.Pages;
 
 /// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
+/// 动态页面.
 /// </summary>
-public sealed partial class MomentPage : Page
+public sealed partial class MomentPage : MomentPageBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentPage"/> class.
     /// </summary>
-    public MomentPage()
-    {
-        InitializeComponent();
-    }
+    public MomentPage() => InitializeComponent();
+
+    /// <inheritdoc/>
+    protected override void OnPageLoaded()
+        => ViewModel.InitializeCommand.Execute(default);
+}
+
+/// <summary>
+/// 动态页面基类.
+/// </summary>
+public abstract class MomentPageBase : LayoutPageBase<MomentPageViewModel>
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MomentPageBase"/> class.
+    /// </summary>
+    protected MomentPageBase() => ViewModel = this.Get<MomentPageViewModel>();
 }

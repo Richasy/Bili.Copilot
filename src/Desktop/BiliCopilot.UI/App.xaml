@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/LiveCardControl/LiveCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ArticleCardControl/ArticleCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/UserCardControl/UserCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
@@ -28,6 +29,7 @@
             <converters:ObjectToBoolConverter x:Key="ObjectToBoolReverseConverter" IsReverse="True" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
             <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
+            <converters:BoolToIconVariantConverter x:Key="BoolToIconVariantConverter" />
             <localConverters:UriToBitmapConverter x:Key="BitmapConverter" />
             <localConverters:LevelImageConverter x:Key="LevelImageConverter" />
             <localConverters:CountConverter x:Key="CountConverter" />
@@ -72,6 +74,14 @@
                 MinColumnSpacing="16"
                 MinItemHeight="84"
                 MinItemWidth="220"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="MomentLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="320"
+                MinItemWidth="360"
                 MinRowSpacing="16" />
         </ResourceDictionary>
     </Application.Resources>
