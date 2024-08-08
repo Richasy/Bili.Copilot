@@ -98,4 +98,8 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private void ShowFollows()
         => _navService.NavigateToOver(typeof(FollowsPage).FullName, MyProfile.User.Id);
+
+    [RelayCommand]
+    private void ShowMoments()
+        => _navService.NavigateToOver(typeof(MyMomentsPage).FullName, MyProfile.User.Id);
 }

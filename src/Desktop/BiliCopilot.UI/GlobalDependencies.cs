@@ -64,6 +64,7 @@ internal static class GlobalDependencies
             .AddSingleton<FansPageViewModel>()
             .AddSingleton<FollowsPageViewModel>()
             .AddSingleton<SearchPageViewModel>()
+            .AddSingleton<MyMomentsPageViewModel>()
             .Build();
     }
 

@@ -38,7 +38,10 @@
                         </MenuFlyoutItem.Template>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem KeyboardAcceleratorTextOverride="{x:Bind ViewModel.MomentCount, Mode=OneWay, Converter={StaticResource CountConverter}}" Text="{ext:Locale Name=MyDynamic}">
+                    <MenuFlyoutItem
+                        Command="{x:Bind ViewModel.ShowMomentsCommand}"
+                        KeyboardAcceleratorTextOverride="{x:Bind ViewModel.MomentCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                        Text="{ext:Locale Name=MyDynamic}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="DesignIdeas" />
                         </MenuFlyoutItem.Icon>
