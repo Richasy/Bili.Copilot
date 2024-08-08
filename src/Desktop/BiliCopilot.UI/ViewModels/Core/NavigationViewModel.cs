@@ -120,6 +120,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             _overFrame.BackStack.Clear();
             _overFrame.Content = default;
             IsOverlayOpen = false;
+            _navFrame.Focus(FocusState.Programmatic);
         }
     }
 

@@ -1,0 +1,339 @@
+﻿html {
+    padding: 0;
+    overflow-y: auto;
+    max-width: 820px;
+    margin: 0 auto;
+    font-size: $FontSize$px
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+body {
+    margin: 0 auto;
+    color: rgba(232, 230, 227, 0.8);
+    font-family: '$FontFamily$';
+    padding-top: 0px;
+    padding-bottom: 80px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+    body > * + * {
+        margin: 3vmin 0 0;
+    }
+
+::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
+}
+
+video {
+    width: 100%;
+    max-width: 100% !important;
+    height: auto !important;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+iframe {
+    max-width:100%;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+button {
+    background-color: #208CF7;
+    border: none;
+    color: white;
+    padding: .5rem .8rem;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: .9rem;
+    transition: all .2s;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+    button:hover {
+        background-color: #1D81E3;
+    }
+figcaption {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 80%;
+    color: #cccccc;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: $LineHeight$;
+    display: block;
+    margin:1rem 0 1rem 0;
+    color: rgb(217, 214, 209)
+}
+
+h1 {
+    font-size: 2rem;
+    margin: 1rem 0 1.5rem 0;
+}
+
+h2 {
+    font-size: 1.6rem;
+    padding-bottom: .3rem;
+    border-bottom: 1px solid #363b3d;
+}
+
+h3 {
+    font-size: 1.3rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    text-align: center;
+    border-radius: 4px;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+audio, canvas, embed, iframe, img, object, svg, video {
+    display: block;
+    vertical-align: middle;
+}
+
+ol, p, ul {
+    line-height: $LineHeight$;
+}
+
+ol, ul {
+    padding-left: 1.9em;
+    color: rgba(232, 230, 227, 0.6);
+}
+
+li {
+    margin-left: .5rem;
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    margin: 1rem 0;
+}
+
+p {
+    display: block;
+}
+
+a {
+    font-weight: 500;
+    text-decoration: underline;
+    color: #d6d3cd;
+}
+
+hr {
+    border-color: #363b3d;
+    border-top-width: 1px;
+    margin-top: 5vmin;
+}
+
+code, pre {
+    border-radius: .2rem;
+    color: inherit;
+}
+
+code {
+    border: 1px solid rgb(40, 63, 76);
+    margin: 0 .1rem;
+    padding: 0 .4rem;
+    font-size: .875em;
+    color: #d6d3cd;
+    font-family: Menlo,ui-monospace,SFMono-Regular,Monaco,Consolas,Liberation Mono,Courier New,monospace;
+}
+
+:not(pre) > code {
+    background: rgb(18, 36, 45);
+    border: 1px solid rgb(40, 63, 76);
+    border-radius: .3em;
+    font-weight: 400 !important;
+    line-height: 1em;
+    padding: .2em .4em;
+    text-shadow: none;
+    vertical-align: middle;
+    white-space: normal;
+}
+
+pre {
+    border: 1px solid #333333;
+    line-height: $LineHeight$;
+    overflow: auto;
+    padding: .5rem .8rem;
+    white-space: pre-wrap;
+    font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+}
+
+    pre > code {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+    }
+
+table {
+    font-size: .875em;
+    line-height: 1.7142857;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    table-layout: auto;
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+    border-color: inherit;
+    text-indent: 0;
+    display: table;
+    border-spacing: 2px;
+    border-radius: 4px;
+}
+
+blockquote {
+    background: rgb(27, 30, 31);
+    border: 1px solid #1f5eff;
+    border-radius: 8px;
+    color: inherit;
+    font-size: inherit;
+    padding: 20px 25px 20px 25px;
+    position: relative;
+    z-index: 40;
+}
+
+thead {
+    border-bottom-color: #3c4143;
+    border-bottom-width: 1px;
+}
+
+    thead th {
+        color: #d6d3cd;
+        font-weight: 600;
+        padding-bottom: .5714286em;
+        padding-right: .5714286em;
+        vertical-align: bottom;
+    }
+
+tr td:nth-child(n+2), tr th:nth-child(n+2) {
+    text-align: center;
+    white-space: nowrap;
+}
+
+tbody > tr:nth-child(2n+1) > td, tbody > tr:nth-child(2n+1) > th {
+    background-color: transparent;
+}
+
+tbody tr {
+    border-bottom-color: #363b3d;
+    border-bottom-width: 1px;
+    background-color: transparent !important;
+}
+
+tbody td {
+    padding: .5714286em;
+    vertical-align: baseline;
+}
+
+tr td:nth-child(n+2), tr th:nth-child(n+2) {
+    text-align: center;
+    white-space: nowrap;
+}
+
+table th, table td {
+    padding: .5rem;
+    line-height: $LineHeight$;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    margin: 0;
+}
+
+.footnote-item {
+    font-style: italic;
+    font-size: .9rem;
+    margin-left: .6rem;
+}
+
+.tip {
+    background-color: rgba(14,13,26,.3);
+    border-color: #42b983;
+    padding: .1rem 1.5rem;
+    border-left-width: .5rem;
+    border-left-style: solid;
+    margin: 1rem 0;
+}
+
+.warning {
+    background-color: rgba(14,13,26,.3);
+    border-color: #e7c000;
+    color: #F7ECB5;
+    padding: .1rem 1.5rem;
+    border-left-width: .5rem;
+    border-left-style: solid;
+    margin: 1rem 0;
+}
+
+.danger {
+    background-color: rgba(14,13,26,.3);
+    border-color: #c00;
+    color: #FCC2C2;
+    padding: .1rem 1.5rem;
+    border-left-width: .5rem;
+    border-left-style: solid;
+    margin: 1rem 0;
+}
+
+.highlight {
+    border-radius: 4px;
+    padding: 0;
+    position: relative;
+    z-index: 0;
+    min-width: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+img + span {
+    display: flex;
+    font-size: 0.7em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}

@@ -17,10 +17,14 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\Reader\Dark.css" />
+    <None Remove="Assets\Reader\Light.css" />
+    <None Remove="Assets\Reader\ShowPage.html" />
     <None Remove="Controls\ArticlePartition\ArticlePartitionMainBody.xaml" />
     <None Remove="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml" />
     <None Remove="Controls\ArticlePartition\ArticlePartitionSideBody.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
+    <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
@@ -99,6 +103,7 @@
     <None Remove="Pages\LivePartitionPage.xaml" />
     <None Remove="Pages\MessagePage.xaml" />
     <None Remove="Pages\MomentPage.xaml" />
+    <None Remove="Pages\Overlay\ArticleReaderPage.xaml" />
     <None Remove="Pages\Overlay\FansPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
@@ -607,6 +612,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\ArticleReader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Overlay\MyMomentsPage.xaml">

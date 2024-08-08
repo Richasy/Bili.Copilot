@@ -11,7 +11,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl
+                        x:Name="RootCard"
+                        BorderThickness="0"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenReaderCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -81,7 +84,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl
+                        x:Name="RootCard"
+                        BorderThickness="0"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenReaderCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

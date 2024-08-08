@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Globalization;
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
+using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.WinUI.Share.ViewModels;
@@ -27,5 +30,12 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
         Avatar = data.Publisher?.Avatar?.Uri;
         PublishRelativeTime = data.PublishDateTime.Humanize(culture: new CultureInfo(primaryLan));
         LikeCount = data.CommunityInformation?.LikeCount;
+    }
+
+    [RelayCommand]
+    private void OpenReader()
+    {
+        var navVM = this.Get<NavigationViewModel>();
+        navVM.NavigateToOver(typeof(ArticleReaderPage).FullName, Data.Identifier);
     }
 }
