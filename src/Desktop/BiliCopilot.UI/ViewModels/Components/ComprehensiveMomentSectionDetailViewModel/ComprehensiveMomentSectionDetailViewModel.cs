@@ -49,6 +49,8 @@ public sealed partial class ComprehensiveMomentSectionDetailViewModel : LayoutPa
         if (SelectedUper.IsTotal)
         {
             Upers.Clear();
+            SelectedUper?.Items?.Clear();
+            SelectedUper = default;
             await InitializeAsync();
         }
         else

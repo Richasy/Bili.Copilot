@@ -31,4 +31,9 @@ public enum VideoCardStyle
     /// 搜索.
     /// </summary>
     Search,
+
+    /// <summary>
+    /// 动态.
+    /// </summary>
+    Moment,
 }

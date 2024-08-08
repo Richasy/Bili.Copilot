@@ -48,4 +48,14 @@ public sealed partial class MomentItemViewModel
     /// 视频标题.
     /// </summary>
     public string VideoTitle { get; init; }
+
+    /// <summary>
+    /// 是否没有数据.
+    /// </summary>
+    public bool NoData { get; init; }
+
+    /// <summary>
+    /// 内部内容.
+    /// </summary>
+    public object? InnerContent { get; init; }
 }

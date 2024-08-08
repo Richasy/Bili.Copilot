@@ -22,7 +22,9 @@
     <None Remove="Controls\ArticlePartition\ArticlePartitionSideBody.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
+    <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
+    <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
@@ -37,6 +39,8 @@
     <None Remove="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\ComprehensiveSideBody.xaml" />
     <None Remove="Controls\Moment\MomentHeader.xaml" />
+    <None Remove="Controls\Moment\MomentImageGallery.xaml" />
+    <None Remove="Controls\Moment\MomentPresenter.xaml" />
     <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
@@ -592,6 +596,27 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Moment\MomentHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentImageGallery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

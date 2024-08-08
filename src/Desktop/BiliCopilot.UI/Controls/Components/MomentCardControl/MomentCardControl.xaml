@@ -5,7 +5,9 @@
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
-    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:moment="using:BiliCopilot.UI.Controls.Moment">
+
     <Style x:Key="VideoMomentCardStyle" TargetType="local:MomentCardControl">
         <Setter Property="Template">
             <Setter.Value>
@@ -54,6 +56,14 @@
                                     ToolTipService.ToolTip="{ext:Locale Name=Description}"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}">
                                     <ic:SymbolIcon FontSize="12" Symbol="Feed" />
+                                    <Button.Flyout>
+                                        <Flyout Placement="Bottom">
+                                            <local:EmoteTextBlock
+                                                MaxWidth="400"
+                                                MaxLines="99"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}" />
+                                        </Flyout>
+                                    </Button.Flyout>
                                 </Button>
                             </Grid>
                             <local:VideoCoverImage
@@ -122,14 +132,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
                     <local:CardControl x:Name="RootCard" BorderThickness="0">
-                        <Grid Padding="12" RowSpacing="12">
+                        <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Grid ColumnSpacing="12">
+                            <Grid Margin="0,0,0,12" ColumnSpacing="12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -158,11 +168,17 @@
                                         TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </Grid>
-                            <TextBlock
+                            <local:EmoteTextBlock
                                 Grid.Row="1"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description.Text}"
-                                TextWrapping="Wrap" />
-                            <ContentPresenter Grid.Row="2" />
+                                Margin="0,0,0,12"
+                                MaxLines="8"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <moment:MomentPresenter
+                                Grid.Row="2"
+                                Margin="0,0,0,12"
+                                ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                             <Grid Grid.Row="3" RowSpacing="6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
@@ -205,6 +221,36 @@
                             </Grid>
                         </Grid>
                     </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ForwardMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <Grid
+                        Padding="12,4,12,12"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <HyperlinkButton HorizontalAlignment="Left" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                        <local:EmoteTextBlock
+                            Grid.Row="1"
+                            Margin="0,0,0,12"
+                            MaxLines="8"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                        <moment:MomentPresenter
+                            Grid.Row="2"
+                            ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

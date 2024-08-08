@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
@@ -26,15 +27,33 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         Avatar = data.User?.Avatar.Uri;
         Tip = data.Tip;
         Description = data.Description;
-        if (FindVideoInformation() is VideoInformation vinfo)
+        NoData = data.Data is null;
+
+        if (!NoData)
         {
-            VideoTitle = vinfo.Identifier.Title ?? ResourceToolkit.GetLocalizedString(StringNames.NoTitleVideo);
-            VideoCover = vinfo.Identifier.Cover.Uri;
-        }
-        else if (FindEpisodeInformation() is EpisodeInformation einfo)
-        {
-            VideoTitle = einfo.Identifier.Title;
-            VideoCover = einfo.Identifier.Cover.Uri;
+            if (data.Data is MomentInformation forward)
+            {
+                InnerContent = new MomentItemViewModel(forward);
+            }
+            else if (data.Data is VideoInformation video)
+            {
+                InnerContent = new VideoItemViewModel(video, VideoCardStyle.Moment);
+            }
+            else if (data.Data is IEnumerable<BiliImage> images)
+            {
+                InnerContent = images;
+            }
+
+            if (FindVideoInformation() is VideoInformation vinfo)
+            {
+                VideoTitle = vinfo.Identifier.Title ?? ResourceToolkit.GetLocalizedString(StringNames.NoTitleVideo);
+                VideoCover = vinfo.Identifier.Cover.Uri;
+            }
+            else if (FindEpisodeInformation() is EpisodeInformation einfo)
+            {
+                VideoTitle = einfo.Identifier.Title;
+                VideoCover = einfo.Identifier.Cover.Uri;
+            }
         }
     }
 
