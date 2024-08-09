@@ -28,6 +28,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         _service = service;
         _logger = this.Get<ILogger<ArticlePartitionDetailViewModel>>();
         _isRecommendPartition = data.Data.Id == "_";
+        _isHotPartition = data.Data.Id == "-";
     }
 
     [RelayCommand]
@@ -46,16 +47,16 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
             Children = [.. children];
         }
 
-        if (!_isRecommendPartition)
+        if (_isRecommendPartition || _isHotPartition)
+        {
+            IsRecommend = true;
+            await ChangeChildPartitionAsync(Data);
+        }
+        else
         {
             SortTypes = [.. Enum.GetValues<ArticleSortType>()];
             SelectedSortType = ArticleSortType.Default;
             await ChangeChildPartitionAsync(Children.First());
-        }
-        else
-        {
-            IsRecommend = true;
-            await ChangeChildPartitionAsync(Data);
         }
 
         Initialized?.Invoke(this, EventArgs.Empty);
@@ -83,6 +84,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         {
             _recommendOffset = 0;
             _recommendCache?.Clear();
+            _preventLoadMore = false;
         }
         else
         {
@@ -145,7 +147,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
     [RelayCommand]
     private async Task LoadArticlesAsync()
     {
-        if (IsArticleLoading)
+        if (IsArticleLoading || _preventLoadMore)
         {
             return;
         }
@@ -154,6 +156,10 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         if (_isRecommendPartition)
         {
             await LoadRecommendPartitionArticlesAsync();
+        }
+        else if(_isHotPartition)
+        {
+            await LoadHotPartitionArticlesAsync();
         }
         else if (IsRecommend)
         {
@@ -200,6 +206,30 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         {
             _logger.LogError(ex, $"尝试加载 {Data.Data.Name}/{CurrentPartition.Data.Name} 分区文章时出错.");
         }
+    }
+
+    private async Task LoadHotPartitionArticlesAsync()
+    {
+        try
+        {
+            // 将榜单所有文章全部加载.
+            var categories = await _service.GetHotCategoriesAsync();
+            var articles = new List<ArticleInformation>();
+            foreach (var cate in categories)
+            {
+                var d = await _service.GetHotArticlesAsync(cate.Key);
+                articles.AddRange(d);
+            }
+
+            articles = articles.OrderByDescending(p => p.PublishDateTime).Distinct().ToList();
+            TryAddArticles(articles);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试加载热门专栏分区时出错.");
+        }
+
+        _preventLoadMore = true;
     }
 
     private async Task LoadRecommendPartitionArticlesAsync()

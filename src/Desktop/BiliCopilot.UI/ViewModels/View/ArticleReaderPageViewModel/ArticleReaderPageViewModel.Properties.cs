@@ -21,6 +21,33 @@ public sealed partial class ArticleReaderPageViewModel
     [ObservableProperty]
     private string _title;
 
+    [ObservableProperty]
+    private string? _author;
+
+    [ObservableProperty]
+    private Uri? _avatar;
+
+    [ObservableProperty]
+    private bool _isVip;
+
+    [ObservableProperty]
+    private bool _isFollowed;
+
+    [ObservableProperty]
+    private bool? _isLiked;
+
+    [ObservableProperty]
+    private bool? _isFavorited;
+
+    [ObservableProperty]
+    private int _likeCount;
+
+    [ObservableProperty]
+    private int _commentCount;
+
+    [ObservableProperty]
+    private int _favoriteCount;
+
     /// <summary>
     /// 文章已加载.
     /// </summary>

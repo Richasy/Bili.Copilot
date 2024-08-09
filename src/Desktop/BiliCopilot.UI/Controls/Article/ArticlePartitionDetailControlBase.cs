@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.ArticlePartition;
+namespace BiliCopilot.UI.Controls.Article;
 
 /// <summary>
 /// 文章分区详情控件基类.

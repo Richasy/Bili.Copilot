@@ -20,9 +20,10 @@
     <None Remove="Assets\Reader\Dark.css" />
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
-    <None Remove="Controls\ArticlePartition\ArticlePartitionMainBody.xaml" />
-    <None Remove="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml" />
-    <None Remove="Controls\ArticlePartition\ArticlePartitionSideBody.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionMainBody.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionMainHeader.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionSideBody.xaml" />
+    <None Remove="Controls\Article\ArticleReaderToolBar.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
@@ -612,6 +613,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Overlay\ArticleReaderPage.xaml">

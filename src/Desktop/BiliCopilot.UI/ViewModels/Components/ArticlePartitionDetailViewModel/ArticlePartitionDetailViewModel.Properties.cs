@@ -19,9 +19,11 @@ public sealed partial class ArticlePartitionDetailViewModel
     private readonly Dictionary<string, List<ArticleItemViewModel>> _childPartitionArticleCache = new();
     private readonly Dictionary<string, int> _childPartitionOffsetCache = new();
     private readonly bool _isRecommendPartition;
+    private readonly bool _isHotPartition;
 
     private List<ArticleItemViewModel> _recommendCache;
     private int _recommendOffset;
+    private bool _preventLoadMore;
 
     [ObservableProperty]
     private IReadOnlyCollection<ArticleSortType> _sortTypes;

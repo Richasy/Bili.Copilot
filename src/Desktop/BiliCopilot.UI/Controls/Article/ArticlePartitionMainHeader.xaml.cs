@@ -5,7 +5,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.ArticlePartition;
+namespace BiliCopilot.UI.Controls.Article;
 
 /// <summary>
 /// 文章分区头部.

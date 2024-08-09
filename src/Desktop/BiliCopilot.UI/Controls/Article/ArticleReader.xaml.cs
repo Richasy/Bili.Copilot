@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Text.Json;
+using BiliCopilot.UI.Toolkits;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
 using Richasy.BiliKernel.Models.Article;
@@ -8,7 +9,7 @@ using Richasy.WinUI.Share.Base;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
-namespace BiliCopilot.UI.Controls.Components;
+namespace BiliCopilot.UI.Controls.Article;
 
 /// <summary>
 /// 文章阅读器.
@@ -52,6 +53,9 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         var html = localHtml.Replace("$theme$", theme.ToLower())
             .Replace("$style$", localCss)
             .Replace("$title$", article.Identifier.Title)
+            .Replace("$author$", article.Author.Profile.User.Name)
+            .Replace("$date$", article.PublishTime.ToString("yyyy-MM-dd HH:mm:ss"))
+            .Replace("$view$", AppToolkit.FormatCount(article.CommunityInformation.ViewCount ?? 0))
             .Replace("$body$", article.HtmlContent);
         MainView.CoreWebView2.NavigateToString(html);
     }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <local:ArticlePartitionDetailControlBase
-    x:Class="BiliCopilot.UI.Controls.ArticlePartition.ArticlePartitionMainBody"
+    x:Class="BiliCopilot.UI.Controls.Article.ArticlePartitionMainBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.ArticlePartition"
+    xmlns:local="using:BiliCopilot.UI.Controls.Article"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 

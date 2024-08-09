@@ -18,10 +18,10 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
+    <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Components\ArticleReader.xaml">
+    <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\MyMomentsPage.xaml">
@@ -124,15 +124,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\FansPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\ArticlePartition\ArticlePartitionSideBody.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">

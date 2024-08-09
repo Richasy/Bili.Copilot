@@ -876,6 +876,9 @@
   <data name="Hot" xml:space="preserve">
     <value>热门</value>
   </data>
+  <data name="HotArticle" xml:space="preserve">
+    <value>热门文章</value>
+  </data>
   <data name="HotReply" xml:space="preserve">
     <value>最热评论</value>
   </data>

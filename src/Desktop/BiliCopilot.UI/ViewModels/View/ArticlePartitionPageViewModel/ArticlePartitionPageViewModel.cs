@@ -42,7 +42,9 @@ public sealed partial class ArticlePartitionPageViewModel : LayoutPageViewModelB
 
         IsPartitionLoading = true;
         var rcmdPartition = new Partition("_", ResourceToolkit.GetLocalizedString(StringNames.RecommendArticle));
+        var hotPartition = new Partition("-", ResourceToolkit.GetLocalizedString(StringNames.HotArticle));
         Partitions.Add(new PartitionViewModel(rcmdPartition));
+        Partitions.Add(new PartitionViewModel(hotPartition));
         var partitions = await _service.GetPartitionsAsync();
         if (partitions != null)
         {
