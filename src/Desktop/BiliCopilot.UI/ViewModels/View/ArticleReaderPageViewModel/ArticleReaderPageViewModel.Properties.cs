@@ -12,7 +12,8 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// </summary>
 public sealed partial class ArticleReaderPageViewModel
 {
-    private readonly IArticleDiscoveryService _service;
+    private readonly IArticleDiscoveryService _discoveryService;
+    private readonly IArticleOperationService _operationService;
     private readonly ILogger<ArticleReaderPageViewModel> _logger;
 
     [ObservableProperty]

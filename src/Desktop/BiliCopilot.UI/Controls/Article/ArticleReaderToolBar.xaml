@@ -57,7 +57,10 @@
                     Source="ms-appx:///Assets/vip.png"
                     Visibility="{x:Bind ViewModel.IsVip, Mode=OneWay}" />
             </Grid>
-            <ToggleButton IsChecked="{x:Bind ViewModel.IsLiked, Mode=OneWay}" Style="{StaticResource IconToggleButtonStyle}">
+            <ToggleButton
+                Command="{x:Bind ViewModel.ToggleLikeCommand, Mode=OneWay}"
+                IsChecked="{x:Bind ViewModel.IsLiked, Mode=OneWay}"
+                Style="{StaticResource IconToggleButtonStyle}">
                 <StackPanel Spacing="4">
                     <ic:SymbolIcon
                         HorizontalAlignment="Center"
@@ -88,7 +91,10 @@
                         Text="{x:Bind ViewModel.CommentCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
                 </StackPanel>
             </Button>
-            <ToggleButton IsChecked="{x:Bind ViewModel.IsFavorited, Mode=OneWay}" Style="{StaticResource IconToggleButtonStyle}">
+            <ToggleButton
+                Command="{x:Bind ViewModel.ToggleFavoriteCommand, Mode=OneWay}"
+                IsChecked="{x:Bind ViewModel.IsFavorited, Mode=OneWay}"
+                Style="{StaticResource IconToggleButtonStyle}">
                 <StackPanel Spacing="4">
                     <ic:SymbolIcon
                         HorizontalAlignment="Center"

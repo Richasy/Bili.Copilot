@@ -43,6 +43,7 @@ internal static class GlobalDependencies
             .AddLiveDiscoveryService()
             .AddEntertainmentDiscoveryService()
             .AddArticleDiscoveryService()
+            .AddArticleOperationService()
             .AddMomentDiscoveryService()
             .AddMomentOperationService()
             .AddMessageService()

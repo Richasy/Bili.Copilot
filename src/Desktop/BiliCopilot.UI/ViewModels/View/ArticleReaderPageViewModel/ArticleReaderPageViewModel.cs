@@ -17,10 +17,12 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="ArticleReaderPageViewModel"/> class.
     /// </summary>
     public ArticleReaderPageViewModel(
-        IArticleDiscoveryService service,
+        IArticleDiscoveryService discovery,
+        IArticleOperationService operation,
         ILogger<ArticleReaderPageViewModel> logger)
     {
-        _service = service;
+        _discoveryService = discovery;
+        _operationService = operation;
         _logger = logger;
     }
 
@@ -33,7 +35,7 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         Article = article;
         try
         {
-            Content = await _service.GetArticleContentAsync(article);
+            Content = await _discoveryService.GetArticleContentAsync(article);
             InitializeUser();
             InitializeStats();
             ArticleInitialized?.Invoke(this, EventArgs.Empty);
@@ -44,6 +46,62 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         }
 
         IsLoading = false;
+    }
+
+    [RelayCommand]
+    private async Task ToggleLikeAsync()
+    {
+        if (Article is null)
+        {
+            return;
+        }
+
+        var state = !IsLiked;
+        try
+        {
+            await _operationService.ToggleLikeAsync(Article.Value, state ?? false);
+            IsLiked = state;
+            if (IsLiked ?? false)
+            {
+                LikeCount++;
+            }
+            else
+            {
+                LikeCount--;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "切换点赞状态时失败");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleFavoriteAsync()
+    {
+        if (Article is null)
+        {
+            return;
+        }
+
+        var state = !IsFavorited;
+        try
+        {
+            await _operationService.ToggleFavoriteAsync(Article.Value, state ?? false);
+            IsFavorited = state;
+            if (IsFavorited ?? false)
+            {
+                FavoriteCount++;
+            }
+            else
+            {
+                FavoriteCount--;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "切换收藏状态时失败");
+        }
     }
 
     private void InitializeUser()
