@@ -60,6 +60,11 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         MainView.CoreWebView2.NavigateToString(html);
     }
 
+    /// <summary>
+    /// 清除内容.
+    /// </summary>
+    public void ClearContent() => MainView.CoreWebView2.NavigateToString(string.Empty);
+
     /// <inheritdoc/>
     protected override async void OnControlLoaded()
     {
@@ -71,6 +76,7 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         MainView.CoreWebView2.Settings.IsZoomControlEnabled = false;
         MainView.CoreWebView2.Settings.AreDevToolsEnabled = false;
         MainView.CoreWebView2.ContextMenuRequested += OnContextMenuRequested;
+        MainView.WebMessageReceived += OnMessageReceivedAsync;
         IsInitialized = true;
         Initialized?.Invoke(this, EventArgs.Empty);
     }

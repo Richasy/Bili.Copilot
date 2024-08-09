@@ -15,7 +15,11 @@ public sealed partial class ArticleReaderPage : ArticleReaderPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleReaderPage"/> class.
     /// </summary>
-    public ArticleReaderPage() => InitializeComponent();
+    public ArticleReaderPage()
+    {
+        InitializeComponent();
+        NavigationCacheMode = NavigationCacheMode.Required;
+    }
 
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -28,20 +32,15 @@ public sealed partial class ArticleReaderPage : ArticleReaderPageBase
         if (e.Parameter is ArticleIdentifier article)
         {
             ViewModel.InitializeCommand.Execute(article);
+            Reader.Initialized += OnInitializedAsync;
+            ViewModel.ArticleInitialized += OnInitializedAsync;
         }
     }
 
     /// <inheritdoc/>
-    protected override void OnPageLoaded()
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
-        Reader.Initialized += OnInitializedAsync;
-        ViewModel.ArticleInitialized += OnInitializedAsync;
-        OnInitializedAsync(default, default);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnPageUnloaded()
-    {
+        Reader.ClearContent();
         Reader.Initialized -= OnInitializedAsync;
         ViewModel.ArticleInitialized -= OnInitializedAsync;
     }

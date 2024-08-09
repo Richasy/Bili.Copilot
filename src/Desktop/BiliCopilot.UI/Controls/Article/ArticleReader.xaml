@@ -34,7 +34,6 @@
             x:Name="MainView"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            DefaultBackgroundColor="Transparent"
-            WebMessageReceived="OnMessageReceivedAsync" />
+            DefaultBackgroundColor="Transparent" />
     </Grid>
 </base:LayoutUserControlBase>
