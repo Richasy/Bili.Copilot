@@ -8,7 +8,25 @@ namespace BiliCopilot.UI.Controls.Article;
 public sealed partial class ArticleReaderCommentPanel : ArticleReaderPageControlBase
 {
     /// <summary>
+    /// <see cref="IsPanelOpened"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsPanelOpenedProperty =
+        DependencyProperty.Register(nameof(IsPanelOpened), typeof(bool), typeof(ArticleReaderCommentPanel), new PropertyMetadata(default));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ArticleReaderCommentPanel"/> class.
     /// </summary>
     public ArticleReaderCommentPanel() => InitializeComponent();
+
+    /// <summary>
+    /// 面板可见性.
+    /// </summary>
+    public bool IsPanelOpened
+    {
+        get => (bool)GetValue(IsPanelOpenedProperty);
+        set => SetValue(IsPanelOpenedProperty, value);
+    }
+
+    private void OnHolderTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+        => IsPanelOpened = !IsPanelOpened;
 }

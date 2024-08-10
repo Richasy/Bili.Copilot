@@ -74,7 +74,11 @@
             <components:EmptyHolder
                 Description="{ext:Locale Name=NoReply}"
                 Emoji="&#x1FAE2;"
-                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
+                Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
+                <components:EmptyHolder.ActionElement>
+                    <HyperlinkButton Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" Content="{ext:Locale Name=Refresh}" />
+                </components:EmptyHolder.ActionElement>
+            </components:EmptyHolder>
             <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         </Grid>
         <local:CommentDetailPanel

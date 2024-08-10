@@ -24,31 +24,8 @@
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <article:ArticleReaderCommentPanel
             x:Name="CommentPanel"
-            Width="360"
-            Margin="12"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Visibility="{x:Bind ViewModel.IsCommentsOpened, Mode=OneWay}">
-            <animations:Implicit.ShowAnimations>
-                <animations:TranslationAnimation
-                    From="20,0"
-                    To="0,0"
-                    Duration="0:0:0.24" />
-                <animations:OpacityAnimation
-                    From="0.0"
-                    To="1.0"
-                    Duration="0:0:0.2" />
-            </animations:Implicit.ShowAnimations>
-            <animations:Implicit.HideAnimations>
-                <animations:TranslationAnimation
-                    From="0,0"
-                    To="20,0"
-                    Duration="0:0:0.24" />
-                <animations:OpacityAnimation
-                    From="1.0"
-                    To="0.0"
-                    Duration="0:0:0.2" />
-            </animations:Implicit.HideAnimations>
-        </article:ArticleReaderCommentPanel>
+            IsPanelOpened="{x:Bind ViewModel.IsCommentsOpened, Mode=TwoWay}" />
     </Grid>
 </local:ArticleReaderPageBase>
