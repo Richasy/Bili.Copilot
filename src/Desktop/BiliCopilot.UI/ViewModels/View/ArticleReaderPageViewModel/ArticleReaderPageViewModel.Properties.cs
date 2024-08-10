@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Article;
@@ -49,6 +50,9 @@ public sealed partial class ArticleReaderPageViewModel
     [ObservableProperty]
     private int _favoriteCount;
 
+    [ObservableProperty]
+    private bool _isCommentsOpened;
+
     /// <summary>
     /// 文章已加载.
     /// </summary>
@@ -63,4 +67,9 @@ public sealed partial class ArticleReaderPageViewModel
     /// 文章内容.
     /// </summary>
     public ArticleDetail? Content { get; private set; }
+
+    /// <summary>
+    /// 评论模块.
+    /// </summary>
+    public CommentMainViewModel CommentModule { get; }
 }

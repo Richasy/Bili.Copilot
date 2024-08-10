@@ -39,6 +39,7 @@ internal static class GlobalDependencies
             .AddRelationshipService()
             .AddViewLaterService()
             .AddViewHistoryService()
+            .AddCommentService()
             .AddVideoDiscoveryService()
             .AddLiveDiscoveryService()
             .AddEntertainmentDiscoveryService()
@@ -50,6 +51,7 @@ internal static class GlobalDependencies
             .AddFavoriteService()
             .AddSearchService()
             .AddDispatcherQueue()
+            .AddTransient<CommentMainViewModel>()
             .AddSingleton<AppViewModel>()
             .AddSingleton<NavigationViewModel>()
             .AddSingleton<StartupPageViewModel>()
@@ -80,6 +82,13 @@ internal static class GlobalDependencies
         where T : class
     {
         kernelBuilder.Services.AddSingleton<T>();
+        return kernelBuilder;
+    }
+
+    public static IKernelBuilder AddTransient<T>(this IKernelBuilder kernelBuilder)
+        where T : class
+    {
+        kernelBuilder.Services.AddTransient<T>();
         return kernelBuilder;
     }
 

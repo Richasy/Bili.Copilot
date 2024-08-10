@@ -68,6 +68,28 @@ public class SortTypeTextConverter : IValueConverter
                     break;
             }
         }
+        else if(value is ComprehensiveSearchSortType chst)
+        {
+            result = chst switch
+            {
+                ComprehensiveSearchSortType.Default => ResourceToolkit.GetLocalizedString(StringNames.SortByDefault),
+                ComprehensiveSearchSortType.Danmaku => ResourceToolkit.GetLocalizedString(StringNames.SortByDanmaku),
+                ComprehensiveSearchSortType.Play => ResourceToolkit.GetLocalizedString(StringNames.SortByPlay),
+                ComprehensiveSearchSortType.Newest => ResourceToolkit.GetLocalizedString(StringNames.SortByNewest),
+                _ => string.Empty,
+            };
+        }
+        else if(value is CommentSortType cst)
+        {
+            var name = cst switch
+            {
+                CommentSortType.Hot => StringNames.HotReply,
+                CommentSortType.Time => StringNames.LatestReply,
+                _ => throw new ArgumentOutOfRangeException(nameof(value)),
+            };
+
+            result = ResourceToolkit.GetLocalizedString(name);
+        }
 
         return result;
     }

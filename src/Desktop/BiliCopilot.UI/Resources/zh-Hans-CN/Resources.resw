@@ -399,6 +399,9 @@
   <data name="ColorSpace" xml:space="preserve">
     <value>色域</value>
   </data>
+  <data name="Comments" xml:space="preserve">
+    <value>评论列表</value>
+  </data>
   <data name="CompactOverlayMode" xml:space="preserve">
     <value>小窗模式</value>
   </data>
@@ -963,10 +966,10 @@
   <data name="Large" xml:space="preserve">
     <value>大</value>
   </data>
-  <data name="Lastest" xml:space="preserve">
+  <data name="Latest" xml:space="preserve">
     <value>最新</value>
   </data>
-  <data name="LastestReply" xml:space="preserve">
+  <data name="LatestReply" xml:space="preserve">
     <value>最新评论</value>
   </data>
   <data name="Left" xml:space="preserve">

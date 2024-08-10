@@ -23,10 +23,14 @@
     <None Remove="Controls\Article\ArticlePartitionMainBody.xaml" />
     <None Remove="Controls\Article\ArticlePartitionMainHeader.xaml" />
     <None Remove="Controls\Article\ArticlePartitionSideBody.xaml" />
+    <None Remove="Controls\Article\ArticleReaderCommentPanel.xaml" />
     <None Remove="Controls\Article\ArticleReaderToolBar.xaml" />
+    <None Remove="Controls\Comment\CommentDetailPanel.xaml" />
+    <None Remove="Controls\Comment\CommentMainPanel.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
+    <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
@@ -153,6 +157,7 @@
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIQRCode\Resolvers.WinUIQRCode.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIToken\Resolvers.WinUIToken.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Article\Services.Article.csproj" />
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Comment\Services.Comment.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Media\Services.Media.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
@@ -615,6 +620,21 @@
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Article\ArticleReaderCommentPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentMainPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\CommentItemControl\CommentItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -656,6 +676,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Moment\MomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentDetailPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

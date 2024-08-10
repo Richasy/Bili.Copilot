@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/UserCardControl/UserCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/EpisodeCardControl/EpisodeCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/CommentItemControl/CommentItemControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>

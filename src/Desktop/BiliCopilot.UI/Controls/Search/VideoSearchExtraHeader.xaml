@@ -11,10 +11,6 @@
     xmlns:models="using:Richasy.BiliKernel.Models"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <converters:ComprehensiveSortConverter x:Key="SortConverter" />
-    </UserControl.Resources>
-
     <StackPanel Orientation="Horizontal">
         <ComboBox
             x:Name="SortComboBox"
@@ -26,7 +22,7 @@
             SelectionChanged="OnSortComboBoxChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="models:ComprehensiveSearchSortType">
-                    <TextBlock Text="{x:Bind Converter={StaticResource SortConverter}}" />
+                    <TextBlock Text="{x:Bind Converter={StaticResource SortTypeTextConverter}}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

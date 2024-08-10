@@ -75,6 +75,13 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
 
             CheckTextTrim();
         }
+
+        if (Text.Pictures?.Count > 0)
+        {
+            var gallery = FindName("Gallery") as ItemsRepeater;
+            gallery.ItemsSource = Text.Pictures;
+            gallery.Visibility = Visibility.Visible;
+        }
     }
 
     private void OnTextTrimChanged(RichTextBlock sender, IsTextTrimmedChangedEventArgs args)

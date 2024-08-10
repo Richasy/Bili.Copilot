@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Article\ArticleReaderCommentPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentMainPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentDetailPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\CommentItemControl\CommentItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
       <SubType>Designer</SubType>
     </Page>

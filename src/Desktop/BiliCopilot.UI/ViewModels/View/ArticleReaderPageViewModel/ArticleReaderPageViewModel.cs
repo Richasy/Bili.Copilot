@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Article;
@@ -19,11 +20,13 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
     public ArticleReaderPageViewModel(
         IArticleDiscoveryService discovery,
         IArticleOperationService operation,
-        ILogger<ArticleReaderPageViewModel> logger)
+        ILogger<ArticleReaderPageViewModel> logger,
+        CommentMainViewModel comment)
     {
         _discoveryService = discovery;
         _operationService = operation;
         _logger = logger;
+        CommentModule = comment;
     }
 
     [RelayCommand]
@@ -33,6 +36,8 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         Content = default;
         IsLoading = true;
         Article = article;
+        IsCommentsOpened = false;
+        CommentModule.Initialize(article.Id, Richasy.BiliKernel.Models.CommentTargetType.Article, Richasy.BiliKernel.Models.CommentSortType.Hot);
         try
         {
             Content = await _discoveryService.GetArticleContentAsync(article);
@@ -101,6 +106,17 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "切换收藏状态时失败");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleCommentsAsync()
+    {
+        IsCommentsOpened = !IsCommentsOpened;
+
+        if (IsCommentsOpened && CommentModule.Comments.Count == 0)
+        {
+            await CommentModule.LoadItemsCommand.ExecuteAsync(default);
         }
     }
 

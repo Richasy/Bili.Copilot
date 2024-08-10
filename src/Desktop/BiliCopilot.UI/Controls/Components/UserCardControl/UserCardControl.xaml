@@ -84,6 +84,7 @@
                                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}" />
                                             <ic:SymbolIcon
                                                 FontSize="10"
+                                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
                                                 IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed, Converter={StaticResource BoolToIconVariantConverter}}"
                                                 Symbol="Heart"
                                                 ToolTipService.ToolTip="{ext:Locale Name=Follow}" />
