@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -18,10 +19,12 @@ public sealed partial class MyMomentsPageViewModel : ViewModelBase
     /// </summary>
     public MyMomentsPageViewModel(
         IMomentDiscoveryService service,
-        ILogger<MyMomentsPageViewModel> logger)
+        ILogger<MyMomentsPageViewModel> logger,
+        CommentMainViewModel comment)
     {
         _service = service;
         _logger = logger;
+        CommentModule = comment;
     }
 
     [RelayCommand]
@@ -61,7 +64,7 @@ public sealed partial class MyMomentsPageViewModel : ViewModelBase
             _preventLoadMore = !hasMore || string.IsNullOrEmpty(offset);
             if (moments is not null)
             {
-                foreach (var item in moments.Select(p => new MomentItemViewModel(p)))
+                foreach (var item in moments.Select(p => new MomentItemViewModel(p, ShowComment)))
                 {
                     Items.Add(item);
                 }
@@ -79,5 +82,18 @@ public sealed partial class MyMomentsPageViewModel : ViewModelBase
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void ShowComment(MomentItemViewModel data)
+    {
+        var moment = data.Data;
+        if (CommentModule.Id == moment.CommentId)
+        {
+            return;
+        }
+
+        IsCommentsOpened = true;
+        CommentModule.Initialize(moment.CommentId, moment.CommentType!.Value, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        CommentModule.RefreshCommand.Execute(default);
     }
 }

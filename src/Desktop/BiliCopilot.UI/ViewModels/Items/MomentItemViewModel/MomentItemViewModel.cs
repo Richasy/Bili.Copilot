@@ -2,6 +2,9 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Moment;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Moment;
@@ -17,9 +20,12 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentItemViewModel"/> class.
     /// </summary>
-    public MomentItemViewModel(MomentInformation data)
+    public MomentItemViewModel(MomentInformation data, Action<MomentItemViewModel> showCommentAction)
         : base(data)
     {
+        _showMomentAction = showCommentAction;
+        _operationService = this.Get<IMomentOperationService>();
+        _logger = this.Get<ILogger<MomentItemViewModel>>();
         IsLiked = data.CommunityInformation?.IsLiked ?? false;
         LikeCount = data.CommunityInformation?.LikeCount;
         CommentCount = data.CommunityInformation?.CommentCount;
@@ -33,11 +39,15 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         {
             if (data.Data is MomentInformation forward)
             {
-                InnerContent = new MomentItemViewModel(forward);
+                InnerContent = new MomentItemViewModel(forward, showCommentAction);
             }
             else if (data.Data is VideoInformation video)
             {
                 InnerContent = new VideoItemViewModel(video, VideoCardStyle.Moment);
+            }
+            else if (data.Data is EpisodeInformation episode)
+            {
+                InnerContent = new EpisodeItemViewModel(episode);
             }
             else if (data.Data is IEnumerable<BiliImage> images)
             {
@@ -84,4 +94,32 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
 
         return default;
     }
+
+    [RelayCommand]
+    private async Task ToggleLikeAsync()
+    {
+        var state = !IsLiked;
+        try
+        {
+            if (state)
+            {
+                await _operationService.LikeMomentAsync(Data);
+            }
+            else
+            {
+                await _operationService.DislikeMomentAsync(Data);
+            }
+
+            IsLiked = state;
+            LikeCount += state ? 1 : -1;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "切换评论点赞状态时失败");
+        }
+    }
+
+    [RelayCommand]
+    private void ShowComment()
+        => _showMomentAction?.Invoke(this);
 }

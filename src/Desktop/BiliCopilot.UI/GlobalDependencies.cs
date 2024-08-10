@@ -53,6 +53,7 @@ internal static class GlobalDependencies
             .AddDispatcherQueue()
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<AppViewModel>()
+            .AddSingleton<EmoteModuleViewModel>()
             .AddSingleton<NavigationViewModel>()
             .AddSingleton<StartupPageViewModel>()
             .AddSingleton<AccountViewModel>()

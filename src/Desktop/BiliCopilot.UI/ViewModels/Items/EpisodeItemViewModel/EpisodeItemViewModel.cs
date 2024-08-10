@@ -19,6 +19,9 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
     {
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover?.Uri;
+        PlayCount = data.CommunityInformation?.PlayCount;
+        DanmakuCount = data.CommunityInformation?.DanmakuCount;
         Duration = AppToolkit.FormatDuration(TimeSpan.FromSeconds(data.Duration ?? 0));
+        IsPreview = data.GetExtensionIfNotNull<bool>(EpisodeExtensionDataId.IsPreview);
     }
 }

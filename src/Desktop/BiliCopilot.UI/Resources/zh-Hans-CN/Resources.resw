@@ -1044,6 +1044,9 @@
   <data name="LoginFailed" xml:space="preserve">
     <value>登录失败，请稍后重试</value>
   </data>
+  <data name="MainEpisode" xml:space="preserve">
+    <value>正片</value>
+  </data>
   <data name="MainWindow" xml:space="preserve">
     <value>主窗口</value>
   </data>
@@ -1472,6 +1475,9 @@
   </data>
   <data name="PreferQuality" xml:space="preserve">
     <value>画质偏好</value>
+  </data>
+  <data name="PreviewEpisode" xml:space="preserve">
+    <value>预告片</value>
   </data>
   <data name="PreviousEpisode" xml:space="preserve">
     <value>上一集</value>

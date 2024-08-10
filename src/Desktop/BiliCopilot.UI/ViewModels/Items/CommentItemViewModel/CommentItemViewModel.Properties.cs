@@ -14,6 +14,7 @@ public sealed partial class CommentItemViewModel
 {
     private readonly ICommentService _service;
     private readonly ILogger<CommentItemViewModel> _logger;
+    private readonly Action<CommentItemViewModel> _markReplyTargetAction;
 
     [ObservableProperty]
     private bool _isLiked;

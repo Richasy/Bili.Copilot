@@ -33,7 +33,7 @@ public sealed partial class CommentMainViewModel : ViewModelBase
     public void Initialize(string sourceId, CommentTargetType targetType, CommentSortType sortType)
     {
         Clear();
-        _targetId = sourceId;
+        Id = sourceId;
         _targetType = targetType;
         SortType = sortType;
         Initialized?.Invoke(this, EventArgs.Empty);
@@ -42,11 +42,11 @@ public sealed partial class CommentMainViewModel : ViewModelBase
     [RelayCommand]
     private async Task RefreshAsync()
     {
-        var targetId = _targetId;
+        var targetId = Id;
         var targetType = _targetType;
         var sortType = SortType;
         Clear();
-        _targetId = targetId;
+        Id = targetId;
         _targetType = targetType;
         SortType = sortType;
         await LoadItemsAsync();
@@ -63,18 +63,18 @@ public sealed partial class CommentMainViewModel : ViewModelBase
         try
         {
             IsLoading = true;
-            var view = await _service.GetCommentsAsync(_targetId, _targetType, SortType, _offset);
+            var view = await _service.GetCommentsAsync(Id, _targetType, SortType, _offset);
             _preventLoadMore = view.IsEnd;
             if (view.TopComment is not null)
             {
-                TopItem = new CommentDetailViewModel(new CommentItemViewModel(view.TopComment, _service), ShowMore, _service);
+                TopItem = new CommentDetailViewModel(new CommentItemViewModel(view.TopComment, _service, default), ShowMore, _service);
             }
 
             foreach (var item in view.Comments)
             {
                 if (!Comments.Any(p => p.Data.Data.Equals(item)))
                 {
-                    Comments.Add(new CommentDetailViewModel(new CommentItemViewModel(item, _service), ShowMore, _service));
+                    Comments.Add(new CommentDetailViewModel(new CommentItemViewModel(item, _service, SetReplyTarget), ShowMore, _service));
                 }
             }
 
@@ -104,6 +104,49 @@ public sealed partial class CommentMainViewModel : ViewModelBase
     private void BackToMain()
         => SelectedItem = default;
 
+    [RelayCommand]
+    private async Task SendReplyAsync(string content)
+    {
+        if (IsReplying || string.IsNullOrEmpty(content))
+        {
+            return;
+        }
+
+        IsReplying = true;
+        content = content.Trim();
+        var replyCommentId = _replyItem is null ? "0" : _replyItem.Data.Id;
+        try
+        {
+            await _service.SendTextCommentAsync(content, Id, _targetType, "0", replyCommentId);
+            if (SortType == CommentSortType.Time)
+            {
+                await Task.Delay(500);
+                await RefreshAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "回复评论时出错");
+        }
+        finally
+        {
+            IsReplying = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ResetReplyTarget()
+    {
+        _replyItem = null;
+        ReplyTarget = default;
+    }
+
+    private void SetReplyTarget(CommentItemViewModel item)
+    {
+        _replyItem = item;
+        ReplyTarget = item?.Data.User.User.Name;
+    }
+
     private void ShowMore(CommentDetailViewModel vm)
         => SelectedItem = vm;
 
@@ -121,11 +164,12 @@ public sealed partial class CommentMainViewModel : ViewModelBase
         Comments.Clear();
         _offset = 0;
         _preventLoadMore = false;
-        _targetId = default;
+        Id = default;
         _targetType = default;
         SortType = default;
         IsEmpty = false;
         TopItem = default;
         SelectedItem = default;
+        ResetReplyTarget();
     }
 }

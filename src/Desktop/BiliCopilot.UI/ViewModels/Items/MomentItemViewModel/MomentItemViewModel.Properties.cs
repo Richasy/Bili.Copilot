@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Moment;
 using Richasy.BiliKernel.Models.Appearance;
 
 namespace BiliCopilot.UI.ViewModels.Items;
@@ -10,6 +12,10 @@ namespace BiliCopilot.UI.ViewModels.Items;
 /// </summary>
 public sealed partial class MomentItemViewModel
 {
+    private readonly IMomentOperationService _operationService;
+    private readonly ILogger<MomentItemViewModel> _logger;
+    private readonly Action<MomentItemViewModel> _showMomentAction;
+
     [ObservableProperty]
     private double? _likeCount;
 

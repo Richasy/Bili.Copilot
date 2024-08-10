@@ -17,7 +17,7 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
     /// <summary>
     /// Initializes a new instance of the <see cref="CommentItemViewModel"/> class.
     /// </summary>
-    public CommentItemViewModel(CommentInformation data, ICommentService service)
+    public CommentItemViewModel(CommentInformation data, ICommentService service, Action<CommentItemViewModel> markReplyTargetAction)
         : base(data)
     {
         _service = service;
@@ -31,6 +31,7 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
         UserName = data.User.User.Name;
         IsVip = data.User.IsVip ?? false;
         Content = data.Content;
+        _markReplyTargetAction = markReplyTargetAction;
     }
 
     [RelayCommand]
@@ -48,4 +49,8 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
             _logger.LogError(ex, "切换评论点赞状态时失败");
         }
     }
+
+    [RelayCommand]
+    private void MarkReplyTarget()
+        => _markReplyTargetAction?.Invoke(this);
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.ObjectModel;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,9 @@ public sealed partial class MyMomentsPageViewModel
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private bool _isCommentsOpened;
+
     /// <summary>
     /// 列表已完成更新.
     /// </summary>
@@ -33,4 +37,9 @@ public sealed partial class MyMomentsPageViewModel
     /// 条目列表.
     /// </summary>
     public ObservableCollection<MomentItemViewModel> Items { get; } = new();
+
+    /// <summary>
+    /// 评论模块.
+    /// </summary>
+    public CommentMainViewModel CommentModule { get; }
 }

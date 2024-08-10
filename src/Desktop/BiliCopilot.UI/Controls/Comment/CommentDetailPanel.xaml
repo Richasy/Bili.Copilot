@@ -48,5 +48,12 @@
             </components:EmptyHolder.ActionElement>
         </components:EmptyHolder>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <local:CommentTextBox
+            Grid.Row="2"
+            Margin="16,0"
+            IsEnabled="{x:Bind ViewModel.IsReplying, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+            ReplyTip="{x:Bind ViewModel.ReplyTarget, Mode=OneWay}"
+            ResetSelectedCommand="{x:Bind ViewModel.ResetReplyTargetCommand, Mode=OneWay}"
+            SendCommand="{x:Bind ViewModel.SendReplyCommand, Mode=OneWay}" />
     </Grid>
 </local:CommentDetailPanelBase>

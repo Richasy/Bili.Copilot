@@ -21,4 +21,19 @@ public sealed partial class EpisodeItemViewModel
     /// 视频时长.
     /// </summary>
     public string? Duration { get; init; }
+
+    /// <summary>
+    /// 是否为预告片.
+    /// </summary>
+    public bool IsPreview { get; init; }
+
+    /// <summary>
+    /// 弹幕数.
+    /// </summary>
+    public double? DanmakuCount { get; init; }
+
+    /// <summary>
+    /// 播放数.
+    /// </summary>
+    public double? PlayCount { get; init; }
 }

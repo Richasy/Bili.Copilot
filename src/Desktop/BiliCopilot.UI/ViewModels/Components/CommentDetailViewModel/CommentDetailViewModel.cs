@@ -56,7 +56,7 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
                     continue;
                 }
 
-                Comments.Add(new CommentItemViewModel(item, _service));
+                Comments.Add(new CommentItemViewModel(item, _service, SetReplyTarget));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);
@@ -87,6 +87,7 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
         _offset = 0;
         _preventLoadMore = false;
         IsEmpty = false;
+        ResetReplyTarget();
     }
 
     [RelayCommand]
@@ -94,5 +95,47 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
     {
         _showMoreAction?.Invoke(this);
         InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private async Task SendReplyAsync(string content)
+    {
+        if (IsReplying || string.IsNullOrEmpty(content))
+        {
+            return;
+        }
+
+        IsReplying = true;
+        content = content.Trim();
+        var targetId = Data.Data.CommentId;
+        var rootId = _replyItem is null ? Data.Data.Id : _replyItem.Data.RootId;
+        var replyCommentId = _replyItem is null ? rootId : _replyItem.Data.Id;
+        try
+        {
+            await _service.SendTextCommentAsync(content, targetId, Data.Data.CommentType, rootId, replyCommentId);
+            await Task.Delay(500);
+            await RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "回复评论时出错");
+        }
+        finally
+        {
+            IsReplying = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ResetReplyTarget()
+    {
+        _replyItem = default;
+        ReplyTarget = default;
+    }
+
+    private void SetReplyTarget(CommentItemViewModel item)
+    {
+        _replyItem = item;
+        ReplyTarget = item?.Data.User.User.Name;
     }
 }

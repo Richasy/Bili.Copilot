@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.ObjectModel;
+using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Comment;
@@ -18,8 +19,8 @@ public sealed partial class CommentMainViewModel
 
     private bool _preventLoadMore;
     private CommentTargetType _targetType;
-    private string _targetId;
     private long _offset;
+    private CommentItemViewModel? _replyItem;
 
     [ObservableProperty]
     private CommentDetailViewModel? _topItem;
@@ -39,6 +40,12 @@ public sealed partial class CommentMainViewModel
     [ObservableProperty]
     private CommentSortType _sortType;
 
+    [ObservableProperty]
+    private string _replyTarget;
+
+    [ObservableProperty]
+    private bool _isReplying;
+
     /// <summary>
     /// 已初始化.
     /// </summary>
@@ -53,4 +60,9 @@ public sealed partial class CommentMainViewModel
     /// 评论列表.
     /// </summary>
     public ObservableCollection<CommentDetailViewModel> Comments { get; } = new();
+
+    /// <summary>
+    /// 标识符.
+    /// </summary>
+    public string Id { get; private set; }
 }

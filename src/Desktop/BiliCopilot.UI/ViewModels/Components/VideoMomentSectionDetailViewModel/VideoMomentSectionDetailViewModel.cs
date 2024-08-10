@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
@@ -63,7 +64,7 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
                 _offset = view.Offset;
                 _baseline = view.UpdateBaseline;
                 _preventLoadMore = view.HasMoreMoments != true;
-                foreach (var item in view.Moments.Select(p => new MomentItemViewModel(p)))
+                foreach (var item in view.Moments.Select(p => new MomentItemViewModel(p, ShowComment)))
                 {
                     Items.Add(item);
                 }
@@ -82,4 +83,7 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
             IsLoading = false;
         }
     }
+
+    private void ShowComment(MomentItemViewModel item)
+        => this.Get<MomentPageViewModel>().ShowCommentCommand.Execute(item.Data);
 }

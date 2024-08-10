@@ -27,10 +27,12 @@
     <None Remove="Controls\Article\ArticleReaderToolBar.xaml" />
     <None Remove="Controls\Comment\CommentDetailPanel.xaml" />
     <None Remove="Controls\Comment\CommentMainPanel.xaml" />
+    <None Remove="Controls\Comment\CommentTextBox.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
+    <None Remove="Controls\Components\EmotePanel.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
@@ -618,6 +620,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\EmotePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Article\ArticleReaderCommentPanel.xaml">

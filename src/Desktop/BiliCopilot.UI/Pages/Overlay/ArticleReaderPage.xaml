@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:article="using:BiliCopilot.UI.Controls.Article"
+    xmlns:comment="using:BiliCopilot.UI.Controls.Comment"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
@@ -22,10 +23,9 @@
             VerticalAlignment="Top"
             Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
-        <article:ArticleReaderCommentPanel
+        <comment:CommentOverlayPanel
             x:Name="CommentPanel"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            IsPanelOpened="{x:Bind ViewModel.IsCommentsOpened, Mode=TwoWay}" />
+            IsPanelOpened="{x:Bind ViewModel.IsCommentsOpened, Mode=TwoWay}"
+            ViewModel="{x:Bind ViewModel.CommentModule, Mode=OneWay}" />
     </Grid>
 </local:ArticleReaderPageBase>

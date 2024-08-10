@@ -19,12 +19,19 @@ public sealed partial class CommentDetailViewModel
 
     private bool _preventLoadMore;
     private long _offset;
+    private CommentItemViewModel? _replyItem;
 
     [ObservableProperty]
     private bool _isEmpty;
 
     [ObservableProperty]
     private bool _isLoading;
+
+    [ObservableProperty]
+    private string _replyTarget;
+
+    [ObservableProperty]
+    private bool _isReplying;
 
     /// <summary>
     /// 列表已更新.

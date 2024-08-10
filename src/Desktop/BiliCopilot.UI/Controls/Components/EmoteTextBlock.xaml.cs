@@ -82,6 +82,11 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
             gallery.ItemsSource = Text.Pictures;
             gallery.Visibility = Visibility.Visible;
         }
+        else if (Gallery is not null)
+        {
+            Gallery.ItemsSource = default;
+            Gallery.Visibility = Visibility.Collapsed;
+        }
     }
 
     private void OnTextTrimChanged(RichTextBlock sender, IsTextTrimmedChangedEventArgs args)

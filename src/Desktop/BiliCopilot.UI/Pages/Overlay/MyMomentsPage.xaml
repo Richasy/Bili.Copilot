@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Pages.Overlay.MyMomentsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:comment="using:BiliCopilot.UI.Controls.Comment"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,5 +23,10 @@
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <moment:MyMomentsMainHeader VerticalAlignment="Center" />
         <moment:MyMomentsMainBody Grid.Row="2" />
+        <comment:CommentOverlayPanel
+            x:Name="CommentPanel"
+            Grid.RowSpan="3"
+            IsPanelOpened="{x:Bind ViewModel.IsCommentsOpened, Mode=TwoWay}"
+            ViewModel="{x:Bind ViewModel.CommentModule, Mode=OneWay}" />
     </Grid>
 </local:MyMomentsPageBase>

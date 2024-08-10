@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:LayoutUserControlBase
+    x:Class="BiliCopilot.UI.Controls.Comment.CommentTextBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Comment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Padding="4"
+        Background="{ThemeResource CardBackgroundFillColorDefault}"
+        ColumnSpacing="12"
+        CornerRadius="{StaticResource ControlCornerRadius}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid
+            Margin="4,2,0,4"
+            ColumnSpacing="8"
+            Visibility="{x:Bind ReplyTip, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Left"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}">
+                <Run Text="{ext:Locale Name=Reply}" />
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ReplyTip, Mode=OneWay}" />
+            </TextBlock>
+            <Button
+                Grid.Column="1"
+                Width="20"
+                Height="20"
+                Padding="0"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                Command="{x:Bind ResetSelectedCommand, Mode=OneWay}"
+                CornerRadius="10">
+                <ic:SymbolIcon FontSize="10" Symbol="Dismiss" />
+            </Button>
+        </Grid>
+        <AutoSuggestBox
+            x:Name="ReplyBox"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AllowFocusOnInteraction="True"
+            Background="Transparent"
+            BorderThickness="0"
+            PlaceholderText="{ext:Locale Name=ReplyPlaceholderText}"
+            QuerySubmitted="OnReplySubmittedAsync"
+            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <AutoSuggestBox.TextBoxStyle>
+                <Style BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}" TargetType="TextBox">
+                    <Setter Property="Padding" Value="40,8,12,8" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="AcceptsReturn" Value="True" />
+                    <Setter Property="MaxHeight" Value="80" />
+                </Style>
+            </AutoSuggestBox.TextBoxStyle>
+            <AutoSuggestBox.QueryIcon>
+                <ic:SymbolIcon FontSize="14" Symbol="Send" />
+            </AutoSuggestBox.QueryIcon>
+        </AutoSuggestBox>
+        <Button
+            Grid.Row="1"
+            Margin="4,2,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Style="{StaticResource SmallIconButtonStyle}"
+            ToolTipService.ToolTip="{ext:Locale Name=Emote}">
+            <ic:SymbolIcon FontSize="14" Symbol="Emoji" />
+            <Button.Flyout>
+                <Flyout Closed="OnFlyoutClosed" ShouldConstrainToRootBounds="False">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="4,8" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <components:EmotePanel
+                        Width="320"
+                        Height="420"
+                        ItemClick="OnItemClick" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</base:LayoutUserControlBase>

@@ -100,6 +100,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton
                                     x:Name="LikeButton"
@@ -128,6 +129,15 @@
                                         <TextBlock FontSize="12" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ChildCount, Converter={StaticResource ChildCommentTextConverter}}" />
                                     </HyperlinkButton>
                                 </StackPanel>
+                                <Button
+                                    Grid.Column="2"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.MarkReplyTargetCommand}"
+                                    Style="{StaticResource SmallIconButtonStyle}"
+                                    ToolTipService.ToolTip="{ext:Locale Name=Reply}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <ic:SymbolIcon FontSize="12" Symbol="CommentMention" />
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>

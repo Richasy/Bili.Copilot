@@ -4,6 +4,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Bili.Moment;
+using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
@@ -17,9 +18,11 @@ public sealed partial class MomentPageViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="MomentPageViewModel"/> class.
     /// </summary>
     public MomentPageViewModel(
-        IMomentDiscoveryService discoveryService)
+        IMomentDiscoveryService discoveryService,
+        CommentMainViewModel comment)
     {
         _momentDiscoveryService = discoveryService;
+        CommentModule = comment;
     }
 
     [RelayCommand]
@@ -51,5 +54,18 @@ public sealed partial class MomentPageViewModel : ViewModelBase
 
         SelectedSection = section;
         SelectedSection.InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private void ShowComment(MomentInformation data)
+    {
+        IsCommentsOpened = true;
+        if (CommentModule.Id == data.CommentId)
+        {
+            return;
+        }
+
+        CommentModule.Initialize(data.CommentId, data.CommentType!.Value, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        CommentModule.RefreshCommand.Execute(default);
     }
 }

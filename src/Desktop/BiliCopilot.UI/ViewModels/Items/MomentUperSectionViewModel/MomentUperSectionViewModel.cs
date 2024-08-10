@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
@@ -38,7 +39,7 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
         Items.Clear();
         foreach (var item in momentView.Moments)
         {
-            Items.Add(new MomentItemViewModel(item));
+            Items.Add(new MomentItemViewModel(item, ShowComment));
         }
 
         ListUpdated?.Invoke(this, EventArgs.Empty);
@@ -115,7 +116,7 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
             _offset = view.Offset;
             _baseline = view.UpdateBaseline;
             _preventLoadMore = view.HasMoreMoments != true;
-            foreach (var item in view.Moments.Select(p => new MomentItemViewModel(p)))
+            foreach (var item in view.Moments.Select(p => new MomentItemViewModel(p, ShowComment)))
             {
                 Items.Add(item);
             }
@@ -131,7 +132,7 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
         _preventLoadMore = !hasMore || string.IsNullOrEmpty(offset);
         if (moments is not null)
         {
-            foreach (var item in moments.Select(p => new MomentItemViewModel(p)))
+            foreach (var item in moments.Select(p => new MomentItemViewModel(p, ShowComment)))
             {
                 Items.Add(item);
             }
@@ -139,4 +140,7 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
             ListUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
+
+    private void ShowComment(MomentItemViewModel item)
+        => this.Get<MomentPageViewModel>().ShowCommentCommand.Execute(item.Data);
 }

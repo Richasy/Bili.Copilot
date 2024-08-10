@@ -1,22 +1,22 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-namespace BiliCopilot.UI.Controls.Article;
+namespace BiliCopilot.UI.Controls.Comment;
 
 /// <summary>
 /// 文章阅读器评论面板.
 /// </summary>
-public sealed partial class ArticleReaderCommentPanel : ArticleReaderPageControlBase
+public sealed partial class CommentOverlayPanel : CommentMainPanelBase
 {
     /// <summary>
     /// <see cref="IsPanelOpened"/> 依赖属性.
     /// </summary>
     public static readonly DependencyProperty IsPanelOpenedProperty =
-        DependencyProperty.Register(nameof(IsPanelOpened), typeof(bool), typeof(ArticleReaderCommentPanel), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(IsPanelOpened), typeof(bool), typeof(CommentOverlayPanel), new PropertyMetadata(default));
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ArticleReaderCommentPanel"/> class.
+    /// Initializes a new instance of the <see cref="CommentOverlayPanel"/> class.
     /// </summary>
-    public ArticleReaderCommentPanel() => InitializeComponent();
+    public CommentOverlayPanel() => InitializeComponent();
 
     /// <summary>
     /// 面板可见性.
