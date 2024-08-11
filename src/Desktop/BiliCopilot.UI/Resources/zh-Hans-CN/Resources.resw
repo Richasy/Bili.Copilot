@@ -1179,6 +1179,9 @@
   <data name="NoFans" xml:space="preserve">
     <value>该用户还木有粉丝哟~</value>
   </data>
+  <data name="NoFavoritesPgc" xml:space="preserve">
+    <value>没有找到正在追的剧集</value>
+  </data>
   <data name="NoFeaturedVideo" xml:space="preserve">
     <value>没有获取到精选视频</value>
   </data>

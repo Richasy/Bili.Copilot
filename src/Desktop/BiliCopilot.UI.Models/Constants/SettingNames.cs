@@ -29,4 +29,5 @@ public enum SettingNames
     CinemaPageLastSelectedSectionType,
     ArticlePartitionPageLastSelectedPartitionId,
     FollowsPageLastSelectedGroupId,
+    LastSelectedFavoriteSection,
 }

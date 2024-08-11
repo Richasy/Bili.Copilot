@@ -40,6 +40,13 @@
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageSideHeader.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteSideItem.xaml" />
     <None Remove="Controls\History\ArticleHistorySection.xaml" />
     <None Remove="Controls\History\HistoryHeader.xaml" />
     <None Remove="Controls\History\LiveHistorySection.xaml" />
@@ -118,6 +125,7 @@
     <None Remove="Pages\MomentPage.xaml" />
     <None Remove="Pages\Overlay\ArticleReaderPage.xaml" />
     <None Remove="Pages\Overlay\FansPage.xaml" />
+    <None Remove="Pages\Overlay\FavoritesPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
     <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
@@ -630,6 +638,41 @@
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\FavoritesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\History\ArticleHistorySection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -741,6 +784,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\History\HistoryHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteSideItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

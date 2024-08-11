@@ -68,7 +68,7 @@
                             <ic:SymbolIcon Symbol="Person" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{ext:Locale Name=MyFavorite}">
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShowFavoritesCommand}" Text="{ext:Locale Name=MyFavorite}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="StarLineHorizontal3" />
                         </MenuFlyoutItem.Icon>

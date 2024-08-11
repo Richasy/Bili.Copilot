@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:FavoritesPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Favorites.FavoritesPageSideBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.ViewModels.Components"
+    xmlns:components1="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Favorites"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="PgcTemplate" x:DataType="components:PgcFavoriteSectionDetailViewModel">
+            <local:PgcFavoriteSideItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:FavoriteSectionTemplateSelector x:Key="Selector" PgcTemplate="{StaticResource PgcTemplate}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <ItemsView
+            x:Name="SectionView"
+            Padding="2,8,8,8"
+            ItemsSource="{x:Bind ViewModel.Sections}"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="items:IFavoriteSectionDetailViewModel">
+                    <ItemContainer
+                        MinHeight="40"
+                        Margin="8,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        Style="{StaticResource AppItemContainerStyle}">
+                        <ContentControl
+                            Padding="12,0"
+                            VerticalAlignment="Center"
+                            Content="{x:Bind}"
+                            ContentTemplateSelector="{StaticResource Selector}" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+        <components1:SideBottomLoadingWidget
+            VerticalAlignment="Bottom"
+            Text="{ext:Locale Name=LoadingAndWait}"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <animations:Implicit.ShowAnimations>
+            <animations:TranslationAnimation
+                From="-20,0"
+                To="0,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:TranslationAnimation
+                From="0,0"
+                To="-20,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.HideAnimations>
+    </Grid>
+</local:FavoritesPageControlBase>

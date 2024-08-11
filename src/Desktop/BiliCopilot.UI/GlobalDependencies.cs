@@ -72,6 +72,7 @@ internal static class GlobalDependencies
             .AddSingleton<ArticleReaderPageViewModel>()
             .AddSingleton<ViewLaterPageViewModel>()
             .AddSingleton<HistoryPageViewModel>()
+            .AddSingleton<FavoritesPageViewModel>()
             .Build();
     }
 

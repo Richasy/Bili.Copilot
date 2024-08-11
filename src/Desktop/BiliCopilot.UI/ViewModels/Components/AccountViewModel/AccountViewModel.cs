@@ -110,4 +110,8 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private void ShowHistory()
         => _navService.NavigateToOver(typeof(HistoryPage).FullName);
+
+    [RelayCommand]
+    private void ShowFavorites()
+        => _navService.NavigateToOver(typeof(FavoritesPage).FullName);
 }

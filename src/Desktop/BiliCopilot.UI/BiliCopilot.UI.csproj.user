@@ -18,6 +18,30 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FavoritesPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\History\ArticleHistorySection.xaml">
       <SubType>Designer</SubType>
     </Page>
