@@ -367,7 +367,7 @@
     <value>清空历史记录</value>
   </data>
   <data name="ClearHistoryWarning" xml:space="preserve">
-    <value>是否要清空历史记录？</value>
+    <value>是否要清空当前所选分区的历史记录？</value>
   </data>
   <data name="ClearViewLater" xml:space="preserve">
     <value>清空稍后再看</value>
@@ -1023,6 +1023,9 @@
   <data name="LiveSourceUrl" xml:space="preserve">
     <value>直播源地址</value>
   </data>
+  <data name="Living" xml:space="preserve">
+    <value>直播中</value>
+  </data>
   <data name="LoadingAndWait" xml:space="preserve">
     <value>加载中，请稍候</value>
   </data>
@@ -1187,6 +1190,12 @@
   </data>
   <data name="NoFollows" xml:space="preserve">
     <value>空无一人的关注列表~</value>
+  </data>
+  <data name="NoHistoryArticles" xml:space="preserve">
+    <value>没有最近的文章历史记录</value>
+  </data>
+  <data name="NoHistoryLives" xml:space="preserve">
+    <value>没有最近的直播历史记录</value>
   </data>
   <data name="NoHistoryVideos" xml:space="preserve">
     <value>没有最近的视频历史记录</value>
@@ -1371,6 +1380,9 @@
   <data name="PixelFormat" xml:space="preserve">
     <value>像素格式</value>
   </data>
+  <data name="Play" xml:space="preserve">
+    <value>播放</value>
+  </data>
   <data name="PlayAll" xml:space="preserve">
     <value>播放全部</value>
   </data>
@@ -1538,6 +1550,9 @@
   </data>
   <data name="RankRequestFailed" xml:space="preserve">
     <value>排行榜请求失败</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>阅读</value>
   </data>
   <data name="ReadCount" xml:space="preserve">
     <value>阅读数</value>

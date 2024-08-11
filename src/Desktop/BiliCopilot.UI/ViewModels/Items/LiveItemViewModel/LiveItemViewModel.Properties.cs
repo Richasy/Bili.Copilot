@@ -40,5 +40,15 @@ public sealed partial class LiveItemViewModel
     /// <summary>
     /// 标签名称.
     /// </summary>
-    public string? TagName { get; set; }
+    public string? TagName { get; init; }
+
+    /// <summary>
+    /// 是否正在直播.
+    /// </summary>
+    public bool? IsLiving { get; init; }
+
+    /// <summary>
+    /// 收集时间.
+    /// </summary>
+    public string? CollectRelativeTime { get; init; }
 }

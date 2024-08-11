@@ -30,6 +30,11 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
         Avatar = data.Publisher?.Avatar?.Uri;
         PublishRelativeTime = data.PublishDateTime.Humanize(culture: new CultureInfo(primaryLan));
         LikeCount = data.CommunityInformation?.LikeCount;
+        var collectTime = data.GetExtensionIfNotNull<DateTimeOffset?>(ArticleExtensionDataId.CollectTime);
+        if (collectTime is not null)
+        {
+            CollectRelativeTime = collectTime.Value.Humanize();
+        }
     }
 
     [RelayCommand]

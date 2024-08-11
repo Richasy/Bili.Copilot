@@ -78,4 +78,9 @@ public sealed partial class VideoItemViewModel
     /// 收集时间.
     /// </summary>
     public string? CollectTime { get; init; }
+
+    /// <summary>
+    /// 进度文本.
+    /// </summary>
+    public string? ProgressText { get; init; }
 }

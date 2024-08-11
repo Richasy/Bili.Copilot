@@ -18,6 +18,21 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\History\ArticleHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\LiveHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\VideoHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\HistoryHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\ViewLater\ViewLaterBody.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -36,5 +36,10 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         RecommendReason = info.GetExtensionIfNotNull<string?>(VideoExtensionDataId.RecommendReason);
         Subtitle = info.GetExtensionIfNotNull<string?>(VideoExtensionDataId.Subtitle);
         CollectTime = info.GetExtensionIfNotNull<DateTimeOffset>(VideoExtensionDataId.CollectTime).Humanize();
+        var progress = info.GetExtensionIfNotNull<int?>(VideoExtensionDataId.Progress);
+        if (progress is not null)
+        {
+            ProgressText = AppToolkit.FormatDuration(TimeSpan.FromSeconds(progress.Value));
+        }
     }
 }

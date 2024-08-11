@@ -78,7 +78,7 @@
                             <ic:SymbolIcon Symbol="CalendarClock" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{ext:Locale Name=ViewHistory}">
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShowHistoryCommand}" Text="{ext:Locale Name=ViewHistory}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="History" />
                         </MenuFlyoutItem.Icon>

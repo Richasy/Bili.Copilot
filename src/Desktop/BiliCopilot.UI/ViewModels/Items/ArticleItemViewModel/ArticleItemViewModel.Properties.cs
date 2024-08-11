@@ -40,5 +40,10 @@ public sealed partial class ArticleItemViewModel
     /// <summary>
     /// 点赞数.
     /// </summary>
-    public double? LikeCount { get; set; }
+    public double? LikeCount { get; init; }
+
+    /// <summary>
+    /// 收集的相对时间.
+    /// </summary>
+    public string? CollectRelativeTime { get; init; }
 }

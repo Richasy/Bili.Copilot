@@ -106,4 +106,8 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private void ShowViewLater()
         => _navService.NavigateToOver(typeof(ViewLaterPage).FullName);
+
+    [RelayCommand]
+    private void ShowHistory()
+        => _navService.NavigateToOver(typeof(HistoryPage).FullName);
 }

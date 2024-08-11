@@ -40,6 +40,10 @@
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
+    <None Remove="Controls\History\ArticleHistorySection.xaml" />
+    <None Remove="Controls\History\HistoryHeader.xaml" />
+    <None Remove="Controls\History\LiveHistorySection.xaml" />
+    <None Remove="Controls\History\VideoHistorySection.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
@@ -115,6 +119,7 @@
     <None Remove="Pages\Overlay\ArticleReaderPage.xaml" />
     <None Remove="Pages\Overlay\FansPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
+    <None Remove="Pages\Overlay\HistoryPage.xaml" />
     <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
@@ -625,6 +630,26 @@
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\History\ArticleHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\LiveHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\VideoHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\HistoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\ViewLater\ViewLaterBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -711,6 +736,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Comment\CommentDetailPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\HistoryHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
