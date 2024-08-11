@@ -73,4 +73,9 @@ public sealed partial class VideoItemViewModel
     /// 推荐理由.
     /// </summary>
     public string? RecommendReason { get; init; }
+
+    /// <summary>
+    /// 收集时间.
+    /// </summary>
+    public string? CollectTime { get; init; }
 }

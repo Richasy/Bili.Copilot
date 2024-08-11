@@ -36,4 +36,14 @@ public enum VideoCardStyle
     /// 动态.
     /// </summary>
     Moment,
+
+    /// <summary>
+    /// 稍后再看.
+    /// </summary>
+    ViewLater,
+
+    /// <summary>
+    /// 历史.
+    /// </summary>
+    History,
 }

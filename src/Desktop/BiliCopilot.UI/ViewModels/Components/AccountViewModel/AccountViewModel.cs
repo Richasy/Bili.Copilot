@@ -102,4 +102,8 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private void ShowMoments()
         => _navService.NavigateToOver(typeof(MyMomentsPage).FullName, MyProfile.User.Id);
+
+    [RelayCommand]
+    private void ShowViewLater()
+        => _navService.NavigateToOver(typeof(ViewLaterPage).FullName);
 }

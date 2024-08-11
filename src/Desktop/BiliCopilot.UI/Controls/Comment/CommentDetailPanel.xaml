@@ -27,16 +27,13 @@
             Padding="0"
             Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,0">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:CommentItemViewModel">
-                            <components:CommentItemControl ViewModel="{x:Bind}" />
+                            <components:CommentItemControl Margin="0,2" ViewModel="{x:Bind}" />
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="4" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </ScrollView>
         <components:EmptyHolder

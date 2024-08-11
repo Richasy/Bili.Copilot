@@ -60,16 +60,16 @@
                 Padding="0"
                 Style="{StaticResource PageScrollViewStyle}">
                 <Grid Margin="16,0">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
-                        <ItemsRepeater.ItemTemplate>
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="components1:CommentDetailViewModel">
-                                <components:CommentItemControl ShowMoreCommand="{x:Bind ShowMoreCommand}" ViewModel="{x:Bind Data}" />
+                                <components:CommentItemControl
+                                    Margin="0,2"
+                                    ShowMoreCommand="{x:Bind ShowMoreCommand}"
+                                    ViewModel="{x:Bind Data}" />
                             </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                        <ItemsRepeater.Layout>
-                            <StackLayout Spacing="4" />
-                        </ItemsRepeater.Layout>
-                    </ItemsRepeater>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Grid>
             </ScrollView>
             <components:EmptyHolder

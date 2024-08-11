@@ -41,13 +41,14 @@ public sealed partial class FansPageViewModel : ViewModelBase
         IsEmpty = false;
         _pageNumber = 0;
         TotalCount = 0;
+        Users.Clear();
         await InitializeAsync();
     }
 
     [RelayCommand]
     private async Task LoadUsersAsync()
     {
-        if (IsUserLoading || IsEmpty)
+        if (IsUserLoading || IsEmpty || (Users.Count >= TotalCount && Users.Count > 0))
         {
             return;
         }

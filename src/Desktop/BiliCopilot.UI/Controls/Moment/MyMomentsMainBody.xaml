@@ -14,16 +14,16 @@
     <Grid>
         <ScrollView x:Name="MomentScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater MaxWidth="1200" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
+                <ItemsControl MaxWidth="1200" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:MomentItemViewModel">
-                            <components:MomentCardControl Style="{StaticResource FullMomentCardStyle}" ViewModel="{x:Bind}" />
+                            <components:MomentCardControl
+                                Margin="0,6"
+                                Style="{StaticResource FullMomentCardStyle}"
+                                ViewModel="{x:Bind}" />
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="12" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </ScrollView>
 

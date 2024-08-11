@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\ViewLater\ViewLaterBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ViewLater\ViewLaterHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\ViewLaterPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\EmotePanel.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -73,7 +73,7 @@
                             <ic:SymbolIcon Symbol="StarLineHorizontal3" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{ext:Locale Name=ViewLater}">
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShowViewLaterCommand}" Text="{ext:Locale Name=ViewLater}">
                         <MenuFlyoutItem.Icon>
                             <ic:SymbolIcon Symbol="CalendarClock" />
                         </MenuFlyoutItem.Icon>
