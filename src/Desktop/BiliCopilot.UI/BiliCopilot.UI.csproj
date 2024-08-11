@@ -47,6 +47,12 @@
     <None Remove="Controls\Favorites\PgcFavoriteBody.xaml" />
     <None Remove="Controls\Favorites\PgcFavoriteHeader.xaml" />
     <None Remove="Controls\Favorites\PgcFavoriteSideItem.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteSideItem.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteSideItem.xaml" />
     <None Remove="Controls\History\ArticleHistorySection.xaml" />
     <None Remove="Controls\History\HistoryHeader.xaml" />
     <None Remove="Controls\History\LiveHistorySection.xaml" />
@@ -636,6 +642,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">

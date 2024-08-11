@@ -18,6 +18,24 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\UgcFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\UgcFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -46,4 +46,9 @@ public enum VideoCardStyle
     /// 历史.
     /// </summary>
     History,
+
+    /// <summary>
+    /// 收藏.
+    /// </summary>
+    Favorite,
 }

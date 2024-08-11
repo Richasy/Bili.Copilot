@@ -17,7 +17,17 @@
         <DataTemplate x:Key="PgcTemplate" x:DataType="components:PgcFavoriteSectionDetailViewModel">
             <local:PgcFavoriteSideItem ViewModel="{x:Bind}" />
         </DataTemplate>
-        <ext:FavoriteSectionTemplateSelector x:Key="Selector" PgcTemplate="{StaticResource PgcTemplate}" />
+        <DataTemplate x:Key="VideoTemplate" x:DataType="components:VideoFavoriteSectionDetailViewModel">
+            <local:VideoFavoriteSideItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="UgcTemplate" x:DataType="components:UgcSeasonFavoriteSectionDetailViewModel">
+            <local:UgcFavoriteSideItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:FavoriteSectionTemplateSelector
+            x:Key="Selector"
+            PgcTemplate="{StaticResource PgcTemplate}"
+            UgcTemplate="{StaticResource UgcTemplate}"
+            VideoTempalte="{StaticResource VideoTemplate}" />
     </UserControl.Resources>
 
     <Grid>

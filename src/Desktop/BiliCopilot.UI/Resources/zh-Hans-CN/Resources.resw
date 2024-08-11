@@ -1182,6 +1182,9 @@
   <data name="NoFavoritesPgc" xml:space="preserve">
     <value>没有找到正在追的剧集</value>
   </data>
+  <data name="NoFavoriteVideos" xml:space="preserve">
+    <value>收藏夹内还没有视频~</value>
+  </data>
   <data name="NoFeaturedVideo" xml:space="preserve">
     <value>没有获取到精选视频</value>
   </data>
@@ -1766,6 +1769,9 @@
   </data>
   <data name="SearchTipSlim" xml:space="preserve">
     <value>搜一搜</value>
+  </data>
+  <data name="SeasonHasNoVideos" xml:space="preserve">
+    <value>合集中还没有视频</value>
   </data>
   <data name="Seasons" xml:space="preserve">
     <value>系列</value>

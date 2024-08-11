@@ -40,12 +40,12 @@ public sealed partial class FavoritesPageViewModel : LayoutPageViewModelBase
         }
 
         IsLoading = true;
-        Sections.Add(new PgcFavoriteSectionDetailViewModel(Richasy.BiliKernel.Models.PgcFavoriteType.Anime, _service));
-        Sections.Add(new PgcFavoriteSectionDetailViewModel(Richasy.BiliKernel.Models.PgcFavoriteType.Cinema, _service));
+        Sections.Add(new PgcFavoriteSectionDetailViewModel(PgcFavoriteType.Anime, _service));
+        Sections.Add(new PgcFavoriteSectionDetailViewModel(PgcFavoriteType.Cinema, _service));
+        await InitializeVideoFoldersAsync();
         IsLoading = false;
         RestoreSelection();
         SectionInitialized?.Invoke(this, EventArgs.Empty);
-        await Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -67,6 +67,14 @@ public sealed partial class FavoritesPageViewModel : LayoutPageViewModelBase
         if (vm is PgcFavoriteSectionDetailViewModel pgcVM)
         {
             sectionSettingValue = $"pgc_{pgcVM.Type}";
+        }
+        else if (vm is VideoFavoriteSectionDetailViewModel videoVM)
+        {
+            sectionSettingValue = $"video_{videoVM.Data.Id}";
+        }
+        else if (vm is UgcSeasonFavoriteSectionDetailViewModel ugcVM)
+        {
+            sectionSettingValue = $"ugc_{ugcVM.Data.Id}";
         }
 
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastSelectedFavoriteSection, sectionSettingValue);
@@ -97,10 +105,56 @@ public sealed partial class FavoritesPageViewModel : LayoutPageViewModelBase
                 }
             }
         }
+        else if (lastSelectedSection.StartsWith("video"))
+        {
+            var id = lastSelectedSection.Replace("video_", string.Empty);
+            var section = Sections.OfType<VideoFavoriteSectionDetailViewModel>().FirstOrDefault(p => p.Data.Id == id);
+            if (section is not null)
+            {
+                isSelected = true;
+                SelectSection(section);
+            }
+        }
+        else if (lastSelectedSection.StartsWith("ugc"))
+        {
+            var id = lastSelectedSection.Replace("ugc_", string.Empty);
+            var section = Sections.OfType<UgcSeasonFavoriteSectionDetailViewModel>().FirstOrDefault(p => p.Data.Id == id);
+            if (section is not null)
+            {
+                isSelected = true;
+                SelectSection(section);
+            }
+        }
 
         if (!isSelected && CurrentSection is null)
         {
             SelectSection(Sections.First());
+        }
+    }
+
+    private async Task InitializeVideoFoldersAsync()
+    {
+        try
+        {
+            var (groups, defaultGroup) = await _service.GetVideoFavoriteGroupsAsync();
+            var defaultGroupVM = new VideoFavoriteSectionDetailViewModel(defaultGroup.Folder, _service);
+            defaultGroupVM.InjectFirstPageData(defaultGroup);
+            Sections.Add(defaultGroupVM);
+
+            foreach (var group in groups)
+            {
+                foreach (var folder in group.Folders)
+                {
+                    var folderVM = folder.IsUgcSeason == true
+                        ? (IFavoriteSectionDetailViewModel)new UgcSeasonFavoriteSectionDetailViewModel(folder, _service)
+                        : new VideoFavoriteSectionDetailViewModel(folder, _service);
+                    Sections.Add(folderVM);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "初始化视频收藏夹失败");
         }
     }
 }
