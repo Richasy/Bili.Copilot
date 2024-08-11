@@ -55,7 +55,7 @@ public sealed partial class CommentMainViewModel : ViewModelBase
     [RelayCommand]
     private async Task LoadItemsAsync()
     {
-        if (IsLoading || _preventLoadMore || IsEmpty)
+        if (string.IsNullOrEmpty(Id) || IsLoading || _preventLoadMore || IsEmpty)
         {
             return;
         }

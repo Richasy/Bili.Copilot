@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Core;
+using Microsoft.Extensions.Logging;
 using Windows.Storage;
 
 namespace BiliCopilot.UI;
@@ -20,6 +21,8 @@ public partial class App : Application
     {
         InitializeComponent();
         FluentIcons.WinUI.Extensions.UseSegoeMetrics(this);
+        UnhandledException += OnUnhandledException;
+        DebugSettings.LayoutCycleTracingLevel = LayoutCycleTracingLevel.High;
     }
 
     /// <summary>
@@ -47,5 +50,15 @@ public partial class App : Application
             var activatedArgs = instance.GetActivatedEventArgs();
             _ = instance.RedirectActivationToAsync(activatedArgs).AsTask().ContinueWith(_ => Current.Exit());
         }
+    }
+
+    private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        if (!e.Message.Contains("Layout cycle"))
+        {
+            e.Handled = true;
+        }
+
+        GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogCritical(e.Exception, "Unhandled exception occurred.");
     }
 }

@@ -41,13 +41,16 @@
             Visibility="Collapsed">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="appearance:BiliImage">
-                    <local:VideoCoverImage
+                    <Grid
                         Width="120"
                         Height="120"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        DecodeHeight="200"
-                        DecodeWidth="200"
-                        Source="{x:Bind Uri}" />
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Image
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
+                            Stretch="UniformToFill" />
+                    </Grid>
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
             <ItemsRepeater.Layout>
