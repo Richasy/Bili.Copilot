@@ -50,6 +50,7 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
             var targetType = Data.Data.CommentType;
             var view = await _service.GetDetailCommentsAsync(targetId, targetType, Richasy.BiliKernel.Models.CommentSortType.Time, Data.Data.Id, _offset);
             _offset = view.NextOffset;
+            _preventLoadMore = view.NextOffset == 0 || view.Comments is null;
             foreach (var item in view.Comments)
             {
                 if (Comments.Any(p => p.Data.Equals(item)))
