@@ -38,6 +38,7 @@
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
@@ -63,6 +64,13 @@
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\Message\MessagePageMainBody.xaml" />
+    <None Remove="Controls\Message\MessagePageMainHeader.xaml" />
+    <None Remove="Controls\Message\MessagePageSideBody.xaml" />
+    <None Remove="Controls\Message\MessagePageSideHeader.xaml" />
+    <None Remove="Controls\Message\NotifyMessageBody.xaml" />
+    <None Remove="Controls\Message\NotifyMessageHeader.xaml" />
+    <None Remove="Controls\Message\NotifyMessageSideItem.xaml" />
     <None Remove="Controls\Moment\ComprehensiveMainBody.xaml" />
     <None Remove="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\ComprehensiveSideBody.xaml" />
@@ -162,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
@@ -642,6 +651,46 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\MessageCardControl\NotifyMessageCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">

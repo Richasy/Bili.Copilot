@@ -18,6 +18,27 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Message\MessagePageMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">
       <SubType>Designer</SubType>
     </Page>

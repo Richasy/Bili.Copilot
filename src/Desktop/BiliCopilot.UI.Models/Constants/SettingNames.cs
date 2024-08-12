@@ -30,4 +30,5 @@ public enum SettingNames
     ArticlePartitionPageLastSelectedPartitionId,
     FollowsPageLastSelectedGroupId,
     LastSelectedFavoriteSection,
+    LastSelectedMessageSection,
 }
