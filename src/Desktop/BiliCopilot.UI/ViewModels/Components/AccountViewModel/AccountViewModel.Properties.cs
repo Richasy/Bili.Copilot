@@ -34,4 +34,7 @@ public sealed partial class AccountViewModel
 
     [ObservableProperty]
     private bool _hasUnread;
+
+    [ObservableProperty]
+    private string _introduce;
 }

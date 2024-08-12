@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,9 @@ public sealed partial class AccountViewModel : ViewModelBase
         try
         {
             MyProfile = await _myProfileService.GetMyProfileAsync();
+            Introduce = string.IsNullOrEmpty(MyProfile.Introduce)
+                ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.NoSelfIntroduce)
+                : MyProfile.Introduce;
             this.Get<AppViewModel>().IsInitialLoading = false;
         }
         catch (Exception ex)
