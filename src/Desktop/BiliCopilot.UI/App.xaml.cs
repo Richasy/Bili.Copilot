@@ -22,7 +22,6 @@ public partial class App : Application
         InitializeComponent();
         FluentIcons.WinUI.Extensions.UseSegoeMetrics(this);
         UnhandledException += OnUnhandledException;
-        DebugSettings.LayoutCycleTracingLevel = LayoutCycleTracingLevel.High;
     }
 
     /// <summary>

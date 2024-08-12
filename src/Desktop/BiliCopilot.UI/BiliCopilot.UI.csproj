@@ -81,6 +81,7 @@
     <None Remove="Controls\Moment\MyMomentsMainBody.xaml" />
     <None Remove="Controls\Moment\MyMomentsMainHeader.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -181,6 +182,9 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
+    <PackageReference Include="OpenTK" />
+    <PackageReference Include="Silk.NET.Direct3D11" />
+    <PackageReference Include="Silk.NET.OpenGL" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
@@ -195,6 +199,7 @@
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.User\Services.User.csproj" />
+    <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
     <ProjectReference Include="..\..\Libs\WinUI.Share\src\Richasy.WinUI.Share.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
   </ItemGroup>
@@ -874,6 +879,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Favorites\PgcFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\libmpv\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

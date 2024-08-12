@@ -2,7 +2,10 @@
 
 using System.Globalization;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
+using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
@@ -41,5 +44,11 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         {
             ProgressText = AppToolkit.FormatDuration(TimeSpan.FromSeconds(progress.Value));
         }
+    }
+
+    [RelayCommand]
+    private void Play()
+    {
+        this.Get<NavigationViewModel>().NavigateTo(typeof(SettingsPage).FullName, Data);
     }
 }

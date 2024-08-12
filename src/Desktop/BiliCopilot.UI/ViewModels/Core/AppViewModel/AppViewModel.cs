@@ -3,8 +3,10 @@
 using BiliCopilot.UI.Forms;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.Storage;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -25,6 +27,14 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private static async Task InitializeMpvAsync()
+    {
+        var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/libmpv/libmpv-2.dll")).AsTask();
+        var libPath = libFile.Path;
+        Resolver.SetCustomMpvPath(libPath);
+    }
+
+    [RelayCommand]
     private static void Restart()
     {
         Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
@@ -38,6 +48,7 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             IsInitialLoading = true;
             new MainWindow().Activate();
+            InitializeMpvCommand.Execute(default);
         }
         else
         {
