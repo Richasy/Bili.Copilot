@@ -36,6 +36,7 @@ public sealed partial class FavoritesPageViewModel : LayoutPageViewModelBase
         if (Sections.Count > 0)
         {
             RestoreSelection();
+            SectionInitialized?.Invoke(this, EventArgs.Empty);
             return;
         }
 

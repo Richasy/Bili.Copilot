@@ -2,11 +2,14 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -63,5 +66,12 @@ public sealed partial class CinemaPageViewModel : LayoutPageViewModelBase
         SelectedSection = section;
         SettingsToolkit.WriteLocalSetting(SettingNames.CinemaPageLastSelectedSectionType, section.SectionType);
         section.InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private void ShowMyFavoriteCinema()
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFavoriteSection, $"pgc_{PgcFavoriteType.Cinema}");
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage).FullName);
     }
 }

@@ -2,12 +2,15 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -63,5 +66,12 @@ public sealed partial class AnimePageViewModel : LayoutPageViewModelBase
         SelectedSection = section;
         SettingsToolkit.WriteLocalSetting(SettingNames.AnimePageLastSelectedSectionType, section.SectionType);
         section.InitializeCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private void ShowMyFavoriteAnime()
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFavoriteSection, $"pgc_{PgcFavoriteType.Anime}");
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage).FullName);
     }
 }

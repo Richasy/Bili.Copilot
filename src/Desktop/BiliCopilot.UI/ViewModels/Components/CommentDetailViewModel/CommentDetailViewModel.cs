@@ -45,6 +45,7 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
 
         try
         {
+            IsLoading = true;
             var targetId = Data.Data.CommentId;
             var targetType = Data.Data.CommentType;
             var view = await _service.GetDetailCommentsAsync(targetId, targetType, Richasy.BiliKernel.Models.CommentSortType.Time, Data.Data.Id, _offset);

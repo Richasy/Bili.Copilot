@@ -44,7 +44,8 @@
             Grid.Column="1"
             Padding="12,8"
             VerticalAlignment="Center"
-            AutomationProperties.Name="{ext:Locale Name=MyFavoriteFilm}">
+            AutomationProperties.Name="{ext:Locale Name=MyFavoriteFilm}"
+            Command="{x:Bind ViewModel.ShowMyFavoriteCinemaCommand}">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <ic:SymbolIcon
                     VerticalAlignment="Center"
