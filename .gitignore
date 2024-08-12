@@ -363,3 +363,4 @@ tools/Prompt.txt
 
 # Plugin package
 /src/App/Assets/AppCenterSecret.txt
+/src/Desktop/BiliCopilot.UI/Assets/libmpv/libmpv-2.dll
