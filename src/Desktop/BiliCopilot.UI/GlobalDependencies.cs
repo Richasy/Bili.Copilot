@@ -50,6 +50,7 @@ internal static class GlobalDependencies
             .AddMessageService()
             .AddFavoriteService()
             .AddSearchService()
+            .AddPlayerService()
             .AddDispatcherQueue()
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<AppViewModel>()
