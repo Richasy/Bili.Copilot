@@ -31,6 +31,12 @@ public sealed partial class SettingsPage : Page
         }
     }
 
+    /// <inheritdoc/>
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        MpvPlayer.Close();
+    }
+
     private async void OnButtonClickAsync(object sender, RoutedEventArgs e)
     {
         var file = await FileToolkit.PickFileAsync(".mp4", this.Get<AppViewModel>().ActivatedWindow);

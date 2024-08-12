@@ -150,6 +150,14 @@ public sealed partial class MpvPlayer : Control
         await Player.Client.ExecuteAsync(new string[] { "audio-add", audioUrl });
     }
 
+    /// <summary>
+    /// 释放资源.
+    /// </summary>
+    public void Close()
+    {
+        Player?.Dispose();
+    }
+
     private void OnStateChanged(object sender, PlaybackStateChangedEventArgs e)
     {
         DispatcherQueue.TryEnqueue(() =>
