@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -87,7 +87,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -169,6 +169,7 @@
                         VerticalAlignment="Center"
                         Background="Transparent"
                         BorderThickness="0"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
                         CornerRadius="16"
                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}">
                         <PersonPicture
@@ -186,7 +187,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -279,7 +280,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:LiveCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

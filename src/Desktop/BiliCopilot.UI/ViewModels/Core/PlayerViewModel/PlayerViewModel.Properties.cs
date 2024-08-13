@@ -12,7 +12,10 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public sealed partial class PlayerViewModel
 {
-    private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.67";
+    private const string VideoUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.67";
+    private const string LiveUserAgent = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
+    private const string VideoReferer = "https://www.bilibili.com/";
+    private const string LiveReferer = "https://live.bilibili.com/";
 
     private readonly ILogger<PlayerViewModel> _logger;
     private readonly DispatcherQueue _dispatcherQueue;
@@ -33,4 +36,9 @@ public sealed partial class PlayerViewModel
     /// 播放器内核.
     /// </summary>
     public Player? Player { get; private set; }
+
+    /// <summary>
+    /// 是否为直播准备.
+    /// </summary>
+    public bool IsLive { get; set; }
 }

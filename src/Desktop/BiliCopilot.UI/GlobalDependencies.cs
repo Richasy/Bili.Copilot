@@ -77,6 +77,7 @@ internal static class GlobalDependencies
             .AddSingleton<MessagePageViewModel>()
             .AddTransient<PlayerViewModel>()
             .AddTransient<VideoPlayerPageViewModel>()
+            .AddTransient<LivePlayerPageViewModel>()
             .Build();
     }
 

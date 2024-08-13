@@ -34,4 +34,6 @@ public enum SettingNames
     PreferQuality,
     LastSelectedVideoQuality,
     ShouldAutoPlay,
+    LastSelectedLiveQuality,
+    IsLiveAudioOnly,
 }

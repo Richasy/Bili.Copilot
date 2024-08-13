@@ -41,17 +41,24 @@ public sealed partial class PlayerViewModel : ViewModelBase
             Player.LogMessageReceived += OnLogMessageReceived;
             renderControl.Initialize();
             Player.Client.SetProperty("vo", "libmpv");
-            Player.Client.RequestLogMessage(MpvLogLevel.Error);
+            Player.Client.RequestLogMessage(MpvLogLevel.V);
             var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);
         }
 
         var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
+        var referer = IsLive ? LiveReferer : VideoReferer;
+        var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
         var cookieStr = $"Cookie: {cookies}";
-        var refererStr = $"Referer: https://www.bilibili.com";
+        var refererStr = $"Referer: {referer}";
         Player.Client.SetOption("cookies", "yes");
-        Player.Client.SetOption("user-agent", UserAgent);
+        Player.Client.SetOption("user-agent", userAgent);
         Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
+        if (IsLive)
+        {
+            Player.Client.SetOption("ytdl", "no");
+        }
+
         IsPlayerInitializing = false;
         _isInitialized = true;
 

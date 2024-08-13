@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
+using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
@@ -31,4 +34,8 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
             CollectRelativeTime = collectTime.Value.Humanize();
         }
     }
+
+    [RelayCommand]
+    private void Play()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data);
 }

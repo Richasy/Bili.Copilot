@@ -85,6 +85,12 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = true;
             return;
         }
+        else if (pageType == typeof(LivePlayerPage) && _overFrame.Content is LivePlayerPage livePage)
+        {
+            livePage.ViewModel.InitializePageCommand.Execute(parameter);
+            IsOverlayOpen = true;
+            return;
+        }
 
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;
