@@ -41,7 +41,7 @@ public sealed partial class PlayerViewModel : ViewModelBase
             Player.LogMessageReceived += OnLogMessageReceived;
             renderControl.Initialize();
             Player.Client.SetProperty("vo", "libmpv");
-            Player.Client.RequestLogMessage(MpvLogLevel.V);
+            Player.Client.RequestLogMessage(MpvLogLevel.Error);
             var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);
         }
