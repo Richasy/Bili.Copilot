@@ -79,6 +79,13 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         var pageType = Type.GetType(pageKey)
             ?? throw new InvalidOperationException("无法找到页面.");
+        if (pageType == typeof(VideoPlayerPage) && _overFrame.Content is VideoPlayerPage page)
+        {
+            page.ViewModel.InitializePageCommand.Execute(parameter);
+            IsOverlayOpen = true;
+            return;
+        }
+
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;
     }

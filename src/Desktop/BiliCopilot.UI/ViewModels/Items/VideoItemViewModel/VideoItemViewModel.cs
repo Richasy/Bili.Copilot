@@ -2,7 +2,7 @@
 
 using System.Globalization;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
@@ -48,7 +48,5 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 
     [RelayCommand]
     private void Play()
-    {
-        this.Get<NavigationViewModel>().NavigateTo(typeof(SettingsPage).FullName, Data);
-    }
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, Data);
 }

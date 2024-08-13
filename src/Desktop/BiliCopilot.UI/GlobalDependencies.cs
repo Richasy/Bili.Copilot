@@ -75,6 +75,8 @@ internal static class GlobalDependencies
             .AddSingleton<HistoryPageViewModel>()
             .AddSingleton<FavoritesPageViewModel>()
             .AddSingleton<MessagePageViewModel>()
+            .AddTransient<PlayerViewModel>()
+            .AddTransient<VideoPlayerPageViewModel>()
             .Build();
     }
 

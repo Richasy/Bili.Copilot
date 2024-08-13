@@ -145,6 +145,7 @@
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
     <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
+    <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
@@ -884,6 +885,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\libmpv\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\libmpv\libmpv-2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">

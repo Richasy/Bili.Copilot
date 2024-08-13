@@ -31,4 +31,7 @@ public enum SettingNames
     FollowsPageLastSelectedGroupId,
     LastSelectedFavoriteSection,
     LastSelectedMessageSection,
+    PreferQuality,
+    LastSelectedVideoQuality,
+    ShouldAutoPlay,
 }
