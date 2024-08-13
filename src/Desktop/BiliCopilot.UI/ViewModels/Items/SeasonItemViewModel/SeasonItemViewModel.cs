@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
+using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -22,4 +25,8 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         Highlight = data.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Highlight);
         Score = data.GetExtensionIfNotNull<double>(SeasonExtensionDataId.Score);
     }
+
+    [RelayCommand]
+    private void Play()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, Data.Identifier);
 }

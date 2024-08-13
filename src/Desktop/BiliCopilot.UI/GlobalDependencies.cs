@@ -78,6 +78,7 @@ internal static class GlobalDependencies
             .AddTransient<PlayerViewModel>()
             .AddTransient<VideoPlayerPageViewModel>()
             .AddTransient<LivePlayerPageViewModel>()
+            .AddTransient<PgcPlayerPageViewModel>()
             .Build();
     }
 

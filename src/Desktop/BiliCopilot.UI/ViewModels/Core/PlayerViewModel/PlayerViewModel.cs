@@ -58,6 +58,10 @@ public sealed partial class PlayerViewModel : ViewModelBase
         {
             Player.Client.SetOption("ytdl", "no");
         }
+        else
+        {
+            Player.Client.SetOption("ytdl", "yes");
+        }
 
         IsPlayerInitializing = false;
         _isInitialized = true;

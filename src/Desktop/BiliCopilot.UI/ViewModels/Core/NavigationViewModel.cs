@@ -91,6 +91,12 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = true;
             return;
         }
+        else if (pageType == typeof(PgcPlayerPage) && _overFrame.Content is PgcPlayerPage pgcPage)
+        {
+            pgcPage.ViewModel.InitializePageCommand.Execute(parameter);
+            IsOverlayOpen = true;
+            return;
+        }
 
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;

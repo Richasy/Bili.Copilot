@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>

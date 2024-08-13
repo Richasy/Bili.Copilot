@@ -36,4 +36,5 @@ public enum SettingNames
     ShouldAutoPlay,
     LastSelectedLiveQuality,
     IsLiveAudioOnly,
+    LastSelectedPgcQuality,
 }

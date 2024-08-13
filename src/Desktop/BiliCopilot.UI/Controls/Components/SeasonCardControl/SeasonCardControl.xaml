@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl>
+                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -50,7 +50,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl>
+                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
