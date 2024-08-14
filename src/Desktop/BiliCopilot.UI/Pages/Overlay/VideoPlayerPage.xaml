@@ -3,6 +3,8 @@
     x:Class="BiliCopilot.UI.Pages.Overlay.VideoPlayerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,12 +12,65 @@
     mc:Ignorable="d">
 
     <Grid>
-        <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
-        <mpv:MpvTransportControl
-            MaxWidth="600"
-            Margin="12"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="{x:Bind ViewModel.NavColumnWidth, Mode=OneWay, Converter={StaticResource GridLengthConverter}}" />
+        </Grid.ColumnDefinitions>
+        <Grid.ChildrenTransitions>
+            <RepositionThemeTransition IsStaggeringEnabled="False" />
+        </Grid.ChildrenTransitions>
+
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            Height="1"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+        <base:TrimTextBlock
+            Margin="16,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+
+        <Grid
+            x:Name="VerticalHolderContainer"
+            Grid.Row="2"
+            Grid.Column="1" />
+
+        <ScrollView Grid.Row="2" Style="{StaticResource PageScrollViewStyle}">
+            <Grid
+                x:Name="PlayerContainer"
+                Grid.Row="2"
+                Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
+                MinHeight="200"
+                Margin="0,0,-6,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                SizeChanged="OnPlayContainerSizeChanged">
+                <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                <mpv:MpvTransportControl
+                    MaxWidth="600"
+                    Margin="12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+            </Grid>
+        </ScrollView>
+
+        <!--  右侧分栏大小控制器  -->
+        <components:ColumnSplitter
+            Grid.RowSpan="3"
+            Grid.Column="1"
+            ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
+            IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
+            IsInvertDirection="True" />
     </Grid>
 </local:VideoPlayerPageBase>

@@ -11,6 +11,10 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Rectangle
+            Width="6"
+            Fill="Transparent"
+            Visibility="{x:Bind IsHide, Mode=OneWay}" />
         <Border
             Width="1"
             HorizontalAlignment="Center"
@@ -18,6 +22,7 @@
             Background="{ThemeResource DividerStrokeColorDefaultBrush}"
             Visibility="{x:Bind IsHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         <community:PropertySizer
+            x:Name="Sizer"
             HorizontalAlignment="Center"
             Binding="{x:Bind ColumnWidth, Mode=TwoWay}"
             Maximum="{x:Bind MaxColumnWidth, Mode=OneWay}"

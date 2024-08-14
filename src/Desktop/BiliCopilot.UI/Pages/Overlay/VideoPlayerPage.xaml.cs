@@ -29,6 +29,23 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
+
+    /// <inheritdoc/>
+    protected override void OnPageLoaded()
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            ViewModel.PlayerWidth = PlayerContainer.ActualWidth;
+        });
+    }
+
+    private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        ViewModel.PlayerWidth = e.NewSize.Width;
+
+        // 播放器不能超出容器高度.
+        PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
+    }
 }
 
 /// <summary>

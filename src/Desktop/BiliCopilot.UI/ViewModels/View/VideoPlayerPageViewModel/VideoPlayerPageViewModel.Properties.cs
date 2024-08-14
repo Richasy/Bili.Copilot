@@ -47,6 +47,12 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isMyVideo;
 
     [ObservableProperty]
+    private double _playerWidth;
+
+    [ObservableProperty]
+    private double _playerHeight;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]

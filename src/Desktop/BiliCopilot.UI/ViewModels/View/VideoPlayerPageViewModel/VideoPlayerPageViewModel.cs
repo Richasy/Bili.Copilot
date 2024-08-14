@@ -2,6 +2,7 @@
 
 using System.Threading;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -10,14 +11,13 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// 视频播放器页面视图模型.
 /// </summary>
-public sealed partial class VideoPlayerPageViewModel : ViewModelBase
+public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerPageViewModel"/> class.
@@ -31,6 +31,10 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase
         _logger = logger;
         Player = player;
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey()
+        => nameof(VideoPlayerPage);
 
     [RelayCommand]
     private async Task InitializePageAsync(MediaIdentifier video)
@@ -157,6 +161,7 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase
         Cover = view.Information.Identifier.Cover.SourceUri;
         Title = view.Information.Identifier.Title;
         IsMyVideo = _view.Information.Publisher.User.Id == this.Get<IBiliTokenResolver>().GetToken().UserId.ToString();
+        CalcPlayerHeight();
     }
 
     private void InitializeDash(DashMediaInformation info)
@@ -213,4 +218,17 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase
         Formats = default;
         SelectedFormat = default;
     }
+
+    private void CalcPlayerHeight()
+    {
+        if (PlayerWidth <= 0 || _view?.AspectRatio is null)
+        {
+            return;
+        }
+
+        PlayerHeight = (double)(PlayerWidth * _view.AspectRatio.Value.Height / _view.AspectRatio.Value.Width);
+    }
+
+    partial void OnPlayerWidthChanged(double value)
+        => CalcPlayerHeight();
 }

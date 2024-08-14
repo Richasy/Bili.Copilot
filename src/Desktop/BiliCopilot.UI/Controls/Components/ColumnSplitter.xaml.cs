@@ -40,6 +40,12 @@ public sealed partial class ColumnSplitter : LayoutUserControlBase
         DependencyProperty.Register(nameof(IsHideButtonEnabled), typeof(bool), typeof(ColumnSplitter), new PropertyMetadata(true));
 
     /// <summary>
+    /// <see cref="IsInvertDirection"/> 依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsInvertDirectionProperty =
+        DependencyProperty.Register(nameof(IsInvertDirection), typeof(bool), typeof(ColumnSplitter), new PropertyMetadata(default));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ColumnSplitter"/> class.
     /// </summary>
     public ColumnSplitter() => InitializeComponent();
@@ -89,6 +95,27 @@ public sealed partial class ColumnSplitter : LayoutUserControlBase
         set => SetValue(IsHideButtonEnabledProperty, value);
     }
 
+    /// <summary>
+    /// 是否反转方向. 默认是左向右.
+    /// </summary>
+    public bool IsInvertDirection
+    {
+        get => (bool)GetValue(IsInvertDirectionProperty);
+        set => SetValue(IsInvertDirectionProperty, value);
+    }
+
     /// <inheritdoc/>
     protected override ControlBindings ControlBindings => Bindings is null ? default : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
+
+    /// <inheritdoc/>
+    protected override void OnControlLoaded()
+    {
+        if (IsInvertDirection)
+        {
+            Sizer.IsDragInverted = true;
+            ToggleBtn.Direction = VisibilityToggleButtonDirection.RightToLeftVisible;
+            ToggleBtn.Margin = new Thickness(-32, 0, 0, 0);
+            ToggleBtn.CornerRadius = new CornerRadius(6, 0, 0, 6);
+        }
+    }
 }
