@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
@@ -54,45 +56,17 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
                 InnerContent = images;
             }
 
-            if (FindVideoInformation() is VideoInformation vinfo)
+            if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
             {
                 VideoTitle = vinfo.Identifier.Title ?? ResourceToolkit.GetLocalizedString(StringNames.NoTitleVideo);
                 VideoCover = vinfo.Identifier.Cover.Uri;
             }
-            else if (FindEpisodeInformation() is EpisodeInformation einfo)
+            else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
             {
                 VideoTitle = einfo.Identifier.Title;
                 VideoCover = einfo.Identifier.Cover.Uri;
             }
         }
-    }
-
-    private VideoInformation? FindVideoInformation()
-    {
-        if (Data.Data is VideoInformation vinfo)
-        {
-            return vinfo;
-        }
-        else if (Data.Data is MomentInformation minfo && minfo.Data is VideoInformation vinfo2)
-        {
-            return vinfo2;
-        }
-
-        return default;
-    }
-
-    private EpisodeInformation? FindEpisodeInformation()
-    {
-        if (Data.Data is EpisodeInformation einfo)
-        {
-            return einfo;
-        }
-        else if (Data.Data is MomentInformation minfo && minfo.Data is EpisodeInformation einfo2)
-        {
-            return einfo2;
-        }
-
-        return default;
     }
 
     [RelayCommand]
@@ -122,4 +96,37 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     [RelayCommand]
     private void ShowComment()
         => _showMomentAction?.Invoke(this);
+
+    [RelayCommand]
+    private void Activate()
+    {
+        if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, vinfo);
+        }
+        else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
+        {
+            var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+        }
+        else if(FindInnerContent<LiveInformation>() is LiveInformation linfo)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo);
+        }
+    }
+
+    private T? FindInnerContent<T>()
+        where T : class
+    {
+        if (Data.Data is T info)
+        {
+            return info;
+        }
+        else if (Data.Data is MomentInformation minfo && minfo.Data is T info2)
+        {
+            return info2;
+        }
+
+        return default;
+    }
 }

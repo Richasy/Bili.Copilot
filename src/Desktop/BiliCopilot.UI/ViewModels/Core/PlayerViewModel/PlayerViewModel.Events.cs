@@ -28,17 +28,15 @@ public sealed partial class PlayerViewModel
             if (e.NewState == PlaybackState.Playing)
             {
                 // ToDo: 播放状态.
-                IsPlayerDataLoading = false;
+                IsPaused = false;
             }
             else if (e.NewState == PlaybackState.Paused || e.NewState == PlaybackState.None)
             {
                 // ToDo: 暂停状态.
-                IsPlayerDataLoading = false;
+                IsPaused = true;
             }
             else
             {
-                // ToDo: 加载状态.
-                IsPlayerDataLoading = true;
             }
         });
     }

@@ -11,5 +11,11 @@
 
     <Grid>
         <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+        <mpv:MpvTransportControl
+            MaxWidth="600"
+            Margin="12"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
     </Grid>
 </local:VideoPlayerPageBase>

@@ -145,10 +145,10 @@ public sealed partial class VideoPlayerPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Clean()
+    private async Task CleanAsync()
     {
         ClearView();
-        Player?.Close();
+        await Player?.CloseAsync();
     }
 
     private void InitializeView(VideoPlayerView view)

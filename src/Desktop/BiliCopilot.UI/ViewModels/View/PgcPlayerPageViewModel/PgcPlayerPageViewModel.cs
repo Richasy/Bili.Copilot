@@ -29,10 +29,11 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
         _service = service;
         _logger = logger;
         Player = player;
+        Player.IsPgc = true;
     }
 
     [RelayCommand]
-    private async Task InitializePageAsync(MediaIdentifier season)
+    private async Task InitializePageAsync(MediaIdentifier identifier)
     {
         if (IsPageLoading)
         {
@@ -44,16 +45,29 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
         {
             ClearView();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
-            var view = await _service.GetPgcPageDetailAsync(season.Id, cancellationToken: _pageLoadCancellationTokenSource.Token);
+            var id = identifier.Id;
+            var isEpisode = id.StartsWith("ep");
+            id = id[3..];
+            var seasonId = isEpisode ? default : id;
+            var episodeId = isEpisode ? id : default;
+            var view = await _service.GetPgcPageDetailAsync(seasonId, episodeId, cancellationToken: _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
-            InitializeDashMediaCommand.Execute(view.Episodes.First());
+            var initialEpisode = FindInitialEpisode(episodeId);
+            if (initialEpisode is null)
+            {
+                // show error message.
+            }
+            else
+            {
+                InitializeDashMediaCommand.Execute(initialEpisode);
+            }
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
                 IsPageLoadFailed = true;
-                _logger.LogError(ex, $"尝试获取剧集 {season.Id} 详情时失败.");
+                _logger.LogError(ex, $"尝试获取剧集 {identifier.Id} 详情时失败.");
             }
             else
             {
@@ -146,10 +160,10 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Clean()
+    private async Task CleanAsync()
     {
         ClearView();
-        Player?.Close();
+        await Player?.CloseAsync();
     }
 
     private void InitializeView(PgcPlayerView view)
@@ -189,6 +203,26 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
         }
 
         ChangeFormatCommand.Execute(selectedFormat);
+    }
+
+    private EpisodeInformation? FindInitialEpisode(string? initialEpisodeId)
+    {
+        EpisodeInformation? playEpisode = default;
+        if (!string.IsNullOrEmpty(initialEpisodeId))
+        {
+            playEpisode = _view.Episodes.FirstOrDefault(p => p.Identifier.Id == initialEpisodeId);
+        }
+
+        if (playEpisode == null)
+        {
+            var historyEpisodeId = _view.Progress?.Cid;
+            if (!string.IsNullOrEmpty(historyEpisodeId))
+            {
+                playEpisode = _view.Episodes.FirstOrDefault(p => p.Identifier.Id == historyEpisodeId);
+            }
+        }
+
+        return playEpisode ?? _view.Episodes.FirstOrDefault();
     }
 
     private void ClearView()

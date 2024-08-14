@@ -32,6 +32,14 @@ public sealed partial class PlayerViewModel
     [ObservableProperty]
     private bool _isPlayerDataLoading;
 
+    [ObservableProperty]
+    private bool _isPaused;
+
+    /// <summary>
+    /// 播放数据加载完成.
+    /// </summary>
+    public event EventHandler PlayerDataLoaded;
+
     /// <summary>
     /// 播放器内核.
     /// </summary>
@@ -41,4 +49,9 @@ public sealed partial class PlayerViewModel
     /// 是否为直播准备.
     /// </summary>
     public bool IsLive { get; set; }
+
+    /// <summary>
+    /// 是否为 PGC 播放.
+    /// </summary>
+    public bool IsPgc { get; set; }
 }

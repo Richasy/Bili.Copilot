@@ -1,4 +1,7 @@
 <Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240731-build.1703" />

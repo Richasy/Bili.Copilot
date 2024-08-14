@@ -46,21 +46,22 @@ public sealed partial class PlayerViewModel : ViewModelBase
             await Player.InitializeAsync(args);
         }
 
-        var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
-        var referer = IsLive ? LiveReferer : VideoReferer;
-        var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
-        var cookieStr = $"Cookie: {cookies}";
-        var refererStr = $"Referer: {referer}";
-        Player.Client.SetOption("cookies", "yes");
-        Player.Client.SetOption("user-agent", userAgent);
-        Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
-        if (IsLive)
+        // PGC 内容不做注入鉴权.
+        if (!IsPgc)
         {
-            Player.Client.SetOption("ytdl", "no");
-        }
-        else
-        {
-            Player.Client.SetOption("ytdl", "yes");
+            var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
+            var referer = IsLive ? LiveReferer : VideoReferer;
+            var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
+            var cookieStr = $"Cookie: {cookies}";
+            var refererStr = $"Referer: {referer}";
+
+            Player.Client.SetOption("cookies", "yes");
+            Player.Client.SetOption("user-agent", userAgent);
+            Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
+            if (IsLive)
+            {
+                Player.Client.SetOption("ytdl", "no");
+            }
         }
 
         IsPlayerInitializing = false;
@@ -88,37 +89,10 @@ public sealed partial class PlayerViewModel : ViewModelBase
     /// <summary>
     /// 关闭播放器.
     /// </summary>
-    public void Close()
-        => Player?.Dispose();
-
-    private async Task TryLoadPlayDataAsync()
+    /// <returns><see cref="Task"/>.</returns>
+    public Task CloseAsync()
     {
-        if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
-        {
-            return;
-        }
-
-        if (!string.IsNullOrEmpty(_videoUrl))
-        {
-            await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);
-
-            if (!string.IsNullOrEmpty(_audioUrl))
-            {
-                await Player.Client.ExecuteAsync(["audio-add", _audioUrl]);
-            }
-        }
-        else if (!string.IsNullOrEmpty(_audioUrl))
-        {
-            await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
-        }
-
-        if (_autoPlay)
-        {
-            Player.Play();
-        }
-        else
-        {
-            Player.Pause();
-        }
+        IsPaused = true;
+        return Player?.DisposeAsync() ?? Task.CompletedTask;
     }
 }
