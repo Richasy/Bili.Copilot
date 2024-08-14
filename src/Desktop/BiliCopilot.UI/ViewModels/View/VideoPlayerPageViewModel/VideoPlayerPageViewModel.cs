@@ -8,8 +8,8 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
 
 namespace BiliCopilot.UI.ViewModels.View;
@@ -24,10 +24,12 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     /// </summary>
     public VideoPlayerPageViewModel(
         IPlayerService service,
+        IRelationshipService relationshipService,
         ILogger<VideoPlayerPageViewModel> logger,
         PlayerViewModel player)
     {
         _service = service;
+        _relationshipService = relationshipService;
         _logger = logger;
         Player = player;
     }
@@ -85,6 +87,8 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
             _dashLoadCancellationTokenSource = new CancellationTokenSource();
             var info = await _service.GetVideoPlayDetailAsync(_view.Information.Identifier, Convert.ToInt64(part.Identifier.Id), _dashLoadCancellationTokenSource.Token);
             InitializeDash(info);
+            var onlineCount = await _service.GetOnlineViewerAsync(_view.Information.Identifier.Id, part.Identifier.Id, _dashLoadCancellationTokenSource.Token);
+            OnlineCountText = onlineCount.Text;
         }
         catch (Exception ex)
         {
@@ -155,78 +159,85 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         await Player?.CloseAsync();
     }
 
-    private void InitializeView(VideoPlayerView view)
+    [RelayCommand]
+    private async Task ToggleFollowAsync()
     {
-        _view = view;
-        Cover = view.Information.Identifier.Cover.SourceUri;
-        Title = view.Information.Identifier.Title;
-        IsMyVideo = _view.Information.Publisher.User.Id == this.Get<IBiliTokenResolver>().GetToken().UserId.ToString();
-        CalcPlayerHeight();
-    }
-
-    private void InitializeDash(DashMediaInformation info)
-    {
-        _videoSegments = info.Videos;
-        _audioSegments = info.Audios;
-        Formats = info.Formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
-
-        // 用户个人视频无需会员即可观看最高画质.
-        if (IsMyVideo)
+        try
         {
-            foreach (var format in Formats)
+            if (IsFollow)
             {
-                format.IsEnabled = true;
+                await _relationshipService.UnfollowUserAsync(_view.Information.Publisher.User.Id);
+                IsFollow = false;
+            }
+            else
+            {
+                await _relationshipService.FollowUserAsync(_view.Information.Publisher.User.Id);
+                IsFollow = true;
             }
         }
-
-        var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
-        var availableFormats = Formats.Where(p => p.IsEnabled).ToList();
-        PlayerFormatItemViewModel? selectedFormat = default;
-        if (preferFormatSetting == PreferQualityType.Auto)
+        catch (Exception ex)
         {
-            var lastSelectedFormat = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedVideoQuality, 0);
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == lastSelectedFormat);
+            _logger.LogError(ex, "尝试关注/取消关注 UP 主时失败.");
         }
-        else if (preferFormatSetting == PreferQualityType.FourK)
-        {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 120);
-        }
-        else if (preferFormatSetting == PreferQualityType.HD)
-        {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 80);
-        }
-
-        if (selectedFormat is null)
-        {
-            var maxQuality = availableFormats.Max(p => p.Data.Quality);
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == maxQuality);
-        }
-
-        ChangeFormatCommand.Execute(selectedFormat);
     }
 
-    private void ClearView()
+    [RelayCommand]
+    private async Task ToggleLikeAsync()
     {
-        IsPageLoadFailed = false;
-        _view = default;
-        _videoSegments = default;
-        _audioSegments = default;
-        Cover = default;
-        Title = default;
-        IsMyVideo = false;
-
-        Formats = default;
-        SelectedFormat = default;
+        try
+        {
+            var state = !IsLiked;
+            await _service.ToggleVideoLikeAsync(_view.Information.Identifier.Id, state);
+            IsLiked = state;
+            if (state)
+            {
+                LikeCount++;
+            }
+            else if (LikeCount > 0)
+            {
+                LikeCount--;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试点赞/取消点赞视频时失败.");
+        }
     }
 
-    private void CalcPlayerHeight()
+    [RelayCommand]
+    private async Task CoinAsync(int count = 1)
     {
-        if (PlayerWidth <= 0 || _view?.AspectRatio is null)
+        try
         {
-            return;
+            await _service.CoinVideoAsync(_view.Information.Identifier.Id, count, IsCoinAlsoLike);
+            CoinCount += count;
+            IsCoined = true;
+            if (IsCoinAlsoLike && !IsLiked)
+            {
+                IsLiked = true;
+                LikeCount++;
+            }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试投币/取消投币视频时失败.");
+        }
+    }
 
-        PlayerHeight = (double)(PlayerWidth * _view.AspectRatio.Value.Height / _view.AspectRatio.Value.Width);
+    [RelayCommand]
+    private async Task TripleAsync()
+    {
+        try
+        {
+            await _service.TripleVideoAsync(_view.Information.Identifier.Id);
+            IsLiked = true;
+            IsCoined = true;
+            IsFavorited = true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试一键三连视频时失败.");
+        }
     }
 
     partial void OnPlayerWidthChanged(double value)

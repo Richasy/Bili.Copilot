@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoPlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.VideoOperationControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="16">
+            <local:LikeButton
+                Command="{x:Bind ViewModel.ToggleLikeCommand, Mode=OneWay}"
+                IsLiked="{x:Bind ViewModel.IsLiked, Mode=OneWay}"
+                Tip="{x:Bind ViewModel.LikeCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                TripleCommand="{x:Bind ViewModel.TripleCommand, Mode=OneWay}" />
+            <local:CoinButton
+                AlsoLike="{x:Bind ViewModel.IsCoinAlsoLike, Mode=TwoWay}"
+                Command="{x:Bind ViewModel.CoinCommand, Mode=OneWay}"
+                IsCoined="{x:Bind ViewModel.IsCoined, Mode=OneWay}"
+                Tip="{x:Bind ViewModel.CoinCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+            <local:FavoriteButton IsFavorited="{x:Bind ViewModel.IsFavorited, Mode=OneWay}" Tip="{x:Bind ViewModel.FavoriteCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+        </StackPanel>
+    </StackPanel>
+</local:VideoPlayerPageControlBase>

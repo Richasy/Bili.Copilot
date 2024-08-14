@@ -36,6 +36,7 @@
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
+    <None Remove="Controls\Components\IconTextBlock.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
@@ -102,6 +103,13 @@
     <None Remove="Controls\Pgc\CinemaSideHeader.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexSideControl.xaml" />
+    <None Remove="Controls\Player\CoinButton.xaml" />
+    <None Remove="Controls\Player\FavoriteButton.xaml" />
+    <None Remove="Controls\Player\LikeButton.xaml" />
+    <None Remove="Controls\Player\UpSectionControl.xaml" />
+    <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
+    <None Remove="Controls\Player\VideoOperationControl.xaml" />
+    <None Remove="Controls\Player\VideoStatControl.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
     <None Remove="Controls\Popular\PopularMainHeader.xaml" />
     <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
@@ -896,6 +904,46 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\FavoriteButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\CoinButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoOperationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LikeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoDescriptorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\IconTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoStatControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\UpSectionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Mpv\TransportControl\MpvTransportControl.xaml">

@@ -18,6 +18,30 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\FavoriteButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\CoinButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoOperationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LikeButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\IconTextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoStatControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\UpSectionControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Mpv\TransportControl\MpvTransportControl.xaml">
       <SubType>Designer</SubType>
     </Page>

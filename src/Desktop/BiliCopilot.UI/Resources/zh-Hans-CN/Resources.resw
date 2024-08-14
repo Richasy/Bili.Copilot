@@ -210,6 +210,9 @@
   <data name="AudioUrl" xml:space="preserve">
     <value>音频播放地址</value>
   </data>
+  <data name="AuthorPublishTime" xml:space="preserve">
+    <value>{0} 发布</value>
+  </data>
   <data name="AutoClosePlayerWindow" xml:space="preserve">
     <value>自动关闭当前播放窗口</value>
   </data>
@@ -392,6 +395,9 @@
   </data>
   <data name="CoinNumberTip" xml:space="preserve">
     <value>原创视频方可投2个币</value>
+  </data>
+  <data name="CoinTip" xml:space="preserve">
+    <value>投个币赞赏一下 UP 主的劳动成果吧！</value>
   </data>
   <data name="CollectTime" xml:space="preserve">
     <value>收藏时间</value>
@@ -701,6 +707,9 @@
   </data>
   <data name="FavoriteHaveNoVideos" xml:space="preserve">
     <value>收藏夹内没有视频</value>
+  </data>
+  <data name="FavoriteTip" xml:space="preserve">
+    <value>选择一个或多个收藏夹收藏视频吧！</value>
   </data>
   <data name="FeaturedRecommend" xml:space="preserve">
     <value>精选推荐</value>
@@ -1280,6 +1289,9 @@
   </data>
   <data name="OfficialUser" xml:space="preserve">
     <value>认证用户</value>
+  </data>
+  <data name="OneCoin" xml:space="preserve">
+    <value>一个币</value>
   </data>
   <data name="OnlyAudio" xml:space="preserve">
     <value>仅音频</value>
@@ -1956,24 +1968,6 @@
   <data name="StoreComment" xml:space="preserve">
     <value>求个好评</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>AV号是一串数字，如 170001</value>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value>BV号以 BV 开头，是一串英文数字混合的编号， 如 BV1JL4y1875w</value>
-  </data>
-  <data name="String2" xml:space="preserve">
-    <value>UGC优先级：分P &gt; 播放列表 &gt; 合集视频 &gt; 关联视频 (如果支持)</value>
-  </data>
-  <data name="String3" xml:space="preserve">
-    <value>快登录吧！</value>
-  </data>
-  <data name="String4" xml:space="preserve">
-    <value>点击确认后，下次点击标签将不会弹出该提示</value>
-  </data>
-  <data name="String5" xml:space="preserve">
-    <value>想提供一些建议？</value>
-  </data>
   <data name="Stroke" xml:space="preserve">
     <value>描边</value>
   </data>
@@ -2049,11 +2043,20 @@
   <data name="TrackCount" xml:space="preserve">
     <value>追番/追剧数</value>
   </data>
+  <data name="Triple" xml:space="preserve">
+    <value>三连</value>
+  </data>
+  <data name="TripleTip" xml:space="preserve">
+    <value>要不顺便来个一键三连？赞赏他人，取悦自己 😉</value>
+  </data>
   <data name="TV" xml:space="preserve">
     <value>电视剧</value>
   </data>
   <data name="TVApp" xml:space="preserve">
     <value>电视</value>
+  </data>
+  <data name="TwoCoin" xml:space="preserve">
+    <value>两个币</value>
   </data>
   <data name="UgcEpisode" xml:space="preserve">
     <value>视频合集</value>

@@ -77,24 +77,14 @@
                                         TextTrimming="CharacterEllipsis"
                                         TextWrapping="NoWrap"
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                                    <StackPanel
+                                    <local:IconTextBlock
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
-                                        Orientation="Horizontal"
-                                        Spacing="4"
-                                        ToolTipService.ToolTip="{ext:Locale Name=PlayCount}">
-                                        <ic:SymbolIcon
-                                            VerticalAlignment="Center"
-                                            FontSize="10"
-                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-                                            Symbol="PlayCircle" />
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}"
-                                            TextLineBounds="Tight" />
-                                    </StackPanel>
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        IconBrush="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        Symbol="PlayCircle"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=PlayCount}" />
                                 </Grid>
                             </Grid>
                         </Grid>

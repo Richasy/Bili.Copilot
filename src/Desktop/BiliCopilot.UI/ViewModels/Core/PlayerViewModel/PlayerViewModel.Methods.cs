@@ -27,6 +27,7 @@ public sealed partial class PlayerViewModel
 
             if (!string.IsNullOrEmpty(_audioUrl))
             {
+                await Task.Delay(100);
                 await Player.Client.ExecuteAsync(["audio-add", _audioUrl]);
             }
         }

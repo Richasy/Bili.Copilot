@@ -9,6 +9,7 @@
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mpv="using:BiliCopilot.UI.Controls.Mpv"
+    xmlns:player="using:BiliCopilot.UI.Controls.Player"
     mc:Ignorable="d">
 
     <Grid>
@@ -38,6 +39,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontWeight="Bold"
+            MaxLines="2"
             Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
 
         <Grid
@@ -45,24 +47,39 @@
             Grid.Row="2"
             Grid.Column="1" />
 
-        <ScrollView Grid.Row="2" Style="{StaticResource PageScrollViewStyle}">
-            <Grid
-                x:Name="PlayerContainer"
-                Grid.Row="2"
-                Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
-                MinHeight="200"
-                Margin="0,0,-6,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                SizeChanged="OnPlayContainerSizeChanged">
-                <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
-                <mpv:MpvTransportControl
-                    MaxWidth="600"
-                    Margin="12"
+        <ScrollView
+            Grid.Row="2"
+            Margin="0,0,-6,0"
+            Style="{StaticResource PageScrollViewStyle}">
+            <StackPanel Spacing="12">
+                <Grid
+                    x:Name="PlayerContainer"
+                    Grid.Row="2"
+                    Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
+                    MinHeight="200"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Bottom"
-                    ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
-            </Grid>
+                    VerticalAlignment="Top"
+                    SizeChanged="OnPlayContainerSizeChanged">
+                    <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                    <mpv:MpvTransportControl
+                        MaxWidth="600"
+                        Margin="12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Bottom"
+                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                </Grid>
+                <Grid
+                    Margin="0,0,0,20"
+                    Padding="12,0"
+                    ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <player:VideoDescriptorControl ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                    <player:VideoOperationControl Grid.Column="1" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                </Grid>
+            </StackPanel>
         </ScrollView>
 
         <!--  右侧分栏大小控制器  -->
@@ -71,6 +88,8 @@
             Grid.Column="1"
             ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
             IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
-            IsInvertDirection="True" />
+            IsInvertDirection="True"
+            MaxColumnWidth="500"
+            MinColumnWidth="300" />
     </Grid>
 </local:VideoPlayerPageBase>
