@@ -28,6 +28,10 @@ internal sealed class PlayerSectionTemplateSelector : DataTemplateSelector
         {
             return PartTemplate;
         }
+        else if (item is VideoPlayerSeasonSectionDetailViewModel)
+        {
+            return UgcSeasonTemplate;
+        }
 
         return default;
     }

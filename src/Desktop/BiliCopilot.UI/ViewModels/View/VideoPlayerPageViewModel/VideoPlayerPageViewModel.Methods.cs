@@ -111,6 +111,11 @@ public sealed partial class VideoPlayerPageViewModel
             sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
         }
 
+        if (_view.Seasons is not null)
+        {
+            sections.Add(new VideoPlayerSeasonSectionDetailViewModel(_view.Seasons, AvId));
+        }
+
         Sections = sections;
         SelectSection(Sections.First());
         SectionInitialized?.Invoke(this, EventArgs.Empty);

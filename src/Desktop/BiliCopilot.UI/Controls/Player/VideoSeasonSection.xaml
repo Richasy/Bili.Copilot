@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoSeasonSectionBase
+    x:Class="BiliCopilot.UI.Controls.Player.VideoSeasonSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Richasy.BiliKernel.Models.Media"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ComboBox
+            x:Name="SeasonComboBox"
+            Margin="12,8,12,0"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{x:Bind ViewModel.Seasons, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedSeason, Mode=OneWay}"
+            SelectionChanged="OnSeasonChangedAsync">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="media:VideoSeason">
+                    <TextBlock Text="{x:Bind Title}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ItemsView
+            x:Name="View"
+            Grid.Row="1"
+            Padding="12,0"
+            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+            SelectionChanged="OnVideoSelectionChanged"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="items:VideoItemViewModel">
+                    <ItemContainer Style="{StaticResource AppItemContainerStyle}">
+                        <components:VideoCardControl Style="{StaticResource PlayerSeasonVideoCardStyle}" ViewModel="{x:Bind}" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+    </Grid>
+</local:VideoSeasonSectionBase>

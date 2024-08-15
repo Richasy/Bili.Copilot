@@ -21,11 +21,15 @@
         <DataTemplate x:Key="PartTemplate" x:DataType="components:VideoPlayerPartSectionDetailViewModel">
             <local:VideoPartsSection ViewModel="{x:Bind}" />
         </DataTemplate>
+        <DataTemplate x:Key="SeasonTemplate" x:DataType="components:VideoPlayerSeasonSectionDetailViewModel">
+            <local:VideoSeasonSection ViewModel="{x:Bind}" />
+        </DataTemplate>
         <extensions:PlayerSectionTemplateSelector
             x:Key="Selector"
             CommentTemplate="{StaticResource CommentTemplate}"
             PartTemplate="{StaticResource PartTemplate}"
-            RecommendTemplate="{StaticResource RecommendTemplate}" />
+            RecommendTemplate="{StaticResource RecommendTemplate}"
+            UgcSeasonTemplate="{StaticResource SeasonTemplate}" />
     </UserControl.Resources>
 
     <Grid>

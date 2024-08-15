@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\VideoSeasonSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\VideoPartsSection.xaml">
       <SubType>Designer</SubType>
     </Page>

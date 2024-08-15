@@ -56,4 +56,9 @@ public enum VideoCardStyle
     /// 播放器推荐.
     /// </summary>
     PlayerRecommend,
+
+    /// <summary>
+    /// 播放器合集中的单集.
+    /// </summary>
+    PlayerSeason,
 }
