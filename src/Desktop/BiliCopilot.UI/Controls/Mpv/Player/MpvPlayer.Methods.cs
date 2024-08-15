@@ -53,30 +53,12 @@ public sealed partial class MpvPlayer
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs args)
     {
-        if (TransportControls is not FrameworkElement frameEle)
-        {
-            return;
-        }
-
         DispatcherQueue.TryEnqueue(() =>
         {
             var point = args.GetCurrentPoint(this).Position;
-            frameEle.Visibility = _transportControlTriggerRect.Contains(point)
+            TransportControls.Visibility = _transportControlTriggerRect.Contains(point)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         });
-    }
-
-    private void CheckCursorVisibility()
-    {
-        if (_cursorStayTime > 1.5
-            && _isPointerStay
-            && TransportControls is not null
-            && TransportControls.Visibility != Visibility.Visible
-            && !ViewModel.IsPaused)
-        {
-            ProtectedCursor?.Dispose();
-            _cursorStayTime = 0;
-        }
     }
 }

@@ -14,15 +14,12 @@ namespace BiliCopilot.UI.Controls.Mpv;
 /// </summary>
 public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
 {
-    private DispatcherTimer _timer;
     private PlayerViewModel? _viewModel;
     private long _viewModelChangedToken;
     private RenderControl _renderControl;
     private Rect _transportControlTriggerRect;
     private Rectangle _interactionControl;
 
-    private double _cursorStayTime;
-    private bool _isPointerStay;
     private double _lastSpeed;
 
     /// <summary>
@@ -34,12 +31,11 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
     protected override async void OnControlLoaded()
     {
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
-        if (_timer == null)
-        {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(0.5);
-            _timer.Tick += OnUnitTimerTick;
-        }
+
+        _renderControl.Render += OnRender;
+        _interactionControl.Tapped += OnCoreTapped;
+        _interactionControl.DoubleTapped += OnCoreDoubleTapped;
+        _interactionControl.Holding += OnCoreHolding;
 
         if (ViewModel is null)
         {
@@ -49,7 +45,6 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         _viewModel = ViewModel;
         SizeChanged += OnSizeChanged;
         await _viewModel.InitializeAsync(_renderControl);
-        _timer.Start();
     }
 
     /// <inheritdoc/>
@@ -60,12 +55,6 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         _viewModel = default;
 
         _renderControl.Render -= OnRender;
-        if (_timer != null)
-        {
-            _timer.Tick -= OnUnitTimerTick;
-            _timer.Stop();
-            _timer = default;
-        }
 
         if (_interactionControl != null)
         {
@@ -87,31 +76,23 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
             MinorVersion = 6,
             GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,
         };
-        _renderControl.Render += OnRender;
-        _interactionControl.Tapped += OnCoreTapped;
-        _interactionControl.DoubleTapped += OnCoreDoubleTapped;
-        _interactionControl.Holding += OnCoreHolding;
     }
 
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
-        _isPointerStay = true;
         CheckTransportControlVisibility(e);
-        ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
     }
 
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
-        _isPointerStay = true;
         CheckTransportControlVisibility(e);
     }
 
     /// <inheritdoc/>
     protected override void OnPointerExited(PointerRoutedEventArgs e)
     {
-        _isPointerStay = false;
         if (TransportControls is not null)
         {
             TransportControls.Visibility = Visibility.Collapsed;
@@ -165,11 +146,4 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         => MeasureTransportTriggerRect();
-
-    private void OnUnitTimerTick(object? sender, object e)
-    {
-        _cursorStayTime += 0.5;
-
-        CheckCursorVisibility();
-    }
 }
