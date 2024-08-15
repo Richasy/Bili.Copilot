@@ -13,7 +13,7 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase
+public sealed partial class MainWindow : WindowBase, IPlayerHostWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
@@ -28,7 +28,7 @@ public sealed partial class MainWindow : WindowBase
         SetTitleBar(RootLayout.GetMainTitleBar());
         Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         this.SetIcon("Assets/logo.ico");
-        AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         MinWidth = WindowMinWidth;
         MinHeight = WindowMinHeight;
         this.Get<AppViewModel>().Windows.Add(this);
@@ -36,6 +36,14 @@ public sealed partial class MainWindow : WindowBase
         Activated += OnActivated;
         Closed += OnClosed;
     }
+
+    /// <inheritdoc/>
+    public void EnterPlayerHostMode()
+        => RootLayout.PrepareFullPlayerPresenter();
+
+    /// <inheritdoc/>
+    public void ExitPlayerHostMode()
+        => RootLayout.ExitFullPlayerPresenter();
 
     private static PointInt32 GetSavedWindowPosition()
     {

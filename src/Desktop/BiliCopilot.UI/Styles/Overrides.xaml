@@ -57,6 +57,13 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
+    <Style
+        x:Key="CircleIconButtonStyle"
+        BasedOn="{StaticResource IconButtonStyle}"
+        TargetType="Button">
+        <Setter Property="CornerRadius" Value="18" />
+    </Style>
+
     <Style x:Key="HeaderAvatarButtonStyle" TargetType="Button">
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />

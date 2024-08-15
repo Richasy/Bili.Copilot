@@ -14,7 +14,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="56" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -28,13 +28,14 @@
         </Grid.ChildrenTransitions>
 
         <Border
+            x:Name="HeaderDivider"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Height="1"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-        <player:VideoPlayerMainHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+        <player:VideoPlayerMainHeader x:Name="MainHeader" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
 
         <Grid
             x:Name="VerticalHolderContainer"
@@ -42,10 +43,11 @@
             Grid.Column="1" />
 
         <ScrollView
+            x:Name="VideoContainer"
             Grid.Row="2"
             Margin="0,0,-6,0"
             Style="{StaticResource PageScrollViewStyle}">
-            <StackPanel Spacing="12">
+            <StackPanel>
                 <Grid
                     x:Name="PlayerContainer"
                     Grid.Row="2"
@@ -54,16 +56,26 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     SizeChanged="OnPlayContainerSizeChanged">
-                    <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
-                    <mpv:MpvTransportControl
-                        MaxWidth="600"
-                        Margin="12"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Bottom"
-                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                    <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                        <mpv:MpvPlayer.TransportControls>
+                            <mpv:MpvTransportControl
+                                MaxWidth="600"
+                                Margin="12"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Bottom"
+                                ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                                <mpv:MpvTransportControl.RightContent>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                                    </StackPanel>
+                                </mpv:MpvTransportControl.RightContent>
+                            </mpv:MpvTransportControl>
+                        </mpv:MpvPlayer.TransportControls>
+                    </mpv:MpvPlayer>
                 </Grid>
                 <Grid
-                    Margin="0,0,0,20"
+                    x:Name="PlayerBottomContainer"
+                    Margin="0,12,0,20"
                     Padding="12,0"
                     ColumnSpacing="28">
                     <Grid.ColumnDefinitions>
@@ -76,18 +88,20 @@
             </StackPanel>
         </ScrollView>
 
-        <player:VideoPlayerSideHeader
-            Grid.Column="2"
-            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <player:VideoPlayerSideBody
+        <Grid x:Name="SideHeader" Grid.Column="2">
+            <player:VideoPlayerSideHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        </Grid>
+
+        <Grid
+            x:Name="SideBody"
             Grid.Row="2"
-            Grid.Column="2"
-            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            Grid.Column="2">
+            <player:VideoPlayerSideBody ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        </Grid>
 
         <!--  右侧分栏大小控制器  -->
         <components:ColumnSplitter
+            x:Name="SideSplitter"
             Grid.RowSpan="3"
             Grid.Column="1"
             ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
@@ -95,5 +109,23 @@
             IsInvertDirection="True"
             MaxColumnWidth="500"
             MinColumnWidth="300" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="DefaultState" />
+                <VisualState x:Name="PlayerHostState">
+                    <VisualState.Setters>
+                        <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
+                        <Setter Target="MainHeader.Visibility" Value="Collapsed" />
+                        <Setter Target="PlayerBottomContainer.Visibility" Value="Collapsed" />
+                        <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
+                        <Setter Target="SideHeader.Visibility" Value="Collapsed" />
+                        <Setter Target="SideBody.Visibility" Value="Collapsed" />
+                        <Setter Target="VideoContainer.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="VideoContainer.VerticalScrollBarVisibility" Value="Hidden" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </local:VideoPlayerPageBase>

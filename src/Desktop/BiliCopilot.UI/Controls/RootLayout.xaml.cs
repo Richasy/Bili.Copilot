@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
@@ -31,6 +32,44 @@ public sealed partial class RootLayout : RootLayoutBase
     /// </summary>
     /// <returns><see cref="AppTitleBar"/>.</returns>
     public AppTitleBar GetMainTitleBar() => MainTitleBar;
+
+    /// <summary>
+    /// 准备隐藏除播放器外的其它控件.
+    /// </summary>
+    public void PrepareFullPlayerPresenter()
+    {
+        if (!ViewModel.IsOverlayOpen)
+        {
+            return;
+        }
+
+        MainTitleBar.Visibility = Visibility.Collapsed;
+        NavView.IsPaneOpen = false;
+
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.EnterPlayerHostMode();
+        }
+    }
+
+    /// <summary>
+    /// 播放器解除占用状态，显示其它控件.
+    /// </summary>
+    public void ExitFullPlayerPresenter()
+    {
+        if (!ViewModel.IsOverlayOpen)
+        {
+            return;
+        }
+
+        MainTitleBar.Visibility = Visibility.Visible;
+        NavView.IsPaneOpen = true;
+
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.ExitPlayerHostMode();
+        }
+    }
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

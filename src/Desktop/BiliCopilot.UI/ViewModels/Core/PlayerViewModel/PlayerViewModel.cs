@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Mpv.Common;
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Mpv.Core.Args;
@@ -80,6 +82,10 @@ public sealed partial class PlayerViewModel : ViewModelBase
         _audioUrl = audioUrl;
         _autoPlay = isAutoPlay;
 
+        Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
+        Speed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
+        MaxSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false) ? 6.0 : 3.0;
+
         if (_isInitialized)
         {
             await TryLoadPlayDataAsync();
@@ -94,5 +100,21 @@ public sealed partial class PlayerViewModel : ViewModelBase
     {
         IsPaused = true;
         return Player?.DisposeAsync() ?? Task.CompletedTask;
+    }
+
+    partial void OnIsFullScreenChanged(bool value)
+    {
+        if (value && IsCompactOverlay)
+        {
+            IsCompactOverlay = false;
+        }
+    }
+
+    partial void OnIsCompactOverlayChanged(bool value)
+    {
+        if (value && IsFullScreen)
+        {
+            IsFullScreen = false;
+        }
     }
 }

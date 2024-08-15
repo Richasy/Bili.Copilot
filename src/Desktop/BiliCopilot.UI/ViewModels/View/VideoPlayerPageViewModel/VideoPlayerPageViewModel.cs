@@ -154,6 +154,11 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     [RelayCommand]
     private async Task ChangeFormatAsync(PlayerFormatItemViewModel vm)
     {
+        if (vm is null || vm == SelectedFormat)
+        {
+            return;
+        }
+
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));

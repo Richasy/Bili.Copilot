@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Controls.Mpv.Common;
-
 namespace BiliCopilot.UI.Controls.Mpv;
 
 /// <summary>
@@ -9,5 +7,18 @@ namespace BiliCopilot.UI.Controls.Mpv;
 /// </summary>
 public sealed partial class MpvPlayer
 {
-    private RenderControl _renderControl;
+    /// <summary>
+    /// <see cref="TransportControls"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty TransportControlsProperty =
+        DependencyProperty.Register(nameof(TransportControls), typeof(MpvTransportControl), typeof(MpvPlayer), new PropertyMetadata(default));
+
+    /// <summary>
+    /// 媒体传输控件.
+    /// </summary>
+    public MpvTransportControl TransportControls
+    {
+        get => (MpvTransportControl)GetValue(TransportControlsProperty);
+        set => SetValue(TransportControlsProperty, value);
+    }
 }

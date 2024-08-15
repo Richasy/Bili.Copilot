@@ -35,6 +35,27 @@ public sealed partial class PlayerViewModel
     [ObservableProperty]
     private bool _isPaused;
 
+    [ObservableProperty]
+    private int _position;
+
+    [ObservableProperty]
+    private int _duration;
+
+    [ObservableProperty]
+    private int _volume;
+
+    [ObservableProperty]
+    private double _speed;
+
+    [ObservableProperty]
+    private double _maxSpeed;
+
+    [ObservableProperty]
+    private bool _isFullScreen;
+
+    [ObservableProperty]
+    private bool _isCompactOverlay;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

@@ -165,7 +165,7 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void CalcPlayerHeight()
     {
-        if (PlayerWidth <= 0 || _view?.AspectRatio is null)
+        if (PlayerWidth <= 0 || _view?.AspectRatio is null || Player.IsFullScreen || Player.IsCompactOverlay)
         {
             return;
         }

@@ -17,6 +17,22 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// </summary>
     public VideoPlayerPage() => InitializeComponent();
 
+    /// <summary>
+    /// 进入播放器主持模式.
+    /// </summary>
+    public void EnterPlayerHostMode()
+    {
+        VisualStateManager.GoToState(this, "PlayerHostState", false);
+    }
+
+    /// <summary>
+    /// 退出播放器主持模式.
+    /// </summary>
+    public void ExitPlayerHostMode()
+    {
+        VisualStateManager.GoToState(this, "DefaultState", false);
+    }
+
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -24,7 +40,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             ViewModel.InitializePageCommand.Execute(video);
         }
-        else if (e.Parameter is(IList<VideoInformation> list, VideoInformation v))
+        else if (e.Parameter is (IList<VideoInformation> list, VideoInformation v))
         {
             ViewModel.InjectPlaylist(list);
             ViewModel.InitializePageCommand.Execute(v);
@@ -46,10 +62,15 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
 
     private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        ViewModel.PlayerWidth = e.NewSize.Width;
+        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
+
+        if(ViewModel.Player.IsFullScreen)
+        {
+            ViewModel.PlayerHeight = ActualHeight - 2;
+        }
 
         // 播放器不能超出容器高度.
-        PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
+        PlayerContainer.MaxHeight = ViewModel.Player.IsFullScreen ? ActualHeight : VerticalHolderContainer.ActualHeight;
     }
 }
 

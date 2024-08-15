@@ -5,12 +5,97 @@
     xmlns:common="using:BiliCopilot.UI.Controls.Mpv.Common"
     xmlns:local="using:BiliCopilot.UI.Controls.Mpv">
 
+    <Style x:Key="HiddenButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TabFocusNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
+        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+    </Style>
+
     <Style TargetType="local:MpvPlayer">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MpvPlayer">
                     <Grid>
+                        <Grid x:Name="HiddenControlsContainer">
+                            <Button
+                                x:Name="IncreaseVolumeButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="DecreaseVolumeButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="ForwardSkipButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Right" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="BackwardSkipButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackwardSkipCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Left" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="HiddenMiniViewButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator
+                                        Key="M"
+                                        IsEnabled="True"
+                                        Modifiers="Control" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="HiddenFullScreenButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="BackToDefaultButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                        </Grid>
                         <common:RenderControl x:Name="RenderControl" />
+                        <Rectangle
+                            x:Name="InteractionControl"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Fill="Transparent" />
+                        <ContentControl
+                            x:Name="TransportControlsContainer"
+                            MinHeight="200"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Content="{TemplateBinding TransportControls}"
+                            Style="{StaticResource AppContentControlStyle}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

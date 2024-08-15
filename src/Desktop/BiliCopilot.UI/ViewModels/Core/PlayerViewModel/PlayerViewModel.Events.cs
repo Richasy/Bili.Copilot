@@ -13,11 +13,10 @@ public sealed partial class PlayerViewModel
 {
     private void OnPositionChanged(object? sender, PlaybackPositionChangedEventArgs e)
     {
-        var duration = TimeSpan.FromSeconds(e.Duration);
-        var position = TimeSpan.FromSeconds(e.Position);
         _dispatcherQueue.TryEnqueue(() =>
         {
-            // 更新播放进度.
+            Position = Convert.ToInt32(e.Position);
+            Duration = Convert.ToInt32(e.Duration);
         });
     }
 

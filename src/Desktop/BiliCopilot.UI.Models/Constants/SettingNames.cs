@@ -38,4 +38,8 @@ public enum SettingNames
     IsLiveAudioOnly,
     LastSelectedPgcQuality,
     IsVideoPlayerPartsOnlyIndex,
+    PlayerVolume,
+    PlayerSpeed,
+    IsPlayerSpeedEnhancement,
+    SingleFastForwardAndRewindSpan,
 }

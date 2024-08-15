@@ -25,6 +25,10 @@ public sealed partial class PlayerViewModel
 
         IsPlayerDataLoading = true;
         IsPaused = true;
+
+        Player.SetVolume(Volume);
+        Player.SetSpeed(Speed);
+
         if (!string.IsNullOrEmpty(_videoUrl))
         {
             await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);

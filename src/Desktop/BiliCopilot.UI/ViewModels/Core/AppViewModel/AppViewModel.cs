@@ -7,6 +7,7 @@ using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.Storage;
+using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -62,6 +63,50 @@ public sealed partial class AppViewModel : ViewModelBase
         foreach (var window in Windows)
         {
             (window.Content as FrameworkElement).RequestedTheme = theme;
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowEnterFullScreen()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.EnterPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowExitFullScreen()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.ExitPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowEnterCompactOverlay()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.EnterPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowExitCompactOverlay()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.ExitPlayerHostMode();
         }
     }
 }
