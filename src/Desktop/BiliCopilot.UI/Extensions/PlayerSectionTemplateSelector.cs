@@ -24,6 +24,10 @@ internal sealed class PlayerSectionTemplateSelector : DataTemplateSelector
         {
             return RecommendTemplate;
         }
+        else if (item is VideoPlayerPartSectionDetailViewModel)
+        {
+            return PartTemplate;
+        }
 
         return default;
     }

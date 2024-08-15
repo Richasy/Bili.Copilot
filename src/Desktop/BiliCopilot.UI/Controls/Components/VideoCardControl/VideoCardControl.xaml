@@ -988,15 +988,16 @@
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="148" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <local:VideoCoverImage
+                                Margin="6"
                                 VerticalAlignment="Stretch"
-                                CornerRadius="4,0,0,4"
+                                CornerRadius="4"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"

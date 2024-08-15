@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Models.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
@@ -140,5 +141,11 @@ public sealed partial class VideoPlayerPageViewModel
     {
         var url = $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
+    }
+
+    private void ChangePart(VideoPart part)
+    {
+        _part = part;
+        InitializeDashMediaCommand.Execute(part);
     }
 }

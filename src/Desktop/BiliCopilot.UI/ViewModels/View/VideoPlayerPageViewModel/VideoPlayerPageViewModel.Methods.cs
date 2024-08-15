@@ -101,6 +101,11 @@ public sealed partial class VideoPlayerPageViewModel
             _comments,
         };
 
+        if (_view.Parts?.Count > 1)
+        {
+            sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePart));
+        }
+
         if (_view.Recommends is not null)
         {
             sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
@@ -115,6 +120,7 @@ public sealed partial class VideoPlayerPageViewModel
     {
         IsPageLoadFailed = false;
         _view = default;
+        _part = default;
         _videoSegments = default;
         _audioSegments = default;
         Cover = default;
@@ -155,5 +161,30 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         PlayerHeight = (double)(PlayerWidth * _view.AspectRatio.Value.Height / _view.AspectRatio.Value.Width);
+    }
+
+    private VideoPart? FindInitialPart(string? initialPartId = default)
+    {
+        if (_view.Parts?.Count == 1)
+        {
+            return _view.Parts.First();
+        }
+
+        VideoPart? part = default;
+        if (!string.IsNullOrEmpty(initialPartId))
+        {
+            part = _view.Parts.FirstOrDefault(p => p.Identifier.Id == initialPartId);
+        }
+
+        if (part == null)
+        {
+            var historyPartId = _view.Progress?.Cid;
+            if (!string.IsNullOrEmpty(historyPartId))
+            {
+                part = _view.Parts.FirstOrDefault(p => p.Identifier.Id == historyPartId);
+            }
+        }
+
+        return part ?? _view.Parts.FirstOrDefault();
     }
 }

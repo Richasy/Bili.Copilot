@@ -28,6 +28,7 @@ public sealed partial class VideoPlayerPageViewModel
     private CancellationTokenSource _dashLoadCancellationTokenSource;
 
     private VideoPlayerView? _view;
+    private VideoPart? _part;
     private IList<DashSegmentInformation>? _videoSegments;
     private IList<DashSegmentInformation>? _audioSegments;
 

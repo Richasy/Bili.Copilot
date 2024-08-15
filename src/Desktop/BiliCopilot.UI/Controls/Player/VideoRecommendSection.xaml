@@ -11,10 +11,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView
-            x:Name="VideoScrollView"
-            Grid.Row="1"
-            Style="{StaticResource PageScrollViewStyle}">
+        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>

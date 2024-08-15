@@ -37,4 +37,5 @@ public enum SettingNames
     LastSelectedLiveQuality,
     IsLiveAudioOnly,
     LastSelectedPgcQuality,
+    IsVideoPlayerPartsOnlyIndex,
 }

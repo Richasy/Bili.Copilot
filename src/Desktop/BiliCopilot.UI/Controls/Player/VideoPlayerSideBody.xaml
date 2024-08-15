@@ -18,9 +18,13 @@
         <DataTemplate x:Key="RecommendTemplate" x:DataType="components:VideoPlayerRecommendSectionDetailViewModel">
             <local:VideoRecommendSection ViewModel="{x:Bind}" />
         </DataTemplate>
+        <DataTemplate x:Key="PartTemplate" x:DataType="components:VideoPlayerPartSectionDetailViewModel">
+            <local:VideoPartsSection ViewModel="{x:Bind}" />
+        </DataTemplate>
         <extensions:PlayerSectionTemplateSelector
             x:Key="Selector"
             CommentTemplate="{StaticResource CommentTemplate}"
+            PartTemplate="{StaticResource PartTemplate}"
             RecommendTemplate="{StaticResource RecommendTemplate}" />
     </UserControl.Resources>
 
