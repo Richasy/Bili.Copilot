@@ -34,13 +34,7 @@
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-        <base:TrimTextBlock
-            Margin="16,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            MaxLines="2"
-            Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <player:VideoPlayerMainHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
 
         <Grid
             x:Name="VerticalHolderContainer"
@@ -71,7 +65,7 @@
                 <Grid
                     Margin="0,0,0,20"
                     Padding="12,0"
-                    ColumnSpacing="12">
+                    ColumnSpacing="28">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
@@ -81,6 +75,16 @@
                 </Grid>
             </StackPanel>
         </ScrollView>
+
+        <player:VideoPlayerSideHeader
+            Grid.Column="2"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <player:VideoPlayerSideBody
+            Grid.Row="2"
+            Grid.Column="2"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
 
         <!--  右侧分栏大小控制器  -->
         <components:ColumnSplitter

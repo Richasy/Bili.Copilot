@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Collections.ObjectModel;
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
@@ -65,4 +67,7 @@ public sealed partial class CommentMainViewModel
     /// 标识符.
     /// </summary>
     public string Id { get; private set; }
+
+    /// <inheritdoc/>
+    public string Title { get; } = ResourceToolkit.GetLocalizedString(StringNames.Comments);
 }

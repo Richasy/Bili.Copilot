@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <StackPanel Spacing="20">
         <StackPanel Orientation="Horizontal" Spacing="16">
             <local:LikeButton
                 Command="{x:Bind ViewModel.ToggleLikeCommand, Mode=OneWay}"
@@ -21,7 +21,34 @@
                 Command="{x:Bind ViewModel.CoinCommand, Mode=OneWay}"
                 IsCoined="{x:Bind ViewModel.IsCoined, Mode=OneWay}"
                 Tip="{x:Bind ViewModel.CoinCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
-            <local:FavoriteButton IsFavorited="{x:Bind ViewModel.IsFavorited, Mode=OneWay}" Tip="{x:Bind ViewModel.FavoriteCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+            <local:FavoriteButton
+                Command="{x:Bind ViewModel.FavoriteCommand, Mode=OneWay}"
+                InitializeCommand="{x:Bind ViewModel.InitializeFavoritesCommand}"
+                IsFavorited="{x:Bind ViewModel.IsFavorited, Mode=OneWay}"
+                ItemsSource="{x:Bind ViewModel.FavoriteFolders, Mode=OneWay}"
+                Tip="{x:Bind ViewModel.FavoriteCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+        </StackPanel>
+        <DropDownButton HorizontalAlignment="Stretch" Style="{StaticResource AccentDropDownButtonStyle}">
+            <StackPanel>
+                <TextBlock Text="{ext:Locale Name=DownloadVideo}" />
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=DownloadVideoTip}" />
+            </StackPanel>
+        </DropDownButton>
+        <StackPanel Spacing="4">
+            <TextBlock
+                HorizontalAlignment="Left"
+                FontSize="12"
+                IsTextSelectionEnabled="True">
+                <Run Text="AV" />
+                <Run FontWeight="Bold" Text="{x:Bind ViewModel.AvId, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock
+                HorizontalAlignment="Left"
+                FontSize="12"
+                IsTextSelectionEnabled="True">
+                <Run Text="BV" />
+                <Run FontWeight="Bold" Text="{x:Bind ViewModel.BvId, Mode=OneWay}" />
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </local:VideoPlayerPageControlBase>

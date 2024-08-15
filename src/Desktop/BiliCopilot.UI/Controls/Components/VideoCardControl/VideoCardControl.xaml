@@ -977,4 +977,107 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="PlayerRecommendVideoCardStyle" TargetType="local:VideoCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:VideoCardControl">
+                    <local:CardControl
+                        x:Name="RootCard"
+                        Height="104"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <local:VideoCoverImage
+                                VerticalAlignment="Stretch"
+                                CornerRadius="4,0,0,4"
+                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <Border
+                                Margin="4"
+                                Padding="4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.6" Color="Black" />
+                                </Border.Background>
+                                <TextBlock
+                                    Foreground="White"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
+                            </Border>
+                            <Grid
+                                Grid.Column="1"
+                                Padding="12,4,12,8"
+                                VerticalAlignment="Stretch"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    HorizontalAlignment="Left"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author, Converter={StaticResource ObjectToVisibilityConverter}}" />
+
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    MaxLines="2"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                                <StackPanel
+                                    Grid.Row="2"
+                                    Orientation="Horizontal"
+                                    Spacing="12">
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=PlayCount}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                            Symbol="PlayCircle" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuCount}"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Symbol="TextBulletList" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

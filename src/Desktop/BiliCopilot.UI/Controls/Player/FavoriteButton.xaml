@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -46,6 +47,43 @@
             PreferredPlacement="Top"
             ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=FavoriteTip}"
-            Target="{x:Bind Btn}" />
+            Target="{x:Bind Btn}">
+            <ScrollView
+                MaxHeight="360"
+                Margin="0,8"
+                Style="{StaticResource PageScrollViewStyle}">
+                <ItemsRepeater ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:PlayerFavoriteFolderViewModel">
+                            <ToggleButton
+                                Padding="16,12"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        MaxLines="1"
+                                        Text="{x:Bind Data.Title}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Data.TotalCount}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Total}" />
+                                </Grid>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollView>
+        </TeachingTip>
     </Grid>
 </base:LayoutUserControlBase>

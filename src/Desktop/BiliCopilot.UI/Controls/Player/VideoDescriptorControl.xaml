@@ -39,7 +39,6 @@
             </ItemsRepeater.Layout>
         </ItemsRepeater>
         <Grid
-            Margin="0,0,0,12"
             Padding="12,8,12,0"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             CornerRadius="{StaticResource ControlCornerRadius}"
@@ -50,24 +49,5 @@
                 Text="{x:Bind ViewModel.Description, Mode=OneWay}"
                 TextWrapping="Wrap" />
         </Grid>
-        <TextBlock
-            Margin="4,0,0,0"
-            HorizontalAlignment="Left"
-            FontSize="12"
-            IsTextSelectionEnabled="True">
-            <Run Text="AV" />
-            <Run FontWeight="Bold" Text="{x:Bind ViewModel.AvId, Mode=OneWay}" />
-        </TextBlock>
-        <TextBlock
-            Margin="4,0,0,0"
-            HorizontalAlignment="Left"
-            FontSize="12"
-            IsTextSelectionEnabled="True">
-            <Run Text="BV" />
-            <Run
-                FontWeight="Bold"
-                IsTextScaleFactorEnabled="True"
-                Text="{x:Bind ViewModel.BvId, Mode=OneWay}" />
-        </TextBlock>
     </StackPanel>
 </local:VideoPlayerPageControlBase>

@@ -22,7 +22,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     {
         if (e.Parameter is VideoInformation video)
         {
-            ViewModel.InitializePageCommand.Execute(video.Identifier);
+            ViewModel.InitializePageCommand.Execute(video);
         }
     }
 

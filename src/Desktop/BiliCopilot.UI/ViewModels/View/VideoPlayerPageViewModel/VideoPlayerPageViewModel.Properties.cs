@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Threading;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,7 +20,9 @@ public sealed partial class VideoPlayerPageViewModel
 {
     private readonly IPlayerService _service;
     private readonly IRelationshipService _relationshipService;
+    private readonly IFavoriteService _favoriteService;
     private readonly ILogger<VideoPlayerPageViewModel> _logger;
+    private readonly CommentMainViewModel _comments;
 
     private CancellationTokenSource _pageLoadCancellationTokenSource;
     private CancellationTokenSource _dashLoadCancellationTokenSource;
@@ -113,10 +116,29 @@ public sealed partial class VideoPlayerPageViewModel
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]
+    private IPlayerSectionDetailViewModel? _selectedSection;
+
+    [ObservableProperty]
     private IReadOnlyCollection<PlayerFormatItemViewModel>? _formats;
 
     [ObservableProperty]
     private IReadOnlyCollection<BiliTag>? _tags;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<PlayerFavoriteFolderViewModel>? _favoriteFolders;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<IPlayerSectionDetailViewModel>? _sections;
+
+    /// <summary>
+    /// 视图数据加载完成.
+    /// </summary>
+    public event EventHandler ViewInitialized;
+
+    /// <summary>
+    /// 区块加载完成.
+    /// </summary>
+    public event EventHandler SectionInitialized;
 
     /// <summary>
     /// 播放器视图模型.

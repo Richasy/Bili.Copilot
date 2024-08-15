@@ -20,7 +20,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Padding="16,0" Visibility="{x:Bind ViewModel.SelectedItem, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
+        <Grid Padding="12,0" Visibility="{x:Bind ViewModel.SelectedItem, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -49,7 +49,7 @@
             </ComboBox>
         </Grid>
         <HyperlinkButton
-            Margin="16,0"
+            Margin="12,0"
             HorizontalAlignment="Left"
             Command="{x:Bind ViewModel.BackToMainCommand, Mode=OneWay}"
             Content="{ext:Locale Name=BackToPrevious}"
@@ -59,7 +59,7 @@
                 x:Name="CommentScrollView"
                 Padding="0"
                 Style="{StaticResource PageScrollViewStyle}">
-                <Grid Margin="16,0">
+                <Grid Margin="12,0">
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="components1:CommentDetailViewModel">
@@ -89,7 +89,7 @@
             Visibility="{x:Bind ViewModel.SelectedItem, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
         <local:CommentTextBox
             Grid.Row="2"
-            Margin="16,0"
+            Margin="12,0"
             IsEnabled="{x:Bind ViewModel.IsReplying, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             ReplyTip="{x:Bind ViewModel.ReplyTarget, Mode=OneWay}"
             ResetSelectedCommand="{x:Bind ViewModel.ResetReplyTargetCommand, Mode=OneWay}"

@@ -4,6 +4,7 @@ using System.Threading;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
@@ -25,12 +26,16 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     public VideoPlayerPageViewModel(
         IPlayerService service,
         IRelationshipService relationshipService,
+        IFavoriteService favoriteService,
         ILogger<VideoPlayerPageViewModel> logger,
-        PlayerViewModel player)
+        PlayerViewModel player,
+        CommentMainViewModel comments)
     {
         _service = service;
         _relationshipService = relationshipService;
+        _favoriteService = favoriteService;
         _logger = logger;
+        _comments = comments;
         Player = player;
     }
 
@@ -39,7 +44,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         => nameof(VideoPlayerPage);
 
     [RelayCommand]
-    private async Task InitializePageAsync(MediaIdentifier video)
+    private async Task InitializePageAsync(VideoInformation video)
     {
         if (IsPageLoading)
         {
@@ -51,16 +56,18 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         {
             ClearView();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
-            var view = await _service.GetVideoPageDetailAsync(video, _pageLoadCancellationTokenSource.Token);
+            var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
             InitializeDashMediaCommand.Execute(view.Parts.First());
+            InitializeSections();
+            ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
                 IsPageLoadFailed = true;
-                _logger.LogError(ex, $"尝试获取视频 {video.Id} 详情时失败.");
+                _logger.LogError(ex, $"尝试获取视频 {video.Identifier.Id} 详情时失败.");
             }
             else
             {
@@ -160,84 +167,15 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task ToggleFollowAsync()
+    private void SelectSection(IPlayerSectionDetailViewModel section)
     {
-        try
+        if (section is null || section == SelectedSection)
         {
-            if (IsFollow)
-            {
-                await _relationshipService.UnfollowUserAsync(_view.Information.Publisher.User.Id);
-                IsFollow = false;
-            }
-            else
-            {
-                await _relationshipService.FollowUserAsync(_view.Information.Publisher.User.Id);
-                IsFollow = true;
-            }
+            return;
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "尝试关注/取消关注 UP 主时失败.");
-        }
-    }
 
-    [RelayCommand]
-    private async Task ToggleLikeAsync()
-    {
-        try
-        {
-            var state = !IsLiked;
-            await _service.ToggleVideoLikeAsync(_view.Information.Identifier.Id, state);
-            IsLiked = state;
-            if (state)
-            {
-                LikeCount++;
-            }
-            else if (LikeCount > 0)
-            {
-                LikeCount--;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "尝试点赞/取消点赞视频时失败.");
-        }
-    }
-
-    [RelayCommand]
-    private async Task CoinAsync(int count = 1)
-    {
-        try
-        {
-            await _service.CoinVideoAsync(_view.Information.Identifier.Id, count, IsCoinAlsoLike);
-            CoinCount += count;
-            IsCoined = true;
-            if (IsCoinAlsoLike && !IsLiked)
-            {
-                IsLiked = true;
-                LikeCount++;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "尝试投币/取消投币视频时失败.");
-        }
-    }
-
-    [RelayCommand]
-    private async Task TripleAsync()
-    {
-        try
-        {
-            await _service.TripleVideoAsync(_view.Information.Identifier.Id);
-            IsLiked = true;
-            IsCoined = true;
-            IsFavorited = true;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "尝试一键三连视频时失败.");
-        }
+        SelectedSection = section;
+        SelectedSection.TryFirstLoadCommand.Execute(default);
     }
 
     partial void OnPlayerWidthChanged(double value)

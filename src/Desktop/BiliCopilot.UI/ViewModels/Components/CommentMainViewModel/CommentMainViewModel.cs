@@ -12,7 +12,7 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// <summary>
 /// 评论主视图模型.
 /// </summary>
-public sealed partial class CommentMainViewModel : ViewModelBase
+public sealed partial class CommentMainViewModel : ViewModelBase, IPlayerSectionDetailViewModel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CommentMainViewModel"/> class.
@@ -37,6 +37,17 @@ public sealed partial class CommentMainViewModel : ViewModelBase
         _targetType = targetType;
         SortType = sortType;
         Initialized?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private async Task TryFirstLoadAsync()
+    {
+        if (Comments.Count > 0)
+        {
+            return;
+        }
+
+        await LoadItemsAsync();
     }
 
     [RelayCommand]

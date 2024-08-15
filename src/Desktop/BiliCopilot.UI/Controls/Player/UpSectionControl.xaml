@@ -43,13 +43,12 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind Subtitle, Mode=OneWay}" />
             </StackPanel>
-            <ToggleButton
+            <Button
                 Grid.Column="2"
                 Margin="8,0,0,0"
                 Padding="16,8"
                 VerticalAlignment="Center"
                 Command="{x:Bind ToggleFollowCommand, Mode=OneWay}"
-                IsChecked="{x:Bind IsFollow, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                 Visibility="{x:Bind IsFollowButtonShown, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <ic:SymbolIcon
@@ -62,7 +61,7 @@
                         <TextBlock Text="{ext:Locale Name=Followed}" Visibility="{x:Bind IsFollow, Mode=OneWay}" />
                     </Grid>
                 </StackPanel>
-            </ToggleButton>
+            </Button>
         </Grid>
     </components:CardControl>
 

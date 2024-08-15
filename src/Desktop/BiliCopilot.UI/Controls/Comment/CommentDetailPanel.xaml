@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <components:CommentItemControl
-            Margin="16,0"
+            Margin="12,0"
             IsMoreEnabled="False"
             ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
         <ScrollView
@@ -26,7 +26,7 @@
             Grid.Row="1"
             Padding="0"
             Style="{StaticResource PageScrollViewStyle}">
-            <Grid Margin="16,0">
+            <Grid Margin="12,0">
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:CommentItemViewModel">
@@ -47,7 +47,7 @@
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <local:CommentTextBox
             Grid.Row="2"
-            Margin="16,0"
+            Margin="12,0"
             IsEnabled="{x:Bind ViewModel.IsReplying, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             ReplyTip="{x:Bind ViewModel.ReplyTarget, Mode=OneWay}"
             ResetSelectedCommand="{x:Bind ViewModel.ResetReplyTargetCommand, Mode=OneWay}"

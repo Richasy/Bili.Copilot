@@ -119,4 +119,7 @@ public sealed partial class UpSectionControl : LayoutUserControlBase
         get => (ICommand)GetValue(ActiveCommandProperty);
         set => SetValue(ActiveCommandProperty, value);
     }
+
+    /// <inheritdoc/>
+    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 }

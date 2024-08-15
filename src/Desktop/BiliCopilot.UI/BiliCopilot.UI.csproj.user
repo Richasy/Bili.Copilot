@@ -18,6 +18,18 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\VideoRecommendSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\FavoriteButton.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -51,4 +51,9 @@ public enum VideoCardStyle
     /// 收藏.
     /// </summary>
     Favorite,
+
+    /// <summary>
+    /// 播放器推荐.
+    /// </summary>
+    PlayerRecommend,
 }

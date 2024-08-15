@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.BiliKernel.Models.Base;
+using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
 
@@ -14,6 +15,9 @@ public sealed partial class VideoDescriptorControl : VideoPlayerPageControlBase
     /// Initializes a new instance of the <see cref="VideoDescriptorControl"/> class.
     /// </summary>
     public VideoDescriptorControl() => InitializeComponent();
+
+    /// <inheritdoc/>
+    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     private void OnTagButtonClick(object sender, RoutedEventArgs e)
     {

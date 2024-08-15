@@ -606,6 +606,12 @@
   <data name="Download" xml:space="preserve">
     <value>下载</value>
   </data>
+  <data name="DownloadVideo" xml:space="preserve">
+    <value>下载视频</value>
+  </data>
+  <data name="DownloadVideoTip" xml:space="preserve">
+    <value>可以单独下载封面或弹幕</value>
+  </data>
   <data name="DynamicCount" xml:space="preserve">
     <value>动态数</value>
   </data>
@@ -1011,6 +1017,9 @@
   <data name="LikeMessageSingleDescription" xml:space="preserve">
     <value>{0} 赞了我的{1}</value>
   </data>
+  <data name="Link" xml:space="preserve">
+    <value>链接</value>
+  </data>
   <data name="LinkConfig" xml:space="preserve">
     <value>关联配置</value>
   </data>
@@ -1331,6 +1340,15 @@
   </data>
   <data name="OpenPartitionDescription" xml:space="preserve">
     <value>点击分区后可以查看推荐内容及子分区内容</value>
+  </data>
+  <data name="OpenWith" xml:space="preserve">
+    <value>在其它应用中打开</value>
+  </data>
+  <data name="OpenWithMpv" xml:space="preserve">
+    <value>使用 MPV 播放</value>
+  </data>
+  <data name="OpenWithMpvNet" xml:space="preserve">
+    <value>使用 MPV.Net 播放</value>
   </data>
   <data name="Orange" xml:space="preserve">
     <value>橘黄色</value>
@@ -1844,6 +1862,9 @@
   </data>
   <data name="Share" xml:space="preserve">
     <value>分享</value>
+  </data>
+  <data name="ShareLink" xml:space="preserve">
+    <value>分享链接</value>
   </data>
   <data name="Show" xml:space="preserve">
     <value>显示</value>

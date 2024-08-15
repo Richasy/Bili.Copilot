@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Humanizer;
 using Richasy.BiliKernel.Bili.Authorization;
@@ -28,18 +29,22 @@ public sealed partial class VideoPlayerPageViewModel
         Description = view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
         IsFollow = view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unfollow && view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unknown;
         Tags = view.Tags.ToList();
-        PlayCount = view.Information.CommunityInformation.PlayCount ?? 0;
-        DanmakuCount = view.Information.CommunityInformation.DanmakuCount ?? 0;
-        CommentCount = view.Information.CommunityInformation.CommentCount ?? 0;
-        LikeCount = view.Information.CommunityInformation.LikeCount ?? 0;
-        CoinCount = view.Information.CommunityInformation.CoinCount ?? 0;
-        FavoriteCount = view.Information.CommunityInformation.FavoriteCount ?? 0;
+        InitializeCommunityInformation(view.Information.CommunityInformation);
         IsLiked = view.Operation.IsLiked;
         IsCoined = view.Operation.IsCoined;
         IsFavorited = view.Operation.IsFavorited;
         IsCoinAlsoLike = true;
-
         CalcPlayerHeight();
+    }
+
+    private void InitializeCommunityInformation(VideoCommunityInformation info)
+    {
+        PlayCount = info.PlayCount ?? 0;
+        DanmakuCount = info.DanmakuCount ?? 0;
+        CommentCount = info.CommentCount ?? 0;
+        LikeCount = info.LikeCount ?? 0;
+        CoinCount = info.CoinCount ?? 0;
+        FavoriteCount = info.FavoriteCount ?? 0;
     }
 
     private void InitializeDash(DashMediaInformation info)
@@ -83,6 +88,29 @@ public sealed partial class VideoPlayerPageViewModel
         ChangeFormatCommand.Execute(selectedFormat);
     }
 
+    private void InitializeSections()
+    {
+        if (Sections?.Count > 0)
+        {
+            return;
+        }
+
+        _comments.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        var sections = new List<IPlayerSectionDetailViewModel>
+        {
+            _comments,
+        };
+
+        if (_view.Recommends is not null)
+        {
+            sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
+        }
+
+        Sections = sections;
+        SelectSection(Sections.First());
+        SectionInitialized?.Invoke(this, EventArgs.Empty);
+    }
+
     private void ClearView()
     {
         IsPageLoadFailed = false;
@@ -110,9 +138,13 @@ public sealed partial class VideoPlayerPageViewModel
         OnlineCountText = default;
         AvId = default;
         BvId = default;
+        FavoriteFolders = default;
 
         Formats = default;
         SelectedFormat = default;
+
+        Sections = default;
+        SelectedSection = default;
     }
 
     private void CalcPlayerHeight()

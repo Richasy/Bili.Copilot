@@ -109,6 +109,10 @@
     <None Remove="Controls\Player\UpSectionControl.xaml" />
     <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
     <None Remove="Controls\Player\VideoOperationControl.xaml" />
+    <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
+    <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoStatControl.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
     <None Remove="Controls\Popular\PopularMainHeader.xaml" />
@@ -904,6 +908,26 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoRecommendSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\FavoriteButton.xaml">
