@@ -37,6 +37,7 @@ public sealed partial class PlayerViewModel
             }
             else
             {
+                IsPaused = true;
             }
         });
     }

@@ -113,6 +113,7 @@
     <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoSeasonSection.xaml" />
     <None Remove="Controls\Player\VideoStatControl.xaml" />
@@ -910,6 +911,11 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlaylistSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoSeasonSection.xaml">

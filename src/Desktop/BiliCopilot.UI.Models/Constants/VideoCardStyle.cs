@@ -61,4 +61,9 @@ public enum VideoCardStyle
     /// 播放器合集中的单集.
     /// </summary>
     PlayerSeason,
+
+    /// <summary>
+    /// 播放器播放列表.
+    /// </summary>
+    PlayerPlaylist,
 }

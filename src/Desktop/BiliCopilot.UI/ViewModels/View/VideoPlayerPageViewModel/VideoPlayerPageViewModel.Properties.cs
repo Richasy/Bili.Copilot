@@ -31,6 +31,7 @@ public sealed partial class VideoPlayerPageViewModel
     private VideoPart? _part;
     private IList<DashSegmentInformation>? _videoSegments;
     private IList<DashSegmentInformation>? _audioSegments;
+    private IList<VideoInformation>? _playlist;
 
     [ObservableProperty]
     private bool _isPageLoading;

@@ -101,19 +101,24 @@ public sealed partial class VideoPlayerPageViewModel
             _comments,
         };
 
+        if (_playlist is not null)
+        {
+            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(_playlist, AvId));
+        }
+
         if (_view.Parts?.Count > 1)
         {
             sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePart));
         }
 
-        if (_view.Recommends is not null)
-        {
-            sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
-        }
-
         if (_view.Seasons is not null)
         {
             sections.Add(new VideoPlayerSeasonSectionDetailViewModel(_view.Seasons, AvId));
+        }
+
+        if (_view.Recommends is not null)
+        {
+            sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
         }
 
         Sections = sections;

@@ -24,6 +24,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             ViewModel.InitializePageCommand.Execute(video);
         }
+        else if (e.Parameter is(IList<VideoInformation> list, VideoInformation v))
+        {
+            ViewModel.InjectPlaylist(list);
+            ViewModel.InitializePageCommand.Execute(v);
+        }
     }
 
     /// <inheritdoc/>

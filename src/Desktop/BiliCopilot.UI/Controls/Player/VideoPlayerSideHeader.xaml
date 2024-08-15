@@ -12,13 +12,13 @@
         <ScrollViewer
             Margin="0,5,0,0"
             Padding="8,0"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             HorizontalScrollBarVisibility="Hidden"
             HorizontalScrollMode="Enabled"
             VerticalScrollBarVisibility="Hidden"
             VerticalScrollMode="Disabled">
-            <SelectorBar x:Name="Selector" />
+            <SelectorBar x:Name="Selector" HorizontalAlignment="Left" />
         </ScrollViewer>
     </Grid>
 </local:VideoPlayerPageControlBase>

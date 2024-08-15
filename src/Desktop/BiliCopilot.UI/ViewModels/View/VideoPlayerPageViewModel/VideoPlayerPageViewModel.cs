@@ -39,6 +39,12 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         Player = player;
     }
 
+    /// <summary>
+    /// 注入播放列表.
+    /// </summary>
+    public void InjectPlaylist(IList<VideoInformation> playlist)
+        => _playlist = playlist;
+
     /// <inheritdoc/>
     protected override string GetPageKey()
         => nameof(VideoPlayerPage);
@@ -55,6 +61,11 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         try
         {
             ClearView();
+            if (_playlist is not null && !_playlist.Any(p => p.Identifier.Id == video.Identifier.Id))
+            {
+                _playlist = default;
+            }
+
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);

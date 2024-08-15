@@ -24,10 +24,14 @@
         <DataTemplate x:Key="SeasonTemplate" x:DataType="components:VideoPlayerSeasonSectionDetailViewModel">
             <local:VideoSeasonSection ViewModel="{x:Bind}" />
         </DataTemplate>
+        <DataTemplate x:Key="PlaylistTemplate" x:DataType="components:VideoPlayerPlaylistSectionDetailViewModel">
+            <local:VideoPlaylistSection ViewModel="{x:Bind}" />
+        </DataTemplate>
         <extensions:PlayerSectionTemplateSelector
             x:Key="Selector"
             CommentTemplate="{StaticResource CommentTemplate}"
             PartTemplate="{StaticResource PartTemplate}"
+            PlaylistTemplate="{StaticResource PlaylistTemplate}"
             RecommendTemplate="{StaticResource RecommendTemplate}"
             UgcSeasonTemplate="{StaticResource SeasonTemplate}" />
     </UserControl.Resources>

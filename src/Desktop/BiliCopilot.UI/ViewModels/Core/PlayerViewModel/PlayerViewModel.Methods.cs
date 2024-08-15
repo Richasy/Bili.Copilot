@@ -18,6 +18,10 @@ public sealed partial class PlayerViewModel
         {
             Player.Client.SetOption("pause", "yes");
         }
+        else
+        {
+            Player.Client.SetOption("pause", "no");
+        }
 
         IsPlayerDataLoading = true;
         IsPaused = true;

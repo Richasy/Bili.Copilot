@@ -2,7 +2,9 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -157,5 +159,19 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         }
 
         await LoadVideosAsync();
+    }
+
+    [RelayCommand]
+    private async Task PlayCuratedListAsync()
+    {
+        try
+        {
+            var videos = await _service.GetCuratedPlaylistAsync();
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, (videos, videos.First()));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "获取精选视频时失败");
+        }
     }
 }

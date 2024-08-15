@@ -23,6 +23,7 @@
         <HyperlinkButton
             Grid.Column="1"
             Padding="4"
+            Command="{x:Bind ViewModel.PlayCuratedListCommand}"
             FontSize="12">
             <StackPanel Orientation="Horizontal" Spacing="4">
                 <ic:SymbolIcon FontSize="12" Symbol="ReceiptPlay" />
