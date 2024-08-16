@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Controls.Player;
+using BiliCopilot.UI.Controls.Danmaku;
 
 namespace BiliCopilot.UI.Controls.Mpv;
 

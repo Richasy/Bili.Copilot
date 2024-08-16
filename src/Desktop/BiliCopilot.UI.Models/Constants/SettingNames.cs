@@ -52,4 +52,5 @@ public enum SettingNames
     IsDanmakuBold,
     DanmakuLocation,
     IsDanmakuStandardSize,
+    DanmakuColor,
 }

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Globalization;
 using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -49,5 +50,48 @@ public static class AppToolkit
         }
 
         return count.ToString();
+    }
+
+    /// <summary>
+    /// 将颜色代码转换为Windows.UI.Color对象.
+    /// </summary>
+    /// <param name="hexCode">颜色代码.</param>
+    /// <returns><see cref="Windows.UI.Color"/>.</returns>
+    public static Windows.UI.Color HexToColor(string hexCode)
+    {
+        // 去除可能包含的 # 符号
+        if (hexCode.StartsWith("#"))
+        {
+            hexCode = hexCode[1..];
+        }
+
+        if (int.TryParse(hexCode, out var intValue))
+        {
+            hexCode = intValue.ToString("X2");
+        }
+
+        var color = default(Windows.UI.Color);
+        if (hexCode.Length == 4)
+        {
+            hexCode = "00" + hexCode;
+        }
+
+        if (hexCode.Length == 6)
+        {
+            color.R = byte.Parse(hexCode[..2], NumberStyles.HexNumber);
+            color.G = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
+            color.B = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+            color.A = 255;
+        }
+
+        if (hexCode.Length == 8)
+        {
+            color.R = byte.Parse(hexCode.Substring(2, 2), NumberStyles.HexNumber);
+            color.G = byte.Parse(hexCode.Substring(4, 2), NumberStyles.HexNumber);
+            color.B = byte.Parse(hexCode.Substring(6, 2), NumberStyles.HexNumber);
+            color.A = byte.Parse(hexCode[..2], NumberStyles.HexNumber);
+        }
+
+        return color;
     }
 }

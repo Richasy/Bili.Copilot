@@ -68,7 +68,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
 
         if(ViewModel.Player.IsFullScreen)
         {
-            ViewModel.PlayerHeight = ActualHeight - 2;
+            ViewModel.PlayerHeight = ActualHeight;
         }
 
         // 播放器不能超出容器高度.

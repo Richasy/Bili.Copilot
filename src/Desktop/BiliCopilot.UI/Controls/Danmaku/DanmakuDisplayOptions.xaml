@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DanmakuControlBase
+    x:Class="BiliCopilot.UI.Controls.Danmaku.DanmakuDisplayOptions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Danmaku"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel
+        Width="240"
+        Padding="8,4"
+        Spacing="12">
+        <Slider
+            x:Name="OpacitySlider"
+            Header="{ext:Locale Name=DanmakuOpacity}"
+            Maximum="1"
+            Minimum="0"
+            StepFrequency="0.1"
+            Value="{x:Bind ViewModel.DanmakuOpacity, Mode=TwoWay}" />
+        <Slider
+            x:Name="ZoomSlider"
+            Header="{ext:Locale Name=DanmakuZoom}"
+            Maximum="1.6"
+            Minimum="0.5"
+            StepFrequency="0.1"
+            Value="{x:Bind ViewModel.DanmakuZoom, Mode=TwoWay}" />
+        <Slider
+            x:Name="AreaSlider"
+            Header="{ext:Locale Name=DanmakuArea}"
+            Maximum="1"
+            Minimum="0.25"
+            StepFrequency="0.25"
+            Value="{x:Bind ViewModel.DanmakuArea, Mode=TwoWay}" />
+        <Slider
+            x:Name="SpeedSlider"
+            Header="{ext:Locale Name=DanmakuSpeed}"
+            Maximum="2"
+            Minimum="0.1"
+            StepFrequency="0.1"
+            Value="{x:Bind ViewModel.DanmakuSpeed, Mode=TwoWay}" />
+        <!--<ComboBox
+            x:Name="DanmakuFontComboBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=DanmakuFont}"
+            ItemsSource="{x:Bind ViewModel.FontCollection, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.DanmakuFont, Mode=TwoWay}" />-->
+        <ToggleSwitch Header="{ext:Locale Name=DanmakuBold}" IsOn="{x:Bind ViewModel.IsDanmakuBold, Mode=TwoWay}" />
+    </StackPanel>
+</local:DanmakuControlBase>

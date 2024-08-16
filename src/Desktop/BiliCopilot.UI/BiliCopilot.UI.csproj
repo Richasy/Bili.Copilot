@@ -42,6 +42,9 @@
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
@@ -915,6 +918,21 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoDanmakuPanel.xaml">

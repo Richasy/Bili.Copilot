@@ -6,6 +6,7 @@
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mpv="using:BiliCopilot.UI.Controls.Mpv"
@@ -59,11 +60,14 @@
                     <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
                         <mpv:MpvPlayer.TransportControls>
                             <mpv:MpvTransportControl
-                                MaxWidth="600"
+                                MaxWidth="720"
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Bottom"
                                 ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                                <mpv:MpvTransportControl.MiddleContent>
+                                    <danmaku:DanmakuBox ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+                                </mpv:MpvTransportControl.MiddleContent>
                                 <mpv:MpvTransportControl.RightContent>
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
@@ -72,7 +76,7 @@
                             </mpv:MpvTransportControl>
                         </mpv:MpvPlayer.TransportControls>
                         <mpv:MpvPlayer.DanmakuControls>
-                            <player:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+                            <danmaku:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
                         </mpv:MpvPlayer.DanmakuControls>
                     </mpv:MpvPlayer>
                 </Grid>

@@ -4,14 +4,13 @@ using BiliCopilot.UI.ViewModels.Core;
 using Danmaku.Core;
 using Microsoft.UI;
 using Richasy.BiliKernel.Models.Danmaku;
-using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Player;
+namespace BiliCopilot.UI.Controls.Danmaku;
 
 /// <summary>
 /// 视频弹幕面板.
 /// </summary>
-public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
+public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 {
     private List<DanmakuItem> _cachedDanmakus = new();
     private long _viewModelChangedToken;
@@ -42,6 +41,8 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
         ViewModel.PauseDanmaku += OnPauseDanmaku;
         ViewModel.ResumeDanmaku += OnResumeDanmaku;
         ViewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
+        ViewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
+        ViewModel.RequestResetStyle += OnRequestResetStyle;
         ResetDanmakuStyle();
     }
 
@@ -57,6 +58,8 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
             ViewModel.PauseDanmaku -= OnPauseDanmaku;
             ViewModel.ResumeDanmaku -= OnResumeDanmaku;
             ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            ViewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
+            ViewModel.RequestResetStyle -= OnRequestResetStyle;
         }
 
         _danmakuController?.Close();
@@ -82,9 +85,11 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
             _viewModel.ListAdded -= OnDanmakuListAdded;
             _viewModel.RequestClearDanmaku -= OnRequestClearDanmaku;
             _viewModel.ProgressChanged -= OnProgressChanged;
-            ViewModel.PauseDanmaku -= OnPauseDanmaku;
-            ViewModel.ResumeDanmaku -= OnResumeDanmaku;
-            ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            _viewModel.PauseDanmaku -= OnPauseDanmaku;
+            _viewModel.ResumeDanmaku -= OnResumeDanmaku;
+            _viewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            _viewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
+            _viewModel.RequestResetStyle -= OnRequestResetStyle;
         }
 
         if (ViewModel is null)
@@ -99,6 +104,8 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
         _viewModel.PauseDanmaku += OnPauseDanmaku;
         _viewModel.ResumeDanmaku += OnResumeDanmaku;
         _viewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
+        _viewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
+        _viewModel.RequestResetStyle += OnRequestResetStyle;
         ResetDanmakuStyle();
     }
 
@@ -115,6 +122,24 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
         _danmakuController?.Clear();
         _lastProgress = 0;
     }
+
+    private void OnRequestAddSingleDanmaku(object? sender, string e)
+    {
+        var model = new DanmakuItem
+        {
+            StartMs = Convert.ToUInt32(_lastProgress * 1000),
+            Mode = (DanmakuMode)((int)ViewModel.Location),
+            TextColor = ViewModel.Color,
+            BaseFontSize = ViewModel.IsStandardSize ? 20 : 24,
+            Text = e,
+            HasOutline = true,
+        };
+
+        _danmakuController?.AddRealtimeDanmaku(model, true);
+    }
+
+    private void OnRequestResetStyle(object? sender, EventArgs e)
+        => ResetDanmakuStyle();
 
     private void OnProgressChanged(object? sender, int e)
     {
@@ -136,6 +161,11 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
         if (_danmakuController is null || ViewModel is null)
         {
             return;
+        }
+
+        if (!ViewModel.IsShowDanmaku)
+        {
+            _danmakuController.Pause();
         }
 
         _danmakuController.SetRollingDensity(-1);
@@ -164,11 +194,4 @@ public sealed partial class VideoDanmakuPanel : VideoDanmakuPanelBase
             }
         });
     }
-}
-
-/// <summary>
-/// 视频弹幕面板基类.
-/// </summary>
-public abstract class VideoDanmakuPanelBase : LayoutUserControlBase<DanmakuViewModel>
-{
 }

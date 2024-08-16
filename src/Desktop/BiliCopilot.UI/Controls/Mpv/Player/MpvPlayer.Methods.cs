@@ -61,7 +61,7 @@ public sealed partial class MpvPlayer
         DispatcherQueue.TryEnqueue(() =>
         {
             var point = args.GetCurrentPoint(this).Position;
-            TransportControls.Visibility = _transportControlTriggerRect.Contains(point) && !ViewModel.IsPaused
+            TransportControls.Visibility = _transportControlTriggerRect.Contains(point) || ViewModel.IsPaused
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         });

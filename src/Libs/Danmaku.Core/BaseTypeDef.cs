@@ -12,7 +12,7 @@ namespace Danmaku.Core
         Top = 5,
         ReverseRolling = 6,
         Advanced = 7,
-        //Code = 8,
+        Code = 8,
         Subtitle = 9
     }
 

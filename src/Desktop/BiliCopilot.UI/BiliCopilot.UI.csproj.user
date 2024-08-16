@@ -18,7 +18,13 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
-    <Page Update="Controls\Player\VideoDanmakuPanel.xaml">
+    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">

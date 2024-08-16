@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Danmaku;
+using Windows.UI;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -62,10 +63,16 @@ public sealed partial class DanmakuViewModel
     private DanmakuLocation _location;
 
     [ObservableProperty]
-    private string _color;
+    private Color _color;
 
     [ObservableProperty]
     private bool _isLoading;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<DanmakuLocation> _locations;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<Color> _colors;
 
     /// <summary>
     /// 当弹幕列表添加时触发的事件.
@@ -96,6 +103,16 @@ public sealed partial class DanmakuViewModel
     /// 恢复弹幕.
     /// </summary>
     public event EventHandler ResumeDanmaku;
+
+    /// <summary>
+    /// 请求添加单条弹幕.
+    /// </summary>
+    public event EventHandler<string> RequestAddSingleDanmaku;
+
+    /// <summary>
+    /// 请求重置样式.
+    /// </summary>
+    public event EventHandler RequestResetStyle;
 
     /// <summary>
     /// 是否为直播弹幕模块.
