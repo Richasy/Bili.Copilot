@@ -115,6 +115,12 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isCoinAlsoLike;
 
     [ObservableProperty]
+    private bool _hasNextVideo;
+
+    [ObservableProperty]
+    private string _nextVideoTip;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]

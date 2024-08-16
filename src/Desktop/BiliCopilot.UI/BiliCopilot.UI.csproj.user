@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Danmaku\DanmakuBox.xaml">
       <SubType>Designer</SubType>
     </Page>

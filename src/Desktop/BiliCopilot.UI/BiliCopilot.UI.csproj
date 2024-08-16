@@ -87,6 +87,7 @@
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
     <None Remove="Controls\Mpv\TransportControl\MpvTransportControl.xaml" />
+    <None Remove="Controls\Mpv\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -118,6 +119,7 @@
     <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
     <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoSeasonSection.xaml" />
@@ -918,6 +920,16 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Danmaku\DanmakuBox.xaml">

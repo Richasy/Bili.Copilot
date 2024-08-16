@@ -2229,4 +2229,10 @@
   <data name="ZoomOut" xml:space="preserve">
     <value>缩小</value>
   </data>
+  <data name="PlayNextPartTipTemplate" xml:space="preserve">
+    <value>播放下一P：{0}</value>
+  </data>
+  <data name="PlayNextVideoTipTemplate" xml:space="preserve">
+    <value>播放下一个视频：{0}</value>
+  </data>
 </root>

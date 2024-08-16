@@ -13,7 +13,7 @@ public sealed partial class MpvPlayer
     /// <see cref="TransportControls"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty TransportControlsProperty =
-        DependencyProperty.Register(nameof(TransportControls), typeof(MpvTransportControl), typeof(MpvPlayer), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(TransportControls), typeof(PlayerControlBase), typeof(MpvPlayer), new PropertyMetadata(default));
 
     /// <summary>
     /// <see cref="DanmakuControls"/> 的依赖属性.
@@ -24,9 +24,9 @@ public sealed partial class MpvPlayer
     /// <summary>
     /// 媒体传输控件.
     /// </summary>
-    public MpvTransportControl TransportControls
+    public PlayerControlBase TransportControls
     {
-        get => (MpvTransportControl)GetValue(TransportControlsProperty);
+        get => (PlayerControlBase)GetValue(TransportControlsProperty);
         set => SetValue(TransportControlsProperty, value);
     }
 

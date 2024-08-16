@@ -45,16 +45,10 @@ public sealed partial class DanmakuViewModel
     private double _danmakuSpeed;
 
     [ObservableProperty]
-    private string _danmakuFont;
-
-    [ObservableProperty]
     private bool _isDanmakuLimit;
 
     [ObservableProperty]
     private bool _isDanmakuBold;
-
-    [ObservableProperty]
-    private double _danmakuZoom;
 
     [ObservableProperty]
     private bool _isStandardSize;
@@ -73,6 +67,9 @@ public sealed partial class DanmakuViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<Color> _colors;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<string> _fonts;
 
     /// <summary>
     /// 当弹幕列表添加时触发的事件.

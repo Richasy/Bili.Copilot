@@ -41,10 +41,11 @@ public sealed partial class PlayerViewModel : ViewModelBase
             IsPlayerInitializing = true;
             Player.PlaybackPositionChanged += OnPositionChanged;
             Player.PlaybackStateChanged += OnStateChanged;
+            Player.PlaybackStopped += OnPlaybackStopped;
             Player.LogMessageReceived += OnLogMessageReceived;
             renderControl.Initialize();
             Player.Client.SetProperty("vo", "libmpv");
-            Player.Client.RequestLogMessage(MpvLogLevel.V);
+            Player.Client.RequestLogMessage(MpvLogLevel.Error);
             var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);
         }
@@ -77,11 +78,12 @@ public sealed partial class PlayerViewModel : ViewModelBase
     /// 设置播放数据.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay)
+    public async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0)
     {
         _videoUrl = videoUrl;
         _audioUrl = audioUrl;
         _autoPlay = isAutoPlay;
+        Position = position;
 
         Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
         Speed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
@@ -89,6 +91,7 @@ public sealed partial class PlayerViewModel : ViewModelBase
 
         if (_isInitialized)
         {
+            Player.RerunEventLoop();
             await TryLoadPlayDataAsync();
         }
     }
@@ -104,6 +107,12 @@ public sealed partial class PlayerViewModel : ViewModelBase
     /// </summary>
     public void SetStateAction(Action<PlaybackState> action)
         => _stateAction = action;
+
+    /// <summary>
+    /// 注入播放结束时的回调.
+    /// </summary>
+    public void SetEndAction(Action action)
+        => _endAction = action;
 
     /// <summary>
     /// 关闭播放器.

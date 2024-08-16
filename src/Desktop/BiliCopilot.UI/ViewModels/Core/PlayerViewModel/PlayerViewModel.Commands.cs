@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -12,18 +13,40 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class PlayerViewModel
 {
     [RelayCommand]
-    private Task TogglePlayPauseAsync()
-        => Player.ExecuteAfterMediaLoadedAsync("cycle pause");
+    private async Task TogglePlayPauseAsync()
+    {
+        if (IsPaused && !Player.IsMediaLoaded() && Math.Abs(Position - Duration) <= 1)
+        {
+            await SetPlayDataAsync(_videoUrl, _audioUrl, true, 0);
+            return;
+        }
+
+        await Player.ExecuteAfterMediaLoadedAsync("cycle pause");
+    }
 
     [RelayCommand]
-    private void Seek(double value)
+    private async Task SeekAsync(double value)
     {
-        if (Math.Abs(value - Position) < 3)
+        if (Math.Abs(value - Position) < 3 || IsPlayerDataLoading || value > Duration)
         {
             return;
         }
 
-        Player.Seek(TimeSpan.FromSeconds(value));
+        // 如果媒体已经播放结束，尝试重新加载媒体.
+        if (!Player.IsMediaLoaded())
+        {
+            await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Convert.ToInt32(value));
+            return;
+        }
+
+        try
+        {
+            Player.Seek(TimeSpan.FromSeconds(value));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "尝试跳转视频时失败.");
+        }
     }
 
     [RelayCommand]
@@ -179,11 +202,11 @@ public sealed partial class PlayerViewModel
         {
             if (Duration - Position < seconds)
             {
-                Seek(Duration);
+                SeekCommand.Execute(Duration);
             }
             else
             {
-                Seek(Position + seconds);
+                SeekCommand.Execute(Position + seconds);
             }
         });
     }
@@ -201,11 +224,11 @@ public sealed partial class PlayerViewModel
         {
             if (Position < seconds)
             {
-                Seek(0);
+                SeekCommand.Execute(0);
             }
             else
             {
-                Seek(Position - seconds);
+                SeekCommand.Execute(Position - seconds);
             }
         });
     }

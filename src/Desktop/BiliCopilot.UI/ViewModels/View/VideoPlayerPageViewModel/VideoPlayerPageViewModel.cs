@@ -41,6 +41,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         Danmaku = danmaku;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
+        Player.SetEndAction(PlayerMediaEnded);
     }
 
     /// <summary>
@@ -73,9 +74,9 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
+            InitializeSections();
             var initialPart = FindInitialPart(default);
             ChangePart(initialPart);
-            InitializeSections();
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
@@ -184,7 +185,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     private async Task CleanAsync()
     {
         ClearView();
-        Danmaku.Clear();
+        Danmaku.ClearAll();
         await Player?.CloseAsync();
     }
 

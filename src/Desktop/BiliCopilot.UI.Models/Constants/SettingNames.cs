@@ -47,10 +47,11 @@ public enum SettingNames
     DanmakuArea,
     DanmakuFontSize,
     DanmakuSpeed,
-    DanmakuZoom,
     DanmakuFontFamily,
     IsDanmakuBold,
     DanmakuLocation,
     IsDanmakuStandardSize,
     DanmakuColor,
+    AutoPlayNextRecommendVideo,
+    AutoPlayNext,
 }

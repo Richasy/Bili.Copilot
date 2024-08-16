@@ -27,6 +27,7 @@ public sealed partial class PlayerViewModel
     private bool _autoPlay;
     private Action<int, int> _progressAction;
     private Action<PlaybackState> _stateAction;
+    private Action _endAction;
     private DisplayRequest _displayRequest;
 
     private bool _isInitialized;

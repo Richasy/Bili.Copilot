@@ -20,7 +20,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontWeight="Bold"
-            MaxLines="2"
+            MaxLines="1"
             Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
         <Button
             Grid.Column="1"

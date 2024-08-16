@@ -32,9 +32,10 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// </summary>
     public void ResetData(string aid, string cid)
     {
-        Clear();
+        ClearAll();
         _aid = aid;
         _cid = cid;
+        ReloadFontsCommand.Execute(default);
         ResetOptions();
     }
 
@@ -76,15 +77,21 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// <summary>
     /// 清除数据.
     /// </summary>
-    public void Clear()
+    public void ClearAll()
     {
-        RequestClearDanmaku?.Invoke(this, EventArgs.Empty);
         _segmentIndex = 0;
         _progress = 0;
         _duration = 0;
         _aid = string.Empty;
         _cid = string.Empty;
+        ClearDanmaku();
     }
+
+    /// <summary>
+    /// 清理弹幕.
+    /// </summary>
+    public void ClearDanmaku()
+        => RequestClearDanmaku?.Invoke(this, EventArgs.Empty);
 
     /// <summary>
     /// 重置样式.
@@ -102,6 +109,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
 
         try
         {
+            IsLoading = true;
             var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, index);
             if (danmakus.Count > 0)
             {
@@ -113,6 +121,10 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         catch (Exception ex)
         {
             _logger.LogError(ex, $"加载 {_aid} | {_cid} 的弹幕失败，索引为 {index}");
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
 
@@ -138,14 +150,25 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         DanmakuFontSize = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuFontSize, 1.5d);
         DanmakuArea = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuArea, 1d);
         DanmakuSpeed = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuSpeed, 1.2d);
-        DanmakuZoom = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuZoom, 1d);
         DanmakuFontFamily = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuFontFamily, "Segoe UI");
-        IsDanmakuBold = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuBold, false);
+        IsDanmakuBold = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuBold, true);
         IsDanmakuLimit = true;
         Location = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuLocation, DanmakuLocation.Scroll);
         Color = AppToolkit.HexToColor(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuColor, Microsoft.UI.Colors.White.ToString()));
         IsStandardSize = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuStandardSize, true);
         ResetStyle();
+    }
+
+    [RelayCommand]
+    private async Task ReloadFontsAsync()
+    {
+        var fonts = await FontToolkit.GetFontsAsync();
+        Fonts = fonts.ToList();
+        var localFont = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuFontFamily, "Segoe UI");
+        if (!Fonts.Contains(localFont))
+        {
+            DanmakuFontFamily = "Segoe UI";
+        }
     }
 
     partial void OnIsShowDanmakuChanged(bool value)
@@ -176,9 +199,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
 
     partial void OnDanmakuSpeedChanged(double value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuSpeed, value);
-
-    partial void OnDanmakuZoomChanged(double value)
-        => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuZoom, value);
 
     partial void OnDanmakuFontFamilyChanged(string value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuFontFamily, value);

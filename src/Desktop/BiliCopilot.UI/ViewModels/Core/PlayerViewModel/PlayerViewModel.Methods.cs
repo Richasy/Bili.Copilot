@@ -23,6 +23,8 @@ public sealed partial class PlayerViewModel
             Player.Client.SetOption("pause", "no");
         }
 
+        Player.Client.SetOption("start", Position.ToString());
+
         IsPlayerDataLoading = true;
         IsPaused = true;
 
@@ -35,8 +37,7 @@ public sealed partial class PlayerViewModel
 
             if (!string.IsNullOrEmpty(_audioUrl))
             {
-                await Task.Delay(100);
-                await Player.Client.ExecuteAsync(["audio-add", _audioUrl]);
+                await WaitUntilAddAudioAsync(_audioUrl);
             }
         }
         else if (!string.IsNullOrEmpty(_audioUrl))
@@ -46,6 +47,38 @@ public sealed partial class PlayerViewModel
 
         PlayerDataLoaded?.Invoke(this, EventArgs.Empty);
         IsPlayerDataLoading = false;
+    }
+
+    private async Task WaitUntilAddAudioAsync(string audioUrl)
+    {
+        const int maxRetryCount = 10;
+        var retryCount = 0;
+        var isAudioAdded = false;
+        do
+        {
+            if (retryCount >= maxRetryCount)
+            {
+                break;
+            }
+
+            if (!Player.IsMediaLoaded())
+            {
+                await Task.Delay(300);
+                continue;
+            }
+
+            try
+            {
+                await Player.Client.ExecuteAsync(["audio-add", audioUrl]);
+                isAudioAdded = true;
+            }
+            catch (Exception)
+            {
+                retryCount++;
+                await Task.Delay(300);
+            }
+        }
+        while (!isAudioAdded);
     }
 
     private void ActiveDisplay()
@@ -71,7 +104,7 @@ public sealed partial class PlayerViewModel
 
         _dispatcherQueue.TryEnqueue(() =>
         {
-            _displayRequest.RequestRelease();
+            _displayRequest?.RequestRelease();
             _displayRequest = null;
         });
     }

@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using Mpv.Core.Args;
+using Mpv.Core.Enums.Client;
 using Mpv.Core.Enums.Player;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -15,6 +16,11 @@ public sealed partial class PlayerViewModel
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
+            if (e.Duration == 0)
+            {
+                Player.ResetDuration();
+            }
+
             Position = Convert.ToInt32(e.Position);
             Duration = Convert.ToInt32(e.Duration);
             _progressAction?.Invoke(Position, Duration);
@@ -27,13 +33,11 @@ public sealed partial class PlayerViewModel
         {
             if (e.NewState == PlaybackState.Playing)
             {
-                // ToDo: 播放状态.
                 IsPaused = false;
                 ActiveDisplay();
             }
             else if (e.NewState == PlaybackState.Paused || e.NewState == PlaybackState.None)
             {
-                // ToDo: 暂停状态.
                 IsPaused = true;
                 ReleaseDisplay();
             }
@@ -46,8 +50,21 @@ public sealed partial class PlayerViewModel
         });
     }
 
+    private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
+    {
+        Position = 0;
+        _endAction?.Invoke();
+    }
+
     private void OnLogMessageReceived(object? sender, LogMessageReceivedEventArgs e)
     {
-        Debug.WriteLine($"[{e.Level}]\t{e.Prefix}: {e.Message}");
+        if (e.Level == MpvLogLevel.Error)
+        {
+            _logger.LogError(e.Message);
+        }
+        else
+        {
+            _logger.LogCritical(e.Message);
+        }
     }
 }

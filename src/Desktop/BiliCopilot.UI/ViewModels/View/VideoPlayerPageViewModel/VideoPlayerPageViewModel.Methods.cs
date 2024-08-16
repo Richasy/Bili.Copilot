@@ -96,10 +96,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _comments.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
-        var sections = new List<IPlayerSectionDetailViewModel>
-        {
-            _comments,
-        };
+        var sections = new List<IPlayerSectionDetailViewModel>();
 
         if (_playlist is not null)
         {
@@ -121,6 +118,8 @@ public sealed partial class VideoPlayerPageViewModel
             sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
         }
 
+        sections.Insert(1, _comments);
+
         Sections = sections;
         SelectSection(Sections.First());
         SectionInitialized?.Invoke(this, EventArgs.Empty);
@@ -133,12 +132,8 @@ public sealed partial class VideoPlayerPageViewModel
         _part = default;
         _videoSegments = default;
         _audioSegments = default;
-        Cover = default;
-        Title = default;
         Tags = default;
-        Description = default;
         UpAvatar = default;
-        UpName = default;
         IsFollow = false;
         IsMyVideo = false;
         PlayCount = 0;
@@ -151,10 +146,10 @@ public sealed partial class VideoPlayerPageViewModel
         IsCoined = false;
         IsFavorited = false;
         IsCoinAlsoLike = true;
-        OnlineCountText = default;
         AvId = default;
         BvId = default;
         FavoriteFolders = default;
+        HasNextVideo = false;
 
         Formats = default;
         SelectedFormat = default;
@@ -196,5 +191,61 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         return part ?? _view.Parts.FirstOrDefault();
+    }
+
+    private object? FindNextVideo()
+    {
+        // 1. 先检查分P列表中是否有下一个视频.
+        if (Sections.OfType<VideoPlayerPartSectionDetailViewModel>().FirstOrDefault() is VideoPlayerPartSectionDetailViewModel partSection)
+        {
+            var index = partSection.Parts.ToList().IndexOf(_part);
+            if (index < partSection.Parts.Count - 1)
+            {
+                return partSection.Parts.ElementAt(index + 1);
+            }
+        }
+
+        // 2. 检查播放列表中是否有下一个视频.
+        if (_playlist is not null)
+        {
+            var index = _playlist.ToList().IndexOf(_view.Information);
+            if (index < _playlist.Count - 1)
+            {
+                return _playlist.ElementAt(index + 1);
+            }
+        }
+
+        // 3. 检查合集中是否有下一个视频.
+        if (Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().FirstOrDefault() is VideoPlayerSeasonSectionDetailViewModel seasonSection)
+        {
+            var index = seasonSection.Items.ToList().IndexOf(seasonSection.SelectedItem);
+            if (index < seasonSection.Items.Count - 1)
+            {
+                return seasonSection.Items.ElementAt(index + 1).Data;
+            }
+        }
+
+        // 4. 检查推荐视频中是否有下一个视频.
+        var isAutoPlayRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
+        if (isAutoPlayRecommendVideo && Sections.OfType<VideoPlayerRecommendSectionDetailViewModel>().FirstOrDefault() is VideoPlayerRecommendSectionDetailViewModel recommendSection)
+        {
+            return recommendSection.Items.First().Data;
+        }
+
+        return default;
+    }
+
+    private void InitializeNextVideo()
+    {
+        var next = FindNextVideo();
+        HasNextVideo = next is not null;
+        if (next is VideoPart part)
+        {
+            NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextPartTipTemplate), part.Identifier.Title);
+        }
+        else if (next is VideoInformation video)
+        {
+            NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextVideoTipTemplate), video.Identifier.Title);
+        }
     }
 }

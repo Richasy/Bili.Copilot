@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -144,11 +146,41 @@ public sealed partial class VideoPlayerPageViewModel
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
     }
 
+    [RelayCommand]
+    private void PlayNextVideo()
+    {
+        if (IsPageLoading || Player.IsPlayerDataLoading)
+        {
+            return;
+        }
+
+        var nextPart = FindNextVideo();
+        if (nextPart is null)
+        {
+            Player.BackToDefaultModeCommand.Execute(default);
+            return;
+        }
+
+        if (nextPart is VideoPart part)
+        {
+            ChangePart(part);
+        }
+        else if (nextPart is VideoInformation video)
+        {
+            InitializePageCommand.Execute(video);
+        }
+        else
+        {
+            Player.BackToDefaultModeCommand.Execute(default);
+        }
+    }
+
     private void ChangePart(VideoPart part)
     {
         _part = part;
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         InitializeDashMediaCommand.Execute(part);
+        InitializeNextVideo();
     }
 
     private void PlayerProgressChanged(int progress, int duration)
@@ -164,5 +196,23 @@ public sealed partial class VideoPlayerPageViewModel
         {
             Danmaku?.Pause();
         }
+    }
+
+    private void PlayerMediaEnded()
+    {
+        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
+        {
+            // 清除弹幕.
+            Danmaku.ClearDanmaku();
+
+            var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
+            if (!autoNext)
+            {
+                Player.BackToDefaultModeCommand.Execute(default);
+                return;
+            }
+
+            PlayNextVideoCommand.Execute(default);
+        });
     }
 }

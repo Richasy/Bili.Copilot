@@ -22,11 +22,11 @@
             Value="{x:Bind ViewModel.DanmakuOpacity, Mode=TwoWay}" />
         <Slider
             x:Name="ZoomSlider"
-            Header="{ext:Locale Name=DanmakuZoom}"
-            Maximum="1.6"
+            Header="{ext:Locale Name=DanmakuFontSize}"
+            Maximum="2.5"
             Minimum="0.5"
-            StepFrequency="0.1"
-            Value="{x:Bind ViewModel.DanmakuZoom, Mode=TwoWay}" />
+            StepFrequency="0.5"
+            Value="{x:Bind ViewModel.DanmakuFontSize, Mode=TwoWay}" />
         <Slider
             x:Name="AreaSlider"
             Header="{ext:Locale Name=DanmakuArea}"
@@ -41,12 +41,12 @@
             Minimum="0.1"
             StepFrequency="0.1"
             Value="{x:Bind ViewModel.DanmakuSpeed, Mode=TwoWay}" />
-        <!--<ComboBox
+        <ComboBox
             x:Name="DanmakuFontComboBox"
             HorizontalAlignment="Stretch"
             Header="{ext:Locale Name=DanmakuFont}"
-            ItemsSource="{x:Bind ViewModel.FontCollection, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.DanmakuFont, Mode=TwoWay}" />-->
+            ItemsSource="{x:Bind ViewModel.Fonts, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.DanmakuFontFamily, Mode=TwoWay}" />
         <ToggleSwitch Header="{ext:Locale Name=DanmakuBold}" IsOn="{x:Bind ViewModel.IsDanmakuBold, Mode=TwoWay}" />
     </StackPanel>
 </local:DanmakuControlBase>

@@ -10,7 +10,6 @@
 
     <Grid>
         <ScrollViewer
-            Margin="0,5,0,0"
             Padding="8,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
