@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.ComponentModel;
 using BiliCopilot.UI.Controls.Mpv.Common;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Input;
@@ -43,6 +44,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         }
 
         _viewModel = ViewModel;
+        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         SizeChanged += OnSizeChanged;
         await _viewModel.InitializeAsync(_renderControl);
     }
@@ -52,6 +54,11 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
     {
         SizeChanged -= OnSizeChanged;
         UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
+        if (ViewModel is not null)
+        {
+            ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+        }
+
         _viewModel = default;
 
         _renderControl.Render -= OnRender;
@@ -138,8 +145,22 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
             return;
         }
 
+        if (_viewModel is not null)
+        {
+            _viewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+        }
+
         _viewModel = ViewModel;
+        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         await _viewModel.InitializeAsync(_renderControl);
+    }
+
+    private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(PlayerViewModel.IsPaused) && TransportControls is not null)
+        {
+            TransportControls.Visibility = ViewModel.IsPaused ? Visibility.Visible : Visibility.Collapsed;
+        }
     }
 
     private void OnRender(TimeSpan e) => Render();

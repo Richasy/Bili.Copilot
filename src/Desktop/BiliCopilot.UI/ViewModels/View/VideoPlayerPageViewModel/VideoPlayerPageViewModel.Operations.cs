@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Mpv.Core.Enums.Player;
 using Richasy.BiliKernel.Models.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
@@ -146,6 +147,22 @@ public sealed partial class VideoPlayerPageViewModel
     private void ChangePart(VideoPart part)
     {
         _part = part;
+        Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         InitializeDashMediaCommand.Execute(part);
+    }
+
+    private void PlayerProgressChanged(int progress, int duration)
+        => Danmaku?.UpdateProgress(progress, duration);
+
+    private void PlayerStateChanged(PlaybackState state)
+    {
+        if (state == PlaybackState.Playing)
+        {
+            Danmaku?.Resume();
+        }
+        else
+        {
+            Danmaku?.Pause();
+        }
     }
 }

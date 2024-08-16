@@ -23,6 +23,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     public void EnterPlayerHostMode()
     {
         VisualStateManager.GoToState(this, "PlayerHostState", false);
+        ViewModel?.Danmaku?.Redraw();
     }
 
     /// <summary>
@@ -31,6 +32,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     public void ExitPlayerHostMode()
     {
         VisualStateManager.GoToState(this, "DefaultState", false);
+        ViewModel?.Danmaku?.Redraw();
     }
 
     /// <inheritdoc/>

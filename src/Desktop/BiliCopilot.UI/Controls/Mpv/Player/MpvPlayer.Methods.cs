@@ -53,10 +53,15 @@ public sealed partial class MpvPlayer
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs args)
     {
+        if (TransportControls is null)
+        {
+            return;
+        }
+
         DispatcherQueue.TryEnqueue(() =>
         {
             var point = args.GetCurrentPoint(this).Position;
-            TransportControls.Visibility = _transportControlTriggerRect.Contains(point)
+            TransportControls.Visibility = _transportControlTriggerRect.Contains(point) && !ViewModel.IsPaused
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         });

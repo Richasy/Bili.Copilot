@@ -146,4 +146,9 @@ public sealed partial class VideoPlayerPageViewModel
     /// 播放器视图模型.
     /// </summary>
     public PlayerViewModel Player { get; }
+
+    /// <summary>
+    /// 弹幕视图模型.
+    /// </summary>
+    public DanmakuViewModel Danmaku { get; }
 }

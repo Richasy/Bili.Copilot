@@ -47,4 +47,32 @@ public sealed partial class PlayerViewModel
         PlayerDataLoaded?.Invoke(this, EventArgs.Empty);
         IsPlayerDataLoading = false;
     }
+
+    private void ActiveDisplay()
+    {
+        if (_displayRequest != null)
+        {
+            return;
+        }
+
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            _displayRequest = new Windows.System.Display.DisplayRequest();
+            _displayRequest.RequestActive();
+        });
+    }
+
+    private void ReleaseDisplay()
+    {
+        if (_displayRequest == null)
+        {
+            return;
+        }
+
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            _displayRequest.RequestRelease();
+            _displayRequest = null;
+        });
+    }
 }

@@ -17,6 +17,7 @@ public sealed partial class PlayerViewModel
         {
             Position = Convert.ToInt32(e.Position);
             Duration = Convert.ToInt32(e.Duration);
+            _progressAction?.Invoke(Position, Duration);
         });
     }
 
@@ -28,16 +29,20 @@ public sealed partial class PlayerViewModel
             {
                 // ToDo: 播放状态.
                 IsPaused = false;
+                ActiveDisplay();
             }
             else if (e.NewState == PlaybackState.Paused || e.NewState == PlaybackState.None)
             {
                 // ToDo: 暂停状态.
                 IsPaused = true;
+                ReleaseDisplay();
             }
             else
             {
                 IsPaused = true;
             }
+
+            _stateAction?.Invoke(e.NewState);
         });
     }
 

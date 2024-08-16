@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
+using Mpv.Core.Enums.Player;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -91,6 +92,18 @@ public sealed partial class PlayerViewModel : ViewModelBase
             await TryLoadPlayDataAsync();
         }
     }
+
+    /// <summary>
+    /// 注入进度改变时的回调.
+    /// </summary>
+    public void SetProgressAction(Action<int, int> action)
+        => _progressAction = action;
+
+    /// <summary>
+    /// 注入状态改变时的回调.
+    /// </summary>
+    public void SetStateAction(Action<PlaybackState> action)
+        => _stateAction = action;
 
     /// <summary>
     /// 关闭播放器.

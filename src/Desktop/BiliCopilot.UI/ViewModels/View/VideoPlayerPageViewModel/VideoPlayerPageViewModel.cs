@@ -29,6 +29,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         IFavoriteService favoriteService,
         ILogger<VideoPlayerPageViewModel> logger,
         PlayerViewModel player,
+        DanmakuViewModel danmaku,
         CommentMainViewModel comments)
     {
         _service = service;
@@ -37,6 +38,9 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         _logger = logger;
         _comments = comments;
         Player = player;
+        Danmaku = danmaku;
+        Player.SetProgressAction(PlayerProgressChanged);
+        Player.SetStateAction(PlayerStateChanged);
     }
 
     /// <summary>
@@ -180,6 +184,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     private async Task CleanAsync()
     {
         ClearView();
+        Danmaku.Clear();
         await Player?.CloseAsync();
     }
 

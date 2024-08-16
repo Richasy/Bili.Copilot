@@ -84,6 +84,12 @@
                             </Button>
                         </Grid>
                         <common:RenderControl x:Name="RenderControl" />
+                        <ContentControl
+                            x:Name="DanmakuControlsContainer"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Content="{TemplateBinding DanmakuControls}"
+                            Style="{StaticResource AppContentControlStyle}" />
                         <Rectangle
                             x:Name="InteractionControl"
                             HorizontalAlignment="Stretch"

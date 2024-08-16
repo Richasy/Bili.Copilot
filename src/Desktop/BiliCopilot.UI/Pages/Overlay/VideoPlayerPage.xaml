@@ -71,6 +71,9 @@
                                 </mpv:MpvTransportControl.RightContent>
                             </mpv:MpvTransportControl>
                         </mpv:MpvPlayer.TransportControls>
+                        <mpv:MpvPlayer.DanmakuControls>
+                            <player:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+                        </mpv:MpvPlayer.DanmakuControls>
                     </mpv:MpvPlayer>
                 </Grid>
                 <Grid

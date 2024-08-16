@@ -107,6 +107,7 @@
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
+    <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
     <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
     <None Remove="Controls\Player\VideoOperationControl.xaml" />
     <None Remove="Controls\Player\VideoPartsSection.xaml" />
@@ -205,6 +206,7 @@
     <PackageReference Include="OpenTK" />
     <PackageReference Include="Silk.NET.Direct3D11" />
     <PackageReference Include="Silk.NET.OpenGL" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
@@ -219,6 +221,7 @@
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.User\Services.User.csproj" />
+    <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
     <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
     <ProjectReference Include="..\..\Libs\WinUI.Share\src\Richasy.WinUI.Share.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
@@ -912,6 +915,11 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoDanmakuPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">

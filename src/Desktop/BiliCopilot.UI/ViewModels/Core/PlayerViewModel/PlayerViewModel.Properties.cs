@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Mpv.Core;
+using Mpv.Core.Enums.Player;
+using Windows.System.Display;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -23,6 +25,9 @@ public sealed partial class PlayerViewModel
     private string? _videoUrl;
     private string? _audioUrl;
     private bool _autoPlay;
+    private Action<int, int> _progressAction;
+    private Action<PlaybackState> _stateAction;
+    private DisplayRequest _displayRequest;
 
     private bool _isInitialized;
 
