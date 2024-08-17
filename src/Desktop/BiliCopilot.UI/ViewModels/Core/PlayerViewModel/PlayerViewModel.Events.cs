@@ -46,7 +46,7 @@ public sealed partial class PlayerViewModel
             else
             {
                 IsPaused = true;
-                IsBuffering = e.NewState == PlaybackState.Buffering;
+                IsBuffering = e.NewState is PlaybackState.Buffering or PlaybackState.Opening or PlaybackState.Decoding;
             }
 
             _stateAction?.Invoke(e.NewState);

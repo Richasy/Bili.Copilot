@@ -153,8 +153,7 @@
                         <StackPanel
                             x:Name="OperationContainer"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPlayerDataLoading, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                            VerticalAlignment="Bottom">
                             <ContentControl
                                 x:Name="SubtitleContainer"
                                 HorizontalAlignment="Stretch"
