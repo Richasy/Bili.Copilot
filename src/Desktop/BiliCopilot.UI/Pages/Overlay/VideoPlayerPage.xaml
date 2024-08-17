@@ -7,6 +7,7 @@
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mpv="using:BiliCopilot.UI.Controls.Mpv"
@@ -107,6 +108,20 @@
                 </Grid>
             </StackPanel>
         </ScrollView>
+
+        <InfoBar
+            Grid.Row="2"
+            Margin="8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            IsIconVisible="True"
+            IsOpen="{x:Bind ViewModel.IsInteractionVideo, Mode=OneWay}"
+            Message="{ext:Locale Name=InteractionNotSupportTip}"
+            Severity="Warning">
+            <InfoBar.ActionButton>
+                <HyperlinkButton Command="{x:Bind ViewModel.OpenInBroswerCommand, Mode=OneWay}" Content="{ext:Locale Name=OpenInBrowser}" />
+            </InfoBar.ActionButton>
+        </InfoBar>
 
         <Grid x:Name="SideHeader" Grid.Column="2">
             <player:VideoPlayerSideHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />

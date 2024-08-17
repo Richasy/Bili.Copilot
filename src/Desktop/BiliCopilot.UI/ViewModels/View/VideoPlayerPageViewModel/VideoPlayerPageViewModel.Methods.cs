@@ -28,6 +28,7 @@ public sealed partial class VideoPlayerPageViewModel
         PublishRelativeTime = string.Format(ResourceToolkit.GetLocalizedString(StringNames.AuthorPublishTime), view.Information.PublishTime.Humanize(default, new System.Globalization.CultureInfo("zh-CN")));
         Description = view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
         IsFollow = view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unfollow && view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unknown;
+        IsInteractionVideo = view.IsInteractiveVideo;
         Tags = view.Tags.ToList();
         InitializeCommunityInformation(view.Information.CommunityInformation);
         IsLiked = view.Operation.IsLiked;

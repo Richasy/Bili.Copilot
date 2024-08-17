@@ -125,6 +125,9 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isPrivatePlay;
 
     [ObservableProperty]
+    private bool _isInteractionVideo;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]

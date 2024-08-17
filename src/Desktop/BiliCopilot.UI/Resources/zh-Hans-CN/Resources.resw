@@ -2241,4 +2241,7 @@
   <data name="NextVideoNotificationTemplate" xml:space="preserve">
     <value>准备播放下一个视频：{0}</value>
   </data>
+  <data name="InteractionNotSupportTip" xml:space="preserve">
+    <value>对于互动视频的支持，开发者表示心累，暂时不处理，请先使用网页把玩吧~</value>
+  </data>
 </root>
