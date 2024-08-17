@@ -73,7 +73,7 @@ public sealed partial class MpvPlayer
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs args)
     {
-        if (TransportControls is null)
+        if (TransportControls is null || ViewModel.IsPlayerDataLoading || ViewModel.IsPlayerInitializing)
         {
             return;
         }

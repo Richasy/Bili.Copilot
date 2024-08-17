@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="using:BiliCopilot.UI.Controls.Mpv.Common"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -137,6 +138,11 @@
                                             <ic:SymbolIcon Symbol="Screenshot" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
+                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReloadCommand}" Text="{ext:Locale Name=Reload}">
+                                        <MenuFlyoutItem.Icon>
+                                            <ic:SymbolIcon Symbol="ArrowClockwise" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                 </MenuFlyout>
                             </Rectangle.ContextFlyout>
                         </Rectangle>
@@ -147,7 +153,8 @@
                         <StackPanel
                             x:Name="OperationContainer"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom">
+                            VerticalAlignment="Bottom"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPlayerDataLoading, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                             <ContentControl
                                 x:Name="SubtitleContainer"
                                 HorizontalAlignment="Stretch"
@@ -160,6 +167,11 @@
                                 Content="{TemplateBinding TransportControls}"
                                 Style="{StaticResource AppContentControlStyle}" />
                         </StackPanel>
+                        <components:LoadingWidget
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPlayerDataLoading}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

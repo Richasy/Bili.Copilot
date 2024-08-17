@@ -2244,4 +2244,7 @@
   <data name="InteractionNotSupportTip" xml:space="preserve">
     <value>对于互动视频的支持，开发者表示心累，暂时不处理，请先使用网页把玩吧~</value>
   </data>
+  <data name="Reload" xml:space="preserve">
+    <value>重载</value>
+  </data>
 </root>

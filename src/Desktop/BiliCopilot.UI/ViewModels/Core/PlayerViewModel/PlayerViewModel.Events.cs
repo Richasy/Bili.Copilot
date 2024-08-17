@@ -34,16 +34,19 @@ public sealed partial class PlayerViewModel
             if (e.NewState == PlaybackState.Playing)
             {
                 IsPaused = false;
+                IsBuffering = false;
                 ActiveDisplay();
             }
             else if (e.NewState == PlaybackState.Paused || e.NewState == PlaybackState.None)
             {
                 IsPaused = true;
+                IsBuffering = false;
                 ReleaseDisplay();
             }
             else
             {
                 IsPaused = true;
+                IsBuffering = e.NewState == PlaybackState.Buffering;
             }
 
             _stateAction?.Invoke(e.NewState);

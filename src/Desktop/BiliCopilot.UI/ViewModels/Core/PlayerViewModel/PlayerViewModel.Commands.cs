@@ -242,8 +242,13 @@ public sealed partial class PlayerViewModel
         {
             var fileName = DateTimeOffset.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
             var path = Path.Combine(GetScreenshotFolderPath(), fileName);
+            if(!Directory.Exists(GetScreenshotFolderPath()))
+            {
+                Directory.CreateDirectory(GetScreenshotFolderPath());
+            }
+
             await Player.TakeScreenshotAsync(path);
-            if(File.Exists(path))
+            if (File.Exists(path))
             {
                 var file = await StorageFile.GetFileFromPathAsync(path);
                 await Launcher.LaunchFileAsync(file).AsTask();
@@ -253,5 +258,16 @@ public sealed partial class PlayerViewModel
         {
             _logger.LogWarning(ex, "尝试截图时失败.");
         }
+    }
+
+    [RelayCommand]
+    private async Task ReloadAsync()
+    {
+        if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
+        {
+            return;
+        }
+
+        await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Position);
     }
 }

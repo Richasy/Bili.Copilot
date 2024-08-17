@@ -63,6 +63,9 @@ public sealed partial class PlayerViewModel
     [ObservableProperty]
     private bool _isCompactOverlay;
 
+    [ObservableProperty]
+    private bool _isBuffering;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

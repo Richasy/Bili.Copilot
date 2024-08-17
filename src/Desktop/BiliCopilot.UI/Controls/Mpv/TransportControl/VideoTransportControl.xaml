@@ -56,20 +56,35 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Command="{x:Bind ViewModel.TogglePlayPauseCommand, Mode=OneWay}" Style="{StaticResource CircleIconButtonStyle}">
-                    <Grid>
-                        <ic:SymbolIcon
-                            FontSize="14"
-                            IconVariant="Filled"
-                            Symbol="Play"
-                            Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                        <ic:SymbolIcon
-                            FontSize="14"
-                            IconVariant="Filled"
-                            Symbol="Pause"
-                            Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityReverseConverter}, Mode=OneWay}" />
-                    </Grid>
-                </Button>
+                <Grid>
+                    <ProgressRing
+                        Width="38"
+                        Height="38"
+                        VerticalAlignment="Center"
+                        IsActive="{x:Bind ViewModel.IsBuffering, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsBuffering, Mode=OneWay}" />
+                    <Button
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource ButtonBackground}"
+                        Command="{x:Bind ViewModel.TogglePlayPauseCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.IsBuffering, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                        Style="{StaticResource CircleIconButtonStyle}">
+                        <Grid>
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Play"
+                                Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Pause"
+                                Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityReverseConverter}, Mode=OneWay}" />
+                        </Grid>
+                    </Button>
+                </Grid>
+
                 <ContentControl
                     x:Name="LeftPanel"
                     Grid.Column="1"
