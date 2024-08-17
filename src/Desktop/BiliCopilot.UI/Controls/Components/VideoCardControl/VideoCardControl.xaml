@@ -88,6 +88,18 @@
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    MinWidth="160"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
+                                    Text="{ext:Locale Name=PlayInPrivate}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="EyeOff" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>

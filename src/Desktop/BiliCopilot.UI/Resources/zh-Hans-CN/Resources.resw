@@ -2235,4 +2235,7 @@
   <data name="PlayNextVideoTipTemplate" xml:space="preserve">
     <value>播放下一个视频：{0}</value>
   </data>
+  <data name="PlayInPrivateTip" xml:space="preserve">
+    <value>无痕播放模式，该模式下不会上报播放进度</value>
+  </data>
 </root>

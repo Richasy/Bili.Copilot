@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Threading;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -55,7 +56,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         => nameof(VideoPlayerPage);
 
     [RelayCommand]
-    private async Task InitializePageAsync(VideoInformation video)
+    private async Task InitializePageAsync(VideoSnapshot snapshot)
     {
         if (IsPageLoading)
         {
@@ -63,8 +64,16 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         }
 
         IsPageLoading = true;
+        var video = snapshot.Video;
+        IsPrivatePlay = snapshot.IsPrivate;
         try
         {
+            if (_view is not null && _view.Information.Identifier.Id != video.Identifier.Id)
+            {
+                // 记录上一个视频的播放进度.
+                await ReportProgressAsync(Player.Position);
+            }
+
             ClearView();
             if (_playlist is not null && !_playlist.Any(p => p.Identifier.Id == video.Identifier.Id))
             {
@@ -76,6 +85,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
             InitializeView(view);
             InitializeSections();
             var initialPart = FindInitialPart(default);
+            LoadInitialProgress();
             ChangePart(initialPart);
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
@@ -178,12 +188,23 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
             isAutoPlay = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         }
 
-        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay);
+        // 切换清晰度时，如果播放器已经加载了媒体，那么就保持当前的播放进度.
+        if (_initialProgress == 0 && Player.Position != 0)
+        {
+            _initialProgress = Player.Position;
+        }
+
+        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
+        Danmaku?.Redraw();
+
+        // 重置初始进度，避免影响其它视频.
+        _initialProgress = 0;
     }
 
     [RelayCommand]
     private async Task CleanAsync()
     {
+        await ReportProgressAsync(Player.Position);
         ClearView();
         Danmaku.ClearAll();
         await Player?.CloseAsync();
@@ -199,6 +220,26 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
 
         SelectedSection = section;
         SelectedSection.TryFirstLoadCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private async Task ReportProgressAsync(int progress)
+    {
+        var shouldReport = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldReportProgress, true);
+        if (!shouldReport || IsPrivatePlay || _view is null || _view.Information is null || progress == 0 || Player.IsPlayerDataLoading)
+        {
+            return;
+        }
+
+        try
+        {
+            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+            await _service.ReportProgressAsync(AvId, _part.Identifier.Id, progress, cancellationToken.Token);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试上报播放进度时失败.");
+        }
     }
 
     partial void OnPlayerWidthChanged(double value)

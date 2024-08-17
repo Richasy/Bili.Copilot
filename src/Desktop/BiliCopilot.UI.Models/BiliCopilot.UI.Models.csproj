@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>

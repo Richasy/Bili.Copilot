@@ -193,6 +193,23 @@ public sealed partial class VideoPlayerPageViewModel
         return part ?? _view.Parts.FirstOrDefault();
     }
 
+    private void LoadInitialProgress(int? progress = default)
+    {
+        _initialProgress = 0;
+        if (progress is not null)
+        {
+            _initialProgress = progress.Value;
+        }
+        else if (_view.Progress is not null)
+        {
+            var p = Convert.ToInt32(_view.Progress.Progress);
+            if (p < _view.Information.Duration)
+            {
+                _initialProgress = p;
+            }
+        }
+    }
+
     private object? FindNextVideo()
     {
         // 1. 先检查分P列表中是否有下一个视频.

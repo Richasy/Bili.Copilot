@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
@@ -167,7 +168,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            InitializePageCommand.Execute(video);
+            InitializePageCommand.Execute(new VideoSnapshot(video, IsPrivatePlay));
         }
         else
         {
@@ -194,6 +195,12 @@ public sealed partial class VideoPlayerPageViewModel
         }
         else
         {
+            if (state == PlaybackState.Paused)
+            {
+                // 记录播放进度.
+                ReportProgressCommand.Execute(Player.Position);
+            }
+
             Danmaku?.Pause();
         }
     }
@@ -204,6 +211,8 @@ public sealed partial class VideoPlayerPageViewModel
         {
             // 清除弹幕.
             Danmaku.ClearDanmaku();
+
+            ReportProgressCommand.Execute(Player.Duration);
 
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
             if (!autoNext)

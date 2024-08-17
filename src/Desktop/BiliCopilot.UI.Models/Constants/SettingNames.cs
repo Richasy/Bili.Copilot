@@ -54,4 +54,5 @@ public enum SettingNames
     DanmakuColor,
     AutoPlayNextRecommendVideo,
     AutoPlayNext,
+    ShouldReportProgress,
 }

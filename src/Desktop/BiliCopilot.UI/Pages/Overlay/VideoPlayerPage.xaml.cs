@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.Media;
@@ -38,11 +39,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is VideoInformation video)
+        if (e.Parameter is VideoSnapshot video)
         {
             ViewModel.InitializePageCommand.Execute(video);
         }
-        else if (e.Parameter is (IList<VideoInformation> list, VideoInformation v))
+        else if (e.Parameter is (IList<VideoInformation> list, VideoSnapshot v))
         {
             ViewModel.InjectPlaylist(list);
             ViewModel.InitializePageCommand.Execute(v);

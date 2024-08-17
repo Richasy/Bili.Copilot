@@ -94,7 +94,8 @@
                             x:Name="InteractionControl"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Fill="Transparent" />
+                            Fill="Transparent"
+                            IsHoldingEnabled="True" />
                         <ContentControl
                             x:Name="TransportControlsContainer"
                             MinHeight="200"

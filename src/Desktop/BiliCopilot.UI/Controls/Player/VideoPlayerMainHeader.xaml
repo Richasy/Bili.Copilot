@@ -16,12 +16,22 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <base:TrimTextBlock
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            FontWeight="Bold"
-            MaxLines="1"
-            Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <StackPanel Orientation="Horizontal">
+            <ic:SymbolIcon
+                Margin="0,0,12,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Symbol="EyeOff"
+                ToolTipService.ToolTip="{ext:Locale Name=PlayInPrivateTip}"
+                Visibility="{x:Bind ViewModel.IsPrivatePlay, Mode=OneWay}" />
+            <base:TrimTextBlock
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                MaxLines="1"
+                Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        </StackPanel>
         <Button
             Grid.Column="1"
             VerticalAlignment="Center"

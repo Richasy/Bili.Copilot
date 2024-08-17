@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Globalization;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -48,5 +49,9 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 
     [RelayCommand]
     private void Play()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, Data);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data));
+
+    [RelayCommand]
+    private void PlayInPrivate()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data, true));
 }

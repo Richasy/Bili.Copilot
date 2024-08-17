@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Pages.Overlay;
@@ -167,7 +168,8 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         try
         {
             var videos = await _service.GetCuratedPlaylistAsync();
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, (videos, videos.First()));
+            var firstSnapshot = new VideoSnapshot(videos.First());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, (videos, firstSnapshot));
         }
         catch (Exception ex)
         {

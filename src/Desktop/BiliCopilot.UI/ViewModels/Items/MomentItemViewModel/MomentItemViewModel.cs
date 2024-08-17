@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -102,7 +103,8 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, vinfo);
+            var snapshot = new VideoSnapshot(vinfo);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
