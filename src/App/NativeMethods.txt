@@ -1,8 +1,0 @@
-﻿GetDpiForWindow
-SetForegroundWindow
-SetWindowsHookEx
-UnhookWindowsHookEx
-CallNextHookEx
-GetModuleHandle
-IsZoomed
-GetKeyState

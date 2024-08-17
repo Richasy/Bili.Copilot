@@ -180,12 +180,17 @@ public sealed partial class VideoPlayerPageViewModel
     {
         _part = part;
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
+        Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         InitializeDashMediaCommand.Execute(part);
+        Subtitle.InitializeCommand.Execute(default);
         InitializeNextVideo();
     }
 
     private void PlayerProgressChanged(int progress, int duration)
-        => Danmaku?.UpdateProgress(progress, duration);
+    {
+        Danmaku?.UpdatePosition(progress);
+        Subtitle?.UpdatePosition(progress);
+    }
 
     private void PlayerStateChanged(PlaybackState state)
     {
@@ -211,6 +216,7 @@ public sealed partial class VideoPlayerPageViewModel
         {
             // 清除弹幕.
             Danmaku.ClearDanmaku();
+            Subtitle.ClearSubttile();
 
             ReportProgressCommand.Execute(Player.Duration);
 

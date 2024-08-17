@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Danmaku;
+using BiliCopilot.UI.Controls.Player;
 
 namespace BiliCopilot.UI.Controls.Mpv;
 
@@ -14,6 +15,12 @@ public sealed partial class MpvPlayer
     /// </summary>
     public static readonly DependencyProperty TransportControlsProperty =
         DependencyProperty.Register(nameof(TransportControls), typeof(PlayerControlBase), typeof(MpvPlayer), new PropertyMetadata(default));
+
+    /// <summary>
+    /// <see cref="SubtitleControls"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty SubtitleControlsProperty =
+        DependencyProperty.Register(nameof(SubtitleControls), typeof(SubtitlePresenter), typeof(MpvPlayer), new PropertyMetadata(default));
 
     /// <summary>
     /// <see cref="DanmakuControls"/> 的依赖属性.
@@ -37,5 +44,14 @@ public sealed partial class MpvPlayer
     {
         get => (VideoDanmakuPanel)GetValue(DanmakuControlsProperty);
         set => SetValue(DanmakuControlsProperty, value);
+    }
+
+    /// <summary>
+    /// 字幕控件.
+    /// </summary>
+    public SubtitlePresenter SubtitleControls
+    {
+        get => (SubtitlePresenter)GetValue(SubtitleControlsProperty);
+        set => SetValue(SubtitleControlsProperty, value);
     }
 }

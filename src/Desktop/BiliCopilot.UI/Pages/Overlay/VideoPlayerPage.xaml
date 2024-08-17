@@ -72,8 +72,12 @@
                                     <danmaku:DanmakuBox ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
                                 </mpv:VideoTransportControl.MiddleContent>
                                 <mpv:VideoTransportControl.RightContent>
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <StackPanel Orientation="Horizontal">
                                         <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                                        <player:SubtitleButton
+                                            Margin="8,0,0,0"
+                                            ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
+                                            Visibility="{x:Bind ViewModel.Subtitle.IsAvailable, Mode=OneWay}" />
                                     </StackPanel>
                                 </mpv:VideoTransportControl.RightContent>
                             </mpv:VideoTransportControl>
@@ -81,6 +85,12 @@
                         <mpv:MpvPlayer.DanmakuControls>
                             <danmaku:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
                         </mpv:MpvPlayer.DanmakuControls>
+                        <mpv:MpvPlayer.SubtitleControls>
+                            <player:SubtitlePresenter
+                                Margin="0,0,0,16"
+                                ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
+                                Visibility="{x:Bind ViewModel.Subtitle.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                        </mpv:MpvPlayer.SubtitleControls>
                     </mpv:MpvPlayer>
                 </Grid>
                 <Grid

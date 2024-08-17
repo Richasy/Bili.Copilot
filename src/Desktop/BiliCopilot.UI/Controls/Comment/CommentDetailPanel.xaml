@@ -37,6 +37,7 @@
             </Grid>
         </ScrollView>
         <components:EmptyHolder
+            Grid.Row="1"
             Description="{ext:Locale Name=NoReply}"
             Emoji="&#x1FAE2;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">

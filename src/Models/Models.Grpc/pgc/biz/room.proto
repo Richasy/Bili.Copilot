@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package pgc.biz;
-
-//
-message RoomProto {
-    //
-    repeated string room_id = 1;
-}

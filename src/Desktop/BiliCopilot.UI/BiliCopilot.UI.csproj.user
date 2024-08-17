@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\SubtitlePresenter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\SubtitleButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
       <SubType>Designer</SubType>
     </Page>

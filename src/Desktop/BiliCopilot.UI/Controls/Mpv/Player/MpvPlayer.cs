@@ -182,5 +182,8 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
     private void OnRender(TimeSpan e) => Render();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        => MeasureTransportTriggerRect();
+    {
+        MeasureTransportTriggerRect();
+        ArrangeSubtitleSize();
+    }
 }

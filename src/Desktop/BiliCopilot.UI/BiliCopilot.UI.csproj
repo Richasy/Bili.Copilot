@@ -110,6 +110,8 @@
     <None Remove="Controls\Player\CoinButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
+    <None Remove="Controls\Player\SubtitleButton.xaml" />
+    <None Remove="Controls\Player\SubtitlePresenter.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
     <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
     <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
@@ -920,6 +922,16 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\SubtitlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\SubtitleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">

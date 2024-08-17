@@ -31,6 +31,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         ILogger<VideoPlayerPageViewModel> logger,
         PlayerViewModel player,
         DanmakuViewModel danmaku,
+        SubtitleViewModel subtitle,
         CommentMainViewModel comments)
     {
         _service = service;
@@ -40,6 +41,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         _comments = comments;
         Player = player;
         Danmaku = danmaku;
+        Subtitle = subtitle;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);

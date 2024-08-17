@@ -42,18 +42,17 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// <summary>
     /// 更新进度.
     /// </summary>
-    public void UpdateProgress(int progress, int duration)
+    public void UpdatePosition(int position)
     {
-        _progress = progress;
-        _duration = duration;
-        var index = Convert.ToInt32(Math.Ceiling(progress / 360d));
+        _position = position;
+        var index = Convert.ToInt32(Math.Ceiling(position / 360d));
         if (index == 0)
         {
             index = 1;
         }
 
         LoadDanmakusCommand.Execute(index);
-        ProgressChanged?.Invoke(this, progress);
+        ProgressChanged?.Invoke(this, position);
     }
 
     /// <summary>
@@ -80,8 +79,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     public void ClearAll()
     {
         _segmentIndex = 0;
-        _progress = 0;
-        _duration = 0;
+        _position = 0;
         _aid = string.Empty;
         _cid = string.Empty;
         ClearDanmaku();
@@ -134,7 +132,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         try
         {
             var danmakuColor = (Color.R * 256 * 256) + (Color.G * 256) + Color.B;
-            await _danmakuService.SendDanmakuAsync(text, _aid, _cid, _progress, danmakuColor.ToString(), IsStandardSize, Location);
+            await _danmakuService.SendDanmakuAsync(text, _aid, _cid, _position, danmakuColor.ToString(), IsStandardSize, Location);
             RequestAddSingleDanmaku?.Invoke(this, text);
         }
         catch (Exception ex)

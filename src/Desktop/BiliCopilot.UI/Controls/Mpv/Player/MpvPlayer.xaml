@@ -129,13 +129,22 @@
                             x:Name="NotificationContainer"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top" />
-                        <ContentControl
-                            x:Name="TransportControlsContainer"
-                            MinHeight="50"
+                        <StackPanel
+                            x:Name="OperationContainer"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom"
-                            Content="{TemplateBinding TransportControls}"
-                            Style="{StaticResource AppContentControlStyle}" />
+                            VerticalAlignment="Bottom">
+                            <ContentControl
+                                x:Name="SubtitleContainer"
+                                HorizontalAlignment="Stretch"
+                                Content="{TemplateBinding SubtitleControls}"
+                                Style="{StaticResource AppContentControlStyle}" />
+                            <ContentControl
+                                x:Name="TransportControlsContainer"
+                                MinHeight="16"
+                                HorizontalAlignment="Stretch"
+                                Content="{TemplateBinding TransportControls}"
+                                Style="{StaticResource AppContentControlStyle}" />
+                        </StackPanel>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

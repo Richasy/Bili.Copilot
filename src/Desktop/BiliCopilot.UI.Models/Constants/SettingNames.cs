@@ -55,4 +55,5 @@ public enum SettingNames
     AutoPlayNextRecommendVideo,
     AutoPlayNext,
     ShouldReportProgress,
+    IsSubtitleEnabled,
 }
