@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="using:BiliCopilot.UI.Controls.Mpv.Common"
     xmlns:converters="using:BiliCopilot.UI.Converters"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Mpv">
 
     <ResourceDictionary.ThemeDictionaries>
@@ -124,7 +126,20 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Fill="Transparent"
-                            IsHoldingEnabled="True" />
+                            IsHoldingEnabled="True">
+                            <Rectangle.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        MinWidth="180"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TakeScreenshotCommand}"
+                                        Text="{ext:Locale Name=Screenshot}">
+                                        <MenuFlyoutItem.Icon>
+                                            <ic:SymbolIcon Symbol="Screenshot" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Rectangle.ContextFlyout>
+                        </Rectangle>
                         <StackPanel
                             x:Name="NotificationContainer"
                             HorizontalAlignment="Stretch"

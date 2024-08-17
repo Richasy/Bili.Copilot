@@ -7,6 +7,9 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public sealed partial class PlayerViewModel
 {
+    private static string GetScreenshotFolderPath()
+        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "bili");
+
     private async Task TryLoadPlayDataAsync()
     {
         if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))

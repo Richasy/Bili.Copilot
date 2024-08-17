@@ -4,6 +4,8 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Windows.Storage;
+using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -231,5 +233,25 @@ public sealed partial class PlayerViewModel
                 SeekCommand.Execute(Position - seconds);
             }
         });
+    }
+
+    [RelayCommand]
+    private async Task TakeScreenshotAsync()
+    {
+        try
+        {
+            var fileName = DateTimeOffset.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+            var path = Path.Combine(GetScreenshotFolderPath(), fileName);
+            await Player.TakeScreenshotAsync(path);
+            if(File.Exists(path))
+            {
+                var file = await StorageFile.GetFileFromPathAsync(path);
+                await Launcher.LaunchFileAsync(file).AsTask();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "尝试截图时失败.");
+        }
     }
 }

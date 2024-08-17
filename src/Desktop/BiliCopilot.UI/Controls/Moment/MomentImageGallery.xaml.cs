@@ -28,4 +28,13 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
         get => (object)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
+
+    private async void OnImageTappedAsync(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        var image = (sender as Image).Tag as Uri;
+        if (image is not null)
+        {
+            await Task.CompletedTask;
+        }
+    }
 }
