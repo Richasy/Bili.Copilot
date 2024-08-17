@@ -13,19 +13,19 @@ public sealed partial class VideoTransportControl : PlayerControlBase
     /// <see cref="LeftContent"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty LeftContentProperty =
-        DependencyProperty.Register(nameof(LeftContent), typeof(object), typeof(MpvTransportControl), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(LeftContent), typeof(object), typeof(VideoTransportControl), new PropertyMetadata(default));
 
     /// <summary>
     /// <see cref="MiddleContent"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty MiddleContentProperty =
-        DependencyProperty.Register(nameof(MiddleContent), typeof(object), typeof(MpvTransportControl), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(MiddleContent), typeof(object), typeof(VideoTransportControl), new PropertyMetadata(default));
 
     /// <summary>
     /// <see cref="RightContent"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty RightContentProperty =
-        DependencyProperty.Register(nameof(RightContent), typeof(object), typeof(MpvTransportControl), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(RightContent), typeof(object), typeof(VideoTransportControl), new PropertyMetadata(default));
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoTransportControl"/> class.

@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Mpv.Common;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Mpv.Core.Args;
@@ -122,6 +124,15 @@ public sealed partial class PlayerViewModel : ViewModelBase
     {
         IsPaused = true;
         return Player?.DisposeAsync() ?? Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 显示通知.
+    /// </summary>
+    public void ShowNotification(PlayerNotification notification)
+    {
+        var item = new PlayerNotificationItemViewModel(notification);
+        RequestShowNotification?.Invoke(this, item);
     }
 
     partial void OnIsFullScreenChanged(bool value)

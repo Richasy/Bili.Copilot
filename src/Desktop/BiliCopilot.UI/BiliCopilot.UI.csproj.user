@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -79,9 +82,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Mpv\TransportControl\MpvTransportControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\PgcPlayerPage.xaml">

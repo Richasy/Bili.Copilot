@@ -85,8 +85,8 @@
     <None Remove="Controls\Moment\MyMomentsMainBody.xaml" />
     <None Remove="Controls\Moment\MyMomentsMainHeader.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Mpv\PlayerNotificationControl.xaml" />
     <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
-    <None Remove="Controls\Mpv\TransportControl\MpvTransportControl.xaml" />
     <None Remove="Controls\Mpv\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
@@ -922,6 +922,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1028,11 +1033,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Mpv\TransportControl\MpvTransportControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

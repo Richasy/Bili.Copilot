@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using BiliCopilot.UI.Controls.Mpv.Common;
 using BiliCopilot.UI.ViewModels.Core;
+using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
@@ -20,6 +21,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
     private RenderControl _renderControl;
     private Rect _transportControlTriggerRect;
     private Rectangle _interactionControl;
+    private StackPanel? _notificationContainer;
 
     private double _lastSpeed;
 
@@ -45,6 +47,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
 
         _viewModel = ViewModel;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
+        _viewModel.RequestShowNotification += OnRequestShowNotification;
         SizeChanged += OnSizeChanged;
         await _viewModel.InitializeAsync(_renderControl);
     }
@@ -57,6 +60,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         if (ViewModel is not null)
         {
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+            ViewModel.RequestShowNotification -= OnRequestShowNotification;
         }
 
         _viewModel = default;
@@ -77,6 +81,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
     {
         _renderControl = (RenderControl)GetTemplateChild("RenderControl");
         _interactionControl = (Rectangle)GetTemplateChild("InteractionControl");
+        _notificationContainer = (StackPanel)GetTemplateChild("NotificationContainer");
         _renderControl.Setting = new ContextSettings()
         {
             MajorVersion = 4,
@@ -104,6 +109,15 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         {
             TransportControls.Visibility = Visibility.Collapsed;
         }
+    }
+
+    private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
+    {
+        _notificationContainer.Children.Clear();
+        var control = new PlayerNotificationControl();
+        control.ViewModel = e;
+        e.IsNotificationVisible = true;
+        _notificationContainer.Children.Add(control);
     }
 
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
@@ -148,10 +162,12 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         if (_viewModel is not null)
         {
             _viewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+            _viewModel.RequestShowNotification -= OnRequestShowNotification;
         }
 
         _viewModel = ViewModel;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
+        _viewModel.RequestShowNotification += OnRequestShowNotification;
         await _viewModel.InitializeAsync(_renderControl);
     }
 

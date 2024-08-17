@@ -215,13 +215,30 @@ public sealed partial class VideoPlayerPageViewModel
             ReportProgressCommand.Execute(Player.Duration);
 
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if (!autoNext)
+            if (!autoNext || !HasNextVideo)
             {
                 Player.BackToDefaultModeCommand.Execute(default);
                 return;
             }
 
-            PlayNextVideoCommand.Execute(default);
+            if (IsPageLoading || Player.IsPlayerDataLoading)
+            {
+                return;
+            }
+
+            var next = FindNextVideo();
+            string tip = default;
+            if (next is VideoPart part)
+            {
+                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), part.Identifier.Title);
+            }
+            else if (next is VideoInformation video)
+            {
+                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
+            }
+
+            var notification = new PlayerNotification(PlayNextVideo, tip, 5);
+            Player.ShowNotification(notification);
         });
     }
 }

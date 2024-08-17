@@ -3,7 +3,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="using:BiliCopilot.UI.Controls.Mpv.Common"
+    xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:local="using:BiliCopilot.UI.Controls.Mpv">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush
+                x:Key="TransportBackground"
+                Opacity="0.78"
+                Color="White" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Default">
+            <SolidColorBrush
+                x:Key="TransportBackground"
+                Opacity="0.67"
+                Color="Black" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="TransportBackground" Color="{ThemeResource SystemColorWindowColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 
     <Style x:Key="HiddenButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
@@ -15,6 +34,16 @@
         <Setter Property="TabNavigation" Value="Once" />
         <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
         <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+    </Style>
+
+    <converters:FullScreenConverter x:Key="FullScreenConverter" />
+    <converters:CompactOverlayConverter x:Key="CompactOverlayConverter" />
+
+    <Style
+        x:Key="TransportButtonFlyoutPresenterStyle"
+        BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+        TargetType="FlyoutPresenter">
+        <Setter Property="Padding" Value="12,10" />
     </Style>
 
     <Style TargetType="local:MpvPlayer">
@@ -96,9 +125,13 @@
                             VerticalAlignment="Stretch"
                             Fill="Transparent"
                             IsHoldingEnabled="True" />
+                        <StackPanel
+                            x:Name="NotificationContainer"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top" />
                         <ContentControl
                             x:Name="TransportControlsContainer"
-                            MinHeight="200"
+                            MinHeight="50"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Bottom"
                             Content="{TemplateBinding TransportControls}"

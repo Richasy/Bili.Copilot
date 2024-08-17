@@ -182,15 +182,5 @@
                 To="1.0"
                 Duration="0:0:0.2" />
         </animations:Implicit.ShowAnimations>
-        <animations:Implicit.HideAnimations>
-            <animations:TranslationAnimation
-                From="0,0"
-                To="0,20"
-                Duration="0:0:0.5" />
-            <animations:OpacityAnimation
-                From="1.0"
-                To="0.0"
-                Duration="0:0:0.5" />
-        </animations:Implicit.HideAnimations>
     </Grid>
 </local:PlayerControlBase>

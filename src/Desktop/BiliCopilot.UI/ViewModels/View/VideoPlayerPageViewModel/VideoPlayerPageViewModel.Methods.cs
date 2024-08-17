@@ -203,7 +203,7 @@ public sealed partial class VideoPlayerPageViewModel
         else if (_view.Progress is not null)
         {
             var p = Convert.ToInt32(_view.Progress.Progress);
-            if (p < _view.Information.Duration)
+            if (p < _view.Information.Duration - 5)
             {
                 _initialProgress = p;
             }

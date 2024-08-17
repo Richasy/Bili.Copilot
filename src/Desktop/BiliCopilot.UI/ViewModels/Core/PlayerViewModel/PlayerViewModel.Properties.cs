@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -66,6 +67,11 @@ public sealed partial class PlayerViewModel
     /// 播放数据加载完成.
     /// </summary>
     public event EventHandler PlayerDataLoaded;
+
+    /// <summary>
+    /// 请求显示通知.
+    /// </summary>
+    public event EventHandler<PlayerNotificationItemViewModel> RequestShowNotification;
 
     /// <summary>
     /// 播放器内核.
