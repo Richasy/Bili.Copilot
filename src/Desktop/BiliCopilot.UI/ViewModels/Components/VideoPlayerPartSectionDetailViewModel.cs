@@ -54,10 +54,6 @@ public sealed partial class VideoPlayerPartSectionDetailViewModel : ViewModelBas
         _partSelectedAction?.Invoke(part);
     }
 
-    [RelayCommand]
-    private void ChangeIndexOnly(bool value)
-    {
-        OnlyIndex = value;
-        SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsVideoPlayerPartsOnlyIndex, value);
-    }
+    partial void OnOnlyIndexChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsVideoPlayerPartsOnlyIndex, value);
 }

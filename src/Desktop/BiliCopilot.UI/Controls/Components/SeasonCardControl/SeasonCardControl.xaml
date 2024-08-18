@@ -99,4 +99,40 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="PlayerSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <Grid>
+                        <local:PgcCoverImage
+                            BlurRatio="0.28"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}"
+                            ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                        <base:TrimTextBlock
+                            Margin="12,8"
+                            VerticalAlignment="Bottom"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="White"
+                            MaxLines="1"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                        <Border
+                            Margin="8"
+                            Padding="8,4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="{ThemeResource AccentFillColorTertiaryBrush}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <TextBlock
+                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

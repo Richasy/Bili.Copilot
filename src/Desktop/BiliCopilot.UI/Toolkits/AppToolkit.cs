@@ -31,7 +31,7 @@ public static class AppToolkit
     /// 格式化数量.
     /// </summary>
     /// <returns>数量文本，如 233万.</returns>
-    public static string FormatCount(int count)
+    public static string FormatCount(long count)
     {
         if (count < 0)
         {

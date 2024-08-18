@@ -209,6 +209,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     {
         await ReportProgressAsync(Player.Position);
         ClearView();
+        Subtitle?.ClearAll();
         Danmaku.ClearAll();
         await Player?.CloseAsync();
     }
@@ -237,7 +238,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         try
         {
             var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(2));
-            await _service.ReportProgressAsync(AvId, _part.Identifier.Id, progress, cancellationToken.Token);
+            await _service.ReportVideoProgressAsync(AvId, _part.Identifier.Id, progress, cancellationToken.Token);
         }
         catch (Exception ex)
         {

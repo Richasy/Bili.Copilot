@@ -2247,4 +2247,16 @@
   <data name="Reload" xml:space="preserve">
     <value>重载</value>
   </data>
+  <data name="NextEpisodeNotificationTemplate" xml:space="preserve">
+    <value>准备播放下一集：{0}</value>
+  </data>
+  <data name="PlayNextEpisodeTipTemplate" xml:space="preserve">
+    <value>播放下一集：{0}</value>
+  </data>
+  <data name="CopyEpisodeUrl" xml:space="preserve">
+    <value>复制分集地址</value>
+  </data>
+  <data name="CopySeasonUrl" xml:space="preserve">
+    <value>复制剧集地址</value>
+  </data>
 </root>

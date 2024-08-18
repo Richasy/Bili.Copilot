@@ -2,7 +2,9 @@
 
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -14,40 +16,20 @@ using Windows.System;
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
-/// 视频播放器页面视图模型.
+/// PGC 播放器页面视图模型.
 /// </summary>
-public sealed partial class VideoPlayerPageViewModel
+public sealed partial class PgcPlayerPageViewModel
 {
-    [RelayCommand]
-    private async Task ToggleFollowAsync()
-    {
-        try
-        {
-            if (IsFollow)
-            {
-                await _relationshipService.UnfollowUserAsync(_view.Information.Publisher.User.Id);
-                IsFollow = false;
-            }
-            else
-            {
-                await _relationshipService.FollowUserAsync(_view.Information.Publisher.User.Id);
-                IsFollow = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "尝试关注/取消关注 UP 主时失败.");
-        }
-    }
-
     [RelayCommand]
     private async Task ToggleLikeAsync()
     {
         try
         {
             var state = !IsLiked;
-            await _service.ToggleVideoLikeAsync(_view.Information.Identifier.Id, state);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            await _service.ToggleVideoLikeAsync(aid, state);
             IsLiked = state;
+            ReloadEpisodeOpeartionCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -60,12 +42,15 @@ public sealed partial class VideoPlayerPageViewModel
     {
         try
         {
-            await _service.CoinVideoAsync(_view.Information.Identifier.Id, count, IsCoinAlsoLike);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            await _service.CoinVideoAsync(aid, count, IsCoinAlsoLike);
             IsCoined = true;
             if (IsCoinAlsoLike && !IsLiked)
             {
                 IsLiked = true;
             }
+
+            ReloadEpisodeOpeartionCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -78,10 +63,12 @@ public sealed partial class VideoPlayerPageViewModel
     {
         try
         {
-            await _service.TripleVideoAsync(_view.Information.Identifier.Id);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            await _service.TripleVideoAsync(aid);
             IsLiked = true;
             IsCoined = true;
             IsFavorited = true;
+            ReloadEpisodeOpeartionCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -99,7 +86,8 @@ public sealed partial class VideoPlayerPageViewModel
 
         try
         {
-            var (folders, ids) = await _favoriteService.GetPlayingVideoFavoriteFoldersAsync(_view.Information.Identifier.Id);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            var (folders, ids) = await _favoriteService.GetPlayingVideoFavoriteFoldersAsync(aid);
             FavoriteFolders = folders.Select(p => new PlayerFavoriteFolderViewModel(p, ids.Contains(p.Id))).ToList();
         }
         catch (Exception ex)
@@ -120,9 +108,11 @@ public sealed partial class VideoPlayerPageViewModel
         var unselectedFolders = FavoriteFolders?.Where(p => !p.IsSelected).Select(p => p.Data.Id).ToList();
         try
         {
-            await _service.FavoriteVideoAsync(_view.Information.Identifier.Id, selectedFolders, unselectedFolders);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            await _service.FavoriteVideoAsync(aid, selectedFolders, unselectedFolders);
             IsFavorited = selectedFolders.Any();
             FavoriteFolders = default;
+            ReloadEpisodeOpeartionCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -131,9 +121,19 @@ public sealed partial class VideoPlayerPageViewModel
     }
 
     [RelayCommand]
-    private void CopyVideoUrl()
+    private void CopyEpisodeUrl()
     {
-        var url = $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
+        var url = $"https://www.bilibili.com/video/ep{_episode.Identifier.Id}";
+        var dp = new DataPackage();
+        dp.SetText(url);
+        dp.SetWebLink(new Uri(url));
+        Clipboard.SetContent(dp);
+    }
+
+    [RelayCommand]
+    private void CopySeasonUrl()
+    {
+        var url = $"https://www.bilibili.com/video/ss{_view.Information.Identifier.Id}";
         var dp = new DataPackage();
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
@@ -143,32 +143,32 @@ public sealed partial class VideoPlayerPageViewModel
     [RelayCommand]
     private async Task OpenInBroswerAsync()
     {
-        var url = $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
+        var url = $"https://www.bilibili.com/video/ep{_episode.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
     }
 
     [RelayCommand]
-    private void PlayNextVideo()
+    private void PlayNextEpisode()
     {
         if (IsPageLoading || Player.IsPlayerDataLoading)
         {
             return;
         }
 
-        var nextPart = FindNextVideo();
+        var nextPart = FindNextEpisode();
         if (nextPart is null)
         {
             Player.BackToDefaultModeCommand.Execute(default);
             return;
         }
 
-        if (nextPart is VideoPart part)
+        if (nextPart is EpisodeInformation part)
         {
-            ChangePart(part);
+            ChangeEpisode(part);
         }
         else if (nextPart is VideoInformation video)
         {
-            InitializePageCommand.Execute(new VideoSnapshot(video, IsPrivatePlay));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(video));
         }
         else
         {
@@ -176,14 +176,70 @@ public sealed partial class VideoPlayerPageViewModel
         }
     }
 
-    private void ChangePart(VideoPart part)
+    [RelayCommand]
+    private async Task ReloadEpisodeOpeartionAsync()
     {
-        _part = part;
-        Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
-        Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
-        InitializeDashMediaCommand.Execute(part);
+        if (_episode is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var operation = await _service.GetEpisodeOperationInformationAsync(_episode.Identifier.Id);
+            IsLiked = operation.IsLiked;
+            IsCoined = operation.IsCoined;
+            IsFavorited = operation.IsFavorited;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试获取剧集操作信息时失败.");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleFollowAsync()
+    {
+        try
+        {
+            var state = !IsFollow;
+            if(state)
+            {
+                await _discoveryService.FollowAsync(_view.Information.Identifier.Id);
+            }
+            else
+            {
+                await _discoveryService.UnfollowAsync(_view.Information.Identifier.Id);
+            }
+
+            IsFollow = state;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"尝试追番/追剧失败 ({!IsFollow})");
+        }
+    }
+
+    private void ChangeEpisode(EpisodeInformation episode)
+    {
+        var isFirstSet = _episode is null;
+        _episode = episode;
+        if (isFirstSet)
+        {
+            LoadInitialProgress();
+        }
+
+        EpisodeId = episode.Identifier.Id;
+        EpisodeTitle = SeasonTitle + " - " + episode.Identifier.Title;
+        var aid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+        var cid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+        _comments.Initialize(aid, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        Danmaku?.ResetData(aid, cid);
+        Subtitle?.ResetData(aid, cid);
+        CalcPlayerHeight();
+        ReloadEpisodeOpeartionCommand.Execute(default);
+        InitializeDashMediaCommand.Execute(episode);
         Subtitle.InitializeCommand.Execute(default);
-        InitializeNextVideo();
     }
 
     private void PlayerProgressChanged(int progress, int duration)
@@ -221,7 +277,7 @@ public sealed partial class VideoPlayerPageViewModel
             ReportProgressCommand.Execute(Player.Duration);
 
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if (!autoNext || !HasNextVideo)
+            if (!autoNext || !HasNextEpisode)
             {
                 Player.BackToDefaultModeCommand.Execute(default);
                 return;
@@ -232,18 +288,18 @@ public sealed partial class VideoPlayerPageViewModel
                 return;
             }
 
-            var next = FindNextVideo();
+            var next = FindNextEpisode();
             string tip = default;
-            if (next is VideoPart part)
+            if (next is EpisodeInformation episode)
             {
-                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), part.Identifier.Title);
+                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextEpisodeNotificationTemplate), episode.Identifier.Title);
             }
             else if (next is VideoInformation video)
             {
                 tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
             }
 
-            var notification = new PlayerNotification(PlayNextVideo, tip, 5);
+            var notification = new PlayerNotification(PlayNextEpisode, tip, 5);
             Player.ShowNotification(notification);
         });
     }

@@ -9,7 +9,7 @@ internal sealed class CountConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        var count = System.Convert.ToInt32(value);
+        var count = System.Convert.ToInt64(value);
         return AppToolkit.FormatCount(count);
     }
 

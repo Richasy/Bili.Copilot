@@ -50,6 +50,10 @@ public sealed partial class RootLayout : RootLayoutBase
         {
             vPage.EnterPlayerHostMode();
         }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.EnterPlayerHostMode();
+        }
     }
 
     /// <summary>
@@ -68,6 +72,10 @@ public sealed partial class RootLayout : RootLayoutBase
         if (OverlayFrame.Content is VideoPlayerPage vPage)
         {
             vPage.ExitPlayerHostMode();
+        }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.ExitPlayerHostMode();
         }
     }
 

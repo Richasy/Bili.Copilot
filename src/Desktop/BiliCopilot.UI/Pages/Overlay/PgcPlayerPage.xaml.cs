@@ -17,6 +17,24 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     /// </summary>
     public PgcPlayerPage() => InitializeComponent();
 
+    /// <summary>
+    /// 进入播放器主持模式.
+    /// </summary>
+    public void EnterPlayerHostMode()
+    {
+        VisualStateManager.GoToState(this, "PlayerHostState", false);
+        ViewModel?.Danmaku?.Redraw();
+    }
+
+    /// <summary>
+    /// 退出播放器主持模式.
+    /// </summary>
+    public void ExitPlayerHostMode()
+    {
+        VisualStateManager.GoToState(this, "DefaultState", false);
+        ViewModel?.Danmaku?.Redraw();
+    }
+
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -29,6 +47,28 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
+
+    /// <inheritdoc/>
+    protected override void OnPageLoaded()
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            ViewModel.PlayerWidth = PlayerContainer.ActualWidth;
+        });
+    }
+
+    private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
+
+        if (ViewModel.Player.IsFullScreen)
+        {
+            ViewModel.PlayerHeight = ActualHeight;
+        }
+
+        // 播放器不能超出容器高度.
+        PlayerContainer.MaxHeight = ViewModel.Player.IsFullScreen ? ActualHeight : VerticalHolderContainer.ActualHeight;
+    }
 }
 
 /// <summary>

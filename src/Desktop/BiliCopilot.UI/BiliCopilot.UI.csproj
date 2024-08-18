@@ -110,6 +110,16 @@
     <None Remove="Controls\Player\CoinButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
+    <None Remove="Controls\Player\PgcDescriptorControl.xaml" />
+    <None Remove="Controls\Player\PgcEpisodesSection.xaml" />
+    <None Remove="Controls\Player\PgcOperationControl.xaml" />
+    <None Remove="Controls\Player\PgcPlayerFormatButton.xaml" />
+    <None Remove="Controls\Player\PgcPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerSideBody.xaml" />
+    <None Remove="Controls\Player\PgcPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\PgcSeasonsSection.xaml" />
+    <None Remove="Controls\Player\PgcStatControl.xaml" />
     <None Remove="Controls\Player\SubtitleButton.xaml" />
     <None Remove="Controls\Player\SubtitlePresenter.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
@@ -922,6 +932,56 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcSeasonsSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcEpisodesSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcOperationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcStatControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcDescriptorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\SubtitlePresenter.xaml">

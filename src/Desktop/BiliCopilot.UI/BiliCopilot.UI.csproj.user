@@ -18,6 +18,36 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\PgcSeasonsSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcEpisodesSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcOperationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcStatControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\SubtitlePresenter.xaml">
       <SubType>Designer</SubType>
     </Page>

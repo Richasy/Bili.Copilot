@@ -36,4 +36,29 @@ public sealed partial class EpisodeItemViewModel
     /// 播放数.
     /// </summary>
     public double? PlayCount { get; init; }
+
+    /// <summary>
+    /// 评论数.
+    /// </summary>
+    public double? CommentCount { get; init; }
+
+    /// <summary>
+    /// 硬币数.
+    /// </summary>
+    public double? CoinCount { get; init; }
+
+    /// <summary>
+    /// 点赞数.
+    /// </summary>
+    public double? LikeCount { get; init; }
+
+    /// <summary>
+    /// 索引.
+    /// </summary>
+    public int? Index { get; init; }
+
+    /// <summary>
+    /// 高亮文本.
+    /// </summary>
+    public string? HighlightText { get; init; }
 }

@@ -16,6 +16,10 @@ internal sealed class PlayerSectionTemplateSelector : DataTemplateSelector
 
     public DataTemplate PlaylistTemplate { get; set; }
 
+    public DataTemplate EpisodeTemplate { get; set; }
+
+    public DataTemplate SeasonTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         if (item is CommentMainViewModel)
@@ -37,6 +41,14 @@ internal sealed class PlayerSectionTemplateSelector : DataTemplateSelector
         else if (item is VideoPlayerPlaylistSectionDetailViewModel)
         {
             return PlaylistTemplate;
+        }
+        else if (item is PgcPlayerEpisodeSectionDetailViewModel)
+        {
+            return EpisodeTemplate;
+        }
+        else if (item is PgcPlayerSeasonSectionDetailViewModel)
+        {
+            return SeasonTemplate;
         }
 
         return default;

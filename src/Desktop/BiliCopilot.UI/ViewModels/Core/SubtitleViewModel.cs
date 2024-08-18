@@ -54,14 +54,9 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     /// </summary>
     public void ResetData(string aid, string cid)
     {
+        ClearAll();
         _aid = aid;
         _cid = cid;
-        _subtitles = default;
-        Metas = default;
-        SelectedMeta = default;
-        _position = 0;
-        IsAvailable = false;
-        CurrentSubtitle = string.Empty;
         IsEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsSubtitleEnabled, true);
     }
 
@@ -85,6 +80,21 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     /// </summary>
     public void ClearSubttile()
         => CurrentSubtitle = default;
+
+    /// <summary>
+    /// 清除所有数据.
+    /// </summary>
+    public void ClearAll()
+    {
+        _aid = default;
+        _cid = default;
+        _subtitles = default;
+        Metas = default;
+        SelectedMeta = default;
+        _position = 0;
+        IsAvailable = false;
+        CurrentSubtitle = string.Empty;
+    }
 
     [RelayCommand]
     private async Task InitializeAsync()

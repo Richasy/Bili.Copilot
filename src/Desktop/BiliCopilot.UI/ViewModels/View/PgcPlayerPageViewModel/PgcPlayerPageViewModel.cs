@@ -2,35 +2,54 @@
 
 using System.Threading;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// PGC 播放器页面视图模型.
 /// </summary>
-public sealed partial class PgcPlayerPageViewModel : ViewModelBase
+public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerPageViewModel"/> class.
     /// </summary>
     public PgcPlayerPageViewModel(
         IPlayerService service,
+        IFavoriteService favoriteService,
+        IEntertainmentDiscoveryService discoveryService,
         ILogger<PgcPlayerPageViewModel> logger,
-        PlayerViewModel player)
+        PlayerViewModel player,
+        DanmakuViewModel danmaku,
+        SubtitleViewModel subtitle,
+        CommentMainViewModel comments)
     {
         _service = service;
+        _favoriteService = favoriteService;
+        _discoveryService = discoveryService;
+        _comments = comments;
         _logger = logger;
         Player = player;
         Player.IsPgc = true;
+        Danmaku = danmaku;
+        Subtitle = subtitle;
+        Player.SetProgressAction(PlayerProgressChanged);
+        Player.SetStateAction(PlayerStateChanged);
+        Player.SetEndAction(PlayerMediaEnded);
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey()
+        => nameof(PgcPlayerPage);
 
     [RelayCommand]
     private async Task InitializePageAsync(MediaIdentifier identifier)
@@ -53,14 +72,9 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
             var view = await _service.GetPgcPageDetailAsync(seasonId, episodeId, cancellationToken: _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
             var initialEpisode = FindInitialEpisode(episodeId);
-            if (initialEpisode is null)
-            {
-                // show error message.
-            }
-            else
-            {
-                InitializeDashMediaCommand.Execute(initialEpisode);
-            }
+            ChangeEpisode(initialEpisode);
+            InitializeSections();
+            ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
@@ -142,6 +156,11 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task ChangeFormatAsync(PlayerFormatItemViewModel vm)
     {
+        if (vm is null || vm == SelectedFormat)
+        {
+            return;
+        }
+
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));
@@ -156,85 +175,64 @@ public sealed partial class PgcPlayerPageViewModel : ViewModelBase
             isAutoPlay = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         }
 
-        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay);
+        // 切换清晰度时，如果播放器已经加载了媒体，那么就保持当前的播放进度.
+        if (_initialProgress == 0 && Player.Position != 0)
+        {
+            _initialProgress = Player.Position;
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedPgcQuality, vm.Data.Quality);
+        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
+        Danmaku?.Redraw();
+
+        // 重置初始进度，避免影响其它视频.
+        _initialProgress = 0;
     }
 
     [RelayCommand]
     private async Task CleanAsync()
     {
+        await ReportProgressAsync(Player.Position);
         ClearView();
+        Danmaku.ClearAll();
+        Subtitle.ClearAll();
         await Player?.CloseAsync();
     }
 
-    private void InitializeView(PgcPlayerView view)
+    [RelayCommand]
+    private void SelectSection(IPlayerSectionDetailViewModel section)
     {
-        _view = view;
-        Cover = view.Information.Identifier.Cover.SourceUri;
-        Title = view.Information.Identifier.Title;
+        if (section is null || section == SelectedSection)
+        {
+            return;
+        }
+
+        SelectedSection = section;
+        SelectedSection.TryFirstLoadCommand.Execute(default);
     }
 
-    private void InitializeDash(DashMediaInformation info)
+    [RelayCommand]
+    private async Task ReportProgressAsync(int progress)
     {
-        _videoSegments = info.Videos;
-        _audioSegments = info.Audios;
-        Formats = info.Formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
-
-        var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
-        var availableFormats = Formats.Where(p => p.IsEnabled).ToList();
-        PlayerFormatItemViewModel? selectedFormat = default;
-        if (preferFormatSetting == PreferQualityType.Auto)
+        var shouldReport = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldReportProgress, true);
+        if (!shouldReport || _view is null || _episode is null || _view.Information is null || progress == 0 || Player.IsPlayerDataLoading)
         {
-            var lastSelectedFormat = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedPgcQuality, 0);
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == lastSelectedFormat);
-        }
-        else if (preferFormatSetting == PreferQualityType.FourK)
-        {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 120);
-        }
-        else if (preferFormatSetting == PreferQualityType.HD)
-        {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 80);
+            return;
         }
 
-        if (selectedFormat is null)
+        try
         {
-            var maxQuality = availableFormats.Max(p => p.Data.Quality);
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == maxQuality);
+            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid);
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid);
+            await _service.ReportEpisodeProgressAsync(aid.ToString(), cid.ToString(), _episode.Identifier.Id, _view.Information.Identifier.Id, progress, cancellationToken.Token);
         }
-
-        ChangeFormatCommand.Execute(selectedFormat);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "尝试上报播放进度时失败.");
+        }
     }
 
-    private EpisodeInformation? FindInitialEpisode(string? initialEpisodeId)
-    {
-        EpisodeInformation? playEpisode = default;
-        if (!string.IsNullOrEmpty(initialEpisodeId))
-        {
-            playEpisode = _view.Episodes.FirstOrDefault(p => p.Identifier.Id == initialEpisodeId);
-        }
-
-        if (playEpisode == null)
-        {
-            var historyEpisodeId = _view.Progress?.Cid;
-            if (!string.IsNullOrEmpty(historyEpisodeId))
-            {
-                playEpisode = _view.Episodes.FirstOrDefault(p => p.Identifier.Id == historyEpisodeId);
-            }
-        }
-
-        return playEpisode ?? _view.Episodes.FirstOrDefault();
-    }
-
-    private void ClearView()
-    {
-        IsPageLoadFailed = false;
-        _view = default;
-        _videoSegments = default;
-        _audioSegments = default;
-        Cover = default;
-        Title = default;
-
-        Formats = default;
-        SelectedFormat = default;
-    }
+    partial void OnPlayerWidthChanged(double value)
+        => CalcPlayerHeight();
 }

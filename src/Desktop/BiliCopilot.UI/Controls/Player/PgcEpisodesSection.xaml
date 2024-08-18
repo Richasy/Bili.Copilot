@@ -1,43 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPartsSectionBase
-    x:Class="BiliCopilot.UI.Controls.Player.VideoPartsSection"
+<local:PgcEpisodesSectionBase
+    x:Class="BiliCopilot.UI.Controls.Player.PgcEpisodesSection"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:Richasy.BiliKernel.Models.Media"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Name="DefaultTemplate" x:DataType="media:VideoPart">
+        <DataTemplate x:Name="DefaultTemplate" x:DataType="items:EpisodeItemViewModel">
             <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                <Grid
-                    MinHeight="40"
-                    Padding="12,8"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    ColumnSpacing="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <base:TrimTextBlock
-                        VerticalAlignment="Center"
-                        MaxLines="1"
-                        Text="{x:Bind Identifier.Title}" />
-                    <TextBlock
-                        Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind Duration, Converter={StaticResource DurationConverter}}" />
-                </Grid>
+                <components:EpisodeCardControl Style="{StaticResource PlayerEpisodeCardStyle}" ViewModel="{x:Bind}" />
             </ItemContainer>
         </DataTemplate>
-        <DataTemplate x:Name="IndexTemplate" x:DataType="media:VideoPart">
-            <ItemContainer Style="{StaticResource AppItemContainerStyle}" ToolTipService.ToolTip="{x:Bind Identifier.Title}">
+        <DataTemplate x:Name="IndexTemplate" x:DataType="items:EpisodeItemViewModel">
+            <ItemContainer Style="{StaticResource AppItemContainerStyle}" ToolTipService.ToolTip="{x:Bind Title}">
                 <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                     <TextBlock
                         HorizontalAlignment="Center"
@@ -71,12 +53,25 @@
             OnContent="{ext:Locale Name=OnlyIndex}"
             Toggled="OnIndexToggledAsync" />
 
-        <ItemsView
-            x:Name="View"
-            Grid.Row="1"
-            Padding="12,0,12,12"
-            ItemsSource="{x:Bind ViewModel.Parts, Mode=OneWay}"
-            SelectionChanged="OnPartSelectionChanged"
-            SelectionMode="Single" />
+        <Grid Grid.Row="1">
+            <ItemsView
+                x:Name="DefaultView"
+                Padding="12,0,12,12"
+                ItemTemplate="{StaticResource DefaultTemplate}"
+                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                Layout="{StaticResource DefaultLayout}"
+                SelectionChanged="OnEpisodeSelectionChanged"
+                SelectionMode="Single"
+                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <ItemsView
+                x:Name="IndexView"
+                Padding="12,0,12,12"
+                ItemTemplate="{StaticResource IndexTemplate}"
+                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                Layout="{StaticResource IndexLayout}"
+                SelectionChanged="OnEpisodeSelectionChanged"
+                SelectionMode="Single"
+                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay}" />
+        </Grid>
     </Grid>
-</local:VideoPartsSectionBase>
+</local:PgcEpisodesSectionBase>

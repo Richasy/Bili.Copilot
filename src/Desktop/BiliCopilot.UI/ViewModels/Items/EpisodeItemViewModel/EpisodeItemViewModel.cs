@@ -24,8 +24,13 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
         Cover = data.Identifier.Cover?.Uri;
         PlayCount = data.CommunityInformation?.PlayCount;
         DanmakuCount = data.CommunityInformation?.DanmakuCount;
+        CommentCount = data.CommunityInformation?.CommentCount;
+        CoinCount = data.CommunityInformation?.CoinCount;
+        LikeCount = data.CommunityInformation?.LikeCount;
         Duration = AppToolkit.FormatDuration(TimeSpan.FromSeconds(data.Duration ?? 0));
         IsPreview = data.GetExtensionIfNotNull<bool>(EpisodeExtensionDataId.IsPreview);
+        HighlightText = data.GetExtensionIfNotNull<string>(EpisodeExtensionDataId.RecommendReason);
+        Index = data.Index;
     }
 
     [RelayCommand]

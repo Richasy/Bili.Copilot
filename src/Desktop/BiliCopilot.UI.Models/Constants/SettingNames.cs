@@ -56,4 +56,5 @@ public enum SettingNames
     AutoPlayNext,
     ShouldReportProgress,
     IsSubtitleEnabled,
+    IsPgcPlayerPartsOnlyIndex,
 }
