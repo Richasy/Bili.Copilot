@@ -67,6 +67,7 @@ public sealed partial class PlayerViewModel : ViewModelBase
             if (IsLive)
             {
                 Player.Client.SetOption("ytdl", "no");
+                Player.IsLoggingEnabled = false;
             }
         }
 

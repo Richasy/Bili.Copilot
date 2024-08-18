@@ -18,6 +18,27 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LiveChatSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LiveDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\PgcSeasonsSection.xaml">
       <SubType>Designer</SubType>
     </Page>

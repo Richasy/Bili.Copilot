@@ -2,7 +2,6 @@
 
 using Microsoft.Extensions.Logging;
 using Mpv.Core.Args;
-using Mpv.Core.Enums.Client;
 using Mpv.Core.Enums.Player;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -16,7 +15,7 @@ public sealed partial class PlayerViewModel
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
-            if (e.Duration == 0)
+            if (e.Duration == 0 && !IsLive)
             {
                 Player.ResetDuration();
             }
@@ -45,8 +44,8 @@ public sealed partial class PlayerViewModel
             }
             else
             {
-                IsPaused = true;
                 IsBuffering = e.NewState is PlaybackState.Buffering or PlaybackState.Opening or PlaybackState.Decoding;
+                IsPaused = !IsBuffering;
             }
 
             _stateAction?.Invoke(e.NewState);
@@ -55,19 +54,16 @@ public sealed partial class PlayerViewModel
 
     private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
     {
-        Position = 0;
+        if (!IsLive)
+        {
+            Position = 0;
+        }
+
         _endAction?.Invoke();
     }
 
     private void OnLogMessageReceived(object? sender, LogMessageReceivedEventArgs e)
     {
-        if (e.Level == MpvLogLevel.Error)
-        {
-            _logger.LogError(e.Message);
-        }
-        else
-        {
-            _logger.LogCritical(e.Message);
-        }
+        _logger.LogError($"MPV: {e.Message}");
     }
 }

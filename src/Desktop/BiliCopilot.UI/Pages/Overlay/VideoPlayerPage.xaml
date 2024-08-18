@@ -16,7 +16,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="HeaderRow" Height="56" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -150,6 +150,7 @@
                 <VisualState x:Name="DefaultState" />
                 <VisualState x:Name="PlayerHostState">
                     <VisualState.Setters>
+                        <Setter Target="HeaderRow.Height" Value="Auto" />
                         <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
                         <Setter Target="MainHeader.Visibility" Value="Collapsed" />
                         <Setter Target="PlayerBottomContainer.Visibility" Value="Collapsed" />

@@ -39,12 +39,14 @@
     <None Remove="Controls\Components\IconTextBlock.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
     <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
+    <None Remove="Controls\Danmaku\LiveDanmakuPanel.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
@@ -87,6 +89,7 @@
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Mpv\PlayerNotificationControl.xaml" />
     <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
+    <None Remove="Controls\Mpv\TransportControl\LiveTransportControl.xaml" />
     <None Remove="Controls\Mpv\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
@@ -110,6 +113,10 @@
     <None Remove="Controls\Player\CoinButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
+    <None Remove="Controls\Player\LiveChatSection.xaml" />
+    <None Remove="Controls\Player\LiveDescriptorControl.xaml" />
+    <None Remove="Controls\Player\LivePlayerFormatButton.xaml" />
+    <None Remove="Controls\Player\LivePlayerMainHeader.xaml" />
     <None Remove="Controls\Player\PgcDescriptorControl.xaml" />
     <None Remove="Controls\Player\PgcEpisodesSection.xaml" />
     <None Remove="Controls\Player\PgcOperationControl.xaml" />
@@ -932,6 +939,41 @@
     <Content Update="Assets\libmpv\yt-dlp.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LiveChatSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LiveDescriptorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\PgcSeasonsSection.xaml">

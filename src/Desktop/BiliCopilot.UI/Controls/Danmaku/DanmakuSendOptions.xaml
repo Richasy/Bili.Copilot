@@ -12,8 +12,6 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <converters:ColorTextConverter x:Key="ColorTextConverter" />
-        <converters:ColorToBrushConverter x:Key="BrushConverter" />
         <converters:DanmakuLocationConverter x:Key="DanmakuLocationConverter" />
     </UserControl.Resources>
 

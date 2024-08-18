@@ -50,6 +50,12 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         _viewModel.RequestShowNotification += OnRequestShowNotification;
         SizeChanged += OnSizeChanged;
         await _viewModel.InitializeAsync(_renderControl);
+        if (TransportControls is not null)
+        {
+            TransportControls.Visibility = Visibility.Visible;
+            MeasureTransportTriggerRect();
+            TransportControls.Visibility = Visibility.Collapsed;
+        }
     }
 
     /// <inheritdoc/>

@@ -2,35 +2,48 @@
 
 using System.Threading;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
 /// <summary>
 /// 直播播放页视图模型.
 /// </summary>
-public sealed partial class LivePlayerPageViewModel : ViewModelBase
+public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LivePlayerPageViewModel"/> class.
     /// </summary>
     public LivePlayerPageViewModel(
         IPlayerService service,
+        IRelationshipService relationshipService,
         ILogger<LivePlayerPageViewModel> logger,
-        PlayerViewModel player)
+        PlayerViewModel player,
+        DanmakuViewModel danmaku,
+        LiveChatSectionDetailViewModel chat)
     {
         _service = service;
+        _relationshipService = relationshipService;
         _logger = logger;
+        Chat = chat;
+        Danmaku = danmaku;
         Player = player;
         Player.IsLive = true;
+        Player.SetProgressAction(PlayerProgressChanged);
     }
+
+    /// <inheritdoc/>
+    protected override string GetPageKey()
+        => nameof(LivePlayerPage);
 
     [RelayCommand]
     private async Task InitializePageAsync(MediaIdentifier live)
@@ -44,10 +57,14 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase
         try
         {
             ClearView();
+            Danmaku.ResetData();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetLivePageDetailAsync(live, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
+            LoadRelationshipCommand.Execute(default);
+            ViewInitialized?.Invoke(this, EventArgs.Empty);
             await ChangeFormatAsync(default);
+            await Chat.StartAsync(live.Id, DisplayDanmaku);
         }
         catch (Exception ex)
         {
@@ -102,8 +119,20 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase
             Formats = default;
             SelectedFormat = default;
             _playLoadCancellationTokenSource = new CancellationTokenSource();
+            var quality = 0;
+            if (vm is not null)
+            {
+                quality = vm.Data.Quality;
+                SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedLiveQuality, vm.Data.Quality);
+            }
+            else
+            {
+                quality = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedLiveQuality, 400);
+            }
+
             var isAudioOnly = SettingsToolkit.ReadLocalSetting(SettingNames.IsLiveAudioOnly, false);
-            var info = await _service.GetLivePlayDetailAsync(_view.Information.Identifier, vm?.Data.Quality ?? SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedLiveQuality, 400), isAudioOnly, _playLoadCancellationTokenSource.Token);
+            var info = await _service.GetLivePlayDetailAsync(_view.Information.Identifier, quality, isAudioOnly, _playLoadCancellationTokenSource.Token)
+                ?? throw new Exception("直播播放信息为空");
             InitializeLiveMedia(info);
             await ChangeLineAsync(Lines.FirstOrDefault());
         }
@@ -123,6 +152,13 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase
         {
             IsMediaLoading = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task LoadRelationshipAsync()
+    {
+        var relationship = await _relationshipService.GetRelationshipAsync(_view.Information.User.Id);
+        IsFollow = relationship != Richasy.BiliKernel.Models.User.UserRelationStatus.Unknown && relationship != Richasy.BiliKernel.Models.User.UserRelationStatus.Unfollow;
     }
 
     private async Task ChangeLineAsync(LiveLineInformation line)
@@ -148,39 +184,10 @@ public sealed partial class LivePlayerPageViewModel : ViewModelBase
     private async Task CleanAsync()
     {
         ClearView();
+        await Chat?.CloseAsync();
         await Player?.CloseAsync();
     }
 
-    private void InitializeView(LivePlayerView view)
-    {
-        _view = view;
-        Cover = view.Information.Identifier.Cover.SourceUri;
-        Title = view.Information.Identifier.Title;
-    }
-
-    private void InitializeLiveMedia(LiveMediaInformation info)
-    {
-        Formats = info.Formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
-        var lines = info.Lines.ToList()
-            .Where(p => p.Urls.FirstOrDefault()?.Protocol == "http_hls" || p.Urls.FirstOrDefault()?.Protocol == "http_stream")
-            .ToList();
-        Lines = lines;
-
-        var currentQuality = info.Lines.FirstOrDefault().Quality;
-        var format = Formats.FirstOrDefault(p => p.Data.Quality == currentQuality);
-        SelectedFormat = format ?? Formats.FirstOrDefault();
-    }
-
-    private void ClearView()
-    {
-        IsPageLoadFailed = false;
-        _view = default;
-        Cover = default;
-        Title = default;
-
-        Formats = default;
-        SelectedFormat = default;
-        Lines = default;
-        SelectedLine = default;
-    }
+    partial void OnPlayerWidthChanged(double value)
+        => CalcPlayerHeight();
 }

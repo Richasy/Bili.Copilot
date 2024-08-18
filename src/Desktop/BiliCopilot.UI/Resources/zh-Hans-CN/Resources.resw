@@ -2259,4 +2259,10 @@
   <data name="CopySeasonUrl" xml:space="preserve">
     <value>复制剧集地址</value>
   </data>
+  <data name="CopyLiveUrl" xml:space="preserve">
+    <value>复制直播间地址</value>
+  </data>
+  <data name="LiveStartTimeTemplate" xml:space="preserve">
+    <value>{0}开始直播</value>
+  </data>
 </root>

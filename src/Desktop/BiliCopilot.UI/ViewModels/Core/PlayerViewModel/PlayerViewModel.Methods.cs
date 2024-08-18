@@ -48,8 +48,12 @@ public sealed partial class PlayerViewModel
             await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
         }
 
-        Player.ResetDuration();
-        Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
+        if (!IsLive)
+        {
+            Player.ResetDuration();
+            Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
+        }
+
         PlayerDataLoaded?.Invoke(this, EventArgs.Empty);
         IsPlayerDataLoading = false;
     }

@@ -14,7 +14,7 @@ public sealed partial class MpvPlayer
     /// <see cref="TransportControls"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty TransportControlsProperty =
-        DependencyProperty.Register(nameof(TransportControls), typeof(PlayerControlBase), typeof(MpvPlayer), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(TransportControls), typeof(FrameworkElement), typeof(MpvPlayer), new PropertyMetadata(default));
 
     /// <summary>
     /// <see cref="SubtitleControls"/> 的依赖属性.
@@ -26,23 +26,23 @@ public sealed partial class MpvPlayer
     /// <see cref="DanmakuControls"/> 的依赖属性.
     /// </summary>
     public static readonly DependencyProperty DanmakuControlsProperty =
-        DependencyProperty.Register(nameof(DanmakuControls), typeof(VideoDanmakuPanel), typeof(MpvPlayer), new PropertyMetadata(default));
+        DependencyProperty.Register(nameof(DanmakuControls), typeof(DanmakuControlBase), typeof(MpvPlayer), new PropertyMetadata(default));
 
     /// <summary>
     /// 媒体传输控件.
     /// </summary>
-    public PlayerControlBase TransportControls
+    public FrameworkElement TransportControls
     {
-        get => (PlayerControlBase)GetValue(TransportControlsProperty);
+        get => (FrameworkElement)GetValue(TransportControlsProperty);
         set => SetValue(TransportControlsProperty, value);
     }
 
     /// <summary>
     /// 弹幕控件.
     /// </summary>
-    public VideoDanmakuPanel DanmakuControls
+    public DanmakuControlBase DanmakuControls
     {
-        get => (VideoDanmakuPanel)GetValue(DanmakuControlsProperty);
+        get => (DanmakuControlBase)GetValue(DanmakuControlsProperty);
         set => SetValue(DanmakuControlsProperty, value);
     }
 

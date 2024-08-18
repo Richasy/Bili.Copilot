@@ -35,6 +35,14 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         ClearAll();
         _aid = aid;
         _cid = cid;
+        ResetData();
+    }
+
+    /// <summary>
+    /// 重置数据.
+    /// </summary>
+    public void ResetData()
+    {
         ReloadFontsCommand.Execute(default);
         ResetOptions();
     }
@@ -139,6 +147,12 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         {
             _logger.LogError(ex, "弹幕发送失败.");
         }
+    }
+
+    [RelayCommand]
+    private void AddDanmaku(string text)
+    {
+        RequestAddSingleDanmaku?.Invoke(this, text);
     }
 
     private void ResetOptions()

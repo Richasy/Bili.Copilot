@@ -78,6 +78,8 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow
 
     private void OnClosed(object sender, WindowEventArgs e)
     {
+        RootLayout.ViewModel.Back();
+
         foreach (var item in this.Get<AppViewModel>().Windows)
         {
             if (item is not MainWindow)

@@ -54,6 +54,10 @@ public sealed partial class RootLayout : RootLayoutBase
         {
             pPage.EnterPlayerHostMode();
         }
+        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.EnterPlayerHostMode();
+        }
     }
 
     /// <summary>
@@ -76,6 +80,10 @@ public sealed partial class RootLayout : RootLayoutBase
         else if (OverlayFrame.Content is PgcPlayerPage pPage)
         {
             pPage.ExitPlayerHostMode();
+        }
+        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.ExitPlayerHostMode();
         }
     }
 

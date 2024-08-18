@@ -40,6 +40,8 @@
             <localConverters:GridLengthConverter x:Key="GridLengthConverter" />
             <localConverters:SortTypeTextConverter x:Key="SortTypeTextConverter" />
             <localConverters:DurationConverter x:Key="DurationConverter" />
+            <localConverters:ColorTextConverter x:Key="ColorTextConverter" />
+            <localConverters:ColorToBrushConverter x:Key="BrushConverter" />
 
             <UniformGridLayout
                 x:Key="VideoLayout"
