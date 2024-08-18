@@ -19,6 +19,7 @@
                 Content="{x:Bind Title}"
                 IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
                 SelectsOnInvoked="True"
+                ShowUnread="{x:Bind ShowUnread, Mode=OneWay}"
                 Style="{StaticResource MainNavigationViewItemStyle}"
                 Symbol="{x:Bind Symbol}"
                 Tag="{x:Bind}" />

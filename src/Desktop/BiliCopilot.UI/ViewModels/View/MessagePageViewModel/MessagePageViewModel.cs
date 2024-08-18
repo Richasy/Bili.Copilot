@@ -58,7 +58,7 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private void SelectSection(IMessageSectionDetailViewModel vm)
+    private async Task SelectSectionAsync(IMessageSectionDetailViewModel vm)
     {
         if (vm is null || vm == CurrentSection)
         {
@@ -73,15 +73,45 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
 
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastSelectedMessageSection, sectionSettingValue);
         CurrentSection = vm;
-        CurrentSection.InitializeCommand.Execute(default);
+        await CurrentSection.InitializeCommand.ExecuteAsync(default);
+        this.Get<AccountViewModel>().UpdateUnreadCommand.Execute(default);
+    }
+
+    [RelayCommand]
+    private async Task UpdateUnreadCountAsync()
+    {
+        try
+        {
+            var unread = await _service.GetUnreadInformationAsync();
+            foreach (var item in Sections.OfType<NotifyMessageSectionDetailViewModel>().ToList())
+            {
+                if (item.Type == NotifyMessageType.Like)
+                {
+                    item.UnreadCount = unread.LikeCount;
+                }
+                else if (item.Type == NotifyMessageType.Reply)
+                {
+                    item.UnreadCount = unread.ReplyCount;
+                }
+                else if (item.Type == NotifyMessageType.At)
+                {
+                    item.UnreadCount = unread.AtCount;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "无法获取未读消息数量.");
+        }
     }
 
     private void RestoreSelection()
     {
         var lastSelectedSection = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.LastSelectedMessageSection, string.Empty);
+        UpdateUnreadCountCommand.Execute(default);
         if (string.IsNullOrEmpty(lastSelectedSection))
         {
-            SelectSection(Sections.First());
+            SelectSectionCommand.Execute(Sections.First());
             return;
         }
 
@@ -95,7 +125,7 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
                 if (section is not null)
                 {
                     isSelected = true;
-                    SelectSection(section);
+                    SelectSectionCommand.Execute(section);
                 }
             }
         }
@@ -106,7 +136,7 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
 
         if (!isSelected && CurrentSection is null)
         {
-            SelectSection(Sections.First());
+            SelectSectionCommand.Execute(Sections.First());
         }
     }
 }

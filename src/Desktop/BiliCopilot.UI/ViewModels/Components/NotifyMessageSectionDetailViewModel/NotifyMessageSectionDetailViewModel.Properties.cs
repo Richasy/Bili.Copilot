@@ -27,6 +27,9 @@ public sealed partial class NotifyMessageSectionDetailViewModel
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private int _unreadCount;
+
     /// <summary>
     /// 列表已完成更新.
     /// </summary>

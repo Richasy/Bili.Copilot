@@ -19,4 +19,9 @@ public interface IMessageSectionDetailViewModel : INotifyPropertyChanged
     /// 刷新命令.
     /// </summary>
     IAsyncRelayCommand RefreshCommand { get; }
+
+    /// <summary>
+    /// 未读消息数量.
+    /// </summary>
+    int UnreadCount { get; }
 }

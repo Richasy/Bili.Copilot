@@ -170,8 +170,17 @@
                         Background="Transparent"
                         BorderThickness="0"
                         Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
-                        CornerRadius="16"
-                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}">
+                        CornerRadius="16">
+                        <ToolTipService.ToolTip>
+                            <TextBlock>
+                                <Run
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                <LineBreak />
+                                <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            </TextBlock>
+                        </ToolTipService.ToolTip>
                         <PersonPicture
                             Width="32"
                             Height="32"

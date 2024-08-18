@@ -23,7 +23,7 @@
             ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}"
             SelectionMode="None">
             <ItemsView.Layout>
-                <StackLayout Spacing="8" />
+                <StackLayout Spacing="12" />
             </ItemsView.Layout>
             <ItemsView.ItemTemplate>
                 <DataTemplate x:DataType="items:LiveDanmakuItemViewModel">

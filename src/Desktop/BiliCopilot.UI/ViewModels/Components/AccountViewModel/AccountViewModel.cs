@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -22,10 +23,12 @@ public sealed partial class AccountViewModel : ViewModelBase
     /// </summary>
     public AccountViewModel(
         IMyProfileService myProfileService,
+        IMessageService messageService,
         NavigationViewModel navService,
         ILogger<AccountViewModel> logger)
     {
         _navService = navService;
+        _messageService = messageService;
         _myProfileService = myProfileService;
         _logger = logger;
     }
@@ -46,6 +49,7 @@ public sealed partial class AccountViewModel : ViewModelBase
                 ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.NoSelfIntroduce)
                 : MyProfile.Introduce;
             this.Get<AppViewModel>().IsInitialLoading = false;
+            UpdateUnreadCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -69,6 +73,7 @@ public sealed partial class AccountViewModel : ViewModelBase
             MomentCount = communityInformation.MomentCount ?? 0;
             FollowCount = communityInformation.FollowCount ?? 0;
             FansCount = communityInformation.FansCount ?? 0;
+            UpdateUnreadCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -118,4 +123,18 @@ public sealed partial class AccountViewModel : ViewModelBase
     [RelayCommand]
     private void ShowFavorites()
         => _navService.NavigateToOver(typeof(FavoritesPage).FullName);
+
+    [RelayCommand]
+    private async Task UpdateUnreadAsync()
+    {
+        try
+        {
+            var unreadInfo = await _messageService.GetUnreadInformationAsync();
+            _navService.FooterItems.First(p => p.PageKey == typeof(MessagePage).FullName).ShowUnread = unreadInfo.Total > 0;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "未读消息获取失败");
+        }
+    }
 }

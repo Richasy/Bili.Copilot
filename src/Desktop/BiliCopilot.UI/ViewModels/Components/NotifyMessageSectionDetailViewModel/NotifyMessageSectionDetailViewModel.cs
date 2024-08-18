@@ -71,6 +71,7 @@ public sealed partial class NotifyMessageSectionDetailViewModel : ViewModelBase,
 
             _offsetId = offsetId;
             _offsetTime = offsetTime;
+            UnreadCount = 0;
             ListUpdated?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)

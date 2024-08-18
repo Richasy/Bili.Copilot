@@ -14,6 +14,7 @@ namespace BiliCopilot.UI.ViewModels.Components;
 public sealed partial class AccountViewModel
 {
     private readonly IMyProfileService _myProfileService;
+    private readonly IMessageService _messageService;
     private readonly NavigationViewModel _navService;
     private readonly ILogger<AccountViewModel> _logger;
 
@@ -31,9 +32,6 @@ public sealed partial class AccountViewModel
 
     [ObservableProperty]
     private int _fansCount;
-
-    [ObservableProperty]
-    private bool _hasUnread;
 
     [ObservableProperty]
     private string _introduce;
