@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>

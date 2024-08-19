@@ -1455,11 +1455,11 @@
   <data name="PlayerControlModeDescription" xml:space="preserve">
     <value>自动=控制器自行显示/隐藏，手动=用户控制显示/隐藏</value>
   </data>
-  <data name="PlayerMode" xml:space="preserve">
-    <value>播放模式</value>
+  <data name="PlayerBehavior" xml:space="preserve">
+    <value>播放行为</value>
   </data>
-  <data name="PlayerModeDescription" xml:space="preserve">
-    <value>包含播放器的基础设置和默认行为</value>
+  <data name="PlayerBehaviorDescription" xml:space="preserve">
+    <value>设置播放器的默认行为</value>
   </data>
   <data name="PlayerType" xml:space="preserve">
     <value>播放器类型</value>
@@ -2264,5 +2264,11 @@
   </data>
   <data name="LiveStartTimeTemplate" xml:space="preserve">
     <value>{0}开始直播</value>
+  </data>
+  <data name="NoP2P" xml:space="preserve">
+    <value>不使用 P2P 节点</value>
+  </data>
+  <data name="NoP2PDescription" xml:space="preserve">
+    <value>将会尝试使用从非 MCDN/PCDN 节点获取视频和音频流</value>
   </data>
 </root>

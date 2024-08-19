@@ -164,6 +164,7 @@
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
     <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
+    <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\ShimmerLayout.xaml" />
@@ -1189,6 +1190,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
