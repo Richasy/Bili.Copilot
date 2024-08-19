@@ -57,6 +57,10 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
     protected override string GetPageKey()
         => nameof(VideoPlayerPage);
 
+    /// <inheritdoc/>
+    protected override double GetDefaultNavColumnWidth()
+        => 360d;
+
     [RelayCommand]
     private async Task InitializePageAsync(VideoSnapshot snapshot)
     {

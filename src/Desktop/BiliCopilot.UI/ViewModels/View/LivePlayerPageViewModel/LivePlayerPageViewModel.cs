@@ -45,6 +45,10 @@ public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
     protected override string GetPageKey()
         => nameof(LivePlayerPage);
 
+    /// <inheritdoc/>
+    protected override double GetDefaultNavColumnWidth()
+        => 300d;
+
     [RelayCommand]
     private async Task InitializePageAsync(MediaIdentifier live)
     {

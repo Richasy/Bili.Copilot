@@ -40,6 +40,7 @@
                     HorizontalAlignment="Left"
                     Text="{ext:Locale Name=Player}" />
                 <settings:PlayerControlSettingControl />
+                <settings:PlayerBehaviorSettingControl />
                 <TextBlock
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"

@@ -23,7 +23,7 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     protected LayoutPageViewModelBase()
     {
 #pragma warning disable CA2214
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", 240d);
+        NavColumnWidth = SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", GetDefaultNavColumnWidth());
         IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting($"Is{GetPageKey()}NavColumnManualHide", false);
 #pragma warning restore CA2214
     }
@@ -33,6 +33,12 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     /// </summary>
     /// <returns>页面名称.</returns>
     protected abstract string GetPageKey();
+
+    /// <summary>
+    /// 获取默认导航栏宽度.
+    /// </summary>
+    /// <returns>宽度.</returns>
+    protected virtual double GetDefaultNavColumnWidth() => 240d;
 
     /// <summary>
     /// 导航栏手动关闭时的行为.

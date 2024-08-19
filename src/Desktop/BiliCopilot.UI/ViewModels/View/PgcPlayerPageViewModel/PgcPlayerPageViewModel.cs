@@ -51,6 +51,10 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
     protected override string GetPageKey()
         => nameof(PgcPlayerPage);
 
+    /// <inheritdoc/>
+    protected override double GetDefaultNavColumnWidth()
+        => 360d;
+
     [RelayCommand]
     private async Task InitializePageAsync(MediaIdentifier identifier)
     {
