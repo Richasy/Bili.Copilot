@@ -18,6 +18,21 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\VideoMomentSpaceControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\UserSpacePageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\UserSpacePageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\UserSpacePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 
 namespace BiliCopilot.UI.Extensions;
@@ -12,6 +13,11 @@ internal sealed class MomentSectionTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
+        if (item is UserMomentDetailViewModel momentDetailVM)
+        {
+            return momentDetailVM.IsVideo() ? VideoTemplate : ComprehensiveTemplate;
+        }
+
         if (item is not IMomentSectionDetailViewModel)
         {
             return default;

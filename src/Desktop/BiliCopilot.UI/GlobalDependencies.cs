@@ -78,6 +78,7 @@ internal static class GlobalDependencies
             .AddSingleton<FavoritesPageViewModel>()
             .AddSingleton<MessagePageViewModel>()
             .AddSingleton<SettingsPageViewModel>()
+            .AddSingleton<UserSpacePageViewModel>()
             .AddTransient<PlayerViewModel>()
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
@@ -85,6 +86,7 @@ internal static class GlobalDependencies
             .AddTransient<LivePlayerPageViewModel>()
             .AddTransient<PgcPlayerPageViewModel>()
             .AddTransient<LiveChatSectionDetailViewModel>()
+            .AddTransient<UserMomentDetailViewModel>()
             .Build();
     }
 

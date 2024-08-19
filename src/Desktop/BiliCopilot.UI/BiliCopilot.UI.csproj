@@ -81,6 +81,7 @@
     <None Remove="Controls\Message\NotifyMessageSideItem.xaml" />
     <None Remove="Controls\Moment\ComprehensiveMainBody.xaml" />
     <None Remove="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMomentSpaceControl.xaml" />
     <None Remove="Controls\Moment\ComprehensiveSideBody.xaml" />
     <None Remove="Controls\Moment\MomentHeader.xaml" />
     <None Remove="Controls\Moment\MomentImageGallery.xaml" />
@@ -88,7 +89,10 @@
     <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
     <None Remove="Controls\Moment\MyMomentsMainBody.xaml" />
     <None Remove="Controls\Moment\MyMomentsMainHeader.xaml" />
+    <None Remove="Controls\Moment\UserSpacePageBody.xaml" />
+    <None Remove="Controls\Moment\UserSpacePageHeader.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
     <None Remove="Controls\Mpv\PlayerNotificationControl.xaml" />
     <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
     <None Remove="Controls\Mpv\TransportControl\LiveTransportControl.xaml" />
@@ -198,6 +202,7 @@
     <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
     <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
+    <None Remove="Pages\Overlay\UserSpacePage.xaml" />
     <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
@@ -1190,6 +1195,31 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\VideoMomentSpaceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\UserSpacePageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\UserSpacePageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\UserSpacePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
