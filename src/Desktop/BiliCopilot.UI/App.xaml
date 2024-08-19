@@ -24,6 +24,17 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/NotifyMessageCardControl/NotifyMessageCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Mpv/Player/MpvPlayer.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_light.jpg" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
 

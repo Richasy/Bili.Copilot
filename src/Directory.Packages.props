@@ -7,9 +7,10 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240731-build.1703" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240606-rc" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240709-build.1082" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240709-build.1082" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240801-build.1113" />
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageVersion Include="FluentIcons.WinUI" Version="1.1.252-ci" />

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.ThemeSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <community:SettingsExpander Description="{ext:Locale Name=AppThemeDescription}" Header="{ext:Locale Name=AppTheme}">
+        <community:SettingsExpander.HeaderIcon>
+            <ic:SymbolIcon Symbol="Color" />
+        </community:SettingsExpander.HeaderIcon>
+        <TextBlock Text="{x:Bind ViewModel.AppThemeText, Mode=OneWay}" />
+
+        <community:SettingsExpander.Items>
+            <community:SettingsCard ContentAlignment="Left">
+                <RadioButtons
+                    x:Name="ThemePicker"
+                    Margin="0,0,0,8"
+                    SelectionChanged="OnThemeSelectionChanged">
+                    <RadioButton Content="{ext:Locale Name=LightTheme}" />
+                    <RadioButton Content="{ext:Locale Name=DarkTheme}" />
+                    <RadioButton Content="{ext:Locale Name=SystemDefault}" />
+                </RadioButtons>
+            </community:SettingsCard>
+        </community:SettingsExpander.Items>
+    </community:SettingsExpander>
+</local:SettingsPageControlBase>

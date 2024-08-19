@@ -17,6 +17,8 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\qq_group_dark.jpg" />
+    <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
@@ -158,6 +160,12 @@
     <None Remove="Controls\Search\UserSectionDetailControl.xaml" />
     <None Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
+    <None Remove="Controls\Settings\AboutSettingControl.xaml" />
+    <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+    <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
+    <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
+    <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
+    <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
@@ -218,6 +226,7 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
@@ -941,6 +950,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Settings\ThemeSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1167,6 +1181,32 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\AboutSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\LoggerSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\NotificationSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

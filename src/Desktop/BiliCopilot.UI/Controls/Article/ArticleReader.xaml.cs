@@ -44,7 +44,12 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         double lineHeight = 1.5)
     {
         var path = Path.Combine(Package.Current.InstalledPath, "Assets/Reader");
-        var theme = App.Current.RequestedTheme.ToString();
+        var theme = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.AppTheme, ElementTheme.Default).ToString();
+        if (theme == "Default")
+        {
+            theme = App.Current.RequestedTheme.ToString();
+        }
+
         var localHtml = await File.ReadAllTextAsync(Path.Combine(path, "ShowPage.html"));
         var localCss = await File.ReadAllTextAsync(Path.Combine(path, $"{theme}.css"));
         localCss = localCss.Replace("$FontFamily$", fontFamily)

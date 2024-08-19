@@ -25,6 +25,11 @@ public partial class App : Application
     }
 
     /// <summary>
+    /// 日志文件夹.
+    /// </summary>
+    public static string LoggerFolder { get; private set; }
+
+    /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
@@ -35,6 +40,7 @@ public partial class App : Application
         {
             var rootFolder = ApplicationData.Current.LocalFolder;
             var fullPath = $"{rootFolder.Path}\\Logger";
+            LoggerFolder = fullPath;
             if (!Directory.Exists(fullPath))
             {
                 _ = Directory.CreateDirectory(fullPath);

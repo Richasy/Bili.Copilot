@@ -48,7 +48,7 @@ public sealed partial class PgcPlayerPageViewModel
             var lastSelectedFormat = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedPgcQuality, 0);
             selectedFormat = availableFormats.Find(p => p.Data.Quality == lastSelectedFormat);
         }
-        else if (preferFormatSetting == PreferQualityType.FourK)
+        else if (preferFormatSetting == PreferQualityType.UHD)
         {
             selectedFormat = availableFormats.Find(p => p.Data.Quality == 120);
         }

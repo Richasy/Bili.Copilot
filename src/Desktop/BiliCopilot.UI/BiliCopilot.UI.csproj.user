@@ -18,6 +18,24 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\AboutSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\LoggerSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\NotificationSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\CloseBehaviorSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ThemeSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
       <SubType>Designer</SubType>
     </Page>

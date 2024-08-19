@@ -3,27 +3,27 @@
 namespace BiliCopilot.UI.Models.Constants;
 
 /// <summary>
-/// 偏好视频质量类型.
+/// 偏好的解码模式.
 /// </summary>
-public enum PreferQualityType
+public enum PreferCodecType
 {
     /// <summary>
-    /// 最高画质.
+    /// H265高清.
     /// </summary>
-    High,
+    H265,
 
     /// <summary>
-    /// 4K 优先.
+    /// H264高清.
     /// </summary>
-    UHD,
+    H264,
 
     /// <summary>
-    /// 高清（1080P）优先.
+    /// FLV.
     /// </summary>
-    HD,
+    Flv,
 
     /// <summary>
-    /// 自动（延续上一次播放设置）.
+    /// AV1.
     /// </summary>
-    Auto,
+    Av1,
 }

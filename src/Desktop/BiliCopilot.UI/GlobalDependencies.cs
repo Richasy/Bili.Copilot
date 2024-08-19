@@ -77,6 +77,7 @@ internal static class GlobalDependencies
             .AddSingleton<HistoryPageViewModel>()
             .AddSingleton<FavoritesPageViewModel>()
             .AddSingleton<MessagePageViewModel>()
+            .AddSingleton<SettingsPageViewModel>()
             .AddTransient<PlayerViewModel>()
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
