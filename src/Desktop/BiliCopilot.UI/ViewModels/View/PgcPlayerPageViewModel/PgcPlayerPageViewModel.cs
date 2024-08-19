@@ -168,7 +168,9 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));
-        var vSeg = _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString());
+        var preferCodec = AppToolkit.GetPreferCodecId();
+        var vSeg = _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString() && p.Codecs.Contains(preferCodec))
+            ?? _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString());
         var aSeg = _audioSegments?.FirstOrDefault(p => p.Id == maxAudioQuality.ToString());
         var videoUrl = vSeg?.BaseUrl;
         var audioUrl = aSeg?.BaseUrl;

@@ -122,6 +122,14 @@
                             VerticalAlignment="Stretch"
                             Content="{TemplateBinding DanmakuControls}"
                             Style="{StaticResource AppContentControlStyle}" />
+                        <ProgressBar
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            IsIndeterminate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBuffering}"
+                            Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}"
+                            ShowPaused="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPaused}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBottomProgressVisible}"
+                            Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Position}" />
                         <Rectangle
                             x:Name="InteractionControl"
                             HorizontalAlignment="Stretch"

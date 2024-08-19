@@ -35,6 +35,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         ClearAll();
         _aid = aid;
         _cid = cid;
+        _segmentIndex = -1;
         ResetData();
     }
 
@@ -86,7 +87,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// </summary>
     public void ClearAll()
     {
-        _segmentIndex = 0;
+        _segmentIndex = -1;
         _position = 0;
         _aid = string.Empty;
         _cid = string.Empty;

@@ -88,8 +88,10 @@ public sealed partial class PlayerViewModel : ViewModelBase
         _autoPlay = isAutoPlay;
         Position = position;
 
+        var isSpeedShare = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
+        var localSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
         Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
-        Speed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
+        Speed = isSpeedShare ? localSpeed : 1.0;
         MaxSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false) ? 6.0 : 3.0;
 
         if (_isInitialized)
@@ -134,6 +136,16 @@ public sealed partial class PlayerViewModel : ViewModelBase
     {
         var item = new PlayerNotificationItemViewModel(notification);
         RequestShowNotification?.Invoke(this, item);
+    }
+
+    /// <summary>
+    /// 检查底部进度条是否可见.
+    /// </summary>
+    /// <param name="shouldShow">是否需要显示.</param>
+    public void CheckBottomProgressVisibility(bool shouldShow)
+    {
+        var isEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
+        IsBottomProgressVisible = isEnabled && shouldShow && !IsLive;
     }
 
     partial void OnIsFullScreenChanged(bool value)

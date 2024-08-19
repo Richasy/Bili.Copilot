@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Globalization;
+using System.Text.RegularExpressions;
 using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -8,7 +9,7 @@ namespace BiliCopilot.UI.Toolkits;
 /// <summary>
 /// 应用工具组.
 /// </summary>
-public static class AppToolkit
+public static partial class AppToolkit
 {
     /// <summary>
     /// 获取应用包版本.
@@ -94,4 +95,32 @@ public static class AppToolkit
 
         return color;
     }
+
+    /// <summary>
+    /// 获取偏好解码模式.
+    /// </summary>
+    /// <returns>解码标识符.</returns>
+    public static string GetPreferCodecId()
+    {
+        var preferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
+        return preferCodec switch
+        {
+            PreferCodecType.H265 => "hev",
+            PreferCodecType.Av1 => "av01",
+            _ => "avc",
+        };
+    }
+
+    /// <summary>
+    /// 是否为P2P地址.
+    /// </summary>
+    /// <returns>检查结果.</returns>
+    public static bool IsP2PUrl(string url)
+    {
+        var uri = new Uri(url);
+        return P2PRegex().IsMatch(uri.Host);
+    }
+
+    [GeneratedRegex(@"(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
+    private static partial Regex P2PRegex();
 }

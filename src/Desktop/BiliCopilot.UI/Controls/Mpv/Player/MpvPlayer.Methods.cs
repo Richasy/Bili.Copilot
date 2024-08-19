@@ -84,6 +84,7 @@ public sealed partial class MpvPlayer
             TransportControls.Visibility = _transportControlTriggerRect.Contains(point) || ViewModel.IsPaused
                 ? Visibility.Visible
                 : Visibility.Collapsed;
+            ViewModel.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
         });
     }
 }

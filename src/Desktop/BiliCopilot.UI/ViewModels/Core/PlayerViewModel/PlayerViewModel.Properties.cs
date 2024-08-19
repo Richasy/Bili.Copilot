@@ -66,6 +66,9 @@ public sealed partial class PlayerViewModel
     [ObservableProperty]
     private bool _isBuffering;
 
+    [ObservableProperty]
+    private bool _isBottomProgressVisible;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

@@ -141,7 +141,8 @@ public sealed partial class PgcPlayerPageViewModel
         if (playEpisode == null)
         {
             var historyEpisodeId = _view.Progress?.Cid;
-            if (!string.IsNullOrEmpty(historyEpisodeId))
+            var autoLoadHistory = SettingsToolkit.ReadLocalSetting(SettingNames.AutoLoadHistory, true);
+            if (!string.IsNullOrEmpty(historyEpisodeId) && autoLoadHistory)
             {
                 playEpisode = _view.Episodes.FirstOrDefault(p => p.Identifier.Id == historyEpisodeId);
             }

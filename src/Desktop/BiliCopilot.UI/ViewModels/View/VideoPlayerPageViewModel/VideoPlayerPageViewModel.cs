@@ -183,10 +183,28 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));
-        var vSeg = _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString());
+        var preferCodec = AppToolkit.GetPreferCodecId();
+        var vSeg = _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString() && p.Codecs.Contains(preferCodec))
+            ?? _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString());
         var aSeg = _audioSegments?.FirstOrDefault(p => p.Id == maxAudioQuality.ToString());
+
         var videoUrl = vSeg?.BaseUrl;
         var audioUrl = aSeg?.BaseUrl;
+
+        if (SettingsToolkit.ReadLocalSetting(SettingNames.PlayWithoutP2P, false))
+        {
+            if (vSeg?.BackupUrls is not null)
+            {
+                string[] videoUrls = [vSeg?.BaseUrl, .. vSeg?.BackupUrls];
+                videoUrl = Array.Find(videoUrls, p => !AppToolkit.IsP2PUrl(p)) ?? vSeg?.BaseUrl;
+            }
+
+            if (aSeg?.BackupUrls is not null)
+            {
+                string[] audioUrls = [aSeg?.BaseUrl, .. aSeg?.BackupUrls];
+                audioUrl = Array.Find(audioUrls, p => !AppToolkit.IsP2PUrl(p)) ?? aSeg?.BaseUrl;
+            }
+        }
 
         var isAutoPlay = !isFirstSet;
         if (isFirstSet)

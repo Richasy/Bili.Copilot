@@ -88,7 +88,11 @@ public sealed partial class PlayerViewModel
         {
             Speed = speed;
             Player.SetSpeed(speed);
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerSpeed, speed);
+            var isShareSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
+            if (isShareSpeed)
+            {
+                SettingsToolkit.WriteLocalSetting(SettingNames.PlayerSpeed, speed);
+            }
         }
     }
 
@@ -242,7 +246,7 @@ public sealed partial class PlayerViewModel
         {
             var fileName = DateTimeOffset.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
             var path = Path.Combine(GetScreenshotFolderPath(), fileName);
-            if(!Directory.Exists(GetScreenshotFolderPath()))
+            if (!Directory.Exists(GetScreenshotFolderPath()))
             {
                 Directory.CreateDirectory(GetScreenshotFolderPath());
             }

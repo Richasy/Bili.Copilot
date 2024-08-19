@@ -187,7 +187,8 @@ public sealed partial class VideoPlayerPageViewModel
         if (part == null)
         {
             var historyPartId = _view.Progress?.Cid;
-            if (!string.IsNullOrEmpty(historyPartId))
+            var autoLoadHistory = SettingsToolkit.ReadLocalSetting(SettingNames.AutoLoadHistory, true);
+            if (!string.IsNullOrEmpty(historyPartId) && autoLoadHistory)
             {
                 part = _view.Parts.FirstOrDefault(p => p.Identifier.Id == historyPartId);
             }
