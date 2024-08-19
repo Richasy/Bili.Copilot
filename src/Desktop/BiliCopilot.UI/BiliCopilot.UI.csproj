@@ -1197,6 +1197,11 @@
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

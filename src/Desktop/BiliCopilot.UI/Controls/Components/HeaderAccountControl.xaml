@@ -18,7 +18,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             IsActive="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
-        <Button Style="{StaticResource HeaderAvatarButtonStyle}">
+        <Button Style="{StaticResource AvatarButtonStyle}">
             <PersonPicture
                 Width="28"
                 Height="28"

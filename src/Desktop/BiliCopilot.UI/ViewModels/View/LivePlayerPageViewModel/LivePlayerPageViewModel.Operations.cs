@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
@@ -49,6 +51,13 @@ public sealed partial class LivePlayerPageViewModel
     {
         var url = $"https://live.bilibili.com/{_view.Information.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
+    }
+
+    [RelayCommand]
+    private void OpenUserSpace()
+    {
+        var profile = _view.Information.User;
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
     }
 
     private void PlayerProgressChanged(int progress, int duration)

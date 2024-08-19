@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
@@ -12,9 +13,18 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// </summary>
 public sealed partial class UserSpacePageViewModel : ViewModelBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UserSpacePageViewModel"/> class.
+    /// </summary>
+    public UserSpacePageViewModel(CommentMainViewModel comment)
+    {
+        CommentModule = comment;
+    }
+
     [RelayCommand]
     private void Initialize(UserProfile profile)
     {
+        UserName = profile.Name;
         if (Sections is null)
         {
             Sections = new List<UserMomentDetailViewModel>
@@ -29,6 +39,7 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
 
         foreach (var item in Sections)
         {
+            item.SetShowCommentAction(ShowComment);
             item.ResetCommand.Execute(profile);
         }
 
@@ -58,5 +69,18 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
 
         SelectedSection = section;
         SelectedSection.InitializeCommand.Execute(default);
+    }
+
+    private void ShowComment(MomentItemViewModel data)
+    {
+        var moment = data.Data;
+        if (CommentModule.Id == moment.CommentId)
+        {
+            return;
+        }
+
+        IsCommentsOpened = true;
+        CommentModule.Initialize(moment.CommentId, moment.CommentType!.Value, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        CommentModule.RefreshCommand.Execute(default);
     }
 }

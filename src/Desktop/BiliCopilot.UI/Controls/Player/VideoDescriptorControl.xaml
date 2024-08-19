@@ -14,6 +14,7 @@
         <local:UpSectionControl
             Margin="-6,0,0,0"
             HorizontalAlignment="Left"
+            ActiveCommand="{x:Bind ViewModel.OpenUserSpaceCommand, Mode=OneWay}"
             Avatar="{x:Bind ViewModel.UpAvatar, Mode=OneWay}"
             IsFollow="{x:Bind ViewModel.IsFollow, Mode=OneWay}"
             IsFollowButtonShown="{x:Bind ViewModel.IsMyVideo, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"

@@ -17,7 +17,7 @@
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource MomentLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:MomentItemViewModel">
-                            <components:MomentCardControl Style="{StaticResource VideoMomentCardStyle}" ViewModel="{x:Bind}" />
+                            <components:MomentCardControl Style="{StaticResource PersonalVideoMomentCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>

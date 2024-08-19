@@ -21,12 +21,10 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
     /// </summary>
     public UserMomentDetailViewModel(
         IMomentDiscoveryService service,
-        ILogger<UserMomentDetailViewModel> logger,
-        CommentMainViewModel comment)
+        ILogger<UserMomentDetailViewModel> logger)
     {
         _service = service;
         _logger = logger;
-        CommentModule = comment;
     }
 
     /// <summary>
@@ -37,6 +35,12 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
         _isVideo = isVideo;
         Title = isVideo ? ResourceToolkit.GetLocalizedString(StringNames.Video) : ResourceToolkit.GetLocalizedString(StringNames.Comprehensive);
     }
+
+    /// <summary>
+    /// 设置显示评论的动作.
+    /// </summary>
+    public void SetShowCommentAction(Action<MomentItemViewModel> action)
+        => _showCommentAction = action;
 
     /// <summary>
     /// 是否为视频动态模块.
@@ -91,13 +95,13 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
         {
             IsLoading = true;
             var (moments, offset, hasMore) = _isVideo
-                ? await _service.GetUserComprehensiveMomentsAsync(_user, _offset)
-                : await _service.GetUserVideoMomentsAsync(_user, _offset);
+                ? await _service.GetUserVideoMomentsAsync(_user, _offset)
+                : await _service.GetUserComprehensiveMomentsAsync(_user, _offset);
             _offset = offset;
             _preventLoadMore = !hasMore || string.IsNullOrEmpty(offset);
             if (moments is not null)
             {
-                foreach (var item in moments.Select(p => new MomentItemViewModel(p, ShowComment)))
+                foreach (var item in moments.Select(p => new MomentItemViewModel(p, _showCommentAction)))
                 {
                     Items.Add(item);
                 }
@@ -115,18 +119,5 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
-    }
-
-    private void ShowComment(MomentItemViewModel data)
-    {
-        var moment = data.Data;
-        if (CommentModule.Id == moment.CommentId)
-        {
-            return;
-        }
-
-        IsCommentsOpened = true;
-        CommentModule.Initialize(moment.CommentId, moment.CommentType!.Value, Richasy.BiliKernel.Models.CommentSortType.Hot);
-        CommentModule.RefreshCommand.Execute(default);
     }
 }

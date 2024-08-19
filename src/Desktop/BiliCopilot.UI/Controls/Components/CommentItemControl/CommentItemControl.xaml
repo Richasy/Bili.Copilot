@@ -28,19 +28,24 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <Grid VerticalAlignment="Top">
-                                <PersonPicture
-                                    Width="40"
-                                    Height="40"
-                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.UserName}"
-                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
-                                <Image
-                                    Width="16"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    Source="ms-appx:///Assets/vip.png"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip}" />
-                            </Grid>
+                            <Button
+                                VerticalAlignment="Top"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
+                                Style="{StaticResource AvatarButtonStyle}">
+                                <Grid>
+                                    <PersonPicture
+                                        Width="40"
+                                        Height="40"
+                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.UserName}"
+                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
+                                    <Image
+                                        Width="16"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Source="ms-appx:///Assets/vip.png"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip}" />
+                                </Grid>
+                            </Button>
                         </StackPanel>
                         <Border
                             x:Name="TopContainer"

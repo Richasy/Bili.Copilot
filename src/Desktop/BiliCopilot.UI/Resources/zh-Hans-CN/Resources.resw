@@ -2125,7 +2125,7 @@
     <value>请输入用户名/手机</value>
   </data>
   <data name="UserSpaceTitle" xml:space="preserve">
-    <value>{0} 的空间</value>
+    <value>的空间</value>
   </data>
   <data name="UseWebPlayer" xml:space="preserve">
     <value>使用网页播放器</value>

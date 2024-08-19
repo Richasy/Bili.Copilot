@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.WinUI.Share.Base;
+using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Components;
 
@@ -167,6 +168,15 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
             }
 
             Tip.IsEnabled = false;
+        }
+    }
+
+    private async void OnImageTappedAsync(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    {
+        var uri = (sender as Image).Tag as Uri;
+        if (uri is not null)
+        {
+            await Launcher.LaunchUriAsync(uri).AsTask();
         }
     }
 }

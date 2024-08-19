@@ -49,7 +49,9 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
-                            Stretch="UniformToFill" />
+                            Stretch="UniformToFill"
+                            Tag="{x:Bind SourceUri}"
+                            Tapped="OnImageTappedAsync" />
                     </Grid>
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>

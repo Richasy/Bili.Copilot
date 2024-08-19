@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Humanizer;
 using Microsoft.Extensions.Logging;
@@ -53,4 +55,8 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
     [RelayCommand]
     private void MarkReplyTarget()
         => _markReplyTargetAction?.Invoke(this);
+
+    [RelayCommand]
+    private void ShowUserSpace()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User.User);
 }

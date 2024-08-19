@@ -117,6 +117,10 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
     }
 
+    [RelayCommand]
+    private void ShowUserSpace()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+
     private T? FindInnerContent<T>()
         where T : class
     {

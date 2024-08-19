@@ -2,7 +2,9 @@
 
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -174,6 +176,13 @@ public sealed partial class VideoPlayerPageViewModel
         {
             Player.BackToDefaultModeCommand.Execute(default);
         }
+    }
+
+    [RelayCommand]
+    private void OpenUserSpace()
+    {
+        var profile = _view.Information.Publisher.User;
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
     }
 
     private void ChangePart(VideoPart part)

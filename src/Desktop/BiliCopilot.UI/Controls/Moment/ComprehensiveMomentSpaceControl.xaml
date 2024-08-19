@@ -19,7 +19,7 @@
                         <DataTemplate x:DataType="items:MomentItemViewModel">
                             <components:MomentCardControl
                                 Margin="0,6"
-                                Style="{StaticResource FullMomentCardStyle}"
+                                Style="{StaticResource PersonalFullMomentCardStyle}"
                                 ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

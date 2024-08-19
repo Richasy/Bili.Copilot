@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Richasy.WinUI.Share.Base;
+using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Moment;
 
@@ -34,7 +35,7 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
         var image = (sender as Image).Tag as Uri;
         if (image is not null)
         {
-            await Task.CompletedTask;
+            await Launcher.LaunchUriAsync(image).AsTask();
         }
     }
 }

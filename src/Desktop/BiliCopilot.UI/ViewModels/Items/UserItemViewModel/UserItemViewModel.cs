@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
+using CommunityToolkit.Mvvm.Input;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -25,5 +29,25 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
         IsFollowed = data.Community.Relation != UserRelationStatus.Unknown && data.Community.Relation != UserRelationStatus.Unfollow;
         IsVip = data.Profile.IsVip ?? false;
         Level = data.Profile.Level;
+    }
+
+    [RelayCommand]
+    private void ShowUserSpace()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Profile.User);
+
+    [RelayCommand]
+    private async Task ToggleFollowAsync()
+    {
+        var relationService = this.Get<IRelationshipService>();
+        if (IsFollowed)
+        {
+            await relationService.UnfollowUserAsync(Id);
+            IsFollowed = false;
+        }
+        else
+        {
+            await relationService.FollowUserAsync(Id);
+            IsFollowed = true;
+        }
     }
 }

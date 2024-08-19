@@ -20,15 +20,13 @@ public sealed partial class UserMomentDetailViewModel
     private bool _preventLoadMore;
     private string? _offset;
     private UserProfile _user;
+    private Action<MomentItemViewModel> _showCommentAction;
 
     [ObservableProperty]
     private bool _isEmpty;
 
     [ObservableProperty]
     private bool _isLoading;
-
-    [ObservableProperty]
-    private bool _isCommentsOpened;
 
     [ObservableProperty]
     private string _title;
@@ -42,9 +40,4 @@ public sealed partial class UserMomentDetailViewModel
     /// 条目列表.
     /// </summary>
     public ObservableCollection<MomentItemViewModel> Items { get; } = new();
-
-    /// <summary>
-    /// 评论模块.
-    /// </summary>
-    public CommentMainViewModel CommentModule { get; }
 }

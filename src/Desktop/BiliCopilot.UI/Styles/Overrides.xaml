@@ -64,7 +64,7 @@
         <Setter Property="CornerRadius" Value="18" />
     </Style>
 
-    <Style x:Key="HeaderAvatarButtonStyle" TargetType="Button">
+    <Style x:Key="AvatarButtonStyle" TargetType="Button">
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />

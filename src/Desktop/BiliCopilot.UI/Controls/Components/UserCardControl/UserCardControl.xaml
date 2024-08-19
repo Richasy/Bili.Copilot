@@ -10,7 +10,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:UserCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <local:CardControl
+                        x:Name="RootCard"
+                        BorderThickness="0"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}">
                         <Grid Padding="12,12,12,8" ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -68,28 +71,24 @@
                                         IsTextSelectionEnabled="True"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}" />
-                                    <Button
+                                    <ToggleButton
                                         Grid.Column="1"
                                         Width="20"
                                         Height="20"
                                         Margin="0,-4,0,0"
+                                        Padding="0"
                                         VerticalAlignment="Center"
-                                        CornerRadius="12"
-                                        Style="{StaticResource SmallIconButtonStyle}">
-                                        <Grid>
-                                            <Ellipse
-                                                Width="20"
-                                                Height="20"
-                                                Fill="{ThemeResource AccentFillColorDefaultBrush}"
-                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}" />
-                                            <ic:SymbolIcon
-                                                FontSize="10"
-                                                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
-                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed, Converter={StaticResource BoolToIconVariantConverter}}"
-                                                Symbol="Heart"
-                                                ToolTipService.ToolTip="{ext:Locale Name=Follow}" />
-                                        </Grid>
-                                    </Button>
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFollowCommand}"
+                                        CornerRadius="10"
+                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}">
+                                        <ic:SymbolIcon
+                                            FontSize="10"
+                                            IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed, Converter={StaticResource BoolToIconVariantConverter}}"
+                                            Symbol="Heart"
+                                            ToolTipService.ToolTip="{ext:Locale Name=Follow}" />
+                                    </ToggleButton>
                                 </Grid>
                             </Grid>
                         </Grid>

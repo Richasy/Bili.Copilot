@@ -16,10 +16,10 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <TextBlock
-            VerticalAlignment="Center"
-            Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="{ext:Locale Name=MyDynamic}" />
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">
+            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+            <Run Text="{ext:Locale Name=UserSpaceTitle}" />
+        </TextBlock>
         <SelectorBar
             x:Name="Selector"
             Grid.Column="1"
