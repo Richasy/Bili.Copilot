@@ -18,9 +18,12 @@
                 Padding="4,2"
                 VerticalAlignment="Center"
                 BorderBrush="{x:Bind ViewModel.Color, Mode=OneWay, Converter={StaticResource BrushConverter}}"
-                BorderThickness="2"
+                BorderThickness="1"
                 CornerRadius="{StaticResource ControlCornerRadius}">
-                <TextBlock Foreground="{x:Bind ViewModel.Color, Mode=OneWay, Converter={StaticResource BrushConverter}}" Text="{x:Bind ViewModel.Level, Mode=OneWay}" />
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{x:Bind ViewModel.Color, Mode=OneWay, Converter={StaticResource BrushConverter}}"
+                    Text="{x:Bind ViewModel.Level, Mode=OneWay}" />
             </Border>
             <TextBlock
                 VerticalAlignment="Center"

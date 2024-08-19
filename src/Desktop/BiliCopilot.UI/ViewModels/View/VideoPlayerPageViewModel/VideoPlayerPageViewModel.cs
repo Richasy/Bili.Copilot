@@ -198,7 +198,8 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedVideoQuality, vm.Data.Quality);
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
-        Danmaku?.Redraw();
+        Danmaku?.ClearAll();
+        Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
 
         // 重置初始进度，避免影响其它视频.
         _initialProgress = 0;

@@ -22,6 +22,13 @@ public sealed partial class PlayerViewModel
 
             Position = Convert.ToInt32(e.Position);
             Duration = Convert.ToInt32(e.Duration);
+            if (IsBuffering)
+            {
+                IsBuffering = false;
+                IsPaused = false;
+                _stateAction?.Invoke(PlaybackState.Playing);
+            }
+
             _progressAction?.Invoke(Position, Duration);
         });
     }
@@ -44,6 +51,7 @@ public sealed partial class PlayerViewModel
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine(e.NewState);
                 IsBuffering = e.NewState is PlaybackState.Buffering or PlaybackState.Opening or PlaybackState.Decoding;
                 IsPaused = !IsBuffering;
             }
@@ -54,11 +62,6 @@ public sealed partial class PlayerViewModel
 
     private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
     {
-        if (!IsLive)
-        {
-            Position = 0;
-        }
-
         _endAction?.Invoke();
     }
 
