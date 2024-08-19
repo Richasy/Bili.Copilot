@@ -123,6 +123,12 @@ public sealed partial class DanmakuViewModel : ViewModelBase
                 ListAdded?.Invoke(this, danmakus);
             }
 
+            // 初次加载时强制重绘.
+            if (_segmentIndex == 1)
+            {
+                Redraw();
+            }
+
             _segmentIndex = index;
         }
         catch (Exception ex)
