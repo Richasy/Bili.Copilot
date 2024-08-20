@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+#if !DEBUG
 using Microsoft.Extensions.Logging;
+#endif
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Player;
 
@@ -67,6 +69,10 @@ public sealed partial class PlayerViewModel
 
     private void OnLogMessageReceived(object? sender, LogMessageReceivedEventArgs e)
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"MPV: [{e.Prefix}] {e.Message}");
+#else
         _logger.LogError($"MPV: {e.Message}");
+#endif
     }
 }

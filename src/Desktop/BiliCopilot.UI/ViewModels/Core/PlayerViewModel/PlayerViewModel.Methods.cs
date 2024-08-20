@@ -21,18 +21,22 @@ public sealed partial class PlayerViewModel
             case PreferDecodeType.Software:
                 Player.Client.SetProperty("hwdec", "no");
                 Player.Client.SetProperty("gpu-context", "auto");
+                Player.Client.SetProperty("gpu-api", "auto");
                 break;
             case PreferDecodeType.D3D11:
                 Player.Client.SetProperty("hwdec", "d3d11va");
                 Player.Client.SetProperty("gpu-context", "d3d11");
+                Player.Client.SetProperty("gpu-api", "d3d11");
                 break;
             case PreferDecodeType.NVDEC:
                 Player.Client.SetProperty("hwdec", "nvdec");
                 Player.Client.SetProperty("gpu-context", "auto");
+                Player.Client.SetProperty("gpu-api", "auto");
                 break;
             case PreferDecodeType.DXVA2:
                 Player.Client.SetProperty("hwdec", "dxva2");
                 Player.Client.SetProperty("gpu-context", "dxinterop");
+                Player.Client.SetProperty("gpu-api", "auto");
                 break;
             default:
                 break;
