@@ -244,8 +244,8 @@
     <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="OpenTK" />
     <PackageReference Include="Silk.NET.Direct3D11" />
-    <PackageReference Include="Silk.NET.OpenGL" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
+    <PackageReference Include="Silk.NET.OpenGLES" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />

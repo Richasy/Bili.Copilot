@@ -39,9 +39,11 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PlayerDisplayModeCollection = Enum.GetValues<PlayerDisplayMode>().ToList();
         PreferCodecCollection = Enum.GetValues<PreferCodecType>().ToList();
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
+        PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
+        PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
@@ -82,6 +84,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnPreferCodecChanged(PreferCodecType value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.PreferCodec, value);
+
+    partial void OnPreferDecodeChanged(PreferDecodeType value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
 
     partial void OnSingleFastForwardAndRewindSpanChanged(double value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, value);

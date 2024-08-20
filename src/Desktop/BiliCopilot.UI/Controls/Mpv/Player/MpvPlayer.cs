@@ -92,7 +92,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         {
             MajorVersion = 4,
             MinorVersion = 6,
-            GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,
+            GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Any,
         };
     }
 

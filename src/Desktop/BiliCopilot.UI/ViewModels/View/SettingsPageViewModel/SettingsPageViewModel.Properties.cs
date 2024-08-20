@@ -37,6 +37,9 @@ public sealed partial class SettingsPageViewModel
     private PreferQualityType _preferQuality;
 
     [ObservableProperty]
+    private PreferDecodeType _preferDecode;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]
@@ -83,4 +86,7 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<PreferQualityType> _preferQualityCollection;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<PreferDecodeType> _preferDecodeCollection;
 }

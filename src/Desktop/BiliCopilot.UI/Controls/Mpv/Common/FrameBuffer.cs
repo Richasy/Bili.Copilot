@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Reflection;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Graphics.Wgl;
 using OpenTK.Platform.Windows;
 using Silk.NET.Core.Native;

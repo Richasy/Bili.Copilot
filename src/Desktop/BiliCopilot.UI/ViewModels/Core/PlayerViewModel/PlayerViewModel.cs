@@ -46,8 +46,7 @@ public sealed partial class PlayerViewModel : ViewModelBase
             Player.PlaybackStopped += OnPlaybackStopped;
             Player.LogMessageReceived += OnLogMessageReceived;
             renderControl.Initialize();
-            Player.Client.SetProperty("vo", "libmpv");
-            Player.Client.SetProperty("hwdec", "auto");
+            Player.Client.SetProperty("vo", "gpu");
             Player.Client.RequestLogMessage(MpvLogLevel.Error);
             var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);

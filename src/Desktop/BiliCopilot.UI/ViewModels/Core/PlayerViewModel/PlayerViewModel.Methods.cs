@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
+
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
@@ -10,6 +13,32 @@ public sealed partial class PlayerViewModel
     private static string GetScreenshotFolderPath()
         => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Bili-Screenshots");
 
+    private void InitializeDecode()
+    {
+        var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
+        switch (decodeType)
+        {
+            case PreferDecodeType.Software:
+                Player.Client.SetProperty("hwdec", "no");
+                Player.Client.SetProperty("gpu-context", "auto");
+                break;
+            case PreferDecodeType.D3D11:
+                Player.Client.SetProperty("hwdec", "d3d11va");
+                Player.Client.SetProperty("gpu-context", "d3d11");
+                break;
+            case PreferDecodeType.NVDEC:
+                Player.Client.SetProperty("hwdec", "nvdec");
+                Player.Client.SetProperty("gpu-context", "auto");
+                break;
+            case PreferDecodeType.DXVA2:
+                Player.Client.SetProperty("hwdec", "dxva2");
+                Player.Client.SetProperty("gpu-context", "dxinterop");
+                break;
+            default:
+                break;
+        }
+    }
+
     private async Task TryLoadPlayDataAsync()
     {
         if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
@@ -17,6 +46,7 @@ public sealed partial class PlayerViewModel
             return;
         }
 
+        InitializeDecode();
         if (!_autoPlay)
         {
             Player.Client.SetOption("pause", "yes");

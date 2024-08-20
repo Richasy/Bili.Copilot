@@ -1513,7 +1513,7 @@
     <value>音质偏好</value>
   </data>
   <data name="PreferCodec" xml:space="preserve">
-    <value>解码器偏好</value>
+    <value>编码偏好</value>
   </data>
   <data name="PreferCodecDescription" xml:space="preserve">
     <value>优先选择该编码的视频流，HEVC/H.265 和 AV1 需要额外安装解码器</value>
@@ -2270,5 +2270,20 @@
   </data>
   <data name="NoP2PDescription" xml:space="preserve">
     <value>将会尝试使用从非 MCDN/PCDN 节点获取视频和音频流</value>
+  </data>
+  <data name="PreferDecode" xml:space="preserve">
+    <value>解码偏好</value>
+  </data>
+  <data name="PreferDecodeDescription" xml:space="preserve">
+    <value>优先选择指定的解码器（请选择适用自身硬件的解码器）</value>
+  </data>
+  <data name="D3D11Decode" xml:space="preserve">
+    <value>D3D11 硬解</value>
+  </data>
+  <data name="NVDECDecode" xml:space="preserve">
+    <value>NVDEC 硬解（Nvdia 显卡）</value>
+  </data>
+  <data name="DXVA2Decode" xml:space="preserve">
+    <value>DXVA2 硬解</value>
   </data>
 </root>

@@ -5,20 +5,25 @@ namespace BiliCopilot.UI.Models.Constants;
 /// <summary>
 /// 偏好的解码模式.
 /// </summary>
-public enum PreferCodecType
+public enum PreferDecodeType
 {
     /// <summary>
-    /// H265高清.
+    /// 软解.
     /// </summary>
-    H265,
+    Software,
 
     /// <summary>
-    /// H264高清.
+    /// D3D11硬解.
     /// </summary>
-    H264,
+    D3D11,
 
     /// <summary>
-    /// AV1.
+    /// NVDEC硬解.
     /// </summary>
-    Av1,
+    NVDEC,
+
+    /// <summary>
+    /// DXVA2硬解.
+    /// </summary>
+    DXVA2,
 }

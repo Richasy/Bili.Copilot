@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <converters:PreferCodecTypeConverter x:Key="PreferCodecConverter" />
+        <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
     </UserControl.Resources>
 
     <community:SettingsExpander Description="{ext:Locale Name=PlayerControlDescription}" Header="{ext:Locale Name=PlayerControl}">
@@ -30,6 +31,18 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="constants:PreferCodecType">
                             <TextBlock Text="{x:Bind Converter={StaticResource PreferCodecConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>
+            <community:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PreferDecode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PreferDecodeType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PreferDecodeConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

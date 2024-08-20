@@ -109,7 +109,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     [RelayCommand]
     private async Task LoadDanmakusAsync(int index = 0)
     {
-        if (IsLoading || _segmentIndex == index || !IsShowDanmaku)
+        if (IsLoading || _segmentIndex == index || !IsShowDanmaku || string.IsNullOrEmpty(_aid) || string.IsNullOrEmpty(_cid))
         {
             return;
         }
@@ -123,13 +123,13 @@ public sealed partial class DanmakuViewModel : ViewModelBase
                 ListAdded?.Invoke(this, danmakus);
             }
 
+            _segmentIndex = index;
+
             // 初次加载时强制重绘.
             if (_segmentIndex == 1)
             {
                 Redraw();
             }
-
-            _segmentIndex = index;
         }
         catch (Exception ex)
         {

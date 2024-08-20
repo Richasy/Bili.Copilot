@@ -67,4 +67,5 @@ public enum SettingNames
     DefaultPlayerDisplayMode,
     PreferCodec,
     IsBottomProgressVisible,
+    PreferDecode,
 }
