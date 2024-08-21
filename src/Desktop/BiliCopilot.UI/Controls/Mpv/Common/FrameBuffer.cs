@@ -37,7 +37,7 @@ public unsafe class FrameBuffer : FrameBufferBase
                 Width = (uint)BufferWidth,
                 Height = (uint)BufferHeight,
                 Format = Format.FormatB8G8R8A8Unorm,
-                Stereo = 0,
+                Stereo = false,
                 SampleDesc = new SampleDesc()
                 {
                     Count = 1,
@@ -45,8 +45,7 @@ public unsafe class FrameBuffer : FrameBufferBase
                 },
                 BufferUsage = DXGI.UsageRenderTargetOutput,
                 BufferCount = 2,
-                Scaling = Scaling.Stretch,
-                SwapEffect = SwapEffect.FlipDiscard,
+                SwapEffect = SwapEffect.FlipSequential,
                 Flags = 0,
                 AlphaMode = AlphaMode.Ignore,
             };
@@ -130,7 +129,7 @@ public unsafe class FrameBuffer : FrameBufferBase
         BufferWidth = Convert.ToInt32(framebufferWidth * compositionScaleX);
         BufferHeight = Convert.ToInt32(framebufferHeight * compositionScaleY);
 
-        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatUnknown, 0);
+        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatB8G8R8A8Unorm, 0);
         var matrix = new Matrix3X2F { DXGI11 = 1.0f / (float)compositionScaleX, DXGI22 = 1.0f / (float)compositionScaleY };
         ((IDXGISwapChain2*)SwapChainHandle)->SetMatrixTransform(ref matrix);
     }

@@ -88,12 +88,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
         _renderControl = (RenderControl)GetTemplateChild("RenderControl");
         _interactionControl = (Rectangle)GetTemplateChild("InteractionControl");
         _notificationContainer = (StackPanel)GetTemplateChild("NotificationContainer");
-        _renderControl.Setting = new ContextSettings()
-        {
-            MajorVersion = 4,
-            MinorVersion = 6,
-            GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Any,
-        };
+        _renderControl.Setting = new ContextSettings();
     }
 
     /// <inheritdoc/>

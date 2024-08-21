@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
-    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240731-build.1703" />
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240801-build.1708" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240801-build.1113" />
@@ -33,6 +33,7 @@
     <PackageVersion Include="Silk.NET.Direct3D11" Version="2.21.0" />
     <PackageVersion Include="Silk.NET.OpenGL" Version="2.21.0" />
     <PackageVersion Include="Silk.NET.OpenGLES" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.OpenGLES.Extensions.ANGLE" Version="2.21.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
