@@ -29,7 +29,7 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         IRelationshipService relationshipService,
         IFavoriteService favoriteService,
         ILogger<VideoPlayerPageViewModel> logger,
-        PlayerViewModel player,
+        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments)

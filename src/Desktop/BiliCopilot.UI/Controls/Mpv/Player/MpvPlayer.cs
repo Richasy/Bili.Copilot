@@ -14,9 +14,9 @@ namespace BiliCopilot.UI.Controls.Mpv;
 /// <summary>
 /// MPV 播放器.
 /// </summary>
-public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
+public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
 {
-    private PlayerViewModel? _viewModel;
+    private MpvPlayerViewModel? _viewModel;
     private long _viewModelChangedToken;
     private RenderControl _renderControl;
     private Rect _transportControlTriggerRect;
@@ -174,7 +174,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<PlayerViewModel>
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(PlayerViewModel.IsPaused) && TransportControls is not null)
+        if (e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null)
         {
             TransportControls.Visibility = ViewModel.IsPaused ? Visibility.Visible : Visibility.Collapsed;
         }

@@ -13,14 +13,14 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// <summary>
 /// 播放器视图模型.
 /// </summary>
-public sealed partial class PlayerViewModel
+public sealed partial class MpvPlayerViewModel
 {
     private const string VideoUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69";
     private const string LiveUserAgent = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
     private const string VideoReferer = "https://www.bilibili.com";
     private const string LiveReferer = "https://live.bilibili.com";
 
-    private readonly ILogger<PlayerViewModel> _logger;
+    private readonly ILogger<MpvPlayerViewModel> _logger;
     private readonly DispatcherQueue _dispatcherQueue;
 
     private string? _videoUrl;

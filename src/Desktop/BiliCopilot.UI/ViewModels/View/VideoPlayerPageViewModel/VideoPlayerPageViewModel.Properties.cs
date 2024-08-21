@@ -158,7 +158,7 @@ public sealed partial class VideoPlayerPageViewModel
     /// <summary>
     /// 播放器视图模型.
     /// </summary>
-    public PlayerViewModel Player { get; }
+    public MpvPlayerViewModel Player { get; }
 
     /// <summary>
     /// 弹幕视图模型.

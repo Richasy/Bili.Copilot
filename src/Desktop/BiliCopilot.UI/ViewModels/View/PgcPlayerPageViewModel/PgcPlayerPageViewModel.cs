@@ -28,7 +28,7 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
         IFavoriteService favoriteService,
         IEntertainmentDiscoveryService discoveryService,
         ILogger<PgcPlayerPageViewModel> logger,
-        PlayerViewModel player,
+        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments)

@@ -16,15 +16,15 @@ using Richasy.WinUI.Share.ViewModels;
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// 播放器视图模型.
+/// MPV 播放器视图模型.
 /// </summary>
-public sealed partial class PlayerViewModel : ViewModelBase
+public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlayerViewModel"/> class.
+    /// Initializes a new instance of the <see cref="MpvPlayerViewModel"/> class.
     /// </summary>
-    public PlayerViewModel(
-        ILogger<PlayerViewModel> logger,
+    public MpvPlayerViewModel(
+        ILogger<MpvPlayerViewModel> logger,
         DispatcherQueue dispatcherQueue)
     {
         _logger = logger;
@@ -81,29 +81,9 @@ public sealed partial class PlayerViewModel : ViewModelBase
         await TryLoadPlayDataAsync();
     }
 
-    /// <summary>
-    /// 设置播放数据.
-    /// </summary>
-    /// <returns><see cref="Task"/>.</returns>
-    public async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0)
-    {
-        _videoUrl = videoUrl;
-        _audioUrl = audioUrl;
-        _autoPlay = isAutoPlay;
-        Position = position;
-
-        var isSpeedShare = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
-        var localSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
-        Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
-        Speed = isSpeedShare ? localSpeed : 1.0;
-        MaxSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false) ? 6.0 : 3.0;
-
-        if (_isInitialized)
-        {
-            Player.RerunEventLoop();
-            await TryLoadPlayDataAsync();
-        }
-    }
+    /// <inheritdoc/>
+    protected override void BeforeLoadPlayData()
+        => Player.RerunEventLoop();
 
     /// <summary>
     /// 注入进度改变时的回调.

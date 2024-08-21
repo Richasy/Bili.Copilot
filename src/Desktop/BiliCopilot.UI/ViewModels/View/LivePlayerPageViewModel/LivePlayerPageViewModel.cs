@@ -27,7 +27,7 @@ public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
         IPlayerService service,
         IRelationshipService relationshipService,
         ILogger<LivePlayerPageViewModel> logger,
-        PlayerViewModel player,
+        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         LiveChatSectionDetailViewModel chat)
     {

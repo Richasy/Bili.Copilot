@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// <summary>
 /// 播放器视图模型.
 /// </summary>
-public sealed partial class PlayerViewModel
+public sealed partial class MpvPlayerViewModel
 {
     private static string GetScreenshotFolderPath()
         => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Bili-Screenshots");
