@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.ComponentModel;
-using BiliCopilot.UI.Controls.Mpv.Common;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Input;
@@ -9,16 +8,15 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Mpv;
+namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// MPV 播放器.
 /// </summary>
-public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
+public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 {
-    private MpvPlayerViewModel? _viewModel;
+    private PlayerViewModelBase? _viewModel;
     private long _viewModelChangedToken;
-    private RenderControl _renderControl;
     private Rect _transportControlTriggerRect;
     private Rectangle _interactionControl;
     private StackPanel? _notificationContainer;
@@ -26,16 +24,14 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
     private double _lastSpeed;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MpvPlayer"/> class.
+    /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
     /// </summary>
-    public MpvPlayer() => DefaultStyleKey = typeof(MpvPlayer);
+    public BiliPlayer() => DefaultStyleKey = typeof(BiliPlayer);
 
     /// <inheritdoc/>
-    protected override async void OnControlLoaded()
+    protected override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
-
-        _renderControl.Render += OnRender;
+        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         _interactionControl.Tapped += OnCoreTapped;
         _interactionControl.DoubleTapped += OnCoreDoubleTapped;
         _interactionControl.Holding += OnCoreHolding;
@@ -46,10 +42,9 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
         }
 
         _viewModel = ViewModel;
-        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
+        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         SizeChanged += OnSizeChanged;
-        await _viewModel.InitializeAsync(_renderControl);
         if (TransportControls is not null)
         {
             TransportControls.Visibility = Visibility.Visible;
@@ -65,13 +60,11 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
         UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
-            ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
+            ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
         }
 
         _viewModel = default;
-
-        _renderControl.Render -= OnRender;
 
         if (_interactionControl != null)
         {
@@ -85,10 +78,8 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
-        _renderControl = (RenderControl)GetTemplateChild("RenderControl");
         _interactionControl = (Rectangle)GetTemplateChild("InteractionControl");
         _notificationContainer = (StackPanel)GetTemplateChild("NotificationContainer");
-        _renderControl.Setting = new ContextSettings();
     }
 
     /// <inheritdoc/>
@@ -153,7 +144,7 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
         }
     }
 
-    private async void OnViewModelPropertyChangedAsync(DependencyObject sender, DependencyProperty dp)
+    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
     {
         if (ViewModel is null)
         {
@@ -169,7 +160,6 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
         _viewModel = ViewModel;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
-        await _viewModel.InitializeAsync(_renderControl);
     }
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -179,8 +169,6 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
             TransportControls.Visibility = ViewModel.IsPaused ? Visibility.Visible : Visibility.Collapsed;
         }
     }
-
-    private void OnRender(TimeSpan e) => Render();
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {

@@ -45,6 +45,8 @@
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
+    <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
+    <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
     <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
@@ -93,10 +95,9 @@
     <None Remove="Controls\Moment\UserSpacePageHeader.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
-    <None Remove="Controls\Mpv\PlayerNotificationControl.xaml" />
-    <None Remove="Controls\Mpv\Player\MpvPlayer.xaml" />
-    <None Remove="Controls\Mpv\TransportControl\LiveTransportControl.xaml" />
-    <None Remove="Controls\Mpv\TransportControl\VideoTransportControl.xaml" />
+    <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
+    <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
+    <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -1197,6 +1198,9 @@
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

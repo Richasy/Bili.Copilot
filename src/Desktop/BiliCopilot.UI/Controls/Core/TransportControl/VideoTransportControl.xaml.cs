@@ -2,7 +2,7 @@
 
 using Microsoft.UI.Xaml.Controls.Primitives;
 
-namespace BiliCopilot.UI.Controls.Mpv;
+namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// 视频播放器控件.

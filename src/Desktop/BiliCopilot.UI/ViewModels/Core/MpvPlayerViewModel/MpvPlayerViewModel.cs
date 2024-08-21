@@ -1,17 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Controls.Mpv.Common;
-using BiliCopilot.UI.Models;
+using BiliCopilot.UI.Controls.Core.Common;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Items;
-using Microsoft.Extensions.Logging;
-using Microsoft.UI.Dispatching;
+using Mpv.Core;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
-using Mpv.Core.Enums.Player;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -21,15 +16,9 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="MpvPlayerViewModel"/> class.
+    /// 播放器内核.
     /// </summary>
-    public MpvPlayerViewModel(
-        ILogger<MpvPlayerViewModel> logger,
-        DispatcherQueue dispatcherQueue)
-    {
-        _logger = logger;
-        _dispatcherQueue = dispatcherQueue;
-    }
+    public Player? Player { get; private set; }
 
     /// <summary>
     /// 初始化播放器.
@@ -81,70 +70,93 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
         await TryLoadPlayDataAsync();
     }
 
-    /// <inheritdoc/>
-    protected override void BeforeLoadPlayData()
-        => Player.RerunEventLoop();
-
-    /// <summary>
-    /// 注入进度改变时的回调.
-    /// </summary>
-    public void SetProgressAction(Action<int, int> action)
-        => _progressAction = action;
-
-    /// <summary>
-    /// 注入状态改变时的回调.
-    /// </summary>
-    public void SetStateAction(Action<PlaybackState> action)
-        => _stateAction = action;
-
-    /// <summary>
-    /// 注入播放结束时的回调.
-    /// </summary>
-    public void SetEndAction(Action action)
-        => _endAction = action;
-
-    /// <summary>
-    /// 关闭播放器.
-    /// </summary>
-    /// <returns><see cref="Task"/>.</returns>
-    public Task CloseAsync()
+    private void OnPositionChanged(object? sender, PlaybackPositionChangedEventArgs e)
     {
-        IsPaused = true;
-        return Player?.DisposeAsync() ?? Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// 显示通知.
-    /// </summary>
-    public void ShowNotification(PlayerNotification notification)
-    {
-        var item = new PlayerNotificationItemViewModel(notification);
-        RequestShowNotification?.Invoke(this, item);
-    }
-
-    /// <summary>
-    /// 检查底部进度条是否可见.
-    /// </summary>
-    /// <param name="shouldShow">是否需要显示.</param>
-    public void CheckBottomProgressVisibility(bool shouldShow)
-    {
-        var isEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
-        IsBottomProgressVisible = isEnabled && shouldShow && !IsLive;
-    }
-
-    partial void OnIsFullScreenChanged(bool value)
-    {
-        if (value && IsCompactOverlay)
+        _dispatcherQueue.TryEnqueue(() =>
         {
-            IsCompactOverlay = false;
+            if (e.Duration == 0 && !IsLive)
+            {
+                Player.ResetDuration();
+            }
+
+            UpdatePosition(Convert.ToInt32(e.Position), Convert.ToInt32(e.Duration));
+        });
+    }
+
+    private void OnStateChanged(object? sender, PlaybackStateChangedEventArgs e)
+        => UpdateState((PlayerState)(int)e.NewState);
+
+    private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
+        => ReachEnd();
+
+    private void OnLogMessageReceived(object? sender, LogMessageReceivedEventArgs e)
+    {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"core: [{e.Prefix}] {e.Message}");
+#else
+        _logger.LogError($"core: {e.Message}");
+#endif
+    }
+
+    private void InitializeDecode()
+    {
+        var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
+        switch (decodeType)
+        {
+            case PreferDecodeType.Software:
+                Player.Client.SetProperty("hwdec", "no");
+                Player.Client.SetProperty("gpu-context", "auto");
+                Player.Client.SetProperty("gpu-api", "auto");
+                break;
+            case PreferDecodeType.D3D11:
+                Player.Client.SetProperty("hwdec", "d3d11va");
+                Player.Client.SetProperty("gpu-context", "d3d11");
+                Player.Client.SetProperty("gpu-api", "d3d11");
+                break;
+            case PreferDecodeType.NVDEC:
+                Player.Client.SetProperty("hwdec", "nvdec");
+                Player.Client.SetProperty("gpu-context", "auto");
+                Player.Client.SetProperty("gpu-api", "auto");
+                break;
+            case PreferDecodeType.DXVA2:
+                Player.Client.SetProperty("hwdec", "dxva2");
+                Player.Client.SetProperty("gpu-context", "dxinterop");
+                Player.Client.SetProperty("gpu-api", "auto");
+                break;
+            default:
+                break;
         }
     }
 
-    partial void OnIsCompactOverlayChanged(bool value)
+    private async Task WaitUntilAddAudioAsync(string audioUrl)
     {
-        if (value && IsFullScreen)
+        const int maxRetryCount = 10;
+        var retryCount = 0;
+        var isAudioAdded = false;
+        do
         {
-            IsFullScreen = false;
+            if (retryCount >= maxRetryCount)
+            {
+                break;
+            }
+
+            if (!Player.IsMediaLoaded())
+            {
+                await Task.Delay(300);
+                continue;
+            }
+
+            try
+            {
+                await Player.Client.ExecuteAsync(["audio-add", audioUrl]);
+                isAudioAdded = true;
+            }
+            catch (Exception)
+            {
+                retryCount++;
+                await Task.Delay(300);
+            }
         }
+        while (!isAudioAdded);
     }
 }

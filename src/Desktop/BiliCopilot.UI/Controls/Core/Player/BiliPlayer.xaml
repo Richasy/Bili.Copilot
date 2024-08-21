@@ -2,12 +2,13 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="using:BiliCopilot.UI.Controls.Mpv.Common"
+    xmlns:common="using:BiliCopilot.UI.Controls.Core.Common"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:converters="using:BiliCopilot.UI.Converters"
+    xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
-    xmlns:local="using:BiliCopilot.UI.Controls.Mpv">
+    xmlns:local="using:BiliCopilot.UI.Controls.Core">
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
@@ -53,7 +54,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MpvPlayer">
+                    <common:RenderControl x:Name="RenderControl" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:BiliPlayer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:BiliPlayer">
                     <Grid>
+                        <local:PlayerPresenter ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         <Grid x:Name="HiddenControlsContainer">
                             <Button
                                 x:Name="IncreaseVolumeButton"
@@ -115,7 +127,6 @@
                                 </Button.KeyboardAccelerators>
                             </Button>
                         </Grid>
-                        <common:RenderControl x:Name="RenderControl" />
                         <ContentControl
                             x:Name="DanmakuControlsContainer"
                             HorizontalAlignment="Stretch"

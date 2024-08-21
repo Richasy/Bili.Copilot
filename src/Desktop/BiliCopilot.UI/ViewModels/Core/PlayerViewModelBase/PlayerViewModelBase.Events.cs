@@ -16,10 +16,10 @@ public abstract partial class PlayerViewModelBase
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
-            Position = Convert.ToInt32(position);
+            Position = position;
             if (duration >= 0)
             {
-                Duration = Convert.ToInt32(duration);
+                Duration = duration.Value;
             }
 
             _progressAction?.Invoke(Position, Duration);
@@ -47,7 +47,6 @@ public abstract partial class PlayerViewModelBase
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine(state);
                 IsBuffering = state is PlayerState.Buffering or PlayerState.Opening or PlayerState.Decoding;
                 IsPaused = !IsBuffering;
             }

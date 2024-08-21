@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-namespace BiliCopilot.UI.Controls.Mpv.Common;
+namespace BiliCopilot.UI.Controls.Core.Common;
 
 /// <summary>
 /// 帧缓冲基类.

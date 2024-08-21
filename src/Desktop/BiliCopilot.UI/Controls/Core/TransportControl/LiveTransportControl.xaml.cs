@@ -3,7 +3,7 @@
 using BiliCopilot.UI.Controls.Player;
 using Microsoft.UI.Xaml.Controls.Primitives;
 
-namespace BiliCopilot.UI.Controls.Mpv;
+namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// 直播播放页控件.

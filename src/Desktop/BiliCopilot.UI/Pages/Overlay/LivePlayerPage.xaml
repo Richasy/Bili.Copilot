@@ -4,12 +4,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:core="using:BiliCopilot.UI.Controls.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mpv="using:BiliCopilot.UI.Controls.Mpv"
     xmlns:player="using:BiliCopilot.UI.Controls.Player"
     mc:Ignorable="d">
 
@@ -57,19 +57,19 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
                     SizeChanged="OnPlayContainerSizeChanged">
-                    <mpv:MpvPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                        <mpv:MpvPlayer.TransportControls>
-                            <mpv:LiveTransportControl
+                    <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                        <core:BiliPlayer.TransportControls>
+                            <core:LiveTransportControl
                                 MaxWidth="600"
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Bottom"
                                 ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                        </mpv:MpvPlayer.TransportControls>
-                        <mpv:MpvPlayer.DanmakuControls>
+                        </core:BiliPlayer.TransportControls>
+                        <core:BiliPlayer.DanmakuControls>
                             <danmaku:LiveDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
-                        </mpv:MpvPlayer.DanmakuControls>
-                    </mpv:MpvPlayer>
+                        </core:BiliPlayer.DanmakuControls>
+                    </core:BiliPlayer>
                 </Grid>
                 <Grid
                     x:Name="PlayerBottomContainer"

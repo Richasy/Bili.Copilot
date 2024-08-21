@@ -13,7 +13,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// <summary>
 /// 播放器视图模型基类.
 /// </summary>
-public abstract partial class PlayerViewModelBase : ViewModelBase, IPlayerViewModel
+public abstract partial class PlayerViewModelBase : ViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerViewModelBase"/> class.

@@ -22,7 +22,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/CommentItemControl/CommentItemControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/NotifyMessageCardControl/NotifyMessageCardControl.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Mpv/Player/MpvPlayer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Core/Player/BiliPlayer.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">

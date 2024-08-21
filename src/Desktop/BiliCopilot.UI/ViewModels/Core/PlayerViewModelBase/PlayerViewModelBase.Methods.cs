@@ -7,10 +7,11 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public abstract partial class PlayerViewModelBase
 {
-    private static string GetScreenshotFolderPath()
-        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Bili-Screenshots");
-
-    private async Task TryLoadPlayDataAsync()
+    /// <summary>
+    /// 尝试加载播放数据.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    protected async Task TryLoadPlayDataAsync()
     {
         if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
         {
@@ -28,6 +29,9 @@ public abstract partial class PlayerViewModelBase
         PlayerDataLoaded?.Invoke(this, EventArgs.Empty);
         IsPlayerDataLoading = false;
     }
+
+    private static string GetScreenshotFolderPath()
+        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Bili-Screenshots");
 
     private void ActiveDisplay()
     {

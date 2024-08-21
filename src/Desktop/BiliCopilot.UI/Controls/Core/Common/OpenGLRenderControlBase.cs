@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using Microsoft.UI.Xaml.Media;
 
-namespace BiliCopilot.UI.Controls.Mpv.Common;
+namespace BiliCopilot.UI.Controls.Core.Common;
 #pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
 #pragma warning disable SA1600 // 缺少对公共可见类型或成员的 XML 注释
 

@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls.Mpv;
+namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// 播放器控件基类.

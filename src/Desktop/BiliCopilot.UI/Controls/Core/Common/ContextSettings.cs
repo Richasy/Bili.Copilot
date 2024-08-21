@@ -3,7 +3,7 @@
 using System.Diagnostics.CodeAnalysis;
 using OpenTK.Windowing.Common;
 
-namespace BiliCopilot.UI.Controls.Mpv.Common;
+namespace BiliCopilot.UI.Controls.Core.Common;
 
 /// <summary>
 /// 上下文设置.

@@ -3,7 +3,7 @@
 using System.Runtime.InteropServices;
 using Silk.NET.Core.Native;
 
-namespace BiliCopilot.UI.Controls.Mpv.Common;
+namespace BiliCopilot.UI.Controls.Core.Common;
 
 /// <summary>
 /// 交换链面板本机.

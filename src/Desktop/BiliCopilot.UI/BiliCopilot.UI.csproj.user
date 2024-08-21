@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -66,9 +69,6 @@
     <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\LiveDescriptorControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -111,13 +111,7 @@
     <Page Update="Controls\Player\SubtitleButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Danmaku\DanmakuBox.xaml">
@@ -184,9 +178,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

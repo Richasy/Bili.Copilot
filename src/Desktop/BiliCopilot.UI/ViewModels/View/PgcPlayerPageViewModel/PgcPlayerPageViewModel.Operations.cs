@@ -8,7 +8,6 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Mpv.Core.Enums.Player;
 using Richasy.BiliKernel.Models.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
@@ -248,15 +247,15 @@ public sealed partial class PgcPlayerPageViewModel
         Subtitle?.UpdatePosition(progress);
     }
 
-    private void PlayerStateChanged(PlaybackState state)
+    private void PlayerStateChanged(PlayerState state)
     {
-        if (state == PlaybackState.Playing)
+        if (state == PlayerState.Playing)
         {
             Danmaku?.Resume();
         }
         else
         {
-            if (state == PlaybackState.Paused)
+            if (state == PlayerState.Paused)
             {
                 // 记录播放进度.
                 ReportProgressCommand.Execute(Player.Position);

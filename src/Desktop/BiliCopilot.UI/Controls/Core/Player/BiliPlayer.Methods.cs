@@ -1,26 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Microsoft.UI.Xaml.Input;
-using OpenTK.Graphics.OpenGL;
 
-namespace BiliCopilot.UI.Controls.Mpv;
+namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// 播放器.
 /// </summary>
-public sealed partial class MpvPlayer
+public sealed partial class BiliPlayer
 {
-    private void Render()
-    {
-        if (ViewModel?.Player?.Client?.IsInitialized is not true || ViewModel?.Player?.IsDisposed is true)
-        {
-            return;
-        }
-
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        ViewModel.Player.RenderGL((int)(ActualWidth * _renderControl.ScaleX), (int)(ActualHeight * _renderControl.ScaleY), _renderControl.GetBufferHandle());
-    }
-
     private void MeasureTransportTriggerRect()
     {
         if (TransportControls is FrameworkElement frameEle)

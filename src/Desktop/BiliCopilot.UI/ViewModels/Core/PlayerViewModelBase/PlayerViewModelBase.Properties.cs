@@ -5,8 +5,6 @@ using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using Mpv.Core.Enums.Player;
-using Richasy.WinUI.Share.ViewModels;
 using Windows.System.Display;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -17,7 +15,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1401 // Fields should be private
 #pragma warning disable SA1600 // Elements should be documented
-public abstract partial class PlayerViewModelBase : ViewModelBase, IPlayerViewModel
+public abstract partial class PlayerViewModelBase
 {
     /// <summary>
     /// 视频用户代理.
