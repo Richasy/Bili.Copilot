@@ -19,7 +19,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// <summary>
 /// 视频播放器页面视图模型.
 /// </summary>
-public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
+public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerPageViewModel"/> class.
@@ -29,7 +29,6 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         IRelationshipService relationshipService,
         IFavoriteService favoriteService,
         ILogger<VideoPlayerPageViewModel> logger,
-        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments)
@@ -39,7 +38,6 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         _favoriteService = favoriteService;
         _logger = logger;
         _comments = comments;
-        Player = player;
         Danmaku = danmaku;
         Subtitle = subtitle;
         Player.SetProgressAction(PlayerProgressChanged);
@@ -219,6 +217,11 @@ public sealed partial class VideoPlayerPageViewModel : LayoutPageViewModelBase
         }
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedVideoQuality, vm.Data.Quality);
+        if (Player is NativePlayerViewModel npvm)
+        {
+            npvm.InjectSegments(vSeg, aSeg);
+        }
+
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
         Danmaku?.ClearAll();
         Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);

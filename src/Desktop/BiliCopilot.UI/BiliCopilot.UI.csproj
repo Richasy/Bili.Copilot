@@ -17,6 +17,11 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
+    <Content Remove="Assets\DashVideoTemplate.xml" />
+    <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\qq_group_dark.jpg" />
     <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
@@ -1201,6 +1206,15 @@
     <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DashVideoTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

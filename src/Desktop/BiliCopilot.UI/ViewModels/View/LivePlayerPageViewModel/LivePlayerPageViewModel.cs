@@ -18,7 +18,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// <summary>
 /// 直播播放页视图模型.
 /// </summary>
-public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
+public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LivePlayerPageViewModel"/> class.
@@ -27,7 +27,6 @@ public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
         IPlayerService service,
         IRelationshipService relationshipService,
         ILogger<LivePlayerPageViewModel> logger,
-        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         LiveChatSectionDetailViewModel chat)
     {
@@ -36,7 +35,6 @@ public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
         _logger = logger;
         Chat = chat;
         Danmaku = danmaku;
-        Player = player;
         Player.IsLive = true;
         Player.SetProgressAction(PlayerProgressChanged);
     }
@@ -148,7 +146,10 @@ public sealed partial class LivePlayerPageViewModel : LayoutPageViewModelBase
             var info = await _service.GetLivePlayDetailAsync(_view.Information.Identifier, quality, isAudioOnly, _playLoadCancellationTokenSource.Token)
                 ?? throw new Exception("直播播放信息为空");
             InitializeLiveMedia(info);
-            await ChangeLineAsync(Lines.FirstOrDefault());
+
+            // 我们更偏好 http_hls 的直播源，其格式为 m3u8.
+            var preferLine = Lines.FirstOrDefault(p => p.Urls.FirstOrDefault()?.Protocol == "http_hls") ?? Lines.FirstOrDefault();
+            await ChangeLineAsync(preferLine);
         }
         catch (Exception ex)
         {

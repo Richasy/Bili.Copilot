@@ -68,4 +68,5 @@ public enum SettingNames
     PreferCodec,
     IsBottomProgressVisible,
     PreferDecode,
+    PlayerType,
 }

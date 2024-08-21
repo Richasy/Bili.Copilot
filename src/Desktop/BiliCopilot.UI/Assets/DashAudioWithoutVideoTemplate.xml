@@ -1,0 +1,8 @@
+﻿﻿<MPD xmlns="urn:mpeg:DASH:schema:MPD:2011" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static">
+    <Period start="PT0S">
+        <AdaptationSet>
+            <ContentComponent contentType="audio" id="1" />
+            {audio}
+        </AdaptationSet>
+    </Period>
+</MPD>

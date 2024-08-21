@@ -18,7 +18,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// <summary>
 /// PGC 播放器页面视图模型.
 /// </summary>
-public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
+public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerPageViewModel"/> class.
@@ -28,7 +28,6 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
         IFavoriteService favoriteService,
         IEntertainmentDiscoveryService discoveryService,
         ILogger<PgcPlayerPageViewModel> logger,
-        MpvPlayerViewModel player,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments)
@@ -38,7 +37,6 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
         _discoveryService = discoveryService;
         _comments = comments;
         _logger = logger;
-        Player = player;
         Player.IsPgc = true;
         Danmaku = danmaku;
         Subtitle = subtitle;
@@ -188,6 +186,11 @@ public sealed partial class PgcPlayerPageViewModel : LayoutPageViewModelBase
         }
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedPgcQuality, vm.Data.Quality);
+        if (Player is NativePlayerViewModel npvm)
+        {
+            npvm.InjectSegments(vSeg, aSeg);
+        }
+
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
         Danmaku?.Redraw();
 

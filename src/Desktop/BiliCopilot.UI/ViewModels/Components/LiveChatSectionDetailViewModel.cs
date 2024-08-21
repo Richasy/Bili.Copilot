@@ -151,6 +151,10 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
                         }
                     }
                 }
+                catch (TaskCanceledException)
+                {
+                    return;
+                }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "解析直播消息时出现异常");

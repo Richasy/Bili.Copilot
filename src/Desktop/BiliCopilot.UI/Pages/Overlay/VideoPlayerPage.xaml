@@ -5,12 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:core="using:BiliCopilot.UI.Controls.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:core="using:BiliCopilot.UI.Controls.Core"
     xmlns:player="using:BiliCopilot.UI.Controls.Player"
     mc:Ignorable="d">
 

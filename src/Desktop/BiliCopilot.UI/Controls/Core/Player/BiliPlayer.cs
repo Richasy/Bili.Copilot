@@ -20,6 +20,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     private Rect _transportControlTriggerRect;
     private Rectangle _interactionControl;
     private StackPanel? _notificationContainer;
+    private PlayerPresenter? _playerPresenter;
 
     private double _lastSpeed;
 
@@ -42,6 +43,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
 
         _viewModel = ViewModel;
+        _playerPresenter.ViewModel = ViewModel;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         SizeChanged += OnSizeChanged;
@@ -65,6 +67,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
 
         _viewModel = default;
+        _playerPresenter.ViewModel = default;
 
         if (_interactionControl != null)
         {
@@ -78,6 +81,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
+        _playerPresenter = (PlayerPresenter)GetTemplateChild("PlayerPresenter");
         _interactionControl = (Rectangle)GetTemplateChild("InteractionControl");
         _notificationContainer = (StackPanel)GetTemplateChild("NotificationContainer");
     }
@@ -148,6 +152,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         if (ViewModel is null)
         {
+            _playerPresenter.ViewModel = default;
             return;
         }
 
@@ -157,6 +162,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             _viewModel.RequestShowNotification -= OnRequestShowNotification;
         }
 
+        _playerPresenter.ViewModel = ViewModel;
         _viewModel = ViewModel;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         _viewModel.RequestShowNotification += OnRequestShowNotification;

@@ -16,7 +16,11 @@ internal sealed class PlayerTemplateSelector : DataTemplateSelector
         {
             return MpvTemplate;
         }
+        else if (item is NativePlayerViewModel)
+        {
+            return NativeTemplate;
+        }
 
-        return NativeTemplate;
+        return default;
     }
 }

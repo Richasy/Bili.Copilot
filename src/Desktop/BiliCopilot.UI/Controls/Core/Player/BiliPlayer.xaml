@@ -60,12 +60,26 @@
         </Setter>
     </Style>
 
+    <Style TargetType="local:NativePlayer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:NativePlayer">
+                    <MediaPlayerElement
+                        x:Name="PlayerElement"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AreTransportControlsEnabled="False" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="local:BiliPlayer">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BiliPlayer">
                     <Grid>
-                        <local:PlayerPresenter ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
+                        <local:PlayerPresenter x:Name="PlayerPresenter" />
                         <Grid x:Name="HiddenControlsContainer">
                             <Button
                                 x:Name="IncreaseVolumeButton"

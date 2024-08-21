@@ -98,11 +98,6 @@ public sealed partial class LivePlayerPageViewModel
     public event EventHandler ViewInitialized;
 
     /// <summary>
-    /// 播放器视图模型.
-    /// </summary>
-    public MpvPlayerViewModel Player { get; }
-
-    /// <summary>
     /// 弹幕视图模型.
     /// </summary>
     public DanmakuViewModel Danmaku { get; }

@@ -12,15 +12,21 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="MpvTemplate" x:DataType="core:MpvPlayerViewModel">
-            <local:MpvPlayer ViewModel="{x:Bind}" />
+            <local:MpvPlayer ViewModel="{x:Bind Mode=OneWay}" />
         </DataTemplate>
-        <ext:PlayerTemplateSelector x:Key="PlayerTemplateSelector" MpvTemplate="{StaticResource MpvTemplate}" />
+        <DataTemplate x:Key="NativeTemplate" x:DataType="core:NativePlayerViewModel">
+            <local:NativePlayer ViewModel="{x:Bind Mode=OneWay}" />
+        </DataTemplate>
+        <ext:PlayerTemplateSelector
+            x:Key="PlayerTemplateSelector"
+            MpvTemplate="{StaticResource MpvTemplate}"
+            NativeTemplate="{StaticResource NativeTemplate}" />
     </UserControl.Resources>
 
     <Grid>
         <ContentControl
             x:Name="PlayerContainer"
-            Content="{x:Bind ViewModel}"
+            Content="{x:Bind ViewModel, Mode=OneWay}"
             ContentTemplateSelector="{StaticResource PlayerTemplateSelector}"
             Style="{StaticResource AppContentControlStyle}" />
     </Grid>

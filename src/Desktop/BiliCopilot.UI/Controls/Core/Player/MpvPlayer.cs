@@ -26,6 +26,11 @@ public sealed class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
     {
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
         _renderControl.Render += OnRender;
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         _viewModel = ViewModel;
         await _viewModel.InitializeAsync(_renderControl);
     }
