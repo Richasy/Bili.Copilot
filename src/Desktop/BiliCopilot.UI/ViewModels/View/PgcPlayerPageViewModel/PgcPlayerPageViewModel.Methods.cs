@@ -54,7 +54,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
         else if (preferFormatSetting == PreferQualityType.HD)
         {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 80);
+            selectedFormat = availableFormats.Find(p => p.Data.Quality == 116 || p.Data.Quality == 80);
         }
 
         if (selectedFormat is null)

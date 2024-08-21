@@ -1447,7 +1447,7 @@
     <value>播放器控制</value>
   </data>
   <data name="PlayerControlDescription" xml:space="preserve">
-    <value>包含优先解码以及一些播放行为的设置</value>
+    <value>包含优先解码以及一些媒体控制器的设置</value>
   </data>
   <data name="PlayerControlMode" xml:space="preserve">
     <value>播放控制器操作模式</value>
@@ -2285,5 +2285,8 @@
   </data>
   <data name="DXVA2Decode" xml:space="preserve">
     <value>DXVA2 硬解</value>
+  </data>
+  <data name="Native" xml:space="preserve">
+    <value>原生</value>
   </data>
 </root>

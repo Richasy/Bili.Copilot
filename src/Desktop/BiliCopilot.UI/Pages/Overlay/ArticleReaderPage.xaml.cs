@@ -24,11 +24,6 @@ public sealed partial class ArticleReaderPage : ArticleReaderPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.NavigationMode == NavigationMode.Back)
-        {
-            return;
-        }
-
         if (e.Parameter is ArticleIdentifier article)
         {
             ViewModel.InitializeCommand.Execute(article);

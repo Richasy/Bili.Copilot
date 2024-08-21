@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Article;
@@ -119,6 +121,10 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
             await CommentModule.LoadItemsCommand.ExecuteAsync(default);
         }
     }
+
+    [RelayCommand]
+    private void ShowUserSpace()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Content.Author.Profile.User);
 
     private void InitializeUser()
     {

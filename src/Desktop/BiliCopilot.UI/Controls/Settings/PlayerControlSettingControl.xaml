@@ -35,7 +35,8 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </community:SettingsCard>
-            <community:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
+            <!--  目前该选项暂无用武之地  -->
+            <!--<community:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
                 <ComboBox
                     MinWidth="120"
                     ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
@@ -46,7 +47,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-            </community:SettingsCard>
+            </community:SettingsCard>-->
             <community:SettingsCard Description="{ext:Locale Name=SingleFastForwardAndRewindSpanDescription}" Header="{ext:Locale Name=SingleFastForwardAndRewindSpan}">
                 <NumberBox
                     MinWidth="120"
@@ -62,9 +63,6 @@
             </community:SettingsCard>
             <community:SettingsCard Description="{ext:Locale Name=BottomProgressVisibleDescription}" Header="{ext:Locale Name=BottomProgressVisible}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.BottomProgressVisible, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.NoP2P, Mode=TwoWay}" />
             </community:SettingsCard>
         </community:SettingsExpander.Items>
     </community:SettingsExpander>

@@ -43,20 +43,26 @@
             BorderThickness="1"
             CornerRadius="{StaticResource OverlayCornerRadius}" />
         <StackPanel Padding="12" Spacing="8">
-            <Grid Margin="0,0,0,4">
-                <PersonPicture
-                    Width="48"
-                    Height="48"
-                    DisplayName="{x:Bind ViewModel.Author, Mode=OneWay}"
-                    ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
-                    ToolTipService.ToolTip="{x:Bind ViewModel.Author, Mode=OneWay}" />
-                <Image
-                    Width="16"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Source="ms-appx:///Assets/vip.png"
-                    Visibility="{x:Bind ViewModel.IsVip, Mode=OneWay}" />
-            </Grid>
+            <Button
+                Margin="0,0,0,4"
+                Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
+                Style="{StaticResource AvatarButtonStyle}">
+                <Grid>
+                    <PersonPicture
+                        Width="48"
+                        Height="48"
+                        DisplayName="{x:Bind ViewModel.Author, Mode=OneWay}"
+                        ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Author, Mode=OneWay}" />
+                    <Image
+                        Width="16"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Source="ms-appx:///Assets/vip.png"
+                        Visibility="{x:Bind ViewModel.IsVip, Mode=OneWay}" />
+                </Grid>
+            </Button>
+
             <ToggleButton
                 Command="{x:Bind ViewModel.ToggleLikeCommand, Mode=OneWay}"
                 IsChecked="{x:Bind ViewModel.IsLiked, Mode=OneWay}"

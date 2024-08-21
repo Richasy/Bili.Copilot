@@ -133,6 +133,11 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
                 return;
             }
 
+            if (Position > 0)
+            {
+                session.Position = TimeSpan.FromSeconds(Position);
+            }
+
             session.PositionChanged -= OnMediaPositionChanged;
             session.PositionChanged += OnMediaPositionChanged;
         });

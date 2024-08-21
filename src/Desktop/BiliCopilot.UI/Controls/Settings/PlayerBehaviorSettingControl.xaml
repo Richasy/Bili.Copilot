@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:PreferQualityTypeConverter x:Key="PreferQualityConverter" />
+        <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
     </UserControl.Resources>
 
     <community:SettingsExpander Description="{ext:Locale Name=PlayerBehaviorDescription}" Header="{ext:Locale Name=PlayerBehavior}">
@@ -21,6 +22,18 @@
             <ic:SymbolIcon Symbol="Replay" />
         </community:SettingsExpander.HeaderIcon>
         <community:SettingsExpander.Items>
+            <community:SettingsCard Header="{ext:Locale Name=PlayerType}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>
             <community:SettingsCard Header="{ext:Locale Name=PreferQuality}">
                 <ComboBox
                     MinWidth="120"
@@ -66,6 +79,9 @@
                     </StackPanel>
                 </community:SettingsCard.Header>
                 <ToggleSwitch IsOn="{x:Bind ViewModel.AutoPlayNext, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.NoP2P, Mode=TwoWay}" />
             </community:SettingsCard>
         </community:SettingsExpander.Items>
     </community:SettingsExpander>

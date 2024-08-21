@@ -40,6 +40,9 @@ public sealed partial class SettingsPageViewModel
     private PreferDecodeType _preferDecode;
 
     [ObservableProperty]
+    private PlayerType _playerType;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]
@@ -89,4 +92,7 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<PreferDecodeType> _preferDecodeCollection;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<PlayerType> _playerTypeCollection;
 }
