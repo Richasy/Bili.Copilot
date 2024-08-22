@@ -87,10 +87,11 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
-            var initialPart = FindInitialPart(default);
+            var initialPart = FindInitialPart(default) ?? throw new Exception("无法找到视频的分集信息.");
+            _part = initialPart;
             LoadInitialProgress();
-            ChangePart(initialPart);
             InitializeSections();
+            ChangePart(initialPart);
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
