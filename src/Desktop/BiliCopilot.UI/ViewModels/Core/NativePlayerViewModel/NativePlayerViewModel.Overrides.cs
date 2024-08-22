@@ -160,7 +160,7 @@ public sealed partial class NativePlayerViewModel
         var stream = new MemoryStream(Encoding.UTF8.GetBytes(mpdStr)).AsInputStream();
         var url = onlyAudio ? _audioUrl : _videoUrl;
         var source = await AdaptiveMediaSource.CreateFromStreamAsync(stream, new Uri(url), "application/dash+xml", httpClient);
-        source.MediaSource.AdvancedSettings.AllSegmentsIndependent = true;
+        source.MediaSource.AdvancedSettings.AllSegmentsIndependent = false;
         Debug.Assert(source.Status == AdaptiveMediaSourceCreationStatus.Success, "解析MPD失败");
         var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         Player.Source = new MediaPlaybackItem(videoSource);

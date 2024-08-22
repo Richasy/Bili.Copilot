@@ -45,23 +45,19 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             await Player.InitializeAsync(args);
         }
 
-        // PGC 内容不做注入鉴权.
-        if (!IsPgc)
-        {
-            var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
-            var referer = IsLive ? LiveReferer : VideoReferer;
-            var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
-            var cookieStr = $"Cookie: {cookies}";
-            var refererStr = $"Referer: {referer}";
+        var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
+        var referer = IsLive ? LiveReferer : VideoReferer;
+        var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
+        var cookieStr = $"Cookie: {cookies}";
+        var refererStr = $"Referer: {referer}";
 
-            Player.Client.SetOption("cookies", "yes");
-            Player.Client.SetOption("user-agent", userAgent);
-            Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
-            if (IsLive)
-            {
-                Player.Client.SetOption("ytdl", "no");
-                Player.IsLoggingEnabled = false;
-            }
+        Player.Client.SetOption("cookies", "yes");
+        Player.Client.SetOption("user-agent", userAgent);
+        Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
+        if (IsLive)
+        {
+            Player.Client.SetOption("ytdl", "no");
+            Player.IsLoggingEnabled = false;
         }
 
         IsPlayerInitializing = false;
