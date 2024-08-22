@@ -190,12 +190,14 @@
     <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterBody.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterHeader.xaml" />
+    <None Remove="Forms\GalleryWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
     <None Remove="Pages\ArticlePartitionPage.xaml" />
     <None Remove="Pages\CinemaPage.xaml" />
     <None Remove="Pages\DownloadPage.xaml" />
+    <None Remove="Pages\GalleryPage.xaml" />
     <None Remove="Pages\LivePartitionPage.xaml" />
     <None Remove="Pages\MessagePage.xaml" />
     <None Remove="Pages\MomentPage.xaml" />
@@ -1199,6 +1201,12 @@
     <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\GalleryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Forms\GalleryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Components\TipPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

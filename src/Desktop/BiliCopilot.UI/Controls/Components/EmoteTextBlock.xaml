@@ -15,6 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <RichTextBlock
             x:Name="RichBlock"
@@ -27,11 +28,7 @@
             LineHeight="24"
             MaxLines="{x:Bind MaxLines, Mode=OneWay}"
             TextTrimming="CharacterEllipsis"
-            TextWrapping="Wrap">
-            <ToolTipService.ToolTip>
-                <ToolTip x:Name="Tip" IsEnabled="False" />
-            </ToolTipService.ToolTip>
-        </RichTextBlock>
+            TextWrapping="Wrap" />
 
         <ItemsRepeater
             x:Name="Gallery"
@@ -48,10 +45,10 @@
                         <Image
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
+                            DataContext="{x:Bind}"
                             Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
                             Stretch="UniformToFill"
-                            Tag="{x:Bind SourceUri}"
-                            Tapped="OnImageTappedAsync" />
+                            Tapped="OnImageTapped" />
                     </Grid>
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
@@ -62,5 +59,25 @@
                     RowSpacing="4" />
             </ItemsRepeater.Layout>
         </ItemsRepeater>
+
+        <Button
+            x:Name="OverflowButton"
+            Grid.Row="2"
+            Margin="0,4,0,0"
+            Padding="6,4"
+            BorderThickness="0"
+            Visibility="Collapsed">
+            <ic:SymbolIcon FontSize="12" Symbol="MoreHorizontal" />
+            <Button.Flyout>
+                <Flyout>
+                    <RichTextBlock
+                        x:Name="FlyoutRichBlock"
+                        MaxWidth="360"
+                        IsTextSelectionEnabled="True"
+                        LineHeight="24"
+                        TextWrapping="Wrap" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </Grid>
 </base:LayoutUserControlBase>

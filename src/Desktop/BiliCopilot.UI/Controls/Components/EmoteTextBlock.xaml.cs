@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Text.RegularExpressions;
+using BiliCopilot.UI.Forms;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.WinUI.Share.Base;
-using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Components;
 
@@ -139,44 +139,32 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
 
     private void CheckTextTrim()
     {
+        OverflowButton.Visibility = RichBlock.IsTextTrimmed ? Visibility.Visible : Visibility.Collapsed;
         if (RichBlock.IsTextTrimmed)
         {
-            if (Tip.IsEnabled)
+            if (FlyoutRichBlock.Blocks.Count > 0)
             {
                 return;
             }
 
-            var richBlock = new RichTextBlock()
-            {
-                MaxWidth = 500,
-                IsTextSelectionEnabled = true,
-                LineHeight = 24,
-                FontSize = 14,
-                TextWrapping = TextWrapping.Wrap,
-            };
-
             var para = ParseText();
-            richBlock.Blocks.Add(para);
-            Tip.Content = richBlock;
-            Tip.IsEnabled = true;
+            FlyoutRichBlock.Blocks.Add(para);
         }
         else
         {
-            if (Tip.Content is not null)
+            if (FlyoutRichBlock.Blocks.Count > 0)
             {
-                Tip.Content = default;
+                FlyoutRichBlock.Blocks.Clear();
             }
-
-            Tip.IsEnabled = false;
         }
     }
 
-    private async void OnImageTappedAsync(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        var uri = (sender as Image).Tag as Uri;
-        if (uri is not null)
+        var image = (sender as Image).DataContext as BiliImage;
+        if (image is not null)
         {
-            await Launcher.LaunchUriAsync(uri).AsTask();
+            new GalleryWindow(image, Text.Pictures.AsReadOnly()).Activate();
         }
     }
 }

@@ -69,4 +69,9 @@ public enum SettingNames
     IsBottomProgressVisible,
     PreferDecode,
     PlayerType,
+    GalleryWindowPositionLeft,
+    GalleryWindowPositionTop,
+    GalleryWindowWidth,
+    GalleryWindowHeight,
+    IsGalleryWindowMaximized,
 }

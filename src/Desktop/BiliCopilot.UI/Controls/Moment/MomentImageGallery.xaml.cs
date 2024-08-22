@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
+using Richasy.BiliKernel.Models.Appearance;
 using Richasy.WinUI.Share.Base;
-using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Moment;
 
@@ -30,12 +31,10 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    private async void OnImageTappedAsync(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        var image = (sender as Image).Tag as Uri;
-        if (image is not null)
-        {
-            await Launcher.LaunchUriAsync(image).AsTask();
-        }
+        var image = (sender as Image).Tag as BiliImage;
+        var itemsSource = ItemsSource as IReadOnlyCollection<BiliImage>;
+        new GalleryWindow(image, itemsSource.ToList()).Activate();
     }
 }

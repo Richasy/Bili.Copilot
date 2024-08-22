@@ -24,8 +24,8 @@
                             VerticalAlignment="Stretch"
                             Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
                             Stretch="UniformToFill"
-                            Tag="{x:Bind SourceUri}"
-                            Tapped="OnImageTappedAsync" />
+                            Tag="{x:Bind}"
+                            Tapped="OnImageTapped" />
                     </Grid>
                 </DataTemplate>
             </ItemsRepeater.ItemTemplate>
