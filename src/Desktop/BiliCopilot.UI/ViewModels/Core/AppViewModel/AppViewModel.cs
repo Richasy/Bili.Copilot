@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Mpv.Core;
@@ -107,6 +108,27 @@ public sealed partial class AppViewModel : ViewModelBase
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.ExitPlayerHostMode();
+        }
+    }
+
+    /// <summary>
+    /// 显示提示.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    [RelayCommand]
+    private async Task ShowTipAsync((string, InfoType) data)
+    {
+        if (ActivatedWindow is ITipWindow tipWindow)
+        {
+            await tipWindow.ShowTipAsync(data.Item1, data.Item2);
+        }
+        else
+        {
+            var firstWindow = Windows.OfType<ITipWindow>().FirstOrDefault();
+            if (firstWindow is not null)
+            {
+                await firstWindow.ShowTipAsync(data.Item1, data.Item2);
+            }
         }
     }
 }

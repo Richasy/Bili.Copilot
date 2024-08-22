@@ -39,7 +39,7 @@ public sealed partial class ArticleHistorySectionDetailViewModel : ViewModelBase
     {
         IsEmpty = false;
         _isPreventLoadMore = false;
-        Items.Clear();
+        Items = new System.Collections.ObjectModel.ObservableCollection<ArticleItemViewModel>();
         _offset = 0;
         await LoadItemsAsync();
     }

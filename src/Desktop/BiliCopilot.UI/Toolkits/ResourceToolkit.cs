@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -22,4 +23,11 @@ public static class ResourceToolkit
         _loader ??= new ResourceLoader(ResourceLoader.GetDefaultResourceFilePath(), "Resources");
         return _loader.GetString(stringName.ToString());
     }
+
+    /// <summary>
+    /// Get theme brush.
+    /// </summary>
+    /// <returns><see cref="Brush"/>.</returns>
+    public static Brush GetThemeBrush(string key)
+        => Application.Current.Resources[key] as Brush;
 }

@@ -33,7 +33,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         LikeCount = data.CommunityInformation?.LikeCount;
         CommentCount = data.CommunityInformation?.CommentCount;
         Author = data.User?.Name;
-        Avatar = data.User?.Avatar.Uri;
+        Avatar = data.User?.Avatar?.Uri;
         Tip = data.Tip;
         Description = data.Description;
         NoData = data.Data is null;

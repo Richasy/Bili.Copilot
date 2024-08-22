@@ -138,7 +138,7 @@
   <data name="AddViewLaterFailed" xml:space="preserve">
     <value>添加稍后再看失败</value>
   </data>
-  <data name="AddViewLaterSucceseded" xml:space="preserve">
+  <data name="AddViewLaterSucceed" xml:space="preserve">
     <value>已添加到稍后再看列表</value>
   </data>
   <data name="AdvancedOptions" xml:space="preserve">

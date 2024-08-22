@@ -37,5 +37,5 @@ public sealed partial class ArticleHistorySectionDetailViewModel
     /// <summary>
     /// 条目列表.
     /// </summary>
-    public ObservableCollection<ArticleItemViewModel> Items { get; } = new();
+    public ObservableCollection<ArticleItemViewModel> Items { get; private set; } = new();
 }

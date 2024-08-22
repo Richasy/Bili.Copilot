@@ -109,7 +109,7 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionD
             SelectedTimeline.Items = default;
         }
 
-        Timelines.Clear();
+        Timelines = new System.Collections.ObjectModel.ObservableCollection<TimelineItemViewModel>();
         SelectedTimeline = default;
         await InitializeAsync();
     }

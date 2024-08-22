@@ -80,7 +80,7 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
         _offset = default;
         IsEmpty = false;
         _preventLoadMore = false;
-        Items.Clear();
+        Items = new System.Collections.ObjectModel.ObservableCollection<MomentItemViewModel>();
     }
 
     [RelayCommand]

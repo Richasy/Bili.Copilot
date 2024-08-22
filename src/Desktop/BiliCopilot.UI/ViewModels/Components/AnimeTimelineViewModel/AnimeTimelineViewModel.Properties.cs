@@ -37,5 +37,5 @@ public sealed partial class AnimeTimelineViewModel
     /// <summary>
     /// 时间线.
     /// </summary>
-    public ObservableCollection<TimelineItemViewModel> Timelines { get; } = new();
+    public ObservableCollection<TimelineItemViewModel> Timelines { get; private set; } = new();
 }

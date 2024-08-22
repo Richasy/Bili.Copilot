@@ -88,18 +88,6 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    MinWidth="160"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
-                                    Text="{ext:Locale Name=PlayInPrivate}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="EyeOff" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -216,26 +204,30 @@
                                 <RowDefinition Height="102" />
                             </Grid.RowDefinitions>
                             <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
-                            <Grid
+                            <Button
                                 Margin="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom">
-                                <Ellipse
-                                    Width="35"
-                                    Height="35"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="Black"
-                                    Opacity="0.7" />
-                                <PersonPicture
-                                    Width="32"
-                                    Height="32"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
-                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                            </Grid>
+                                VerticalAlignment="Bottom"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
+                                Style="{StaticResource AvatarButtonStyle}">
+                                <Grid>
+                                    <Ellipse
+                                        Width="35"
+                                        Height="35"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Fill="Black"
+                                        Opacity="0.7" />
+                                    <PersonPicture
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                </Grid>
+                            </Button>
                             <Border
                                 Margin="4"
                                 Padding="4"
@@ -660,26 +652,30 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
-                            <Grid
+                            <Button
                                 Margin="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom">
-                                <Ellipse
-                                    Width="35"
-                                    Height="35"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="Black"
-                                    Opacity="0.7" />
-                                <PersonPicture
-                                    Width="32"
-                                    Height="32"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
-                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                            </Grid>
+                                VerticalAlignment="Bottom"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
+                                Style="{StaticResource AvatarButtonStyle}">
+                                <Grid>
+                                    <Ellipse
+                                        Width="35"
+                                        Height="35"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Fill="Black"
+                                        Opacity="0.7" />
+                                    <PersonPicture
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                </Grid>
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="12,8,12,12"
@@ -836,26 +832,30 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
-                            <Grid
+                            <Button
                                 Margin="6"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom">
-                                <Ellipse
-                                    Width="35"
-                                    Height="35"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Fill="Black"
-                                    Opacity="0.7" />
-                                <PersonPicture
-                                    Width="32"
-                                    Height="32"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
-                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                            </Grid>
+                                VerticalAlignment="Bottom"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
+                                Style="{StaticResource AvatarButtonStyle}">
+                                <Grid>
+                                    <Ellipse
+                                        Width="35"
+                                        Height="35"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Fill="Black"
+                                        Opacity="0.7" />
+                                    <PersonPicture
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                </Grid>
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="12,8,12,12"

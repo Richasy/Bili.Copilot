@@ -39,5 +39,5 @@ public sealed partial class UserMomentDetailViewModel
     /// <summary>
     /// 条目列表.
     /// </summary>
-    public ObservableCollection<MomentItemViewModel> Items { get; } = new();
+    public ObservableCollection<MomentItemViewModel> Items { get; private set; }
 }

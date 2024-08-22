@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Components;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -13,7 +14,7 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase, IPlayerHostWindow
+public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
@@ -44,6 +45,17 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow
     /// <inheritdoc/>
     public void ExitPlayerHostMode()
         => RootLayout.ExitFullPlayerPresenter();
+
+    /// <inheritdoc/>
+    public async Task ShowTipAsync(string text, InfoType type = InfoType.Error)
+    {
+        var popup = new TipPopup() { Text = text };
+        TipContainer.Visibility = Visibility.Visible;
+        TipContainer.Children.Add(popup);
+        await popup.ShowAsync(type);
+        TipContainer.Children.Remove(popup);
+        TipContainer.Visibility = Visibility.Collapsed;
+    }
 
     private static PointInt32 GetSavedWindowPosition()
     {

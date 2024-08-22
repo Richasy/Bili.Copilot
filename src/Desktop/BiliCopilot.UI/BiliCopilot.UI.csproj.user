@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\TipPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\StatusTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -286,15 +292,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\MyMomentsPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Moment\MyMomentsMainBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Moment\MyMomentsMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Moment\MomentImageGallery.xaml">

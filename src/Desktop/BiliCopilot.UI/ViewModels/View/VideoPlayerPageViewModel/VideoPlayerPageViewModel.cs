@@ -87,10 +87,10 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);
-            InitializeSections();
             var initialPart = FindInitialPart(default);
             LoadInitialProgress();
             ChangePart(initialPart);
+            InitializeSections();
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)

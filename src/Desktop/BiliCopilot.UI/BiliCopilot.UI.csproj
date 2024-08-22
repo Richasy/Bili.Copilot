@@ -49,6 +49,8 @@
     <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
+    <None Remove="Controls\Components\StatusTip.xaml" />
+    <None Remove="Controls\Components\TipPopup.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
@@ -94,8 +96,6 @@
     <None Remove="Controls\Moment\MomentImageGallery.xaml" />
     <None Remove="Controls\Moment\MomentPresenter.xaml" />
     <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
-    <None Remove="Controls\Moment\MyMomentsMainBody.xaml" />
-    <None Remove="Controls\Moment\MyMomentsMainHeader.xaml" />
     <None Remove="Controls\Moment\UserSpacePageBody.xaml" />
     <None Remove="Controls\Moment\UserSpacePageHeader.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
@@ -205,7 +205,6 @@
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
     <None Remove="Pages\Overlay\LivePlayerPage.xaml" />
-    <None Remove="Pages\Overlay\MyMomentsPage.xaml" />
     <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
@@ -906,21 +905,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Overlay\MyMomentsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Moment\MyMomentsMainBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Moment\MyMomentsMainHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Moment\MomentImageGallery.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1215,6 +1199,12 @@
     <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Components\TipPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\StatusTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
