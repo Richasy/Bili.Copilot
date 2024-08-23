@@ -942,13 +942,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\libmpv\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\libmpv\libmpv-2.dll">
+    <Content Update="Assets\libmpv\x64\libmpv-2.dll" Condition="'$(Platform)' == 'x64'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="Assets\libmpv\yt-dlp.exe">
+    <Content Update="Assets\libmpv\arm64\libmpv-2.dll" Condition="'$(Platform)' == 'ARM64'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

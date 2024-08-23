@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Runtime.InteropServices;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.Input;
@@ -32,7 +33,9 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private static async Task InitializeMpvAsync()
     {
-        var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/libmpv/libmpv-2.dll")).AsTask();
+        var architecture = RuntimeInformation.ProcessArchitecture;
+        var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
+        var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/libmpv/{identifier}/libmpv-2.dll")).AsTask();
         var libPath = libFile.Path;
         Resolver.SetCustomMpvPath(libPath);
     }
