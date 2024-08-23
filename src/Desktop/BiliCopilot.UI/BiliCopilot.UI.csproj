@@ -20,6 +20,8 @@
     <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
+    <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
+    <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\qq_group_dark.jpg" />
@@ -941,13 +943,15 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Content Update="Assets\libmpv\x64\libmpv-2.dll" Condition="'$(Platform)' == 'x64'">
+  <ItemGroup  Condition="'$(Platform)' == 'x64'">
+    <None Update="Assets\libmpv\x64\libmpv-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\libmpv\arm64\libmpv-2.dll" Condition="'$(Platform)' == 'ARM64'">
+    </None>
+  </ItemGroup>
+  <ItemGroup  Condition="'$(Platform)' == 'ARM64'">
+    <None Update="Assets\libmpv\arm64\libmpv-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\ThemeSettingControl.xaml">
