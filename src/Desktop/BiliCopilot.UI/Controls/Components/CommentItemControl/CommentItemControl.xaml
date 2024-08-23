@@ -111,11 +111,12 @@
                                     x:Name="LikeButton"
                                     VerticalAlignment="Center"
                                     Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                    IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Mode=OneWay}">
+                                    IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}">
                                     <StackPanel Orientation="Horizontal" Spacing="8">
                                         <ic:SymbolIcon
                                             VerticalAlignment="Center"
                                             FontSize="12"
+                                            IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
                                             Symbol="ThumbLike" />
                                         <TextBlock
                                             VerticalAlignment="Center"

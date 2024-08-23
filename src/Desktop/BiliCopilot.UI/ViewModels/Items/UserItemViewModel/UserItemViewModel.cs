@@ -5,6 +5,7 @@ using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
@@ -41,13 +42,31 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
         var relationService = this.Get<IRelationshipService>();
         if (IsFollowed)
         {
-            await relationService.UnfollowUserAsync(Id);
-            IsFollowed = false;
+            try
+            {
+                await relationService.UnfollowUserAsync(Id);
+                IsFollowed = false;
+                this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Unfollowed), InfoType.Success));
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<UserItemViewModel>>().LogError(ex, "取消关注用户时失败");
+                this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToUnfollowUser), InfoType.Error));
+            }
         }
         else
         {
-            await relationService.FollowUserAsync(Id);
-            IsFollowed = true;
+            try
+            {
+                await relationService.FollowUserAsync(Id);
+                IsFollowed = true;
+                this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Followed), InfoType.Success));
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<UserItemViewModel>>().LogError(ex, "关注用户时失败");
+                this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToFollowUser), InfoType.Error));
+            }
         }
     }
 }

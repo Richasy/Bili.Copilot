@@ -62,7 +62,7 @@ public sealed partial class VideoHistorySectionDetailViewModel : ViewModelBase, 
             {
                 foreach (var video in group.Videos)
                 {
-                    Items.Add(new VideoItemViewModel(video, Models.Constants.VideoCardStyle.History));
+                    Items.Add(new VideoItemViewModel(video, Models.Constants.VideoCardStyle.History, removeAction: RemoveHistory));
                 }
             }
 
@@ -78,5 +78,11 @@ public sealed partial class VideoHistorySectionDetailViewModel : ViewModelBase, 
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void RemoveHistory(VideoItemViewModel vm)
+    {
+        Items.Remove(vm);
+        IsEmpty = Items.Count == 0;
     }
 }

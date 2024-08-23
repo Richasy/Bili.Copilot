@@ -17,7 +17,7 @@
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource PgcLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:SeasonItemViewModel">
-                            <components:SeasonCardControl Style="{StaticResource IndexSeasonCardStyle}" ViewModel="{x:Bind}" />
+                            <components:SeasonCardControl Style="{StaticResource FavoriteSeasonCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>

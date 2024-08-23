@@ -96,7 +96,7 @@ public sealed partial class PgcFavoriteSectionDetailViewModel : ViewModelBase, I
             {
                 foreach (var item in seasons)
                 {
-                    Items.Add(new SeasonItemViewModel(item));
+                    Items.Add(new SeasonItemViewModel(item, CurrentStatus, RemoveSeason));
                 }
             }
 
@@ -112,5 +112,12 @@ public sealed partial class PgcFavoriteSectionDetailViewModel : ViewModelBase, I
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void RemoveSeason(SeasonItemViewModel item)
+    {
+        Items.Remove(item);
+        IsEmpty = Items.Count == 0;
+        ListUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

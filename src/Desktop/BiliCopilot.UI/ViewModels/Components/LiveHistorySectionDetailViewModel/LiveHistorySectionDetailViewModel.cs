@@ -62,7 +62,7 @@ public sealed partial class LiveHistorySectionDetailViewModel : ViewModelBase, I
             {
                 foreach (var live in group.Lives)
                 {
-                    Items.Add(new LiveItemViewModel(live));
+                    Items.Add(new LiveItemViewModel(live, removeAction: RemoveHistory));
                 }
             }
 
@@ -78,5 +78,11 @@ public sealed partial class LiveHistorySectionDetailViewModel : ViewModelBase, I
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void RemoveHistory(LiveItemViewModel vm)
+    {
+        Items.Remove(vm);
+        IsEmpty = Items.Count == 0;
     }
 }

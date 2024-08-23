@@ -13,8 +13,5 @@ public sealed class MomentCardControl : LayoutControlBase<MomentItemViewModel>
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentCardControl"/> class.
     /// </summary>
-    public MomentCardControl()
-    {
-        DefaultStyleKey = typeof(MomentCardControl);
-    }
+    public MomentCardControl() => DefaultStyleKey = typeof(MomentCardControl);
 }

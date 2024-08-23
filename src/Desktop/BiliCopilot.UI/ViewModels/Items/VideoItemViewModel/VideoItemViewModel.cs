@@ -22,7 +22,8 @@ namespace BiliCopilot.UI.ViewModels.Items;
 /// </summary>
 public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 {
-    private readonly Action<VideoItemViewModel>? _removeViewLaterAction;
+    private readonly Action<VideoItemViewModel>? _removeAction;
+    private readonly VideoFavoriteFolder? _favFolder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoItemViewModel"/> class.
@@ -30,10 +31,12 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     public VideoItemViewModel(
         VideoInformation info,
         VideoCardStyle style,
-        Action<VideoItemViewModel> removeViewLaterAction = default)
+        Action<VideoItemViewModel> removeAction = default,
+        VideoFavoriteFolder? favFolder = default)
         : base(info)
     {
-        _removeViewLaterAction = removeViewLaterAction;
+        _removeAction = removeAction;
+        _favFolder = favFolder;
         var primaryLan = ApplicationLanguages.Languages[0];
         Style = style;
         Title = info.Identifier.Title;
@@ -93,13 +96,43 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     {
         try
         {
-            await this.Get<IViewLaterService>().AddAsync(Data.Identifier.Id);
-            _removeViewLaterAction?.Invoke(this);
+            await this.Get<IViewLaterService>().RemoveAsync([Data.Identifier.Id]);
+            _removeAction?.Invoke(this);
         }
         catch (Exception ex)
         {
-            this.Get<ILogger<VideoItemViewModel>>().LogError(ex, "移除视频失败");
+            this.Get<ILogger<VideoItemViewModel>>().LogError(ex, "移除稍后再看视频失败");
             this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToRemoveVideoFromViewLater), InfoType.Error));
+        }
+    }
+
+    [RelayCommand]
+    private async Task RemoveHistoryAsync()
+    {
+        try
+        {
+            await this.Get<IViewHistoryService>().RemoveVideoHistoryItemAsync(Data);
+            _removeAction?.Invoke(this);
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<VideoItemViewModel>>().LogError(ex, "移除历史记录视频失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToRemoveVideoFromHistory), InfoType.Error));
+        }
+    }
+
+    [RelayCommand]
+    private async Task RemoveFavoriteAsync()
+    {
+        try
+        {
+            await this.Get<IFavoriteService>().RemoveVideoAsync(_favFolder, Data.Identifier);
+            _removeAction?.Invoke(this);
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<VideoItemViewModel>>().LogError(ex, "移除收藏视频失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToRemoveVideoFromFavorite), InfoType.Error));
         }
     }
 

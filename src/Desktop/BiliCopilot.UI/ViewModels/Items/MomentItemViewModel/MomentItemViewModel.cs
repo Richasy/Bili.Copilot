@@ -8,10 +8,13 @@ using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -64,6 +67,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             }
             else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
             {
+                IsPgc = true;
                 VideoTitle = einfo.Identifier.Title;
                 VideoCover = einfo.Identifier.Cover.Uri;
             }
@@ -108,10 +112,19 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
-            var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+            var hasEpid = einfo.Identifier.Id != "0";
+            if (hasEpid)
+            {
+                var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
+                this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+            }
+            else
+            {
+                // 出差番剧，使用网页打开.
+                OpenInBroswerCommand.Execute(default);
+            }
         }
-        else if(FindInnerContent<LiveInformation>() is LiveInformation linfo)
+        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
         {
             this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo);
         }
@@ -120,6 +133,96 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     [RelayCommand]
     private void ShowUserSpace()
         => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+
+    [RelayCommand]
+    private void PlayInPrivate()
+    {
+        var vinfo = FindInnerContent<VideoInformation>();
+        if (vinfo is null)
+        {
+            return;
+        }
+
+        var snapshot = new VideoSnapshot(vinfo, true);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+    }
+
+    [RelayCommand]
+    private async Task AddToViewLaterAsync()
+    {
+        var vinfo = FindInnerContent<VideoInformation>();
+        var aid = string.Empty;
+        if (vinfo is null)
+        {
+            var einfo = FindInnerContent<EpisodeInformation>();
+            if (einfo is null)
+            {
+                return;
+            }
+
+            aid = einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+        }
+        else
+        {
+            aid = vinfo.Identifier.Id;
+        }
+
+        try
+        {
+            await this.Get<IViewLaterService>().AddAsync(aid);
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.AddViewLaterSucceed), InfoType.Success));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "添加稍后再看失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.AddViewLaterFailed), InfoType.Error));
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenInBroswerAsync()
+    {
+        var url = GetMediaUrl();
+        if (url is not null)
+        {
+            await Launcher.LaunchUriAsync(new Uri(url));
+        }
+    }
+
+    [RelayCommand]
+    private void CopyUrl()
+    {
+        var url = GetMediaUrl();
+        if (url is not null)
+        {
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(url);
+            dataPackage.SetWebLink(new Uri(url));
+            Clipboard.SetContent(dataPackage);
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+        }
+    }
+
+    private string? GetMediaUrl()
+    {
+        if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
+        {
+            return $"https://www.bilibili.com/av{vinfo.Identifier.Id}";
+        }
+        else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation episodeInformation)
+        {
+            if (episodeInformation.Identifier.Id == "0")
+            {
+                // 出差番剧.
+                var ssid = episodeInformation.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId);
+                return $"https://www.bilibili.com/bangumi/play/ss{ssid}";
+            }
+
+            return $"https://www.bilibili.com/bangumi/play/ep{episodeInformation.Identifier.Id}";
+        }
+
+        return default;
+    }
 
     private T? FindInnerContent<T>()
         where T : class

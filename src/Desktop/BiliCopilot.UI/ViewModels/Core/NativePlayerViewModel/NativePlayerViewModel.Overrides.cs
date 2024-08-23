@@ -20,6 +20,11 @@ public sealed partial class NativePlayerViewModel
     /// <inheritdoc/>
     protected override Task OnCloseAsync()
     {
+        if (Player is null)
+        {
+            return Task.CompletedTask;
+        }
+
         _element.SetMediaPlayer(default);
         if (Player?.PlaybackSession != null)
         {

@@ -62,7 +62,7 @@ public sealed partial class ArticleHistorySectionDetailViewModel : ViewModelBase
             {
                 foreach (var article in group.Articles)
                 {
-                    Items.Add(new ArticleItemViewModel(article));
+                    Items.Add(new ArticleItemViewModel(article, removeAction: RemoveArticle));
                 }
             }
 
@@ -78,5 +78,12 @@ public sealed partial class ArticleHistorySectionDetailViewModel : ViewModelBase
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void RemoveArticle(ArticleItemViewModel item)
+    {
+        Items.Remove(item);
+        IsEmpty = Items.Count == 0;
+        ListUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

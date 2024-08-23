@@ -13,20 +13,15 @@
 
     <Grid RowSpacing="12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <components:CommentItemControl
-            Margin="12,0"
-            IsMoreEnabled="False"
-            ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
         <ScrollView
             x:Name="CommentScrollView"
-            Grid.Row="1"
             Padding="0"
             Style="{StaticResource PageScrollViewStyle}">
-            <Grid Margin="12,0">
+            <StackPanel Margin="12,0" Spacing="12">
+                <components:CommentItemControl IsMoreEnabled="False" ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:CommentItemViewModel">
@@ -34,10 +29,9 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </Grid>
+            </StackPanel>
         </ScrollView>
         <components:EmptyHolder
-            Grid.Row="1"
             Description="{ext:Locale Name=NoReply}"
             Emoji="&#x1FAE2;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
@@ -47,7 +41,7 @@
         </components:EmptyHolder>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <local:CommentTextBox
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="12,0"
             IsEnabled="{x:Bind ViewModel.IsReplying, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
             ReplyTip="{x:Bind ViewModel.ReplyTarget, Mode=OneWay}"

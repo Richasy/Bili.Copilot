@@ -25,6 +25,9 @@ public sealed partial class MomentItemViewModel
     [ObservableProperty]
     private bool _isLiked;
 
+    [ObservableProperty]
+    private bool _isPgc;
+
     /// <summary>
     /// 作者.
     /// </summary>

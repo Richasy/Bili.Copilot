@@ -30,5 +30,20 @@ public sealed partial class SeasonItemViewModel
     /// <summary>
     /// 评分.
     /// </summary>
-    public double? Score { get; set; }
+    public double? Score { get; init; }
+
+    /// <summary>
+    /// 处于想看状态.
+    /// </summary>
+    public bool? InWantWatch { get; init; }
+
+    /// <summary>
+    /// 处于在看状态.
+    /// </summary>
+    public bool? InWatching { get; init; }
+
+    /// <summary>
+    /// 处于已看状态.
+    /// </summary>
+    public bool? InWatched { get; init; }
 }

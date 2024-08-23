@@ -32,7 +32,7 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
         TotalCount = detail.TotalCount;
         foreach (var item in detail.Videos)
         {
-            Items.Add(new VideoItemViewModel(item, Models.Constants.VideoCardStyle.Favorite));
+            Items.Add(new VideoItemViewModel(item, Models.Constants.VideoCardStyle.Favorite, removeAction: RemoveVideo, favFolder: Data));
         }
 
         IsEmpty = Items.Count == 0;
@@ -78,7 +78,7 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
             {
                 foreach (var item in detail.Videos)
                 {
-                    Items.Add(new VideoItemViewModel(item, Models.Constants.VideoCardStyle.Favorite));
+                    Items.Add(new VideoItemViewModel(item, Models.Constants.VideoCardStyle.Favorite, removeAction: RemoveVideo, favFolder: Data));
                 }
 
                 ListUpdated?.Invoke(this, EventArgs.Empty);
@@ -94,5 +94,12 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
             IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
+    }
+
+    private void RemoveVideo(VideoItemViewModel vm)
+    {
+        Items.Remove(vm);
+        IsEmpty = Items.Count == 0;
+        ListUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -69,6 +69,26 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
         };
     }
 
+    private static MenuFlyoutItem CreateRemoveHistoryItem()
+    {
+        return new MenuFlyoutItem()
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.Remove),
+            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
+            Tag = "RemoveHistory",
+        };
+    }
+
+    private static MenuFlyoutItem CreateRemoveFavoriteItem()
+    {
+        return new MenuFlyoutItem()
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.Remove),
+            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
+            Tag = "RemoveFavorite",
+        };
+    }
+
     private static MenuFlyoutItem CreateOpenInBroswerItem()
     {
         return new MenuFlyoutItem()
@@ -120,6 +140,14 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
         {
             menuFlyout.Items.Add(CreateRemoveViewLaterItem());
         }
+        else if (ViewModel.Style == VideoCardStyle.History)
+        {
+            menuFlyout.Items.Add(CreateRemoveHistoryItem());
+        }
+        else if (ViewModel.Style == VideoCardStyle.Favorite)
+        {
+            menuFlyout.Items.Add(CreateRemoveFavoriteItem());
+        }
 
         ContextFlyout = menuFlyout;
     }
@@ -146,6 +174,12 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
                     break;
                 case "RemoveViewLater":
                     item.Command = ViewModel.RemoveViewLaterCommand;
+                    break;
+                case "RemoveHistory":
+                    item.Command = ViewModel.RemoveHistoryCommand;
+                    break;
+                case "RemoveFavorite":
+                    item.Command = ViewModel.RemoveFavoriteCommand;
                     break;
                 case "OpenInBrowser":
                     item.Command = ViewModel.OpenInBroswerCommand;
