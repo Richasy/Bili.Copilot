@@ -30,9 +30,6 @@ public sealed partial class VideoSearchSectionDetailViewModel
     private bool _isLoading;
 
     [ObservableProperty]
-    private int? _count;
-
-    [ObservableProperty]
     private ComprehensiveSearchSortType _sort;
 
     [ObservableProperty]

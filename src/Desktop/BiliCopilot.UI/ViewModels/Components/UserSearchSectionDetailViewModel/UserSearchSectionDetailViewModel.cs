@@ -29,8 +29,7 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
     {
         Clear();
         _partition = partition;
-        Count = partition.TotalItemCount;
-        IsEmpty = Count == 0;
+        IsEmpty = false;
         _canRequest = !IsEmpty;
         _keyword = keyword;
     }
@@ -41,7 +40,6 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
         _partition = default;
         _keyword = string.Empty;
         IsEmpty = false;
-        Count = default;
         _canRequest = false;
         Items.Clear();
     }
@@ -53,7 +51,7 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
     [RelayCommand]
     private async Task LoadItemsAsync()
     {
-        if (!_canRequest || IsEmpty || IsLoading || Items.Count >= Count)
+        if (!_canRequest || IsEmpty || IsLoading)
         {
             return;
         }
@@ -77,6 +75,7 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
         }
         finally
         {
+            IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
     }

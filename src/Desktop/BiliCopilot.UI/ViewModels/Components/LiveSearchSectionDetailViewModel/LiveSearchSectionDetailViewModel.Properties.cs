@@ -29,9 +29,6 @@ public sealed partial class LiveSearchSectionDetailViewModel
     [ObservableProperty]
     private bool _isLoading;
 
-    [ObservableProperty]
-    private int? _count;
-
     /// <summary>
     /// 列表已完成更新.
     /// </summary>

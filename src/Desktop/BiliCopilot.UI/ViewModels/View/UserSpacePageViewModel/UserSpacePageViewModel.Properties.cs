@@ -2,6 +2,9 @@
 
 using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.User;
+using Richasy.BiliKernel.Models.User;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -10,6 +13,10 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// </summary>
 public sealed partial class UserSpacePageViewModel
 {
+    private readonly IRelationshipService _relationshipService;
+    private readonly ILogger<UserSpacePageViewModel> _logger;
+    private UserProfile _profile;
+
     [ObservableProperty]
     private IReadOnlyCollection<UserMomentDetailViewModel> _sections;
 
@@ -21,6 +28,9 @@ public sealed partial class UserSpacePageViewModel
 
     [ObservableProperty]
     private string _userName;
+
+    [ObservableProperty]
+    private bool _isFollowed;
 
     /// <summary>
     /// 区块初始化完成.

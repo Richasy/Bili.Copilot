@@ -83,4 +83,9 @@ public sealed partial class VideoItemViewModel
     /// 进度文本.
     /// </summary>
     public string? ProgressText { get; init; }
+
+    /// <summary>
+    /// 用户信息是否有效.
+    /// </summary>
+    public bool IsUserValid { get; init; }
 }

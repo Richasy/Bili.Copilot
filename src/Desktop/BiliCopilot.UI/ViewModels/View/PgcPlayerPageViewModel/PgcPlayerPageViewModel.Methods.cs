@@ -23,6 +23,11 @@ public sealed partial class PgcPlayerPageViewModel
         SeasonTitle = view.Information.Identifier.Title;
         Description = view.Information.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Description);
         Alias = view.Information.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Alias);
+        if (string.IsNullOrEmpty(Alias))
+        {
+            Alias = view.Information.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Subtitle);
+        }
+
         SeasonId = view.Information.Identifier.Id;
         IsFollow = view.Information.IsTracking ?? false;
         PlayCount = view.Information.CommunityInformation.PlayCount ?? 0;

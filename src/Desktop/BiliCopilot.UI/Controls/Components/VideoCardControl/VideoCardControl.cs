@@ -124,7 +124,7 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
         menuFlyout.Items.Add(CreatePrivatePlayItem());
-        if (ViewModel.Style != VideoCardStyle.Moment)
+        if (ViewModel.Style != VideoCardStyle.Moment && ViewModel.IsUserValid)
         {
             menuFlyout.Items.Add(CreateUserSpaceItem());
         }

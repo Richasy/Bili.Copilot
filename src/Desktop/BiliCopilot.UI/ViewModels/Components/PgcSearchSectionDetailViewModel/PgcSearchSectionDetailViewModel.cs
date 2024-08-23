@@ -31,8 +31,7 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
         Clear();
         SectionType = (SearchSectionType)partition.Id;
         _partition = partition;
-        Count = partition.TotalItemCount;
-        IsEmpty = Count == 0;
+        IsEmpty = false;
         _canRequest = !IsEmpty;
         _keyword = keyword;
     }
@@ -43,7 +42,6 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
         _partition = default;
         _keyword = string.Empty;
         IsEmpty = false;
-        Count = default;
         _canRequest = false;
         Items.Clear();
     }
@@ -55,7 +53,7 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
     [RelayCommand]
     private async Task LoadItemsAsync()
     {
-        if (!_canRequest || IsEmpty || IsLoading || Items.Count >= Count)
+        if (!_canRequest || IsEmpty || IsLoading)
         {
             return;
         }
@@ -79,6 +77,7 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
         }
         finally
         {
+            IsEmpty = Items.Count == 0;
             IsLoading = false;
         }
     }

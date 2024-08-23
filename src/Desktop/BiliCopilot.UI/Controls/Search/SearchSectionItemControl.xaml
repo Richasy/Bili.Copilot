@@ -19,7 +19,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ic:SymbolIcon
             VerticalAlignment="Center"
@@ -29,11 +28,5 @@
             Grid.Column="1"
             VerticalAlignment="Center"
             Text="{x:Bind ViewModel.SectionType, Mode=OneWay, Converter={StaticResource TextConverter}}" />
-        <InfoBadge
-            Grid.Column="2"
-            VerticalAlignment="Center"
-            Style="{StaticResource InformationalValueInfoBadgeStyle}"
-            Visibility="{x:Bind ViewModel.Count, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}"
-            Value="{x:Bind local:SearchSectionItemControl.ToCount(ViewModel.Count), Mode=OneWay}" />
     </Grid>
 </UserControl>

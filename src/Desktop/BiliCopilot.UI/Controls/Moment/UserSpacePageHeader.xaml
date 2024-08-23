@@ -16,10 +16,32 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">
-            <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
-            <Run Text="{ext:Locale Name=UserSpaceTitle}" />
-        </TextBlock>
+        <StackPanel
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                <Run Text="{ext:Locale Name=UserSpaceTitle}" />
+            </TextBlock>
+            <ToggleButton
+                Width="32"
+                Height="32"
+                Padding="0"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{x:Bind ViewModel.ToggleFollowCommand, Mode=OneWay}"
+                CornerRadius="16"
+                IsChecked="{x:Bind ViewModel.IsFollowed, Mode=OneWay}"
+                ToolTipService.ToolTip="{ext:Locale Name=Follow}">
+                <ic:SymbolIcon
+                    FontSize="14"
+                    IconVariant="{x:Bind ViewModel.IsFollowed, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
+                    Symbol="Heart" />
+            </ToggleButton>
+        </StackPanel>
+
         <SelectorBar
             x:Name="Selector"
             Grid.Column="1"

@@ -23,11 +23,6 @@ public interface ISearchSectionDetailViewModel : INotifyPropertyChanged
     public bool IsEmpty { get; }
 
     /// <summary>
-    /// 数量.
-    /// </summary>
-    public int? Count { get; }
-
-    /// <summary>
     /// 首次加载数据.
     /// </summary>
     IAsyncRelayCommand TryFirstLoadCommand { get; }

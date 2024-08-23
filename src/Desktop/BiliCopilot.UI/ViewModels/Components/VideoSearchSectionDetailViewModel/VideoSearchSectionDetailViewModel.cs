@@ -42,7 +42,6 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         _keyword = string.Empty;
         IsEmpty = false;
         _isPreventLoadMore = false;
-        Count = default;
         _canRequest = false;
         Items.Clear();
     }
