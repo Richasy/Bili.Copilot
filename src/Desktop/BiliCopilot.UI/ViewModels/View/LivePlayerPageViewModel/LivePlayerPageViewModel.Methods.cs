@@ -17,6 +17,7 @@ public sealed partial class LivePlayerPageViewModel
         _view = view;
         Cover = view.Information.Identifier.Cover.SourceUri;
         Title = view.Information.Identifier.Title;
+        Player.Title = Title;
         Description = view.Information.GetExtensionIfNotNull<string>(LiveExtensionDataId.Description);
         UpName = view.Information.User.Name;
         UpAvatar = view.Information.User.Avatar.Uri;

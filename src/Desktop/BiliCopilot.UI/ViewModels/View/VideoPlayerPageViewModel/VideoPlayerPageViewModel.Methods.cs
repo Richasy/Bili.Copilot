@@ -35,6 +35,7 @@ public sealed partial class VideoPlayerPageViewModel
         IsCoined = view.Operation.IsCoined;
         IsFavorited = view.Operation.IsFavorited;
         IsCoinAlsoLike = true;
+        Player.Title = Title;
         CalcPlayerHeight();
     }
 
@@ -135,6 +136,7 @@ public sealed partial class VideoPlayerPageViewModel
         _part = default;
         _videoSegments = default;
         _audioSegments = default;
+        _initialProgress = -1;
         Tags = default;
         UpAvatar = default;
         IsFollow = false;

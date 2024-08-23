@@ -105,7 +105,7 @@ public sealed partial class PgcPlayerPageViewModel
         _view = default;
         _videoSegments = default;
         _audioSegments = default;
-        _initialProgress = 0;
+        _initialProgress = -1;
         Cover = default;
         SeasonTitle = default;
         IsFollow = false;

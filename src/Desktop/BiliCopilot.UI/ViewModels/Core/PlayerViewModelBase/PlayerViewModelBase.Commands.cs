@@ -325,4 +325,12 @@ public abstract partial class PlayerViewModelBase
 
         await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Position);
     }
+
+    [RelayCommand]
+    private void OpenWithMpv()
+        => OpenWithMpvOrMpvNet(true);
+
+    [RelayCommand]
+    private void OpenWithMpvNet()
+        => OpenWithMpvOrMpvNet(false);
 }

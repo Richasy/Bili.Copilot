@@ -186,6 +186,11 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void ChangePart(VideoPart part)
     {
+        if (_initialProgress == 0)
+        {
+            _initialProgress = -1;
+        }
+
         _part = part;
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);

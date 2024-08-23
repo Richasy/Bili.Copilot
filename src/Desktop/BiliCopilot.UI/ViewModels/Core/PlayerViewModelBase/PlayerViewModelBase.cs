@@ -30,6 +30,11 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0)
     {
+        if (IsMediaLoaded() && !IsPaused)
+        {
+            await TogglePlayPauseAsync();
+        }
+
         _videoUrl = videoUrl;
         _audioUrl = audioUrl;
         _autoPlay = isAutoPlay;

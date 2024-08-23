@@ -105,6 +105,11 @@ public abstract partial class PlayerViewModelBase
     /// 是否为 PGC 播放.
     /// </summary>
     public bool IsPgc { get; set; }
+
+    /// <summary>
+    /// 视频标题.
+    /// </summary>
+    public string Title { get; set; }
 }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore SA1401 // Fields should be private

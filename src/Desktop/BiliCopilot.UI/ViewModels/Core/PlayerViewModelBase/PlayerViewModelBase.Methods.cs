@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
+using Richasy.BiliKernel.Bili.Authorization;
+
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
@@ -58,6 +61,25 @@ public abstract partial class PlayerViewModelBase
         {
             _displayRequest?.RequestRelease();
             _displayRequest = null;
+        });
+    }
+
+    private void OpenWithMpvOrMpvNet(bool isMpv)
+    {
+        var httpParams = IsLive
+            ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{LiveReferer}\\\" --user-agent \\\"{LiveUserAgent}\\\""
+            : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{VideoReferer}\\\" --user-agent=\\\"{VideoUserAgent}\\\"";
+        var exeName = isMpv ? "mpv" : "mpvnet";
+        var command = $"{exeName} {httpParams} --title=\\\"{Title}\\\" \\\"{_videoUrl}\\\"";
+        if (!string.IsNullOrEmpty(_audioUrl))
+        {
+            command += $" --audio-file=\\\"{_audioUrl}\\\"";
+        }
+
+        _ = Task.Run(() =>
+        {
+            var startInfo = new ProcessStartInfo("powershell.exe", $"-Command \"{command}\"");
+            var process = Process.Start(startInfo);
         });
     }
 }

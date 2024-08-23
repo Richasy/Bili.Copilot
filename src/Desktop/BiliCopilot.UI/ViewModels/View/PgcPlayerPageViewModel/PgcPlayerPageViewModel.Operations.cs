@@ -230,6 +230,7 @@ public sealed partial class PgcPlayerPageViewModel
 
         EpisodeId = episode.Identifier.Id;
         EpisodeTitle = SeasonTitle + " - " + episode.Identifier.Title;
+        Player.Title = EpisodeTitle;
         var aid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
         var cid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
         _comments.Initialize(aid, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);

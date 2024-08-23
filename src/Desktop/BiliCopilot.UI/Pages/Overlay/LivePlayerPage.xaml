@@ -49,6 +49,9 @@
             Margin="0,0,-6,0"
             Style="{StaticResource PageScrollViewStyle}">
             <StackPanel>
+                <StackPanel.ChildrenTransitions>
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
                 <Grid
                     x:Name="PlayerContainer"
                     Grid.Row="2"

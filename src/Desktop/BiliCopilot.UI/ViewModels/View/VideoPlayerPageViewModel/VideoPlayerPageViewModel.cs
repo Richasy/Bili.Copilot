@@ -223,7 +223,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             npvm.InjectSegments(vSeg, aSeg);
         }
 
-        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
+        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress);
         Danmaku?.ClearAll();
         Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
 

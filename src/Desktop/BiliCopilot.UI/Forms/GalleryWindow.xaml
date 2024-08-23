@@ -10,7 +10,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <base:AppTitleBar x:Name="TitleBar" VerticalAlignment="Top" />
+        <base:AppTitleBar
+            x:Name="TitleBar"
+            VerticalAlignment="Top"
+            BorderThickness="0" />
         <Frame x:Name="MainFrame" />
         <Grid
             x:Name="TipContainer"

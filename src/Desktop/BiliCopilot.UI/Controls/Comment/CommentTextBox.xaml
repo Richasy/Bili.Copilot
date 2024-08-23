@@ -14,7 +14,7 @@
 
     <Grid
         Padding="4"
-        Background="{ThemeResource CardBackgroundFillColorDefault}"
+        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
         ColumnSpacing="12"
         CornerRadius="{StaticResource ControlCornerRadius}">
         <Grid.ColumnDefinitions>

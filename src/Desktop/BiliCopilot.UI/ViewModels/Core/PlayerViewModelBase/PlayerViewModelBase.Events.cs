@@ -16,6 +16,11 @@ public abstract partial class PlayerViewModelBase
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
+            if (IsPaused)
+            {
+                return;
+            }
+
             Position = position;
             if (duration >= 0)
             {

@@ -51,7 +51,7 @@
                 <settings:LoggerSettingControl />
                 <TextBlock
                     Margin="0,16,0,8"
-                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                    HorizontalAlignment="Left"
                     Text="{ext:Locale Name=AboutThisApp}" />
                 <settings:AboutSettingControl />
                 <StackPanel

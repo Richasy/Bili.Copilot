@@ -48,8 +48,8 @@
                     <MenuFlyoutSeparator />
                     <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />
                     <MenuFlyoutItem Command="{x:Bind ViewModel.OpenInBroswerCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenInBrowser}" />
-                    <MenuFlyoutItem Text="{ext:Locale Name=OpenWithMpv}" />
-                    <MenuFlyoutItem Text="{ext:Locale Name=OpenWithMpvNet}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpv}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvNetCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpvNet}" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
