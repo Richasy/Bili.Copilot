@@ -87,6 +87,36 @@ public sealed partial class RootLayout : RootLayoutBase
         }
     }
 
+    /// <summary>
+    /// 尝试在播放器中切换播放暂停状态.
+    /// </summary>
+    /// <returns>是否处理.</returns>
+    public bool TryTogglePlayPauseIfInPlayer()
+    {
+        if (!ViewModel.IsOverlayOpen)
+        {
+            return false;
+        }
+
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
+            return true;
+        }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
+            return true;
+        }
+        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
+            return true;
+        }
+
+        return false;
+    }
+
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {

@@ -1,12 +1,19 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using BiliCopilot.UI.Controls.Components;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Input;
 using Richasy.WinUI.Share.Base;
 using Windows.Graphics;
+using Windows.System;
+using Windows.UI.WindowManagement;
+using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;
@@ -18,6 +25,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
+    private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
 
     /// <summary>
@@ -33,6 +41,8 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         MinWidth = WindowMinWidth;
         MinHeight = WindowMinHeight;
         this.Get<AppViewModel>().Windows.Add(this);
+        _inputActivationListener = InputActivationListener.GetForWindowId(AppWindow.Id);
+        _inputActivationListener.InputActivationChanged += OnInputActivationChanged;
 
         Activated += OnActivated;
         Closed += OnClosed;
@@ -62,6 +72,21 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         var left = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionLeft, 0);
         var top = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowPositionTop, 0);
         return new PointInt32(left, top);
+    }
+
+    private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
+    {
+        var isDeactivated = sender.State == InputActivationState.Deactivated;
+        if (isDeactivated)
+        {
+            KeyboardHook.KeyDown -= OnWindowKeyDown;
+            KeyboardHook.Stop();
+        }
+        else
+        {
+            KeyboardHook.Start();
+            KeyboardHook.KeyDown += OnWindowKeyDown;
+        }
     }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
@@ -105,6 +130,23 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
         GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
         SaveCurrentWindowStats();
+    }
+
+    private void OnWindowKeyDown(object? sender, PlayerKeyboardEventArgs e)
+    {
+        if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause)
+        {
+            if (e.Key == VirtualKey.Space)
+            {
+                var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
+                if (focusEle is TextBox)
+                {
+                    return;
+                }
+            }
+
+            e.Handled = RootLayout.TryTogglePlayPauseIfInPlayer();
+        }
     }
 
     private RectInt32 GetRenderRect(RectInt32 workArea)
@@ -161,4 +203,57 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             }
         }
     }
+}
+
+internal static class KeyboardHook
+{
+    private const int WM_KEYDOWN = 0x0100;
+
+    private static readonly HOOKPROC _proc = HookCallback;
+    private static UnhookWindowsHookExSafeHandle _hookID = new();
+
+    public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
+
+    public static void Start() => _hookID = SetHook(_proc);
+
+    public static void Stop() => PInvoke.UnhookWindowsHookEx(new HHOOK(_hookID.DangerousGetHandle()));
+
+    private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc)
+    {
+        using var curProcess = Process.GetCurrentProcess();
+        using var curModule = curProcess.MainModule;
+        return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, PInvoke.GetModuleHandle(curModule.ModuleName), 0);
+    }
+
+    private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    {
+        if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
+        {
+            var vkCode = Marshal.ReadInt32(lParam);
+            var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
+            var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
+            KeyDown?.Invoke(null, args);
+            if (args.Handled)
+            {
+                return new LRESULT(1);
+            }
+        }
+
+        return PInvoke.CallNextHookEx(new HHOOK(_hookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
+    }
+}
+
+internal class PlayerKeyboardEventArgs
+{
+    public PlayerKeyboardEventArgs(int keyCode, bool isControlPressed)
+    {
+        Key = (VirtualKey)keyCode;
+        IsControlPressed = isControlPressed;
+    }
+
+    internal VirtualKey Key { get; }
+
+    internal bool IsControlPressed { get; }
+
+    internal bool Handled { get; set; }
 }
