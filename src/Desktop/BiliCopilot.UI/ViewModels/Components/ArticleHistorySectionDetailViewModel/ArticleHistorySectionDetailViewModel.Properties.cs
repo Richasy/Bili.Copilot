@@ -26,6 +26,9 @@ public sealed partial class ArticleHistorySectionDetailViewModel
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private ObservableCollection<ArticleItemViewModel> _items = new();
+
     /// <summary>
     /// 列表已完成更新.
     /// </summary>
@@ -33,9 +36,4 @@ public sealed partial class ArticleHistorySectionDetailViewModel
 
     /// <inheritdoc/>
     public ViewHistoryTabType Type => ViewHistoryTabType.Article;
-
-    /// <summary>
-    /// 条目列表.
-    /// </summary>
-    public ObservableCollection<ArticleItemViewModel> Items { get; private set; } = new();
 }

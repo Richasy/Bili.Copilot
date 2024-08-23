@@ -2313,4 +2313,16 @@
   <data name="FailedToUnfavoriteArticle" xml:space="preserve">
     <value>移除文章收藏时失败</value>
   </data>
+  <data name="FailedToLoadChatMessages" xml:space="preserve">
+    <value>加载聊天消息失败</value>
+  </data>
+  <data name="FailedToLoadChatSessions" xml:space="preserve">
+    <value>加载聊天会话列表失败</value>
+  </data>
+  <data name="FailedToSendMessage" xml:space="preserve">
+    <value>发送消息失败，请稍后再试</value>
+  </data>
+  <data name="MessageWithdrawn" xml:space="preserve">
+    <value>TA撤回了一条消息</value>
+  </data>
 </root>

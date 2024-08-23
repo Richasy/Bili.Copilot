@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatMessageItemControlBase
+    x:Class="BiliCopilot.UI.Controls.Message.ChatMessageItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Message"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid
+            x:Name="MessageContainer"
+            HorizontalAlignment="Left"
+            Visibility="{x:Bind ViewModel.IsWithdrawn, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Rectangle
+                x:Name="MessageBackground"
+                Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                RadiusX="4"
+                RadiusY="4"
+                Stroke="{ThemeResource ControlStrokeColorDefaultBrush}"
+                StrokeThickness="1" />
+            <Grid x:Name="TextContainer" Padding="12,8,12,4">
+                <components:EmoteTextBlock
+                    x:Name="PlainMessageBlock"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    MaxLines="99"
+                    Text="{x:Bind ViewModel.Content, Mode=OneWay}" />
+            </Grid>
+        </Grid>
+
+        <Border
+            x:Name="WithdrawContainer"
+            Padding="12,8"
+            HorizontalAlignment="Left"
+            BorderBrush="{ThemeResource TextFillColorDisabledBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Visibility="{x:Bind ViewModel.IsWithdrawn, Mode=OneWay}">
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{ext:Locale Name=MessageWithdrawn}" />
+        </Border>
+
+
+        <TextBlock
+            x:Name="TimeBlock"
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            FontSize="10"
+            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            Text="{x:Bind ViewModel.RelativeTime, Mode=OneWay}"
+            ToolTipService.ToolTip="{x:Bind ViewModel.ActualTime, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsWithdrawn, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutGroup">
+                <VisualStateGroup.States>
+                    <VisualState x:Name="AssistantState" />
+                    <VisualState x:Name="MyState">
+                        <VisualState.Setters>
+                            <Setter Target="MessageBackground.Fill" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+                            <Setter Target="MessageBackground.Stroke" Value="{ThemeResource ControlStrokeColorOnAccentDefaultBrush}" />
+                            <Setter Target="PlainMessageBlock.Foreground" Value="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                            <Setter Target="MessageContainer.HorizontalAlignment" Value="Right" />
+                            <Setter Target="TimeBlock.HorizontalAlignment" Value="Right" />
+                            <Setter Target="WithdrawContainer.HorizontalAlignment" Value="Right" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup.States>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:ChatMessageItemControlBase>

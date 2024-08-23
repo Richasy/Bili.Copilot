@@ -16,16 +16,27 @@ public sealed partial class MessagePageViewModel
     private readonly IMessageService _service;
     private readonly ILogger<MessagePageViewModel> _logger;
 
+    private bool _preventLoadMore;
+    private long? _chatSessionOffset;
+
     [ObservableProperty]
     private IMessageSectionDetailViewModel _currentSection;
 
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private bool _isChatSessionLoading;
+
     /// <summary>
     /// 分区初始化完成.
     /// </summary>
     public event EventHandler SectionInitialized;
+
+    /// <summary>
+    /// 聊天会话列表更新.
+    /// </summary>
+    public event EventHandler ChatSessionsUpdated;
 
     /// <summary>
     /// 分区列表.

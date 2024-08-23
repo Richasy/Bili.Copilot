@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.Storage;
 using WinUIEx;
@@ -93,6 +94,8 @@ public sealed partial class AppViewModel : ViewModelBase
     private void MakeCurrentWindowEnterCompactOverlay()
     {
         var window = ActivatedWindow;
+        (window as WindowBase).MinHeight = 320;
+        (window as WindowBase).MinWidth = 560;
         window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
         if (window is IPlayerHostWindow hostWindow)
         {
@@ -104,6 +107,8 @@ public sealed partial class AppViewModel : ViewModelBase
     private void MakeCurrentWindowExitCompactOverlay()
     {
         var window = ActivatedWindow;
+        (window as WindowBase).MinHeight = 480;
+        (window as WindowBase).MinWidth = 640;
         window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
         if (window is IPlayerHostWindow hostWindow)
         {

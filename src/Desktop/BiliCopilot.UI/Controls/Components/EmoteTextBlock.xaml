@@ -33,7 +33,6 @@
         <ItemsRepeater
             x:Name="Gallery"
             Grid.Row="1"
-            Margin="0,8,0,0"
             x:Load="False"
             Visibility="Collapsed">
             <ItemsRepeater.ItemTemplate>

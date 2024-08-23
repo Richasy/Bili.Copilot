@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatMessageControlBase
+    x:Class="BiliCopilot.UI.Controls.Message.ChatMessageHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Message"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource AvatarButtonStyle}">
+            <PersonPicture
+                Width="36"
+                Height="36"
+                DisplayName="{x:Bind ViewModel.UserName, Mode=OneWay}"
+                ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+        </Button>
+        <base:TrimTextBlock
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            MaxLines="1"
+            Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+
+        <Button
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            AutomationProperties.Name="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
+            IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <ic:SymbolIcon
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Symbol="ArrowSync" />
+                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</local:ChatMessageControlBase>

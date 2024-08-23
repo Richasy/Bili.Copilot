@@ -26,6 +26,9 @@ public sealed partial class AnimeTimelineViewModel
     [ObservableProperty]
     private TimelineItemViewModel _selectedTimeline;
 
+    [ObservableProperty]
+    private ObservableCollection<TimelineItemViewModel> _timelines = new();
+
     /// <summary>
     /// 时间线加载完成.
     /// </summary>
@@ -33,9 +36,4 @@ public sealed partial class AnimeTimelineViewModel
 
     /// <inheritdoc/>
     public PgcSectionType SectionType => PgcSectionType.Timeline;
-
-    /// <summary>
-    /// 时间线.
-    /// </summary>
-    public ObservableCollection<TimelineItemViewModel> Timelines { get; private set; } = new();
 }

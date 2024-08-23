@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using Humanizer;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Models.User;
@@ -22,5 +23,10 @@ public sealed partial class ChatMessageItemViewModel : ViewModelBase<ChatMessage
         ActualTime = data.Time?.ToString("yyyy/MM/dd HH:mm:ss");
         Content = data.Content;
         IsMe = data.SenderId == this.Get<IBiliTokenResolver>().GetToken().UserId.ToString();
+        IsWithdrawn = data.Type == Richasy.BiliKernel.Models.ChatMessageType.Withdrawn;
+        if (data.Type == Richasy.BiliKernel.Models.ChatMessageType.Unknown)
+        {
+            Content = new Richasy.BiliKernel.Models.Appearance.EmoteText(ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.NotSupportContent), default);
+        }
     }
 }

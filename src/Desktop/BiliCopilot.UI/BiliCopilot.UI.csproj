@@ -81,6 +81,11 @@
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\Message\ChatMessageBox.xaml" />
+    <None Remove="Controls\Message\ChatMessageHeader.xaml" />
+    <None Remove="Controls\Message\ChatMessageItemControl.xaml" />
+    <None Remove="Controls\Message\ChatSessionBody.xaml" />
+    <None Remove="Controls\Message\ChatSessionSideItem.xaml" />
     <None Remove="Controls\Message\MessagePageMainBody.xaml" />
     <None Remove="Controls\Message\MessagePageMainHeader.xaml" />
     <None Remove="Controls\Message\MessagePageSideBody.xaml" />
@@ -1201,6 +1206,21 @@
     <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Message\ChatMessageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\GalleryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

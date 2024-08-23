@@ -14,7 +14,13 @@
         <DataTemplate x:Key="NotifyTemplate" x:DataType="components:NotifyMessageSectionDetailViewModel">
             <local:NotifyMessageHeader ViewModel="{x:Bind}" />
         </DataTemplate>
-        <ext:MessageSectionTemplateSelector x:Key="Selector" NotifyTemplate="{StaticResource NotifyTemplate}" />
+        <DataTemplate x:Key="ChatTemplate" x:DataType="components:ChatMessageSectionDetailViewModel">
+            <local:ChatMessageHeader ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:MessageSectionTemplateSelector
+            x:Key="Selector"
+            ChatTemplate="{StaticResource ChatTemplate}"
+            NotifyTemplate="{StaticResource NotifyTemplate}" />
     </UserControl.Resources>
 
     <Grid>

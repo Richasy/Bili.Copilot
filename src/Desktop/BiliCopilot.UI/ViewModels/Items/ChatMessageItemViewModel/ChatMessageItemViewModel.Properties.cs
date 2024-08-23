@@ -25,6 +25,11 @@ public sealed partial class ChatMessageItemViewModel
     public bool IsMe { get; init; }
 
     /// <summary>
+    /// 是否已撤回.
+    /// </summary>
+    public bool IsWithdrawn { get; init; }
+
+    /// <summary>
     /// 消息内容.
     /// </summary>
     public EmoteText Content { get; init; }

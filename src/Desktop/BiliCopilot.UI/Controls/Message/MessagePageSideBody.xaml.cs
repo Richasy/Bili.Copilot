@@ -22,7 +22,9 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
     protected override void OnControlLoaded()
     {
         ViewModel.SectionInitialized += OnSectionInitialized;
+        ViewModel.ChatSessionsUpdated += OnChatSessionsUpdatedAsync;
         SectionView.SelectionChanged += OnSectionSelectionChanged;
+        SectionView.ScrollView.ViewChanged += OnViewChanged;
         CheckSectionSelection();
     }
 
@@ -30,7 +32,9 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
     protected override void OnControlUnloaded()
     {
         ViewModel.SectionInitialized -= OnSectionInitialized;
+        ViewModel.ChatSessionsUpdated -= OnChatSessionsUpdatedAsync;
         SectionView.SelectionChanged -= OnSectionSelectionChanged;
+        SectionView.ScrollView.ViewChanged -= OnViewChanged;
     }
 
     private void OnSectionInitialized(object? sender, EventArgs e)
@@ -42,11 +46,39 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
         ViewModel.SelectSectionCommand.Execute(item);
     }
 
+    private void OnViewChanged(ScrollView sender, object args)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            if (SectionView.ScrollView.ExtentHeight - SectionView.ScrollView.ViewportHeight - SectionView.ScrollView.VerticalOffset <= 40)
+            {
+                ViewModel.LoadChatSessionsCommand.Execute(default);
+            }
+        });
+    }
+
+    private async void OnChatSessionsUpdatedAsync(object? sender, EventArgs e)
+    {
+        await Task.Delay(500);
+        CheckChatSessionCount();
+    }
+
     private void CheckSectionSelection()
     {
         if (ViewModel.CurrentSection is not null)
         {
             SectionView.Select(ViewModel.Sections.IndexOf(ViewModel.CurrentSection));
         }
+    }
+
+    private void CheckChatSessionCount()
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            if (SectionView.ScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            {
+                ViewModel.LoadChatSessionsCommand.Execute(default);
+            }
+        });
     }
 }

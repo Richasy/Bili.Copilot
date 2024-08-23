@@ -18,6 +18,21 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Message\ChatMessageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\GalleryPage.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -71,7 +71,12 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
 
             if (para != null)
             {
+                RichBlock.Visibility = Visibility.Visible;
                 RichBlock.Blocks.Add(para);
+            }
+            else
+            {
+                RichBlock.Visibility = Visibility.Collapsed;
             }
 
             CheckTextTrim();
@@ -93,8 +98,13 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
     private void OnTextTrimChanged(RichTextBlock sender, IsTextTrimmedChangedEventArgs args)
         => CheckTextTrim();
 
-    private Paragraph ParseText()
+    private Paragraph? ParseText()
     {
+        if (string.IsNullOrEmpty(Text.Text))
+        {
+            return default;
+        }
+
         var text = Text.Text;
         var emotes = Text.Emotes;
         var para = new Paragraph();
@@ -148,7 +158,10 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
             }
 
             var para = ParseText();
-            FlyoutRichBlock.Blocks.Add(para);
+            if (para != null)
+            {
+                FlyoutRichBlock.Blocks.Add(para);
+            }
         }
         else
         {

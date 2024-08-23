@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -44,9 +46,9 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
         Sections.Add(new NotifyMessageSectionDetailViewModel(NotifyMessageType.Reply, _service));
         Sections.Add(new NotifyMessageSectionDetailViewModel(NotifyMessageType.At, _service));
         Sections.Add(new NotifyMessageSectionDetailViewModel(NotifyMessageType.Like, _service));
+        await LoadChatSessionsAsync();
         IsLoading = false;
         RestoreSelection();
-        await Task.CompletedTask;
         SectionInitialized?.Invoke(this, EventArgs.Empty);
     }
 
@@ -54,6 +56,8 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
     private async Task RefreshAsync()
     {
         Sections.Clear();
+        _chatSessionOffset = default;
+        _preventLoadMore = false;
         await InitializeAsync();
     }
 
@@ -69,6 +73,10 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
         if (vm is NotifyMessageSectionDetailViewModel nfVM)
         {
             sectionSettingValue = $"nf_{nfVM.Type}";
+        }
+        else if (vm is ChatMessageSectionDetailViewModel chatVM)
+        {
+            sectionSettingValue = $"chat_{chatVM.Data.User.Id}";
         }
 
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastSelectedMessageSection, sectionSettingValue);
@@ -105,6 +113,42 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
         }
     }
 
+    [RelayCommand]
+    private async Task LoadChatSessionsAsync()
+    {
+        if (IsChatSessionLoading || _preventLoadMore)
+        {
+            return;
+        }
+
+        try
+        {
+            IsChatSessionLoading = true;
+            var (sessions, offset, hasMore) = await _service.GetChatSessionsAsync(_chatSessionOffset);
+            _preventLoadMore = !hasMore;
+            _chatSessionOffset = offset;
+            if (sessions is not null)
+            {
+                foreach (var item in sessions)
+                {
+                    Sections.Add(new ChatMessageSectionDetailViewModel(item));
+                }
+
+                ChatSessionsUpdated?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        catch (Exception ex)
+        {
+            _preventLoadMore = true;
+            _logger.LogError(ex, "加载聊天会话时失败.");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToLoadChatSessions), InfoType.Error));
+        }
+        finally
+        {
+            IsChatSessionLoading = false;
+        }
+    }
+
     private void RestoreSelection()
     {
         var lastSelectedSection = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.LastSelectedMessageSection, string.Empty);
@@ -132,6 +176,12 @@ public sealed partial class MessagePageViewModel : LayoutPageViewModelBase
         else if (lastSelectedSection.StartsWith("chat"))
         {
             var id = lastSelectedSection.Replace("chat_", string.Empty);
+            var section = Sections.OfType<ChatMessageSectionDetailViewModel>().FirstOrDefault(p => p.Data.User.Id == id);
+            if (section is not null)
+            {
+                isSelected = true;
+                SelectSectionCommand.Execute(section);
+            }
         }
 
         if (!isSelected && CurrentSection is null)

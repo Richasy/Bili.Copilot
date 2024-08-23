@@ -17,7 +17,13 @@
         <DataTemplate x:Key="NotifyTemplate" x:DataType="components:NotifyMessageSectionDetailViewModel">
             <local:NotifyMessageSideItem ViewModel="{x:Bind}" />
         </DataTemplate>
-        <ext:MessageSectionTemplateSelector x:Key="Selector" NotifyTemplate="{StaticResource NotifyTemplate}" />
+        <DataTemplate x:Key="ChatTemplate" x:DataType="components:ChatMessageSectionDetailViewModel">
+            <local:ChatSessionSideItem ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:MessageSectionTemplateSelector
+            x:Key="Selector"
+            ChatTemplate="{StaticResource ChatTemplate}"
+            NotifyTemplate="{StaticResource NotifyTemplate}" />
     </UserControl.Resources>
 
     <Grid>
@@ -39,7 +45,8 @@
                             Padding="12,0"
                             VerticalAlignment="Center"
                             Content="{x:Bind}"
-                            ContentTemplateSelector="{StaticResource Selector}" />
+                            ContentTemplateSelector="{StaticResource Selector}"
+                            Style="{StaticResource AppContentControlStyle}" />
                     </ItemContainer>
                 </DataTemplate>
             </ItemsView.ItemTemplate>
@@ -51,6 +58,7 @@
             VerticalAlignment="Bottom"
             Text="{ext:Locale Name=LoadingAndWait}"
             Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <components1:LoadingWidget Visibility="{x:Bind ViewModel.IsChatSessionLoading, Mode=OneWay}" />
         <animations:Implicit.ShowAnimations>
             <animations:TranslationAnimation
                 From="-20,0"

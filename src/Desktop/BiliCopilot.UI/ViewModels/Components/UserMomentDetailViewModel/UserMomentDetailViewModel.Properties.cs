@@ -31,13 +31,11 @@ public sealed partial class UserMomentDetailViewModel
     [ObservableProperty]
     private string _title;
 
+    [ObservableProperty]
+    private ObservableCollection<MomentItemViewModel> _items = new();
+
     /// <summary>
     /// 列表已完成更新.
     /// </summary>
     public event EventHandler ListUpdated;
-
-    /// <summary>
-    /// 条目列表.
-    /// </summary>
-    public ObservableCollection<MomentItemViewModel> Items { get; private set; }
 }
