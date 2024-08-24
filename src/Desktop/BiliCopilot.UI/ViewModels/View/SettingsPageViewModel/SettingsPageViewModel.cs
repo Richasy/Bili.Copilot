@@ -5,6 +5,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -47,12 +48,41 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
         PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Mpv);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
+        DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
+        if (string.IsNullOrEmpty(DefaultDownloadPath))
+        {
+            DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
+        }
+
+        OpenFolderAfterDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OpenFolderAfterDownload, true);
+        DownloadWithDanmaku = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadWithDanmaku, false);
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = AppToolkit.GetPackageVersion();
 
         _isInitialized = true;
+    }
+
+    [RelayCommand]
+    private async Task ChooseDownloadFolderAsync()
+    {
+        var folder = await FileToolkit.PickFolderAsync(this.Get<AppViewModel>().ActivatedWindow);
+        if (folder != null)
+        {
+            DefaultDownloadPath = folder.Path;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenDownloadFolderAsync()
+    {
+        if (!Directory.Exists(DefaultDownloadPath))
+        {
+            Directory.CreateDirectory(DefaultDownloadPath);
+        }
+
+        await Launcher.LaunchFolderPathAsync(DefaultDownloadPath);
     }
 
     private void CheckTheme()
@@ -128,4 +158,13 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnNoP2PChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.PlayWithoutP2P, value);
+
+    partial void OnDefaultDownloadPathChanged(string value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.DownloadFolder, value);
+
+    partial void OnDownloadWithDanmakuChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.DownloadWithDanmaku, value);
+
+    partial void OnOpenFolderAfterDownloadChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.OpenFolderAfterDownload, value);
 }

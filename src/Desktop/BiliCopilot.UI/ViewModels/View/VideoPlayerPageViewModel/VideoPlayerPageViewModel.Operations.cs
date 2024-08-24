@@ -134,7 +134,7 @@ public sealed partial class VideoPlayerPageViewModel
     [RelayCommand]
     private void CopyVideoUrl()
     {
-        var url = $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
+        var url = GetWebLink();
         var dp = new DataPackage();
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
@@ -142,11 +142,8 @@ public sealed partial class VideoPlayerPageViewModel
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
-    {
-        var url = $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
-    }
+    private Task OpenInBroswerAsync()
+        => Launcher.LaunchUriAsync(new Uri(GetWebLink())).AsTask();
 
     [RelayCommand]
     private void PlayNextVideo()
@@ -183,6 +180,9 @@ public sealed partial class VideoPlayerPageViewModel
         var profile = _view.Information.Publisher.User;
         this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
     }
+
+    private string GetWebLink()
+        => $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
 
     private void ChangePart(VideoPart part)
     {

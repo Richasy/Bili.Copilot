@@ -82,6 +82,15 @@ public sealed partial class SettingsPageViewModel
     private bool _noP2P;
 
     [ObservableProperty]
+    private string _defaultDownloadPath;
+
+    [ObservableProperty]
+    private bool _downloadWithDanmaku;
+
+    [ObservableProperty]
+    private bool _openFolderAfterDownload;
+
+    [ObservableProperty]
     private IReadOnlyCollection<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]

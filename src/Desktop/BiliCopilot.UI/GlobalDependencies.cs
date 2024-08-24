@@ -85,6 +85,7 @@ internal static class GlobalDependencies
             .AddTransient<PgcPlayerPageViewModel>()
             .AddTransient<LiveChatSectionDetailViewModel>()
             .AddTransient<UserMomentDetailViewModel>()
+            .AddTransient<DownloadViewModel>()
             .Build();
     }
 

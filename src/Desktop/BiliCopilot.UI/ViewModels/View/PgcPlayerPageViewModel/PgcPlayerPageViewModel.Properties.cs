@@ -152,4 +152,9 @@ public sealed partial class PgcPlayerPageViewModel
     /// 字幕视图模型.
     /// </summary>
     public SubtitleViewModel Subtitle { get; }
+
+    /// <summary>
+    /// 下载视图模型.
+    /// </summary>
+    public DownloadViewModel Downloader { get; }
 }

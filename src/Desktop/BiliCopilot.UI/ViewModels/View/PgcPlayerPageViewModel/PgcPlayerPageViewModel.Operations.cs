@@ -122,7 +122,7 @@ public sealed partial class PgcPlayerPageViewModel
     [RelayCommand]
     private void CopyEpisodeUrl()
     {
-        var url = $"https://www.bilibili.com/video/ep{_episode.Identifier.Id}";
+        var url = GetEpisodeUrl();
         var dp = new DataPackage();
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
@@ -132,7 +132,7 @@ public sealed partial class PgcPlayerPageViewModel
     [RelayCommand]
     private void CopySeasonUrl()
     {
-        var url = $"https://www.bilibili.com/video/ss{_view.Information.Identifier.Id}";
+        var url = GetSeasonUrl();
         var dp = new DataPackage();
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
@@ -142,7 +142,7 @@ public sealed partial class PgcPlayerPageViewModel
     [RelayCommand]
     private async Task OpenInBroswerAsync()
     {
-        var url = $"https://www.bilibili.com/video/ep{_episode.Identifier.Id}";
+        var url = GetEpisodeUrl();
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
     }
 
@@ -303,4 +303,10 @@ public sealed partial class PgcPlayerPageViewModel
             Player.ShowNotification(notification);
         });
     }
+
+    private string GetSeasonUrl()
+        => $"https://www.bilibili.com/bangumi/play/ss{_view.Information.Identifier.Id}";
+
+    private string GetEpisodeUrl()
+        => $"https://www.bilibili.com/bangumi/play/ep{_episode.Identifier.Id}";
 }

@@ -55,6 +55,7 @@ public sealed partial class VideoPlayerPageViewModel
         _audioSegments = info.Audios;
 
         // 这里额外过滤掉杜比视界画质，目前使用 libmpv 暂时还不能处理色域映射.
+        Downloader.Clear();
         Formats = info.Formats.Where(p => p.Quality != 126).Select(p => new PlayerFormatItemViewModel(p)).ToList();
 
         // 用户个人视频无需会员即可观看最高画质.
@@ -68,6 +69,12 @@ public sealed partial class VideoPlayerPageViewModel
 
         var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
         var availableFormats = Formats.Where(p => p.IsEnabled).ToList();
+        var partIndex = _view.Parts?.IndexOf(_part) ?? 0;
+        Downloader.InitializeMetas(
+            GetWebLink(),
+            availableFormats.Select(p => p.Data).ToList().AsReadOnly(),
+            _view.Parts?.Count > 1 ? _view.Parts.AsReadOnly() : default,
+            partIndex + 1);
         PlayerFormatItemViewModel? selectedFormat = default;
         if (preferFormatSetting == PreferQualityType.Auto)
         {

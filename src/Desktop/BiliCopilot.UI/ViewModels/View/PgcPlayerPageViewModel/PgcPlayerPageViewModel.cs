@@ -30,7 +30,8 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         ILogger<PgcPlayerPageViewModel> logger,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
-        CommentMainViewModel comments)
+        CommentMainViewModel comments,
+        DownloadViewModel downloader)
     {
         _service = service;
         _favoriteService = favoriteService;
@@ -40,6 +41,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         Player.IsPgc = true;
         Danmaku = danmaku;
         Subtitle = subtitle;
+        Downloader = downloader;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);

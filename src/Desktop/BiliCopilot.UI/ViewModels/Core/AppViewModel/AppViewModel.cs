@@ -31,20 +31,26 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static async Task InitializeMpvAsync()
+    private static void Restart()
+    {
+        Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
+        Microsoft.Windows.AppLifecycle.AppInstance.Restart(default);
+    }
+
+    [RelayCommand]
+    private async Task InitializeExternalAsync()
     {
         var architecture = RuntimeInformation.ProcessArchitecture;
         var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
         var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/libmpv/{identifier}/libmpv-2.dll")).AsTask();
         var libPath = libFile.Path;
         Resolver.SetCustomMpvPath(libPath);
-    }
 
-    [RelayCommand]
-    private static void Restart()
-    {
-        Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().UnregisterKey();
-        Microsoft.Windows.AppLifecycle.AppInstance.Restart(default);
+        var bbdownFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/BBDown/{identifier}/BBDown.exe")).AsTask();
+        BBDownPath = bbdownFile.Path;
+
+        var ffmpegFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/ffmpeg/ffmpeg.exe")).AsTask();
+        FFmpegPath = ffmpegFile.Path;
     }
 
     [RelayCommand]
@@ -54,7 +60,7 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             IsInitialLoading = true;
             new MainWindow().Activate();
-            InitializeMpvCommand.Execute(default);
+            InitializeExternalCommand.Execute(default);
         }
         else
         {

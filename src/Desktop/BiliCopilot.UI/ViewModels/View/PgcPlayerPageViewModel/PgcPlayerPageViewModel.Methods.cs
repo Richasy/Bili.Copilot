@@ -43,6 +43,7 @@ public sealed partial class PgcPlayerPageViewModel
     {
         _videoSegments = info.Videos;
         _audioSegments = info.Audios;
+        Downloader.Clear();
         Formats = info.Formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
 
         var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
@@ -67,6 +68,14 @@ public sealed partial class PgcPlayerPageViewModel
             var maxQuality = availableFormats.Max(p => p.Data.Quality);
             selectedFormat = availableFormats.Find(p => p.Data.Quality == maxQuality);
         }
+
+        var episodeIndex = _view.Episodes.IndexOf(_episode);
+        Downloader.InitializeMetas(
+            GetEpisodeUrl(),
+            GetSeasonUrl(),
+            availableFormats.Select(p => p.Data).ToList().AsReadOnly(),
+            _view.Episodes?.Count > 1 ? _view.Episodes.AsReadOnly() : default,
+            episodeIndex);
 
         ChangeFormatCommand.Execute(selectedFormat);
     }

@@ -610,7 +610,7 @@
     <value>下载视频</value>
   </data>
   <data name="DownloadVideoTip" xml:space="preserve">
-    <value>可以单独下载封面或弹幕</value>
+    <value>由 BBDown 驱动</value>
   </data>
   <data name="DynamicCount" xml:space="preserve">
     <value>动态数</value>
@@ -2324,5 +2324,46 @@
   </data>
   <data name="MessageWithdrawn" xml:space="preserve">
     <value>TA撤回了一条消息</value>
+  </data>
+  <data name="BatchDownload" xml:space="preserve">
+    <value>批量下载</value>
+  </data>
+  <data name="DownloadCover" xml:space="preserve">
+    <value>下载封面</value>
+  </data>
+  <data name="DownloadDanmaku" xml:space="preserve">
+    <value>下载弹幕</value>
+  </data>
+  <data name="Extra" xml:space="preserve">
+    <value>杂项</value>
+  </data>
+  <data name="DownloadSetting" xml:space="preserve">
+    <value>下载设置</value>
+  </data>
+  <data name="DownloadSettingDescription" xml:space="preserve">
+    <value>控制视频下载的默认行为</value>
+  </data>
+  <data name="DefaultDownloadFolder" xml:space="preserve">
+    <value>默认下载文件夹</value>
+  </data>
+  <data name="FolderNotExist" xml:space="preserve">
+    <value>文件夹不存在，请重新指定文件夹</value>
+  </data>
+  <data name="DownloadWithDanmaku" xml:space="preserve">
+    <value>下载视频时同时下载字幕</value>
+  </data>
+  <data name="DownloadAllParts" xml:space="preserve">
+    <value>下载所有分P</value>
+  </data>
+  <data name="SelectPartsDownload" xml:space="preserve">
+    <value>指定分P下载</value>
+  </data>
+  <data name="DownloadSelectPartTip" xml:space="preserve">
+    <value>选择指定分集或范围，示例：
+- 下载第2集，输入 2
+- 下载第1集和第4集，输入 1,4 （半角逗号分隔）
+- 下载第1集到第4集，输入 1-4
+- 下载全部分集，输入 ALL
+- 下载最后一集，输入 LAST</value>
   </data>
 </root>

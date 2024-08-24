@@ -31,7 +31,8 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         ILogger<VideoPlayerPageViewModel> logger,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
-        CommentMainViewModel comments)
+        CommentMainViewModel comments,
+        DownloadViewModel download)
     {
         _service = service;
         _relationshipService = relationshipService;
@@ -40,6 +41,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         _comments = comments;
         Danmaku = danmaku;
         Subtitle = subtitle;
+        Downloader = download;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);

@@ -17,9 +17,12 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
+    <Content Remove="Assets\bbdown\x64\BBDown.exe" />
     <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
+    <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
   </ItemGroup>
@@ -130,6 +133,7 @@
     <None Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexSideControl.xaml" />
     <None Remove="Controls\Player\CoinButton.xaml" />
+    <None Remove="Controls\Player\DownloadButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
     <None Remove="Controls\Player\LiveChatSection.xaml" />
@@ -179,6 +183,7 @@
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\Settings\AboutSettingControl.xaml" />
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+    <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
     <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
@@ -943,13 +948,23 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup  Condition="'$(Platform)' == 'x64'">
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
     <None Update="Assets\libmpv\x64\libmpv-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup  Condition="'$(Platform)' == 'ARM64'">
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
     <None Update="Assets\libmpv\arm64\libmpv-2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <None Update="Assets\BBDown\x64\BBDown.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+    <None Update="Assets\BBDown\arm64\BBDown.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -1207,6 +1222,15 @@
     <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\ffmpeg\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\Settings\DownloadSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\DownloadButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Message\ChatMessageHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -25,4 +25,14 @@ public sealed partial class AppViewModel : ViewModelBase
     /// 已创建的窗口列表.
     /// </summary>
     public List<Window> Windows { get; } = new();
+
+    /// <summary>
+    /// BBDown 路径.
+    /// </summary>
+    public string BBDownPath { get; private set; }
+
+    /// <summary>
+    /// FFmpeg 路径.
+    /// </summary>
+    public string FFmpegPath { get; private set; }
 }

@@ -46,12 +46,7 @@
                 </Grid>
             </StackPanel>
         </Button>
-        <DropDownButton HorizontalAlignment="Stretch" Style="{StaticResource AccentDropDownButtonStyle}">
-            <StackPanel>
-                <TextBlock Text="{ext:Locale Name=DownloadVideo}" />
-                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=DownloadVideoTip}" />
-            </StackPanel>
-        </DropDownButton>
+        <local:DownloadButton ViewModel="{x:Bind ViewModel.Downloader, Mode=OneWay}" />
         <StackPanel Spacing="4">
             <TextBlock
                 HorizontalAlignment="Left"

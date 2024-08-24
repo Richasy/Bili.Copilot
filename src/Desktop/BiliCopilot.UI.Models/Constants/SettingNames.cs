@@ -74,4 +74,7 @@ public enum SettingNames
     GalleryWindowWidth,
     GalleryWindowHeight,
     IsGalleryWindowMaximized,
+    DownloadWithDanmaku,
+    DownloadFolder,
+    OpenFolderAfterDownload,
 }
