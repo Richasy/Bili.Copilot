@@ -25,13 +25,14 @@
                 <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=DownloadVideoTip}" />
             </StackPanel>
             <DropDownButton.Flyout>
-                <MenuFlyout x:Name="DownloadFlyout" />
+                <MenuFlyout x:Name="DownloadFlyout" ShouldConstrainToRootBounds="False" />
             </DropDownButton.Flyout>
         </DropDownButton>
         <TeachingTip
             x:Name="SelectionTip"
             IsLightDismissEnabled="True"
             PreferredPlacement="Top"
+            ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=DownloadSelectPartTip}"
             Target="{x:Bind Btn}">
             <AutoSuggestBox
