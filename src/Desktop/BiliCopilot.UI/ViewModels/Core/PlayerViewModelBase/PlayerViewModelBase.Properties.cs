@@ -49,6 +49,7 @@ public abstract partial class PlayerViewModelBase
     protected DisplayRequest _displayRequest;
 
     protected bool _isInitialized;
+    protected bool _isFirstLoaded;
 
     [ObservableProperty]
     private bool _isPlayerInitializing;

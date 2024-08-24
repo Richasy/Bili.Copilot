@@ -91,11 +91,6 @@ public abstract partial class PlayerViewModelBase
     [RelayCommand]
     private void SetVolume(int value)
     {
-        if (!IsMediaLoaded())
-        {
-            return;
-        }
-
         if (value < 0)
         {
             value = 0;
@@ -105,10 +100,10 @@ public abstract partial class PlayerViewModelBase
             value = 100;
         }
 
+        OnSetVolume(value);
         if (Volume != value)
         {
             Volume = value;
-            OnSetVolume(value);
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerVolume, value);
         }
     }
@@ -116,15 +111,15 @@ public abstract partial class PlayerViewModelBase
     [RelayCommand]
     private void SetSpeed(double speed)
     {
-        if (!IsMediaLoaded() || speed > MaxSpeed)
+        if (speed > MaxSpeed)
         {
             return;
         }
 
+        OnSetSpeed(speed);
         if (Speed != speed)
         {
             Speed = speed;
-            OnSetSpeed(speed);
             var isShareSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
             if (isShareSpeed)
             {

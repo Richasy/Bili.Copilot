@@ -24,9 +24,6 @@ public abstract partial class PlayerViewModelBase
         IsPlayerDataLoading = true;
         IsPaused = true;
 
-        SetVolume(Volume);
-        SetSpeed(Speed);
-
         await OnLoadPlayDataAsync();
 
         PlayerDataLoaded?.Invoke(this, EventArgs.Empty);

@@ -39,6 +39,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         _audioUrl = audioUrl;
         _autoPlay = isAutoPlay;
         Position = position;
+        _isFirstLoaded = false;
 
         var isSpeedShare = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
         var localSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
