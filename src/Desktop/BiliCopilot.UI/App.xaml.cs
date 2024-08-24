@@ -1,7 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Text.Json;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
+using Microsoft.Windows.AppNotifications;
+using Richasy.BiliKernel.Models.Media;
 using Windows.Storage;
 
 namespace BiliCopilot.UI;
@@ -12,6 +17,8 @@ namespace BiliCopilot.UI;
 public partial class App : Application
 {
     private const string Id = "Richasy.BiliCopilot";
+    private readonly DispatcherQueue _dispatcherQueue;
+    private readonly AppNotificationManager _notificationManager;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -20,8 +27,12 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+        _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
         FluentIcons.WinUI.Extensions.UseSegoeMetrics(this);
         UnhandledException += OnUnhandledException;
+        _notificationManager = AppNotificationManager.Default;
+        _notificationManager.NotificationInvoked += OnAppNotificationInvoked;
+        _notificationManager.Register();
     }
 
     /// <summary>
@@ -65,5 +76,24 @@ public partial class App : Application
         }
 
         GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogCritical(e.Exception, "Unhandled exception occurred.");
+    }
+
+    private void OnAppNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
+    {
+        if (args.Arguments.TryGetValue("page", out var type))
+        {
+            var argsStr = args.Arguments.TryGetValue("args", out var a) ? a : string.Empty;
+            if (string.IsNullOrEmpty(argsStr))
+            {
+                return;
+            }
+
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                var identifier = JsonSerializer.Deserialize<MediaIdentifier>(argsStr);
+                var obj = type.Contains("VideoPlayer") ? (object)new VideoSnapshot(new VideoInformation(identifier, default)) : identifier;
+                GlobalDependencies.Kernel.GetRequiredService<NavigationViewModel>().NavigateToOver(type, obj);
+            });
+        }
     }
 }

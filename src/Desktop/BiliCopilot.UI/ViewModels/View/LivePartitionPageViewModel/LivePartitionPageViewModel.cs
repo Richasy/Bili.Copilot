@@ -81,6 +81,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
         {
             _recommendOffset = 0;
             RecommendRooms.Clear();
+            FollowRooms.Clear();
             await LoadRecommendRoomsAsync();
         }
         else

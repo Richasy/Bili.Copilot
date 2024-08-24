@@ -145,4 +145,12 @@ public sealed partial class AppViewModel : ViewModelBase
             }
         }
     }
+
+    partial void OnIsInitialLoadingChanged(bool value)
+    {
+        if (!value)
+        {
+            this.Get<NotificationViewModel>().TryStartCommand.Execute(default);
+        }
+    }
 }

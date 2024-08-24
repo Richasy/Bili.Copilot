@@ -520,7 +520,7 @@
     <value>弹幕合并</value>
   </data>
   <data name="DanmakuOpacity" xml:space="preserve">
-    <value>弹幕透明度</value>
+    <value>弹幕不透明度</value>
   </data>
   <data name="DanmakuPlaceholder" xml:space="preserve">
     <value>发个友善的弹幕见证当下</value>

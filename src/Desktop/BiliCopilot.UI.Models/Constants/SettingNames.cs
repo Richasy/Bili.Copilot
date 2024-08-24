@@ -77,4 +77,5 @@ public enum SettingNames
     DownloadWithDanmaku,
     DownloadFolder,
     OpenFolderAfterDownload,
+    LastTenMomentIds,
 }

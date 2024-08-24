@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
@@ -33,6 +34,7 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
         }
 
         await LoadItemsAsync();
+        SaveLastTenMomentIds();
     }
 
     [RelayCommand]
@@ -45,6 +47,7 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
 
         Items.Clear();
         await LoadItemsAsync();
+        SaveLastTenMomentIds();
     }
 
     [RelayCommand]
@@ -86,4 +89,11 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
 
     private void ShowComment(MomentItemViewModel item)
         => this.Get<MomentPageViewModel>().ShowCommentCommand.Execute(item.Data);
+
+    private void SaveLastTenMomentIds()
+    {
+        var momentIds = Items.Take(10).Select(p => p.Data.Id).ToList();
+        var lastTenMomentIds = string.Join(',', momentIds);
+        SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastTenMomentIds, lastTenMomentIds);
+    }
 }

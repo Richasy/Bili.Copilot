@@ -78,6 +78,7 @@ internal static class GlobalDependencies
             .AddSingleton<MessagePageViewModel>()
             .AddSingleton<SettingsPageViewModel>()
             .AddSingleton<UserSpacePageViewModel>()
+            .AddSingleton<NotificationViewModel>()
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
             .AddTransient<VideoPlayerPageViewModel>()
