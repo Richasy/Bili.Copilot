@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
+
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
@@ -45,7 +47,6 @@ public sealed partial class MpvPlayerViewModel
     /// <inheritdoc/>
     protected override async Task OnLoadPlayDataAsync()
     {
-        InitializeDecode();
         if (!_autoPlay)
         {
             Player.Client.SetOption("pause", "yes");
@@ -71,9 +72,11 @@ public sealed partial class MpvPlayerViewModel
             await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
         }
 
+        SetVolumeCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerVolume, 100));
         if (!IsLive)
         {
             Player.ResetDuration();
+            SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
             Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
         }
     }

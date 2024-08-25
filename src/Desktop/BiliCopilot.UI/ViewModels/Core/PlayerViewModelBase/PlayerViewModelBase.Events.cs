@@ -52,13 +52,6 @@ public abstract partial class PlayerViewModelBase
             }
             else
             {
-                if (state == PlayerState.Decoding && !_isFirstLoaded)
-                {
-                    SetVolume(Volume);
-                    SetSpeed(Speed);
-                    _isFirstLoaded = true;
-                }
-
                 IsBuffering = state is PlayerState.Buffering or PlayerState.Opening or PlayerState.Decoding;
                 IsPaused = !IsBuffering;
             }

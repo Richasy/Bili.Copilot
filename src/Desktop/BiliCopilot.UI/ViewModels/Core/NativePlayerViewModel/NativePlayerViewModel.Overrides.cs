@@ -25,8 +25,7 @@ public sealed partial class NativePlayerViewModel
             return Task.CompletedTask;
         }
 
-        _initialVolume = -1;
-        _initialSpeed = -1;
+        _isDisposed = true;
         _element.SetMediaPlayer(default);
         if (Player?.PlaybackSession != null)
         {
@@ -44,7 +43,7 @@ public sealed partial class NativePlayerViewModel
 
     /// <inheritdoc/>
     protected override bool IsMediaLoaded()
-        => Player?.PlaybackSession?.NaturalDuration.Ticks > 0;
+        => !_isDisposed && Player?.PlaybackSession?.NaturalDuration.Ticks > 0;
 
     /// <inheritdoc/>
     protected override Task OnTogglePlayPauseAsync()
@@ -78,7 +77,6 @@ public sealed partial class NativePlayerViewModel
     {
         if (Player is null)
         {
-            _initialVolume = value / 100.0;
             return;
         }
 
@@ -90,7 +88,6 @@ public sealed partial class NativePlayerViewModel
     {
         if (Player is null)
         {
-            _initialSpeed = speed;
             return;
         }
 

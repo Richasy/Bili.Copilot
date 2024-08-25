@@ -16,8 +16,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     private MediaPlayerElement? _element;
     private DashSegmentInformation? _videoSegment;
     private DashSegmentInformation? _audioSegment;
-    private double _initialVolume = -1;
-    private double _initialSpeed = -1;
+    private bool _isDisposed;
 
     /// <summary>
     /// 媒体播放器.
@@ -53,20 +52,13 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
 
     private MediaPlayer CreatePlayer()
     {
+        _isDisposed = false;
         var player = new MediaPlayer();
         player.MediaOpened += OnMediaPlayerOpened;
         player.CurrentStateChanged += OnMediaPlayerStateChanged;
         player.MediaFailed += OnMediaPlayerFailed;
         player.MediaEnded += OnMediaPlayerEnded;
-        if (_initialVolume >= 0)
-        {
-            player.Volume = _initialVolume;
-        }
-
-        if (_initialSpeed > 0)
-        {
-            player.PlaybackSession.PlaybackRate = _initialSpeed;
-        }
+        player.Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100) / 100.0;
 
         return player;
     }
@@ -114,6 +106,11 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
+            if (!IsMediaLoaded())
+            {
+                return;
+            }
+
             ReachEnd();
         });
     }
@@ -122,6 +119,11 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     {
         _dispatcherQueue.TryEnqueue(() =>
         {
+            if (!IsMediaLoaded())
+            {
+                return;
+            }
+
             var state = sender.PlaybackSession.PlaybackState switch
             {
                 MediaPlaybackState.Opening => PlayerState.Opening,
@@ -144,6 +146,8 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
             {
                 return;
             }
+
+            sender.PlaybackSession.PlaybackRate = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1d);
 
             if (Position > 0)
             {
