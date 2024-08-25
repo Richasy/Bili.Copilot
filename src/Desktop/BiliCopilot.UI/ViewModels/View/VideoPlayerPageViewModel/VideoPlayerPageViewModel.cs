@@ -81,6 +81,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             }
 
             ClearView();
+            Player.CancelNotification();
             if (_playlist is not null && !_playlist.Any(p => p.Identifier.Id == video.Identifier.Id))
             {
                 _playlist = default;
@@ -181,6 +182,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             return;
         }
 
+        _isFormatChanging = true;
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));
@@ -231,6 +233,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
 
         // 重置初始进度，避免影响其它视频.
         _initialProgress = 0;
+        _isFormatChanging = false;
     }
 
     [RelayCommand]

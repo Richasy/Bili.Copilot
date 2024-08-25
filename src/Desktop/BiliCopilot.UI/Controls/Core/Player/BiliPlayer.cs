@@ -45,6 +45,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         _viewModel = ViewModel;
         _playerPresenter.ViewModel = ViewModel;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
+        _viewModel.RequestCancelNotification += OnRequestCancelNotification;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         SizeChanged += OnSizeChanged;
         if (TransportControls is not null)
@@ -63,6 +64,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         if (ViewModel is not null)
         {
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
+            ViewModel.RequestCancelNotification -= OnRequestCancelNotification;
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
         }
 
@@ -116,8 +118,17 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         _notificationContainer.Children.Add(control);
     }
 
+    private void OnRequestCancelNotification(object? sender, EventArgs e)
+    {
+        if (_notificationContainer is not null && _notificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
+        {
+            control.ViewModel.CancelCommand.Execute(default);
+            _notificationContainer.Children.Clear();
+        }
+    }
+
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
-        => ViewModel?.TogglePlayPauseCommand.Execute(default);
+    => ViewModel?.TogglePlayPauseCommand.Execute(default);
 
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
@@ -160,12 +171,14 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         {
             _viewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
             _viewModel.RequestShowNotification -= OnRequestShowNotification;
+            _viewModel.RequestCancelNotification -= OnRequestCancelNotification;
         }
 
         _playerPresenter.ViewModel = ViewModel;
         _viewModel = ViewModel;
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
+        _viewModel.RequestCancelNotification += OnRequestCancelNotification;
     }
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)

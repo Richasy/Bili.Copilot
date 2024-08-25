@@ -92,6 +92,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     }
 
     /// <summary>
+    /// 取消通知.
+    /// </summary>
+    public void CancelNotification()
+        => RequestCancelNotification?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>
     /// 检查底部进度条是否可见.
     /// </summary>
     /// <param name="shouldShow">是否需要显示.</param>

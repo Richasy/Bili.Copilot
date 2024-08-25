@@ -33,6 +33,7 @@ public sealed partial class VideoPlayerPageViewModel
     private IList<DashSegmentInformation>? _audioSegments;
     private IList<VideoInformation>? _playlist;
     private int _initialProgress;
+    private bool _isFormatChanging;
 
     [ObservableProperty]
     private bool _isPageLoading;

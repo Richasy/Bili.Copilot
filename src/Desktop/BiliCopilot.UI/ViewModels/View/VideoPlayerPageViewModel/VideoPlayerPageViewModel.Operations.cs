@@ -192,6 +192,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _part = part;
+        Player.CancelNotification();
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         InitializeDashMediaCommand.Execute(part);
@@ -234,7 +235,7 @@ public sealed partial class VideoPlayerPageViewModel
             ReportProgressCommand.Execute(Player.Duration);
 
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if (!autoNext || !HasNextVideo)
+            if ((!autoNext || !HasNextVideo) && !_isFormatChanging)
             {
                 Player.BackToDefaultModeCommand.Execute(default);
                 return;
@@ -246,6 +247,11 @@ public sealed partial class VideoPlayerPageViewModel
             }
 
             var next = FindNextVideo();
+            if (next is null)
+            {
+                return;
+            }
+
             string tip = default;
             if (next is VideoPart part)
             {

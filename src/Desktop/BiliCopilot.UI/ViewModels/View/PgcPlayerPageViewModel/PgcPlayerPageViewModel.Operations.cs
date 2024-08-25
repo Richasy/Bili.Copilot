@@ -202,7 +202,7 @@ public sealed partial class PgcPlayerPageViewModel
         try
         {
             var state = !IsFollow;
-            if(state)
+            if (state)
             {
                 await _discoveryService.FollowAsync(_view.Information.Identifier.Id);
             }
@@ -228,6 +228,7 @@ public sealed partial class PgcPlayerPageViewModel
             LoadInitialProgress();
         }
 
+        Player.CancelNotification();
         EpisodeId = episode.Identifier.Id;
         EpisodeTitle = SeasonTitle + " - " + episode.Identifier.Title;
         Player.Title = EpisodeTitle;
@@ -277,7 +278,7 @@ public sealed partial class PgcPlayerPageViewModel
             ReportProgressCommand.Execute(Player.Duration);
 
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if (!autoNext || !HasNextEpisode)
+            if ((!autoNext || !HasNextEpisode) && !_isFormatChanging)
             {
                 Player.BackToDefaultModeCommand.Execute(default);
                 return;
@@ -289,6 +290,11 @@ public sealed partial class PgcPlayerPageViewModel
             }
 
             var next = FindNextEpisode();
+            if (next is null)
+            {
+                return;
+            }
+
             string tip = default;
             if (next is EpisodeInformation episode)
             {

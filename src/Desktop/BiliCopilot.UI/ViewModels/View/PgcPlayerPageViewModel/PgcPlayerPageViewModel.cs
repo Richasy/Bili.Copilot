@@ -67,6 +67,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         try
         {
             ClearView();
+            Player.CancelNotification();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var id = identifier.Id;
             var isEpisode = id.StartsWith("ep");
@@ -165,6 +166,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             return;
         }
 
+        _isFormatChanging = true;
         var isFirstSet = SelectedFormat == default;
         SelectedFormat = vm;
         var maxAudioQuality = _audioSegments?.Max(p => Convert.ToInt32(p.Id));
@@ -198,6 +200,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
 
         // 重置初始进度，避免影响其它视频.
         _initialProgress = 0;
+        _isFormatChanging = false;
     }
 
     [RelayCommand]

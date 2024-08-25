@@ -98,6 +98,11 @@ public abstract partial class PlayerViewModelBase
     public event EventHandler<PlayerNotificationItemViewModel> RequestShowNotification;
 
     /// <summary>
+    /// 请求取消通知.
+    /// </summary>
+    public event EventHandler RequestCancelNotification;
+
+    /// <summary>
     /// 是否为直播准备.
     /// </summary>
     public bool IsLive { get; set; }
