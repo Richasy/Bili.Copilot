@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Security;
 using System.Text.Json;
 using System.Threading;
 using BiliCopilot.UI.Pages.Overlay;
@@ -9,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.BiliKernel.Models.Moment;
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -97,6 +101,9 @@ public sealed partial class NotificationViewModel
             momentIds.AddRange(_momentIds.Where(p => !newMomentIds.Contains(p)).Take(10 - newMomentIds.Count));
 
             SaveLastTenMomentIds(momentIds);
+
+            var lastFiveMoments = lastMoments.Moments.Take(5).ToList();
+            UpdateMomentTiles(lastFiveMoments);
         }
         catch (Exception ex)
         {
@@ -125,5 +132,59 @@ public sealed partial class NotificationViewModel
         _momentIds = momentIds;
         var lastTenMomentIds = string.Join(',', momentIds);
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastTenMomentIds, lastTenMomentIds);
+    }
+
+    private void UpdateMomentTiles(List<MomentInformation> moments)
+    {
+        if (!_isTileSupport)
+        {
+            return;
+        }
+
+        foreach (var d in moments)
+        {
+            var title = string.Empty;
+            var cover = string.Empty;
+            if (d.Data is VideoInformation videoInfo)
+            {
+                title = videoInfo.Identifier.Title;
+                cover = videoInfo.Identifier.Cover.SourceUri.ToString();
+            }
+            else if (d.Data is EpisodeInformation episodeInfo)
+            {
+                title = episodeInfo.Identifier.Title;
+                cover = episodeInfo.Identifier.Cover.SourceUri.ToString();
+            }
+
+            var avatar = d.User.Avatar.Uri;
+            var publisher = d.User.Name;
+
+            var xmlContent = $"""
+                <?xml version="1.0" encoding="utf-8"?>
+                <tile>
+                    <visual>
+                        <binding template="TileMedium" branding="name">
+                            <image src="{cover}" placement="background" hint-overlay="60" />
+                            <image src="{avatar}" placement="peek" hint-crop="circle" />
+                            <text hint-style="caption" hint-wrap="true">{SecurityElement.Escape(title)}</text>
+                        </binding>
+                        <binding template="TileWide" branding="nameAndLogo">
+                            <image src="{cover}" placement="background" hint-overlay="60" />
+                            <text hint-maxLines="2" hint-style="base" hint-wrap="true">{SecurityElement.Escape(title)}</text>
+                            <text hint-style="caption">{SecurityElement.Escape(publisher)}</text>
+                        </binding>
+                        <binding template="TileLarge" branding="nameAndLogo">
+                            <image src="{cover}" placement="background" hint-overlay="60" />
+                            <text hint-style="subtitle" hint-wrap="true">{SecurityElement.Escape(title)}</text>
+                            <text hint-style="base"></text>
+                            <text hint-style="base">{SecurityElement.Escape(publisher)}</text>
+                        </binding>
+                    </visual>
+                </tile>
+                """;
+            var xml = new XmlDocument();
+            xml.LoadXml(xmlContent);
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(new TileNotification(xml) { Tag = d.Id });
+        }
     }
 }
