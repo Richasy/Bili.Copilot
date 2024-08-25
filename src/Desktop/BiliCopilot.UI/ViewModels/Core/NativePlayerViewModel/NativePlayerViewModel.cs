@@ -16,6 +16,8 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     private MediaPlayerElement? _element;
     private DashSegmentInformation? _videoSegment;
     private DashSegmentInformation? _audioSegment;
+    private double _initialVolume = -1;
+    private double _initialSpeed = -1;
 
     /// <summary>
     /// 媒体播放器.
@@ -56,6 +58,16 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
         player.CurrentStateChanged += OnMediaPlayerStateChanged;
         player.MediaFailed += OnMediaPlayerFailed;
         player.MediaEnded += OnMediaPlayerEnded;
+        if (_initialVolume >= 0)
+        {
+            player.Volume = _initialVolume;
+        }
+
+        if (_initialSpeed > 0)
+        {
+            player.PlaybackSession.PlaybackRate = _initialSpeed;
+        }
+
         return player;
     }
 

@@ -25,6 +25,8 @@ public sealed partial class NativePlayerViewModel
             return Task.CompletedTask;
         }
 
+        _initialVolume = -1;
+        _initialSpeed = -1;
         _element.SetMediaPlayer(default);
         if (Player?.PlaybackSession != null)
         {
@@ -73,11 +75,27 @@ public sealed partial class NativePlayerViewModel
 
     /// <inheritdoc/>
     protected override void OnSetVolume(int value)
-        => Player.Volume = value / 100.0;
+    {
+        if (Player is null)
+        {
+            _initialVolume = value / 100.0;
+            return;
+        }
+
+        Player.Volume = value / 100.0;
+    }
 
     /// <inheritdoc/>
     protected override void OnSetSpeed(double speed)
-        => Player.PlaybackRate = speed;
+    {
+        if (Player is null)
+        {
+            _initialSpeed = speed;
+            return;
+        }
+
+        Player.PlaybackRate = speed;
+    }
 
     /// <inheritdoc/>
     protected override async Task OnLoadPlayDataAsync()
