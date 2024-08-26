@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -46,6 +47,10 @@ public sealed partial class ChatMessageSectionDetailViewModel : ViewModelBase<Ch
         Messages = new();
         await LoadMessagesAsync();
     }
+
+    [RelayCommand]
+    private void ShowUserSpace()
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
 
     [RelayCommand]
     private async Task RefreshAsync()

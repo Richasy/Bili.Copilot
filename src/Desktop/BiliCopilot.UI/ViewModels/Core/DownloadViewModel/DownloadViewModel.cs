@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -88,6 +89,9 @@ public sealed partial class DownloadViewModel : ViewModelBase
         Episodes = null;
     }
 
+    private static bool UseExternal()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
+
     /// <summary>
     /// 下载视频.
     /// </summary>
@@ -100,7 +104,8 @@ public sealed partial class DownloadViewModel : ViewModelBase
             basicCommand += $" --select-page {_currentPartIndex}";
         }
 
-        var command = $"{basicCommand} -q \"{format.Quality}\" \"{_currentUrl}\"";
+        var quality = UseExternal() ? format.Description : format.Quality.ToString();
+        var command = $"{basicCommand} -q \"{quality}\" \"{_currentUrl}\"";
         LaunchDownloadProcess(command);
     }
 
@@ -149,7 +154,20 @@ public sealed partial class DownloadViewModel : ViewModelBase
             PreferCodecType.H265 => "hevc",
             _ => "av1",
         };
-        var cmd = $"-app --cookie \"{cookie}\" -token \"{token}\" -e {codec} --work-dir \"{_downloadPath}\" --ffmpeg-path \"{_ffmpegPath}\" -ua \"{VideoUserAgent}\"";
+
+        var cmd = $"-app -e {codec} --work-dir \"{_downloadPath}\" -ua \"{VideoUserAgent}\"";
+        var copyCommandOnly = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
+        var withoutCredential = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
+        if (!UseExternal())
+        {
+            cmd += $" --ffmpeg-path \"{_ffmpegPath}\"";
+        }
+
+        if (!(UseExternal() && withoutCredential))
+        {
+            cmd += $" --cookie \"{cookie}\" -token \"{token}\"";
+        }
+
         if (danmakuEnabled)
         {
             var alsoDownDanmaku = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DownloadWithDanmaku, false);
@@ -164,9 +182,22 @@ public sealed partial class DownloadViewModel : ViewModelBase
 
     private void LaunchDownloadProcess(string command)
     {
+        var useExternalBBDown = SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
+        var copyCommandOnly = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
+        var fileName = useExternalBBDown ? "BBDown" : _bbdownPath;
+        if (useExternalBBDown && copyCommandOnly)
+        {
+            var cmd = $"{fileName} {command}";
+            var dp = new DataPackage();
+            dp.SetText(cmd);
+            Clipboard.SetContent(dp);
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+            return;
+        }
+
         _ = Task.Run(() =>
         {
-            var startInfo = new ProcessStartInfo(_bbdownPath, command);
+            var startInfo = new ProcessStartInfo(fileName, command);
             var process = Process.Start(startInfo);
             if (_openFolderAfterDownload)
             {

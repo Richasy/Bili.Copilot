@@ -49,6 +49,9 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Mpv);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
         DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
+        UseExternalBBDown = SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
+        OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
+        WithoutCredentialWhenGenDownloadCommand = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
         if (string.IsNullOrEmpty(DefaultDownloadPath))
         {
             DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
@@ -167,4 +170,13 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnOpenFolderAfterDownloadChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.OpenFolderAfterDownload, value);
+
+    partial void OnUseExternalBBDownChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.UseExternalBBDown, value);
+
+    partial void OnOnlyCopyCommandWhenDownloadChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, value);
+
+    partial void OnWithoutCredentialWhenGenDownloadCommandChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, value);
 }

@@ -38,6 +38,21 @@
             <community:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderAfterDownload, Mode=TwoWay}" />
             </community:SettingsCard>
+            <community:SettingsCard Description="{ext:Locale Name=UseExternalBBDownDescription}" Header="{ext:Locale Name=UseExternalBBDown}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.UseExternalBBDown, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard
+                Description="{ext:Locale Name=CopyCommandWhenDownloadDescription}"
+                Header="{ext:Locale Name=CopyCommandWhenDownload}"
+                IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.OnlyCopyCommandWhenDownload, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard
+                Description="{ext:Locale Name=GenCommandWithoutCredentialDescription}"
+                Header="{ext:Locale Name=GenCommandWithoutCredential}"
+                IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.WithoutCredentialWhenGenDownloadCommand, Mode=TwoWay}" />
+            </community:SettingsCard>
         </community:SettingsExpander.Items>
     </community:SettingsExpander>
 </local:SettingsPageControlBase>

@@ -2366,4 +2366,22 @@
 - 下载全部分集，输入 ALL
 - 下载最后一集，输入 LAST</value>
   </data>
+  <data name="CopyCommandWhenDownload" xml:space="preserve">
+    <value>下载时仅复制命令</value>
+  </data>
+  <data name="CopyCommandWhenDownloadDescription" xml:space="preserve">
+    <value>尝试下载对应内容时仅复制生成的命令而不实际下载</value>
+  </data>
+  <data name="GenCommandWithoutCredential" xml:space="preserve">
+    <value>生成命令时不包含身份验证</value>
+  </data>
+  <data name="GenCommandWithoutCredentialDescription" xml:space="preserve">
+    <value>在生成命令时去除 Cookie, 访问令牌等身份信息</value>
+  </data>
+  <data name="UseExternalBBDown" xml:space="preserve">
+    <value>下载时调用外部BBDown</value>
+  </data>
+  <data name="UseExternalBBDownDescription" xml:space="preserve">
+    <value>尝试调用你自己配置的 BBDown 进行下载</value>
+  </data>
 </root>

@@ -20,6 +20,7 @@
         <Button
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
             Style="{StaticResource AvatarButtonStyle}">
             <PersonPicture
                 Width="36"

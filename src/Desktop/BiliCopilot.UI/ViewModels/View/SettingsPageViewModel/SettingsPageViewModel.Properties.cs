@@ -91,6 +91,15 @@ public sealed partial class SettingsPageViewModel
     private bool _openFolderAfterDownload;
 
     [ObservableProperty]
+    private bool _useExternalBBDown;
+
+    [ObservableProperty]
+    private bool _onlyCopyCommandWhenDownload;
+
+    [ObservableProperty]
+    private bool _withoutCredentialWhenGenDownloadCommand;
+
+    [ObservableProperty]
     private IReadOnlyCollection<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]

@@ -78,4 +78,7 @@ public enum SettingNames
     DownloadFolder,
     OpenFolderAfterDownload,
     LastTenMomentIds,
+    UseExternalBBDown,
+    OnlyCopyCommandWhenDownload,
+    WithoutCredentialWhenGenDownloadCommand,
 }
