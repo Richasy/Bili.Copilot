@@ -60,6 +60,9 @@ public abstract partial class PlayerViewModelBase
     private bool _isPaused;
 
     [ObservableProperty]
+    private bool _isFailed;
+
+    [ObservableProperty]
     private int _position;
 
     [ObservableProperty]

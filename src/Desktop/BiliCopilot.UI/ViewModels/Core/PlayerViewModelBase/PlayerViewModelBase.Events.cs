@@ -56,6 +56,7 @@ public abstract partial class PlayerViewModelBase
                 IsPaused = !IsBuffering;
             }
 
+            IsFailed = state == PlayerState.Failed;
             _stateAction?.Invoke(state);
         });
     }

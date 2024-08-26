@@ -64,11 +64,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NativePlayer">
-                    <MediaPlayerElement
-                        x:Name="PlayerElement"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        AreTransportControlsEnabled="False" />
+                    <Grid Background="Black">
+                        <MediaPlayerElement
+                            x:Name="PlayerElement"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            AreTransportControlsEnabled="False" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -182,11 +184,13 @@
                         <StackPanel
                             x:Name="NotificationContainer"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top" />
+                            VerticalAlignment="Top"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                         <StackPanel
                             x:Name="OperationContainer"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom">
+                            VerticalAlignment="Bottom"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                             <ContentControl
                                 x:Name="SubtitleContainer"
                                 HorizontalAlignment="Stretch"
@@ -204,6 +208,18 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPlayerDataLoading}" />
+                        <components:EmptyHolder
+                            Title="{ext:Locale Name=FailedToPlay}"
+                            Description="{ext:Locale Name=FailedToPlayDescription}"
+                            Emoji="&#x1F647;"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <components:EmptyHolder.ActionElement>
+                                <Button
+                                    HorizontalAlignment="Stretch"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReloadCommand}"
+                                    Content="{ext:Locale Name=Reload}" />
+                            </components:EmptyHolder.ActionElement>
+                        </components:EmptyHolder>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

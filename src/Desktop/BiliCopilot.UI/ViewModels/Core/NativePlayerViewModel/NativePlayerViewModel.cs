@@ -48,6 +48,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     {
         _videoSegment = video;
         _audioSegment = audio;
+        UpdateState(PlayerState.None);
     }
 
     private MediaPlayer CreatePlayer()
@@ -97,7 +98,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
                     break;
             }
 
-            UpdateState(PlayerState.None);
+            UpdateState(PlayerState.Failed);
             _logger.LogError($"播放失败: {args.Error} | {args.ErrorMessage} | {args.ExtendedErrorCode}");
         });
     }

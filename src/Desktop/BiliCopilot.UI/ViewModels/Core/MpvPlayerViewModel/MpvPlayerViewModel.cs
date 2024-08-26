@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using BiliCopilot.UI.Controls.Core.Common;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using Microsoft.Extensions.Logging;
 using Mpv.Core;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
@@ -129,7 +130,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
     private async Task WaitUntilAddAudioAsync(string audioUrl)
     {
-        const int maxRetryCount = 10;
+        const int maxRetryCount = 3;
         var retryCount = 0;
         var isAudioAdded = false;
         do
@@ -157,5 +158,11 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             }
         }
         while (!isAudioAdded);
+
+        if (!isAudioAdded)
+        {
+            UpdateState(PlayerState.Failed);
+            _logger.LogError("尝试播放音频失败.");
+        }
     }
 }

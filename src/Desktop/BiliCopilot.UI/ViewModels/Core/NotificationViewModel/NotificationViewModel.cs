@@ -63,5 +63,6 @@ public sealed partial class NotificationViewModel : ViewModelBase
         }
     }
 
-    private void OnTimerTick(object? sender, object e) => throw new NotImplementedException();
+    private void OnTimerTick(object? sender, object e)
+        => TrySendVideoMomentNotificationsCommand.Execute(default);
 }

@@ -36,4 +36,9 @@ public enum PlayerState
     /// A media item is paused.
     /// </summary>
     Paused,
+
+    /// <summary>
+    /// 播放失败.
+    /// </summary>
+    Failed,
 }

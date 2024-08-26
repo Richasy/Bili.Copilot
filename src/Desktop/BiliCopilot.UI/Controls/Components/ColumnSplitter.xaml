@@ -25,6 +25,7 @@
             x:Name="Sizer"
             HorizontalAlignment="Center"
             Binding="{x:Bind ColumnWidth, Mode=TwoWay}"
+            IsFocusEngagementEnabled="False"
             Maximum="{x:Bind MaxColumnWidth, Mode=OneWay}"
             Minimum="{x:Bind MinColumnWidth, Mode=OneWay}"
             Visibility="{x:Bind IsHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />

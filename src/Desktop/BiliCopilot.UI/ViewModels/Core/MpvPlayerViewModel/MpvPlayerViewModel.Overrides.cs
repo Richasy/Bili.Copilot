@@ -56,6 +56,7 @@ public sealed partial class MpvPlayerViewModel
             Player.Client.SetOption("pause", "no");
         }
 
+        UpdateState(Models.Constants.PlayerState.None);
         Player.Client.SetOption("start", Position.ToString());
 
         if (!string.IsNullOrEmpty(_videoUrl))

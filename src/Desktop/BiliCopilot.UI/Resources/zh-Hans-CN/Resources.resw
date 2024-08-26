@@ -2384,4 +2384,10 @@
   <data name="UseExternalBBDownDescription" xml:space="preserve">
     <value>尝试调用你自己配置的 BBDown 进行下载</value>
   </data>
+  <data name="FailedToPlay" xml:space="preserve">
+    <value>播放失败</value>
+  </data>
+  <data name="FailedToPlayDescription" xml:space="preserve">
+    <value>由于某种原因，播放失败了，请点击下方的重载按钮再试试吧</value>
+  </data>
 </root>
