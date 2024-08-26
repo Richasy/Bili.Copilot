@@ -178,9 +178,9 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
     private void MoveAndResize()
     {
         var lastPoint = GetSavedWindowPosition();
-        var workArea = DisplayArea.Primary.WorkArea;
-
-        var rect = GetRenderRect(workArea);
+        var displayArea = DisplayArea.GetFromPoint(lastPoint, DisplayAreaFallback.Primary)
+            ?? DisplayArea.Primary;
+        var rect = GetRenderRect(displayArea.WorkArea);
         AppWindow.MoveAndResize(rect);
     }
 

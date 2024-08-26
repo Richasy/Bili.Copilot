@@ -39,7 +39,7 @@
                 <HyperlinkButton Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" Content="{ext:Locale Name=Refresh}" />
             </components:EmptyHolder.ActionElement>
         </components:EmptyHolder>
-        <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <local:CommentTextBox
             Grid.Row="1"
             Margin="12,0"
