@@ -7,6 +7,9 @@ using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.Media;
+using Windows.Storage.Streams;
+using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -25,11 +28,40 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     }
 
     /// <summary>
+    /// 初始化系统播放控制器.
+    /// </summary>
+    public void InitializeSmtc(string cover, string title, string subtitle)
+    {
+        if (_smtc is null)
+        {
+            return;
+        }
+
+        var updater = _smtc.DisplayUpdater;
+        updater.ClearAll();
+        updater.Type = MediaPlaybackType.Video;
+        updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(cover));
+        updater.VideoProperties.Title = title;
+        updater.VideoProperties.Subtitle = subtitle;
+        updater.Update();
+    }
+
+    /// <summary>
     /// 设置播放数据.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
     public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0)
     {
+        if (_smtc is null)
+        {
+            var currentWindow = this.Get<AppViewModel>().ActivatedWindow.GetWindowHandle();
+            _smtc = SystemMediaTransportControlsInterop.GetForWindow(currentWindow);
+            _smtc.IsEnabled = true;
+            _smtc.IsPlayEnabled = true;
+            _smtc.IsPauseEnabled = true;
+            _smtc.ButtonPressed += OnSystemControlsButtonPressedAsync;
+        }
+
         if (IsMediaLoaded() && !IsPaused)
         {
             await TogglePlayPauseAsync();
@@ -80,6 +112,14 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     public Task CloseAsync()
     {
         IsPaused = true;
+        if (_smtc is not null)
+        {
+            _smtc.DisplayUpdater.ClearAll();
+            _smtc.IsEnabled = false;
+            _smtc.ButtonPressed -= OnSystemControlsButtonPressedAsync;
+            _smtc = default;
+        }
+
         return OnCloseAsync();
     }
 

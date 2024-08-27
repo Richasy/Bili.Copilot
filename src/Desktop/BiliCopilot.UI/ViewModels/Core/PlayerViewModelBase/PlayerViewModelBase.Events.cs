@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using Windows.Media;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -56,6 +57,11 @@ public abstract partial class PlayerViewModelBase
                 IsPaused = !IsBuffering;
             }
 
+            if (_smtc is not null)
+            {
+                _smtc.PlaybackStatus = IsFailed ? MediaPlaybackStatus.Stopped : IsPaused ? MediaPlaybackStatus.Paused : MediaPlaybackStatus.Playing;
+            }
+
             IsFailed = state == PlayerState.Failed;
             _stateAction?.Invoke(state);
         });
@@ -66,4 +72,20 @@ public abstract partial class PlayerViewModelBase
     /// </summary>
     protected virtual void ReachEnd()
         => _endAction?.Invoke();
+
+    private void OnSystemControlsButtonPressedAsync(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
+    {
+        switch (args.Button)
+        {
+            case SystemMediaTransportControlsButton.Play:
+            case SystemMediaTransportControlsButton.Pause:
+                _dispatcherQueue.TryEnqueue(() =>
+                {
+                    TogglePlayPauseCommand.Execute(default);
+                });
+                break;
+            default:
+                break;
+        }
+    }
 }

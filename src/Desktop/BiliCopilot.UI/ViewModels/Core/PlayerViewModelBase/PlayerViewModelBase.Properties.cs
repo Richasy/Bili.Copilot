@@ -5,6 +5,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Windows.Media;
 using Windows.System.Display;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -47,6 +48,8 @@ public abstract partial class PlayerViewModelBase
     protected Action<PlayerState> _stateAction;
     protected Action _endAction;
     protected DisplayRequest _displayRequest;
+
+    protected SystemMediaTransportControls? _smtc;
 
     protected bool _isInitialized;
 

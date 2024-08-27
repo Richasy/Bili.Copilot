@@ -106,6 +106,7 @@ public sealed partial class AppViewModel : ViewModelBase
         (window as WindowBase).MinHeight = 320;
         (window as WindowBase).MinWidth = 560;
         window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+        window.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.EnterPlayerHostMode();
@@ -119,6 +120,7 @@ public sealed partial class AppViewModel : ViewModelBase
         (window as WindowBase).MinHeight = 480;
         (window as WindowBase).MinWidth = 640;
         window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        window.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.ExitPlayerHostMode();

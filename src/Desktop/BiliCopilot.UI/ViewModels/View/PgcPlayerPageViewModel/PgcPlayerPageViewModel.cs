@@ -197,6 +197,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         }
 
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress);
+        Player.InitializeSmtc(_episode.Identifier.Cover.SourceUri.ToString(), EpisodeTitle, SeasonTitle);
         Danmaku?.Redraw();
 
         // 重置初始进度，避免影响其它视频.

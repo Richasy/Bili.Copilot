@@ -228,6 +228,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         }
 
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress);
+        Player.InitializeSmtc(_view.Information.Identifier.Cover.SourceUri.ToString(), Title, UpName);
         Danmaku?.ClearAll();
         Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
 

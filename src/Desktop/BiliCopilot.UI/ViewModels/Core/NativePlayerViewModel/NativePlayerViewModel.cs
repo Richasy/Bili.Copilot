@@ -55,6 +55,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     {
         _isDisposed = false;
         var player = new MediaPlayer();
+        player.CommandManager.IsEnabled = false;
         player.MediaOpened += OnMediaPlayerOpened;
         player.CurrentStateChanged += OnMediaPlayerStateChanged;
         player.MediaFailed += OnMediaPlayerFailed;

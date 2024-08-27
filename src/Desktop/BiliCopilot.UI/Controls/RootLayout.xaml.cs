@@ -45,6 +45,7 @@ public sealed partial class RootLayout : RootLayoutBase
 
         MainTitleBar.Visibility = Visibility.Collapsed;
         NavView.IsPaneOpen = false;
+        VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)
         {
@@ -72,6 +73,7 @@ public sealed partial class RootLayout : RootLayoutBase
 
         MainTitleBar.Visibility = Visibility.Visible;
         NavView.IsPaneOpen = true;
+        VisualStateManager.GoToState(this, nameof(NormalState), false);
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)
         {

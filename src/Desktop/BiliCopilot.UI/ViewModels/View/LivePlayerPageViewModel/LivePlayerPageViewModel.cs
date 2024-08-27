@@ -193,6 +193,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         }
 
         await Player.SetPlayDataAsync(url, default, autoPlay);
+        Player.InitializeSmtc(_view.Information.Identifier.Cover.SourceUri.ToString(), Title, UpName);
     }
 
     [RelayCommand]
