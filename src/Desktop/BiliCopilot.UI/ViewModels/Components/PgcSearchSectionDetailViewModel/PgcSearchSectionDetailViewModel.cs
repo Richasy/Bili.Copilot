@@ -66,6 +66,11 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in result)
             {
+                if (Items.Any(p => p.Data.Equals(item.Season)))
+                {
+                    continue;
+                }
+
                 Items.Add(new SeasonItemViewModel(item.Season));
             }
 

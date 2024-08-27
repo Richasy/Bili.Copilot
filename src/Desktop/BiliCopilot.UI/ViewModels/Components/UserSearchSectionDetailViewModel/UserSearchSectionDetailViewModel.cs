@@ -64,6 +64,11 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in result)
             {
+                if (Items.Any(p => p.Data.Equals(item.User)))
+                {
+                    continue;
+                }
+
                 Items.Add(new UserItemViewModel(item.User));
             }
 

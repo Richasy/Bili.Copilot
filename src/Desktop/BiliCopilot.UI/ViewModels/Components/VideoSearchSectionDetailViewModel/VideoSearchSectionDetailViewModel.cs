@@ -57,6 +57,11 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         {
             foreach (var item in videos)
             {
+                if (Items.Any(p => p.Data.Equals(item)))
+                {
+                    continue;
+                }
+
                 Items.Add(new VideoItemViewModel(item, VideoCardStyle.Search));
             }
 
@@ -85,6 +90,11 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in videos)
             {
+                if (Items.Any(p => p.Data.Equals(item)))
+                {
+                    continue;
+                }
+
                 Items.Add(new VideoItemViewModel(item, VideoCardStyle.Search));
             }
 

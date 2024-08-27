@@ -64,6 +64,11 @@ public sealed partial class LiveSearchSectionDetailViewModel : ViewModelBase, IS
             _canRequest = !string.IsNullOrEmpty(_offset);
             foreach (var item in result)
             {
+                if (Items.Any(p => p.Data.Equals(item.Live)))
+                {
+                    continue;
+                }
+
                 Items.Add(new LiveItemViewModel(item.Live));
             }
 
