@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-#if !DEBUG
-using Microsoft.Extensions.Logging;
-#endif
 using BiliCopilot.UI.Controls.Core.Common;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -138,12 +135,6 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             if (retryCount >= maxRetryCount)
             {
                 break;
-            }
-
-            if (!Player.IsMediaLoaded())
-            {
-                await Task.Delay(300);
-                continue;
             }
 
             try

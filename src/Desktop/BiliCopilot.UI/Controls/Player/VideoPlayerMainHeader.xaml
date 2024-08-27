@@ -11,29 +11,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="16,0" ColumnSpacing="12">
+    <Grid Padding="16,0">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <ic:SymbolIcon
-                Margin="0,0,12,0"
-                VerticalAlignment="Center"
-                FontSize="14"
-                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                Symbol="EyeOff"
-                ToolTipService.ToolTip="{ext:Locale Name=PlayInPrivateTip}"
-                Visibility="{x:Bind ViewModel.IsPrivatePlay, Mode=OneWay}" />
-            <base:TrimTextBlock
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontWeight="Bold"
-                MaxLines="1"
-                Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
-        </StackPanel>
-        <Button
+        <ic:SymbolIcon
+            Margin="0,0,12,0"
+            VerticalAlignment="Center"
+            FontSize="14"
+            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+            Symbol="EyeOff"
+            ToolTipService.ToolTip="{ext:Locale Name=PlayInPrivateTip}"
+            Visibility="{x:Bind ViewModel.IsPrivatePlay, Mode=OneWay}" />
+        <base:TrimTextBlock
             Grid.Column="1"
+            Margin="0,0,12,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            MaxLines="1"
+            Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <Button
+            Grid.Column="2"
             VerticalAlignment="Center"
             Style="{StaticResource IconButtonStyle}">
             <ic:SymbolIcon FontSize="14" Symbol="Share" />

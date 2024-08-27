@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -74,5 +75,35 @@ public sealed partial class BiliPlayer
                 : Visibility.Collapsed;
             ViewModel.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
         });
+    }
+
+    private void OnCursorTimerTick(object? sender, object e)
+    {
+        _cursorStayTime += 0.5;
+
+        if (_cursorStayTime >= 2
+            && TransportControls is not null
+            && TransportControls.Visibility == Visibility.Collapsed
+            && !ViewModel.IsPaused
+            && !ViewModel.IsPlayerDataLoading)
+        {
+            if (!_isCursorDisposed)
+            {
+                ProtectedCursor?.Dispose();
+                _isCursorDisposed = true;
+            }
+
+            _cursorStayTime = 0;
+        }
+    }
+
+    private void RestoreCursor()
+    {
+        _cursorStayTime = 0;
+        if (_isCursorDisposed)
+        {
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            _isCursorDisposed = false;
+        }
     }
 }

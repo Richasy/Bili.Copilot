@@ -21,8 +21,11 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     private Rectangle _interactionControl;
     private StackPanel? _notificationContainer;
     private PlayerPresenter? _playerPresenter;
+    private DispatcherTimer? _cursorTimer;
 
     private double _lastSpeed;
+    private double _cursorStayTime;
+    private bool _isCursorDisposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -32,6 +35,13 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
+        if (_cursorTimer is null)
+        {
+            _cursorTimer = new DispatcherTimer();
+            _cursorTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _cursorTimer.Tick += OnCursorTimerTick;
+        }
+
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         _interactionControl.Tapped += OnCoreTapped;
         _interactionControl.DoubleTapped += OnCoreDoubleTapped;
@@ -54,6 +64,8 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             MeasureTransportTriggerRect();
             TransportControls.Visibility = Visibility.Collapsed;
         }
+
+        _cursorTimer?.Start();
     }
 
     /// <inheritdoc/>
@@ -66,6 +78,13 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
             ViewModel.RequestCancelNotification -= OnRequestCancelNotification;
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+        }
+
+        if (_cursorTimer is not null)
+        {
+            _cursorTimer.Tick -= OnCursorTimerTick;
+            _cursorTimer.Stop();
+            _cursorTimer = default;
         }
 
         _viewModel = default;
@@ -91,18 +110,21 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
+        RestoreCursor();
         CheckTransportControlVisibility(e);
     }
 
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
+        RestoreCursor();
         CheckTransportControlVisibility(e);
     }
 
     /// <inheritdoc/>
     protected override void OnPointerExited(PointerRoutedEventArgs e)
     {
+        RestoreCursor();
         if (TransportControls is not null)
         {
             TransportControls.Visibility = Visibility.Collapsed;
