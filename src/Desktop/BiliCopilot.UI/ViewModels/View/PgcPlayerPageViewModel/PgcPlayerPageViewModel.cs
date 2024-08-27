@@ -79,6 +79,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             var initialEpisode = FindInitialEpisode(episodeId);
             ChangeEpisode(initialEpisode);
             InitializeSections();
+            InitializeNextEpisode();
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
@@ -195,7 +196,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             npvm.InjectSegments(vSeg, aSeg);
         }
 
-        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress);
+        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress);
         Danmaku?.Redraw();
 
         // 重置初始进度，避免影响其它视频.

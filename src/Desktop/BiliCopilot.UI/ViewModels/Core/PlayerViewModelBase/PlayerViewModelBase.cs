@@ -40,6 +40,8 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         _autoPlay = isAutoPlay;
         Position = position;
 
+        CancelNotification();
+
         var isSpeedShare = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
         var localSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1.0);
         Volume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);

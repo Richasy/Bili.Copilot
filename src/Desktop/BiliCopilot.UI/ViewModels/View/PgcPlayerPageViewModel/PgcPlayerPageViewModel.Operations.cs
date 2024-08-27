@@ -221,6 +221,11 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void ChangeEpisode(EpisodeInformation episode)
     {
+        if (_initialProgress == 0)
+        {
+            _initialProgress = -1;
+        }
+
         var isFirstSet = _episode is null;
         _episode = episode;
         if (isFirstSet)
@@ -241,6 +246,7 @@ public sealed partial class PgcPlayerPageViewModel
         ReloadEpisodeOpeartionCommand.Execute(default);
         InitializeDashMediaCommand.Execute(episode);
         Subtitle.InitializeCommand.Execute(default);
+        InitializeNextEpisode();
     }
 
     private void PlayerProgressChanged(int progress, int duration)

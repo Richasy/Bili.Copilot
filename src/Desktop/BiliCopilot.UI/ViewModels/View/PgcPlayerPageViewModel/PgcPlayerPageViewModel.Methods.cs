@@ -167,7 +167,20 @@ public sealed partial class PgcPlayerPageViewModel
 
     private object? FindNextEpisode()
     {
-        _ = this;
+        if (Sections is null)
+        {
+            return default;
+        }
+
+        if (Sections.OfType<PgcPlayerEpisodeSectionDetailViewModel>().FirstOrDefault() is PgcPlayerEpisodeSectionDetailViewModel episodeSection)
+        {
+            var index = episodeSection.Episodes.Select(p => p.Data).ToList().IndexOf(_episode);
+            if (index < episodeSection.Episodes.Count - 1)
+            {
+                return episodeSection.Episodes.ElementAt(index + 1).Data;
+            }
+        }
+
         return default;
     }
 
