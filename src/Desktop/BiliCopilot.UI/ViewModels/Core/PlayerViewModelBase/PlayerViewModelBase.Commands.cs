@@ -293,8 +293,7 @@ public abstract partial class PlayerViewModelBase
                     var dp = new DataPackage();
                     dp.SetBitmap(RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(path)));
                     Clipboard.SetContent(dp);
-
-                    // TODO: 显示提示.
+                    this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
                 }
 
                 var shouldOpenFile = SettingsToolkit.ReadLocalSetting(SettingNames.OpenAfterScreenshot, true);

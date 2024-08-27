@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Text.Json;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
 using Richasy.BiliKernel.Models.Article;
@@ -158,5 +160,6 @@ public sealed partial class ArticleReader : LayoutUserControlBase
         var dp = new DataPackage();
         dp.SetText(_selectedText);
         Clipboard.SetContent(dp);
+        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
     }
 }

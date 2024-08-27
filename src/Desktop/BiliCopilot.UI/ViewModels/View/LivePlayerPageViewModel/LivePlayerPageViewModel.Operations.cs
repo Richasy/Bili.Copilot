@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -44,6 +46,7 @@ public sealed partial class LivePlayerPageViewModel
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
         Clipboard.SetContent(dp);
+        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
     }
 
     [RelayCommand]

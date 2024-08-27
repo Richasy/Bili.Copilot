@@ -139,6 +139,7 @@ public sealed partial class VideoPlayerPageViewModel
         dp.SetText(url);
         dp.SetWebLink(new Uri(url));
         Clipboard.SetContent(dp);
+        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
     }
 
     [RelayCommand]
