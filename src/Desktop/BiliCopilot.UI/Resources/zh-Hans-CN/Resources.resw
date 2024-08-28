@@ -2350,7 +2350,7 @@
     <value>文件夹不存在，请重新指定文件夹</value>
   </data>
   <data name="DownloadWithDanmaku" xml:space="preserve">
-    <value>下载视频时同时下载字幕</value>
+    <value>下载视频同时下载弹幕</value>
   </data>
   <data name="DownloadAllParts" xml:space="preserve">
     <value>下载所有分P</value>
