@@ -2,12 +2,12 @@
 
 using Richasy.WinUI.Share.Base;
 
-namespace BiliCopilot.UI.Controls;
+namespace BiliCopilot.UI.Controls.Components;
 
 /// <summary>
 /// 骨架占位图.
 /// </summary>
-public sealed partial class ShimmerLayout : LayoutUserControlBase
+public sealed class ShimmerLayout : LayoutControlBase
 {
     /// <summary>
     /// <see cref="IsActive"/> 的依赖属性.
@@ -18,7 +18,7 @@ public sealed partial class ShimmerLayout : LayoutUserControlBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ShimmerLayout"/> class.
     /// </summary>
-    public ShimmerLayout() => InitializeComponent();
+    public ShimmerLayout() => DefaultStyleKey = typeof(ShimmerLayout);
 
     /// <summary>
     /// 是否激活.
@@ -28,7 +28,4 @@ public sealed partial class ShimmerLayout : LayoutUserControlBase
         get => (bool)GetValue(IsActiveProperty);
         set => SetValue(IsActiveProperty, value);
     }
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? default : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 }

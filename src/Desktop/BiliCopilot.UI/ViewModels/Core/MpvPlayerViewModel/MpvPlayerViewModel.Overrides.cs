@@ -34,11 +34,11 @@ public sealed partial class MpvPlayerViewModel
 
     /// <inheritdoc/>
     protected override void OnSetVolume(int value)
-        => Player.SetVolume(value);
+        => Player?.SetVolume(value);
 
     /// <inheritdoc/>
     protected override void OnSetSpeed(double speed)
-        => Player.SetSpeed(speed);
+        => Player?.SetSpeed(speed);
 
     /// <inheritdoc/>
     protected override Task OnTakeScreenshotAsync(string path)

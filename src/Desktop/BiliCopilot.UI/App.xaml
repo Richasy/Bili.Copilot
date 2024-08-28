@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/CommentItemControl/CommentItemControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/NotifyMessageCardControl/NotifyMessageCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Core/Player/BiliPlayer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/ShimmerLayout/ShimmerLayout.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">

@@ -54,6 +54,7 @@
     <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
+    <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
     <None Remove="Controls\Components\StatusTip.xaml" />
     <None Remove="Controls\Components\TipPopup.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
@@ -189,7 +190,6 @@
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
-    <None Remove="Controls\ShimmerLayout.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
     <None Remove="Controls\Users\FollowsMainBody.xaml" />
@@ -640,12 +640,6 @@
     <Page Update="Controls\Users\FollowsMainBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\ShimmerLayout.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\ShimmerLayout.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Search\ArticleSectionDetailControl.xaml">
@@ -1226,6 +1220,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Settings\DownloadSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

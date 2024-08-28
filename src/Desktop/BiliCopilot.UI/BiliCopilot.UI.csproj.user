@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\DownloadSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -385,9 +388,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\ShimmerLayout.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Users\FollowsMainBody.xaml">

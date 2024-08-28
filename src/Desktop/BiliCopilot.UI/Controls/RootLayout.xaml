@@ -81,7 +81,7 @@
                             Duration="0:0:0.26" />
                     </animations:Implicit.ShowAnimations>
                 </Grid>
-                <local:ShimmerLayout
+                <components:ShimmerLayout
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     IsActive="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay}"
@@ -92,7 +92,7 @@
                             To="0"
                             Duration="0:0:0.26" />
                     </animations:Implicit.HideAnimations>
-                </local:ShimmerLayout>
+                </components:ShimmerLayout>
             </Grid>
         </NavigationView>
 
