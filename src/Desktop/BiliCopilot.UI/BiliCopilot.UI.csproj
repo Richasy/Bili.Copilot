@@ -23,7 +23,6 @@
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
     <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
-    <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +228,7 @@
     <None Remove="Pages\StartupPage.xaml" />
     <None Remove="Pages\VideoPartitionPage.xaml" />
     <None Remove="Styles\Overrides.xaml" />
+    <None Remove="Styles\TrayResources.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -254,6 +254,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
+    <PackageReference Include="H.NotifyIcon.WinUI" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -1220,6 +1221,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Styles\TrayResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

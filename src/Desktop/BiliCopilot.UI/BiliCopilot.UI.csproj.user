@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Styles\TrayResources.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
       <SubType>Designer</SubType>
     </Page>

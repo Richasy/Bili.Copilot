@@ -125,10 +125,15 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             }
         }
 
-        Activated -= OnActivated;
-        Closed -= OnClosed;
+        var hideWhenClose = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
+        if (!hideWhenClose)
+        {
+            Activated -= OnActivated;
+            Closed -= OnClosed;
 
-        GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
+            GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
+        }
+
         SaveCurrentWindowStats();
     }
 
