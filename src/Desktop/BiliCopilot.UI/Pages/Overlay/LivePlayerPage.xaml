@@ -122,26 +122,24 @@
                 IsInvertDirection="True"
                 MaxColumnWidth="500"
                 MinColumnWidth="300" />
-
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup>
-                    <VisualState x:Name="DefaultState" />
-                    <VisualState x:Name="PlayerHostState">
-                        <VisualState.Setters>
-                            <Setter Target="HeaderRow.Height" Value="Auto" />
-                            <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
-                            <Setter Target="MainHeader.Visibility" Value="Collapsed" />
-                            <Setter Target="PlayerBottomContainer.Visibility" Value="Collapsed" />
-                            <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
-                            <Setter Target="SideHeader.Visibility" Value="Collapsed" />
-                            <Setter Target="SideBody.Visibility" Value="Collapsed" />
-                            <Setter Target="VideoContainer.(Grid.ColumnSpan)" Value="3" />
-                            <Setter Target="VideoContainer.VerticalScrollBarVisibility" Value="Hidden" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
         </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="DefaultState" />
+                <VisualState x:Name="PlayerHostState">
+                    <VisualState.Setters>
+                        <Setter Target="HeaderRow.Height" Value="Auto" />
+                        <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
+                        <Setter Target="MainHeader.Visibility" Value="Collapsed" />
+                        <Setter Target="PlayerBottomContainer.Visibility" Value="Collapsed" />
+                        <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
+                        <Setter Target="SideHeader.Visibility" Value="Collapsed" />
+                        <Setter Target="SideBody.Visibility" Value="Collapsed" />
+                        <Setter Target="VideoContainer.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="VideoContainer.VerticalScrollBarVisibility" Value="Hidden" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
-
 </local:LivePlayerPageBase>

@@ -68,7 +68,10 @@ public partial class App : Application
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
             var mainWindow = GetMainWindow();
-            mainWindow.Closed += OnMainWindowClosed;
+            if (mainWindow is not null)
+            {
+                mainWindow.Closed += OnMainWindowClosed;
+            }
         }
         else
         {
