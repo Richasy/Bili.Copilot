@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -10,7 +11,9 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Models.Media;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 using Windows.System;
+using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -140,6 +143,28 @@ public sealed partial class VideoPlayerPageViewModel
         dp.SetWebLink(new Uri(url));
         Clipboard.SetContent(dp);
         this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+    }
+
+    [RelayCommand]
+    private void ShareVideoUrl()
+    {
+        var handle = this.Get<AppViewModel>().ActivatedWindow.GetWindowHandle();
+        var transferManager = DataTransferManagerInterop.GetForWindow(handle);
+        transferManager.DataRequested += OnTransferDataRequested;
+        DataTransferManagerInterop.ShowShareUIForWindow(handle);
+
+        void OnTransferDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var url = GetWebLink();
+            var dp = new DataPackage();
+            dp.SetText(url);
+            dp.SetWebLink(new Uri(url));
+            dp.Properties.Title = Title;
+            dp.Properties.Description = Description;
+            dp.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(_view.Information.Identifier.Cover.Uri);
+            args.Request.Data = dp;
+            sender.DataRequested -= OnTransferDataRequested;
+        }
     }
 
     [RelayCommand]

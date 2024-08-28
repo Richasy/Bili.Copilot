@@ -34,7 +34,7 @@
                         MinWidth="200"
                         Command="{x:Bind ViewModel.CopyUrlCommand, Mode=OneWay}"
                         Text="{ext:Locale Name=CopyLiveUrl}" />
-                    <MenuFlyoutItem Text="{ext:Locale Name=ShareLink}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShareUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=ShareLink}" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />
                     <MenuFlyoutItem Command="{x:Bind ViewModel.OpenInBroswerCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenInBrowser}" />
