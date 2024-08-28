@@ -47,7 +47,7 @@
                     HorizontalAlignment="Left"
                     Text="{ext:Locale Name=Generic}" />
                 <settings:ThemeSettingControl />
-                <settings:CloseBehaviorSettingControl />
+                <!--<settings:CloseBehaviorSettingControl />-->
                 <settings:NotificationSettingControl />
                 <settings:LoggerSettingControl />
                 <TextBlock

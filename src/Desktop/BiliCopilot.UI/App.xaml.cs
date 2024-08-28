@@ -127,7 +127,6 @@ public partial class App : Application
     {
         TrayIcon?.Dispose();
         TrayIcon = null;
-        GetMainWindow().Closed -= OnMainWindowClosed;
         _notificationManager?.Unregister();
         Exit();
     }

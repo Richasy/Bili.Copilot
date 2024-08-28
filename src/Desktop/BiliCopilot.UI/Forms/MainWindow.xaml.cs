@@ -43,7 +43,6 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         this.Get<AppViewModel>().Windows.Add(this);
         _inputActivationListener = InputActivationListener.GetForWindowId(AppWindow.Id);
         _inputActivationListener.InputActivationChanged += OnInputActivationChanged;
-
         Activated += OnActivated;
         Closed += OnClosed;
     }
@@ -134,6 +133,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
         }
 
+        KeyboardHook.Stop();
         SaveCurrentWindowStats();
     }
 
