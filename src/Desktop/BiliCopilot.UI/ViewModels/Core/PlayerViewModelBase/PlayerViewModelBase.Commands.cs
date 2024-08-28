@@ -310,14 +310,14 @@ public abstract partial class PlayerViewModelBase
     }
 
     [RelayCommand]
-    private async Task ReloadAsync()
+    private void Reload()
     {
         if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
         {
             return;
         }
 
-        await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Position);
+        _reloadAction?.Invoke();
     }
 
     [RelayCommand]

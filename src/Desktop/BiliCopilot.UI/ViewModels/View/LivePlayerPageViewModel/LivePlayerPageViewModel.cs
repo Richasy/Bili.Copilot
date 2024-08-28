@@ -37,6 +37,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         Danmaku = danmaku;
         Player.IsLive = true;
         Player.SetProgressAction(PlayerProgressChanged);
+        Player.SetReloadAction(ReloadFormat);
     }
 
     /// <inheritdoc/>

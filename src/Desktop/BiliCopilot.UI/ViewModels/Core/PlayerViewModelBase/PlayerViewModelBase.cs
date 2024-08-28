@@ -106,6 +106,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         => _endAction = action;
 
     /// <summary>
+    /// 注入重新加载时的回调.
+    /// </summary>
+    public void SetReloadAction(Action action)
+        => _reloadAction = action;
+
+    /// <summary>
     /// 关闭播放器.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>

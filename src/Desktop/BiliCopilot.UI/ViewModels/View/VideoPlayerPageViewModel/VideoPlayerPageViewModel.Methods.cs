@@ -278,4 +278,19 @@ public sealed partial class VideoPlayerPageViewModel
             NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextVideoTipTemplate), video.Identifier.Title);
         }
     }
+
+    private void ReloadPart()
+    {
+        if (_part is null)
+        {
+            return;
+        }
+
+        if (Player.Position > 0)
+        {
+            _initialProgress = Player.Position;
+        }
+
+        InitializeDashMediaCommand.Execute(_part);
+    }
 }

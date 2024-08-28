@@ -230,4 +230,19 @@ public sealed partial class PgcPlayerPageViewModel
 
         PlayerHeight = (double)(PlayerWidth * ratio.Height / ratio.Width);
     }
+
+    private void ReloadEpisode()
+    {
+        if (_episode is null)
+        {
+            return;
+        }
+
+        if (Player.Position > 0)
+        {
+            _injectedProgress = Player.Position;
+        }
+
+        ChangeEpisode(_episode);
+    }
 }

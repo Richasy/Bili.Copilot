@@ -72,4 +72,14 @@ public sealed partial class LivePlayerPageViewModel
 
         PlayerHeight = (double)(PlayerWidth * 9 / 16);
     }
+
+    private void ReloadFormat()
+    {
+        if (SelectedFormat is null)
+        {
+            return;
+        }
+
+        ChangeFormatCommand.Execute(SelectedFormat);
+    }
 }

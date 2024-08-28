@@ -47,6 +47,7 @@ public abstract partial class PlayerViewModelBase
     protected Action<int, int> _progressAction;
     protected Action<PlayerState> _stateAction;
     protected Action _endAction;
+    protected Action _reloadAction;
     protected DisplayRequest _displayRequest;
 
     protected SystemMediaTransportControls? _smtc;

@@ -260,6 +260,12 @@ public sealed partial class PgcPlayerPageViewModel
             LoadInitialProgress();
         }
 
+        if (_injectedProgress is not null)
+        {
+            _initialProgress = _injectedProgress.Value;
+            _injectedProgress = null;
+        }
+
         Player.CancelNotification();
         EpisodeId = episode.Identifier.Id;
         EpisodeTitle = SeasonTitle + " - " + episode.Identifier.Title;

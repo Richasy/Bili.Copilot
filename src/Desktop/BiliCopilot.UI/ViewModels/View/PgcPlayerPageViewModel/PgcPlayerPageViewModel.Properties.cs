@@ -32,6 +32,7 @@ public sealed partial class PgcPlayerPageViewModel
     private IList<DashSegmentInformation>? _videoSegments;
     private IList<DashSegmentInformation>? _audioSegments;
     private int _initialProgress;
+    private int? _injectedProgress;
     private EntertainmentType _type;
     private bool _isFormatChanging;
 
