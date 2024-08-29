@@ -10,7 +10,7 @@
   IgnorableNamespaces="uap rescap desktop com">
 
   <Identity
-    Name="Richasy.BiliCopilot.Dev"
+    Name="Richasy.BiliCopilot"
     Publisher="CN=Richasy"
     Version="1.0.0.0" />
 
@@ -50,22 +50,21 @@
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\Logo\SplashScreen.png"  BackgroundColor="#FFFFFF"/>
       </uap:VisualElements>
-        <Extensions>
+      <Extensions>
+        <!--Specify which CLSID to activate when notification is clicked-->
+        <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="E3D99E22-57A2-41B9-BB2D-E1547E68DEBA" />
+        </desktop:Extension>
 
-            <!--Specify which CLSID to activate when notification is clicked-->
-            <desktop:Extension Category="windows.toastNotificationActivation">
-                <desktop:ToastNotificationActivation ToastActivatorCLSID="E3D99E22-57A2-41B9-BB2D-E1547E68DEBA" />
-            </desktop:Extension>
-
-            <!--Register COM CLSID-->
-            <com:Extension Category="windows.comServer">
-                <com:ComServer>
-                    <com:ExeServer Executable="BiliCopilot.UI\BiliCopilot.UI.exe" DisplayName="哔哩助理" Arguments="----AppNotificationActivated:">
-                        <com:Class Id="E3D99E22-57A2-41B9-BB2D-E1547E68DEBA" />
-                    </com:ExeServer>
-                </com:ComServer>
-            </com:Extension>
-        </Extensions>
+        <!--Register COM CLSID-->
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="BiliCopilot.UI\BiliCopilot.UI.exe" DisplayName="哔哩助理" Arguments="----AppNotificationActivated:">
+              <com:Class Id="E3D99E22-57A2-41B9-BB2D-E1547E68DEBA" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
