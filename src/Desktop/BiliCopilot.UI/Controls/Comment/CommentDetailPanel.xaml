@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:CommentDetailPanelBase
+    x:Class="BiliCopilot.UI.Controls.Comment.CommentDetailPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Comment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollView
+            x:Name="CommentScrollView"
+            Padding="0"
+            Style="{StaticResource PageScrollViewStyle}">
+            <StackPanel Margin="12,0" Spacing="12">
+                <components:CommentItemControl IsMoreEnabled="False" ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
+                <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="items:CommentItemViewModel">
+                            <components:CommentItemControl Margin="0,2" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollView>
+        <components:EmptyHolder
+            Description="{ext:Locale Name=NoReply}"
+            Emoji="&#x1FAE2;"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
+            <components:EmptyHolder.ActionElement>
+                <HyperlinkButton Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" Content="{ext:Locale Name=Refresh}" />
+            </components:EmptyHolder.ActionElement>
+        </components:EmptyHolder>
+        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <local:CommentTextBox
+            Grid.Row="1"
+            Margin="12,0"
+            IsEnabled="{x:Bind ViewModel.IsReplying, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+            ReplyTip="{x:Bind ViewModel.ReplyTarget, Mode=OneWay}"
+            ResetSelectedCommand="{x:Bind ViewModel.ResetReplyTargetCommand, Mode=OneWay}"
+            SendCommand="{x:Bind ViewModel.SendReplyCommand, Mode=OneWay}" />
+    </Grid>
+</local:CommentDetailPanelBase>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.PlayerControlSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:constants="using:BiliCopilot.UI.Models.Constants"
+    xmlns:converters="using:BiliCopilot.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:PreferCodecTypeConverter x:Key="PreferCodecConverter" />
+        <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
+    </UserControl.Resources>
+
+    <community:SettingsExpander Description="{ext:Locale Name=PlayerControlDescription}" Header="{ext:Locale Name=PlayerControl}">
+        <community:SettingsExpander.HeaderIcon>
+            <ic:SymbolIcon Symbol="VideoPlayPause" />
+        </community:SettingsExpander.HeaderIcon>
+        <community:SettingsExpander.Items>
+            <community:SettingsCard Description="{ext:Locale Name=PreferCodecDescription}" Header="{ext:Locale Name=PreferCodec}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferCodecCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PreferCodec, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PreferCodecType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PreferCodecConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>
+            <!--  目前该选项暂无用武之地  -->
+            <!--<community:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PreferDecode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PreferDecodeType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PreferDecodeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>-->
+            <community:SettingsCard Description="{ext:Locale Name=SingleFastForwardAndRewindSpanDescription}" Header="{ext:Locale Name=SingleFastForwardAndRewindSpan}">
+                <NumberBox
+                    MinWidth="120"
+                    LargeChange="50"
+                    Maximum="300"
+                    Minimum="0"
+                    SmallChange="10"
+                    SpinButtonPlacementMode="Compact"
+                    Value="{x:Bind ViewModel.SingleFastForwardAndRewindSpan, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard Description="{ext:Locale Name=GlobalPlaybackRateDescription}" Header="{ext:Locale Name=GlobalPlaybackRate}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.GlobalPlayerSpeed, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard Description="{ext:Locale Name=BottomProgressVisibleDescription}" Header="{ext:Locale Name=BottomProgressVisible}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.BottomProgressVisible, Mode=TwoWay}" />
+            </community:SettingsCard>
+        </community:SettingsExpander.Items>
+    </community:SettingsExpander>
+</local:SettingsPageControlBase>

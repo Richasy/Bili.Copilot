@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Libs.Provider": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

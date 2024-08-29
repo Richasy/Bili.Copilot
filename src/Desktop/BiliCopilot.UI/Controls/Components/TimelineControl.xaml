@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:TimelineControlBase
+    x:Class="BiliCopilot.UI.Controls.Components.TimelineControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource BodyStrongTextBlockStyle}"
+                Text="{x:Bind ViewModel.DayOfWeek, Mode=OneWay}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.Date, Mode=OneWay}" />
+        </StackPanel>
+        <InfoBadge
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Style="{StaticResource InformationalValueInfoBadgeStyle}"
+            Value="{x:Bind ViewModel.Count, Mode=OneWay}" />
+    </Grid>
+</local:TimelineControlBase>

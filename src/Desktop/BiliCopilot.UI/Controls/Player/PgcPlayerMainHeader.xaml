@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PgcPlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.PgcPlayerMainHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <base:TrimTextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontWeight="Bold"
+            MaxLines="1"
+            Text="{x:Bind ViewModel.EpisodeTitle, Mode=OneWay}" />
+        <Button
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Style="{StaticResource IconButtonStyle}">
+            <ic:SymbolIcon FontSize="14" Symbol="Share" />
+            <Button.Flyout>
+                <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
+                    <MenuFlyoutItem
+                        MinWidth="200"
+                        Command="{x:Bind ViewModel.CopyEpisodeUrlCommand, Mode=OneWay}"
+                        Text="{ext:Locale Name=CopyEpisodeUrl}" />
+                    <MenuFlyoutItem
+                        MinWidth="200"
+                        Command="{x:Bind ViewModel.CopySeasonUrlCommand, Mode=OneWay}"
+                        Text="{ext:Locale Name=CopySeasonUrl}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShareEpisodeUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=ShareLink}" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.OpenInBroswerCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenInBrowser}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpv}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvNetCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpvNet}" />
+                </MenuFlyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</local:PgcPlayerPageControlBase>

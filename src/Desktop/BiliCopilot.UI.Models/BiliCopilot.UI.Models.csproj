@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <NoWarn>CS1570;NU1507;CS1591;</NoWarn>
+    <Configurations>Debug;Release;Publish</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(SolutionDir)src\Desktop\BiliCopilot.UI\Resources\zh-Hans-CN\Resources.resw" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
+    <ProjectReference Include="..\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

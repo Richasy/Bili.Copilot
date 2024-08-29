@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+
+    <Style x:Key="RecommendLiveCardStyle" TargetType="local:LiveCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveCardControl">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="82" />
+                            </Grid.RowDefinitions>
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <Border
+                                Margin="8"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.55" Color="Black" />
+                                </Border.Background>
+                                <TextBlock
+                                    Foreground="White"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle}" />
+                            </Border>
+                            <Grid
+                                Grid.Row="1"
+                                Padding="12,8,12,12"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <base:TrimTextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Viewer}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                            Symbol="Eye" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            </Grid>
+                        </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchLiveCardStyle" TargetType="local:LiveCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveCardControl">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="82" />
+                            </Grid.RowDefinitions>
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <Border
+                                Margin="8"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.55" Color="Black" />
+                                </Border.Background>
+                                <TextBlock
+                                    Foreground="White"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName}" />
+                            </Border>
+                            <Grid
+                                Grid.Row="1"
+                                Padding="12,8,12,12"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <base:TrimTextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Viewer}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                            Symbol="Eye" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            </Grid>
+                        </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FollowLiveCardStyle" TargetType="local:LiveCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveCardControl">
+                    <local:CardControl
+                        x:Name="RootCard"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}"
+                        CornerRadius="16">
+                        <ToolTipService.ToolTip>
+                            <TextBlock>
+                                <Run
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                <LineBreak />
+                                <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                            </TextBlock>
+                        </ToolTipService.ToolTip>
+                        <PersonPicture
+                            Width="32"
+                            Height="32"
+                            DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                            ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}" />
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PartitionLiveCardStyle" TargetType="local:LiveCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveCardControl">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="106" />
+                            </Grid.RowDefinitions>
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+
+                            <Grid
+                                Margin="6"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                                <Ellipse
+                                    Width="35"
+                                    Height="35"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Fill="Black"
+                                    Opacity="0.7" />
+                                <PersonPicture
+                                    Width="32"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
+                                    ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                    ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                            </Grid>
+
+                            <Grid
+                                Grid.Row="1"
+                                Padding="12,8,12,12"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <base:TrimTextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+
+                                <Grid Grid.Row="2" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <base:TrimTextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        MaxLines="1"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle}" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Viewer}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                            Symbol="Eye" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HistoryLiveCardStyle" TargetType="local:LiveCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LiveCardControl">
+                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="102" />
+                            </Grid.RowDefinitions>
+                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
+                            <Ellipse
+                                Width="8"
+                                Height="8"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                                ToolTipService.ToolTip="{ext:Locale Name=Living}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiving}" />
+                            <Border
+                                Margin="8"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.55" Color="Black" />
+                                </Border.Background>
+                                <TextBlock
+                                    Foreground="White"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TagName}" />
+                            </Border>
+                            <Grid
+                                Grid.Row="1"
+                                Padding="12,8,12,12"
+                                RowSpacing="6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <base:TrimTextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Viewer}">
+                                        <ic:SymbolIcon
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                            Symbol="Eye" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ViewerCount, Converter={StaticResource CountConverter}}"
+                                            TextLineBounds="Tight" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <base:TrimTextBlock
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}">
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CollectRelativeTime}" />
+                                    <Run Text="{ext:Locale Name=Play}" />
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RemoveHistoryCommand}" Text="{ext:Locale Name=Delete}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

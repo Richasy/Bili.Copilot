@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:ChatMessageControlBase
+    x:Class="BiliCopilot.UI.Controls.Message.ChatMessageBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Message"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button
+            Width="36"
+            Height="36"
+            Padding="0"
+            VerticalAlignment="Bottom"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            IsEnabled="{x:Bind ViewModel.IsSending, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+            ToolTipService.ToolTip="{ext:Locale Name=Emote}">
+            <ic:SymbolIcon FontSize="14" Symbol="Emoji" />
+            <Button.Flyout>
+                <Flyout Closed="OnFlyoutClosed" ShouldConstrainToRootBounds="False">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="4,8" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <components:EmotePanel
+                        Width="320"
+                        Height="420"
+                        ItemClick="OnItemClick" />
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <TextBox
+            x:Name="InputBox"
+            Grid.Column="1"
+            MinHeight="36"
+            MaxHeight="120"
+            Padding="12,8"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            AcceptsReturn="True"
+            IsEnabled="{x:Bind ViewModel.IsSending, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+            PlaceholderText="{ext:Locale Name=ChatMessagePlaceholderText}"
+            PreviewKeyDown="OnInputBoxKeyDown"
+            Text="{x:Bind ViewModel.InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <Button
+            Grid.Column="2"
+            Width="36"
+            Height="36"
+            Padding="0"
+            VerticalAlignment="Bottom"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Command="{x:Bind ViewModel.SendMessageCommand, Mode=OneWay}"
+            Style="{StaticResource AccentButtonStyle}"
+            ToolTipService.ToolTip="{ext:Locale Name=SendMessage}">
+            <ic:SymbolIcon FontSize="16" Symbol="Send" />
+        </Button>
+    </Grid>
+</local:ChatMessageControlBase>

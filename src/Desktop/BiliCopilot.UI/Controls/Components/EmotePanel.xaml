@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:EmotePanelBase
+    x:Class="BiliCopilot.UI.Controls.Components.EmotePanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ItemsView
+            x:Name="PackageView"
+            ItemsSource="{x:Bind ViewModel.Packages, Mode=OneWay}"
+            SelectionChanged="OnPackageChanged"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="appearance:EmotePackage">
+                    <ItemContainer
+                        Width="40"
+                        Height="40"
+                        Background="Transparent"
+                        Style="{StaticResource AppItemContainerStyle}">
+                        <Image
+                            Width="28"
+                            Source="{x:Bind Icon.Uri, Converter={StaticResource BitmapConverter}}"
+                            Stretch="Uniform" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="2" />
+            </ItemsView.Layout>
+        </ItemsView>
+        <Rectangle
+            Grid.Column="1"
+            Width="1"
+            VerticalAlignment="Stretch"
+            Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <ItemsView
+            x:Name="EmoteView"
+            Grid.Column="2"
+            IsItemInvokedEnabled="True"
+            ItemInvoked="OnEmoteViewItemInvoked"
+            SelectionMode="None">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="appearance:Emote">
+                    <ItemContainer Background="Transparent" Style="{StaticResource AppItemContainerStyle}">
+                        <Grid>
+                            <Image
+                                Width="32"
+                                Source="{x:Bind Image.Uri, Converter={StaticResource BitmapConverter}}"
+                                Stretch="Uniform"
+                                Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <TextBlock
+                                FontSize="12"
+                                Text="{x:Bind Key}"
+                                Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
+                        </Grid>
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <UniformGridLayout
+                    ItemsStretch="Fill"
+                    MinColumnSpacing="8"
+                    MinItemHeight="40"
+                    MinItemWidth="40"
+                    MinRowSpacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+    </Grid>
+</local:EmotePanelBase>

@@ -1,0 +1,123 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230830" />
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240801-build.1708" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.252-ci" />
+    <PackageVersion Include="Flurl.Http" Version="4.0.2" />
+    <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
+    <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
+    <PackageVersion Include="Grpc.Tools" Version="2.64.0" />
+    <PackageVersion Include="H.NotifyIcon.WinUI" Version="2.1.3" />
+    <PackageVersion Include="Humanizer.Core.zh-Hans" Version="2.14.1" />
+    <PackageVersion Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Bcl.Numerics" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="4.10.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
+    <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.11" />
+    <PackageVersion Include="OpenTK" Version="4.8.2" />
+    <PackageVersion Include="Silk.NET.Direct3D11" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.OpenGL" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.OpenGLES" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.OpenGLES.Extensions.ANGLE" Version="2.21.0" />
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
+    <PackageVersion Include="Polly" Version="8.4.1" />
+    <PackageVersion Include="QRCoder" Version="1.4.1" />
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
+    <PackageVersion Include="System.Linq.Async" Version="6.0.1" />
+    <PackageVersion Include="System.Memory.Data" Version="8.0.0" />
+    <PackageVersion Include="System.Numerics.Tensors" Version="8.0.0" />
+    <PackageVersion Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.4" />
+    <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
+    <PackageVersion Include="Microsoft.Graphics.Win2D" Version="99.99.99" />
+    <!-- Microsoft.Extensions.* -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.2.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="8.5.0" />
+    <!-- Test -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageVersion Include="Moq" Version="[4.18.4]" />
+    <PackageVersion Include="System.Threading.Channels" Version="8.0.0" />
+    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="8.0.0" />
+    <PackageVersion Include="Verify.Xunit" Version="23.5.2" />
+    <PackageVersion Include="WinUIEx" Version="2.3.4" />
+    <PackageVersion Include="xunit" Version="2.7.0" />
+    <PackageVersion Include="xunit.abstractions" Version="2.0.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <PackageVersion Include="xretry" Version="1.9.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <!--Console-->
+    <PackageVersion Include="Spectre.Console" Version="0.49.1" />
+    <!-- Symbols -->
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <!-- Toolset -->
+    <PackageVersion Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0-preview.24225.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="xunit.analyzers" Version="1.14.0" />
+    <PackageReference Include="xunit.analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Moq.Analyzers" Version="0.1.0" />
+    <PackageReference Include="Moq.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.Analyzers" Version="[4.11.0]" />
+    <PackageReference Include="Roslynator.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="[4.12.0]" />
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="[4.12.0]" />
+    <PackageReference Include="Roslynator.Formatting.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

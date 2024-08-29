@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>哔哩助理专栏阅读器</title>
+    <meta http-equiv="X-UA-Compatible" content="IE =edge">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width =device-width,initial-scale =1.0, maximum-scale=1.0, user-scalable=0; ">
+    <script>
+        var getHtml = function () {
+            return document.body.innerHTML;
+        }
+    </script>
+    <script>
+        var setFontFamily = function (fontfamily) {
+            document.body.style.fontFamily = fontfamily;
+        }
+        var setFontSize = function (fontSize) {
+            document.getElementsByTagName('html')[0].style.fontSize = fontSize + 'px';
+        }
+        var setLineHeight = function (lineHeight) {
+            var ps = document.getElementsByTagName('p');
+            var ls = document.getElementsByTagName('li');
+            for (var i = 0; i < ps.length; i++) {
+                ps[i].style.lineHeight = lineHeight;
+            }
+            for (var i = 0; i < ls.length; i++) {
+                ls[i].style.lineHeight = lineHeight;
+            }
+            document.body.style.lineHeight = lineHeight;
+        }
+
+        var changeStyle = function(fontFamily, fontSize, lineHeight) {
+            setFontFamily(fontFamily);
+            setFontSize(fontSize);
+            setLineHeight(lineHeight);
+        }
+    </script>
+    <style>
+        $style$
+    </style>
+    <style>
+        .read-interaction-info{
+            display: none;
+        }
+        #read-comment-box{
+            display: none;
+        }
+        .v-later-box{
+            display: none;
+        }
+        .v-affix{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>$title$</h1>
+    <div><small>$author$ · $date$ · $view$次阅读</small></div>
+    $body$
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 获取所有的 <p> 标签
+            const paragraphs = document.querySelectorAll('p');
+
+            // 遍历每一个 <p> 标签
+            paragraphs.forEach(function (p) {
+                // 去除 <p> 标签的内容两端的空白字符
+                const content = p.textContent.trim();
+
+                // 如果内容为空或者只有换行符
+                if (content === "" || content === "\n") {
+                    // 移除该 <p> 标签
+                    p.remove();
+                }
+            });
+        });
+
+        var links = document.getElementsByTagName('a');
+        // 拦截所有导航事件
+        if (links.length > 0) {
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    let target = e.currentTarget;
+                    let link = target.getAttribute('href');
+                    let data = {
+                        Name: 'LinkClick',
+                        Data: link
+                    }
+                    window.chrome.webview.postMessage(JSON.stringify(data));
+                })
+            }
+        }
+    </script>
+
+</body>
+
+</html>

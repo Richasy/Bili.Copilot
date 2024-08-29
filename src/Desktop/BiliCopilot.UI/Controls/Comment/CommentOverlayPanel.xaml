@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:CommentMainPanelBase
+    x:Class="BiliCopilot.UI.Controls.Comment.CommentOverlayPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:comment="using:BiliCopilot.UI.Controls.Comment"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Comment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Visibility="{x:Bind IsPanelOpened, Mode=OneWay}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <media:AttachedCardShadow
+            x:Key="CardShadow"
+            BlurRadius="12"
+            CornerRadius="8"
+            InnerContentClipMode="CompositionMaskBrush"
+            Opacity="0.08"
+            Offset="0,1,2" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Rectangle Fill="Transparent" Tapped="OnHolderTapped" />
+        <Grid
+            Margin="12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch">
+            <Border
+                ui:Effects.Shadow="{StaticResource CardShadow}"
+                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource OverlayCornerRadius}" />
+            <Grid>
+                <comment:CommentMainPanel Width="360" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            </Grid>
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="20,0"
+                    To="0,0"
+                    Duration="0:0:0.24" />
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:TranslationAnimation
+                    From="0,0"
+                    To="20,0"
+                    Duration="0:0:0.24" />
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+    </Grid>
+</local:CommentMainPanelBase>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:FavoritesPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Favorites.FavoritesPageSideHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Favorites"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0" ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            VerticalAlignment="Center"
+            Style="{StaticResource BodyStrongTextBlockStyle}"
+            Text="{ext:Locale Name=MyFavorite}" />
+
+        <HyperlinkButton
+            Grid.Column="1"
+            Width="32"
+            Height="32"
+            Padding="0"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
+            ToolTipService.ToolTip="{ext:Locale Name=Refresh}">
+            <ic:SymbolIcon FontSize="14" Symbol="ArrowSync" />
+        </HyperlinkButton>
+    </Grid>
+</local:FavoritesPageControlBase>

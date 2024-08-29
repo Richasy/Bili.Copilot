@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PlayerPresenterBase
+    x:Class="BiliCopilot.UI.Controls.Core.PlayerPresenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="MpvTemplate" x:DataType="core:MpvPlayerViewModel">
+            <local:MpvPlayer ViewModel="{x:Bind Mode=OneWay}" />
+        </DataTemplate>
+        <DataTemplate x:Key="NativeTemplate" x:DataType="core:NativePlayerViewModel">
+            <local:NativePlayer ViewModel="{x:Bind Mode=OneWay}" />
+        </DataTemplate>
+        <ext:PlayerTemplateSelector
+            x:Key="PlayerTemplateSelector"
+            MpvTemplate="{StaticResource MpvTemplate}"
+            NativeTemplate="{StaticResource NativeTemplate}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <ContentControl
+            x:Name="PlayerContainer"
+            Content="{x:Bind ViewModel, Mode=OneWay}"
+            ContentTemplateSelector="{StaticResource PlayerTemplateSelector}"
+            Style="{StaticResource AppContentControlStyle}" />
+    </Grid>
+</local:PlayerPresenterBase>

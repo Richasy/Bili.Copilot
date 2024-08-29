@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LivePartitionPageControlBase
+    x:Class="BiliCopilot.UI.Controls.LivePartition.LivePartitionMainHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.LivePartition"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0" ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <components:PartitionItemControl
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            ViewModel="{x:Bind ViewModel.SelectedSubSection, Mode=OneWay}" />
+
+        <ScrollViewer
+            Grid.Column="1"
+            Padding="8,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            HorizontalScrollBarVisibility="Hidden"
+            HorizontalScrollMode="Enabled"
+            VerticalScrollBarVisibility="Hidden"
+            VerticalScrollMode="Disabled"
+            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
+            <ItemsRepeater Margin="4,0" ItemsSource="{x:Bind ViewModel.FollowRooms}">
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="items:LiveItemViewModel">
+                        <components:LiveCardControl Style="{StaticResource FollowLiveCardStyle}" ViewModel="{x:Bind}" />
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+                <ItemsRepeater.Layout>
+                    <StackLayout Orientation="Horizontal" Spacing="8" />
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </ScrollViewer>
+
+        <local:LiveSubPartitionSelector
+            Grid.Column="1"
+            ViewModel="{x:Bind ViewModel.SelectedDetail, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+
+        <Button
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            AutomationProperties.Name="{ext:Locale Name=Refresh}"
+            Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <ic:SymbolIcon
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Symbol="ArrowSync" />
+                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</local:LivePartitionPageControlBase>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+    <Style x:Key="DefaultNotifyMessageCardStyle" TargetType="local:NotifyMessageCardControl">
+        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:NotifyMessageCardControl">
+                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActiveCommand}">
+                        <Grid Padding="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Margin="0,0,0,8" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Grid>
+                                        <PersonPicture
+                                            Width="32"
+                                            Height="32"
+                                            VerticalAlignment="Center"
+                                            DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FirstUserName}"
+                                            ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FirstUserAvatar, Converter={StaticResource BitmapConverter}}" />
+                                        <Ellipse
+                                            x:Name="MultipleHolder"
+                                            Width="32"
+                                            Height="32"
+                                            Margin="0,0,-20,0"
+                                            Fill="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsMultipleUsers, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    </Grid>
+
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="8"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FirstUserName, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                        <TextBlock
+                                            x:Name="UserNameBlock"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FirstUserName}" />
+                                        <TextBlock
+                                            x:Name="MultipleBlock"
+                                            Margin="-4,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{ext:Locale Name=MorePeople}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsMultipleUsers, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <TextBlock
+                                    x:Name="TimeBlock"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime}" />
+                            </Grid>
+
+                            <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                                <TextBlock
+                                    x:Name="SubtitleBlock"
+                                    Margin="0,0,0,4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Subtitle, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                <base:TrimTextBlock
+                                    x:Name="DetailBlock"
+                                    MaxLines="6"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Message}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Message, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            </StackPanel>
+                            <Border
+                                Grid.Row="2"
+                                Padding="8,4"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <TextBlock
+                                    x:Name="SourceContentBlock"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    MaxLines="6"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.SourceContent}"
+                                    TextWrapping="Wrap" />
+                            </Border>
+                        </Grid>
+                    </local:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultNotifyMessageCardStyle}" TargetType="local:NotifyMessageCardControl" />
+</ResourceDictionary>

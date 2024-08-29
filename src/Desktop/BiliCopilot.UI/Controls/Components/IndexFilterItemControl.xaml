@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:IndexFilterItemControlBase
+    x:Class="BiliCopilot.UI.Controls.Components.IndexFilterItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Padding="16,12"
+        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        BorderThickness="1"
+        ColumnSpacing="8"
+        CornerRadius="{StaticResource ControlCornerRadius}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <base:TrimTextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.Data.Name, Mode=OneWay}" />
+        <ComboBox
+            x:Name="ConditionComboBox"
+            Grid.Column="1"
+            Width="120"
+            VerticalAlignment="Center"
+            ItemsSource="{x:Bind ViewModel.Conditions, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.CurrentCondition, Mode=OneWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="appearance:Condition">
+                    <TextBlock Text="{x:Bind Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</local:IndexFilterItemControlBase>

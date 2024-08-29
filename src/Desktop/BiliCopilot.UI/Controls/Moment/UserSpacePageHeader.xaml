@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:UserSpacePageControlBase
+    x:Class="BiliCopilot.UI.Controls.Moment.UserSpacePageHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Moment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            x:Name="LeftContainer"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">
+                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                <Run Text="{ext:Locale Name=UserSpaceTitle}" />
+            </TextBlock>
+            <ToggleButton
+                Width="32"
+                Height="32"
+                Padding="0"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{x:Bind ViewModel.ToggleFollowCommand, Mode=OneWay}"
+                CornerRadius="16"
+                IsChecked="{x:Bind ViewModel.IsFollowed, Mode=OneWay}"
+                ToolTipService.ToolTip="{ext:Locale Name=Follow}">
+                <ic:SymbolIcon
+                    FontSize="14"
+                    IconVariant="{x:Bind ViewModel.IsFollowed, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
+                    Symbol="Heart" />
+            </ToggleButton>
+        </StackPanel>
+
+        <SelectorBar
+            x:Name="Selector"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+        <Grid
+            x:Name="RightContainer"
+            Grid.Column="2"
+            VerticalAlignment="Center">
+            <Button
+                HorizontalAlignment="Right"
+                AutomationProperties.Name="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="ArrowSync" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+    </Grid>
+</local:UserSpacePageControlBase>

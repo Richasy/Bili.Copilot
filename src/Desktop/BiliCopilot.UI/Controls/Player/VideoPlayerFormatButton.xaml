@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoPlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.VideoPlayerFormatButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Button Style="{StaticResource CircleIconButtonStyle}" ToolTipService.ToolTip="{ext:Locale Name=Quality}">
+            <ic:SymbolIcon FontSize="14" Symbol="Hd" />
+            <Button.Flyout>
+                <Flyout
+                    FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}"
+                    Opened="OnFlyoutOpened"
+                    Placement="Top"
+                    ShouldConstrainToRootBounds="False">
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{ext:Locale Name=Quality}" />
+                        <ItemsView
+                            x:Name="FormatView"
+                            Width="220"
+                            ItemsSource="{x:Bind ViewModel.Formats, Mode=OneWay}"
+                            SelectionChanged="OnFormatSelectionChanged"
+                            SelectionMode="Single">
+                            <ItemsView.ItemTemplate>
+                                <DataTemplate x:DataType="items:PlayerFormatItemViewModel">
+                                    <ItemContainer IsEnabled="{x:Bind IsEnabled}" Style="{StaticResource AppItemContainerStyle}">
+                                        <Grid
+                                            MinHeight="40"
+                                            Padding="12,0"
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Data.Description}" />
+                                        </Grid>
+                                    </ItemContainer>
+                                </DataTemplate>
+                            </ItemsView.ItemTemplate>
+                            <ItemsView.Layout>
+                                <StackLayout Spacing="4" />
+                            </ItemsView.Layout>
+                        </ItemsView>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</local:VideoPlayerPageControlBase>

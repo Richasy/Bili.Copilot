@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x64|arm64</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+    <Source>C:\Users\zrich\Desktop\Logo.png</Source>
+    <SmallTileSource>C:\Users\zrich\Desktop\Logo.png</SmallTileSource>
+    <MediumTileSource>C:\Users\zrich\Desktop\Logo.png</MediumTileSource>
+    <WideTileSource>C:\Users\zrich\Desktop\Logo.png</WideTileSource>
+    <LargeTileSource>C:\Users\zrich\Desktop\Logo.png</LargeTileSource>
+    <AppIconSource>C:\Users\zrich\Desktop\Logo.png</AppIconSource>
+    <SplashScreenSource>C:\Users\zrich\Desktop\Logo.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\zrich\Desktop\Logo.png</PackageLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <Page Update="Styles\TrayResources.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\DownloadSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\DownloadButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\GalleryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Forms\GalleryWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\TipPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\StatusTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\VideoMomentSpaceControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\UserSpacePageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\UserSpacePageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\UserSpacePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\AboutSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\LoggerSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\NotificationSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\CloseBehaviorSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ThemeSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LiveChatSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LiveDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcSeasonsSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcEpisodesSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcOperationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcStatControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\SubtitlePresenter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\SubtitleButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlaylistSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoSeasonSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPartsSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoRecommendSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\FavoriteButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\CoinButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoOperationControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\LikeButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoDescriptorControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\IconTextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoStatControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\UpSectionControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\MessagePageSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\UgcFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\UgcFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\VideoFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\FavoritesPageSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Favorites\PgcFavoriteSideItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FavoritesPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\ArticleHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\LiveHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\VideoHistorySection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\History\HistoryHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ViewLater\ViewLaterBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\ViewLater\ViewLaterHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\ViewLaterPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\EmotePanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentTextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentMainPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentDetailPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\CommentItemControl\CommentItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentImageGallery.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentPresenter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\EmoteTextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentUperItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\VideoMomentSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\MomentHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\ArticleSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\UserSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\LiveSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\PgcSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\VideoSearchExtraHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\VideoSectionDetailControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\SearchSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\SearchSectionItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Search\SearchHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\SearchPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FollowsMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FollowsMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FollowsSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FollowsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FansBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Users\FansHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\FansPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\EmptyHolder.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LiveSubPartitionMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LiveRecommendMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionSubSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\LivePartition\LivePartitionMainSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\ColumnSplitter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Pgc\CinemaSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\IndexFilterItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\SeasonCardControl\SeasonCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\TimelineControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Pgc\EntertainmentIndexMainControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Pgc\EntertainmentIndexSideControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\LoadingWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularMainBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\VideoCardControl\VideoCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularRankParitionItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularSectionItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\VisibilityToggleButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Popular\PopularSideHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\AppSearchBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\AccountCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\CardControl\CardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\HeaderAccountControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Forms\WebSignInWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Overrides.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\StartupPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Forms\StartupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\DownloadPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\MessagePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ArticlePartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CinemaPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\AnimePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\LivePartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\VideoPartitionPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\MomentPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\PopularPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\RootLayout.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>

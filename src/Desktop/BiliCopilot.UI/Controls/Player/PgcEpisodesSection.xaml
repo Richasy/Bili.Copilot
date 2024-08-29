@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PgcEpisodesSectionBase
+    x:Class="BiliCopilot.UI.Controls.Player.PgcEpisodesSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Name="DefaultTemplate" x:DataType="items:EpisodeItemViewModel">
+            <ItemContainer Style="{StaticResource AppItemContainerStyle}">
+                <components:EpisodeCardControl Style="{StaticResource PlayerEpisodeCardStyle}" ViewModel="{x:Bind}" />
+            </ItemContainer>
+        </DataTemplate>
+        <DataTemplate x:Name="IndexTemplate" x:DataType="items:EpisodeItemViewModel">
+            <ItemContainer Style="{StaticResource AppItemContainerStyle}" ToolTipService.ToolTip="{x:Bind Title}">
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Text="{x:Bind Index}" />
+                </Grid>
+            </ItemContainer>
+        </DataTemplate>
+        <StackLayout x:Name="DefaultLayout" Spacing="8" />
+        <UniformGridLayout
+            x:Name="IndexLayout"
+            ItemsStretch="Fill"
+            MinColumnSpacing="8"
+            MinItemHeight="40"
+            MinItemWidth="36"
+            MinRowSpacing="8" />
+    </UserControl.Resources>
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ToggleSwitch
+            Margin="12,8,12,0"
+            IsOn="{x:Bind ViewModel.OnlyIndex, Mode=TwoWay}"
+            OffContent="{ext:Locale Name=OnlyIndex}"
+            OnContent="{ext:Locale Name=OnlyIndex}"
+            Toggled="OnIndexToggledAsync" />
+
+        <Grid Grid.Row="1">
+            <ItemsView
+                x:Name="DefaultView"
+                Padding="12,0,12,12"
+                ItemTemplate="{StaticResource DefaultTemplate}"
+                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                Layout="{StaticResource DefaultLayout}"
+                SelectionChanged="OnEpisodeSelectionChanged"
+                SelectionMode="Single"
+                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <ItemsView
+                x:Name="IndexView"
+                Padding="12,0,12,12"
+                ItemTemplate="{StaticResource IndexTemplate}"
+                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                Layout="{StaticResource IndexLayout}"
+                SelectionChanged="OnEpisodeSelectionChanged"
+                SelectionMode="Single"
+                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay}" />
+        </Grid>
+    </Grid>
+</local:PgcEpisodesSectionBase>

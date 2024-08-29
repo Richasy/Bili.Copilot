@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:LayoutUserControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.FavoriteButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel Spacing="8">
+            <ToggleButton
+                x:Name="Btn"
+                Width="48"
+                Height="48"
+                Padding="0"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Checked="OnChecked"
+                Click="OnFavoriteButtonClick"
+                CornerRadius="24"
+                IsChecked="{x:Bind IsFavorited, Mode=OneWay}"
+                IsEnabled="True"
+                ToolTipService.ToolTip="{ext:Locale Name=Favorite}"
+                Unchecked="OnUnchecked">
+                <ic:SymbolIcon
+                    FontSize="16"
+                    IconVariant="{x:Bind IsFavorited, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
+                    Symbol="Star" />
+            </ToggleButton>
+            <TextBlock
+                HorizontalAlignment="Center"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind Tip, Mode=OneWay}" />
+        </StackPanel>
+        <TeachingTip
+            x:Name="FavoriteTip"
+            ActionButtonClick="OnConfirmButtonClick"
+            ActionButtonContent="{ext:Locale Name=Confirm}"
+            IsLightDismissEnabled="True"
+            PreferredPlacement="Top"
+            ShouldConstrainToRootBounds="False"
+            Subtitle="{ext:Locale Name=FavoriteTip}"
+            Target="{x:Bind Btn}">
+            <ScrollView
+                MaxHeight="360"
+                Margin="0,8"
+                Style="{StaticResource PageScrollViewStyle}">
+                <ItemsRepeater ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:PlayerFavoriteFolderViewModel">
+                            <ToggleButton
+                                Padding="16,12"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}">
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        MaxLines="1"
+                                        Text="{x:Bind Data.Title}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind Data.TotalCount}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Total}" />
+                                </Grid>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollView>
+        </TeachingTip>
+    </Grid>
+</base:LayoutUserControlBase>

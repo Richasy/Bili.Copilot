@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PopularPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Popular.PopularMainBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Popular"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="RecommendStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource RecommendVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="HotStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource HotVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="RankStyle" x:DataType="items:VideoItemViewModel">
+            <components:VideoCardControl Style="{StaticResource RankVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:VideoCardTemplateSelector
+            x:Key="CardSelector"
+            HotTemplate="{StaticResource HotStyle}"
+            RankTemplate="{StaticResource RankStyle}"
+            RecommendTemplate="{StaticResource RecommendStyle}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
+            <Grid Margin="16,12">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}" Layout="{StaticResource VideoLayout}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:VideoItemViewModel">
+                            <ContentControl
+                                Content="{x:Bind}"
+                                ContentTemplateSelector="{StaticResource CardSelector}"
+                                Style="{StaticResource AppContentControlStyle}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollView>
+        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
+    </Grid>
+</local:PopularPageControlBase>
