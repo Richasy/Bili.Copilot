@@ -33,6 +33,7 @@ public sealed partial class GalleryPage : GalleryPageBase
     protected override void OnPageLoaded()
     {
         FactoryBlock.Text = 1.ToString("p00");
+        ImageScrollView.ZoomTo(0.8f, default);
         ImageView.ScrollView.VerticalScrollMode = ScrollingScrollMode.Disabled;
         ImageView.ScrollView.HorizontalScrollMode = ScrollingScrollMode.Auto;
         ImageView.ScrollView.HorizontalScrollBarVisibility = ScrollingScrollBarVisibility.Auto;
@@ -40,32 +41,26 @@ public sealed partial class GalleryPage : GalleryPageBase
         ImageView.Select(index);
     }
 
-    private void OnScrollViewerTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+    private void OnScrollViewTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         => ViewModel.IsMenuHide = !ViewModel.IsMenuHide;
-
-    private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-    {
-        if (e.IsIntermediate)
-        {
-            FactoryBlock.Text = ImageScrollViewer.ZoomFactor.ToString("p00");
-            CheckButtonStatus();
-        }
-    }
 
     private void CheckButtonStatus()
     {
-        ZoomOutButton.IsEnabled = ImageScrollViewer.ZoomFactor > 0.2;
-        ZoomInButton.IsEnabled = ImageScrollViewer.ZoomFactor < 1.5;
+        ZoomOutButton.IsEnabled = ImageScrollView.ZoomFactor > 0.2;
+        ZoomInButton.IsEnabled = ImageScrollView.ZoomFactor < 1.5;
+    }
+
+    private void OnScrollViewChanged(ScrollView sender, object args)
+    {
+        FactoryBlock.Text = ImageScrollView.ZoomFactor.ToString("p00");
+        CheckButtonStatus();
     }
 
     private void OnZoomInButtonClick(object sender, RoutedEventArgs e)
-        => ImageScrollViewer.ChangeView(default, default, ImageScrollViewer.ZoomFactor + 0.1f);
+        => ImageScrollView.ZoomTo(ImageScrollView.ZoomFactor + 0.1f, default);
 
     private void OnZoomOutButtonClick(object sender, RoutedEventArgs e)
-        => ImageScrollViewer.ChangeView(default, default, ImageScrollViewer.ZoomFactor - 0.1f);
-
-    private void OnRotateButtonClick(object sender, RoutedEventArgs e)
-        => RotateTransform.Angle += 90;
+        => ImageScrollView.ZoomTo(ImageScrollView.ZoomFactor - 0.1f, default);
 
     private void OnSettingToBackgroundClickAsync(object sender, RoutedEventArgs e)
         => ViewModel.SetWallPaperOrLockScreenCommand.Execute(true);

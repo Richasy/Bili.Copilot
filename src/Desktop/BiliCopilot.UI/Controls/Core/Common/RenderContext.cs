@@ -62,12 +62,38 @@ public unsafe class RenderContext
 
     public static IntPtr GetProcAddress(string name)
     {
-        if(_sharedBindingContext == null)
+        if (_sharedBindingContext == null)
         {
             return IntPtr.Zero;
         }
 
         return _sharedBindingContext.GetProcAddress(name);
+    }
+
+    public static bool IsOpenGLSupported()
+    {
+        try
+        {
+            var settings = new ContextSettings();
+            var windowSettings = NativeWindowSettings.Default;
+            windowSettings.StartFocused = false;
+            windowSettings.StartVisible = false;
+            windowSettings.NumberOfSamples = 0;
+            windowSettings.APIVersion = new Version(settings.MajorVersion, settings.MinorVersion);
+            windowSettings.Flags = ContextFlags.Offscreen | settings.GraphicsContextFlags;
+            windowSettings.Profile = settings.GraphicsProfile;
+            windowSettings.WindowBorder = WindowBorder.Hidden;
+            windowSettings.WindowState = WindowState.Minimized;
+            using NativeWindow nativeWindow = new(windowSettings);
+            var testContext = new GLFWBindingsContext();
+            Wgl.LoadBindings(testContext);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private static IGraphicsContext GetOrCreateSharedOpenGLContext(ContextSettings settings)

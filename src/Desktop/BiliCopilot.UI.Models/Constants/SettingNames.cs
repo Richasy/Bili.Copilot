@@ -81,4 +81,5 @@ public enum SettingNames
     UseExternalBBDown,
     OnlyCopyCommandWhenDownload,
     WithoutCredentialWhenGenDownloadCommand,
+    IsOpenGLSupport,
 }

@@ -42,27 +42,19 @@
             </Button.KeyboardAccelerators>
         </Button>
 
-        <ScrollViewer
-            x:Name="ImageScrollViewer"
+        <ScrollView
+            x:Name="ImageScrollView"
             HorizontalScrollBarVisibility="Auto"
             HorizontalScrollMode="Enabled"
             MaxZoomFactor="1.5"
             MinZoomFactor="0.2"
-            RenderTransformOrigin="0.5,0.5"
-            Tapped="OnScrollViewerTapped"
+            Tapped="OnScrollViewTapped"
             VerticalScrollBarVisibility="Auto"
             VerticalScrollMode="Enabled"
-            ViewChanged="OnScrollViewerViewChanged"
+            ViewChanged="OnScrollViewChanged"
             ZoomMode="Enabled">
-            <Image
-                x:Name="Image"
-                RenderTransformOrigin="0.5,0.5"
-                Source="{x:Bind ViewModel.SelectedImage.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}">
-                <Image.RenderTransform>
-                    <RotateTransform x:Name="RotateTransform" Angle="0" />
-                </Image.RenderTransform>
-            </Image>
-        </ScrollViewer>
+            <Image x:Name="Image" Source="{x:Bind ViewModel.SelectedImage.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+        </ScrollView>
 
         <!--  用于进行图片操作  -->
         <Grid
@@ -104,22 +96,6 @@
                     <AppBarButton.Icon>
                         <ic:SymbolIcon Symbol="ZoomOut" />
                     </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="RotateButton"
-                    Click="OnRotateButtonClick"
-                    Label="{ext:Locale Name=Rotate}"
-                    Style="{StaticResource CustomButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=Rotate}">
-                    <AppBarButton.Icon>
-                        <ic:SymbolIcon Symbol="RotateRight" />
-                    </AppBarButton.Icon>
-                    <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="R"
-                            IsEnabled="True"
-                            Modifiers="Control" />
-                    </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
