@@ -147,7 +147,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         try
         {
             var danmakuColor = (Color.R * 256 * 256) + (Color.G * 256) + Color.B;
-            await _danmakuService.SendDanmakuAsync(text, _aid, _cid, _position, danmakuColor.ToString(), IsStandardSize, Location);
+            await _danmakuService.SendVideoDanmakuAsync(text, _aid, _cid, _position, danmakuColor.ToString(), IsStandardSize, Location);
             RequestAddSingleDanmaku?.Invoke(this, text);
         }
         catch (Exception ex)

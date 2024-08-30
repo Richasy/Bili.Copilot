@@ -69,6 +69,17 @@ public sealed partial class LiveChatSection : LiveChatSectionBase
             View.ScrollView.ScrollTo(0, View.ScrollView.ExtentHeight + View.ScrollView.ViewportHeight + 50, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
         }
     }
+
+    private void OnDanmakuSubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        if (string.IsNullOrEmpty(args.QueryText))
+        {
+            return;
+        }
+
+        _viewModel.SendDanmakuCommand.Execute(args.QueryText);
+        sender.Text = string.Empty;
+    }
 }
 
 /// <summary>

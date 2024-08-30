@@ -25,12 +25,14 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
     /// </summary>
     public LivePlayerPageViewModel(
         IPlayerService service,
+        IDanmakuService danmakuService,
         IRelationshipService relationshipService,
         ILogger<LivePlayerPageViewModel> logger,
         DanmakuViewModel danmaku,
         LiveChatSectionDetailViewModel chat)
     {
         _service = service;
+        _danmakuService = danmakuService;
         _relationshipService = relationshipService;
         _logger = logger;
         Chat = chat;
@@ -77,7 +79,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
             LoadRelationshipCommand.Execute(default);
             ViewInitialized?.Invoke(this, EventArgs.Empty);
             await ChangeFormatAsync(default);
-            await Chat.StartAsync(live.Id, DisplayDanmaku);
+            await Chat.StartAsync(live.Id, DisplayDanmaku, SendDanmakuAsync);
         }
         catch (Exception ex)
         {

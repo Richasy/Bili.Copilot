@@ -5,6 +5,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Media;
@@ -22,12 +23,16 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     private DispatcherTimer _heartBeatTimer;
 
     private Action<string> _displayDanmakuAction;
+    private Func<string, Task> _sendDanmakuFunc;
     private string _roomId;
     private ClientWebSocket? _webSocket;
     private CancellationTokenSource? _cancellationTokenSource;
 
     [ObservableProperty]
     private bool _isEmpty;
+
+    [ObservableProperty]
+    private bool _isSending;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveChatSectionDetailViewModel"/> class.
@@ -54,10 +59,11 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     /// 开始监听.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public async Task StartAsync(string roomId, Action<string> displayAction)
+    public async Task StartAsync(string roomId, Action<string> displayAction, Func<string, Task> sendDanmakuFunc)
     {
         _roomId = roomId;
         _displayDanmakuAction = displayAction;
+        _sendDanmakuFunc = sendDanmakuFunc;
         if (_webSocket is not null || _cancellationTokenSource != null)
         {
             await CloseAsync();
@@ -102,6 +108,14 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
 
         _webSocket?.Dispose();
         _webSocket = null;
+    }
+
+    [RelayCommand]
+    private async Task SendDanmakuAsync(string text)
+    {
+        IsSending = true;
+        await _sendDanmakuFunc(text);
+        IsSending = false;
     }
 
     private void MessageLoop()
