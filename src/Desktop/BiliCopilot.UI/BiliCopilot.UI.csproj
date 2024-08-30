@@ -24,6 +24,7 @@
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
     <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
+    <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\qq_group_dark.jpg" />

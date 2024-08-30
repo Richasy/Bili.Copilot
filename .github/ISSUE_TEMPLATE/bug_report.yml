@@ -54,7 +54,7 @@ body:
      description: 你是从哪里下载的哔哩助理呢？
      options:
        - label: Github
-       - label: AppCenter
+       - label: 微软商店（Microsoft Store）
        - label: 其它
 - type: input
   id: environment-package-other-source
@@ -67,8 +67,11 @@ body:
      label: 系统版本
      description: 选择一个你发现问题的系统版本
      options:
+       - label: Windows 10 (Build 19041 - 19045)
        - label: Windows 11 21H2 (Build 22000)
        - label: Windows 11 22H2 (Build 22621)
+       - label: Windows 11 23H2 (Build 22631)
+       - label: Windows 11 24H2 (Build 26100)
        - label: 其它 (需注明)
 - type: input
   id: environment-app-target-other-version
