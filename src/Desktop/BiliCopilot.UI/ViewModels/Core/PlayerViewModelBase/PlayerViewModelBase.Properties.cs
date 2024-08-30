@@ -88,6 +88,9 @@ public abstract partial class PlayerViewModelBase
     private bool _isCompactOverlay;
 
     [ObservableProperty]
+    private bool _isFullWindow;
+
+    [ObservableProperty]
     private bool _isBuffering;
 
     [ObservableProperty]

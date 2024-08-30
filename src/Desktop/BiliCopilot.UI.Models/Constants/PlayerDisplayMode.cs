@@ -18,6 +18,11 @@ public enum PlayerDisplayMode
     FullScreen,
 
     /// <summary>
+    /// 全窗口模式.
+    /// </summary>
+    FullWindow,
+
+    /// <summary>
     /// 小窗模式.
     /// </summary>
     CompactOverlay,

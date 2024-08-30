@@ -138,6 +138,15 @@
                         <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.Player.IsCompactOverlay, Converter={StaticResource CompactOverlayConverter}, Mode=OneWay}" />
                     </Button>
 
+                    <!--  全窗口  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.Player.ToggleFullWindowCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Player.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.Player.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}" />
+                    </Button>
+
                     <!--  全屏  -->
                     <Button
                         Command="{x:Bind ViewModel.Player.ToggleFullScreenCommand, Mode=OneWay}"

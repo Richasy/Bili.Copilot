@@ -7,6 +7,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Windowing;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
@@ -114,6 +115,32 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         var window = ActivatedWindow;
         window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.ExitPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowEnterOverlap()
+    {
+        var window = ActivatedWindow;
+        if (window.AppWindow.Presenter is not OverlappedPresenter)
+        {
+            window.SetWindowPresenter(AppWindowPresenterKind.Overlapped);
+        }
+
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.EnterPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowExitOverlap()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(AppWindowPresenterKind.Default);
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.ExitPlayerHostMode();

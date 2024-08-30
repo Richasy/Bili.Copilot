@@ -143,6 +143,20 @@ public abstract partial class PlayerViewModelBase
     }
 
     [RelayCommand]
+    private void ToggleFullWindow()
+    {
+        IsFullWindow = !IsFullWindow;
+        if (IsFullWindow)
+        {
+            this.Get<AppViewModel>().MakeCurrentWindowEnterOverlapCommand.Execute(default);
+        }
+        else
+        {
+            this.Get<AppViewModel>().MakeCurrentWindowExitOverlapCommand.Execute(default);
+        }
+    }
+
+    [RelayCommand]
     private void ToggleCompactOverlay()
     {
         IsCompactOverlay = !IsCompactOverlay;
@@ -220,6 +234,10 @@ public abstract partial class PlayerViewModelBase
         if (IsFullScreen)
         {
             ToggleFullScreen();
+        }
+        else if (IsFullWindow)
+        {
+            ToggleFullWindow();
         }
         else if (IsCompactOverlay)
         {

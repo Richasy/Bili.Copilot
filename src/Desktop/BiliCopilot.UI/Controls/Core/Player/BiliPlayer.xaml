@@ -42,6 +42,7 @@
 
     <converters:FullScreenConverter x:Key="FullScreenConverter" />
     <converters:CompactOverlayConverter x:Key="CompactOverlayConverter" />
+    <converters:FullWindowConverter x:Key="FullWindowConverter" />
 
     <Style
         x:Key="TransportButtonFlyoutPresenterStyle"

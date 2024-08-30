@@ -67,7 +67,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     {
         ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
 
-        if(ViewModel.Player.IsFullScreen)
+        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
         {
             ViewModel.PlayerHeight = ActualHeight;
         }
