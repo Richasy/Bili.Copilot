@@ -81,7 +81,14 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
     }
 
     private void OnStateChanged(object? sender, PlaybackStateChangedEventArgs e)
-        => UpdateState((PlayerState)(int)e.NewState);
+    {
+        if (e.NewState == Mpv.Core.Enums.Player.PlaybackState.Decoding)
+        {
+            OnSetVolume(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerVolume, 100));
+        }
+
+        UpdateState((PlayerState)(int)e.NewState);
+    }
 
     private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
         => ReachEnd();
