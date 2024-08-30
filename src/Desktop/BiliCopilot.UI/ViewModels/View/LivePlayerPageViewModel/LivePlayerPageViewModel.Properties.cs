@@ -19,6 +19,7 @@ public sealed partial class LivePlayerPageViewModel
 {
     private readonly IPlayerService _service;
     private readonly IRelationshipService _relationshipService;
+    private readonly IDanmakuService _danmakuService;
     private readonly ILogger<LivePlayerPageViewModel> _logger;
 
     private CancellationTokenSource _pageLoadCancellationTokenSource;

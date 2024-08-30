@@ -7,6 +7,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.System;
@@ -98,4 +99,19 @@ public sealed partial class LivePlayerPageViewModel
 
     private void DisplayDanmaku(string text)
         => Danmaku.AddDanmakuCommand.Execute(text);
+
+    private async Task SendDanmakuAsync(string content)
+    {
+        try
+        {
+            var color = Colors.White;
+            var danmakuColor = (color.R * 256 * 256) + (color.G * 256) + color.B;
+            await _danmakuService.SendLiveDanmakuAsync(content, RoomId, danmakuColor.ToString());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "发送直播弹幕时失败.");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToSendDanmaku), InfoType.Error));
+        }
+    }
 }
