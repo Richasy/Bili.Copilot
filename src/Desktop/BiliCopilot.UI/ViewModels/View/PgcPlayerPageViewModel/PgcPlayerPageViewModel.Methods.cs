@@ -73,7 +73,7 @@ public sealed partial class PgcPlayerPageViewModel
         Downloader.InitializeMetas(
             GetEpisodeUrl(),
             GetSeasonUrl(),
-            availableFormats.Select(p => p.Data).ToList().AsReadOnly(),
+            info.Formats.AsReadOnly(),
             _view.Episodes?.Count > 1 ? _view.Episodes.AsReadOnly() : default,
             episodeIndex);
 

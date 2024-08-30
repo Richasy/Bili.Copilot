@@ -70,9 +70,11 @@ public sealed partial class VideoPlayerPageViewModel
         var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
         var availableFormats = Formats.Where(p => p.IsEnabled).ToList();
         var partIndex = _view.Parts?.IndexOf(_part) ?? 0;
+
+        // 下载可以选择所有清晰度.
         Downloader.InitializeMetas(
             GetWebLink(),
-            availableFormats.Select(p => p.Data).ToList().AsReadOnly(),
+            info.Formats.AsReadOnly(),
             _view.Parts?.Count > 1 ? _view.Parts.AsReadOnly() : default,
             partIndex + 1);
         PlayerFormatItemViewModel? selectedFormat = default;
