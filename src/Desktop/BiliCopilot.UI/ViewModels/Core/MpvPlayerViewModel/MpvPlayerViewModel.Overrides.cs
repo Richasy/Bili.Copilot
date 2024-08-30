@@ -73,7 +73,6 @@ public sealed partial class MpvPlayerViewModel
             await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
         }
 
-        SetVolumeCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerVolume, 100));
         if (!IsLive)
         {
             Player.ResetDuration();

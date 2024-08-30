@@ -141,7 +141,7 @@ public partial class App : Application
             e.Handled = true;
         }
 
-        GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogCritical(e.Exception, "Unhandled exception occurred.");
+        GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogError(e.Exception, "Unhandled exception occurred.");
     }
 
     private void OnAppNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
