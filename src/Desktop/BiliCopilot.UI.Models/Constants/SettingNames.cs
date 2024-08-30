@@ -82,4 +82,9 @@ public enum SettingNames
     OnlyCopyCommandWhenDownload,
     WithoutCredentialWhenGenDownloadCommand,
     IsOpenGLSupport,
+    PlayerWindowPositionLeft,
+    PlayerWindowPositionTop,
+    IsPlayerWindowMaximized,
+    PlayerWindowHeight,
+    PlayerWindowWidth,
 }

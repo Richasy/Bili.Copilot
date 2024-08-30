@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -36,8 +38,18 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
     [RelayCommand]
     private void Play()
     {
-        var ssid = Data.GetExtensionIfNotNull<int>(EpisodeExtensionDataId.SeasonId);
-        var id = new MediaIdentifier(ssid.ToString(), default, default);
+        var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, id);
     }
+
+    [RelayCommand]
+    private async Task OpenInBroswerAsync()
+    {
+        var url = $"https://www.bilibili.com/bangumi/play/ep{Data.Identifier.Id}";
+        await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
+    }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+        => new PlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
 }

@@ -128,6 +128,10 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         {
             this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo);
         }
+        else
+        {
+            OpenInBroswerCommand.Execute(default);
+        }
     }
 
     [RelayCommand]
@@ -182,11 +186,8 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     [RelayCommand]
     private async Task OpenInBroswerAsync()
     {
-        var url = GetMediaUrl();
-        if (url is not null)
-        {
-            await Launcher.LaunchUriAsync(new Uri(url));
-        }
+        var url = GetMediaUrl() ?? $"https://t.bilibili.com/{Data.Id}";
+        await Launcher.LaunchUriAsync(new Uri(url));
     }
 
     [RelayCommand]

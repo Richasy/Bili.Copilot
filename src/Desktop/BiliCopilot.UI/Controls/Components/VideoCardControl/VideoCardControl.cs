@@ -29,6 +29,16 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
     protected override void OnControlUnloaded()
         => ContextRequested -= OnContextRequested;
 
+    private static MenuFlyoutItem CreateOpenInNewWindowItem()
+    {
+        return new MenuFlyoutItem()
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
+            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
+            Tag = "OpenInNewWindow",
+        };
+    }
+
     private static MenuFlyoutItem CreatePrivatePlayItem()
     {
         return new MenuFlyoutItem()
@@ -124,6 +134,7 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
         menuFlyout.Items.Add(CreatePrivatePlayItem());
+        menuFlyout.Items.Add(CreateOpenInNewWindowItem());
         if (ViewModel.Style != VideoCardStyle.Moment && ViewModel.IsUserValid)
         {
             menuFlyout.Items.Add(CreateUserSpaceItem());
@@ -186,6 +197,9 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
                     break;
                 case "CopyUri":
                     item.Command = ViewModel.CopyUriCommand;
+                    break;
+                case "OpenInNewWindow":
+                    item.Command = ViewModel.OpenInNewWindowCommand;
                     break;
                 default:
                     break;

@@ -38,9 +38,9 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is LiveInformation live)
+        if (e.Parameter is MediaIdentifier live)
         {
-            ViewModel.InitializePageCommand.Execute(live.Identifier);
+            ViewModel.InitializePageCommand.Execute(live);
         }
     }
 

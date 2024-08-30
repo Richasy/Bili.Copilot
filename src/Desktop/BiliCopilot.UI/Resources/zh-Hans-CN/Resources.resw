@@ -2390,4 +2390,7 @@
   <data name="FailedToPlayDescription" xml:space="preserve">
     <value>由于某种原因，播放失败了，请点击下方的重载按钮再试试吧</value>
   </data>
+  <data name="OpenInNewWindow" xml:space="preserve">
+    <value>在新窗口中打开</value>
+  </data>
 </root>

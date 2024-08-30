@@ -127,14 +127,18 @@
                 </StackPanel>
             </ScrollView>
 
-            <Grid x:Name="SideHeader" Grid.Column="2">
+            <Grid
+                x:Name="SideHeader"
+                Grid.Column="2"
+                Margin="-6,0,0,0">
                 <player:PgcPlayerSideHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
             </Grid>
 
             <Grid
                 x:Name="SideBody"
                 Grid.Row="2"
-                Grid.Column="2">
+                Grid.Column="2"
+                Margin="-6,0,0,0">
                 <player:PgcPlayerSideBody ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
             </Grid>
 

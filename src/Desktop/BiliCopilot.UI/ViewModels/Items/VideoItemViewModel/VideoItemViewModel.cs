@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Globalization;
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -140,6 +141,10 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     [RelayCommand]
     private async Task OpenInBroswerAsync()
         => await Windows.System.Launcher.LaunchUriAsync(GetWebUri()).AsTask();
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+        => new PlayerWindow().OpenVideo(new VideoSnapshot(Data));
 
     [RelayCommand]
     private void CopyUri()
