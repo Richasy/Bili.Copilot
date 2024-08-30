@@ -101,7 +101,7 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
         await _cancellationTokenSource?.CancelAsync();
         _cancellationTokenSource?.Dispose();
         _cancellationTokenSource = default;
-        if (_webSocket.State == WebSocketState.Open)
+        if (_webSocket?.State == WebSocketState.Open)
         {
             await _webSocket?.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
         }

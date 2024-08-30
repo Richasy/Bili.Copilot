@@ -45,6 +45,11 @@
                         </Grid>
                         <local:CardControl.ContextFlyout>
                             <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -112,6 +117,11 @@
                         </Grid>
                         <local:CardControl.ContextFlyout>
                             <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -179,6 +189,11 @@
                         </Grid>
                         <local:CardControl.ContextFlyout>
                             <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -253,6 +268,11 @@
                         </Border>
                         <Grid.ContextFlyout>
                             <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />

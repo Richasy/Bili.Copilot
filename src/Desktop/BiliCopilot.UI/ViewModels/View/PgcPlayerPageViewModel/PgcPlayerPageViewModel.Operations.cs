@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -171,6 +172,23 @@ public sealed partial class PgcPlayerPageViewModel
     {
         var url = GetEpisodeUrl();
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
+    }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+    {
+        if (Player.Position > 0)
+        {
+            ReportProgressCommand.Execute(Player.Position);
+        }
+
+        if (!Player.IsPaused)
+        {
+            Player.TogglePlayPauseCommand.Execute(default);
+        }
+
+        var identifier = new MediaIdentifier("ep_" + _episode.Identifier.Id, _episode.Identifier.Title, _episode.Identifier.Cover);
+        new PlayerWindow().OpenPgc(identifier);
     }
 
     [RelayCommand]

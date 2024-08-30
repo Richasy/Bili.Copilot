@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Pages.Overlay;
@@ -40,6 +41,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             throw new InvalidOperationException("导航框架未初始化.");
         }
 
+        ActiveMainWindow();
         var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, string.Empty);
         if (IsOverlayOpen)
         {
@@ -77,6 +79,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             _overFrame.BackStack.Clear();
         }
 
+        ActiveMainWindow();
         var pageType = Type.GetType(pageKey)
             ?? throw new InvalidOperationException("无法找到页面.");
         if (pageType == typeof(VideoPlayerPage) && _overFrame.Content is VideoPlayerPage page)
@@ -199,4 +202,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     private AppNavigationItemViewModel GetItem<TPage>(StringNames title, FluentIcons.Common.Symbol symbol, bool isSelected = false)
         where TPage : Page
         => new AppNavigationItemViewModel(this, typeof(TPage).FullName, ResourceToolkit.GetLocalizedString(title), symbol, isSelected);
+
+    private void ActiveMainWindow()
+        => this.Get<AppViewModel>().Windows.Find(p => p is MainWindow)?.Activate();
 }

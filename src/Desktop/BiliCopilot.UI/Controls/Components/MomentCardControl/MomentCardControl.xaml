@@ -396,6 +396,15 @@
                             Grid.Row="2"
                             ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

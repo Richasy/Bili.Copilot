@@ -96,7 +96,10 @@
                 </StackPanel>
             </ScrollView>
 
-            <Grid x:Name="SideHeader" Grid.Column="2">
+            <Grid
+                x:Name="SideHeader"
+                Grid.Column="2"
+                Margin="-6,0,0,0">
                 <TextBlock
                     Margin="16,0"
                     HorizontalAlignment="Left"
@@ -108,7 +111,8 @@
             <Grid
                 x:Name="SideBody"
                 Grid.Row="2"
-                Grid.Column="2">
+                Grid.Column="2"
+                Margin="-6,0,0,0">
                 <player:LiveChatSection ViewModel="{x:Bind ViewModel.Chat, Mode=OneWay}" />
             </Grid>
 

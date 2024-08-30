@@ -203,6 +203,7 @@
     <None Remove="Controls\ViewLater\ViewLaterBody.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterHeader.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
+    <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
@@ -1222,6 +1223,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Forms\PlayerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Styles\TrayResources.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

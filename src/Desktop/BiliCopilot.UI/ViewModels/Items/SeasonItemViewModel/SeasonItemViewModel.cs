@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -52,6 +53,10 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         var url = $"https://www.bilibili.com/bangumi/play/ss{Data.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url));
     }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+        => new PlayerWindow().OpenPgc(new MediaIdentifier("ss_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private async Task FollowAsync()

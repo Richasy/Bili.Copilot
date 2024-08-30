@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -46,7 +47,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 
     [RelayCommand]
     private void Play()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data.Identifier);
 
     [RelayCommand]
     private async Task OpenInBroswerAsync()
@@ -54,6 +55,10 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         var url = $"https://live.bilibili.com/{Data.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url));
     }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+        => new PlayerWindow().OpenLive(Data.Identifier);
 
     [RelayCommand]
     private async Task RemoveHistoryAsync()

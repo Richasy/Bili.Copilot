@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -205,6 +206,22 @@ public sealed partial class VideoPlayerPageViewModel
     {
         var profile = _view.Information.Publisher.User;
         this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
+    }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+    {
+        if (Player.Position > 0)
+        {
+            ReportProgressCommand.Execute(Player.Position);
+        }
+
+        if (!Player.IsPaused)
+        {
+            Player.TogglePlayPauseCommand.Execute(default);
+        }
+
+        new PlayerWindow().OpenVideo(new VideoSnapshot(_view.Information, IsPrivatePlay));
     }
 
     private string GetWebLink()

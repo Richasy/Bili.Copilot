@@ -84,6 +84,11 @@
                                         <ic:SymbolIcon Symbol="Person" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -175,6 +180,11 @@
                                         <ic:SymbolIcon Symbol="Person" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -219,6 +229,11 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
@@ -328,6 +343,11 @@
                                         <ic:SymbolIcon Symbol="Person" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
@@ -434,6 +454,11 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Person" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">

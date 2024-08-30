@@ -12,10 +12,6 @@
 
     <Grid>
         <controls:RootLayout x:Name="RootLayout" />
-        <Grid
-            x:Name="TipContainer"
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Visibility="Collapsed" />
+        <Grid x:Name="TipContainer" Visibility="Collapsed" />
     </Grid>
 </base:WindowBase>
