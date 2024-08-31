@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <converters:PreferQualityTypeConverter x:Key="PreferQualityConverter" />
         <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
+        <converters:DisplayModeConverter x:Key="DisplayModeConverter" />
     </UserControl.Resources>
 
     <community:SettingsExpander Description="{ext:Locale Name=PlayerBehaviorDescription}" Header="{ext:Locale Name=PlayerBehavior}">
@@ -42,6 +43,18 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="constants:PreferQualityType">
                             <TextBlock Text="{x:Bind Converter={StaticResource PreferQualityConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>
+            <community:SettingsCard Header="{ext:Locale Name=DefaultPlayerDisplayMode}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerDisplayModeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.DefaultPlayerDisplayMode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PlayerDisplayMode">
+                            <TextBlock Text="{x:Bind Converter={StaticResource DisplayModeConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

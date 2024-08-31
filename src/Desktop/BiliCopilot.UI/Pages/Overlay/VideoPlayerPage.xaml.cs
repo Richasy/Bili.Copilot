@@ -39,6 +39,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        if (Frame.Tag is string tag && tag == "PlayerWindow")
+        {
+            ViewModel.IsSeparatorWindowPlayer = true;
+        }
+
         if (e.Parameter is VideoSnapshot video)
         {
             ViewModel.InitializePageCommand.Execute(video);
@@ -67,7 +72,7 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     {
         ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
 
-        if(ViewModel.Player.IsFullScreen)
+        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
         {
             ViewModel.PlayerHeight = ActualHeight;
         }

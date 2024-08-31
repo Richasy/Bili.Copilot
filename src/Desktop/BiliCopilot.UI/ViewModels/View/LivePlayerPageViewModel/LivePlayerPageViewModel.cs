@@ -61,16 +61,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         IsPageLoading = true;
         try
         {
-            var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-            if (!Player.IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
-            {
-                Player.ToggleFullScreenCommand.Execute(default);
-            }
-            else if (!Player.IsCompactOverlay && defaultDisplay == PlayerDisplayMode.CompactOverlay)
-            {
-                Player.ToggleCompactOverlayCommand.Execute(default);
-            }
-
+            Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
             ClearView();
             Danmaku.ResetData();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();

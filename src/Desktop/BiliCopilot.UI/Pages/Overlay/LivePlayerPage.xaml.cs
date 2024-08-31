@@ -38,6 +38,11 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        if (Frame.Tag is string tag && tag == "PlayerWindow")
+        {
+            ViewModel.IsSeparatorWindowPlayer = true;
+        }
+
         if (e.Parameter is MediaIdentifier live)
         {
             ViewModel.InitializePageCommand.Execute(live);
@@ -61,7 +66,7 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     {
         ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
 
-        if (ViewModel.Player.IsFullScreen)
+        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
         {
             ViewModel.PlayerHeight = ActualHeight;
         }

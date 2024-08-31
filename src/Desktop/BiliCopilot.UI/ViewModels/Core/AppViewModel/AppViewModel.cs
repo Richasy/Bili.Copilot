@@ -7,6 +7,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Windowing;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
@@ -102,7 +103,7 @@ public sealed partial class AppViewModel : ViewModelBase
     private void MakeCurrentWindowEnterFullScreen()
     {
         var window = ActivatedWindow;
-        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.FullScreen);
+        window.SetWindowPresenter(AppWindowPresenterKind.FullScreen);
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.EnterPlayerHostMode();
@@ -113,7 +114,33 @@ public sealed partial class AppViewModel : ViewModelBase
     private void MakeCurrentWindowExitFullScreen()
     {
         var window = ActivatedWindow;
-        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        window.SetWindowPresenter(AppWindowPresenterKind.Default);
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.ExitPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowEnterOverlap()
+    {
+        var window = ActivatedWindow;
+        if (window.AppWindow.Presenter is not OverlappedPresenter)
+        {
+            window.SetWindowPresenter(AppWindowPresenterKind.Overlapped);
+        }
+
+        if (window is IPlayerHostWindow hostWindow)
+        {
+            hostWindow.EnterPlayerHostMode();
+        }
+    }
+
+    [RelayCommand]
+    private void MakeCurrentWindowExitOverlap()
+    {
+        var window = ActivatedWindow;
+        window.SetWindowPresenter(AppWindowPresenterKind.Default);
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.ExitPlayerHostMode();
@@ -126,8 +153,8 @@ public sealed partial class AppViewModel : ViewModelBase
         var window = ActivatedWindow;
         (window as WindowBase).MinHeight = 320;
         (window as WindowBase).MinWidth = 560;
-        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
-        window.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
+        window.SetWindowPresenter(AppWindowPresenterKind.CompactOverlay);
+        window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.EnterPlayerHostMode();
@@ -140,8 +167,8 @@ public sealed partial class AppViewModel : ViewModelBase
         var window = ActivatedWindow;
         (window as WindowBase).MinHeight = 480;
         (window as WindowBase).MinWidth = 640;
-        window.SetWindowPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
-        window.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
+        window.SetWindowPresenter(AppWindowPresenterKind.Default);
+        window.AppWindow.TitleBar.PreferredHeightOption = window is MainWindow ? TitleBarHeightOption.Tall : TitleBarHeightOption.Standard;
         if (window is IPlayerHostWindow hostWindow)
         {
             hostWindow.ExitPlayerHostMode();

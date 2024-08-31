@@ -135,6 +135,16 @@
                                         <ic:SymbolIcon Symbol="EyeOff" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Person" />
@@ -143,11 +153,6 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="CalendarAdd" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CopyUrlCommand}" Text="{ext:Locale Name=CopyVideoUrl}">
@@ -246,6 +251,11 @@
                                     Text="{ext:Locale Name=PlayInPrivate}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="EyeOff" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="WindowPlay" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">

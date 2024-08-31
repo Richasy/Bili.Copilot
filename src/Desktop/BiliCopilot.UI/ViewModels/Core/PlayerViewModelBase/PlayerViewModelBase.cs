@@ -60,6 +60,28 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc.IsPlayEnabled = true;
             _smtc.IsPauseEnabled = true;
             _smtc.ButtonPressed += OnSystemControlsButtonPressedAsync;
+
+            // 独立窗口播放时默认全窗口播放.
+            if (IsSeparatorWindowPlayer && !IsFullWindow)
+            {
+                ToggleFullWindowCommand.Execute(default);
+            }
+            else
+            {
+                var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+                if (!IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
+                {
+                    ToggleFullScreenCommand.Execute(default);
+                }
+                else if (!IsCompactOverlay && defaultDisplay == PlayerDisplayMode.CompactOverlay)
+                {
+                    ToggleCompactOverlayCommand.Execute(default);
+                }
+                else if (!IsFullWindow && defaultDisplay == PlayerDisplayMode.FullWindow)
+                {
+                    ToggleFullWindowCommand.Execute(default);
+                }
+            }
         }
 
         if (IsMediaLoaded() && !IsPaused)
@@ -180,6 +202,10 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         {
             IsCompactOverlay = false;
         }
+        else if (value && IsFullWindow)
+        {
+            IsFullWindow = false;
+        }
     }
 
     partial void OnIsCompactOverlayChanged(bool value)
@@ -187,6 +213,22 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         if (value && IsFullScreen)
         {
             IsFullScreen = false;
+        }
+        else if (value && IsFullWindow)
+        {
+            IsFullWindow = false;
+        }
+    }
+
+    partial void OnIsFullWindowChanged(bool value)
+    {
+        if (value && IsFullScreen)
+        {
+            IsFullScreen = false;
+        }
+        else if (value && IsCompactOverlay)
+        {
+            IsCompactOverlay = false;
         }
     }
 }

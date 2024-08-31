@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -188,6 +189,27 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         var url = GetMediaUrl() ?? $"https://t.bilibili.com/{Data.Id}";
         await Launcher.LaunchUriAsync(new Uri(url));
+    }
+
+    [RelayCommand]
+    private void OpenInNewWindow()
+    {
+        if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
+        {
+            new PlayerWindow().OpenVideo(new VideoSnapshot(vinfo));
+        }
+        else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
+        {
+            if (einfo.Identifier.Id == "0")
+            {
+                // 出差番剧.
+                new PlayerWindow().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
+            }
+            else
+            {
+                new PlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
+            }
+        }
     }
 
     [RelayCommand]

@@ -26,107 +26,114 @@
                     Duration="0:0:0.26" />
             </animations:Implicit.HideAnimations>
         </components:ShimmerLayout>
-        <Grid Visibility="{x:Bind ViewModel.IsPageLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="HeaderRow" Height="56" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="{x:Bind ViewModel.NavColumnWidth, Mode=OneWay, Converter={StaticResource GridLengthConverter}}" />
-            </Grid.ColumnDefinitions>
-            <Grid.ChildrenTransitions>
-                <RepositionThemeTransition IsStaggeringEnabled="False" />
-            </Grid.ChildrenTransitions>
+        <Grid Visibility="{x:Bind ViewModel.IsPageLoadFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Grid Visibility="{x:Bind ViewModel.IsPageLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="HeaderRow" Height="56" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="{x:Bind ViewModel.NavColumnWidth, Mode=OneWay, Converter={StaticResource GridLengthConverter}}" />
+                </Grid.ColumnDefinitions>
+                <Grid.ChildrenTransitions>
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </Grid.ChildrenTransitions>
 
-            <Border
-                x:Name="HeaderDivider"
-                Grid.Row="1"
-                Grid.ColumnSpan="3"
-                Height="1"
-                HorizontalAlignment="Stretch"
-                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                <Border
+                    x:Name="HeaderDivider"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Height="1"
+                    HorizontalAlignment="Stretch"
+                    Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-            <player:LivePlayerMainHeader x:Name="MainHeader" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                <player:LivePlayerMainHeader x:Name="MainHeader" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
 
-            <Grid
-                x:Name="VerticalHolderContainer"
-                Grid.Row="2"
-                Grid.Column="1" />
+                <Grid
+                    x:Name="VerticalHolderContainer"
+                    Grid.Row="2"
+                    Grid.Column="1" />
 
-            <ScrollView
-                x:Name="VideoContainer"
-                Grid.Row="2"
-                Margin="0,0,-6,0"
-                Style="{StaticResource PageScrollViewStyle}">
-                <StackPanel>
-                    <StackPanel.ChildrenTransitions>
-                        <RepositionThemeTransition IsStaggeringEnabled="False" />
-                    </StackPanel.ChildrenTransitions>
-                    <Grid
-                        x:Name="PlayerContainer"
-                        Grid.Row="2"
-                        Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
-                        MinHeight="200"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Top"
-                        SizeChanged="OnPlayContainerSizeChanged">
-                        <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                            <core:BiliPlayer.TransportControls>
-                                <core:LiveTransportControl
-                                    MaxWidth="600"
-                                    Margin="12"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Bottom"
-                                    ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                            </core:BiliPlayer.TransportControls>
-                            <core:BiliPlayer.DanmakuControls>
-                                <danmaku:LiveDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
-                            </core:BiliPlayer.DanmakuControls>
-                        </core:BiliPlayer>
-                    </Grid>
-                    <Grid
-                        x:Name="PlayerBottomContainer"
-                        Margin="0,12,0,20"
-                        Padding="12,0">
-                        <player:LiveDescriptorControl VerticalAlignment="Top" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                    </Grid>
-                </StackPanel>
-            </ScrollView>
+                <ScrollView
+                    x:Name="VideoContainer"
+                    Grid.Row="2"
+                    Margin="0,0,-6,0"
+                    Style="{StaticResource PageScrollViewStyle}">
+                    <StackPanel>
+                        <StackPanel.ChildrenTransitions>
+                            <RepositionThemeTransition IsStaggeringEnabled="False" />
+                        </StackPanel.ChildrenTransitions>
+                        <Grid
+                            x:Name="PlayerContainer"
+                            Grid.Row="2"
+                            Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
+                            MinHeight="200"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            SizeChanged="OnPlayContainerSizeChanged">
+                            <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                                <core:BiliPlayer.TransportControls>
+                                    <core:LiveTransportControl
+                                        MaxWidth="640"
+                                        Margin="12"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Bottom"
+                                        ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                                </core:BiliPlayer.TransportControls>
+                                <core:BiliPlayer.DanmakuControls>
+                                    <danmaku:LiveDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
+                                </core:BiliPlayer.DanmakuControls>
+                            </core:BiliPlayer>
+                        </Grid>
+                        <Grid
+                            x:Name="PlayerBottomContainer"
+                            Margin="0,12,0,20"
+                            Padding="12,0">
+                            <player:LiveDescriptorControl VerticalAlignment="Top" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollView>
 
-            <Grid
-                x:Name="SideHeader"
-                Grid.Column="2"
-                Margin="-6,0,0,0">
-                <TextBlock
-                    Margin="16,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource BodyStrongTextBlockStyle}"
-                    Text="{ext:Locale Name=Danmaku}" />
+                <Grid
+                    x:Name="SideHeader"
+                    Grid.Column="2"
+                    Margin="-6,0,0,0">
+                    <TextBlock
+                        Margin="16,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="{ext:Locale Name=Danmaku}" />
+                </Grid>
+
+                <Grid
+                    x:Name="SideBody"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="-6,0,0,0">
+                    <player:LiveChatSection ViewModel="{x:Bind ViewModel.Chat, Mode=OneWay}" />
+                </Grid>
+
+                <!--  右侧分栏大小控制器  -->
+                <components:ColumnSplitter
+                    x:Name="SideSplitter"
+                    Grid.RowSpan="3"
+                    Grid.Column="1"
+                    ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
+                    IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
+                    IsInvertDirection="True"
+                    MaxColumnWidth="500"
+                    MinColumnWidth="300" />
             </Grid>
-
-            <Grid
-                x:Name="SideBody"
-                Grid.Row="2"
-                Grid.Column="2"
-                Margin="-6,0,0,0">
-                <player:LiveChatSection ViewModel="{x:Bind ViewModel.Chat, Mode=OneWay}" />
-            </Grid>
-
-            <!--  右侧分栏大小控制器  -->
-            <components:ColumnSplitter
-                x:Name="SideSplitter"
-                Grid.RowSpan="3"
-                Grid.Column="1"
-                ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
-                IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
-                IsInvertDirection="True"
-                MaxColumnWidth="500"
-                MinColumnWidth="300" />
         </Grid>
+
+        <components:EmptyHolder
+            Description="{ext:Locale Name=RequestLiveFailed}"
+            Emoji="&#x1F635;"
+            Visibility="{x:Bind ViewModel.IsPageLoadFailed, Mode=OneWay}" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="DefaultState" />

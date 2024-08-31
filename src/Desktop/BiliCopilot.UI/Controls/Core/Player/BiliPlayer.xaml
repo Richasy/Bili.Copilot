@@ -42,6 +42,7 @@
 
     <converters:FullScreenConverter x:Key="FullScreenConverter" />
     <converters:CompactOverlayConverter x:Key="CompactOverlayConverter" />
+    <converters:FullWindowConverter x:Key="FullWindowConverter" />
 
     <Style
         x:Key="TransportButtonFlyoutPresenterStyle"
@@ -124,6 +125,15 @@
                                         Key="M"
                                         IsEnabled="True"
                                         Modifiers="Control" />
+                                    <KeyboardAccelerator Key="F9" IsEnabled="True" />
+                                </Button.KeyboardAccelerators>
+                            </Button>
+                            <Button
+                                x:Name="HiddenFullWindowButton"
+                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullWindowCommand, Mode=OneWay}"
+                                Style="{StaticResource HiddenButtonStyle}">
+                                <Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F10" IsEnabled="True" />
                                 </Button.KeyboardAccelerators>
                             </Button>
                             <Button

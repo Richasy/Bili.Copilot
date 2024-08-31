@@ -88,10 +88,16 @@ public abstract partial class PlayerViewModelBase
     private bool _isCompactOverlay;
 
     [ObservableProperty]
+    private bool _isFullWindow;
+
+    [ObservableProperty]
     private bool _isBuffering;
 
     [ObservableProperty]
     private bool _isBottomProgressVisible;
+
+    [ObservableProperty]
+    private bool _isSeparatorWindowPlayer;
 
     /// <summary>
     /// 播放数据加载完成.

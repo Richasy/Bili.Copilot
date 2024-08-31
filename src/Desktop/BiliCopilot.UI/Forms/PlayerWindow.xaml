@@ -29,7 +29,8 @@
             x:Name="MainFrame"
             Grid.Row="1"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            Tag="PlayerWindow" />
         <Grid
             x:Name="TipContainer"
             Grid.Row="1"
