@@ -39,6 +39,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        if (Frame.Tag is string tag && tag == "PlayerWindow")
+        {
+            ViewModel.IsSeparatorWindowPlayer = true;
+        }
+
         if (e.Parameter is VideoSnapshot video)
         {
             ViewModel.InitializePageCommand.Execute(video);

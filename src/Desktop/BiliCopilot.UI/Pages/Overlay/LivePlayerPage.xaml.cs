@@ -38,6 +38,11 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        if (Frame.Tag is string tag && tag == "PlayerWindow")
+        {
+            ViewModel.IsSeparatorWindowPlayer = true;
+        }
+
         if (e.Parameter is MediaIdentifier live)
         {
             ViewModel.InitializePageCommand.Execute(live);

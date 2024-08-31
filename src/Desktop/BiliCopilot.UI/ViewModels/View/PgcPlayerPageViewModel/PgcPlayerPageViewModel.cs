@@ -70,6 +70,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             ClearView();
             Player.CancelNotification();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
+            Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
             var id = identifier.Id;
             var isEpisode = id.StartsWith("ep");
             id = id[3..];

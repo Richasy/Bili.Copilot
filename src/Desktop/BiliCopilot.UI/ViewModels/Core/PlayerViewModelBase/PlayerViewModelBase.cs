@@ -61,18 +61,26 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc.IsPauseEnabled = true;
             _smtc.ButtonPressed += OnSystemControlsButtonPressedAsync;
 
-            var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-            if (!IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
-            {
-                ToggleFullScreenCommand.Execute(default);
-            }
-            else if (!IsCompactOverlay && defaultDisplay == PlayerDisplayMode.CompactOverlay)
-            {
-                ToggleCompactOverlayCommand.Execute(default);
-            }
-            else if (!IsFullWindow && defaultDisplay == PlayerDisplayMode.FullWindow)
+            // 独立窗口播放时默认全窗口播放.
+            if (IsSeparatorWindowPlayer && !IsFullWindow)
             {
                 ToggleFullWindowCommand.Execute(default);
+            }
+            else
+            {
+                var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+                if (!IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
+                {
+                    ToggleFullScreenCommand.Execute(default);
+                }
+                else if (!IsCompactOverlay && defaultDisplay == PlayerDisplayMode.CompactOverlay)
+                {
+                    ToggleCompactOverlayCommand.Execute(default);
+                }
+                else if (!IsFullWindow && defaultDisplay == PlayerDisplayMode.FullWindow)
+                {
+                    ToggleFullWindowCommand.Execute(default);
+                }
             }
         }
 

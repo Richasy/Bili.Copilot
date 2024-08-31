@@ -96,6 +96,9 @@ public abstract partial class PlayerViewModelBase
     [ObservableProperty]
     private bool _isBottomProgressVisible;
 
+    [ObservableProperty]
+    private bool _isSeparatorWindowPlayer;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

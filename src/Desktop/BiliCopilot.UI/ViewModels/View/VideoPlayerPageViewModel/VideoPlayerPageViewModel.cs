@@ -88,6 +88,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
                 _playlist = default;
             }
 
+            Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
             var view = await _service.GetVideoPageDetailAsync(video.Identifier, _pageLoadCancellationTokenSource.Token);
             InitializeView(view);

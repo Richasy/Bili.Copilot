@@ -121,6 +121,9 @@ public sealed partial class PgcPlayerPageViewModel
     private string _nextEpisodeTip;
 
     [ObservableProperty]
+    private bool _isSeparatorWindowPlayer;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]

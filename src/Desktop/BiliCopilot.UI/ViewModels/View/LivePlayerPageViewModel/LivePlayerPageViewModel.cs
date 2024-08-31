@@ -61,6 +61,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         IsPageLoading = true;
         try
         {
+            Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
             ClearView();
             Danmaku.ResetData();
             _pageLoadCancellationTokenSource = new CancellationTokenSource();
