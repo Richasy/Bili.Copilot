@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using NLog.Extensions.Logging;
 using Richasy.BiliKernel;
-using Richasy.BiliKernel.Authorizers.TV;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI;
@@ -34,7 +33,6 @@ internal static class GlobalDependencies
             .AddWinUITokenResolver()
             .AddWinUIQRCodeResolver(RenderQRCodeAsync)
             .AddTVAuthentication()
-            .UseDefaultAuthenticationService<TVAuthenticationService>()
             .AddMyProfileService()
             .AddRelationshipService()
             .AddViewLaterService()
