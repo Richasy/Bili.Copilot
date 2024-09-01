@@ -40,6 +40,11 @@ public sealed partial class VideoPlayerPartSectionDetailViewModel : ViewModelBas
         OnlyIndex = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsVideoPlayerPartsOnlyIndex, false);
     }
 
+    /// <summary>
+    /// 分集变更.
+    /// </summary>
+    public event EventHandler PartChanged;
+
     /// <inheritdoc/>
     public string Title { get; } = ResourceToolkit.GetLocalizedString(StringNames.Parts);
 
@@ -52,7 +57,24 @@ public sealed partial class VideoPlayerPartSectionDetailViewModel : ViewModelBas
     {
         SelectedPart = part;
         _partSelectedAction?.Invoke(part);
+        RaisePartChanged();
     }
+
+    [RelayCommand]
+    private void UpdateSelectedPart(VideoPart part)
+    {
+        if (SelectedPart != part)
+        {
+            SelectedPart = Parts.FirstOrDefault(p => p.Identifier.Id == part.Identifier.Id);
+            RaisePartChanged();
+        }
+    }
+
+    /// <summary>
+    /// 发送分集变更事件.
+    /// </summary>
+    private void RaisePartChanged()
+        => PartChanged?.Invoke(this, EventArgs.Empty);
 
     partial void OnOnlyIndexChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsVideoPlayerPartsOnlyIndex, value);

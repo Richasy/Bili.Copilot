@@ -6,6 +6,7 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
@@ -187,6 +188,7 @@ public sealed partial class VideoPlayerPageViewModel
             return;
         }
 
+        _initialProgress = 0;
         if (nextPart is VideoPart part)
         {
             ChangePart(part);
@@ -241,6 +243,8 @@ public sealed partial class VideoPlayerPageViewModel
         InitializeDashMediaCommand.Execute(part);
         Subtitle.InitializeCommand.Execute(default);
         InitializeNextVideo();
+        var partSection = Sections.FirstOrDefault(p => p is VideoPlayerPartSectionDetailViewModel) as VideoPlayerPartSectionDetailViewModel;
+        partSection?.UpdateSelectedPartCommand.Execute(part);
     }
 
     private void PlayerProgressChanged(int progress, int duration)

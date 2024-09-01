@@ -14,6 +14,7 @@
     <StackPanel MaxWidth="320" Margin="0,20">
         <InfoBar
             x:Name="Bar"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
             CloseButtonCommand="{x:Bind ViewModel.CancelCommand, Mode=OneWay}"
             IsClosable="True"
             IsIconVisible="True"
