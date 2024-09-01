@@ -11,6 +11,9 @@ namespace BiliCopilot.UI.Controls.Player;
 /// </summary>
 public sealed partial class VideoPartsSection : VideoPartsSectionBase
 {
+    private VideoPlayerPartSectionDetailViewModel _viewModel;
+    private long _viewModelChangedToken;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPartsSection"/> class.
     /// </summary>
@@ -19,11 +22,45 @@ public sealed partial class VideoPartsSection : VideoPartsSectionBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        if (ViewModel.SelectedPart is VideoPart part)
+        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
+        if (ViewModel is null)
         {
-            View.Select(ViewModel.Parts.ToList().IndexOf(part));
+            return;
         }
 
+        _viewModel = ViewModel;
+        _viewModel.PartChanged += OnPartChanged;
+        UpdateSelection();
+        InitializeLayoutAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnControlUnloaded()
+    {
+        if (ViewModel is not null)
+        {
+            ViewModel.PartChanged -= OnPartChanged;
+        }
+
+        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
+        _viewModel = default;
+    }
+
+    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    {
+        if (_viewModel is not null)
+        {
+            _viewModel.PartChanged -= OnPartChanged;
+        }
+
+        if (ViewModel is null)
+        {
+            return;
+        }
+
+        _viewModel = ViewModel;
+        _viewModel.PartChanged += OnPartChanged;
+        UpdateSelection();
         InitializeLayoutAsync();
     }
 
@@ -35,10 +72,21 @@ public sealed partial class VideoPartsSection : VideoPartsSectionBase
         }
     }
 
+    private void OnPartChanged(object? sender, EventArgs e)
+        => UpdateSelection();
+
     private async void OnIndexToggledAsync(object sender, RoutedEventArgs e)
     {
         await Task.Delay(100);
         InitializeLayoutAsync();
+    }
+
+    private void UpdateSelection()
+    {
+        if (ViewModel?.SelectedPart is VideoPart part)
+        {
+            View.Select(ViewModel.Parts.ToList().IndexOf(part));
+        }
     }
 
     private async void InitializeLayoutAsync()

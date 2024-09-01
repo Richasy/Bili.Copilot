@@ -53,7 +53,7 @@ public abstract partial class PlayerViewModelBase
             }
             else
             {
-                IsBuffering = state is PlayerState.Buffering or PlayerState.Opening or PlayerState.Decoding;
+                IsBuffering = state is PlayerState.Buffering;
                 IsPaused = !IsBuffering;
             }
 
