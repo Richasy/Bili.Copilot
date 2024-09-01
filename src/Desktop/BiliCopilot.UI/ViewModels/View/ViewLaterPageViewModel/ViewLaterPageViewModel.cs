@@ -67,6 +67,11 @@ public sealed partial class ViewLaterPageViewModel : ViewModelBase
                 TotalCount = totalCount;
                 foreach (var item in videos)
                 {
+                    if (Videos.Any(p => p.Data.Identifier.Id == item.Identifier.Id))
+                    {
+                        continue;
+                    }
+
                     Videos.Add(new VideoItemViewModel(item, Models.Constants.VideoCardStyle.ViewLater, removeAction: RemoveVideo));
                 }
 
