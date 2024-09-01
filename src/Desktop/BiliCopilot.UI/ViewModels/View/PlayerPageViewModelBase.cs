@@ -20,7 +20,7 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
     /// </summary>
     protected PlayerPageViewModelBase()
     {
-        var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Mpv);
+        var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         Player = playerType switch
         {
             PlayerType.Mpv => new MpvPlayerViewModel(),

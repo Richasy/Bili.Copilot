@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Runtime.InteropServices;
-using BiliCopilot.UI.Controls.Core.Common;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
@@ -41,24 +39,6 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private static void CheckOpenGLSupport()
-    {
-        if (SettingsToolkit.IsSettingKeyExist(SettingNames.IsOpenGLSupport))
-        {
-            return;
-        }
-
-        var isSupport = RenderContext.IsOpenGLSupported();
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsOpenGLSupport, isSupport);
-        var preferPlayer = isSupport ? PlayerType.Mpv : PlayerType.Native;
-        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, preferPlayer);
-        if (preferPlayer == PlayerType.Native)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.PreferQuality, PreferQualityType.HD);
-        }
-    }
-
-    [RelayCommand]
     private async Task InitializeExternalAsync()
     {
         var architecture = RuntimeInformation.ProcessArchitecture;
@@ -82,7 +62,6 @@ public sealed partial class AppViewModel : ViewModelBase
             IsInitialLoading = true;
             new MainWindow().Activate();
             InitializeExternalCommand.Execute(default);
-            CheckOpenGLSupportCommand.Execute(default);
         }
         else
         {
