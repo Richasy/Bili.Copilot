@@ -66,6 +66,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
 
         _cursorTimer?.Start();
+        ArrangeSubtitleSize();
     }
 
     /// <inheritdoc/>
@@ -201,6 +202,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         _viewModel.RequestShowNotification += OnRequestShowNotification;
         _viewModel.RequestCancelNotification += OnRequestCancelNotification;
+        ArrangeSubtitleSize();
     }
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
