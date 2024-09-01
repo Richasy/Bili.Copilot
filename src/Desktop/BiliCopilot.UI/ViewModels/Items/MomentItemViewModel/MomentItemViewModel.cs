@@ -129,7 +129,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         {
             this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo);
         }
-        else
+        else if (FindInnerContent<IEnumerable<BiliImage>>() is not IEnumerable<BiliImage>)
         {
             OpenInBroswerCommand.Execute(default);
         }
