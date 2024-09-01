@@ -33,6 +33,7 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
 
     private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
+        e.Handled = true;
         var image = (sender as Image).Tag as BiliImage;
         var itemsSource = ItemsSource as IReadOnlyCollection<BiliImage>;
         new GalleryWindow(image, itemsSource.ToList()).Activate();
