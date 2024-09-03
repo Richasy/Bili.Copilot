@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.ObjectModel;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -100,6 +102,15 @@ public sealed partial class SettingsPageViewModel
     private bool _withoutCredentialWhenGenDownloadCommand;
 
     [ObservableProperty]
+    private bool _isWebDavEnabled;
+
+    [ObservableProperty]
+    private bool _isWebDavEmpty;
+
+    [ObservableProperty]
+    private WebDavConfig _selectedWebDav;
+
+    [ObservableProperty]
     private IReadOnlyCollection<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]
@@ -113,4 +124,9 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<PlayerType> _playerTypeCollection;
+
+    /// <summary>
+    /// WebDav 配置.
+    /// </summary>
+    public ObservableCollection<WebDavConfig> WebDavConfigs { get; } = new();
 }

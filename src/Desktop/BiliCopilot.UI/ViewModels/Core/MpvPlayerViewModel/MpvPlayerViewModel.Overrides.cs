@@ -56,6 +56,11 @@ public sealed partial class MpvPlayerViewModel
             Player.Client.SetOption("pause", "no");
         }
 
+        if (IsWebDav)
+        {
+            LoadWebDavAuthorization();
+        }
+
         UpdateState(Models.Constants.PlayerState.None);
         Player.Client.SetOption("start", Position.ToString());
 

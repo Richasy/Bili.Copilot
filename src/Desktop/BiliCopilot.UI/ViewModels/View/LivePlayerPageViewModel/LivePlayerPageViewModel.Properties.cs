@@ -88,9 +88,6 @@ public sealed partial class LivePlayerPageViewModel
     private LiveLineInformation? _selectedLine;
 
     [ObservableProperty]
-    private bool _isSeparatorWindowPlayer;
-
-    [ObservableProperty]
     private IReadOnlyCollection<PlayerFormatItemViewModel>? _formats;
 
     [ObservableProperty]

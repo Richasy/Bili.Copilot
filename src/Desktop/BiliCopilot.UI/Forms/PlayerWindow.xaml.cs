@@ -89,6 +89,10 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         {
             lPage.EnterPlayerHostMode();
         }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.EnterPlayerHostMode();
+        }
     }
 
     /// <inheritdoc/>
@@ -106,6 +110,10 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         else if (MainFrame.Content is LivePlayerPage lPage)
         {
             lPage.ExitPlayerHostMode();
+        }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ExitPlayerHostMode();
         }
     }
 

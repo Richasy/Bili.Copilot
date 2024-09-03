@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.ObjectModel;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -30,8 +32,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     /// <summary>
     /// 底部条目列表.
     /// </summary>
-    [ObservableProperty]
-    private IReadOnlyCollection<AppNavigationItemViewModel> _footerItems;
+    public ObservableCollection<AppNavigationItemViewModel> FooterItems { get; } = new();
 
     /// <inheritdoc/>
     public void NavigateTo(string pageKey, object? parameter = null)
@@ -100,6 +101,12 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = true;
             return;
         }
+        else if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
+        {
+            webDavPage.ViewModel.InitializeCommand.Execute(parameter);
+            IsOverlayOpen = true;
+            return;
+        }
 
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;
@@ -159,7 +166,25 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         _navFrame = navFrame;
         _overFrame = overFrame;
         MenuItems = [.. GetMenuItems()];
-        FooterItems = [.. GetFooterItems()];
+        foreach (var item in GetFooterItems())
+        {
+            FooterItems.Add(item);
+        }
+    }
+
+    [RelayCommand]
+    private void CheckWebDavItem()
+    {
+        var isWebDavEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
+        var exist = FooterItems.Any(p => p.PageKey == typeof(WebDavPage).FullName);
+        if (isWebDavEnabled && !exist)
+        {
+            FooterItems.Insert(0, GetItem<WebDavPage>(StringNames.WebDav, FluentIcons.Common.Symbol.CloudDatabase));
+        }
+        else if (!isWebDavEnabled && exist)
+        {
+            FooterItems.Remove(FooterItems.First(p => p.PageKey == typeof(WebDavPage).FullName));
+        }
     }
 
     private IReadOnlyList<AppNavigationItemViewModel> GetMenuItems()
@@ -191,12 +216,20 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
     private IReadOnlyList<AppNavigationItemViewModel> GetFooterItems()
     {
-        return new List<AppNavigationItemViewModel>
+        var list = new List<AppNavigationItemViewModel>
         {
             // GetItem<DownloadPage>(StringNames.Download, FluentIcons.Common.Symbol.CloudArrowDown),
             GetItem<MessagePage>(StringNames.Message, FluentIcons.Common.Symbol.Chat),
             GetItem<SettingsPage>(StringNames.Settings, FluentIcons.Common.Symbol.Settings),
         };
+
+        var isWebDavEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
+        if (isWebDavEnabled)
+        {
+            list.Insert(0, GetItem<WebDavPage>(StringNames.WebDav, FluentIcons.Common.Symbol.CloudDatabase));
+        }
+
+        return list;
     }
 
     private AppNavigationItemViewModel GetItem<TPage>(StringNames title, FluentIcons.Common.Symbol symbol, bool isSelected = false)

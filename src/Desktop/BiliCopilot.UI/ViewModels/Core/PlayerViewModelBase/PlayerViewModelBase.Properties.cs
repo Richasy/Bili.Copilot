@@ -125,6 +125,11 @@ public abstract partial class PlayerViewModelBase
     public bool IsPgc { get; set; }
 
     /// <summary>
+    /// 是否为 WebDav 播放.
+    /// </summary>
+    public bool IsWebDav { get; set; }
+
+    /// <summary>
     /// 视频标题.
     /// </summary>
     public string Title { get; set; }

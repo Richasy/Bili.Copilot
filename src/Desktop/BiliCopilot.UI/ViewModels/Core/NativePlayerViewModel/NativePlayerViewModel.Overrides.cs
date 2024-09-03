@@ -109,6 +109,10 @@ public sealed partial class NativePlayerViewModel
         {
             LoadLiveSource(_videoUrl);
         }
+        else if (IsWebDav)
+        {
+            await LoadWebDavAsync();
+        }
         else
         {
             await LoadDashVideoSourceAsync();
@@ -135,6 +139,14 @@ public sealed partial class NativePlayerViewModel
         httpClient.DefaultRequestHeaders.Add("Referer", "https://www.bilibili.com/");
         httpClient.DefaultRequestHeaders.Add("User-Agent", VideoUserAgent);
         httpClient.DefaultRequestHeaders.Add("Cookie", this.Get<IBiliCookiesResolver>().GetCookieString());
+        return httpClient;
+    }
+
+    private HttpClient GetWebDavClient()
+    {
+        var httpClient = new HttpClient();
+        var auth = $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}";
+        httpClient.DefaultRequestHeaders.Add("Authorization", auth);
         return httpClient;
     }
 
@@ -182,6 +194,15 @@ public sealed partial class NativePlayerViewModel
         var source = await AdaptiveMediaSource.CreateFromStreamAsync(stream, new Uri(url), "application/dash+xml", httpClient);
         source.MediaSource.AdvancedSettings.AllSegmentsIndependent = false;
         Debug.Assert(source.Status == AdaptiveMediaSourceCreationStatus.Success, "解析MPD失败");
+        var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
+        Player.Source = new MediaPlaybackItem(videoSource);
+    }
+
+    private async Task LoadWebDavAsync()
+    {
+        var source = await AdaptiveMediaSource.CreateFromUriAsync(new Uri(_videoUrl), GetWebDavClient());
+        source.MediaSource.AdvancedSettings.AllSegmentsIndependent = false;
+        Debug.Assert(source.Status == AdaptiveMediaSourceCreationStatus.Success, "解析WebDav失败");
         var videoSource = MediaSource.CreateFromAdaptiveMediaSource(source.MediaSource);
         Player.Source = new MediaPlaybackItem(videoSource);
     }

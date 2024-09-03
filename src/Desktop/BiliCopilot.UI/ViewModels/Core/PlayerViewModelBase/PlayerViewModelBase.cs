@@ -40,11 +40,21 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         var updater = _smtc.DisplayUpdater;
         updater.ClearAll();
         updater.Type = MediaPlaybackType.Video;
-        updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(cover));
+        if (!string.IsNullOrEmpty(cover))
+        {
+            updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(cover));
+        }
+
         updater.VideoProperties.Title = title;
         updater.VideoProperties.Subtitle = subtitle;
         updater.Update();
     }
+
+    /// <summary>
+    /// 注入 WebDav 配置.
+    /// </summary>
+    public void InjectWebDavConfig(WebDavConfig config)
+        => SetWebDavConfig(config);
 
     /// <summary>
     /// 设置播放数据.

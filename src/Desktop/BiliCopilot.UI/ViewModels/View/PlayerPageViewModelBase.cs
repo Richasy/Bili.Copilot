@@ -15,6 +15,9 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
     [ObservableProperty]
     private PlayerViewModelBase _player;
 
+    [ObservableProperty]
+    private bool _isSeparatorWindowPlayer;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PlayerPageViewModelBase"/> class.
     /// </summary>

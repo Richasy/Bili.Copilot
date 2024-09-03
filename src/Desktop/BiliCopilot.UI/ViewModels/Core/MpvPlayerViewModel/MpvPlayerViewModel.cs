@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Core.Common;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,8 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 {
+    private WebDavConfig? _webDavConfig;
+
     /// <summary>
     /// 播放器内核.
     /// </summary>
@@ -46,16 +49,20 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             await Player.InitializeAsync(args);
         }
 
-        var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
-        var referer = IsLive ? LiveReferer : VideoReferer;
-        var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
-        var cookieStr = $"Cookie: {cookies}";
-        var refererStr = $"Referer: {referer}";
+        if (!IsWebDav)
+        {
+            var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
+            var referer = IsLive ? LiveReferer : VideoReferer;
+            var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
+            var cookieStr = $"Cookie: {cookies}";
+            var refererStr = $"Referer: {referer}";
 
-        Player.Client.SetOption("cookies", "yes");
-        Player.Client.SetOption("user-agent", userAgent);
-        Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
-        if (IsLive)
+            Player.Client.SetOption("cookies", "yes");
+            Player.Client.SetOption("user-agent", userAgent);
+            Player.Client.SetOption("http-header-fields", $"{cookieStr}\n{refererStr}");
+        }
+
+        if (IsLive || IsWebDav)
         {
             Player.Client.SetOption("ytdl", "no");
             Player.IsLoggingEnabled = false;
@@ -65,6 +72,13 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
         _isInitialized = true;
 
         await TryLoadPlayDataAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void SetWebDavConfig(WebDavConfig config)
+    {
+        _webDavConfig = config;
+        LoadWebDavAuthorization();
     }
 
     private void OnPositionChanged(object? sender, PlaybackPositionChangedEventArgs e)
@@ -162,5 +176,16 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             UpdateState(PlayerState.Failed);
             _logger.LogError("尝试播放音频失败.");
         }
+    }
+
+    private void LoadWebDavAuthorization()
+    {
+        if (_webDavConfig is null || Player?.Client is null)
+        {
+            return;
+        }
+
+        var auth = $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}";
+        Player.Client.SetOption("http-header-fields", $"Authorization: {auth}");
     }
 }

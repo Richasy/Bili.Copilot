@@ -190,6 +190,7 @@
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
+    <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
     <None Remove="Controls\Users\FollowsMainBody.xaml" />
@@ -202,6 +203,11 @@
     <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterBody.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavConfigDialog.xaml" />
+    <None Remove="Controls\WebDav\WebDavPageBody.xaml" />
+    <None Remove="Controls\WebDav\WebDavPageHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
     <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
@@ -225,10 +231,12 @@
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
     <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
+    <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
     <None Remove="Pages\VideoPartitionPage.xaml" />
+    <None Remove="Pages\WebDavPage.xaml" />
     <None Remove="Styles\Overrides.xaml" />
     <None Remove="Styles\TrayResources.xaml" />
   </ItemGroup>
@@ -271,6 +279,7 @@
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Core\BiliKernel.Core.csproj" />
@@ -1223,6 +1232,30 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\WebDavPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Forms\PlayerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

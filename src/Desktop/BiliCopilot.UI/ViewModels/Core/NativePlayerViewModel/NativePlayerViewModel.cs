@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     private MediaPlayerElement? _element;
     private DashSegmentInformation? _videoSegment;
     private DashSegmentInformation? _audioSegment;
+    private WebDavConfig? _webDavConfig;
     private bool _isDisposed;
 
     /// <summary>
@@ -49,6 +51,12 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
         _videoSegment = video;
         _audioSegment = audio;
         UpdateState(PlayerState.None);
+    }
+
+    /// <inheritdoc/>
+    protected override void SetWebDavConfig(WebDavConfig config)
+    {
+        _webDavConfig = config;
     }
 
     private MediaPlayer CreatePlayer()

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="BiliCopilot.UI.Controls.WebDav.WebDavConfigDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.WebDav"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    CloseButtonText="{ext:Locale Name=Cancel}"
+    DefaultButton="Primary"
+    PrimaryButtonClick="OnPrimaryButtonClick"
+    PrimaryButtonText="{ext:Locale Name=Save}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <StackPanel Width="320" Spacing="8">
+        <TextBox
+            x:Name="ConfigNameBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=ConfigName}" />
+        <TextBox
+            x:Name="HostBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Host}"
+            TextChanged="OnHostBoxTextChanged" />
+        <NumberBox
+            x:Name="PortBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Port}"
+            LargeChange="1"
+            Minimum="0"
+            SmallChange="1"
+            SpinButtonPlacementMode="Hidden" />
+        <TextBox
+            x:Name="UserNameBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=UserName}" />
+        <PasswordBox
+            x:Name="PasswordBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Password}" />
+    </StackPanel>
+</ContentDialog>

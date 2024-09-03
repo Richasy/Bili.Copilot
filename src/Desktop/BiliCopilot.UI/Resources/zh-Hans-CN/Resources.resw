@@ -2393,4 +2393,28 @@
   <data name="OpenInNewWindow" xml:space="preserve">
     <value>在新窗口中打开</value>
   </data>
+  <data name="CreateWebDavConfig" xml:space="preserve">
+    <value>创建 WebDAV 配置</value>
+  </data>
+  <data name="EditWebDavConfig" xml:space="preserve">
+    <value>编辑 WebDAV 配置</value>
+  </data>
+  <data name="CurrentWebDavServiceDescription" xml:space="preserve">
+    <value>当前选择的 WebDAV 服务</value>
+  </data>
+  <data name="NoWebDavService" xml:space="preserve">
+    <value>当前没有可用的 WebDAV 服务</value>
+  </data>
+  <data name="WebDavSettings" xml:space="preserve">
+    <value>WebDAV 设置</value>
+  </data>
+  <data name="WebDavSettingsDescription" xml:space="preserve">
+    <value>使用本地播放器播放 WebDAV 内的视频内容</value>
+  </data>
+  <data name="AddService" xml:space="preserve">
+    <value>添加服务</value>
+  </data>
+  <data name="WebDav" xml:space="preserve">
+    <value>WebDAV</value>
+  </data>
 </root>
