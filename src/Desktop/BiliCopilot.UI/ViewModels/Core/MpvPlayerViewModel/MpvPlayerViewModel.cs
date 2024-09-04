@@ -17,8 +17,6 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 {
-    private WebDavConfig? _webDavConfig;
-
     /// <summary>
     /// 播放器内核.
     /// </summary>
@@ -76,10 +74,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
     /// <inheritdoc/>
     protected override void SetWebDavConfig(WebDavConfig config)
-    {
-        _webDavConfig = config;
-        LoadWebDavAuthorization();
-    }
+        => LoadWebDavAuthorization();
 
     private void OnPositionChanged(object? sender, PlaybackPositionChangedEventArgs e)
     {
@@ -88,6 +83,11 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             if (e.Duration == 0 && !IsLive)
             {
                 Player.ResetDuration();
+            }
+
+            if (IsPaused && !IsBuffering)
+            {
+                IsPaused = false;
             }
 
             UpdatePosition(Convert.ToInt32(e.Position), Convert.ToInt32(e.Duration));

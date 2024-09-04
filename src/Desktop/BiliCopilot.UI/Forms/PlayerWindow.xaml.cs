@@ -11,6 +11,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.Base;
+using WebDav;
 using Windows.Graphics;
 using Windows.System;
 using WinUIEx;
@@ -71,6 +72,15 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     {
         Activate();
         MainFrame.Navigate(typeof(LivePlayerPage), room);
+    }
+
+    /// <summary>
+    /// 打开 WebDAV 内容.
+    /// </summary>
+    public void OpenWebDav(WebDavResource resource, IList<WebDavResource> playlist)
+    {
+        Activate();
+        MainFrame.Navigate(typeof(WebDavPlayerPage), (playlist, resource));
     }
 
     /// <inheritdoc/>
@@ -203,6 +213,11 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
             lPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
             return true;
         }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
+            return true;
+        }
 
         return false;
     }
@@ -220,6 +235,10 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         else if (MainFrame.Content is LivePlayerPage lPage)
         {
             lPage.ViewModel.CleanCommand.Execute(default);
+        }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.CleanCommand.Execute(default);
         }
     }
 

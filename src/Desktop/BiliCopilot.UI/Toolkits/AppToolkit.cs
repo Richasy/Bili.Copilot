@@ -125,23 +125,8 @@ public static partial class AppToolkit
     /// 获取WebDav服务器地址.
     /// </summary>
     /// <returns>地址.</returns>
-    public static string GetWebDavServer(string host, int port, string path)
-    {
-        var uri = new Uri(host);
-
-        var server = uri.Scheme + "://" + uri.Host;
-        if (uri.Port != port && port != 0)
-        {
-            server += ":" + port;
-        }
-
-        if (!string.IsNullOrEmpty(uri.PathAndQuery.TrimStart('/')) && string.IsNullOrEmpty(path.TrimStart('/')))
-        {
-            server += uri.PathAndQuery;
-        }
-
-        return server;
-    }
+    public static string GetWebDavServer(string server, string path)
+        => $"{server.TrimEnd('/')}/{path.TrimStart('/')}";
 
     [GeneratedRegex(@"(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
     private static partial Regex P2PRegex();

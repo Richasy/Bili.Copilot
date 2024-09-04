@@ -17,7 +17,6 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     private MediaPlayerElement? _element;
     private DashSegmentInformation? _videoSegment;
     private DashSegmentInformation? _audioSegment;
-    private WebDavConfig? _webDavConfig;
     private bool _isDisposed;
 
     /// <summary>
@@ -56,7 +55,6 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
     /// <inheritdoc/>
     protected override void SetWebDavConfig(WebDavConfig config)
     {
-        _webDavConfig = config;
     }
 
     private MediaPlayer CreatePlayer()

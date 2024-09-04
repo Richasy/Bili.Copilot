@@ -119,12 +119,13 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
         {
             IsLoading = true;
             Items = default;
-            var server = AppToolkit.GetWebDavServer(_config.Host, _config.Port ?? 0, path);
-            var items = (await _client.Propfind(server + path)).Resources.ToList();
-            var rootPath = new Uri(_config.Host).PathAndQuery.Split("?").First();
+            var reqPath = path == "/" ? _config.ToString() : AppToolkit.GetWebDavServer(_config.GetServer(), path);
+            var items = (await _client.Propfind(reqPath)).Resources.ToList();
+            var rootPath = new Uri(_config.ToString()).PathAndQuery.Split("?").First();
             items = items
                 .Where(p => !p.IsHidden && p.Uri.Trim('/') != path.Trim('/') && p.Uri.Trim('/') != rootPath.Trim('/'))
                 .OrderBy(p => p.IsCollection)
+                .ThenBy(p => Path.GetExtension(p.Uri))
                 .ThenBy(p => p.DisplayName)
                 .ToList();
             Items = items.Select(p => new WebDavStorageItemViewModel(p)).ToList();

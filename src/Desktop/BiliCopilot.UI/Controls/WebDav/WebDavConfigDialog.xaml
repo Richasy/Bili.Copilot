@@ -33,6 +33,10 @@
             SmallChange="1"
             SpinButtonPlacementMode="Hidden" />
         <TextBox
+            x:Name="PathBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Path}" />
+        <TextBox
             x:Name="UserNameBox"
             HorizontalAlignment="Stretch"
             Header="{ext:Locale Name=UserName}" />

@@ -74,11 +74,13 @@
                                 Header="{x:Bind Name}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Button
-                                        MinWidth="120"
                                         VerticalAlignment="Center"
                                         Click="OnEditButtonClickAsync"
-                                        Content="{ext:Locale Name=Edit}"
-                                        DataContext="{x:Bind}" />
+                                        DataContext="{x:Bind}"
+                                        Style="{StaticResource SmallIconButtonStyle}"
+                                        ToolTipService.ToolTip="{ext:Locale Name=Edit}">
+                                        <ic:SymbolIcon FontSize="14" Symbol="Edit" />
+                                    </Button>
                                     <Button
                                         VerticalAlignment="Center"
                                         Click="OnDeleteButtonClickAsync"

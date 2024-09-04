@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -44,6 +45,8 @@ public abstract partial class PlayerViewModelBase
     protected string? _videoUrl;
     protected string? _audioUrl;
     protected bool _autoPlay;
+    protected string? _contentType;
+    protected WebDavConfig? _webDavConfig;
     protected Action<int, int> _progressAction;
     protected Action<PlayerState> _stateAction;
     protected Action _endAction;

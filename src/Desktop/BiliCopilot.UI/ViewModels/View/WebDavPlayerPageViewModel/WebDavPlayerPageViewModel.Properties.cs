@@ -13,6 +13,8 @@ public sealed partial class WebDavPlayerPageViewModel
 {
     private readonly ILogger<WebDavPlayerPageViewModel> _logger;
 
+    private int _initialProgress;
+
     [ObservableProperty]
     private WebDavStorageItemViewModel _current;
 
@@ -20,5 +22,16 @@ public sealed partial class WebDavPlayerPageViewModel
     private string _title;
 
     [ObservableProperty]
+    private string _nextVideoTip;
+
+    [ObservableProperty]
+    private bool _hasNextVideo;
+
+    [ObservableProperty]
     private IReadOnlyList<WebDavStorageItemViewModel> _playlist;
+
+    /// <summary>
+    /// 视频选择更改事件.
+    /// </summary>
+    public event EventHandler VideoSelectionChanged;
 }

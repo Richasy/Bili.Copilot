@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
@@ -21,6 +22,7 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
     {
         _logger = logger;
         Player.IsWebDav = true;
+        Player.SetEndAction(PlayerMediaEnded);
     }
 
     /// <summary>
@@ -50,6 +52,8 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
         Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
         Current = Playlist.FirstOrDefault(p => p.Data.Uri == video.Uri);
         Title = Current.Data.DisplayName;
+        InitializeNextVideo();
+        VideoSelectionChanged?.Invoke(this, EventArgs.Empty);
         await LoadPlayerAsync();
     }
 
@@ -68,8 +72,35 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
         }
 
         var config = this.Get<WebDavPageViewModel>().GetCurrentConfig();
-        var url = AppToolkit.GetWebDavServer(config.Host, config.Port ?? 0, Current.Data.Uri) + Current.Data.Uri;
+        var url = GetVideoUrl();
         Player.InjectWebDavConfig(config);
-        await Player.SetPlayDataAsync(url, default, true);
+        await Player.SetPlayDataAsync(url, default, true, _initialProgress, Current.Data.ContentType);
+        Player.InitializeSmtc(default, Current.Data.DisplayName, Uri.UnescapeDataString(Current.Data.Uri));
+        _initialProgress = 0;
+    }
+
+    private void InitializeNextVideo()
+    {
+        var next = FindNextVideo();
+        HasNextVideo = next is not null;
+        if (HasNextVideo)
+        {
+            NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextVideoTipTemplate), next.Data.DisplayName);
+        }
+    }
+
+    private void Reload()
+    {
+        if (Current is null)
+        {
+            return;
+        }
+
+        if (Player.Position > 0)
+        {
+            _initialProgress = Player.Position;
+        }
+
+        InitializeCommand.Execute(Current.Data);
     }
 }

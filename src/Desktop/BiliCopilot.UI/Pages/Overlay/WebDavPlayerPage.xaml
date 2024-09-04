@@ -7,6 +7,7 @@
     xmlns:core="using:BiliCopilot.UI.Controls.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:player="using:BiliCopilot.UI.Controls.Player"
@@ -54,7 +55,21 @@
                     Margin="12"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                    ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
+                    <core:VideoTransportControl.LeftContent>
+                        <Button
+                            VerticalAlignment="Center"
+                            Command="{x:Bind ViewModel.PlayNextVideoCommand, Mode=OneWay}"
+                            Style="{StaticResource CircleIconButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind ViewModel.NextVideoTip, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.HasNextVideo, Mode=OneWay}">
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Next" />
+                        </Button>
+                    </core:VideoTransportControl.LeftContent>
+                </core:VideoTransportControl>
             </core:BiliPlayer.TransportControls>
         </core:BiliPlayer>
 
@@ -64,14 +79,16 @@
             Margin="16,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Text="{ext:Locale Name=Playlist}" />
+            Text="{ext:Locale Name=Playlist}"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
 
         <webdav:WebDavPlayerSideBody
             x:Name="SideBody"
             Grid.Row="2"
             Grid.Column="2"
             VerticalAlignment="Stretch"
-            ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
 
         <!--  右侧分栏大小控制器  -->
         <components:ColumnSplitter

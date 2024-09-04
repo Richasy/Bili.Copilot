@@ -69,9 +69,12 @@ public abstract partial class PlayerViewModelBase
 
     private void OpenWithMpvOrMpvNet(bool isMpv)
     {
-        var httpParams = IsLive
-            ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{LiveReferer}\\\" --user-agent \\\"{LiveUserAgent}\\\""
-            : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{VideoReferer}\\\" --user-agent=\\\"{VideoUserAgent}\\\"";
+        var httpParams =
+            IsWebDav
+            ? $"--http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}\\\""
+            : IsLive
+                ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{LiveReferer}\\\" --user-agent \\\"{LiveUserAgent}\\\""
+                : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{VideoReferer}\\\" --user-agent=\\\"{VideoUserAgent}\\\"";
         var exeName = isMpv ? "mpv" : "mpvnet";
         var command = $"{exeName} {httpParams} --title=\\\"{Title}\\\" \\\"{_videoUrl}\\\"";
         if (!string.IsNullOrEmpty(_audioUrl))

@@ -47,6 +47,7 @@ public sealed partial class WebDavConfigDialog : ContentDialog
         var port = PortBox.Value;
         var userName = UserNameBox.Text;
         var password = PasswordBox.Password;
+        var path = PathBox.Text;
 
         if (string.IsNullOrEmpty(configName) || string.IsNullOrEmpty(host)
             || (!string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(password)))
@@ -69,6 +70,7 @@ public sealed partial class WebDavConfigDialog : ContentDialog
             Id = _source?.Id ?? Guid.NewGuid().ToString(),
             Name = configName,
             Host = host,
+            Path = path,
             Port = Convert.ToInt32(port),
             UserName = userName,
             Password = password,

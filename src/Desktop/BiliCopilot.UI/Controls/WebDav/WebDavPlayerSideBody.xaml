@@ -16,7 +16,8 @@
             Padding="12"
             ItemsSource="{x:Bind ViewModel.Playlist, Mode=OneWay}"
             SelectionChanged="OnVideoSelectionChanged"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            SizeChanged="OnSizeChangedAsync">
             <ItemsView.ItemTemplate>
                 <DataTemplate x:DataType="items:WebDavStorageItemViewModel">
                     <ItemContainer Style="{StaticResource AppItemContainerStyle}">

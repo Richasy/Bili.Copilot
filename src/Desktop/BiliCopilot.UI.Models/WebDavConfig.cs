@@ -25,6 +25,11 @@ public sealed class WebDavConfig
     public string Host { get; set; }
 
     /// <summary>
+    /// 路径.
+    /// </summary>
+    public string Path { get; set; }
+
+    /// <summary>
     /// 端口.
     /// </summary>
     public int? Port { get; set; }
@@ -44,4 +49,40 @@ public sealed class WebDavConfig
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Id);
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        if (string.IsNullOrEmpty(Host))
+        {
+            return string.Empty;
+        }
+
+        var temp = new Uri(Host);
+        var builder = new UriBuilder();
+        builder.Host = temp.Host;
+        builder.Scheme = temp.Scheme;
+        builder.Port = Port ?? 80;
+        builder.Path = Path;
+        return builder.ToString();
+    }
+
+    /// <summary>
+    /// 获取服务器地址.
+    /// </summary>
+    /// <returns>服务器地址.</returns>
+    public string GetServer()
+    {
+        if (string.IsNullOrEmpty(Host))
+        {
+            return string.Empty;
+        }
+
+        var temp = new Uri(Host);
+        var builder = new UriBuilder();
+        builder.Host = temp.Host;
+        builder.Scheme = temp.Scheme;
+        builder.Port = Port ?? 80;
+        return builder.ToString();
+    }
 }
