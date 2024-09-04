@@ -207,6 +207,7 @@
     <None Remove="Controls\WebDav\WebDavPageBody.xaml" />
     <None Remove="Controls\WebDav\WebDavPageHeader.xaml" />
     <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavPlayerSideBody.xaml" />
     <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
     <None Remove="Forms\PlayerWindow.xaml" />
@@ -1232,6 +1233,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

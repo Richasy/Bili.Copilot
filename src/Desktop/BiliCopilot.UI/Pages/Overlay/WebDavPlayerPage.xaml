@@ -6,6 +6,7 @@
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:core="using:BiliCopilot.UI.Controls.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:player="using:BiliCopilot.UI.Controls.Player"
@@ -57,6 +58,21 @@
             </core:BiliPlayer.TransportControls>
         </core:BiliPlayer>
 
+        <TextBlock
+            x:Name="SideHeader"
+            Grid.Column="2"
+            Margin="16,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="{ext:Locale Name=Playlist}" />
+
+        <webdav:WebDavPlayerSideBody
+            x:Name="SideBody"
+            Grid.Row="2"
+            Grid.Column="2"
+            VerticalAlignment="Stretch"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+
         <!--  右侧分栏大小控制器  -->
         <components:ColumnSplitter
             x:Name="SideSplitter"
@@ -77,6 +93,8 @@
                         <Setter Target="MainHeader.Visibility" Value="Collapsed" />
                         <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
                         <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
+                        <Setter Target="SideHeader.Visibility" Value="Collapsed" />
+                        <Setter Target="SideBody.Visibility" Value="Collapsed" />
                         <Setter Target="Player.(Grid.ColumnSpan)" Value="3" />
                     </VisualState.Setters>
                 </VisualState>

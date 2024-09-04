@@ -78,7 +78,7 @@ public sealed partial class MpvPlayerViewModel
             await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
         }
 
-        if (!IsLive)
+        if (!IsLive && !IsWebDav)
         {
             Player.ResetDuration();
             SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));

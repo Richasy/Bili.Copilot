@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPlaylistSectionBase
-    x:Class="BiliCopilot.UI.Controls.Player.VideoPlaylistSection"
+<local:WebDavPlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.WebDav.WebDavPlayerSideBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
-    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:local="using:BiliCopilot.UI.Controls.WebDav"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
@@ -14,13 +14,15 @@
         <ItemsView
             x:Name="View"
             Padding="12"
-            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.Playlist, Mode=OneWay}"
             SelectionChanged="OnVideoSelectionChanged"
             SelectionMode="Single">
             <ItemsView.ItemTemplate>
-                <DataTemplate x:DataType="items:VideoItemViewModel">
+                <DataTemplate x:DataType="items:WebDavStorageItemViewModel">
                     <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                        <components:VideoCardControl Style="{StaticResource PlayerPlaylistVideoCardStyle}" ViewModel="{x:Bind}" />
+                        <Grid Padding="12" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                            <base:TrimTextBlock MaxLines="1" Text="{x:Bind Data.DisplayName, Mode=OneWay}" />
+                        </Grid>
                     </ItemContainer>
                 </DataTemplate>
             </ItemsView.ItemTemplate>
@@ -29,4 +31,4 @@
             </ItemsView.Layout>
         </ItemsView>
     </Grid>
-</local:VideoPlaylistSectionBase>
+</local:WebDavPlayerPageControlBase>

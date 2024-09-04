@@ -13,9 +13,12 @@ public sealed partial class WebDavPlayerPageViewModel
 {
     private readonly ILogger<WebDavPlayerPageViewModel> _logger;
 
-    private IList<WebDavStorageItemViewModel> _playlist;
+    [ObservableProperty]
     private WebDavStorageItemViewModel _current;
 
     [ObservableProperty]
     private string _title;
+
+    [ObservableProperty]
+    private IReadOnlyList<WebDavStorageItemViewModel> _playlist;
 }

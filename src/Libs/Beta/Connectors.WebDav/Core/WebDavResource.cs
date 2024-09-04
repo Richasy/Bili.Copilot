@@ -90,6 +90,10 @@ namespace WebDav
         /// </summary>
         public IReadOnlyCollection<WebDavPropertyStatus> PropertyStatuses { get; private set; }
 
+        public override bool Equals(object obj) => obj is WebDavResource resource && Uri == resource.Uri;
+
+        public override int GetHashCode() => HashCode.Combine(Uri);
+
         /// <summary>
         /// Represents a builder of the <see cref="WebDavResource"/> class.
         /// </summary>

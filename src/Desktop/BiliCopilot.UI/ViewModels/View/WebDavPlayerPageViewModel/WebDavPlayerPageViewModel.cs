@@ -27,7 +27,7 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
     /// 注入播放列表.
     /// </summary>
     public void InjectPlaylist(IList<WebDavResource> items)
-        => _playlist = items.Select(p => new Items.WebDavStorageItemViewModel(p)).ToList();
+        => Playlist = items.Select(p => new Items.WebDavStorageItemViewModel(p)).ToList();
 
     /// <inheritdoc/>
     protected override string GetPageKey()
@@ -41,33 +41,34 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
     private async Task InitializeAsync(WebDavResource video)
     {
         Player.CancelNotification();
-        if (_playlist is not null && !_playlist.Any(p => p.Data.Uri == video.Uri))
+
+        if (Playlist is not null && !Playlist.Any(p => p.Data.Uri == video.Uri))
         {
-            _playlist = default;
+            Playlist = default;
         }
 
         Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
-        _current = new Items.WebDavStorageItemViewModel(video);
-        Title = _current.Data.DisplayName;
+        Current = Playlist.FirstOrDefault(p => p.Data.Uri == video.Uri);
+        Title = Current.Data.DisplayName;
         await LoadPlayerAsync();
     }
 
     [RelayCommand]
     private async Task CleanAsync()
     {
-        _playlist = default;
+        Playlist = default;
         await Player.CloseAsync();
     }
 
     private async Task LoadPlayerAsync()
     {
-        if (_current is null)
+        if (Current is null)
         {
             return;
         }
 
         var config = this.Get<WebDavPageViewModel>().GetCurrentConfig();
-        var url = AppToolkit.GetWebDavServer(config.Host, config.Port ?? 0, _current.Data.Uri) + _current.Data.Uri;
+        var url = AppToolkit.GetWebDavServer(config.Host, config.Port ?? 0, Current.Data.Uri) + Current.Data.Uri;
         Player.InjectWebDavConfig(config);
         await Player.SetPlayDataAsync(url, default, true);
     }
