@@ -25,7 +25,8 @@ public sealed partial class VideoPlayerPageViewModel
         IsMyVideo = _view.Information.Publisher.User.Id == this.Get<IBiliTokenResolver>().GetToken().UserId.ToString();
         UpAvatar = view.Information.Publisher.User.Avatar.Uri;
         UpName = view.Information.Publisher.User.Name;
-        PublishRelativeTime = string.Format(ResourceToolkit.GetLocalizedString(StringNames.AuthorPublishTime), view.Information.PublishTime.Humanize(default, new System.Globalization.CultureInfo("zh-CN")));
+        var relativeTime = DateTimeOffset.Now - view.Information.PublishTime > TimeSpan.FromDays(90) ? view.Information.PublishTime!.Value.ToString("yyyy-MM-dd HH:mm:ss") : view.Information.PublishTime.Humanize(default, new System.Globalization.CultureInfo("zh-CN"));
+        PublishRelativeTime = string.Format(ResourceToolkit.GetLocalizedString(StringNames.AuthorPublishTime), relativeTime);
         Description = view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
         IsFollow = view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unfollow && view.OwnerCommunity.Relation != Richasy.BiliKernel.Models.User.UserRelationStatus.Unknown;
         IsInteractionVideo = view.IsInteractiveVideo;
