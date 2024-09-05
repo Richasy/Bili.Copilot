@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -63,6 +64,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = AppToolkit.GetPackageVersion();
+
+        InitializeWebDavConfigCommand.Execute(default);
 
         _isInitialized = true;
     }
@@ -179,4 +182,22 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnWithoutCredentialWhenGenDownloadCommandChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, value);
+
+    partial void OnIsWebDavEnabledChanged(bool value)
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsWebDavEnabled, value);
+        this.Get<NavigationViewModel>().CheckWebDavItemCommand.Execute(default);
+    }
+
+    partial void OnSelectedWebDavChanged(WebDavConfig value)
+    {
+        if (value is null)
+        {
+            SettingsToolkit.DeleteLocalSetting(SettingNames.SelectedWebDavConfigId);
+        }
+        else
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.SelectedWebDavConfigId, value.Id);
+        }
+    }
 }

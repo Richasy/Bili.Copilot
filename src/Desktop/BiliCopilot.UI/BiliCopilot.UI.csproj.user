@@ -18,6 +18,33 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\WebDavPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Forms\PlayerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

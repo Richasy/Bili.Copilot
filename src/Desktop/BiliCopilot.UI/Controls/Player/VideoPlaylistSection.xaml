@@ -13,7 +13,6 @@
     <Grid>
         <ItemsView
             x:Name="View"
-            Grid.Row="1"
             Padding="12"
             ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
             SelectionChanged="OnVideoSelectionChanged"

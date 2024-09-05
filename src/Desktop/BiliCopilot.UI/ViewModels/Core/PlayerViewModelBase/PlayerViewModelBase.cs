@@ -40,17 +40,30 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         var updater = _smtc.DisplayUpdater;
         updater.ClearAll();
         updater.Type = MediaPlaybackType.Video;
-        updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(cover));
+        if (!string.IsNullOrEmpty(cover))
+        {
+            updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(cover));
+        }
+
         updater.VideoProperties.Title = title;
         updater.VideoProperties.Subtitle = subtitle;
         updater.Update();
     }
 
     /// <summary>
+    /// 注入 WebDav 配置.
+    /// </summary>
+    public void InjectWebDavConfig(WebDavConfig config)
+    {
+        _webDavConfig = config;
+        SetWebDavConfig(config);
+    }
+
+    /// <summary>
     /// 设置播放数据.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0)
+    public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0, string? contentType = default)
     {
         if (_smtc is null)
         {
@@ -93,6 +106,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         _audioUrl = audioUrl;
         _autoPlay = isAutoPlay;
         Position = position;
+        _contentType = contentType;
 
         CancelNotification();
 

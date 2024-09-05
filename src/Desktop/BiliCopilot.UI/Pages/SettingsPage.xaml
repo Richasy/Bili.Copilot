@@ -42,6 +42,7 @@
                 <settings:PlayerControlSettingControl />
                 <settings:PlayerBehaviorSettingControl />
                 <settings:DownloadSettingControl />
+                <settings:WebDavSettingControl />
                 <TextBlock
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"

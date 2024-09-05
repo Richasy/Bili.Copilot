@@ -59,6 +59,10 @@ public sealed partial class RootLayout : RootLayoutBase
         {
             lPage.EnterPlayerHostMode();
         }
+        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.EnterPlayerHostMode();
+        }
     }
 
     /// <summary>
@@ -86,6 +90,10 @@ public sealed partial class RootLayout : RootLayoutBase
         else if (OverlayFrame.Content is LivePlayerPage lPage)
         {
             lPage.ExitPlayerHostMode();
+        }
+        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ExitPlayerHostMode();
         }
     }
 

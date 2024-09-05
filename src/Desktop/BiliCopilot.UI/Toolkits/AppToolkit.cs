@@ -121,6 +121,13 @@ public static partial class AppToolkit
         return P2PRegex().IsMatch(uri.Host);
     }
 
+    /// <summary>
+    /// 获取WebDav服务器地址.
+    /// </summary>
+    /// <returns>地址.</returns>
+    public static string GetWebDavServer(string server, string path)
+        => $"{server.TrimEnd('/')}/{path.TrimStart('/')}";
+
     [GeneratedRegex(@"(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
     private static partial Regex P2PRegex();
 }
