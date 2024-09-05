@@ -9,6 +9,7 @@ using H.NotifyIcon;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
 using NLog;
 using Richasy.BiliKernel.Models.Media;
@@ -64,6 +65,7 @@ public partial class App : Application
                 _ = Directory.CreateDirectory(fullPath);
             }
 
+            instance.Activated += OnInstanceActivated;
             NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
@@ -99,6 +101,14 @@ public partial class App : Application
         {
             ExitApp();
         }
+    }
+
+    private void OnInstanceActivated(object? sender, AppActivationArguments e)
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
+            GetMainWindow()?.Activate();
+        });
     }
 
     private void InitializeTrayIcon()
