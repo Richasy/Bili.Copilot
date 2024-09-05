@@ -38,6 +38,7 @@ public sealed partial class WebDavConfigDialog : ContentDialog
         PortBox.Value = config.Port ?? 80;
         UserNameBox.Text = config.UserName;
         PasswordBox.Password = config.Password;
+        PathBox.Text = config.Path;
     }
 
     private void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

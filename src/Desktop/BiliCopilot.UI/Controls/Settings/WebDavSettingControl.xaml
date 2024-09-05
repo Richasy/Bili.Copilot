@@ -70,7 +70,7 @@
                                 Padding="58,8,44,8"
                                 BorderThickness="0,1,0,0"
                                 CornerRadius="0"
-                                Description="{x:Bind Host}"
+                                Description="{x:Bind}"
                                 Header="{x:Bind Name}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <Button
