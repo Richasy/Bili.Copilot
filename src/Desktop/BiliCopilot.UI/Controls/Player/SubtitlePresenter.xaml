@@ -18,6 +18,7 @@
             VerticalAlignment="Center"
             FontSize="{x:Bind FontSize, Mode=OneWay}"
             Text="{x:Bind ViewModel.CurrentSubtitle, Mode=OneWay}"
+            TextAlignment="Center"
             TextWrapping="Wrap" />
     </Grid>
 </local:SubtitleControlBase>
