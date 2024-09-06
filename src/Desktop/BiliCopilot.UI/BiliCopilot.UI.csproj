@@ -274,9 +274,8 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="OpenTK" />
-    <PackageReference Include="Silk.NET.Direct3D11" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
-    <PackageReference Include="Silk.NET.OpenGLES" />
+    <PackageReference Include="Silk.NET.Direct3D11" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
