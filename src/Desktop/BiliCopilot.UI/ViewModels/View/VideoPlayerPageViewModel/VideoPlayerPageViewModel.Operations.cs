@@ -11,6 +11,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
@@ -145,6 +146,21 @@ public sealed partial class VideoPlayerPageViewModel
         dp.SetWebLink(new Uri(url));
         Clipboard.SetContent(dp);
         this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+    }
+
+    [RelayCommand]
+    private async Task AddToViewLaterAsync()
+    {
+        try
+        {
+            await this.Get<IViewLaterService>().AddAsync(_view.Information.Identifier.Id);
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.AddViewLaterSucceed), InfoType.Success));
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<VideoItemViewModel>>().LogError(ex, "添加稍后再看失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.AddViewLaterFailed), InfoType.Error));
+        }
     }
 
     [RelayCommand]

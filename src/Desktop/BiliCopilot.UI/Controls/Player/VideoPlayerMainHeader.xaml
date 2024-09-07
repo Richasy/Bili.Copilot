@@ -40,6 +40,11 @@
             <ic:SymbolIcon FontSize="14" Symbol="Share" />
             <Button.Flyout>
                 <MenuFlyout Placement="Bottom">
+                    <MenuFlyoutItem
+                        MinWidth="200"
+                        Command="{x:Bind ViewModel.AddToViewLaterCommand, Mode=OneWay}"
+                        Text="{ext:Locale Name=AddToViewLater}" />
+                    <MenuFlyoutSeparator />
                     <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
                     <MenuFlyoutItem
                         MinWidth="200"
