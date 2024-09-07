@@ -62,8 +62,6 @@ public unsafe class FrameBuffer : FrameBufferBase
 
     public int GLColorRenderBufferHandle { get; set; }
 
-    public int GLDepthRenderBufferHandle { get; set; }
-
     public int GLFrameBufferHandle { get; set; }
 
     public IntPtr DxInteropColorHandle { get; set; }
@@ -87,20 +85,14 @@ public unsafe class FrameBuffer : FrameBufferBase
         // GL
         {
             GLColorRenderBufferHandle = GL.GenRenderbuffer();
-            GLDepthRenderBufferHandle = GL.GenRenderbuffer();
 
             DxInteropColorHandle = Wgl.DXRegisterObjectNV(Context.GlDeviceHandle, (nint)colorbuffer, (uint)GLColorRenderBufferHandle, (uint)RenderbufferTarget.Renderbuffer, WGL_NV_DX_interop.AccessReadWrite);
             GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, RenderbufferTarget.Renderbuffer, (uint)GLColorRenderBufferHandle);
-
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, BufferWidth, BufferHeight);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
         }
 
         colorbuffer->Release();
 
-        Wgl.DXLockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
+        Wgl.DXLockObjectsNV(Context.GlDeviceHandle, 1, [DxInteropColorHandle]);
 
         GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFrameBufferHandle);
         GL.Viewport(0, 0, BufferWidth, BufferHeight);
@@ -110,12 +102,11 @@ public unsafe class FrameBuffer : FrameBufferBase
     {
         GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
-        Wgl.DXUnlockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
+        Wgl.DXUnlockObjectsNV(Context.GlDeviceHandle, 1, [DxInteropColorHandle]);
 
         Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
 
         GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
 
         ((IDXGISwapChain1*)SwapChainHandle)->Present(0, 0);
     }
@@ -129,7 +120,7 @@ public unsafe class FrameBuffer : FrameBufferBase
         BufferWidth = Convert.ToInt32(framebufferWidth * compositionScaleX);
         BufferHeight = Convert.ToInt32(framebufferHeight * compositionScaleY);
 
-        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatB8G8R8A8Unorm, 0);
+        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatUnknown, 0);
         var matrix = new Matrix3X2F { DXGI11 = 1.0f / (float)compositionScaleX, DXGI22 = 1.0f / (float)compositionScaleY };
         ((IDXGISwapChain2*)SwapChainHandle)->SetMatrixTransform(ref matrix);
     }
@@ -140,7 +131,6 @@ public unsafe class FrameBuffer : FrameBufferBase
 
         Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
         GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
 
         GC.SuppressFinalize(this);
     }
