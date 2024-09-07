@@ -2,8 +2,8 @@
 
 using BiliCopilot.UI.Controls.Core.Common;
 using BiliCopilot.UI.ViewModels.Core;
-using OpenTK.Graphics.ES30;
 using Richasy.WinUI.Share.Base;
+using Silk.NET.OpenGL;
 
 namespace BiliCopilot.UI.Controls.Core;
 
@@ -71,7 +71,8 @@ public sealed class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
             return;
         }
 
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        RenderContext.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        RenderContext.GL.ClearColor(0, 0, 0, 1);
         ViewModel.Player.RenderGL((int)(ActualWidth * _renderControl.ScaleX), (int)(ActualHeight * _renderControl.ScaleY), _renderControl.GetBufferHandle());
     }
 }

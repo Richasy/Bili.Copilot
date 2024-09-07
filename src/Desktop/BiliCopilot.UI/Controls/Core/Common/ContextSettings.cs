@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Diagnostics.CodeAnalysis;
-using OpenTK.Windowing.Common;
+using Silk.NET.Windowing;
 
 namespace BiliCopilot.UI.Controls.Core.Common;
 
@@ -23,17 +23,12 @@ public sealed class ContextSettings
     /// <summary>
     /// 上下文标志.
     /// </summary>
-    public ContextFlags GraphicsContextFlags { get; set; } = ContextFlags.Default;
+    public ContextFlags GraphicsContextFlags { get; set; } = ContextFlags.ForwardCompatible;
 
     /// <summary>
     /// 图形配置.
     /// </summary>
-    public ContextProfile GraphicsProfile { get; set; } = ContextProfile.Core;
-
-    /// <summary>
-    /// 要使用的上下文.
-    /// </summary>
-    public IGraphicsContext ContextToUse { get; set; }
+    public ContextProfile GraphicsProfile { get; set; } = ContextProfile.Compatability;
 
     /// <summary>
     /// 是否使用默认上下文.

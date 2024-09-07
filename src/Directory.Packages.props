@@ -7,13 +7,13 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240801-build.1708" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240801-build.1113" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240801-build.1113" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240801-build.1113" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240801-build.1113" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240821" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240821" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240821" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240821" />
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
-    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.252-ci" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.258-ci" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
@@ -29,12 +29,15 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
-    <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.11" />
+    <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.12" />
     <PackageVersion Include="OpenTK" Version="4.8.2" />
     <PackageVersion Include="Silk.NET.Direct3D11" Version="2.21.0" />
     <PackageVersion Include="Silk.NET.OpenGL" Version="2.21.0" />
     <PackageVersion Include="Silk.NET.OpenGLES" Version="2.21.0" />
     <PackageVersion Include="Silk.NET.OpenGLES.Extensions.ANGLE" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.WGL.Extensions.AMD" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.WGL.Extensions.NV" Version="2.21.0" />
+    <PackageVersion Include="Silk.NET.Windowing" Version="2.21.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -90,7 +93,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.10.48" />
+    <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.20" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

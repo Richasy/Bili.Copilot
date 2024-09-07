@@ -3,6 +3,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using BiliCopilot.UI.Models.Constants;
+using Microsoft.UI.Windowing;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -127,6 +128,16 @@ public static partial class AppToolkit
     /// <returns>地址.</returns>
     public static string GetWebDavServer(string server, string path)
         => $"{server.TrimEnd('/')}/{path.TrimStart('/')}";
+
+    /// <summary>
+    /// 获取屏幕尺寸.
+    /// </summary>
+    /// <returns>屏幕尺寸.</returns>
+    public static Size GetScreenSize(Window window)
+    {
+        var area = DisplayArea.GetFromWindowId(window.AppWindow.Id, DisplayAreaFallback.Primary);
+        return new Size(area.OuterBounds.Width, area.OuterBounds.Height);
+    }
 
     [GeneratedRegex(@"(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
     private static partial Regex P2PRegex();

@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Reflection;
-using OpenTK.Graphics.OpenGL4;
-using OpenTK.Graphics.Wgl;
-using OpenTK.Platform.Windows;
 using Silk.NET.Core.Native;
 using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
+using Silk.NET.OpenGL;
+using Silk.NET.WGL.Extensions.NV;
 
 namespace BiliCopilot.UI.Controls.Core.Common;
 
@@ -30,12 +29,14 @@ public unsafe class FrameBuffer : FrameBufferBase
 
         IDXGISwapChain1* swapChain;
 
+        var size = Toolkits.AppToolkit.GetScreenSize(GlobalDependencies.Kernel.GetRequiredService<ViewModels.Core.AppViewModel>().ActivatedWindow);
+
         // SwapChain
         {
             SwapChainDesc1 swapChainDesc = new()
             {
-                Width = (uint)BufferWidth,
-                Height = (uint)BufferHeight,
+                Width = (uint)size.Width,
+                Height = (uint)size.Height,
                 Format = Format.FormatB8G8R8A8Unorm,
                 Stereo = false,
                 SampleDesc = new SampleDesc()
@@ -47,6 +48,7 @@ public unsafe class FrameBuffer : FrameBufferBase
                 BufferCount = 2,
                 SwapEffect = SwapEffect.FlipSequential,
                 Flags = 0,
+                Scaling = Scaling.Stretch,
                 AlphaMode = AlphaMode.Ignore,
             };
 
@@ -55,16 +57,16 @@ public unsafe class FrameBuffer : FrameBufferBase
             SwapChainHandle = (IntPtr)swapChain;
         }
 
-        GLFrameBufferHandle = GL.GenFramebuffer();
+        GLFrameBufferHandle = RenderContext.GL.GenFramebuffer();
     }
 
     public RenderContext Context { get; }
 
-    public int GLColorRenderBufferHandle { get; set; }
+    public uint GLColorRenderBufferHandle { get; set; }
 
-    public int GLDepthRenderBufferHandle { get; set; }
+    public uint GLDepthRenderBufferHandle { get; set; }
 
-    public int GLFrameBufferHandle { get; set; }
+    public uint GLFrameBufferHandle { get; set; }
 
     public IntPtr DxInteropColorHandle { get; set; }
 
@@ -76,7 +78,7 @@ public unsafe class FrameBuffer : FrameBufferBase
     {
         ID3D11Texture2D* colorbuffer;
 
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFrameBufferHandle);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFrameBufferHandle);
 
         // Texture2D
         {
@@ -86,38 +88,27 @@ public unsafe class FrameBuffer : FrameBufferBase
 
         // GL
         {
-            GLColorRenderBufferHandle = GL.GenRenderbuffer();
-            GLDepthRenderBufferHandle = GL.GenRenderbuffer();
-
-            DxInteropColorHandle = Wgl.DXRegisterObjectNV(Context.GlDeviceHandle, (nint)colorbuffer, (uint)GLColorRenderBufferHandle, (uint)RenderbufferTarget.Renderbuffer, WGL_NV_DX_interop.AccessReadWrite);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, RenderbufferTarget.Renderbuffer, (uint)GLColorRenderBufferHandle);
-
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, BufferWidth, BufferHeight);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
+            GLColorRenderBufferHandle = RenderContext.GL.GenRenderbuffer();
+            DxInteropColorHandle = RenderContext.NVDXInterop.DxregisterObject(Context.GlDeviceHandle, colorbuffer, GLColorRenderBufferHandle, (NV)RenderbufferTarget.Renderbuffer, NV.AccessReadWriteNV);
+            RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, RenderbufferTarget.Renderbuffer, (uint)GLColorRenderBufferHandle);
         }
 
         colorbuffer->Release();
 
-        Wgl.DXLockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
+        // NVDXInterop 在 AMD GPU 上会造成严重的内存泄露，可能是缺少相关实现，需要换成更为通用的解决方案（比如 ANGLE）
+        RenderContext.NVDXInterop.DxlockObjects(Context.GlDeviceHandle, 1, [DxInteropColorHandle]);
 
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFrameBufferHandle);
-        GL.Viewport(0, 0, BufferWidth, BufferHeight);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFrameBufferHandle);
+        RenderContext.GL.Viewport(0, 0, (uint)BufferHeight, (uint)BufferHeight);
     }
 
     public void End()
     {
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-
-        Wgl.DXUnlockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
-
-        Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
-
-        GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
-
-        ((IDXGISwapChain1*)SwapChainHandle)->Present(0, 0);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        RenderContext.NVDXInterop.DxunlockObjects(Context.GlDeviceHandle, 1, [DxInteropColorHandle]);
+        RenderContext.NVDXInterop.DxunregisterObject(Context.GlDeviceHandle, DxInteropColorHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
+        ((IDXGISwapChain1*)SwapChainHandle)->Present(1, 0);
     }
 
     public void UpdateSize(
@@ -129,20 +120,19 @@ public unsafe class FrameBuffer : FrameBufferBase
         BufferWidth = Convert.ToInt32(framebufferWidth * compositionScaleX);
         BufferHeight = Convert.ToInt32(framebufferHeight * compositionScaleY);
 
-        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatB8G8R8A8Unorm, 0);
+        ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)BufferWidth, (uint)BufferHeight, Format.FormatUnknown, 0);
         var matrix = new Matrix3X2F { DXGI11 = 1.0f / (float)compositionScaleX, DXGI22 = 1.0f / (float)compositionScaleY };
         ((IDXGISwapChain2*)SwapChainHandle)->SetMatrixTransform(ref matrix);
     }
 
     public override void Dispose()
     {
-        GL.DeleteFramebuffer(GLFrameBufferHandle);
+        RenderContext.GL.DeleteFramebuffer(GLFrameBufferHandle);
 
-        Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
-        GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
+        RenderContext.NVDXInterop.DxunregisterObject(Context.GlDeviceHandle, DxInteropColorHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLColorRenderBufferHandle);
 
         GC.SuppressFinalize(this);
     }
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释
 }
+#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

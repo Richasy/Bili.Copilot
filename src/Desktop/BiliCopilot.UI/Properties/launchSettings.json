@@ -1,7 +1,10 @@
 {
   "profiles": {
     "BiliCopilot.UI (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "remoteDebugEnabled": false,
+      "remoteDebugMachine": "DESKTOP-8AFST1L",
+      "authenticationMode": "None"
     },
     "BiliCopilot.UI (Unpackaged)": {
       "commandName": "Project"

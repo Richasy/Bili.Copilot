@@ -28,7 +28,10 @@
             </animations:Implicit.HideAnimations>
         </components:ShimmerLayout>
         <Grid Visibility="{x:Bind ViewModel.IsPageLoadFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <Grid Visibility="{x:Bind ViewModel.IsPageLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Grid
+                x:Name="PlayerRoot"
+                x:Load="{x:Bind ViewModel.IsPageLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Visibility="{x:Bind ViewModel.IsPageLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="HeaderRow" Height="56" />
                     <RowDefinition Height="Auto" />
@@ -69,11 +72,11 @@
                         </StackPanel.ChildrenTransitions>
                         <Grid
                             x:Name="PlayerContainer"
-                            Grid.Row="2"
                             Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
                             MinHeight="200"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top"
+                            Loaded="OnPlayerContainerLoaded"
                             SizeChanged="OnPlayContainerSizeChanged">
                             <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
                                 <core:BiliPlayer.TransportControls>

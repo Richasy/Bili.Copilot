@@ -59,15 +59,6 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
-    /// <inheritdoc/>
-    protected override void OnPageLoaded()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            ViewModel.PlayerWidth = PlayerContainer.ActualWidth;
-        });
-    }
-
     private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
     {
         ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
@@ -79,6 +70,14 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
 
         // 播放器不能超出容器高度.
         PlayerContainer.MaxHeight = ViewModel.Player.IsFullScreen ? ActualHeight : VerticalHolderContainer.ActualHeight;
+    }
+
+    private void OnPlayerContainerLoaded(object sender, RoutedEventArgs e)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            ViewModel.PlayerWidth = PlayerContainer.ActualWidth;
+        });
     }
 }
 

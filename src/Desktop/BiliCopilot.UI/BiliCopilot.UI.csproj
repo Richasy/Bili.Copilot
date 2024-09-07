@@ -273,9 +273,12 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
-    <PackageReference Include="OpenTK" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Silk.NET.Direct3D11" />
+    <PackageReference Include="Silk.NET.OpenGL" />
+    <PackageReference Include="Silk.NET.WGL.Extensions.AMD" />
+    <PackageReference Include="Silk.NET.WGL.Extensions.NV" />
+    <PackageReference Include="Silk.NET.Windowing" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>

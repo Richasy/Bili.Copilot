@@ -49,7 +49,7 @@ public unsafe class RenderControl : OpenGLRenderControlBase<FrameBuffer>
     }
 
     public int GetBufferHandle()
-        => FrameBuffer.GLFrameBufferHandle;
+        => (int)FrameBuffer.GLFrameBufferHandle;
 
     protected override void Draw()
     {

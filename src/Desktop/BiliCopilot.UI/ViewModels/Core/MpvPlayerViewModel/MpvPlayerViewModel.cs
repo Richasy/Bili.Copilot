@@ -38,6 +38,9 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             Player.LogMessageReceived += OnLogMessageReceived;
             renderControl.Initialize();
             Player.Client.SetProperty("vo", "libmpv");
+            Player.Client.SetProperty("gpu-api", "d3d11");
+            Player.Client.SetProperty("gpu-context", "d3d11");
+            Player.Client.SetProperty("hwdec", "d3d11va-copy");
 #if DEBUG
             Player.Client.RequestLogMessage(MpvLogLevel.V);
 #else
