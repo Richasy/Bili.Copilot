@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
@@ -39,7 +40,9 @@ public sealed partial class MomentPageViewModel : ViewModelBase
             new ComprehensiveMomentSectionDetailViewModel(_momentDiscoveryService),
         };
 
-        SelectSectionCommand.Execute(Sections.First());
+        var isLastVideoSection = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.LastMomentSectionIsVideo, true);
+        var section = isLastVideoSection ? Sections.First() : Sections.Last();
+        SelectSectionCommand.Execute(section);
         await Task.Delay(200);
         Initialized?.Invoke(this, EventArgs.Empty);
     }
@@ -53,6 +56,8 @@ public sealed partial class MomentPageViewModel : ViewModelBase
         }
 
         SelectedSection = section;
+        var isVideo = section is VideoMomentSectionDetailViewModel;
+        SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.LastMomentSectionIsVideo, isVideo);
         SelectedSection.InitializeCommand.Execute(default);
     }
 

@@ -89,4 +89,6 @@ public enum SettingNames
     PlayerWindowWidth,
     IsWebDavEnabled,
     SelectedWebDavConfigId,
+    LastMomentSectionIsVideo,
+    LastUserSpaceSectionIsVideo,
 }
