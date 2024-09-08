@@ -56,7 +56,7 @@ public abstract partial class PlayerViewModelBase
     {
         if (IsPaused && !IsMediaLoaded() && Math.Abs(Position - Duration) <= 1)
         {
-            await SetPlayDataAsync(_videoUrl, _audioUrl, true, 0);
+            await SetPlayDataAsync(_videoUrl, _audioUrl, true, 0, _contentType, _extraOptions);
             return;
         }
 
@@ -74,7 +74,7 @@ public abstract partial class PlayerViewModelBase
         // 如果媒体已经播放结束，尝试重新加载媒体.
         if (!IsMediaLoaded())
         {
-            await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Convert.ToInt32(value));
+            await SetPlayDataAsync(_videoUrl, _audioUrl, _autoPlay, Convert.ToInt32(value), _contentType, _extraOptions);
             return;
         }
 

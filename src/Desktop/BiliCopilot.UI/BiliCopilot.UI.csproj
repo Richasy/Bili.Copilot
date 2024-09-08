@@ -60,6 +60,7 @@
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
+    <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
     <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
@@ -1232,6 +1233,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

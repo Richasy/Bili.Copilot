@@ -55,9 +55,11 @@ public sealed partial class VideoPlayerPageViewModel
         _videoSegments = info.Videos;
         _audioSegments = info.Audios;
 
-        // 这里额外过滤掉杜比视界画质，目前使用 libmpv 暂时还不能处理色域映射.
+        // 这里针对 MPV 额外过滤掉杜比视界画质，目前使用 libmpv 暂时还不能正确处理色域映射.
         Downloader.Clear();
-        Formats = info.Formats.Where(p => p.Quality != 126).Select(p => new PlayerFormatItemViewModel(p)).ToList();
+        var isMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native) == PlayerType.Mpv;
+        var formats = isMpvPlayer ? info.Formats.Where(p => p.Quality != 126) : info.Formats;
+        Formats = formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
 
         // 用户个人视频无需会员即可观看最高画质.
         if (IsMyVideo)

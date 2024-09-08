@@ -62,7 +62,7 @@ public sealed partial class BiliPlayer
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs args)
     {
-        if (TransportControls is null || ViewModel.IsPlayerDataLoading || ViewModel.IsPlayerInitializing)
+        if (TransportControls is null || ViewModel.IsPlayerDataLoading || ViewModel.IsPlayerInitializing || ViewModel.IsExternalPlayer)
         {
             return;
         }

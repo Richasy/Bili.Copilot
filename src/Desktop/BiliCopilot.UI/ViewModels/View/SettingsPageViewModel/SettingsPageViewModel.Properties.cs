@@ -45,6 +45,12 @@ public sealed partial class SettingsPageViewModel
     private PlayerType _playerType;
 
     [ObservableProperty]
+    private ExternalPlayerType _externalPlayerType;
+
+    [ObservableProperty]
+    private bool _isExternalPlayerType;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]
@@ -124,6 +130,9 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<PlayerType> _playerTypeCollection;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<ExternalPlayerType> _externalPlayerTypeCollection;
 
     /// <summary>
     /// WebDav 配置.

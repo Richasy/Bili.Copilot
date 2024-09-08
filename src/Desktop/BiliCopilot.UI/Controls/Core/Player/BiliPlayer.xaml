@@ -61,6 +61,23 @@
         </Setter>
     </Style>
 
+    <Style TargetType="local:ExternalPlayer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ExternalPlayer">
+                    <ScrollView Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Style="{StaticResource PageScrollViewStyle}">
+                        <Grid Padding="12">
+                            <TextBlock
+                                LineHeight="24"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </ScrollView>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="local:NativePlayer">
         <Setter Property="Template">
             <Setter.Value>
@@ -158,7 +175,8 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Content="{TemplateBinding DanmakuControls}"
-                            Style="{StaticResource AppContentControlStyle}" />
+                            Style="{StaticResource AppContentControlStyle}"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsExternalPlayer, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                         <ProgressBar
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Bottom"
@@ -172,7 +190,8 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Fill="Transparent"
-                            IsHoldingEnabled="True">
+                            IsHoldingEnabled="True"
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsExternalPlayer, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                             <Rectangle.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem

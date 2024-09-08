@@ -198,7 +198,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             npvm.InjectSegments(vSeg, aSeg);
         }
 
-        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress);
+        await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress, extraOptions: _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString());
         Player.InitializeSmtc(_episode.Identifier.Cover.SourceUri.ToString(), EpisodeTitle, SeasonTitle);
         Danmaku?.Redraw();
 

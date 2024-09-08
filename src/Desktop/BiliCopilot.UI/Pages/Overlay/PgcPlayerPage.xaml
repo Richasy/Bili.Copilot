@@ -68,7 +68,6 @@
                         </StackPanel.ChildrenTransitions>
                         <Grid
                             x:Name="PlayerContainer"
-                            Grid.Row="2"
                             Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
                             MinHeight="200"
                             HorizontalAlignment="Stretch"
@@ -110,6 +109,17 @@
                                 </core:BiliPlayer.SubtitleControls>
                             </core:BiliPlayer>
                         </Grid>
+                        <core:ExternalTransportControl
+                            Margin="0,12,0,0"
+                            ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.Player.IsExternalPlayer, Mode=OneWay}">
+                            <core:ExternalTransportControl.LeftContent>
+                                <player:PgcPlayerTransportLeftPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                            </core:ExternalTransportControl.LeftContent>
+                            <core:ExternalTransportControl.RightContent>
+                                <player:PgcPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                            </core:ExternalTransportControl.RightContent>
+                        </core:ExternalTransportControl>
                         <Grid
                             x:Name="PlayerBottomContainer"
                             Margin="0,12,0,20"

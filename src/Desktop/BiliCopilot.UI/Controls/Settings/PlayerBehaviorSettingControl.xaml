@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <converters:PreferQualityTypeConverter x:Key="PreferQualityConverter" />
         <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
+        <converters:ExternalPlayerTypeConverter x:Key="ExternalPlayerTypeConverter" />
         <converters:DisplayModeConverter x:Key="DisplayModeConverter" />
     </UserControl.Resources>
 
@@ -31,6 +32,21 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="constants:PlayerType">
                             <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </community:SettingsCard>
+            <community:SettingsCard
+                Description="{ext:Locale Name=ExternalPlayerTypeDescription}"
+                Header="{ext:Locale Name=ExternalPlayerType}"
+                Visibility="{x:Bind ViewModel.IsExternalPlayerType, Mode=OneWay}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.ExternalPlayerTypeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.ExternalPlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:ExternalPlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource ExternalPlayerTypeConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

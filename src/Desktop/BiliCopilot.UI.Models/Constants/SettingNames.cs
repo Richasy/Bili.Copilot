@@ -91,4 +91,5 @@ public enum SettingNames
     SelectedWebDavConfigId,
     LastMomentSectionIsVideo,
     LastUserSpaceSectionIsVideo,
+    ExternalPlayer,
 }

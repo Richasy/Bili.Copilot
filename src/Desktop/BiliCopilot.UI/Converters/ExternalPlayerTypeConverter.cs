@@ -1,29 +1,27 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Toolkits;
 using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class PlayerTypeConverter : IValueConverter
+internal sealed class ExternalPlayerTypeConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
         var result = string.Empty;
-        if (value is PlayerType type)
+        if (value is ExternalPlayerType type)
         {
             switch (type)
             {
-                case PlayerType.Native:
-                    result = ResourceToolkit.GetLocalizedString(StringNames.Native);
+                case ExternalPlayerType.Mpv:
+                    result = "MPV";
                     break;
-                case PlayerType.External:
-                    result = ResourceToolkit.GetLocalizedString(StringNames.ExternalPlayer);
+                case ExternalPlayerType.MpvNet:
+                    result = "MPV.NET";
                     break;
                 default:
-                    result = "MPV";
                     break;
             }
         }

@@ -151,7 +151,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     }
 
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
-    => ViewModel?.TogglePlayPauseCommand.Execute(default);
+        => ViewModel?.TogglePlayPauseCommand.Execute(default);
 
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
@@ -207,7 +207,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null)
+        if (e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
         {
             TransportControls.Visibility = ViewModel.IsPaused ? Visibility.Visible : Visibility.Collapsed;
         }
