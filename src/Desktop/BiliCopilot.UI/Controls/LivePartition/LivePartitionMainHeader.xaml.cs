@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.LivePartition;
@@ -16,4 +17,7 @@ public sealed partial class LivePartitionMainHeader : LivePartitionPageControlBa
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
+
+    private void OnFollowRoomButtonClick(object sender, RoutedEventArgs e)
+        => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 }

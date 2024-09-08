@@ -37,6 +37,9 @@ public sealed partial class LivePartitionPageViewModel
     private bool _isRecommendLoading;
 
     [ObservableProperty]
+    private bool _isFollowRoomsEmpty;
+
+    [ObservableProperty]
     private PartitionViewModel _selectedMainSection;
 
     [ObservableProperty]

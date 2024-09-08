@@ -25,46 +25,52 @@
             VerticalAlignment="Center"
             ViewModel="{x:Bind ViewModel.SelectedSubSection, Mode=OneWay}" />
 
-        <ScrollViewer
-            Grid.Column="1"
-            Padding="8,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch"
-            HorizontalScrollBarVisibility="Hidden"
-            HorizontalScrollMode="Enabled"
-            VerticalScrollBarVisibility="Hidden"
-            VerticalScrollMode="Disabled"
-            Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
-            <ItemsRepeater Margin="4,0" ItemsSource="{x:Bind ViewModel.FollowRooms}">
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate x:DataType="items:LiveItemViewModel">
-                        <components:LiveCardControl Style="{StaticResource FollowLiveCardStyle}" ViewModel="{x:Bind}" />
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-                <ItemsRepeater.Layout>
-                    <StackLayout Orientation="Horizontal" Spacing="8" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
-        </ScrollViewer>
-
         <local:LiveSubPartitionSelector
             Grid.Column="1"
             ViewModel="{x:Bind ViewModel.SelectedDetail, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
 
-        <Button
-            Grid.Column="2"
-            VerticalAlignment="Center"
-            AutomationProperties.Name="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <ic:SymbolIcon
-                    VerticalAlignment="Center"
-                    FontSize="12"
-                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                    Symbol="ArrowSync" />
-                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
-            </StackPanel>
-        </Button>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+            <Grid Visibility="{x:Bind ViewModel.SelectedDetail, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
+                <HyperlinkButton
+                    Margin="0,0,12,0"
+                    Click="OnFollowRoomButtonClick"
+                    Content="{ext:Locale Name=FollowLiveRoom}"
+                    Visibility="{x:Bind ViewModel.IsFollowRoomsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout Placement="Bottom">
+                            <ItemsRepeater
+                                MinWidth="280"
+                                Margin="4,0"
+                                ItemsSource="{x:Bind ViewModel.FollowRooms, Mode=OneWay}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="items:LiveItemViewModel">
+                                        <components:LiveCardControl Style="{StaticResource FollowLiveCardStyle}" ViewModel="{x:Bind}" />
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="8" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </HyperlinkButton>
+            </Grid>
+
+            <Button
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="ArrowSync" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
     </Grid>
 </local:LivePartitionPageControlBase>
