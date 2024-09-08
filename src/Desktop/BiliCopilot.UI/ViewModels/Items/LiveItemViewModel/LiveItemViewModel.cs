@@ -29,7 +29,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         : base(data)
     {
         Title = data.Identifier.Title;
-        Cover = data.Identifier.Cover.Uri;
+        Cover = data.Identifier.Cover?.Uri;
         Author = data.User?.Name;
         Avatar = data.User?.Avatar?.Uri;
         ViewerCount = data.GetExtensionIfNotNull<double>(LiveExtensionDataId.ViewerCount);

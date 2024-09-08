@@ -2420,4 +2420,7 @@
   <data name="Path" xml:space="preserve">
     <value>路径</value>
   </data>
+  <data name="RecommendLivePartition" xml:space="preserve">
+    <value>推荐的直播分区</value>
+  </data>
 </root>

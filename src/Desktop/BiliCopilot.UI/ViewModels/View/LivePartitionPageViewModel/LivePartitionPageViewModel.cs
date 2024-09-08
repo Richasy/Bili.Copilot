@@ -50,6 +50,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
         }
 
         IsSectionLoading = true;
+        IsFollowRoomsEmpty = true;
         try
         {
             MainSections.Clear();
@@ -58,6 +59,11 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
             var sections = await _service.GetLivePartitionsAsync();
             foreach (var section in sections)
             {
+                if (section.Name == "推荐")
+                {
+                    section.Name = ResourceToolkit.GetLocalizedString(StringNames.RecommendLivePartition);
+                }
+
                 MainSections.Add(new PartitionViewModel(section));
             }
 
@@ -82,6 +88,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
             _recommendOffset = 0;
             RecommendRooms.Clear();
             FollowRooms.Clear();
+            IsFollowRoomsEmpty = true;
             await LoadRecommendRoomsAsync();
         }
         else
@@ -189,6 +196,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
                 }
             }
 
+            IsFollowRoomsEmpty = FollowRooms.Count == 0;
             _recommendOffset = nextPage;
             RecommendUpdated?.Invoke(this, EventArgs.Empty);
         }
