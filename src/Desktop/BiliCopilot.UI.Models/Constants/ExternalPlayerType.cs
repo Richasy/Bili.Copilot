@@ -3,22 +3,17 @@
 namespace BiliCopilot.UI.Models.Constants;
 
 /// <summary>
-/// 播放器类型.
+/// 外部播放器类型.
 /// </summary>
-public enum PlayerType
+public enum ExternalPlayerType
 {
-    /// <summary>
-    /// 原生播放器.
-    /// </summary>
-    Native,
-
     /// <summary>
     /// MPV 播放器.
     /// </summary>
     Mpv,
 
     /// <summary>
-    /// 外部播放器.
+    /// MPV.NET 播放器.
     /// </summary>
-    External,
+    MpvNet,
 }

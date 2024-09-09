@@ -46,6 +46,7 @@ public abstract partial class PlayerViewModelBase
     protected string? _audioUrl;
     protected bool _autoPlay;
     protected string? _contentType;
+    protected string? _extraOptions;
     protected WebDavConfig? _webDavConfig;
     protected Action<int, int> _progressAction;
     protected Action<PlayerState> _stateAction;
@@ -101,6 +102,9 @@ public abstract partial class PlayerViewModelBase
 
     [ObservableProperty]
     private bool _isSeparatorWindowPlayer;
+
+    [ObservableProperty]
+    private bool _isExternalPlayer;
 
     /// <summary>
     /// 播放数据加载完成.

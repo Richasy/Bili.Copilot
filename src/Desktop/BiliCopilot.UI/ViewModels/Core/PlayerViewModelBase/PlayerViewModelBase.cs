@@ -25,6 +25,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     {
         _logger = this.Get<ILogger<PlayerViewModelBase>>();
         _dispatcherQueue = this.Get<DispatcherQueue>();
+        IsExternalPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native) == PlayerType.External;
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     /// 设置播放数据.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0, string? contentType = default)
+    public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0, string? contentType = default, string? extraOptions = default)
     {
         if (_smtc is null)
         {
@@ -74,12 +75,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc.IsPauseEnabled = true;
             _smtc.ButtonPressed += OnSystemControlsButtonPressedAsync;
 
-            // 独立窗口播放时默认全窗口播放.
-            if (IsSeparatorWindowPlayer && !IsFullWindow)
+            // 独立窗口播放时默认全窗口播放. 外置播放器播放时除外.
+            if (IsSeparatorWindowPlayer && !IsFullWindow && !IsExternalPlayer)
             {
                 ToggleFullWindowCommand.Execute(default);
             }
-            else
+            else if (!IsExternalPlayer)
             {
                 var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
                 if (!IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
@@ -107,6 +108,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         _autoPlay = isAutoPlay;
         Position = position;
         _contentType = contentType;
+        _extraOptions = extraOptions;
 
         CancelNotification();
 

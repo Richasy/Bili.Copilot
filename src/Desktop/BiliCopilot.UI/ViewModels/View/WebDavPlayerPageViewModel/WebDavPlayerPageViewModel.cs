@@ -22,6 +22,7 @@ public sealed partial class WebDavPlayerPageViewModel : PlayerPageViewModelBase
     {
         _logger = logger;
         Player.IsWebDav = true;
+        Player.SetReloadAction(Reload);
         Player.SetEndAction(PlayerMediaEnded);
     }
 

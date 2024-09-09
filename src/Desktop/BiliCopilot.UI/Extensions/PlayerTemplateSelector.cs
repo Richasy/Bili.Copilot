@@ -10,6 +10,8 @@ internal sealed class PlayerTemplateSelector : DataTemplateSelector
 
     public DataTemplate NativeTemplate { get; set; }
 
+    public DataTemplate ExternalTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         if (item is MpvPlayerViewModel)
@@ -19,6 +21,10 @@ internal sealed class PlayerTemplateSelector : DataTemplateSelector
         else if (item is NativePlayerViewModel)
         {
             return NativeTemplate;
+        }
+        else if (item is ExternalPlayerViewModel)
+        {
+            return ExternalTemplate;
         }
 
         return default;

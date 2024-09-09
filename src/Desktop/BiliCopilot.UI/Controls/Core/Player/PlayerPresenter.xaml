@@ -17,8 +17,12 @@
         <DataTemplate x:Key="NativeTemplate" x:DataType="core:NativePlayerViewModel">
             <local:NativePlayer ViewModel="{x:Bind Mode=OneWay}" />
         </DataTemplate>
+        <DataTemplate x:Key="ExternalTemplate" x:DataType="core:ExternalPlayerViewModel">
+            <local:ExternalPlayer ViewModel="{x:Bind Mode=OneWay}" />
+        </DataTemplate>
         <ext:PlayerTemplateSelector
             x:Key="PlayerTemplateSelector"
+            ExternalTemplate="{StaticResource ExternalTemplate}"
             MpvTemplate="{StaticResource MpvTemplate}"
             NativeTemplate="{StaticResource NativeTemplate}" />
     </UserControl.Resources>

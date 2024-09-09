@@ -2423,4 +2423,16 @@
   <data name="RecommendLivePartition" xml:space="preserve">
     <value>推荐的直播分区</value>
   </data>
+  <data name="ExternalPlayer" xml:space="preserve">
+    <value>外部播放器</value>
+  </data>
+  <data name="ExternalPlayerType" xml:space="preserve">
+    <value>外部播放器类型</value>
+  </data>
+  <data name="ExternalPlayerTypeDescription" xml:space="preserve">
+    <value>选择用哪一个外部播放器播放视频</value>
+  </data>
+  <data name="WatchOnExternalPlayer" xml:space="preserve">
+    <value>请在外部播放器中观看内容</value>
+  </data>
 </root>
