@@ -65,12 +65,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ExternalPlayer">
-                    <ScrollView Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Style="{StaticResource PageScrollViewStyle}">
+                    <ScrollView
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        Style="{StaticResource PageScrollViewStyle}"
+                        VerticalScrollBarVisibility="Hidden">
                         <Grid Padding="12">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                Text="{ext:Locale Name=WatchOnExternalPlayer}"
+                                TextAlignment="Center"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
                             <TextBlock
                                 LineHeight="24"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage}"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
                         </Grid>
                     </ScrollView>
                 </ControlTemplate>
