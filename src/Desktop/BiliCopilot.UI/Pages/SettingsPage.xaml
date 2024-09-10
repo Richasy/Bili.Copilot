@@ -22,12 +22,22 @@
             VerticalAlignment="Center"
             Style="{StaticResource BodyStrongTextBlockStyle}"
             Text="{ext:Locale Name=Settings}" />
+
+        <SelectorBar
+            x:Name="SectionSelector"
+            HorizontalAlignment="Center"
+            SelectionChanged="OnSectionSelectorChangedAsync">
+            <SelectorBarItem Tag="0" Text="{ext:Locale Name=App}" />
+            <SelectorBarItem Tag="1" Text="AI" />
+        </SelectorBar>
+
         <Border
             Grid.Row="1"
             Height="1"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <ScrollView
+            x:Name="GenericContainer"
             Grid.Row="2"
             Padding="16,0"
             Style="{StaticResource PageScrollViewStyle}">
@@ -88,6 +98,21 @@
                         Content="{ext:Locale Name=SendFeedback}"
                         NavigateUri="https://github.com/Richasy/Bili.Copilot/issues/new/choose" />
                 </StackPanel>
+            </StackPanel>
+        </ScrollView>
+        <ScrollView
+            x:Name="AIContainer"
+            Grid.Row="2"
+            Padding="16,0"
+            Style="{StaticResource PageScrollViewStyle}"
+            Visibility="Collapsed">
+            <StackPanel
+                x:Name="AIPanel"
+                Margin="0,12"
+                Spacing="4">
+                <StackPanel.ChildrenTransitions>
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
             </StackPanel>
         </ScrollView>
     </Grid>

@@ -16,11 +16,18 @@ namespace BiliAgent.Interfaces;
 public interface IAgentClient : IDisposable
 {
     /// <summary>
+    /// 获取模型列表.
+    /// </summary>
+    /// <param name="type">供应商类型.</param>
+    /// <returns>模型列表.</returns>
+    IReadOnlyList<ChatModel> GetModels(ProviderType type);
+
+    /// <summary>
     /// 获取预定义模型.
     /// </summary>
     /// <param name="type">供应商类型.</param>
     /// <returns>预定义模型列表.</returns>
-    IReadOnlyList<ChatModel> GetModels(ProviderType type);
+    IReadOnlyList<ChatModel> GetPredefinedModels(ProviderType type);
 
     /// <summary>
     /// 发送消息.

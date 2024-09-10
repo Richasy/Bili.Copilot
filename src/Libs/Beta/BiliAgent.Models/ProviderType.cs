@@ -68,6 +68,11 @@ public enum ProviderType
     HunYuan,
 
     /// <summary>
+    /// 豆包.
+    /// </summary>
+    DouBao,
+
+    /// <summary>
     /// 讯飞星火.
     /// </summary>
     SparkDesk,
@@ -98,19 +103,14 @@ public enum ProviderType
     MistralAI,
 
     /// <summary>
-    /// Ollama.
-    /// </summary>
-    Ollama,
-
-    /// <summary>
     /// Silicon Flow.
     /// </summary>
     SiliconFlow,
 
     /// <summary>
-    /// 豆包.
+    /// Ollama.
     /// </summary>
-    DouBao,
+    Ollama,
 }
 
 /// <summary>

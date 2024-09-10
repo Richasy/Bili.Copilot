@@ -27,11 +27,96 @@
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Providers\ali-avatar.png" />
+    <None Remove="Assets\Providers\ali-dark.png" />
+    <None Remove="Assets\Providers\ali-light.png" />
+    <None Remove="Assets\Providers\anthropic-avatar.png" />
+    <None Remove="Assets\Providers\anthropic-dark.png" />
+    <None Remove="Assets\Providers\anthropic-light.png" />
+    <None Remove="Assets\Providers\azure-avatar.png" />
+    <None Remove="Assets\Providers\azure-dark.png" />
+    <None Remove="Assets\Providers\azure-light.png" />
+    <None Remove="Assets\Providers\azureopenai-avatar.png" />
+    <None Remove="Assets\Providers\azureopenai-dark.png" />
+    <None Remove="Assets\Providers\azureopenai-light.png" />
+    <None Remove="Assets\Providers\azurespeech-avatar.png" />
+    <None Remove="Assets\Providers\azurespeech-dark.png" />
+    <None Remove="Assets\Providers\azurespeech-light.png" />
+    <None Remove="Assets\Providers\baidu-avatar.png" />
+    <None Remove="Assets\Providers\baidu-dark.png" />
+    <None Remove="Assets\Providers\baidu-light.png" />
+    <None Remove="Assets\Providers\dashscope-avatar.png" />
+    <None Remove="Assets\Providers\dashscope-dark.png" />
+    <None Remove="Assets\Providers\dashscope-light.png" />
+    <None Remove="Assets\Providers\deepseek-avatar.png" />
+    <None Remove="Assets\Providers\deepseek-dark.png" />
+    <None Remove="Assets\Providers\deepseek-light.png" />
+    <None Remove="Assets\Providers\doubao-avatar.png" />
+    <None Remove="Assets\Providers\doubao-dark.png" />
+    <None Remove="Assets\Providers\doubao-light.png" />
+    <None Remove="Assets\Providers\gemini-avatar.png" />
+    <None Remove="Assets\Providers\gemini-dark.png" />
+    <None Remove="Assets\Providers\gemini-light.png" />
+    <None Remove="Assets\Providers\groq-avatar.png" />
+    <None Remove="Assets\Providers\groq-dark.png" />
+    <None Remove="Assets\Providers\groq-light.png" />
+    <None Remove="Assets\Providers\hunyuan-avatar.png" />
+    <None Remove="Assets\Providers\hunyuan-dark.png" />
+    <None Remove="Assets\Providers\hunyuan-light.png" />
+    <None Remove="Assets\Providers\lingyi-avatar.png" />
+    <None Remove="Assets\Providers\lingyi-dark.png" />
+    <None Remove="Assets\Providers\lingyi-light.png" />
+    <None Remove="Assets\Providers\mistralai-avatar.png" />
+    <None Remove="Assets\Providers\mistralai-dark.png" />
+    <None Remove="Assets\Providers\mistralai-light.png" />
+    <None Remove="Assets\Providers\moonshot-avatar.png" />
+    <None Remove="Assets\Providers\moonshot-dark.png" />
+    <None Remove="Assets\Providers\moonshot-light.png" />
+    <None Remove="Assets\Providers\ollama-avatar.png" />
+    <None Remove="Assets\Providers\ollama-dark.png" />
+    <None Remove="Assets\Providers\ollama-light.png" />
+    <None Remove="Assets\Providers\openai-avatar.png" />
+    <None Remove="Assets\Providers\openai-dark.png" />
+    <None Remove="Assets\Providers\openai-light.png" />
+    <None Remove="Assets\Providers\openrouter-avatar.png" />
+    <None Remove="Assets\Providers\openrouter-dark.png" />
+    <None Remove="Assets\Providers\openrouter-light.png" />
+    <None Remove="Assets\Providers\perplexity-avatar.png" />
+    <None Remove="Assets\Providers\perplexity-dark.png" />
+    <None Remove="Assets\Providers\perplexity-light.png" />
+    <None Remove="Assets\Providers\qianfan-avatar.png" />
+    <None Remove="Assets\Providers\qianfan-dark.png" />
+    <None Remove="Assets\Providers\qianfan-light.png" />
+    <None Remove="Assets\Providers\siliconflow-avatar.png" />
+    <None Remove="Assets\Providers\siliconflow-dark.png" />
+    <None Remove="Assets\Providers\siliconflow-light.png" />
+    <None Remove="Assets\Providers\sparkdesk-avatar.png" />
+    <None Remove="Assets\Providers\sparkdesk-dark.png" />
+    <None Remove="Assets\Providers\sparkdesk-light.png" />
+    <None Remove="Assets\Providers\tencent-avatar.png" />
+    <None Remove="Assets\Providers\tencent-dark.png" />
+    <None Remove="Assets\Providers\tencent-light.png" />
+    <None Remove="Assets\Providers\togetherai-avatar.png" />
+    <None Remove="Assets\Providers\togetherai-dark.png" />
+    <None Remove="Assets\Providers\togetherai-light.png" />
+    <None Remove="Assets\Providers\volcano-avatar.png" />
+    <None Remove="Assets\Providers\volcano-dark.png" />
+    <None Remove="Assets\Providers\volcano-light.png" />
+    <None Remove="Assets\Providers\youdao-avatar.png" />
+    <None Remove="Assets\Providers\youdao-dark.png" />
+    <None Remove="Assets\Providers\youdao-light.png" />
+    <None Remove="Assets\Providers\zhipu-avatar.png" />
+    <None Remove="Assets\Providers\zhipu-dark.png" />
+    <None Remove="Assets\Providers\zhipu-light.png" />
     <None Remove="Assets\qq_group_dark.jpg" />
     <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
+    <None Remove="Controls\AI\AILogo.xaml" />
+    <None Remove="Controls\AI\CustomChatModelDialog.xaml" />
+    <None Remove="Controls\AI\CustomChatModelSection.xaml" />
+    <None Remove="Controls\AI\PredefinedChatModelSection.xaml" />
     <None Remove="Controls\Article\ArticlePartitionMainBody.xaml" />
     <None Remove="Controls\Article\ArticlePartitionMainHeader.xaml" />
     <None Remove="Controls\Article\ArticlePartitionSideBody.xaml" />
@@ -42,6 +127,7 @@
     <None Remove="Controls\Comment\CommentTextBox.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
+    <None Remove="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml" />
     <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
     <None Remove="Controls\Components\EmotePanel.xaml" />
@@ -56,6 +142,7 @@
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
     <None Remove="Controls\Components\StatusTip.xaml" />
+    <None Remove="Controls\Components\TipHeader.xaml" />
     <None Remove="Controls\Components\TipPopup.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
@@ -184,12 +271,20 @@
     <None Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\Settings\AboutSettingControl.xaml" />
+    <None Remove="Controls\Settings\AzureOpenAIChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+    <None Remove="Controls\Settings\DouBaoChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
+    <None Remove="Controls\Settings\HunYuanChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
+    <None Remove="Controls\Settings\ModelClientConfigSettingSection.xaml" />
+    <None Remove="Controls\Settings\ModelClientEndpointConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
+    <None Remove="Controls\Settings\OpenAIChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
+    <None Remove="Controls\Settings\QianFanChatConfigSettingSection.xaml" />
+    <None Remove="Controls\Settings\SparkDeskChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
@@ -280,6 +375,7 @@
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libs\Beta\BiliAgent.Core\BiliAgent.Core.csproj" />
     <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
     <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
@@ -1233,6 +1329,48 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\QianFanChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\OpenAIChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\ModelClientEndpointConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\ModelClientConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\PredefinedChatModelSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\HunYuanChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\DouBaoChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AILogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\CustomChatModelSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\AzureOpenAIChatConfigSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\TipHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\CustomChatModelDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

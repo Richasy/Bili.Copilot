@@ -94,6 +94,27 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         await Launcher.LaunchFolderPathAsync(DefaultDownloadPath);
     }
 
+    [RelayCommand]
+    private Task InitializeOnlineChatServicesAsync()
+    {
+        _shouldSaveChatServices = true;
+        return AIViewModelShare.InitializeOnlineChatServicesAsync(OnlineChatServices);
+    }
+
+    [RelayCommand]
+    private async Task SaveOnlineChatServicesAsync()
+    {
+        if (!_shouldSaveChatServices)
+        {
+            return;
+        }
+
+        _shouldSaveChatServices = false;
+        await AIViewModelShare.SaveOnlineChatServicesAsync(OnlineChatServices);
+
+        // TODO: 重置 AI 视图模型的可用聊天服务.
+    }
+
     private void CheckTheme()
     {
         AppThemeText = AppTheme switch

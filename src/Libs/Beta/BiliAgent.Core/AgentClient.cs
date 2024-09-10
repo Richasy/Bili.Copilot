@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using BiliAgent.Interfaces;
@@ -31,6 +32,22 @@ public sealed partial class AgentClient : IAgentClient
     /// <inheritdoc/>
     public IReadOnlyList<ChatModel> GetModels(ProviderType type)
         => GetProvider(type).GetModelList();
+
+    /// <inheritdoc/>
+    public IReadOnlyList<ChatModel> GetPredefinedModels(ProviderType type)
+    {
+        var preType = typeof(PredefinedModels);
+        foreach (var prop in preType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+        {
+            if (prop.Name.StartsWith(type.ToString()))
+            {
+                return prop.GetValue(default) as List<ChatModel>
+                    ?? throw new ArgumentException("Predefined models not found.");
+            }
+        }
+
+        return new List<ChatModel>();
+    }
 
     /// <inheritdoc/>
     public async Task<ChatMessageContent> SendMessageAsync(
