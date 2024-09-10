@@ -115,6 +115,7 @@
     <None Remove="Assets\Reader\ShowPage.html" />
     <None Remove="Controls\AI\AIHeader.xaml" />
     <None Remove="Controls\AI\AILogo.xaml" />
+    <None Remove="Controls\AI\AIOverlayPanel.xaml" />
     <None Remove="Controls\AI\CustomChatModelDialog.xaml" />
     <None Remove="Controls\AI\CustomChatModelSection.xaml" />
     <None Remove="Controls\AI\PredefinedChatModelSection.xaml" />
@@ -1330,6 +1331,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\AIOverlayPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\AIHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
