@@ -2585,4 +2585,16 @@
   <data name="SparkDeskSecretDescription" xml:space="preserve">
     <value>在讯飞开放平台中注册应用并获取 Secret</value>
   </data>
+  <data name="NoAIService" xml:space="preserve">
+    <value>没有可用的 AI 服务</value>
+  </data>
+  <data name="NoAIServiceDescription" xml:space="preserve">
+    <value>请在设置页面配置所需的 AI 服务</value>
+  </data>
+  <data name="NoAIModel" xml:space="preserve">
+    <value>没有可用的模型</value>
+  </data>
+  <data name="NoAIModelDescription" xml:space="preserve">
+    <value>请在设置页面添加 AI 模型</value>
+  </data>
 </root>

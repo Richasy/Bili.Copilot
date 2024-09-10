@@ -22,6 +22,9 @@ public sealed partial class AIViewModel
     private IReadOnlyCollection<ChatModelItemViewModel> _models;
 
     [ObservableProperty]
+    private IReadOnlyCollection<AIQuickItemViewModel> _quickItems;
+
+    [ObservableProperty]
     private AIServiceItemViewModel _selectedService;
 
     [ObservableProperty]

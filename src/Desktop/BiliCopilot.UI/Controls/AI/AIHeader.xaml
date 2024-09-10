@@ -93,7 +93,8 @@
             Grid.Column="2"
             VerticalAlignment="Center"
             ItemsSource="{x:Bind ViewModel.Models, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.SelectedModel, Mode=TwoWay}">
+            SelectedItem="{x:Bind ViewModel.SelectedModel, Mode=TwoWay}"
+            Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="items:ChatModelItemViewModel">
                     <TextBlock Text="{x:Bind Name}" />
