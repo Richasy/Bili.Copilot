@@ -50,14 +50,14 @@ public sealed partial class AgentClient : IAgentClient
     }
 
     /// <inheritdoc/>
-    public async Task<ChatMessageContent> SendMessageAsync(
+    public async Task<string> SendMessageAsync(
         ProviderType type,
         string modelId,
-        ChatHistory session,
         string? message,
         Action<string> streamingAction = null,
         CancellationToken cancellationToken = default)
     {
+        var session = new ChatHistory();
         var provider = GetProvider(type);
         var executionSettings = GetExecutionSettings(type);
         executionSettings.ModelId = modelId;
@@ -76,18 +76,16 @@ public sealed partial class AgentClient : IAgentClient
                 responseContent += partialResponse.Content;
             }
         }
+        catch (TaskCanceledException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, $"{type} | {modelId} 发生错误");
         }
 
-        if (!string.IsNullOrEmpty(responseContent))
-        {
-            session.AddAssistantMessage(responseContent);
-            return new ChatMessageContent(AuthorRole.Assistant, responseContent);
-        }
-
-        throw new Exception($"{type} | {modelId} 返回空响应，具体错误请查看日志");
+        return !string.IsNullOrEmpty(responseContent) ? responseContent : throw new Exception($"{type} | {modelId} 返回空响应，具体错误请查看日志");
     }
 
     /// <inheritdoc/>

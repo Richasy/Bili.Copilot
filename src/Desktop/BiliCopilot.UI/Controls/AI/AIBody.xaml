@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:AIControlBase
+    x:Class="BiliCopilot.UI.Controls.AI.AIBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.AI"
+    xmlns:markdown="using:BiliCopilot.UI.Controls.Markdown"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="QuickItemTemplate" x:DataType="items:AIQuickItemViewModel">
+            <components:CardControl HorizontalAlignment="Stretch" Command="{x:Bind ExecuteCommand}">
+                <Grid Padding="16,12" ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ic:SymbolIcon
+                        Margin="0,4,0,0"
+                        VerticalAlignment="Top"
+                        FontSize="14"
+                        IconVariant="Filled"
+                        Symbol="{x:Bind Symbol}" />
+                    <StackPanel Grid.Column="1" Spacing="8">
+                        <TextBlock
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{x:Bind Title}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Text="{x:Bind Description}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+                </Grid>
+            </components:CardControl>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollView Padding="16,0" Style="{StaticResource PageScrollViewStyle}">
+            <Grid Margin="0,12" RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid
+                    Padding="12,8"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    ColumnSpacing="12"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <components:VideoCoverImage
+                        Width="100"
+                        Height="76"
+                        VerticalAlignment="Center"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Source="{x:Bind ViewModel.SourceCover, Mode=OneWay}" />
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Spacing="4">
+                        <base:TrimTextBlock
+                            FontWeight="Bold"
+                            MaxLines="2"
+                            Text="{x:Bind ViewModel.SourceTitle, Mode=OneWay}" />
+                        <base:TrimTextBlock
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            MaxLines="2"
+                            Text="{x:Bind ViewModel.SourceSubtitle, Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="1">
+                    <Border
+                        Margin="0,0,0,12"
+                        Padding="12,8"
+                        HorizontalAlignment="Center"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <base:TrimTextBlock
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            MaxLines="5"
+                            Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" />
+                    </Border>
+                    <Grid
+                        Margin="0,0,0,8"
+                        Padding="12,8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        ColumnSpacing="12"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Visibility="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <ProgressRing
+                            Width="14"
+                            Height="14"
+                            MinWidth="14"
+                            MinHeight="14"
+                            IsActive="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToBoolConverter}}"
+                            Style="{StaticResource PageProgressRingStyle}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Text="{x:Bind ViewModel.ProgressTip, Mode=OneWay}" />
+                    </Grid>
+                    <Grid Margin="0,0,0,12" Visibility="{x:Bind ViewModel.RequestText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <Border
+                            Padding="12,8"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}"
+                            CornerRadius="{StaticResource ControlCornerRadius}">
+                            <markdown:MarkdownTextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" Text="{x:Bind ViewModel.RequestText, Mode=OneWay}" />
+                        </Border>
+                    </Grid>
+                    <Grid>
+                        <Border
+                            Padding="12,8"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{x:Bind ViewModel.TempResult, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <markdown:MarkdownTextBlock
+                                Background="Transparent"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Text="{x:Bind ViewModel.TempResult, Mode=OneWay}" />
+
+                        </Border>
+                        <Border
+                            Padding="12,8"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="{x:Bind ViewModel.FinalResult, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <markdown:MarkdownTextBlock
+                                Background="Transparent"
+                                Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                Text="{x:Bind ViewModel.FinalResult, Mode=OneWay}" />
+                        </Border>
+                    </Grid>
+                </StackPanel>
+                <ItemsRepeater
+                    Grid.Row="1"
+                    VerticalAlignment="Top"
+                    ItemTemplate="{StaticResource QuickItemTemplate}"
+                    ItemsSource="{x:Bind ViewModel.QuickItems, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollView>
+        <components:SideBottomLoadingWidget
+            Grid.Row="1"
+            VerticalAlignment="Bottom"
+            Text="{x:Bind ViewModel.ProgressTip, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay}" />
+    </Grid>
+</local:AIControlBase>

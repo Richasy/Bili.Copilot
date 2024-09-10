@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace BiliAgent.Interfaces;
 
@@ -33,10 +31,9 @@ public interface IAgentClient : IDisposable
     /// 发送消息.
     /// </summary>
     /// <returns>返回的消息内容.</returns>
-    Task<ChatMessageContent> SendMessageAsync(
+    Task<string> SendMessageAsync(
         ProviderType type,
         string modelId,
-        ChatHistory session,
         string? message,
         Action<string> streamingAction = default,
         CancellationToken cancellationToken = default);

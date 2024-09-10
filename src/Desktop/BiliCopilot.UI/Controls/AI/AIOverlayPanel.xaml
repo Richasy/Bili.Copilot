@@ -40,14 +40,25 @@
                 <Grid Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="56" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <local:AIHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                    <Border
+                        Grid.Row="1"
+                        Height="1"
+                        HorizontalAlignment="Stretch"
+                        Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
                     <components:EmptyHolder
                         Title="{ext:Locale Name=NoAIModel}"
+                        Grid.Row="2"
                         Description="{ext:Locale Name=NoAIModelDescription}"
                         Emoji="&#x1F916;"
                         Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay}" />
+                    <local:AIBody
+                        Grid.Row="2"
+                        ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                 </Grid>
                 <components:EmptyHolder
                     Title="{ext:Locale Name=NoAIService}"

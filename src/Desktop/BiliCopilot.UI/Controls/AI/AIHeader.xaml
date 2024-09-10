@@ -82,7 +82,7 @@
                             ItemTemplate="{StaticResource ServiceItemTemplate}"
                             ItemsSource="{x:Bind ViewModel.Services, Mode=OneWay}">
                             <ItemsRepeater.Layout>
-                                <StackLayout Spacing="4" />
+                                <StackLayout Spacing="6" />
                             </ItemsRepeater.Layout>
                         </ItemsRepeater>
                     </Flyout>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Items;
@@ -10,6 +11,8 @@ namespace BiliCopilot.UI.ViewModels.Items;
 /// </summary>
 public sealed partial class AIQuickItemViewModel : ViewModelBase
 {
+    private readonly Func<AIQuickItemViewModel, Task> _action;
+
     [ObservableProperty]
     private FluentIcons.Common.Symbol _symbol;
 
@@ -26,13 +29,22 @@ public sealed partial class AIQuickItemViewModel : ViewModelBase
         FluentIcons.Common.Symbol symbol,
         string title,
         string desc,
-        string prompt)
+        string requestTemplate,
+        string prompt,
+        Func<AIQuickItemViewModel, Task> activeAction)
     {
         Symbol = symbol;
         Title = title;
         Description = desc;
+        RequestTemplate = requestTemplate;
         Prompt = prompt;
+        _action = activeAction;
     }
+
+    /// <summary>
+    /// 请求文本模板.
+    /// </summary>
+    public string RequestTemplate { get; }
 
     /// <summary>
     /// 提示词.
@@ -44,4 +56,7 @@ public sealed partial class AIQuickItemViewModel : ViewModelBase
 
     /// <inheritdoc/>
     public override int GetHashCode() => HashCode.Combine(Prompt);
+
+    [RelayCommand]
+    private async Task ExecuteAsync() => await _action?.Invoke(this);
 }

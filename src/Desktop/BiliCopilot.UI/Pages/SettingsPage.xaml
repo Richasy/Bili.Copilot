@@ -28,7 +28,7 @@
             HorizontalAlignment="Center"
             SelectionChanged="OnSectionSelectorChangedAsync">
             <SelectorBarItem Tag="0" Text="{ext:Locale Name=App}" />
-            <SelectorBarItem Tag="1" Text="AI" />
+            <SelectorBarItem Tag="1" Text="{ext:Locale Name=AIService}" />
         </SelectorBar>
 
         <Border

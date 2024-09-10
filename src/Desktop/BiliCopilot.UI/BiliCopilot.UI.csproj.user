@@ -18,10 +18,16 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\AI\AIBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\AI\AIOverlayPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\AI\AIHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">

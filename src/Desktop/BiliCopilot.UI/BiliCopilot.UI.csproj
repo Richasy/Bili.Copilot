@@ -13,6 +13,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
@@ -113,6 +114,7 @@
     <None Remove="Assets\Reader\Dark.css" />
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
+    <None Remove="Controls\AI\AIBody.xaml" />
     <None Remove="Controls\AI\AIHeader.xaml" />
     <None Remove="Controls\AI\AILogo.xaml" />
     <None Remove="Controls\AI\AIOverlayPanel.xaml" />
@@ -307,6 +309,7 @@
     <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
     <None Remove="Controls\WebDav\WebDavPlayerSideBody.xaml" />
     <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
+    <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
     <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
@@ -357,6 +360,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ColorCode.WinUI" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
@@ -364,6 +368,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="H.NotifyIcon.WinUI" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -373,6 +379,7 @@
     <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="OpenTK" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
+    <PackageReference Include="Roman-Numerals" />
     <PackageReference Include="Silk.NET.Direct3D11" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
@@ -688,6 +695,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1331,6 +1343,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\AIBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\AIOverlayPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Components;
@@ -26,6 +27,20 @@ public sealed partial class AIViewModel : ViewModelBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// 注入视频信息.
+    /// </summary>
+    public void InjectVideo(VideoPlayerView videoView, VideoPart videoPart)
+    {
+        _videoView = videoView;
+        _videoPart = videoPart;
+        var desc = _videoView.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
+        SourceCover = _videoView.Information.Identifier.Cover.Uri;
+        SourceTitle = _videoView.Information.Identifier.Title;
+        SourceSubtitle = string.IsNullOrEmpty(desc) ? _videoPart.Identifier.Title : desc;
+        InitializeVideoPrompts();
+    }
+
     [RelayCommand]
     private async Task InitializeAsync()
     {
@@ -33,6 +48,8 @@ public sealed partial class AIViewModel : ViewModelBase
         {
             await ReloadAvailableServicesAsync();
         }
+
+        CheckQuickItemsShown();
     }
 
     [RelayCommand]
@@ -62,7 +79,7 @@ public sealed partial class AIViewModel : ViewModelBase
         foreach (var p in providers)
         {
             var service = await ConfigToolkit.GetChatConfigAsync(p);
-            if (service.IsValid())
+            if (service is not null && service.IsValid())
             {
                 services.Add(new AIServiceItemViewModel(p));
             }
@@ -109,6 +126,8 @@ public sealed partial class AIViewModel : ViewModelBase
         {
             SelectedModel = default;
         }
+
+        CheckQuickItemsShown();
     }
 
     [RelayCommand]
@@ -122,4 +141,40 @@ public sealed partial class AIViewModel : ViewModelBase
         SelectedModel = model;
         SettingsToolkit.WriteLocalSetting($"LastSelected{SelectedService.ProviderType}Model", model.Id);
     }
+
+    [RelayCommand]
+    private void Discard()
+    {
+        RequestText = string.Empty;
+        FinalResult = string.Empty;
+        ErrorMessage = string.Empty;
+        IsGenerating = false;
+        TempResult = string.Empty;
+    }
+
+    [RelayCommand]
+    private void Cancel()
+    {
+        if (_generateCancellationTokenSource is not null)
+        {
+            _generateCancellationTokenSource?.Cancel();
+            _generateCancellationTokenSource?.Dispose();
+            _generateCancellationTokenSource = default;
+        }
+
+        ProgressTip = default;
+        IsGenerating = false;
+    }
+
+    private void CheckQuickItemsShown()
+        => IsQuickItemsVisible = !IsGenerating && !IsNoService && !IsNoModel && string.IsNullOrEmpty(FinalResult) && string.IsNullOrEmpty(RequestText);
+
+    partial void OnIsGeneratingChanged(bool value)
+        => CheckQuickItemsShown();
+
+    partial void OnErrorMessageChanged(string value)
+        => CheckQuickItemsShown();
+
+    partial void OnFinalResultChanged(string value)
+        => CheckQuickItemsShown();
 }
