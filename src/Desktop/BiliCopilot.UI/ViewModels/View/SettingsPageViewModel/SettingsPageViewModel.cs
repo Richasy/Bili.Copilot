@@ -111,8 +111,6 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
         _shouldSaveChatServices = false;
         await AIViewModelShare.SaveOnlineChatServicesAsync(OnlineChatServices);
-
-        // TODO: 重置 AI 视图模型的可用聊天服务.
     }
 
     private void CheckTheme()

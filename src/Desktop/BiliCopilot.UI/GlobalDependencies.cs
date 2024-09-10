@@ -84,6 +84,7 @@ internal static class GlobalDependencies
             .AddSingleton<NotificationViewModel>()
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
+            .AddTransient<AIViewModel>()
             .AddTransient<VideoPlayerPageViewModel>()
             .AddTransient<LivePlayerPageViewModel>()
             .AddTransient<PgcPlayerPageViewModel>()

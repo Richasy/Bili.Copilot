@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliAgent.Interfaces;
 using BiliAgent.Models;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -70,6 +71,17 @@ public static class ConfigToolkit
         }
 
         await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", _config);
+    }
+
+    /// <summary>
+    /// 重置配置工厂.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    public static async Task ResetConfigFactoryAsync()
+    {
+        await InitializeChatConfigurationAsync();
+        var factory = GlobalDependencies.Kernel.GetRequiredService<IAgentProviderFactory>();
+        factory.ResetConfiguration(_config);
     }
 
     private static void UpdateConfig(ProviderType type, ClientConfigBase config)

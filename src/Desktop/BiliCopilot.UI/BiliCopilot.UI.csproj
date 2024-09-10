@@ -113,6 +113,7 @@
     <None Remove="Assets\Reader\Dark.css" />
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
+    <None Remove="Controls\AI\AIHeader.xaml" />
     <None Remove="Controls\AI\AILogo.xaml" />
     <None Remove="Controls\AI\CustomChatModelDialog.xaml" />
     <None Remove="Controls\AI\CustomChatModelSection.xaml" />
@@ -1329,6 +1330,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\AIHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

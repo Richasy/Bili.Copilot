@@ -92,4 +92,5 @@ public enum SettingNames
     LastMomentSectionIsVideo,
     LastUserSpaceSectionIsVideo,
     ExternalPlayer,
+    LastSelectedAIService,
 }
