@@ -18,5 +18,6 @@ public sealed partial class AIHeader : AIControlBase
     {
         var context = (sender as FrameworkElement).DataContext as AIServiceItemViewModel;
         ViewModel.SelectServiceCommand.Execute(context);
+        ServiceFlyout.Hide();
     }
 }

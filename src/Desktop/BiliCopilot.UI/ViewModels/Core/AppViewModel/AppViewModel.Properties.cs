@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;

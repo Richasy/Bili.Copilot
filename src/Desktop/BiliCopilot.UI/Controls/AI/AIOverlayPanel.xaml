@@ -9,6 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:CommunityToolkit.WinUI.Media"
     xmlns:ui="using:CommunityToolkit.WinUI"
+    Visibility="{x:Bind IsPanelOpened, Mode=OneWay}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -33,12 +34,12 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource OverlayCornerRadius}" />
-            <Grid>
+            <Grid Width="400">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="56" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <local:AIHeader ViewModel="{x:Bind Mode=OneWay}" />
+                <local:AIHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             </Grid>
             <animations:Implicit.ShowAnimations>
                 <animations:TranslationAnimation

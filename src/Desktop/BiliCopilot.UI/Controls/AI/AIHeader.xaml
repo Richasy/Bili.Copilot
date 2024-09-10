@@ -18,10 +18,7 @@
                 HorizontalAlignment="Stretch"
                 Click="OnServiceItemClick"
                 DataContext="{x:Bind}">
-                <Grid
-                    Padding="12,8"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    ColumnSpacing="12">
+                <Grid Padding="12,8" ColumnSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -74,8 +71,16 @@
                     IconVariant="Filled"
                     Symbol="ChevronCircleDown" />
                 <Button.Flyout>
-                    <Flyout>
-                        <ItemsRepeater ItemTemplate="{StaticResource ServiceItemTemplate}" ItemsSource="{x:Bind ViewModel.Services, Mode=OneWay}">
+                    <Flyout x:Name="ServiceFlyout" Placement="Bottom">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="8" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <ItemsRepeater
+                            Width="240"
+                            ItemTemplate="{StaticResource ServiceItemTemplate}"
+                            ItemsSource="{x:Bind ViewModel.Services, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <StackLayout Spacing="4" />
                             </ItemsRepeater.Layout>

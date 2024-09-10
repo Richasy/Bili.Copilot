@@ -242,6 +242,20 @@ public sealed partial class VideoPlayerPageViewModel
         new PlayerWindow().OpenVideo(new VideoSnapshot(_view.Information, IsPrivatePlay));
     }
 
+    [RelayCommand]
+    private void ToggleAIOverlayVisibility()
+    {
+        IsAIOverlayOpened = !IsAIOverlayOpened;
+        if (IsAIOverlayOpened)
+        {
+            AI.InitializeCommand.Execute(default);
+        }
+        else
+        {
+            AI.ClearCommand.Execute(default);
+        }
+    }
+
     private string GetWebLink()
         => $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
 

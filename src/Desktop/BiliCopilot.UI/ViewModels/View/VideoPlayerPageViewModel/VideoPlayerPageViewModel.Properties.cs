@@ -129,6 +129,9 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isInteractionVideo;
 
     [ObservableProperty]
+    private bool _isAIOverlayOpened;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]
@@ -170,4 +173,9 @@ public sealed partial class VideoPlayerPageViewModel
     /// 下载视图模型.
     /// </summary>
     public DownloadViewModel Downloader { get; }
+
+    /// <summary>
+    /// AI 视图模型.
+    /// </summary>
+    public AIViewModel AI { get; }
 }
