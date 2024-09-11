@@ -230,4 +230,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
 
     partial void OnColorChanged(Windows.UI.Color value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuColor, value.ToString());
+
+    partial void OnExtraSpeedChanged(double value)
+        => ExtraSpeedChanged?.Invoke(this, EventArgs.Empty);
 }

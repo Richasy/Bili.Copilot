@@ -94,6 +94,7 @@ public sealed partial class NativePlayerViewModel
         }
 
         Player.PlaybackRate = speed;
+        _speedAction?.Invoke(speed);
     }
 
     /// <inheritdoc/>

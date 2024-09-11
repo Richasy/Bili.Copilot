@@ -48,6 +48,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadPart);
+        Player.SetSpeedAction(PlayerSpeedChanged);
     }
 
     /// <summary>

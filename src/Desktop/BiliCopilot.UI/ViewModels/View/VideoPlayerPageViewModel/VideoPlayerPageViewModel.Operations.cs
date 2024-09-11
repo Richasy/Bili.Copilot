@@ -302,6 +302,14 @@ public sealed partial class VideoPlayerPageViewModel
         }
     }
 
+    private void PlayerSpeedChanged(double speed)
+    {
+        if (Danmaku is not null)
+        {
+            Danmaku.ExtraSpeed = speed;
+        }
+    }
+
     private void PlayerMediaEnded()
     {
         this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>

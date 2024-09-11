@@ -46,6 +46,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadEpisode);
+        Player.SetSpeedAction(PlayerSpeedChanged);
     }
 
     /// <inheritdoc/>

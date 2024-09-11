@@ -38,7 +38,10 @@ public sealed partial class MpvPlayerViewModel
 
     /// <inheritdoc/>
     protected override void OnSetSpeed(double speed)
-        => Player?.SetSpeed(speed);
+    {
+        Player?.SetSpeed(speed);
+        _speedAction?.Invoke(speed);
+    }
 
     /// <inheritdoc/>
     protected override Task OnTakeScreenshotAsync(string path)
@@ -80,6 +83,7 @@ public sealed partial class MpvPlayerViewModel
 
         if (!IsLive && !IsWebDav)
         {
+            await Task.Delay(200);
             Player.ResetDuration();
             SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
             Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);

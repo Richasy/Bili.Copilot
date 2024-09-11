@@ -156,6 +156,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
             }
 
             sender.PlaybackSession.PlaybackRate = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1d);
+            _speedAction?.Invoke(sender.PlaybackSession.PlaybackRate);
 
             if (Position > 0)
             {
