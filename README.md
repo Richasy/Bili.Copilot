@@ -54,12 +54,14 @@
 
 - [bili-kernel](https://github.com/Richasy/bili-kernel)
   哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，便于移植和二次开发。
+- [semantic-kernel](https://github.com/Richasy/semantic-kernel)
+  基于 [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) 进行二次开发，支持更多国内大模型。
 - [mpv-winui](https://github.com/Richasy/bili-kernel)
   哔哩助理的核心播放器之一，将 MPV 集成进 WinUI3 以实现良好的播放体验。
 - [WinUI.Share](https://github.com/Richasy/WinUI.Share)
-  我在多个 WinAppSDK 项目之间共用的一些基础样式及实现
+  我在多个 WinAppSDK 项目之间共用的一些基础样式及实现。
 
-这三个仓库以子模块的形式集成在哔哩助理开发项目中，所以在克隆本仓库时，需要同时克隆子仓库。
+这四个仓库以子模块的形式集成在哔哩助理开发项目中，所以在克隆本仓库时，需要同时克隆子仓库。
 
 第一次克隆时可以运行下面的命令：
 
@@ -78,6 +80,7 @@ git submodule update --init --recursive
 |模块|路径|HEAD (分支)|
 |-|-|-|
 |bili-kernel|src\Libs\bili-kernel|main|
+|semantic-kernel|src\Libs\semantic-kernel|dev|
 |mpv-winui|src\Libs\mpv-winui|main|
 |WinUI.Share|src\Libs\WinUI.Share|bili|
 
@@ -112,6 +115,16 @@ git submodule update --init --recursive
 |MPV|解码速度快，播放稳定|内存占用相对较高，部分设备不支持|
 |原生|内存占用低，兼容性好|对2K以上的清晰度支持较差，部分直播无法播放|
 
+### 人工智能
+
+哔哩助理与 [小幻助理](https://github.com/Richasy/Rodel.Agent) 共享代码，接入 20 余种国内外主流 AI 模型服务，给用户足够多的选择。
+
+你可以通过大语言模型对视频/文章内容进行总结（视频需要有字幕），或者结合内容与评论对视频/文章进行 AI 评价。
+
+或许更进一步，你可以基于当前视频/文章的内容与模型对话，针对性地回答你的疑问。
+
+开发者会持续探索大语言模型和B站内容结合的边界，更进一步挖掘 AI 潜力，也欢迎你提出你的想法，真正让 AI 有用起来。
+
 ## 视频下载
 
 新版本的哔哩助理（V2）内置了 [BBDown](https://github.com/nilaoda/BBDown) 作为下载工具，也内置了 ffmpeg 作为混流工具，用户无需额外下载依赖，在视频播放下面点击下载按钮即可按需下载。
@@ -134,6 +147,8 @@ git submodule update --init --recursive
 ![截图](assets/screenshot.png)
 
 ![截图](assets/player.png)
+
+![截图](assets/ai.png)
 
 ## 鸣谢
 
