@@ -41,6 +41,7 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         IsLoading = true;
         Article = article;
         IsCommentsOpened = false;
+        IsAIOverlayOpened = false;
         CommentModule.Initialize(article.Id, Richasy.BiliKernel.Models.CommentTargetType.Article, Richasy.BiliKernel.Models.CommentSortType.Hot);
         try
         {

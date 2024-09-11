@@ -86,6 +86,9 @@ public abstract partial class PlayerViewModelBase
     private double _maxSpeed;
 
     [ObservableProperty]
+    private double _speedStep;
+
+    [ObservableProperty]
     private bool _isFullScreen;
 
     [ObservableProperty]
