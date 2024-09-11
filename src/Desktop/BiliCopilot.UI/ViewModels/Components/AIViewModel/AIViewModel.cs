@@ -2,12 +2,15 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 
@@ -145,12 +148,16 @@ public sealed partial class AIViewModel : ViewModelBase
     [RelayCommand]
     private void Discard()
     {
+        Erase();
         RequestText = string.Empty;
-        FinalResult = string.Empty;
-        ErrorMessage = string.Empty;
         IsGenerating = false;
-        TempResult = string.Empty;
+        _currentPrompt = default;
+        CheckQuickItemsShown();
     }
+
+    [RelayCommand]
+    private void Regenerate()
+        => _currentPrompt?.ExecuteCommand.Execute(default);
 
     [RelayCommand]
     private void Cancel()
@@ -164,6 +171,28 @@ public sealed partial class AIViewModel : ViewModelBase
 
         ProgressTip = default;
         IsGenerating = false;
+        Discard();
+    }
+
+    [RelayCommand]
+    private void CopyAnswer()
+    {
+        if(string.IsNullOrEmpty(FinalResult))
+        {
+            return;
+        }
+
+        var dp = new DataPackage();
+        dp.SetText(FinalResult);
+        Clipboard.SetContent(dp);
+        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+    }
+
+    private void Erase()
+    {
+        FinalResult = string.Empty;
+        ErrorMessage = string.Empty;
+        TempResult = string.Empty;
     }
 
     private void CheckQuickItemsShown()

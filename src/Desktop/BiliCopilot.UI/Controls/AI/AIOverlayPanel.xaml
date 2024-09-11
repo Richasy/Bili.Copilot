@@ -42,6 +42,7 @@
                         <RowDefinition Height="56" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <local:AIHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
                     <Border
@@ -59,6 +60,10 @@
                         Grid.Row="2"
                         ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <local:AIFooter
+                        Grid.Row="3"
+                        ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                 </Grid>
                 <components:EmptyHolder
                     Title="{ext:Locale Name=NoAIService}"

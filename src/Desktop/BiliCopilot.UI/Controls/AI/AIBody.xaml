@@ -44,11 +44,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid RowSpacing="12">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid>
         <ScrollView Padding="16,0" Style="{StaticResource PageScrollViewStyle}">
             <Grid Margin="0,12" RowSpacing="12">
                 <Grid.RowDefinitions>
@@ -167,10 +163,5 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollView>
-        <components:SideBottomLoadingWidget
-            Grid.Row="1"
-            VerticalAlignment="Bottom"
-            Text="{x:Bind ViewModel.ProgressTip, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay}" />
     </Grid>
 </local:AIControlBase>

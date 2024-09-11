@@ -89,6 +89,7 @@ public sealed partial class AIServiceItemViewModel : ViewModelBase
         Config.CustomModels ??= new();
         Config.CustomModels.Add(model);
         CheckCustomModelsCount();
+        CheckCurrentConfig();
     }
 
     [RelayCommand]
@@ -120,6 +121,7 @@ public sealed partial class AIServiceItemViewModel : ViewModelBase
         CustomModels.Remove(model);
         Config.CustomModels?.Remove(model.Data);
         CheckCustomModelsCount();
+        CheckCurrentConfig();
     }
 
     private void CheckCustomModelsCount()

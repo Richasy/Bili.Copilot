@@ -115,6 +115,7 @@
     <None Remove="Assets\Reader\Light.css" />
     <None Remove="Assets\Reader\ShowPage.html" />
     <None Remove="Controls\AI\AIBody.xaml" />
+    <None Remove="Controls\AI\AIFooter.xaml" />
     <None Remove="Controls\AI\AIHeader.xaml" />
     <None Remove="Controls\AI\AILogo.xaml" />
     <None Remove="Controls\AI\AIOverlayPanel.xaml" />
@@ -1343,6 +1344,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\AIFooter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\AIBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

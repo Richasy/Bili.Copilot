@@ -2618,4 +2618,16 @@
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
+  <data name="MorePrompts" xml:space="preserve">
+    <value>询问更多</value>
+  </data>
+  <data name="DiscardAnswer" xml:space="preserve">
+    <value>擦掉答案</value>
+  </data>
+  <data name="Regenerate" xml:space="preserve">
+    <value>重新生成</value>
+  </data>
+  <data name="CopyAnswer" xml:space="preserve">
+    <value>复制答案</value>
+  </data>
 </root>

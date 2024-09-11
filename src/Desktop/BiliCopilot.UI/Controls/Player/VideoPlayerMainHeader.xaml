@@ -42,7 +42,11 @@
                 VerticalAlignment="Center"
                 Command="{x:Bind ViewModel.ToggleAIOverlayVisibilityCommand, Mode=OneWay}"
                 Style="{StaticResource IconButtonStyle}">
-                <ic:SymbolIcon Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Symbol="Sparkle" />
+                <ic:SymbolIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    IconVariant="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
+                    Symbol="Sparkle" />
             </Button>
             <Button VerticalAlignment="Center" Style="{StaticResource IconButtonStyle}">
                 <ic:SymbolIcon FontSize="14" Symbol="Share" />

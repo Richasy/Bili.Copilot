@@ -53,4 +53,11 @@ public sealed partial class AIViewModel
             SummaryVideoAsync);
         QuickItems = [videoSummaryItem];
     }
+
+    private void InitOtherPrompts(AIQuickItemViewModel currentPrompt)
+    {
+        _currentPrompt = currentPrompt;
+        var morePrompts = QuickItems.Where(p => p != currentPrompt).ToList();
+        MorePrompts = morePrompts;
+    }
 }

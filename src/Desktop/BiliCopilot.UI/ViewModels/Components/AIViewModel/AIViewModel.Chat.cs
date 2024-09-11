@@ -21,6 +21,8 @@ public sealed partial class AIViewModel
     {
         try
         {
+            Erase();
+            InitOtherPrompts(source);
             ErrorMessage = string.Empty;
             RequestText = string.Format(source.RequestTemplate, _videoView.Information.Identifier.Title);
             var promptTemplate = source.Prompt;
@@ -56,6 +58,9 @@ public sealed partial class AIViewModel
                 .Replace("{subtitle}", subtitleText);
             await SendMessageAsync(prompt);
             ProgressTip = default;
+        }
+        catch (TaskCanceledException)
+        {
         }
         catch (Exception ex)
         {
