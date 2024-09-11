@@ -47,6 +47,7 @@ namespace Danmaku.Core
         private volatile float _rollingAreaRatio = 0.8f;
         private volatile float _rollingSpeed = Default_Rolling_Speed; // 1 to 10
         private double _textOpacity = 1.0;
+        private float _scale = 1.0f;
         private Color _borderColor = Colors.Blue;
         private string _defaultFontFamilyName = Default_Font_Family_Name;
 
@@ -72,8 +73,10 @@ namespace Danmaku.Core
 
             _canvas.IsFixedTimeStep = false;
             _dpi = _canvas.Dpi;
-            CanvasWidth = (float)_canvas.ActualWidth;
-            CanvasHeight = (float)_canvas.ActualHeight;
+            _scale = (float)_canvas.XamlRoot.RasterizationScale;
+            CanvasWidth = (float)_canvas.ActualWidth * _scale;
+            CanvasHeight = (float)_canvas.ActualHeight * _scale;
+            _rollingSpeed = Default_Rolling_Speed * _scale;
 
             _canvas.SizeChanged += CanvasAnimatedControl_SizeChanged;
             _canvas.CreateResources += CanvasAnimatedControl_CreateResources;
@@ -124,7 +127,7 @@ namespace Danmaku.Core
         {
             if (value >= 1 && value <= 10)
             {
-                _rollingSpeed = value * 0.02f;
+                _rollingSpeed = value * 0.02f * _scale;
             }
         }
 
@@ -249,6 +252,8 @@ namespace Danmaku.Core
                         }
                     }
                     textFormat.FontSize = (int)Math.Max(textFormat.FontSize, 2f);
+
+                    textFormat.FontSize = textFormat.FontSize * _scale;
 
                     if (!string.IsNullOrWhiteSpace(renderItem.FontFamilyName))
                     {
@@ -643,8 +648,8 @@ namespace Danmaku.Core
 
         private void CanvasAnimatedControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            CanvasWidth = (float)e.NewSize.Width;
-            CanvasHeight = (float)e.NewSize.Height;
+            CanvasWidth = (float)e.NewSize.Width * _scale;
+            CanvasHeight = (float)e.NewSize.Height * _scale;
             for (int i = 0; i < _renderLayerList.Length; i++)
             {
                 _renderLayerList[i].UpdateYSlotManagerLength((uint)e.NewSize.Height, _rollingAreaRatio);
@@ -822,6 +827,7 @@ namespace Danmaku.Core
             try
             {
                 int totalCount = 0;
+                args.DrawingSession.Transform = new Matrix3x2 { M11 = 1f / _scale, M22 = 1f / _scale };
 
                 for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
                 {
