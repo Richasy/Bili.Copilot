@@ -43,7 +43,7 @@
                 Command="{x:Bind ViewModel.ToggleAIOverlayVisibilityCommand, Mode=OneWay}"
                 Style="{StaticResource IconButtonStyle}">
                 <ic:SymbolIcon
-                    FontSize="14"
+                    FontSize="16"
                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                     IconVariant="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
                     Symbol="Sparkle" />

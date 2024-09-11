@@ -2630,4 +2630,7 @@
   <data name="CopyAnswer" xml:space="preserve">
     <value>复制答案</value>
   </data>
+  <data name="GettingHotComments" xml:space="preserve">
+    <value>正在获取热门评论</value>
+  </data>
 </root>

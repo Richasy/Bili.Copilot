@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Models.Media;
 
-namespace BiliCopilot.UI.ViewModels.Components;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
 /// AI 视图模型.

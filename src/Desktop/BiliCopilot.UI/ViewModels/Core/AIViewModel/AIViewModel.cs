@@ -4,7 +4,6 @@ using BiliAgent.Interfaces;
 using BiliAgent.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,7 @@ using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace BiliCopilot.UI.ViewModels.Components;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
 /// AI 视图模型.
