@@ -7,6 +7,8 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
+using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
@@ -23,10 +25,12 @@ public sealed partial class AIViewModel : ViewModelBase
     /// </summary>
     public AIViewModel(
         IAgentClient client,
-        ILogger<AIViewModel> logger)
+        ILogger<AIViewModel> logger,
+        DispatcherQueue dispatcherQueue)
     {
         _client = client;
         _logger = logger;
+        _dispatcherQueue = dispatcherQueue;
     }
 
     /// <summary>
@@ -34,6 +38,7 @@ public sealed partial class AIViewModel : ViewModelBase
     /// </summary>
     public void InjectVideo(VideoPlayerView videoView, VideoPart videoPart)
     {
+        Cancel();
         _videoView = videoView;
         _videoPart = videoPart;
         var desc = _videoView.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
@@ -42,6 +47,19 @@ public sealed partial class AIViewModel : ViewModelBase
         SourceSubtitle = string.IsNullOrEmpty(desc) ? _videoPart.Identifier.Title : desc;
         _subtitles = default;
         InitializeVideoPrompts();
+    }
+
+    /// <summary>
+    /// 注入文章信息.
+    /// </summary>
+    public void InjectArticle(ArticleDetail article)
+    {
+        Cancel();
+        _articleDetail = article;
+        SourceCover = article.Identifier.Cover.Uri;
+        SourceTitle = article.Identifier.Title;
+        SourceSubtitle = article.Identifier.Summary;
+        InitializeArticlePrompts();
     }
 
     [RelayCommand]
@@ -202,6 +220,10 @@ public sealed partial class AIViewModel : ViewModelBase
         if (_videoView is not null)
         {
             await AskVideoQuestionAsync(question);
+        }
+        else if (_articleDetail is not null)
+        {
+            await AskArticleQuestionAsync(question);
         }
 
         _lastQuestion = question;

@@ -5,6 +5,8 @@ using BiliAgent.Interfaces;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
+using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Subtitle;
 
@@ -17,10 +19,12 @@ public sealed partial class AIViewModel
 {
     private readonly ILogger<AIViewModel> _logger;
     private readonly IAgentClient _client;
+    private readonly DispatcherQueue _dispatcherQueue;
 
     private VideoPlayerView? _videoView;
     private VideoPart? _videoPart;
     private IReadOnlyCollection<SubtitleInformation>? _subtitles;
+    private ArticleDetail? _articleDetail;
 
     private AIQuickItemViewModel? _currentPrompt;
     private string? _lastQuestion;

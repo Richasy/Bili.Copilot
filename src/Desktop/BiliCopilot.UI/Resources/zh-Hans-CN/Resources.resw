@@ -2630,13 +2630,16 @@
   <data name="CopyAnswer" xml:space="preserve">
     <value>复制答案</value>
   </data>
+  <data name="GettingHotComments" xml:space="preserve">
+    <value>正在获取热门评论</value>
+  </data>
+  <data name="ArticleContentEmpty" xml:space="preserve">
+    <value>没有获取到有效的文章内容</value>
+  </data>
   <data name="Generating" xml:space="preserve">
     <value>生成中...</value>
   </data>
   <data name="AskQuestionAboutContext" xml:space="preserve">
     <value>询问有关上下文的问题</value>
-  </data>
-  <data name="GettingHotComments" xml:space="preserve">
-    <value>正在获取热门评论</value>
   </data>
 </root>
