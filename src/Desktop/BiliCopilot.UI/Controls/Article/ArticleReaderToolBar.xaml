@@ -114,6 +114,22 @@
                         Text="{x:Bind ViewModel.FavoriteCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
                 </StackPanel>
             </ToggleButton>
+            <ToggleButton
+                Command="{x:Bind ViewModel.ToggleAIOverlayVisibilityCommand, Mode=OneWay}"
+                IsChecked="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay}"
+                Style="{StaticResource IconToggleButtonStyle}">
+                <StackPanel Spacing="4">
+                    <ic:SymbolIcon
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        IconVariant="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
+                        Symbol="Sparkle" />
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="12"
+                        Text="AI" />
+                </StackPanel>
+            </ToggleButton>
         </StackPanel>
     </Grid>
 </local:ArticleReaderPageControlBase>

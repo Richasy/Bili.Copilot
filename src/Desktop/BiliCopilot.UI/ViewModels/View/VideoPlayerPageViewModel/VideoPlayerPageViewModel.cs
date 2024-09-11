@@ -32,7 +32,8 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments,
-        DownloadViewModel download)
+        DownloadViewModel download,
+        AIViewModel ai)
     {
         _service = service;
         _relationshipService = relationshipService;
@@ -42,6 +43,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         Danmaku = danmaku;
         Subtitle = subtitle;
         Downloader = download;
+        AI = ai;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);

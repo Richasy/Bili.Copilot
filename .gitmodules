@@ -7,3 +7,6 @@
 [submodule "src/Libs/WinUI.Share"]
 	path = src/Libs/WinUI.Share
 	url = https://github.com/Richasy/WinUI.Share
+[submodule "src/Libs/semantic-kernel"]
+	path = src/Libs/semantic-kernel
+	url = https://github.com/Richasy/semantic-kernel

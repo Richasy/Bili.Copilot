@@ -94,6 +94,25 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         await Launcher.LaunchFolderPathAsync(DefaultDownloadPath);
     }
 
+    [RelayCommand]
+    private Task InitializeOnlineChatServicesAsync()
+    {
+        _shouldSaveChatServices = true;
+        return AIViewModelShare.InitializeOnlineChatServicesAsync(OnlineChatServices);
+    }
+
+    [RelayCommand]
+    private async Task SaveOnlineChatServicesAsync()
+    {
+        if (!_shouldSaveChatServices)
+        {
+            return;
+        }
+
+        _shouldSaveChatServices = false;
+        await AIViewModelShare.SaveOnlineChatServicesAsync(OnlineChatServices);
+    }
+
     private void CheckTheme()
     {
         AppThemeText = AppTheme switch

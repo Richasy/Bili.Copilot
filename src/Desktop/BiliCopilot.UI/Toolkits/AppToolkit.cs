@@ -122,6 +122,13 @@ public static partial class AppToolkit
     }
 
     /// <summary>
+    /// 重置控件主题.
+    /// </summary>
+    /// <param name="element">控件.</param>
+    public static void ResetControlTheme(FrameworkElement element)
+        => element.RequestedTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+
+    /// <summary>
     /// 获取WebDav服务器地址.
     /// </summary>
     /// <returns>地址.</returns>

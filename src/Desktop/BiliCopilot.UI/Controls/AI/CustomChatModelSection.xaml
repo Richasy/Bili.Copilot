@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:AIServiceConfigControlBase
+    x:Class="BiliCopilot.UI.Controls.AI.CustomChatModelSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.AI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="8">
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{ext:Locale Name=CustomModel}" />
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{x:Bind ViewModel.CreateCustomModelCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Symbol="Add" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{ext:Locale Name=Create}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+        <Border
+            Padding="12"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Visibility="{x:Bind ViewModel.IsCustomModelsEmpty, Mode=OneWay}">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorDisabledBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{ext:Locale Name=AddYourCustomModel}"
+                TextAlignment="Center" />
+        </Border>
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.CustomModels}" Visibility="{x:Bind ViewModel.IsCustomModelsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="items:ChatModelItemViewModel">
+                    <components:ChatModelCardControl ViewModel="{x:Bind}" />
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+            <ItemsRepeater.Layout>
+                <UniformGridLayout
+                    ItemsStretch="Fill"
+                    MinColumnSpacing="4"
+                    MinItemHeight="74"
+                    MinItemWidth="240"
+                    MinRowSpacing="4" />
+            </ItemsRepeater.Layout>
+        </ItemsRepeater>
+    </StackPanel>
+</local:AIServiceConfigControlBase>

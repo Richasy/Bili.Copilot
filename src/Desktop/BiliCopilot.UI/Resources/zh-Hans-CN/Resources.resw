@@ -2435,4 +2435,211 @@
   <data name="WatchOnExternalPlayer" xml:space="preserve">
     <value>请在外部播放器中观看内容</value>
   </data>
+  <data name="ModelAlreadyExist" xml:space="preserve">
+    <value>模型已经存在，请勿重复创建</value>
+  </data>
+  <data name="CreateCustomModel" xml:space="preserve">
+    <value>创建自定义模型</value>
+  </data>
+  <data name="AddYourCustomModel" xml:space="preserve">
+    <value>使用的模型不在列表中？那就创建一个吧！</value>
+  </data>
+  <data name="CustomModel" xml:space="preserve">
+    <value>自定义模型</value>
+  </data>
+  <data name="ModifyCustomModel" xml:space="preserve">
+    <value>修改自定义模型</value>
+  </data>
+  <data name="ChatModelsSettings" xml:space="preserve">
+    <value>对话模型设置</value>
+  </data>
+  <data name="ModelId" xml:space="preserve">
+    <value>模型 ID</value>
+  </data>
+  <data name="ModelIdDescription" xml:space="preserve">
+    <value>模型 ID 是该模型的真实标识名称，AI 服务通过此标识确定模型</value>
+  </data>
+  <data name="ModelList" xml:space="preserve">
+    <value>模型列表</value>
+  </data>
+  <data name="ModelName" xml:space="preserve">
+    <value>模型名称</value>
+  </data>
+  <data name="ModelNameDescription" xml:space="preserve">
+    <value>模型名称是应用内部显示在界面上的可读名称</value>
+  </data>
+  <data name="ModelNameOrIdCanNotBeEmpty" xml:space="preserve">
+    <value>模型 ID 或名称不能为空</value>
+  </data>
+  <data name="PredefinedModels" xml:space="preserve">
+    <value>预定义模型</value>
+  </data>
+  <data name="PredefinedModelsDescription" xml:space="preserve">
+    <value>查看 {0} 的内置模型列表</value>
+  </data>
+  <data name="SeeAllModels" xml:space="preserve">
+    <value>查看全部模型</value>
+  </data>
+  <data name="ModelNamePlaceholder" xml:space="preserve">
+    <value>如 "ChatGPT 3.5"</value>
+  </data>
+  <data name="ModelIdPlaceholder" xml:space="preserve">
+    <value>如 "gpt-3.5-turbo"</value>
+  </data>
+  <data name="ShowInformation" xml:space="preserve">
+    <value>查看说明</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="MoreOptions" xml:space="preserve">
+    <value>更多选项</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="ApiVersion" xml:space="preserve">
+    <value>API 版本</value>
+  </data>
+  <data name="AzureApiVersionDescription" xml:space="preserve">
+    <value>选择合适的 Azure Open AI 的 API 版本</value>
+  </data>
+  <data name="AzureOpenAIAccessKeyDescription" xml:space="preserve">
+    <value>在 Azure 门户相应资源的 "密钥与终结点" 中找到此值，可用 KEY1 或 KEY2</value>
+  </data>
+  <data name="AzureOpenAIEndpointDescription" xml:space="preserve">
+    <value>在 Azure 门户相应资源的 "密钥与终结点" 中找到此值</value>
+  </data>
+  <data name="AzureRegionDescription" xml:space="preserve">
+    <value>在 Azure 门户相应资源的 "密钥与终结点" 中找到此值</value>
+  </data>
+  <data name="Endpoint" xml:space="preserve">
+    <value>终结点（API）</value>
+  </data>
+  <data name="EndpointDescription" xml:space="preserve">
+    <value>必须包含 http(s)://</value>
+  </data>
+  <data name="EndpointPlaceholder" xml:space="preserve">
+    <value>如 https://api.openai.com/v1</value>
+  </data>
+  <data name="AccessKey" xml:space="preserve">
+    <value>访问密钥</value>
+  </data>
+  <data name="AccessKeyDescription" xml:space="preserve">
+    <value>填入来自 {0} 的 API 密钥</value>
+  </data>
+  <data name="AccessKeyPlaceholder" xml:space="preserve">
+    <value>{0} API 密钥</value>
+  </data>
+  <data name="AccessKeySecret" xml:space="preserve">
+    <value>访问密文（AccessKey Secret）</value>
+  </data>
+  <data name="AliAccessKeyDescription" xml:space="preserve">
+    <value>在阿里云中注册并获取密钥</value>
+  </data>
+  <data name="TencentAccessKeyDescription" xml:space="preserve">
+    <value>在腾讯云中注册并获取访问密钥</value>
+  </data>
+  <data name="VolcanoAccessKeyDescription" xml:space="preserve">
+    <value>在火山引擎的 "API访问密钥" 中获取 Secret Access Key</value>
+  </data>
+  <data name="VolcanoKeyIdDescription" xml:space="preserve">
+    <value>在火山引擎的 "API访问密钥" 中获取 Access Key ID</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="App" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>API 密钥（API Key）</value>
+  </data>
+  <data name="SecretId" xml:space="preserve">
+    <value>密文 ID（Secret ID）</value>
+  </data>
+  <data name="SecretKey" xml:space="preserve">
+    <value>密文密钥（Secret Key）</value>
+  </data>
+  <data name="HunYuanSecretDescription" xml:space="preserve">
+    <value>从腾讯云控制台的 "API密钥管理" 中获取密钥</value>
+  </data>
+  <data name="OptionalPlaceholder" xml:space="preserve">
+    <value>如果没有则不填</value>
+  </data>
+  <data name="Organization_Optional" xml:space="preserve">
+    <value>组织（可选）</value>
+  </data>
+  <data name="QianFanSecretDescription" xml:space="preserve">
+    <value>从百度千帆大模型平台的 "应用接入" 中获取 Secret Key</value>
+  </data>
+  <data name="SparkDeskAppIdDescription" xml:space="preserve">
+    <value>在讯飞开放平台中注册应用并获取 APPID</value>
+  </data>
+  <data name="AppId" xml:space="preserve">
+    <value>应用 ID</value>
+  </data>
+  <data name="Secret" xml:space="preserve">
+    <value>密文（Secret）</value>
+  </data>
+  <data name="SparkDeskSecretDescription" xml:space="preserve">
+    <value>在讯飞开放平台中注册应用并获取 Secret</value>
+  </data>
+  <data name="NoAIService" xml:space="preserve">
+    <value>没有可用的 AI 服务</value>
+  </data>
+  <data name="NoAIServiceDescription" xml:space="preserve">
+    <value>请在设置页面配置所需的 AI 服务</value>
+  </data>
+  <data name="NoAIModel" xml:space="preserve">
+    <value>没有可用的模型</value>
+  </data>
+  <data name="NoAIModelDescription" xml:space="preserve">
+    <value>请在设置页面添加 AI 模型</value>
+  </data>
+  <data name="UserCancelled" xml:space="preserve">
+    <value>用户已取消</value>
+  </data>
+  <data name="NoSubtitleAvailable" xml:space="preserve">
+    <value>没有找到可用的字幕数据</value>
+  </data>
+  <data name="GettingSubtitleMeta" xml:space="preserve">
+    <value>正在获取字幕元数据...</value>
+  </data>
+  <data name="GettingSubtitleInformation" xml:space="preserve">
+    <value>正在获取字幕文本内容...</value>
+  </data>
+  <data name="Summarizing" xml:space="preserve">
+    <value>正在总结...</value>
+  </data>
+  <data name="AIService" xml:space="preserve">
+    <value>AI服务</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="MorePrompts" xml:space="preserve">
+    <value>询问更多</value>
+  </data>
+  <data name="DiscardAnswer" xml:space="preserve">
+    <value>擦掉答案</value>
+  </data>
+  <data name="Regenerate" xml:space="preserve">
+    <value>重新生成</value>
+  </data>
+  <data name="CopyAnswer" xml:space="preserve">
+    <value>复制答案</value>
+  </data>
+  <data name="GettingHotComments" xml:space="preserve">
+    <value>正在获取热门评论</value>
+  </data>
+  <data name="ArticleContentEmpty" xml:space="preserve">
+    <value>没有获取到有效的文章内容</value>
+  </data>
+  <data name="Generating" xml:space="preserve">
+    <value>生成中...</value>
+  </data>
+  <data name="AskQuestionAboutContext" xml:space="preserve">
+    <value>询问有关上下文的问题</value>
+  </data>
 </root>

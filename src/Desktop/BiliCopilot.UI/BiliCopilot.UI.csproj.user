@@ -18,6 +18,63 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\AI\AIFooter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\AIBody.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\AIOverlayPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\AIHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\QianFanChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\OpenAIChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ModelClientEndpointConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ModelClientConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\PredefinedChatModelSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\HunYuanChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\DouBaoChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\AILogo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\CustomChatModelSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\AzureOpenAIChatConfigSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\TipHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\AI\CustomChatModelDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
       <SubType>Designer</SubType>
     </Page>

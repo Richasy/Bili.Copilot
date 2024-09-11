@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:AIControlBase
+    x:Class="BiliCopilot.UI.Controls.AI.AIOverlayPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.AI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    Visibility="{x:Bind IsPanelOpened, Mode=OneWay}"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <media:AttachedCardShadow
+            x:Key="CardShadow"
+            BlurRadius="12"
+            CornerRadius="8"
+            InnerContentClipMode="CompositionMaskBrush"
+            Opacity="0.08"
+            Offset="0,1,2" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Rectangle Fill="Transparent" Tapped="OnHolderTapped" />
+        <Grid
+            Margin="12"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch">
+            <Border
+                ui:Effects.Shadow="{StaticResource CardShadow}"
+                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource OverlayCornerRadius}" />
+            <Grid Width="400">
+                <Grid Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="56" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <local:AIHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                    <Border
+                        Grid.Row="1"
+                        Height="1"
+                        HorizontalAlignment="Stretch"
+                        Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                    <components:EmptyHolder
+                        Title="{ext:Locale Name=NoAIModel}"
+                        Grid.Row="2"
+                        Description="{ext:Locale Name=NoAIModelDescription}"
+                        Emoji="&#x1F916;"
+                        Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay}" />
+                    <local:AIBody
+                        Grid.Row="2"
+                        ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <local:AIFooter Grid.Row="3" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                </Grid>
+                <components:EmptyHolder
+                    Title="{ext:Locale Name=NoAIService}"
+                    Description="{ext:Locale Name=NoAIServiceDescription}"
+                    Emoji="&#x1F916;"
+                    Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay}" />
+            </Grid>
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="20,0"
+                    To="0,0"
+                    Duration="0:0:0.24" />
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:TranslationAnimation
+                    From="0,0"
+                    To="20,0"
+                    Duration="0:0:0.24" />
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+    </Grid>
+</local:AIControlBase>

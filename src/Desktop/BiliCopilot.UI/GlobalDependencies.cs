@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliAgent.Core;
+using BiliAgent.Interfaces;
+using BiliAgent.Models;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
@@ -52,6 +55,7 @@ internal static class GlobalDependencies
             .AddSubtitleService()
             .AddPlayerService()
             .AddDispatcherQueue()
+            .AddAIServices()
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<AppViewModel>()
             .AddSingleton<EmoteModuleViewModel>()
@@ -80,6 +84,7 @@ internal static class GlobalDependencies
             .AddSingleton<NotificationViewModel>()
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
+            .AddTransient<AIViewModel>()
             .AddTransient<VideoPlayerPageViewModel>()
             .AddTransient<LivePlayerPageViewModel>()
             .AddTransient<PgcPlayerPageViewModel>()
@@ -93,6 +98,14 @@ internal static class GlobalDependencies
     public static IKernelBuilder AddDispatcherQueue(this IKernelBuilder kernelBuilder)
     {
         kernelBuilder.Services.AddSingleton<DispatcherQueue>(_ => DispatcherQueue.GetForCurrentThread());
+        return kernelBuilder;
+    }
+
+    public static IKernelBuilder AddAIServices(this IKernelBuilder kernelBuilder)
+    {
+        var chatProviderFactory = new AgentProviderFactory(new ChatClientConfiguration());
+        kernelBuilder.Services.AddSingleton<IAgentProviderFactory>(chatProviderFactory)
+            .AddSingleton<IAgentClient, AgentClient>();
         return kernelBuilder;
     }
 

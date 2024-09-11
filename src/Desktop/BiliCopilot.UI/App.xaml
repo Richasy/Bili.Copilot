@@ -23,7 +23,9 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/CommentItemControl/CommentItemControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/NotifyMessageCardControl/NotifyMessageCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/ChatModelCardControl/ChatModelCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Core/Player/BiliPlayer.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Markdown/MarkdownTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ShimmerLayout/ShimmerLayout.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
@@ -103,6 +105,58 @@
                 MinItemHeight="292"
                 MinItemWidth="240"
                 MinRowSpacing="16" />
+
+            <SolidColorBrush x:Key="AnthropicColor" Color="#F1F0E8" />
+            <SolidColorBrush x:Key="AzureOpenAIColor" Color="#FFFFFF" />
+            <LinearGradientBrush x:Key="DashScopeColor" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#00055F" />
+                <GradientStop Offset="1" Color="#6F69F7" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="DeepSeekColor" Color="#4D6BFE" />
+            <LinearGradientBrush x:Key="GeminiColor" StartPoint="0,1" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#1C69FF" />
+                <GradientStop Offset="1" Color="#F0DCD6" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="GroqColor" Color="#F55036" />
+            <SolidColorBrush x:Key="HunYuanColor" Color="#0053e0" />
+            <SolidColorBrush x:Key="LingYiColor" Color="#003425" />
+            <LinearGradientBrush x:Key="MistralAIColor" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#F7D046" />
+                <GradientStop Offset="0.25" Color="#F2A73B" />
+                <GradientStop Offset="0.5" Color="#EE792F" />
+                <GradientStop Offset="0.75" Color="#EE792F" />
+                <GradientStop Offset="1" Color="#EA3326" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="MoonshotColor" Color="#16191E" />
+            <SolidColorBrush x:Key="OllamaColor" Color="White" />
+            <SolidColorBrush x:Key="OpenAIColor" Color="Black" />
+            <SolidColorBrush x:Key="OpenRouterColor" Color="#6566F1" />
+            <SolidColorBrush x:Key="PerplexityColor" Color="#22B8CD" />
+            <LinearGradientBrush x:Key="QianFanColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#0A51C3" />
+                <GradientStop Offset="1" Color="#23A4FB" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="SparkDeskColor" Color="#0070f0" />
+            <SolidColorBrush x:Key="TogetherAIColor" Color="#0f6fff" />
+            <SolidColorBrush x:Key="ZhiPuColor" Color="#3859FF" />
+            <SolidColorBrush x:Key="BaiduColor" Color="#2932E1" />
+            <LinearGradientBrush x:Key="AzureColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#3CCBF4" />
+                <GradientStop Offset="1" Color="#2892DF" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AzureSpeechColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#50E6FF" />
+                <GradientStop Offset="1" Color="#773ADC" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="AliColor" Color="#FF6A00" />
+            <SolidColorBrush x:Key="TencentColor" Color="#00A3FF" />
+            <SolidColorBrush x:Key="YoudaoColor" Color="#E10012" />
+            <LinearGradientBrush x:Key="VolcanoColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#00F3CE" />
+                <GradientStop Offset="1" Color="#3F30FF" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="SiliconFlowColor" Color="#7C3AED" />
+            <SolidColorBrush x:Key="DouBaoColor" Color="White" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

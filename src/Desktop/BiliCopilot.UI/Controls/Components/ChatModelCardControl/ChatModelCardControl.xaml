@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+    <Style TargetType="local:ChatModelCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ChatModelCardControl">
+                    <Grid
+                        Padding="16,8,8,12"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        RowSpacing="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                            <Button
+                                Grid.Column="1"
+                                Width="28"
+                                Height="28"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                AutomationProperties.Name="{ext:Locale Name=MoreOptions}"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                ToolTipService.ToolTip="{ext:Locale Name=MoreOptions}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.IsCustomModel}">
+                                <ic:SymbolIcon FontSize="14" Symbol="MoreVertical" />
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem
+                                            MinWidth="160"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ModifyCommand}"
+                                            Text="{ext:Locale Name=Modify}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ic:SymbolIcon Symbol="Edit" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            MinWidth="160"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DeleteCommand}"
+                                            Text="{ext:Locale Name=Delete}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PredefinedChatModelCardControlStyle" TargetType="local:ChatModelCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ChatModelCardControl">
+                    <Grid
+                        Padding="16,8"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

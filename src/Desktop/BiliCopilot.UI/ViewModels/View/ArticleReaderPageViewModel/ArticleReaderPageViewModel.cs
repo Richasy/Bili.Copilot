@@ -23,12 +23,14 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         IArticleDiscoveryService discovery,
         IArticleOperationService operation,
         ILogger<ArticleReaderPageViewModel> logger,
-        CommentMainViewModel comment)
+        CommentMainViewModel comment,
+        AIViewModel ai)
     {
         _discoveryService = discovery;
         _operationService = operation;
         _logger = logger;
         CommentModule = comment;
+        AI = ai;
     }
 
     [RelayCommand]
@@ -43,6 +45,7 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         try
         {
             Content = await _discoveryService.GetArticleContentAsync(article);
+            AI.InjectArticle(Content);
             InitializeUser();
             InitializeStats();
             ArticleInitialized?.Invoke(this, EventArgs.Empty);
@@ -125,6 +128,20 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
     [RelayCommand]
     private void ShowUserSpace()
         => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Content.Author.Profile.User);
+
+    [RelayCommand]
+    private void ToggleAIOverlayVisibility()
+    {
+        IsAIOverlayOpened = !IsAIOverlayOpened;
+        if (IsAIOverlayOpened)
+        {
+            AI.InitializeCommand.Execute(default);
+        }
+        else
+        {
+            AI.ClearCommand.Execute(default);
+        }
+    }
 
     private void InitializeUser()
     {
