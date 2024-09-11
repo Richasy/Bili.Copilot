@@ -156,9 +156,9 @@
                                         Width="300"
                                         IsThumbToolTipEnabled="True"
                                         Maximum="{x:Bind ViewModel.MaxSpeed, Mode=OneWay}"
-                                        Minimum="0.5"
-                                        StepFrequency="0.5"
-                                        TickFrequency="0.5"
+                                        Minimum="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
+                                        StepFrequency="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
+                                        TickFrequency="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
                                         TickPlacement="Outside"
                                         ValueChanged="OnSpeedSliderValueChanged"
                                         Value="{x:Bind ViewModel.Speed, Mode=OneWay}" />
