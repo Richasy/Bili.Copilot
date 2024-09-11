@@ -81,7 +81,7 @@ namespace Danmaku.Core
         /// speed = value * 0.02
         /// </summary>
         /// <param name="value">in [1,10]</param>
-        public void SetRollingSpeed(int value)
+        public void SetRollingSpeed(double value)
         {
             _render.SetRollingSpeed(value);
         }

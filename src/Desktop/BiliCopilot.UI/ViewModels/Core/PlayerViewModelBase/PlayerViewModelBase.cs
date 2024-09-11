@@ -140,6 +140,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         => _stateAction = action;
 
     /// <summary>
+    /// 注入速度改变时的回调.
+    /// </summary>
+    public void SetSpeedAction(Action<double> action)
+        => _speedAction = action;
+
+    /// <summary>
     /// 注入播放结束时的回调.
     /// </summary>
     public void SetEndAction(Action action)

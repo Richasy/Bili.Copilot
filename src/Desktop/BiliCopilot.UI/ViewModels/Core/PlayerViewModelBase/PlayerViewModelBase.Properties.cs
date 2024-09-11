@@ -50,6 +50,7 @@ public abstract partial class PlayerViewModelBase
     protected WebDavConfig? _webDavConfig;
     protected Action<int, int> _progressAction;
     protected Action<PlayerState> _stateAction;
+    protected Action<double> _speedAction;
     protected Action _endAction;
     protected Action _reloadAction;
     protected DisplayRequest _displayRequest;

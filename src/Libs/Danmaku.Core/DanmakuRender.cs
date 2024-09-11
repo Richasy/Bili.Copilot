@@ -123,12 +123,9 @@ namespace Danmaku.Core
             }
         }
 
-        public void SetRollingSpeed(int value)
+        public void SetRollingSpeed(double value)
         {
-            if (value >= 1 && value <= 10)
-            {
-                _rollingSpeed = value * 0.02f * _scale;
-            }
+            _rollingSpeed = (float)(value * 0.02f * _scale);
         }
 
         public void SetOpacity(double value)

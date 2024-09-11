@@ -43,6 +43,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         ViewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
         ViewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
         ViewModel.RequestResetStyle += OnRequestResetStyle;
+        ViewModel.ExtraSpeedChanged += OnExtraSpeedChanged;
         ResetDanmakuStyle();
     }
 
@@ -60,6 +61,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
             ViewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
             ViewModel.RequestResetStyle -= OnRequestResetStyle;
+            ViewModel.ExtraSpeedChanged -= OnExtraSpeedChanged;
         }
 
         _danmakuController?.Close();
@@ -141,6 +143,9 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     private void OnRequestResetStyle(object? sender, EventArgs e)
         => ResetDanmakuStyle();
 
+    private void OnExtraSpeedChanged(object? sender, EventArgs e)
+        => ResetSpeed();
+
     private void OnProgressChanged(object? sender, int e)
     {
         _lastProgress = e;
@@ -174,9 +179,15 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         _danmakuController.SetRollingAreaRatio(Convert.ToInt32(ViewModel.DanmakuArea * 10));
         _danmakuController.SetDanmakuFontSizeOffset(GetFontSize(ViewModel.DanmakuFontSize));
         _danmakuController.SetFontFamilyName(ViewModel.DanmakuFontFamily);
-        _danmakuController.SetRollingSpeed(Convert.ToInt32(ViewModel.DanmakuSpeed * 5));
         _danmakuController.SetIsTextBold(ViewModel.IsDanmakuBold);
         _danmakuController.SetRenderState(renderDanmaku: true, renderSubtitle: false);
+        ResetSpeed();
+    }
+
+    private void ResetSpeed()
+    {
+        var finalSpeed = ViewModel.DanmakuSpeed * 5 * ViewModel.ExtraSpeed;
+        _danmakuController.SetRollingSpeed(finalSpeed);
     }
 
     private void Redraw()

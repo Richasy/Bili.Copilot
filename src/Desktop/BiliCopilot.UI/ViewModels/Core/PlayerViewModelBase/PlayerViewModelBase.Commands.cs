@@ -111,7 +111,7 @@ public abstract partial class PlayerViewModelBase
     [RelayCommand]
     private void SetSpeed(double speed)
     {
-        if (speed > MaxSpeed)
+        if (speed > MaxSpeed || IsLive)
         {
             return;
         }

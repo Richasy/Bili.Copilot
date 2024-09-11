@@ -44,6 +44,9 @@ public sealed partial class DanmakuViewModel
     private double _danmakuSpeed;
 
     [ObservableProperty]
+    private double _extraSpeed = 1;
+
+    [ObservableProperty]
     private bool _isDanmakuLimit;
 
     [ObservableProperty]
@@ -74,6 +77,11 @@ public sealed partial class DanmakuViewModel
     /// 当弹幕列表添加时触发的事件.
     /// </summary>
     public event EventHandler<IReadOnlyList<DanmakuInformation>> ListAdded;
+
+    /// <summary>
+    /// 速度加成改变时触发的事件.
+    /// </summary>
+    public event EventHandler ExtraSpeedChanged;
 
     /// <summary>
     /// 当请求清除弹幕时触发的事件.
