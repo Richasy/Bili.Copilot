@@ -84,13 +84,11 @@ public sealed partial class BiliPlayer
 
         TransportControls.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
         ViewModel.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
-        _transportControlsStayTime = 0;
     }
 
     private void OnCursorTimerTick(object? sender, object e)
     {
         _cursorStayTime += 0.5;
-        _transportControlsStayTime += 0.5;
 
         if (_cursorStayTime >= 2
             && TransportControls is not null
@@ -105,14 +103,6 @@ public sealed partial class BiliPlayer
             }
 
             _cursorStayTime = 0;
-        }
-
-        if (_transportControlsStayTime >= 5
-            && _isTouch
-            && TransportControls is not null
-            && TransportControls.Visibility == Visibility.Visible)
-        {
-            SetTransportVisibility(false);
         }
     }
 

@@ -26,7 +26,6 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 
     private double _lastSpeed;
     private double _cursorStayTime;
-    private double _transportControlsStayTime;
     private bool _isCursorDisposed;
     private bool _isTouch;
 
@@ -157,7 +156,6 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
         CheckPointerType(e.Pointer);
-        _transportControlsStayTime = 0;
     }
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
@@ -217,6 +215,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         if (e.HoldingState == HoldingState.Started)
         {
+            _interactionControl.ContextFlyout?.Hide();
             _lastSpeed = ViewModel.Speed;
             ViewModel.SetSpeedCommand.Execute(3d);
         }
@@ -225,6 +224,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             _lastSpeed = _lastSpeed == 0 ? 1.0 : _lastSpeed;
             ViewModel.SetSpeedCommand.Execute(_lastSpeed);
             _lastSpeed = 0;
+            _interactionControl.ContextFlyout?.ShowAt(_interactionControl, new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Position = e.GetPosition(_interactionControl) });
         }
     }
 
