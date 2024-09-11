@@ -6,6 +6,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.BiliKernel.Models.Subtitle;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -19,8 +20,10 @@ public sealed partial class AIViewModel
 
     private VideoPlayerView? _videoView;
     private VideoPart? _videoPart;
+    private IReadOnlyCollection<SubtitleInformation>? _subtitles;
 
     private AIQuickItemViewModel? _currentPrompt;
+    private string? _lastQuestion;
 
     private CancellationTokenSource? _generateCancellationTokenSource;
 

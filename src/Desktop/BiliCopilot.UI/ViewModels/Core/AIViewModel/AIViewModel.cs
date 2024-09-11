@@ -40,6 +40,7 @@ public sealed partial class AIViewModel : ViewModelBase
         SourceCover = _videoView.Information.Identifier.Cover.Uri;
         SourceTitle = _videoView.Information.Identifier.Title;
         SourceSubtitle = string.IsNullOrEmpty(desc) ? _videoPart.Identifier.Title : desc;
+        _subtitles = default;
         InitializeVideoPrompts();
     }
 
@@ -141,7 +142,6 @@ public sealed partial class AIViewModel : ViewModelBase
         }
 
         SelectedModel = model;
-        SettingsToolkit.WriteLocalSetting($"LastSelected{SelectedService.ProviderType}Model", model.Id);
     }
 
     [RelayCommand]
@@ -156,7 +156,16 @@ public sealed partial class AIViewModel : ViewModelBase
 
     [RelayCommand]
     private void Regenerate()
-        => _currentPrompt?.ExecuteCommand.Execute(default);
+    {
+        if (_currentPrompt is not null)
+        {
+            _currentPrompt?.ExecuteCommand.Execute(default);
+        }
+        else if (!string.IsNullOrEmpty(_lastQuestion))
+        {
+            SendQuestionCommand.Execute(_lastQuestion);
+        }
+    }
 
     [RelayCommand]
     private void Cancel()
@@ -176,7 +185,7 @@ public sealed partial class AIViewModel : ViewModelBase
     [RelayCommand]
     private void CopyAnswer()
     {
-        if(string.IsNullOrEmpty(FinalResult))
+        if (string.IsNullOrEmpty(FinalResult))
         {
             return;
         }
@@ -187,11 +196,23 @@ public sealed partial class AIViewModel : ViewModelBase
         this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
     }
 
+    [RelayCommand]
+    private async Task SendQuestionAsync(string question)
+    {
+        if (_videoView is not null)
+        {
+            await AskVideoQuestionAsync(question);
+        }
+
+        _lastQuestion = question;
+    }
+
     private void Erase()
     {
         FinalResult = string.Empty;
         ErrorMessage = string.Empty;
         TempResult = string.Empty;
+        _lastQuestion = string.Empty;
     }
 
     private void CheckQuickItemsShown()
@@ -205,4 +226,12 @@ public sealed partial class AIViewModel : ViewModelBase
 
     partial void OnFinalResultChanged(string value)
         => CheckQuickItemsShown();
+
+    partial void OnSelectedModelChanged(ChatModelItemViewModel value)
+    {
+        if (value is not null && SelectedService is not null)
+        {
+            SettingsToolkit.WriteLocalSetting($"LastSelected{SelectedService.ProviderType}Model", value.Id);
+        }
+    }
 }

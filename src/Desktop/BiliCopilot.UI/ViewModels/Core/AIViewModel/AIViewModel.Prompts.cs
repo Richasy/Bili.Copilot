@@ -18,7 +18,7 @@ public sealed partial class AIViewModel
 
         ## 要点
         {使用列表语法，每个要点配上一个合适的 emoji（仅限1个），说明具体的时间范围，要点内容不超过两句话，可以有多项}
-        {格式：[emoji] [开始时间 - 结束时间] : [要点内容]}
+        {格式：emoji 开始时间 - 结束时间 : 要点内容}
 
 
         以下是要求：
@@ -83,6 +83,30 @@ public sealed partial class AIViewModel
         现在开始评价。
         """;
 
+    private const string VideoQuestionPrompt = """
+        请依据视频内容回答我的问题，如果内容无效，你需要提醒我无法回答问题，让我自行观看视频。
+
+        以下是要求：
+        不可随意翻译内容，返回内容为中文，不可包含任何广告、推广、侮辱、诽谤等内容。
+        请务必保证内容的准确性，否则将会影响你的积分和信誉。
+
+        以下是视频内容：
+
+        ------------------------------
+        视频标题：{title}
+        ---
+        视频简介：
+        {description}
+        ---
+        视频字幕：
+        {subtitle}
+        ------------------------------
+
+        再次声明，如果内容无效，你需要提醒我无法回答问题，让我自行观看视频。
+        我的问题是：
+        {question}
+        """;
+
     private void InitializeVideoPrompts()
     {
         var videoSummaryItem = new AIQuickItemViewModel(
@@ -102,10 +126,26 @@ public sealed partial class AIViewModel
         QuickItems = [videoSummaryItem, videoEvaluationItem];
     }
 
-    private void InitOtherPrompts(AIQuickItemViewModel currentPrompt)
+    private void InitOtherPrompts(AIQuickItemViewModel? currentPrompt)
     {
         _currentPrompt = currentPrompt;
         var morePrompts = QuickItems.Where(p => p != currentPrompt).ToList();
+        morePrompts.Insert(0, GetCustomQuestionQuickItem());
         MorePrompts = morePrompts;
+    }
+
+    private AIQuickItemViewModel GetCustomQuestionQuickItem()
+    {
+        return new AIQuickItemViewModel(
+            FluentIcons.Common.Symbol.Question,
+            "举手提问",
+            default,
+            default,
+            default,
+            _ =>
+            {
+                Discard();
+                return Task.CompletedTask;
+            });
     }
 }

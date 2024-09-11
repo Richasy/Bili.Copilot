@@ -94,7 +94,7 @@ public sealed partial class AIViewModel
             }
 
             // 生成总结.
-            ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.Summarizing);
+            ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.Generating);
             var prompt = promptTemplate
                 .Replace("{title}", _videoView.Information.Identifier.Title)
                 .Replace("{description}", _videoView.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description))
@@ -118,29 +118,79 @@ public sealed partial class AIViewModel
         }
     }
 
+    private async Task AskVideoQuestionAsync(string question)
+    {
+        if (string.IsNullOrEmpty(question))
+        {
+            return;
+        }
+
+        try
+        {
+            Erase();
+            InitOtherPrompts(default);
+            RequestText = question;
+            var promptTemplate = VideoQuestionPrompt;
+            IsGenerating = true;
+            _generateCancellationTokenSource = new CancellationTokenSource();
+            var subtitleText = await GetVideoSubtitleAsync();
+            if (string.IsNullOrEmpty(subtitleText))
+            {
+                return;
+            }
+
+            // 生成总结.
+            ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.Generating);
+            var prompt = promptTemplate
+                .Replace("{title}", _videoView.Information.Identifier.Title)
+                .Replace("{description}", _videoView.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description))
+                .Replace("{subtitle}", subtitleText)
+                .Replace("{question}", question);
+            await SendMessageAsync(prompt);
+            ProgressTip = default;
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "回答问题失败");
+            ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            IsGenerating = false;
+            ProgressTip = default;
+        }
+    }
+
     private async Task<string?> GetVideoSubtitleAsync()
     {
-        var service = this.Get<ISubtitleService>();
-
-        // 1. 先获取字幕元数据.
-        ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.GettingSubtitleMeta);
-        var metas = await service.GetSubtitleMetasAsync(_videoView.Information.Identifier.Id, _videoPart.Identifier.Id, _generateCancellationTokenSource.Token);
-        if (metas is null || metas.Count == 0)
+        if (_subtitles is null)
         {
-            ErrorMessage = ResourceToolkit.GetLocalizedString(StringNames.NoSubtitleAvailable);
-            return default;
+            var service = this.Get<ISubtitleService>();
+
+            // 1. 先获取字幕元数据.
+            ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.GettingSubtitleMeta);
+            var metas = await service.GetSubtitleMetasAsync(_videoView.Information.Identifier.Id, _videoPart.Identifier.Id, _generateCancellationTokenSource.Token);
+            if (metas is null || metas.Count == 0)
+            {
+                ErrorMessage = ResourceToolkit.GetLocalizedString(StringNames.NoSubtitleAvailable);
+                return default;
+            }
+
+            // 2. 选择字幕元数据.
+            ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.GettingSubtitleInformation);
+            var meta = metas?.FirstOrDefault(p => !p.IsAI) ?? metas.First();
+            if (_generateCancellationTokenSource?.IsCancellationRequested != false)
+            {
+                return default;
+            }
+
+            _subtitles = await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token);
         }
 
-        // 2. 选择字幕元数据.
-        ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.GettingSubtitleInformation);
-        var meta = metas?.FirstOrDefault(p => !p.IsAI) ?? metas.First();
-        if (_generateCancellationTokenSource?.IsCancellationRequested != false)
-        {
-            return default;
-        }
-
-        var subtitles = await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token);
-        return string.Join(Environment.NewLine, subtitles.Select(p => $"{AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.StartPosition))} - {AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.EndPosition))}: {p.Content}"));
+        return string.Join(Environment.NewLine, _subtitles.Select(p => $"{AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.StartPosition))} - {AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.EndPosition))}: {p.Content}"));
     }
 
     private async Task SendMessageAsync(string prompt)

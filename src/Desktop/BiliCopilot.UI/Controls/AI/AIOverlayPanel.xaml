@@ -60,10 +60,7 @@
                         Grid.Row="2"
                         ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                    <local:AIFooter
-                        Grid.Row="3"
-                        ViewModel="{x:Bind ViewModel, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <local:AIFooter Grid.Row="3" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
                 </Grid>
                 <components:EmptyHolder
                     Title="{ext:Locale Name=NoAIService}"

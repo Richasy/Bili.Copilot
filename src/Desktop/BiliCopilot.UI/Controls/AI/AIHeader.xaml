@@ -14,11 +14,13 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="ServiceItemTemplate" x:DataType="items:AIServiceItemViewModel">
-            <components:CardControl
+            <Button
+                Padding="12,8"
                 HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
                 Click="OnServiceItemClick"
                 DataContext="{x:Bind}">
-                <Grid Padding="12,8" ColumnSpacing="12">
+                <Grid ColumnSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -38,7 +40,7 @@
                         Text="{x:Bind Name}"
                         TextTrimming="CharacterEllipsis" />
                 </Grid>
-            </components:CardControl>
+            </Button>
         </DataTemplate>
     </UserControl.Resources>
 

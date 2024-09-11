@@ -13,98 +13,118 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="16,4,16,8" ColumnSpacing="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid>
+    <Grid Padding="16,4,16,8">
+        <TextBox
+            x:Name="InputBox"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            InputScope="Chat"
+            IsSpellCheckEnabled="False"
+            PlaceholderText="{ext:Locale Name=AskQuestionAboutContext}"
+            PreviewKeyDown="OnInputBoxPreviewKeyDown"
+            TextWrapping="Wrap"
+            Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay}" />
+        <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Button
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                    BorderThickness="1"
+                    Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}"
+                    Content="{ext:Locale Name=Cancel}"
+                    Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay}" />
+                <HyperlinkButton
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Click="OnMorePromptButtonClick"
+                    Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ic:SymbolIcon
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            IconVariant="Filled"
+                            Symbol="Sparkle" />
+                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=MorePrompts}" />
+                    </StackPanel>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout x:Name="MorePromptFlyout" Placement="Top">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="8" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <ItemsRepeater MinWidth="300" ItemsSource="{x:Bind ViewModel.MorePrompts, Mode=OneWay}">
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate x:DataType="items:AIQuickItemViewModel">
+                                        <Button
+                                            Padding="12,8"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left"
+                                            Click="OnQuickItemClick"
+                                            Command="{x:Bind ExecuteCommand}">
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <ic:SymbolIcon
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    Symbol="{x:Bind Symbol}" />
+                                                <base:TrimTextBlock
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    MaxLines="1"
+                                                    Text="{x:Bind Title}" />
+                                            </Grid>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="6" />
+                                </ItemsRepeater.Layout>
+                            </ItemsRepeater>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </HyperlinkButton>
+            </Grid>
             <Button
-                HorizontalAlignment="Stretch"
+                Grid.Column="1"
                 VerticalAlignment="Center"
-                BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                BorderThickness="1"
-                Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}"
-                Content="{ext:Locale Name=Cancel}"
-                Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay}" />
-            <HyperlinkButton
-                HorizontalAlignment="Left"
+                Command="{x:Bind ViewModel.CopyAnswerCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=CopyAnswer}">
+                <ic:SymbolIcon
+                    FontSize="14"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Symbol="Copy" />
+            </Button>
+            <Button
+                Grid.Column="2"
                 VerticalAlignment="Center"
-                Click="OnMorePromptButtonClick"
-                Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <ic:SymbolIcon
-                        VerticalAlignment="Center"
-                        FontSize="14"
-                        IconVariant="Filled"
-                        Symbol="Sparkle" />
-                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=MorePrompts}" />
-                </StackPanel>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout Placement="Top">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="8" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <ItemsRepeater MinWidth="300" ItemsSource="{x:Bind ViewModel.MorePrompts, Mode=OneWay}">
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="items:AIQuickItemViewModel">
-                                    <components:CardControl Command="{x:Bind ExecuteCommand}">
-                                        <Grid Padding="12,8" ColumnSpacing="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="14"
-                                                Symbol="{x:Bind Symbol}" />
-                                            <base:TrimTextBlock
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                MaxLines="1"
-                                                Text="{x:Bind Title}" />
-                                        </Grid>
-                                    </components:CardControl>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
-                        </ItemsRepeater>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
-            </HyperlinkButton>
+                Command="{x:Bind ViewModel.DiscardCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=DiscardAnswer}">
+                <ic:SymbolIcon FontSize="14" Symbol="Eraser" />
+            </Button>
+            <Button
+                Grid.Column="3"
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.RegenerateCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=Regenerate}">
+                <ic:SymbolIcon FontSize="14" Symbol="ArrowSync" />
+            </Button>
         </Grid>
-        <Button
-            Grid.Column="1"
-            VerticalAlignment="Center"
-            Command="{x:Bind ViewModel.CopyAnswerCommand, Mode=OneWay}"
-            IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-            Style="{StaticResource IconButtonStyle}"
-            ToolTipService.ToolTip="{ext:Locale Name=CopyAnswer}">
-            <ic:SymbolIcon
-                FontSize="14"
-                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                Symbol="Copy" />
-        </Button>
-        <Button
-            Grid.Column="2"
-            VerticalAlignment="Center"
-            Command="{x:Bind ViewModel.DiscardCommand, Mode=OneWay}"
-            IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-            Style="{StaticResource IconButtonStyle}"
-            ToolTipService.ToolTip="{ext:Locale Name=DiscardAnswer}">
-            <ic:SymbolIcon FontSize="14" Symbol="Eraser" />
-        </Button>
-        <Button
-            Grid.Column="3"
-            VerticalAlignment="Center"
-            Command="{x:Bind ViewModel.RegenerateCommand, Mode=OneWay}"
-            IsEnabled="{x:Bind ViewModel.IsGenerating, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-            Style="{StaticResource IconButtonStyle}"
-            ToolTipService.ToolTip="{ext:Locale Name=Regenerate}">
-            <ic:SymbolIcon FontSize="14" Symbol="ArrowSync" />
-        </Button>
     </Grid>
 </local:AIControlBase>
