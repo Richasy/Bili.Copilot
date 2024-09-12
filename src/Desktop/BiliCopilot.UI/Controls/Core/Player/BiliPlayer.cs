@@ -130,7 +130,10 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         CheckPointerType(e.Pointer);
         RestoreCursor();
-        CheckTransportControlVisibility(e);
+        if (!_isTouch)
+        {
+            CheckTransportControlVisibility(e);
+        }
     }
 
     /// <inheritdoc/>
@@ -138,7 +141,10 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         CheckPointerType(e.Pointer);
         RestoreCursor();
-        CheckTransportControlVisibility(e);
+        if (!_isTouch)
+        {
+            CheckTransportControlVisibility(e);
+        }
     }
 
     /// <inheritdoc/>
@@ -146,7 +152,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         CheckPointerType(e.Pointer);
         RestoreCursor();
-        if (TransportControls is not null)
+        if (TransportControls is not null && !_isTouch)
         {
             TransportControls.Visibility = Visibility.Collapsed;
         }
