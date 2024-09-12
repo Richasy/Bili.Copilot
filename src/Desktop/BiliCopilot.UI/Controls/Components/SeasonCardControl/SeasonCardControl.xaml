@@ -137,6 +137,11 @@
                                         <ic:SymbolIcon Symbol="Heart" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </local:CardControl.ContextFlyout>
                     </local:CardControl>
@@ -228,6 +233,11 @@
                                         <ic:SymbolIcon Symbol="Folder" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.UnfollowCommand}" Text="{ext:Locale Name=Unfollow}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="HeartBroken" />
@@ -286,6 +296,11 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FollowCommand}" Text="{ext:Locale Name=Follow}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Heart" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
