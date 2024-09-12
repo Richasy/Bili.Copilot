@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.ComponentModel;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Input;
@@ -26,6 +27,15 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     private double _lastSpeed;
     private double _cursorStayTime;
     private bool _isCursorDisposed;
+    private bool _isTouch;
+
+    private double _manipulationDeltaX = 0d;
+    private double _manipulationDeltaY = 0d;
+    private double _manipulationProgress = 0d;
+    private double _manipulationVolume = 0d;
+    private double _manipulationUnitLength = 0d;
+    private bool _manipulationBeforeIsPlay = false;
+    private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -46,6 +56,10 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         _interactionControl.Tapped += OnCoreTapped;
         _interactionControl.DoubleTapped += OnCoreDoubleTapped;
         _interactionControl.Holding += OnCoreHolding;
+        _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+        _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
+        _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
+        _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
 
         if (ViewModel is null)
         {
@@ -96,6 +110,9 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             _interactionControl.Tapped -= OnCoreTapped;
             _interactionControl.DoubleTapped -= OnCoreDoubleTapped;
             _interactionControl.Holding -= OnCoreHolding;
+            _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
+            _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
+            _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
             _interactionControl = default;
         }
     }
@@ -111,25 +128,40 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
     {
+        CheckPointerType(e.Pointer);
         RestoreCursor();
-        CheckTransportControlVisibility(e);
+        if (!_isTouch)
+        {
+            CheckTransportControlVisibility(e);
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
     {
+        CheckPointerType(e.Pointer);
         RestoreCursor();
-        CheckTransportControlVisibility(e);
+        if (!_isTouch)
+        {
+            CheckTransportControlVisibility(e);
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnPointerExited(PointerRoutedEventArgs e)
     {
+        CheckPointerType(e.Pointer);
         RestoreCursor();
-        if (TransportControls is not null)
+        if (TransportControls is not null && !_isTouch)
         {
             TransportControls.Visibility = Visibility.Collapsed;
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPointerPressed(PointerRoutedEventArgs e)
+    {
+        CheckPointerType(e.Pointer);
     }
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
@@ -151,19 +183,37 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     }
 
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
-        => ViewModel?.TogglePlayPauseCommand.Execute(default);
+    {
+        _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
+        if (_isTouch)
+        {
+            SetTransportVisibility(TransportControls.Visibility == Visibility.Collapsed);
+        }
+        else
+        {
+            ViewModel?.TogglePlayPauseCommand.Execute(default);
+        }
+    }
 
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
+        _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (ViewModel is null)
         {
             return;
         }
 
-        ViewModel.ToggleFullScreenCommand.Execute(default);
-        if (ViewModel.IsPaused)
+        if (_isTouch)
         {
             ViewModel.TogglePlayPauseCommand.Execute(default);
+        }
+        else
+        {
+            ViewModel.ToggleFullScreenCommand.Execute(default);
+            if (ViewModel.IsPaused)
+            {
+                ViewModel.TogglePlayPauseCommand.Execute(default);
+            }
         }
     }
 
