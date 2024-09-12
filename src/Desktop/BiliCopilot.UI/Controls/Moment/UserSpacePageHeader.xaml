@@ -3,11 +3,13 @@
     x:Class="BiliCopilot.UI.Controls.Moment.UserSpacePageHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Moment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:CommunityToolkit.Labs.WinUI"
     mc:Ignorable="d">
 
     <Grid Padding="16,0">
@@ -21,10 +23,144 @@
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="12">
-            <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">
-                <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
-                <Run Text="{ext:Locale Name=UserSpaceTitle}" />
-            </TextBlock>
+            <Button
+                Margin="-12,0,0,0"
+                Padding="16,12"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{x:Bind ViewModel.InitializeUserInformationCommand, Mode=OneWay}">
+                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}">
+                    <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                    <Run Text="{ext:Locale Name=UserSpaceTitle}" />
+                </TextBlock>
+                <Button.Flyout>
+                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                        <Grid Width="320">
+                            <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <PersonPicture
+                                            Width="48"
+                                            Height="48"
+                                            VerticalAlignment="Top"
+                                            ProfilePicture="{x:Bind ViewModel.Card.Profile.User.Avatar.SourceUri, Converter={StaticResource BitmapConverter}, Mode=OneWay}" />
+                                        <Image
+                                            Width="16"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Source="ms-appx:///Assets/vip.png"
+                                            Visibility="{x:Bind ViewModel.Card.Profile.IsVip, Mode=OneWay}" />
+                                    </Grid>
+
+                                    <Grid Grid.Column="1" ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel HorizontalAlignment="Center" Spacing="4">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                Text="{x:Bind ViewModel.Card.Community.FansCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Text="{ext:Locale Name=FansCount}" />
+                                        </StackPanel>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Center"
+                                            Spacing="4">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                Text="{x:Bind ViewModel.Card.Community.FollowCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Text="{ext:Locale Name=FollowCount}" />
+                                        </StackPanel>
+                                        <StackPanel
+                                            Grid.Column="2"
+                                            HorizontalAlignment="Center"
+                                            Spacing="4">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                Text="{x:Bind ViewModel.Card.Community.LikeCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Text="{ext:Locale Name=LikeCount}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <StackPanel Spacing="8">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                                            Text="{x:Bind ViewModel.Card.Profile.User.Name, Mode=OneWay}" />
+                                        <Image
+                                            Height="12"
+                                            VerticalAlignment="Center"
+                                            Source="{x:Bind ViewModel.Card.Profile.Level, Mode=OneWay, Converter={StaticResource LevelImageConverter}}" />
+                                        <Border
+                                            Padding="4,2"
+                                            VerticalAlignment="Center"
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            CornerRadius="{StaticResource ControlCornerRadius}">
+                                            <TextBlock
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                IsTextSelectionEnabled="True"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{x:Bind ViewModel.Card.Profile.User.Id, Mode=OneWay}" />
+                                        </Border>
+                                    </StackPanel>
+                                    <base:TrimTextBlock
+                                        HorizontalAlignment="Left"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        MaxLines="2"
+                                        Text="{x:Bind ViewModel.Card.Profile.Introduce, Mode=OneWay}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToVisibilityReverseConverter}}">
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <winui:Shimmer
+                                        Height="48"
+                                        HorizontalAlignment="Stretch"
+                                        CornerRadius="24"
+                                        IsActive="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+                                    <winui:Shimmer
+                                        Grid.Column="1"
+                                        Height="48"
+                                        HorizontalAlignment="Stretch"
+                                        CornerRadius="{StaticResource ControlCornerRadius}"
+                                        IsActive="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+                                </Grid>
+
+                                <winui:Shimmer
+                                    Height="48"
+                                    HorizontalAlignment="Stretch"
+                                    CornerRadius="{StaticResource ControlCornerRadius}"
+                                    IsActive="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}" />
+                            </StackPanel>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
             <ToggleButton
                 Width="32"
                 Height="32"

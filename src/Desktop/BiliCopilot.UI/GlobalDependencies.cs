@@ -37,6 +37,7 @@ internal static class GlobalDependencies
             .AddWinUIQRCodeResolver(RenderQRCodeAsync)
             .AddTVAuthentication()
             .AddMyProfileService()
+            .AddUserService()
             .AddRelationshipService()
             .AddViewLaterService()
             .AddViewHistoryService()

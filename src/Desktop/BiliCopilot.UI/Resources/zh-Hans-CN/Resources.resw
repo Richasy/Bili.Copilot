@@ -2648,4 +2648,7 @@
   <data name="PlayCurrentList" xml:space="preserve">
     <value>播放当前列表</value>
   </data>
+  <data name="FailedToGetUserInformation" xml:space="preserve">
+    <value>获取用户信息时失败</value>
+  </data>
 </root>
