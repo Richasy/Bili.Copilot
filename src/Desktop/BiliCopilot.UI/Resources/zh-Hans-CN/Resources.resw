@@ -2645,4 +2645,7 @@
   <data name="AlreadyPinned" xml:space="preserve">
     <value>该条目已经固定过，请在固定列表中查看</value>
   </data>
+  <data name="PlayCurrentList" xml:space="preserve">
+    <value>播放当前列表</value>
+  </data>
 </root>

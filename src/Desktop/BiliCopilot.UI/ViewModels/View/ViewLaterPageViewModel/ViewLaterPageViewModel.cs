@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
+using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -101,6 +104,20 @@ public sealed partial class ViewLaterPageViewModel : ViewModelBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "清除稍后再看时出错");
+        }
+    }
+
+    [RelayCommand]
+    private void PlayAll()
+    {
+        if (Videos.Count == 1)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Videos.First().Data));
+        }
+        else
+        {
+            var data = (Videos.Select(p => p.Data).ToList(), new VideoSnapshot(Videos.First().Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, data);
         }
     }
 

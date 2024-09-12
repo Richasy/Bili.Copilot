@@ -51,6 +51,7 @@
             <Button
                 VerticalAlignment="Center"
                 AutomationProperties.Name="{ext:Locale Name=PlayAll}"
+                Command="{x:Bind ViewModel.PlayAllCommand}"
                 IsEnabled="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <ic:SymbolIcon
