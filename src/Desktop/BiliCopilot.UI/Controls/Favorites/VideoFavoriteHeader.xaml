@@ -28,20 +28,38 @@
                 Value="{x:Bind ViewModel.TotalCount, Mode=OneWay}" />
         </StackPanel>
 
-        <Button
+        <StackPanel
             Grid.Column="2"
             VerticalAlignment="Center"
-            AutomationProperties.Name="{ext:Locale Name=Refresh}"
-            Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
-            IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <ic:SymbolIcon
-                    VerticalAlignment="Center"
-                    FontSize="12"
-                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                    Symbol="ArrowSync" />
-                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
-            </StackPanel>
-        </Button>
+            Orientation="Horizontal"
+            Spacing="8">
+            <Button
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{ext:Locale Name=PlayCurrentList}"
+                Command="{x:Bind ViewModel.PlayCurrentListCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="NavigationPlay" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=PlayCurrentList}" />
+                </StackPanel>
+            </Button>
+            <Button
+                AutomationProperties.Name="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="ArrowSync" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </local:VideoFavoriteControlBase>
