@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -78,4 +79,11 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
     [RelayCommand]
     private void ShowUserSpace()
         => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(Data.Identifier.Id, Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Live);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
 }

@@ -300,6 +300,13 @@ public sealed partial class PgcPlayerPageViewModel
         InitializeNextEpisode();
     }
 
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem($"ss_{_view.Information.Identifier.Id}", _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
+
     private void PlayerProgressChanged(int progress, int duration)
     {
         Danmaku?.UpdatePosition(progress);

@@ -256,8 +256,15 @@ public sealed partial class VideoPlayerPageViewModel
         }
     }
 
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Video);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
+
     private string GetWebLink()
-        => $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
+    => $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
 
     private void ChangePart(VideoPart part)
     {

@@ -226,6 +226,7 @@
     <None Remove="Controls\Pgc\CinemaSideHeader.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexSideControl.xaml" />
+    <None Remove="Controls\Pinner.xaml" />
     <None Remove="Controls\Player\CoinButton.xaml" />
     <None Remove="Controls\Player\DownloadButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
@@ -1344,6 +1345,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Pinner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\AIFooter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

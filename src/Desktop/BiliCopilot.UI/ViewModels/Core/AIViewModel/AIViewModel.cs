@@ -56,7 +56,7 @@ public sealed partial class AIViewModel : ViewModelBase
     {
         Cancel();
         _articleDetail = article;
-        SourceCover = article.Identifier.Cover.Uri;
+        SourceCover = article.Identifier.Cover?.Uri;
         SourceTitle = article.Identifier.Title;
         SourceSubtitle = article.Identifier.Summary;
         InitializeArticlePrompts();

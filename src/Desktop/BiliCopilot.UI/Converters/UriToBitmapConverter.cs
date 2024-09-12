@@ -11,7 +11,13 @@ namespace BiliCopilot.UI.Converters;
 internal sealed class UriToBitmapConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
-        => value is null ? default : (object)new BitmapImage((Uri)value);
+    {
+        return value is string url
+            ? new BitmapImage(new Uri(url))
+            : value is null
+                ? default
+                : new BitmapImage((Uri)value);
+    }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
 }

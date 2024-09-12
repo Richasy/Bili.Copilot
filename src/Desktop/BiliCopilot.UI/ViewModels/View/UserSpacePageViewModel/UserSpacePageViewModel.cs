@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
@@ -118,6 +119,13 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
                 this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToFollowUser), InfoType.Error));
             }
         }
+    }
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(_profile.Id, _profile.Name, _profile.Avatar.Uri.ToString(), PinContentType.User);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
 
     private async Task InitializeRelationAsync()

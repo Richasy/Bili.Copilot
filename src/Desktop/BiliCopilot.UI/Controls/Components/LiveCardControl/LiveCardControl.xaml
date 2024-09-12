@@ -94,6 +94,11 @@
                                         <ic:SymbolIcon Symbol="Globe" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </local:CardControl.ContextFlyout>
                     </local:CardControl>
@@ -190,6 +195,11 @@
                                         <ic:SymbolIcon Symbol="Globe" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </local:CardControl.ContextFlyout>
                     </local:CardControl>
@@ -241,6 +251,11 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
@@ -355,6 +370,11 @@
                                         <ic:SymbolIcon Symbol="Globe" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </local:CardControl.ContextFlyout>
                     </local:CardControl>
@@ -466,6 +486,11 @@
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
                                     <MenuFlyoutItem.Icon>
                                         <ic:SymbolIcon Symbol="Globe" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RemoveHistoryCommand}" Text="{ext:Locale Name=Delete}">

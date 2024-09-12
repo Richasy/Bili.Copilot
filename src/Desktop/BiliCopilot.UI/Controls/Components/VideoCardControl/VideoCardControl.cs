@@ -119,6 +119,16 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
         };
     }
 
+    private static MenuFlyoutItem CreatePinItem()
+    {
+        return new MenuFlyoutItem()
+        {
+            Text = ResourceToolkit.GetLocalizedString(StringNames.FixContent),
+            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Pin },
+            Tag = "Pin",
+        };
+    }
+
     private void OnContextRequested(UIElement sender, ContextRequestedEventArgs args)
     {
         if (ContextFlyout is null)
@@ -147,6 +157,7 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
 
         menuFlyout.Items.Add(CreateOpenInBroswerItem());
         menuFlyout.Items.Add(CreateCopyUriItem());
+        menuFlyout.Items.Add(CreatePinItem());
         if (ViewModel.Style == VideoCardStyle.ViewLater)
         {
             menuFlyout.Items.Add(CreateRemoveViewLaterItem());
@@ -200,6 +211,9 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
                     break;
                 case "OpenInNewWindow":
                     item.Command = ViewModel.OpenInNewWindowCommand;
+                    break;
+                case "Pin":
+                    item.Command = ViewModel.PinCommand;
                     break;
                 default:
                     break;

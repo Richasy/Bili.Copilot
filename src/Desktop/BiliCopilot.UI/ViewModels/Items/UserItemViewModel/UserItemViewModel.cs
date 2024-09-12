@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -35,6 +36,13 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
     [RelayCommand]
     private void ShowUserSpace()
         => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Profile.User);
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(Data.Profile.User.Id, Data.Profile.User.Name, Data.Profile.User.Avatar.Uri.ToString(), PinContentType.User);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
 
     [RelayCommand]
     private async Task ToggleFollowAsync()

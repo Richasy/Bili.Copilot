@@ -54,7 +54,6 @@
                 <Grid
                     Padding="12,8"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    ColumnSpacing="12"
                     CornerRadius="{StaticResource ControlCornerRadius}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -63,9 +62,11 @@
                     <components:VideoCoverImage
                         Width="100"
                         Height="76"
+                        Margin="0,0,12,0"
                         VerticalAlignment="Center"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        Source="{x:Bind ViewModel.SourceCover, Mode=OneWay}" />
+                        Source="{x:Bind ViewModel.SourceCover, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"

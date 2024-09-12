@@ -92,6 +92,18 @@
                                 </Grid>
                             </Grid>
                         </Grid>
+                        <local:CardControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    MinWidth="140"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}"
+                                    Text="{ext:Locale Name=FixContent}">
+                                    <MenuFlyoutItem.Icon>
+                                        <ic:SymbolIcon Symbol="Pin" />
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>

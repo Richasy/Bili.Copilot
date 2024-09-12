@@ -156,6 +156,13 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
     }
 
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(Data.Identifier.Id, Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Video);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
+
     private Uri GetWebUri()
     {
         var shortLink = Data.GetExtensionIfNotNull<string>(VideoExtensionDataId.ShortLink);
