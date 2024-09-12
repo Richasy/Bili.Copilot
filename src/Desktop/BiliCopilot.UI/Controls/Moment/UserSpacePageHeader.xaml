@@ -45,15 +45,25 @@
 
         <SelectorBar
             x:Name="Selector"
-            Grid.Column="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center" />
-        <Grid
+        <StackPanel
             x:Name="RightContainer"
             Grid.Column="2"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8">
             <Button
-                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.PinCommand, Mode=OneWay}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=FixedContent}">
+                <ic:SymbolIcon FontSize="14" Symbol="Pin" />
+            </Button>
+            <Button
+                VerticalAlignment="Center"
                 AutomationProperties.Name="{ext:Locale Name=Refresh}"
                 Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -65,6 +75,6 @@
                     <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
                 </StackPanel>
             </Button>
-        </Grid>
+        </StackPanel>
     </Grid>
 </local:UserSpacePageControlBase>

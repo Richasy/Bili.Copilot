@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -99,6 +100,13 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
     [RelayCommand]
     private Task MarkWatchedAsync()
         => MarkFavoriteStatusAsync(PgcFavoriteStatus.Watched);
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem($"ss_{Data.Identifier.Id}", Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
 
     private async Task MarkFavoriteStatusAsync(PgcFavoriteStatus status)
     {

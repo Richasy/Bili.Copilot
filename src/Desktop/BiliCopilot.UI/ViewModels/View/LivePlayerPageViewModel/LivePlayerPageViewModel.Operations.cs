@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -87,6 +88,13 @@ public sealed partial class LivePlayerPageViewModel
     {
         var profile = _view.Information.User;
         this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
+    }
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Video);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
 
     private void PlayerProgressChanged(int progress, int duration)

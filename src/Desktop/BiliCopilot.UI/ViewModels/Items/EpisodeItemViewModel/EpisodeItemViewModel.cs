@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -52,4 +54,11 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
     [RelayCommand]
     private void OpenInNewWindow()
         => new PlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem($"ep_{Data.Identifier.Id}", Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
 }

@@ -52,7 +52,10 @@
                 VerticalAlignment="Center" />
 
             <base:AppTitleBar.Footer>
-                <components:HeaderAccountControl />
+                <StackPanel Orientation="Horizontal">
+                    <local:Pinner Margin="0,0,16,0" VerticalAlignment="Center" />
+                    <components:HeaderAccountControl />
+                </StackPanel>
             </base:AppTitleBar.Footer>
         </base:AppTitleBar>
 

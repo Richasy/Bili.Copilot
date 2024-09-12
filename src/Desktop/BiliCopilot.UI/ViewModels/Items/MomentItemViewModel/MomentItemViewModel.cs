@@ -226,6 +226,27 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
     }
 
+    [RelayCommand]
+    private void Pin()
+    {
+        PinItem pinItem = default;
+        if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
+        {
+            pinItem = new PinItem(vinfo.Identifier.Id, vinfo.Identifier.Title, vinfo.Identifier.Cover.Uri.ToString(), PinContentType.Video);
+        }
+        else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
+        {
+            pinItem = einfo.Identifier.Id == "0"
+                ? new PinItem($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", einfo.Identifier.Title, einfo.Identifier.Cover.Uri.ToString(), PinContentType.Pgc)
+                : new PinItem($"ep_{einfo.Identifier.Id}", einfo.Identifier.Title, einfo.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
+        }
+
+        if (pinItem is not null)
+        {
+            this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+        }
+    }
+
     private string? GetMediaUrl()
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)

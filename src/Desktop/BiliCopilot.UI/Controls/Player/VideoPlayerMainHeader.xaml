@@ -56,6 +56,10 @@
                             MinWidth="200"
                             Command="{x:Bind ViewModel.AddToViewLaterCommand, Mode=OneWay}"
                             Text="{ext:Locale Name=AddToViewLater}" />
+                        <MenuFlyoutItem
+                            MinWidth="200"
+                            Command="{x:Bind ViewModel.PinCommand, Mode=OneWay}"
+                            Text="{ext:Locale Name=FixContent}" />
                         <MenuFlyoutSeparator />
                         <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
                         <MenuFlyoutItem

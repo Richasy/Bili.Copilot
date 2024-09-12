@@ -21,11 +21,9 @@ public sealed partial class UserSpacePageHeader : UserSpacePageControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        SizeChanged += OnSizeChanged;
         Selector.SelectionChanged += OnSelectorChanged;
         ViewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
-        RightContainer.Width = LeftContainer.ActualWidth;
     }
 
     /// <inheritdoc/>
@@ -36,18 +34,11 @@ public sealed partial class UserSpacePageHeader : UserSpacePageControlBase
             ViewModel.Initialized -= OnViewModelInitialized;
         }
 
-        SizeChanged -= OnSizeChanged;
         Selector.SelectionChanged -= OnSelectorChanged;
     }
 
     private void OnViewModelInitialized(object? sender, EventArgs e)
         => InitializeChildPartitions();
-
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        // 使左右宽度一致，从而让 SelectorBar 水平居中
-        RightContainer.Width = LeftContainer.ActualWidth;
-    }
 
     private void OnSelectorChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
     {

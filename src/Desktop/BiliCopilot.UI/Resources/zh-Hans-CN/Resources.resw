@@ -2642,4 +2642,7 @@
   <data name="AskQuestionAboutContext" xml:space="preserve">
     <value>询问有关上下文的问题</value>
   </data>
+  <data name="AlreadyPinned" xml:space="preserve">
+    <value>该条目已经固定过，请在固定列表中查看</value>
+  </data>
 </root>

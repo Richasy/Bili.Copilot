@@ -29,11 +29,12 @@
             <ic:SymbolIcon FontSize="14" Symbol="Share" />
             <Button.Flyout>
                 <MenuFlyout Placement="Bottom">
-                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
                     <MenuFlyoutItem
                         MinWidth="200"
-                        Command="{x:Bind ViewModel.CopyUrlCommand, Mode=OneWay}"
-                        Text="{ext:Locale Name=CopyLiveUrl}" />
+                        Command="{x:Bind ViewModel.PinCommand, Mode=OneWay}"
+                        Text="{ext:Locale Name=FixContent}" />
+                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.CopyUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=CopyLiveUrl}" />
                     <MenuFlyoutItem Command="{x:Bind ViewModel.ShareUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=ShareLink}" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />

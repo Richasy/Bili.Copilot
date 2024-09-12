@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Globalization;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -76,5 +77,12 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
             this.Get<ILogger<ArticleItemViewModel>>().LogError(ex, "移除历史记录时失败");
             this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToRemoveVideoFromHistory), InfoType.Error));
         }
+    }
+
+    [RelayCommand]
+    private void Pin()
+    {
+        var pinItem = new PinItem(Data.Identifier.Id, Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Article);
+        this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
 }
