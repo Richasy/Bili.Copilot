@@ -25,10 +25,12 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
     public UserSpacePageViewModel(
         CommentMainViewModel comment,
         IRelationshipService relationshipService,
+        IUserService userService,
         ILogger<UserSpacePageViewModel> logger)
     {
         CommentModule = comment;
         _relationshipService = relationshipService;
+        _userService = userService;
         _logger = logger;
     }
 
@@ -36,6 +38,7 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
     private async Task InitializeAsync(UserProfile profile)
     {
         _profile = profile;
+        Card = default;
         UserName = profile.Name;
         if (Sections is null)
         {
@@ -126,6 +129,20 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
     {
         var pinItem = new PinItem(_profile.Id, _profile.Name, _profile.Avatar.Uri.ToString(), PinContentType.User);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
+    }
+
+    [RelayCommand]
+    private async Task InitializeUserInformationAsync()
+    {
+        try
+        {
+            Card ??= await _userService.GetUserInformationAsync(_profile.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "获取用户信息时失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToGetUserInformation), InfoType.Error));
+        }
     }
 
     private async Task InitializeRelationAsync()

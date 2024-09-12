@@ -14,6 +14,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 public sealed partial class UserSpacePageViewModel
 {
     private readonly IRelationshipService _relationshipService;
+    private readonly IUserService _userService;
     private readonly ILogger<UserSpacePageViewModel> _logger;
     private UserProfile _profile;
 
@@ -31,6 +32,9 @@ public sealed partial class UserSpacePageViewModel
 
     [ObservableProperty]
     private bool _isFollowed;
+
+    [ObservableProperty]
+    private UserCard _card;
 
     /// <summary>
     /// 区块初始化完成.
