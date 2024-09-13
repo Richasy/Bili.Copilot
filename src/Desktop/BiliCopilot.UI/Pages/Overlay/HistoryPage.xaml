@@ -45,6 +45,8 @@
             Grid.Row="2"
             Content="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
             ContentTemplateSelector="{StaticResource TemplateSelector}"
-            Style="{StaticResource AppContentControlStyle}" />
+            Style="{StaticResource AppContentControlStyle}"
+            Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <history:HistoryVideoSearchSection Grid.Row="2" Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay}" />
     </Grid>
 </local:HistoryPageBase>

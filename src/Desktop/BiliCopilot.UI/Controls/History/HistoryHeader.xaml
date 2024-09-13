@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:HistoryHeaderBase
+<local:HistoryPageControlBase
     x:Class="BiliCopilot.UI.Controls.History.HistoryHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -32,9 +32,32 @@
             HorizontalScrollBarVisibility="Hidden"
             HorizontalScrollMode="Enabled"
             VerticalScrollBarVisibility="Hidden"
-            VerticalScrollMode="Disabled">
+            VerticalScrollMode="Disabled"
+            Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <SelectorBar x:Name="Selector" />
         </ScrollViewer>
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8"
+            Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay}">
+            <TextBlock VerticalAlignment="Center">
+                <Run Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{ext:Locale Name=Search}" />
+                <Run
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind ViewModel.SearchKeyword, Mode=OneWay}" />
+            </TextBlock>
+            <Button
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.ExitSearchCommand}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=ExitSearch}">
+                <ic:SymbolIcon FontSize="14" Symbol="Dismiss" />
+            </Button>
+        </StackPanel>
         <StackPanel
             Grid.Column="2"
             VerticalAlignment="Center"
@@ -59,7 +82,8 @@
                 VerticalAlignment="Center"
                 AutomationProperties.Name="{ext:Locale Name=ClearHistory}"
                 Click="OnCleanButtonClick"
-                IsEnabled="{x:Bind ViewModel.SelectedSection.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                IsEnabled="{x:Bind ViewModel.SelectedSection.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <ic:SymbolIcon
                         VerticalAlignment="Center"
@@ -81,4 +105,4 @@
             Subtitle="{ext:Locale Name=ClearHistoryWarning}"
             Target="{x:Bind CleanButton}" />
     </Grid>
-</local:HistoryHeaderBase>
+</local:HistoryPageControlBase>

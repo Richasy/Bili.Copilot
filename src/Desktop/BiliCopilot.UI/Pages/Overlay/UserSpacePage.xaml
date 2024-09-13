@@ -22,7 +22,8 @@
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
         <moment:UserSpacePageHeader />
-        <moment:UserSpacePageBody Grid.Row="2" />
+        <moment:UserSpacePageBody Grid.Row="2" Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <moment:UserSpaceVideoSearchSection Grid.Row="2" Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay}" />
         <comment:CommentOverlayPanel
             x:Name="CommentPanel"
             Grid.RowSpan="3"

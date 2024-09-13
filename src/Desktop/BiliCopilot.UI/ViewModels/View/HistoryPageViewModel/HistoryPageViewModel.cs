@@ -1,9 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Threading;
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.ViewModels;
@@ -20,15 +25,22 @@ public sealed partial class HistoryPageViewModel : ViewModelBase
     /// </summary>
     public HistoryPageViewModel(
         IViewHistoryService service,
+        ISearchService searchService,
         ILogger<HistoryPageViewModel> logger)
     {
         _service = service;
+        _searchService = searchService;
         _logger = logger;
     }
 
     [RelayCommand]
     private void Initialize()
     {
+        if (IsSearchMode)
+        {
+            ExitSearch();
+        }
+
         if (Sections is not null)
         {
             return;
@@ -58,14 +70,25 @@ public sealed partial class HistoryPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void Search(string text)
+    {
+        ExitSearch();
+        SearchKeyword = text;
+        IsSearchMode = true;
+        LoadMoreSearchResultCommand.Execute(default);
+    }
+
+    [RelayCommand]
     private async Task RefreshAsync()
     {
-        if (SelectedSection is null)
+        if (IsSearchMode)
         {
+            var keyword = SearchKeyword;
+            SearchCommand.Execute(keyword);
             return;
         }
 
-        await SelectedSection.RefreshCommand.ExecuteAsync(this);
+        await SelectedSection?.RefreshCommand.ExecuteAsync(this);
     }
 
     [RelayCommand]
@@ -91,5 +114,84 @@ public sealed partial class HistoryPageViewModel : ViewModelBase
 
         SelectedSection = section;
         section.TryFirstLoadCommand.Execute(this);
+    }
+
+    [RelayCommand]
+    private async Task LoadMoreSearchResultAsync()
+    {
+        if (_preventLoadMoreSearch || IsSearching || !IsSearchMode || string.IsNullOrEmpty(SearchKeyword))
+        {
+            return;
+        }
+
+        try
+        {
+            IsSearching = true;
+            CancelSearch();
+            _searchCancellationTokenSource = new CancellationTokenSource();
+            var (videos, total, hasMore) = await _searchService.SearchHistoryVideosAsync(SearchKeyword, _searchPn, _searchCancellationTokenSource.Token);
+            _preventLoadMoreSearch = !hasMore || videos is null || videos.Count == 0;
+            if (videos is not null)
+            {
+                foreach (var item in videos)
+                {
+                    SearchVideos.Add(new VideoItemViewModel(item, VideoCardStyle.History, RemoveSearchVideo));
+                }
+
+                SearchUpdated?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (!_preventLoadMoreSearch)
+            {
+                _searchPn++;
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Do nothing.
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "搜索用户视频时失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToSearchUserVideos), InfoType.Error));
+        }
+        finally
+        {
+            IsSearchEmpty = SearchVideos.Count == 0;
+            IsSearching = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ExitSearch()
+    {
+        IsSearchMode = false;
+        SearchKeyword = string.Empty;
+        IsSearchEmpty = false;
+        SearchVideos.Clear();
+        _preventLoadMoreSearch = false;
+        _searchPn = 0;
+        CancelSearch();
+    }
+
+    private void CancelSearch()
+    {
+        if (_searchCancellationTokenSource is not null)
+        {
+            _searchCancellationTokenSource.Cancel();
+            _searchCancellationTokenSource.Dispose();
+            _searchCancellationTokenSource = null;
+        }
+    }
+
+    private void RemoveSearchVideo(VideoItemViewModel item)
+    {
+        SearchVideos.Remove(item);
+        if (SearchVideos.Count == 0)
+        {
+            IsSearchEmpty = true;
+        }
+
+        SearchUpdated?.Invoke(this, EventArgs.Empty);
     }
 }

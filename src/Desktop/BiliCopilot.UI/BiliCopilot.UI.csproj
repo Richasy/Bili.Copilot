@@ -172,6 +172,7 @@
     <None Remove="Controls\Favorites\VideoFavoriteSideItem.xaml" />
     <None Remove="Controls\History\ArticleHistorySection.xaml" />
     <None Remove="Controls\History\HistoryHeader.xaml" />
+    <None Remove="Controls\History\HistoryVideoSearchSection.xaml" />
     <None Remove="Controls\History\LiveHistorySection.xaml" />
     <None Remove="Controls\History\VideoHistorySection.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
@@ -202,6 +203,7 @@
     <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
     <None Remove="Controls\Moment\UserSpacePageBody.xaml" />
     <None Remove="Controls\Moment\UserSpacePageHeader.xaml" />
+    <None Remove="Controls\Moment\UserSpaceVideoSearchSection.xaml" />
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
     <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
@@ -1345,6 +1347,12 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Moment\UserSpaceVideoSearchSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Pinner.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

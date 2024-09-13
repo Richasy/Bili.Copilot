@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Threading;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -8,6 +9,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
@@ -26,11 +28,13 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
         CommentMainViewModel comment,
         IRelationshipService relationshipService,
         IUserService userService,
+        ISearchService searchService,
         ILogger<UserSpacePageViewModel> logger)
     {
         CommentModule = comment;
         _relationshipService = relationshipService;
         _userService = userService;
+        _searchService = searchService;
         _logger = logger;
     }
 
@@ -40,6 +44,11 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
         _profile = profile;
         Card = default;
         UserName = profile.Name;
+        if (IsSearchMode)
+        {
+            ExitSearch();
+        }
+
         if (Sections is null)
         {
             Sections = new List<UserMomentDetailViewModel>
@@ -75,8 +84,26 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void Search(string text)
+    {
+        ExitSearch();
+        SearchKeyword = text;
+        IsSearchMode = true;
+        LoadMoreSearchResultCommand.Execute(default);
+    }
+
+    [RelayCommand]
     private async Task RefreshAsync()
-        => await SelectedSection?.RefreshCommand.ExecuteAsync(default);
+    {
+        if (IsSearchMode)
+        {
+            var keyword = SearchKeyword;
+            SearchCommand.Execute(keyword);
+            return;
+        }
+
+        await SelectedSection?.RefreshCommand.ExecuteAsync(default);
+    }
 
     [RelayCommand]
     private void SelectSection(UserMomentDetailViewModel section)
@@ -145,6 +172,63 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
         }
     }
 
+    [RelayCommand]
+    private async Task LoadMoreSearchResultAsync()
+    {
+        if (_preventLoadMoreSearch || IsSearching || !IsSearchMode || string.IsNullOrEmpty(SearchKeyword))
+        {
+            return;
+        }
+
+        try
+        {
+            IsSearching = true;
+            _searchCancellationTokenSource = new CancellationTokenSource();
+            var (videos, total, hasMore) = await _searchService.SearchUserVideosAsync(_profile.Id, SearchKeyword, _searchPn, _searchCancellationTokenSource.Token);
+            _preventLoadMoreSearch = !hasMore || videos is null || videos.Count == 0;
+            if (videos is not null)
+            {
+                foreach (var item in videos)
+                {
+                    SearchVideos.Add(new VideoItemViewModel(item, VideoCardStyle.Search));
+                }
+
+                SearchUpdated?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (!_preventLoadMoreSearch)
+            {
+                _searchPn++;
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Do nothing.
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "搜索用户视频时失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToSearchUserVideos), InfoType.Error));
+        }
+        finally
+        {
+            IsSearchEmpty = SearchVideos.Count == 0;
+            IsSearching = false;
+        }
+    }
+
+    [RelayCommand]
+    private void ExitSearch()
+    {
+        IsSearchMode = false;
+        SearchKeyword = string.Empty;
+        IsSearchEmpty = false;
+        SearchVideos.Clear();
+        _preventLoadMoreSearch = false;
+        _searchPn = 0;
+        CancelSearch();
+    }
+
     private async Task InitializeRelationAsync()
     {
         try
@@ -170,5 +254,15 @@ public sealed partial class UserSpacePageViewModel : ViewModelBase
         IsCommentsOpened = true;
         CommentModule.Initialize(moment.CommentId, moment.CommentType!.Value, Richasy.BiliKernel.Models.CommentSortType.Hot);
         CommentModule.RefreshCommand.Execute(default);
+    }
+
+    private void CancelSearch()
+    {
+        if (_searchCancellationTokenSource is not null)
+        {
+            _searchCancellationTokenSource.Cancel();
+            _searchCancellationTokenSource.Dispose();
+            _searchCancellationTokenSource = null;
+        }
     }
 }
