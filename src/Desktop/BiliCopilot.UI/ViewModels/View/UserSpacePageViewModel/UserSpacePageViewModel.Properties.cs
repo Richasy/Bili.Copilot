@@ -1,8 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Collections.ObjectModel;
+using System.Threading;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 
@@ -15,8 +19,12 @@ public sealed partial class UserSpacePageViewModel
 {
     private readonly IRelationshipService _relationshipService;
     private readonly IUserService _userService;
+    private readonly ISearchService _searchService;
     private readonly ILogger<UserSpacePageViewModel> _logger;
     private UserProfile _profile;
+    private int _searchPn;
+    private bool _preventLoadMoreSearch;
+    private CancellationTokenSource _searchCancellationTokenSource;
 
     [ObservableProperty]
     private IReadOnlyCollection<UserMomentDetailViewModel> _sections;
@@ -34,6 +42,18 @@ public sealed partial class UserSpacePageViewModel
     private bool _isFollowed;
 
     [ObservableProperty]
+    private bool _isSearching;
+
+    [ObservableProperty]
+    private bool _isSearchMode;
+
+    [ObservableProperty]
+    private string _searchKeyword;
+
+    [ObservableProperty]
+    private bool _isSearchEmpty;
+
+    [ObservableProperty]
     private UserCard _card;
 
     /// <summary>
@@ -42,7 +62,17 @@ public sealed partial class UserSpacePageViewModel
     public event EventHandler Initialized;
 
     /// <summary>
+    /// 搜索更新.
+    /// </summary>
+    public event EventHandler SearchUpdated;
+
+    /// <summary>
     /// 评论模块.
     /// </summary>
     public CommentMainViewModel CommentModule { get; }
+
+    /// <summary>
+    /// 搜索视频结果.
+    /// </summary>
+    public ObservableCollection<VideoItemViewModel> SearchVideos { get; } = new();
 }

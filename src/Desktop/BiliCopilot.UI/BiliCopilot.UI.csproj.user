@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Moment\UserSpaceVideoSearchSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Pinner.xaml">
       <SubType>Designer</SubType>
     </Page>

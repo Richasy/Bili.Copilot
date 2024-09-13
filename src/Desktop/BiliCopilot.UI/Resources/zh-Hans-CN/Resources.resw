@@ -2651,4 +2651,10 @@
   <data name="FailedToGetUserInformation" xml:space="preserve">
     <value>获取用户信息时失败</value>
   </data>
+  <data name="UserSpace" xml:space="preserve">
+    <value>用户空间</value>
+  </data>
+  <data name="FailedToSearchUserVideos" xml:space="preserve">
+    <value>尝试获取用户视频时失败</value>
+  </data>
 </root>

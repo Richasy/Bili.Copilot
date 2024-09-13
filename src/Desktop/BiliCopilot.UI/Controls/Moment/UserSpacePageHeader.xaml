@@ -184,7 +184,32 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center" />
+            VerticalAlignment="Center"
+            Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8"
+            Visibility="{x:Bind ViewModel.IsSearchMode, Mode=OneWay}">
+            <TextBlock VerticalAlignment="Center">
+                <Run Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{ext:Locale Name=Search}" />
+                <Run
+                    FontWeight="Bold"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind ViewModel.SearchKeyword, Mode=OneWay}" />
+            </TextBlock>
+            <Button
+                VerticalAlignment="Center"
+                Command="{x:Bind ViewModel.ExitSearchCommand}"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="{ext:Locale Name=ExitSearch}">
+                <ic:SymbolIcon FontSize="14" Symbol="Dismiss" />
+            </Button>
+        </StackPanel>
+
         <StackPanel
             x:Name="RightContainer"
             Grid.Column="2"

@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Threading;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
+using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
@@ -25,47 +27,77 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// 设置附加搜索区域（用于在特殊页面进行局部搜索）.
+    /// </summary>
+    public void SetExtraRegion(string regionId, string regionName)
+    {
+        _extraRegionId = regionId;
+        _extraRegionName = regionName;
+    }
+
     [RelayCommand]
     private async Task ReloadSuggestionsAsync()
     {
         TryCancelSuggest();
-        if (_recommendItems.Count == 0)
-        {
-            var recommends = await _searchService.GetSearchRecommendsAsync();
-            _recommendItems.AddRange(recommends);
-        }
 
         if (string.IsNullOrEmpty(Keyword.Trim()))
         {
-            if (Suggestion.Count == _recommendItems.Count)
+            if (string.IsNullOrEmpty(_extraRegionId))
             {
-                return;
-            }
+                if (_recommendItems.Count == 0)
+                {
+                    var recommends = await _searchService.GetSearchRecommendsAsync();
+                    _recommendItems.AddRange(recommends);
+                }
 
-            Suggestion.Clear();
-            foreach (var item in _recommendItems)
+                if (Suggestion.Count == _recommendItems.Count)
+                {
+                    return;
+                }
+
+                Suggestion.Clear();
+                foreach (var item in _recommendItems)
+                {
+                    Suggestion.Add(new(new Richasy.BiliKernel.Models.Search.SearchSuggestItem(item.Text, item.Keyword)));
+                }
+            }
+            else
             {
-                Suggestion.Add(new Richasy.BiliKernel.Models.Search.SearchSuggestItem(item.Text, item.Keyword));
+                Suggestion.Clear();
+                Suggestion.Add(new("global", ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.WholePartitions)));
+                Suggestion.Add(new(_extraRegionId, _extraRegionName));
             }
         }
         else
         {
-            try
+            if (string.IsNullOrEmpty(_extraRegionId))
             {
-                Suggestion.Clear();
-                _cancellationTokenSource = new CancellationTokenSource();
-                var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token);
-                if (suggests is not null)
+                try
                 {
-                    foreach (var item in suggests)
+                    Suggestion.Clear();
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    var suggests = await _searchService.GetSearchSuggestsAsync(Keyword, _cancellationTokenSource.Token);
+                    if (suggests is not null)
                     {
-                        Suggestion.Add(item);
+                        foreach (var item in suggests)
+                        {
+                            Suggestion.Add(new(item));
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "尝试加载搜索建议时出错.");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "尝试加载搜索建议时出错.");
+                foreach (var item in Suggestion)
+                {
+                    item.SearchContent = Keyword;
+                    item.Keyword = Keyword;
+                }
             }
         }
     }
@@ -107,13 +139,21 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Search(string keyword)
+    private void Search(SearchSuggestItemViewModel vm)
     {
+        var keyword = vm.Keyword;
         if (string.IsNullOrEmpty(keyword))
         {
             return;
         }
 
-        this.Get<NavigationViewModel>().Search(keyword);
+        if (string.IsNullOrEmpty(vm.RegionId) || vm.RegionId == "global")
+        {
+            this.Get<NavigationViewModel>().Search(keyword);
+        }
+        else
+        {
+            this.Get<NavigationViewModel>().SearchInRegion(keyword);
+        }
     }
 }

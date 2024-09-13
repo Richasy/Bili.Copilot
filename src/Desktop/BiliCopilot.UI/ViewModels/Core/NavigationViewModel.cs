@@ -6,8 +6,10 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Navigation;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -127,6 +129,21 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     }
 
     /// <summary>
+    /// 在指定区域执行搜索.
+    /// </summary>
+    public void SearchInRegion(string keyword)
+    {
+        if (_overFrame.Content is UserSpacePage usp)
+        {
+            usp.ViewModel.SearchCommand.Execute(keyword);
+        }
+        else if (_overFrame.Content is HistoryPage hp)
+        {
+            hp.ViewModel.SearchCommand.Execute(keyword);
+        }
+    }
+
+    /// <summary>
     /// 尝试返回.
     /// </summary>
     public void Back()
@@ -165,6 +182,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         _navFrame = navFrame;
         _overFrame = overFrame;
+        _overFrame.Navigated += OnOverlayNavigated;
         MenuItems = [.. GetMenuItems()];
         foreach (var item in GetFooterItems())
         {
@@ -238,4 +256,22 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
     private void ActiveMainWindow()
         => this.Get<AppViewModel>().Windows.Find(p => p is MainWindow)?.Activate();
+
+    private void OnOverlayNavigated(object sender, NavigationEventArgs e)
+    {
+        var searchBox = this.Get<SearchBoxViewModel>();
+        if (e.SourcePageType == typeof(UserSpacePage))
+        {
+            searchBox.SetExtraRegion("space", ResourceToolkit.GetLocalizedString(StringNames.UserSpace));
+        }
+        else if (e.SourcePageType == typeof(HistoryPage))
+        {
+            searchBox.SetExtraRegion("history", ResourceToolkit.GetLocalizedString(StringNames.ViewHistory));
+        }
+        else
+        {
+            searchBox.SetExtraRegion(string.Empty, string.Empty);
+            searchBox.Keyword = string.Empty;
+        }
+    }
 }

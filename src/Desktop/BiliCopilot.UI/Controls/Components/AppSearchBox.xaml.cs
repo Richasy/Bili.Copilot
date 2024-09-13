@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models.Search;
 using Richasy.WinUI.Share.Base;
 
@@ -45,7 +46,8 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
         if (context is not null)
         {
             ViewModel.Keyword = context.Keyword;
-            ViewModel.SearchCommand.Execute(context.Keyword);
+            var vm = new SearchSuggestItemViewModel(new SearchSuggestItem(context.Keyword, context.Keyword));
+            ViewModel.SearchCommand.Execute(vm);
         }
 
         HotSearchFlyout.Hide();
@@ -53,13 +55,14 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
 
     private void OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        if (args.ChosenSuggestion is SearchSuggestItem item)
+        if (args.ChosenSuggestion is SearchSuggestItemViewModel item)
         {
-            ViewModel.SearchCommand.Execute(item.Keyword);
+            ViewModel.SearchCommand.Execute(item);
         }
         else if (!string.IsNullOrEmpty(args.QueryText))
         {
-            ViewModel.SearchCommand.Execute(args.QueryText);
+            var vm = new SearchSuggestItemViewModel(new SearchSuggestItem(args.QueryText, args.QueryText));
+            ViewModel.SearchCommand.Execute(vm);
         }
 
         ViewModel.TryCancelSuggestCommand.Execute(default);

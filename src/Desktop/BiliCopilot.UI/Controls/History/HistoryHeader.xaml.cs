@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.Base;
 
@@ -12,7 +11,7 @@ namespace BiliCopilot.UI.Controls.History;
 /// <summary>
 /// 历史记录页头部.
 /// </summary>
-public sealed partial class HistoryHeader : HistoryHeaderBase
+public sealed partial class HistoryHeader : HistoryPageControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HistoryHeader"/> class.
@@ -89,15 +88,4 @@ public sealed partial class HistoryHeader : HistoryHeaderBase
 
     private void OnCleanButtonClick(object sender, RoutedEventArgs e)
         => CleanTip.IsOpen = true;
-}
-
-/// <summary>
-/// 历史记录页头部基类.
-/// </summary>
-public abstract class HistoryHeaderBase : LayoutUserControlBase<HistoryPageViewModel>
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HistoryHeaderBase"/> class.
-    /// </summary>
-    protected HistoryHeaderBase() => ViewModel = this.Get<HistoryPageViewModel>();
 }
