@@ -155,12 +155,12 @@ public sealed partial class DownloadViewModel : ViewModelBase
             _ => "av1",
         };
 
-        var cmd = $"-app -e {codec} --work-dir \"{_downloadPath}\" -ua \"{VideoUserAgent}\"";
+        var cmd = $"-e {codec} --work-dir \"{_downloadPath}\" -ua \"{VideoUserAgent}\"";
         var copyCommandOnly = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
         var withoutCredential = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
         if (!UseExternal())
         {
-            cmd += $" --ffmpeg-path \"{_ffmpegPath}\"";
+            cmd += $" -app --ffmpeg-path \"{_ffmpegPath}\"";
         }
 
         if (!(UseExternal() && withoutCredential))
