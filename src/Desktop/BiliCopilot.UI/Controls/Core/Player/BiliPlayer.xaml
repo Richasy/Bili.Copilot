@@ -189,6 +189,7 @@
                             Style="{StaticResource AppContentControlStyle}"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsExternalPlayer, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                         <ProgressBar
+                            Margin="0,0,0,1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Bottom"
                             IsIndeterminate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBuffering}"
