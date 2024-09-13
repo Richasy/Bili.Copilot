@@ -23,6 +23,9 @@ public unsafe class RenderControl : OpenGLRenderControlBase<FrameBuffer>
 
     public RenderControl()
     {
+        BorderThickness = new Thickness(0);
+        HorizontalContentAlignment = HorizontalAlignment.Stretch;
+        VerticalContentAlignment = VerticalAlignment.Stretch;
         SizeChanged += OnSizeChanged;
         Unloaded += OnUnloaded;
     }

@@ -76,7 +76,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         {
             TransportControls.Visibility = Visibility.Visible;
             MeasureTransportTriggerRect();
-            TransportControls.Visibility = Visibility.Collapsed;
+            SetTransportVisibility(false);
         }
 
         _cursorTimer?.Start();
@@ -154,7 +154,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         RestoreCursor();
         if (TransportControls is not null && !_isTouch)
         {
-            TransportControls.Visibility = Visibility.Collapsed;
+            SetTransportVisibility(false);
         }
     }
 
@@ -259,7 +259,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     {
         if (e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
         {
-            TransportControls.Visibility = ViewModel.IsPaused ? Visibility.Visible : Visibility.Collapsed;
+            SetTransportVisibility(ViewModel.IsPaused);
         }
     }
 

@@ -73,6 +73,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             CancelPageLoad();
         }
 
+        IsAIOverlayOpened = false;
         IsPageLoading = true;
         var video = snapshot.Video;
         IsPrivatePlay = snapshot.IsPrivate;
