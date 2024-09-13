@@ -109,7 +109,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:BiliPlayer">
-                    <Grid>
+                    <Grid Margin="0,0,-2,-2">
                         <local:PlayerPresenter x:Name="PlayerPresenter" />
                         <Grid x:Name="HiddenControlsContainer">
                             <Button

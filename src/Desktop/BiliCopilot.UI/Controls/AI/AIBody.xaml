@@ -59,14 +59,17 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <components:VideoCoverImage
-                        Width="100"
-                        Height="76"
+                    <Grid
                         Margin="0,0,12,0"
-                        VerticalAlignment="Center"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        Source="{x:Bind ViewModel.SourceCover, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                        Visibility="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <Image
+                            Width="100"
+                            Height="76"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+                            Stretch="UniformToFill" />
+                    </Grid>
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"
