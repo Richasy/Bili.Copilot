@@ -49,6 +49,7 @@ public sealed partial class AccountViewModel : ViewModelBase
                 ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.NoSelfIntroduce)
                 : MyProfile.Introduce;
             this.Get<AppViewModel>().IsInitialLoading = false;
+            this.Get<AppViewModel>().CheckUpateCommand.Execute(default);
             UpdateUnreadCommand.Execute(default);
         }
         catch (Exception ex)

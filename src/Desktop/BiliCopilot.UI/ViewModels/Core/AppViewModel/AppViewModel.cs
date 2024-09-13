@@ -3,6 +3,7 @@
 using System.Runtime.InteropServices;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
@@ -11,6 +12,7 @@ using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.Storage;
+using Windows.System;
 using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -173,6 +175,31 @@ public sealed partial class AppViewModel : ViewModelBase
                 await firstWindow.ShowTipAsync(data.Item1, data.Item2);
             }
         }
+    }
+
+    [RelayCommand]
+    private void CheckUpate()
+    {
+        var localVersion = SettingsToolkit.ReadLocalSetting(SettingNames.AppVersion, string.Empty);
+        var currentVersion = AppToolkit.GetPackageVersion();
+        if (localVersion != currentVersion)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.AppVersion, currentVersion);
+            IsUpdateShown = true;
+        }
+    }
+
+    [RelayCommand]
+    private void HideUpdate()
+        => IsUpdateShown = false;
+
+    [RelayCommand]
+    private async Task ShowUpdateAsync()
+    {
+        var packVersion = AppToolkit.GetPackageVersion();
+        var url = $"https://github.com/Richasy/Bili.Copilot/releases/tag/v{packVersion}";
+        await Launcher.LaunchUriAsync(new Uri(url));
+        HideUpdate();
     }
 
     partial void OnIsInitialLoadingChanged(bool value)
