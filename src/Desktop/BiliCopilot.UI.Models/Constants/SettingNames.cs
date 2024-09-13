@@ -93,4 +93,5 @@ public enum SettingNames
     LastUserSpaceSectionIsVideo,
     ExternalPlayer,
     LastSelectedAIService,
+    AppVersion,
 }

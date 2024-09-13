@@ -862,7 +862,7 @@
     <value>硬件解码</value>
   </data>
   <data name="HasUpdate" xml:space="preserve">
-    <value>新版本发布</value>
+    <value>您已更新到新版本</value>
   </data>
   <data name="HDFirst" xml:space="preserve">
     <value>高清（1080P）优先</value>
@@ -2656,5 +2656,11 @@
   </data>
   <data name="FailedToSearchUserVideos" xml:space="preserve">
     <value>尝试获取用户视频时失败</value>
+  </data>
+  <data name="HasUpdateDescription" xml:space="preserve">
+    <value>点击下方按钮来查看更新内容吧！</value>
+  </data>
+  <data name="OpenUpdate" xml:space="preserve">
+    <value>查看更新</value>
   </data>
 </root>

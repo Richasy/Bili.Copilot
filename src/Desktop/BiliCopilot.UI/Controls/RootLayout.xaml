@@ -100,6 +100,26 @@
             </Grid>
         </NavigationView>
 
+        <TeachingTip
+            Title="{ext:Locale Name=HasUpdate}"
+            Grid.Row="1"
+            MinWidth="320"
+            ActionButtonCommand="{x:Bind _appViewModel.ShowUpdateCommand}"
+            ActionButtonContent="{ext:Locale Name=OpenUpdate}"
+            CloseButtonCommand="{x:Bind _appViewModel.HideUpdateCommand}"
+            IsLightDismissEnabled="False"
+            IsOpen="{x:Bind _appViewModel.IsUpdateShown, Mode=OneWay}"
+            PlacementMargin="0,20,0,0"
+            PreferredPlacement="RightTop"
+            Subtitle="{ext:Locale Name=HasUpdateDescription}">
+            <TeachingTip.IconSource>
+                <ic:SymbolIconSource
+                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                    IconVariant="Filled"
+                    Symbol="CheckmarkCircle" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="WideState">
