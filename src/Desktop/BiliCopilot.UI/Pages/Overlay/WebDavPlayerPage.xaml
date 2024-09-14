@@ -43,7 +43,10 @@
             Grid.Row="2"
             Grid.Column="1" />
 
-        <Grid Grid.Row="2" Margin="0,0,-6,0">
+        <Grid
+            x:Name="PlayerContainer"
+            Grid.Row="2"
+            Margin="0,0,-6,0">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
@@ -136,7 +139,7 @@
                         <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
                         <Setter Target="SideHeader.Visibility" Value="Collapsed" />
                         <Setter Target="SideBody.Visibility" Value="Collapsed" />
-                        <Setter Target="Player.(Grid.ColumnSpan)" Value="3" />
+                        <Setter Target="PlayerContainer.(Grid.ColumnSpan)" Value="3" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
