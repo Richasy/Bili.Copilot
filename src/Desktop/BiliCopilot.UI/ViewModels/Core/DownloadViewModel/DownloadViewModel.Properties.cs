@@ -33,6 +33,9 @@ public sealed partial class DownloadViewModel
     [ObservableProperty]
     private IReadOnlyCollection<EpisodeInformation>? _episodes;
 
+    [ObservableProperty]
+    private bool _hasAvailableSubtitle;
+
     /// <summary>
     /// 元数据初始化完成事件.
     /// </summary>

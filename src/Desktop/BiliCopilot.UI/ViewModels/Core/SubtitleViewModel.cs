@@ -22,6 +22,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     private string _cid;
     private int _position;
     private IReadOnlyCollection<SubtitleInformation> _subtitles;
+    private Action? _initializedAction;
 
     [ObservableProperty]
     private bool _isAvailable;
@@ -59,6 +60,12 @@ public sealed partial class SubtitleViewModel : ViewModelBase
         _cid = cid;
         IsEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsSubtitleEnabled, true);
     }
+
+    /// <summary>
+    /// 设置初始化回调.
+    /// </summary>
+    public void SetInitializedCallback(Action action)
+        => _initializedAction = action;
 
     /// <summary>
     /// 更新当前播放位置.
@@ -113,6 +120,8 @@ public sealed partial class SubtitleViewModel : ViewModelBase
             {
                 ChangeSubtitleCommand.Execute(firstMeta);
             }
+
+            _initializedAction?.Invoke();
         }
         catch (Exception ex)
         {

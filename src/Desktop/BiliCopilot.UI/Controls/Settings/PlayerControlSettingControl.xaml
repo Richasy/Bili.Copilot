@@ -53,7 +53,7 @@
                     MinWidth="120"
                     LargeChange="50"
                     Maximum="300"
-                    Minimum="0"
+                    Minimum="3"
                     SmallChange="10"
                     SpinButtonPlacementMode="Compact"
                     Value="{x:Bind ViewModel.SingleFastForwardAndRewindSpan, Mode=TwoWay}" />
