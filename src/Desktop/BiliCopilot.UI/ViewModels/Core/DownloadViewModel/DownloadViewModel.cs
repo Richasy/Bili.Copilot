@@ -124,6 +124,13 @@ public sealed partial class DownloadViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void DownloadSubtitle()
+    {
+        var command = $"{GetBasicCommand(false)} --sub-only \"{_currentUrl}\"";
+        LaunchDownloadProcess(command);
+    }
+
+    [RelayCommand]
     private void BatchDownloadAllParts()
     {
         var url = _currentUrl.Contains("/ep") ? _parentUrl : _currentUrl;

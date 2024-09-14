@@ -44,6 +44,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         Subtitle = subtitle;
         Downloader = download;
         AI = ai;
+        Subtitle.SetInitializedCallback(SyncDownloadAndSubtitle);
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);

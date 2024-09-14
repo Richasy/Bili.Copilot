@@ -2663,4 +2663,7 @@
   <data name="OpenUpdate" xml:space="preserve">
     <value>查看更新</value>
   </data>
+  <data name="DownloadSubtitle" xml:space="preserve">
+    <value>下载字幕</value>
+  </data>
 </root>

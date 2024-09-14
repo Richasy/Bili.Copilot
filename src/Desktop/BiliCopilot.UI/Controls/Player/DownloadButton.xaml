@@ -19,6 +19,7 @@
         <DropDownButton
             x:Name="Btn"
             HorizontalAlignment="Stretch"
+            Click="OnBtnClick"
             Style="{StaticResource AccentDropDownButtonStyle}">
             <StackPanel>
                 <TextBlock Text="{ext:Locale Name=DownloadVideo}" />

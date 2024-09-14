@@ -298,4 +298,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         InitializeDashMediaCommand.Execute(_part);
     }
+
+    private void SyncDownloadAndSubtitle()
+        => Downloader.HasAvailableSubtitle = Subtitle.IsAvailable && Subtitle.Metas.Any(p => !p.IsAI);
 }

@@ -30,7 +30,6 @@ public sealed partial class DownloadButton : DownloadButtonBase
 
         _viewModel = ViewModel;
         ViewModel.MetaInitialized += OnMetaInitialized;
-        InitializeDownloadFlyout();
     }
 
     /// <inheritdoc/>
@@ -59,11 +58,11 @@ public sealed partial class DownloadButton : DownloadButtonBase
 
         _viewModel = ViewModel;
         _viewModel.MetaInitialized += OnMetaInitialized;
-        InitializeDownloadFlyout();
+        DownloadFlyout.Items.Clear();
     }
 
     private void OnMetaInitialized(object? sender, EventArgs e)
-        => InitializeDownloadFlyout();
+        => DownloadFlyout.Items.Clear();
 
     private void InitializeDownloadFlyout()
     {
@@ -72,7 +71,6 @@ public sealed partial class DownloadButton : DownloadButtonBase
             return;
         }
 
-        DownloadFlyout.Items.Clear();
         var formatHeader = MenuFlyoutItemHeader.LoadContent() as MenuFlyoutSeparator;
         formatHeader.Tag = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Quality);
         DownloadFlyout.Items.Add(formatHeader);
@@ -129,6 +127,18 @@ public sealed partial class DownloadButton : DownloadButtonBase
 
         DownloadFlyout.Items.Add(downloadCoverItem);
         DownloadFlyout.Items.Add(downloadDanmakuItem);
+
+        if (ViewModel.HasAvailableSubtitle)
+        {
+            var downloadSubtitleItem = new MenuFlyoutItem
+            {
+                MinWidth = this.ActualWidth,
+                Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.DownloadSubtitle),
+                Command = ViewModel.DownloadSubtitleCommand,
+            };
+
+            DownloadFlyout.Items.Add(downloadSubtitleItem);
+        }
     }
 
     private void ShowPartsSelectionTip()
@@ -148,6 +158,14 @@ public sealed partial class DownloadButton : DownloadButtonBase
         SelectionTip.IsOpen = false;
         SelectionBox.Text = string.Empty;
         ViewModel.BatchDownloadSelectedPartsCommand.Execute(text);
+    }
+
+    private void OnBtnClick(object sender, RoutedEventArgs e)
+    {
+        if (DownloadFlyout.Items.Count == 0)
+        {
+            InitializeDownloadFlyout();
+        }
     }
 }
 
