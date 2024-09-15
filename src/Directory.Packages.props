@@ -31,6 +31,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
+    <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2739.15" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
     <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.12" />
     <PackageVersion Include="OpenTK" Version="4.8.2" />
@@ -43,7 +44,7 @@
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.240829007" />
     <PackageVersion Include="Polly" Version="8.4.1" />
     <PackageVersion Include="QRCoder" Version="1.4.1" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
@@ -54,7 +55,7 @@
     <PackageVersion Include="System.Text.Json" Version="8.0.4" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
-    <PackageVersion Include="Microsoft.Graphics.Win2D" Version="99.99.99" />
+    <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.2.1-experimental2" />
     <!-- Microsoft.Extensions.* -->
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
