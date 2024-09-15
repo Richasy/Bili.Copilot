@@ -13,7 +13,7 @@
     <Grid>
         <WebView2
             x:Name="MainView"
-            CoreWebView2Initialized="OnCoreInitializedAsync"
+            DefaultBackgroundColor="Transparent"
             NavigationCompleted="OnNavigationCompletedAsync" />
         <winui:Shimmer
             x:Name="LoadingShimmer"

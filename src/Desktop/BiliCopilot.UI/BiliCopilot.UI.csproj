@@ -28,6 +28,7 @@
     <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
+    <Content Remove="Assets\WebPlayer.js" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Providers\ali-avatar.png" />
@@ -1352,6 +1353,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\ffmpeg\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Update="Pages\Overlay\WebPlayerPage.xaml">

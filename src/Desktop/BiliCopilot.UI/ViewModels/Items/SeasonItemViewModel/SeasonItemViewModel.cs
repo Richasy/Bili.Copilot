@@ -51,16 +51,20 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
             return;
         }
 
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            return;
+        }
+
         var identifier = new MediaIdentifier("ss_" + Data.Identifier.Id, default, default);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
-    {
-        var url = $"https://www.bilibili.com/bangumi/play/ss{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(url));
-    }
+    private Task OpenInBroswerAsync()
+        => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
 
     [RelayCommand]
     private void OpenInNewWindow()
@@ -114,6 +118,9 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         var pinItem = new PinItem($"ss_{Data.Identifier.Id}", Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
+
+    private string GetWebUrl()
+        => $"https://www.bilibili.com/bangumi/play/ss{Data.Identifier.Id}";
 
     private async Task MarkFavoriteStatusAsync(PgcFavoriteStatus status)
     {

@@ -24,11 +24,7 @@ public sealed partial class WebPlayerPage : LayoutPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="WebPlayerPage"/> class.
     /// </summary>
-    public WebPlayerPage()
-    {
-        InitializeComponent();
-        NavigationCacheMode = NavigationCacheMode.Enabled;
-    }
+    public WebPlayerPage() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,16 +42,22 @@ public sealed partial class WebPlayerPage : LayoutPageBase
 
     /// <inheritdoc/>
     protected override void OnNavigatedFrom(NavigationEventArgs e)
-        => MainView?.NavigateToString(string.Empty);
+    {
+        MainView?.NavigateToString(string.Empty);
+        MainView?.Close();
+    }
 
     /// <inheritdoc/>
     protected override async void OnPageLoaded()
     {
         ShowLoading();
 
-        // 取消自动静音限制.
-        Environment.SetEnvironmentVariable("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS", "--autoplay-policy=no-user-gesture-required --enable-features=PlatformHEVCEncoderSupport --enable-features=HardwareMediaDecoding --enable-features=PlatformEncryptedDolbyVision");
-        await MainView.EnsureCoreWebView2Async();
+        var env = await CoreWebView2Environment.CreateWithOptionsAsync(default, default, new CoreWebView2EnvironmentOptions
+        {
+            AreBrowserExtensionsEnabled = true,
+            AdditionalBrowserArguments = "--autoplay-policy=no-user-gesture-required --enable-features=PlatformHEVCEncoderSupport --enable-features=HardwareMediaDecoding --enable-features=PlatformEncryptedDolbyVision",
+        });
+        await MainView.EnsureCoreWebView2Async(env);
         MainView.CoreWebView2.Settings.IsStatusBarEnabled = false;
         MainView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
         MainView.CoreWebView2.Settings.AreDevToolsEnabled = false;
@@ -64,7 +66,9 @@ public sealed partial class WebPlayerPage : LayoutPageBase
         MainView.CoreWebView2.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
         MainView.CoreWebView2.WebResourceRequested += OnWebResourceRequested;
         MainView.CoreWebView2.NavigationStarting += OnNavigationStarting;
+
         _isInitialized = true;
+        await TryLoadExtensionAsync();
         if (!string.IsNullOrEmpty(_url))
         {
             MainView.CoreWebView2.Navigate(_url);
@@ -93,7 +97,16 @@ public sealed partial class WebPlayerPage : LayoutPageBase
     private async void OnNavigationCompletedAsync(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
         HideLoading();
-        await Task.CompletedTask;
+        var scriptFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/WebPlayer.js"));
+        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+        var isFullWindow = preferDisplayMode is PlayerDisplayMode.FullWindow or PlayerDisplayMode.NewWindow;
+        var isFullScreen = preferDisplayMode == PlayerDisplayMode.FullScreen;
+        var isMiniView = preferDisplayMode == PlayerDisplayMode.CompactOverlay;
+        var script = await FileIO.ReadTextAsync(scriptFile, Windows.Storage.Streams.UnicodeEncoding.Utf8);
+        script = script.Replace("`isFullWindow`", isFullWindow.ToString().ToLower())
+            .Replace("`isFullScreen`", isFullScreen.ToString().ToLower())
+            .Replace("`isMiniView`", isMiniView.ToString().ToLower());
+        await MainView.CoreWebView2.ExecuteScriptAsync(script);
     }
 
     private void ShowLoading()
@@ -116,6 +129,11 @@ public sealed partial class WebPlayerPage : LayoutPageBase
         var localVersion = SettingsToolkit.ReadLocalSetting(SettingNames.BewlyExtensionVersion, string.Empty);
         if (localVersion != BewlyVersion)
         {
+            if (Directory.Exists(bewlyFolderPath))
+            {
+                Directory.Delete(bewlyFolderPath, true);
+            }
+
             if (!Directory.Exists(bewlyFolderPath))
             {
                 Directory.CreateDirectory(bewlyFolderPath);
@@ -129,11 +147,7 @@ public sealed partial class WebPlayerPage : LayoutPageBase
             }
 
             await MainView.CoreWebView2.Profile.AddBrowserExtensionAsync(bewlyFolderPath);
+            SettingsToolkit.WriteLocalSetting(SettingNames.BewlyExtensionVersion, BewlyVersion);
         }
-    }
-
-    private async void OnCoreInitializedAsync(WebView2 sender, CoreWebView2InitializedEventArgs args)
-    {
-        await TryLoadExtensionAsync();
     }
 }

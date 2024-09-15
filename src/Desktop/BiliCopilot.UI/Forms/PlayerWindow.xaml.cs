@@ -56,7 +56,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
+            MainFrame.Navigate(typeof(WebPlayerPage), $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
             return;
         }
 
@@ -66,10 +66,18 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     /// <summary>
     /// 打开PGC内容.
     /// </summary>
-    public void OpenPgc(MediaIdentifier ep)
+    public void OpenPgc(MediaIdentifier pgc)
     {
         Activate();
-        MainFrame.Navigate(typeof(PgcPlayerPage), ep);
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            var url = $"https://www.bilibili.com/bangumi/play/{pgc.Id.Replace("_", string.Empty)}";
+            MainFrame.Navigate(typeof(WebPlayerPage), url);
+            return;
+        }
+
+        MainFrame.Navigate(typeof(PgcPlayerPage), pgc);
     }
 
     /// <summary>
@@ -78,6 +86,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenLive(MediaIdentifier room)
     {
         Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            MainFrame.Navigate(typeof(WebPlayerPage), $"https://live.bilibili.com/{room.Id}");
+            return;
+        }
+
         MainFrame.Navigate(typeof(LivePlayerPage), room);
     }
 

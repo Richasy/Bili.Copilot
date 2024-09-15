@@ -56,15 +56,19 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
             return;
         }
 
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            return;
+        }
+
         this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data.Identifier);
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
-    {
-        var url = $"https://live.bilibili.com/{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(url));
-    }
+    private Task OpenInBroswerAsync()
+        => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
 
     [RelayCommand]
     private void OpenInNewWindow()
@@ -95,4 +99,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         var pinItem = new PinItem(Data.Identifier.Id, Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Live);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
+
+    private string GetWebUrl()
+        => $"https://live.bilibili.com/{Data.Identifier.Id}";
 }
