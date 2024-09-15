@@ -27,6 +27,9 @@ internal sealed class DisplayModeConverter : IValueConverter
                 case PlayerDisplayMode.CompactOverlay:
                     result = ResourceToolkit.GetLocalizedString(StringNames.CompactOverlayMode);
                     break;
+                case PlayerDisplayMode.NewWindow:
+                    result = ResourceToolkit.GetLocalizedString(StringNames.NewWindow);
+                    break;
             }
         }
 
