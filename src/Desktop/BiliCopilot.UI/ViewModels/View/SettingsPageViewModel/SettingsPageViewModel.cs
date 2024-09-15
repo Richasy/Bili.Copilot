@@ -56,6 +56,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
         WithoutCredentialWhenGenDownloadCommand = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
         IsExternalPlayerType = PlayerType == PlayerType.External;
+        FilterAISubtitle = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         if (string.IsNullOrEmpty(DefaultDownloadPath))
         {
             DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
@@ -228,4 +229,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
             SettingsToolkit.WriteLocalSetting(SettingNames.SelectedWebDavConfigId, value.Id);
         }
     }
+
+    partial void OnFilterAISubtitleChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.FilterAISubtitle, value);
 }

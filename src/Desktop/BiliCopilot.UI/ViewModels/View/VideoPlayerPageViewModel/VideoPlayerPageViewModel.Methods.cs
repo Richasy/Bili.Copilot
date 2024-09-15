@@ -300,5 +300,8 @@ public sealed partial class VideoPlayerPageViewModel
     }
 
     private void SyncDownloadAndSubtitle()
-        => Downloader.HasAvailableSubtitle = Subtitle.IsAvailable && Subtitle.Metas.Any(p => !p.IsAI);
+    {
+        var isAISubtitleFiltered = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
+        Downloader.HasAvailableSubtitle = Subtitle.IsAvailable && (isAISubtitleFiltered ? Subtitle.Metas.Any(p => !p.IsAI) : true);
+    }
 }

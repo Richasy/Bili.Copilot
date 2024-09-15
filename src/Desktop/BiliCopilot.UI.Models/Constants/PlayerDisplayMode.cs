@@ -26,4 +26,9 @@ public enum PlayerDisplayMode
     /// 小窗模式.
     /// </summary>
     CompactOverlay,
+
+    /// <summary>
+    /// 新窗口模式.
+    /// </summary>
+    NewWindow,
 }

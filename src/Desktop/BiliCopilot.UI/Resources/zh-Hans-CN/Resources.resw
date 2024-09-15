@@ -2666,4 +2666,10 @@
   <data name="DownloadSubtitle" xml:space="preserve">
     <value>下载字幕</value>
   </data>
+  <data name="NewWindow" xml:space="preserve">
+    <value>新窗口</value>
+  </data>
+  <data name="SkipAISubtitle" xml:space="preserve">
+    <value>跳过 AI 字幕下载</value>
+  </data>
 </root>

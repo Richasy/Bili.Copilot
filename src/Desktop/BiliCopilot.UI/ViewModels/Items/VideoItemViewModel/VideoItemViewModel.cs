@@ -63,7 +63,23 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 
     [RelayCommand]
     private void Play()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data));
+    {
+        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        {
+            OpenInNewWindowCommand.Execute(default);
+            return;
+        }
+
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUri().ToString());
+            return;
+        }
+
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data));
+    }
 
     [RelayCommand]
     private void PlayInPrivate()

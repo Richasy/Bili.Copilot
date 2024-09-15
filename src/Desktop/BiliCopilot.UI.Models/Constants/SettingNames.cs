@@ -94,4 +94,6 @@ public enum SettingNames
     ExternalPlayer,
     LastSelectedAIService,
     AppVersion,
+    FilterAISubtitle,
+    BewlyExtensionVersion,
 }

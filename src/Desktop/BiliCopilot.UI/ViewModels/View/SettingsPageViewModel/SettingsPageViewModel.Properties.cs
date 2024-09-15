@@ -110,6 +110,9 @@ public sealed partial class SettingsPageViewModel
     private bool _withoutCredentialWhenGenDownloadCommand;
 
     [ObservableProperty]
+    private bool _filterAISubtitle;
+
+    [ObservableProperty]
     private bool _isWebDavEnabled;
 
     [ObservableProperty]

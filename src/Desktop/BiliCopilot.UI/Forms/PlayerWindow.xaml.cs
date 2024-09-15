@@ -53,6 +53,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenVideo(VideoSnapshot snapshot)
     {
         Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
+            return;
+        }
+
         MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
     }
 
@@ -177,7 +184,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         Closed -= OnClosed;
 
         GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
-        KeyboardHook.Stop();
+        GlobalHook.Stop();
         SaveCurrentWindowStats();
     }
 
@@ -186,14 +193,45 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         var isDeactivated = sender.State == InputActivationState.Deactivated;
         if (isDeactivated)
         {
-            KeyboardHook.KeyDown -= OnWindowKeyDown;
-            KeyboardHook.Stop();
+            GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
+            GlobalHook.Stop();
         }
         else
         {
-            KeyboardHook.Start();
-            KeyboardHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.Start();
+            GlobalHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
         }
+    }
+
+    private void OnMouseSideButtonDown(object? sender, EventArgs e)
+        => TryBackToDefaultMode();
+
+    private bool TryBackToDefaultMode()
+    {
+        if (MainFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+
+        return false;
     }
 
     private bool TryTogglePlayPauseIfInPlayer()
