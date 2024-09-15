@@ -177,7 +177,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         Closed -= OnClosed;
 
         GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
-        KeyboardHook.Stop();
+        GlobalHook.Stop();
         SaveCurrentWindowStats();
     }
 
@@ -186,13 +186,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         var isDeactivated = sender.State == InputActivationState.Deactivated;
         if (isDeactivated)
         {
-            KeyboardHook.KeyDown -= OnWindowKeyDown;
-            KeyboardHook.Stop();
+            GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.Stop();
         }
         else
         {
-            KeyboardHook.Start();
-            KeyboardHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.Start();
+            GlobalHook.KeyDown += OnWindowKeyDown;
         }
     }
 

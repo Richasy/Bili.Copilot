@@ -78,13 +78,23 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         var isDeactivated = sender.State == InputActivationState.Deactivated;
         if (isDeactivated)
         {
-            KeyboardHook.KeyDown -= OnWindowKeyDown;
-            KeyboardHook.Stop();
+            GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
+            GlobalHook.Stop();
         }
         else
         {
-            KeyboardHook.Start();
-            KeyboardHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.Start();
+            GlobalHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
+        }
+    }
+
+    private void OnMouseSideButtonDown(object? sender, EventArgs e)
+    {
+        if (RootLayout.ViewModel.IsOverlayOpen)
+        {
+            RootLayout.ViewModel.Back();
         }
     }
 
@@ -133,7 +143,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
         }
 
-        KeyboardHook.Stop();
+        GlobalHook.Stop();
         SaveCurrentWindowStats();
     }
 
@@ -210,27 +220,39 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
     }
 }
 
-internal static class KeyboardHook
+internal static class GlobalHook
 {
     private const int WM_KEYDOWN = 0x0100;
+    private const int WM_XBUTTONCLK = 0x020B;
 
-    private static readonly HOOKPROC _proc = HookCallback;
-    private static UnhookWindowsHookExSafeHandle _hookID = new();
+    private static readonly HOOKPROC _procKeyboard = HookKeyboardCallback;
+    private static readonly HOOKPROC _procMouse = MouseHookCallback;
+    private static UnhookWindowsHookExSafeHandle _keyboardHookID = new();
+    private static UnhookWindowsHookExSafeHandle _mouseHookID = new();
 
     public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
+    public static event EventHandler MouseSideButtonDown;
 
-    public static void Start() => _hookID = SetHook(_proc);
+    public static void Start()
+    {
+        _keyboardHookID = SetHook(_procKeyboard, WINDOWS_HOOK_ID.WH_KEYBOARD_LL);
+        _mouseHookID = SetHook(_procMouse, WINDOWS_HOOK_ID.WH_MOUSE_LL);
+    }
 
-    public static void Stop() => PInvoke.UnhookWindowsHookEx(new HHOOK(_hookID.DangerousGetHandle()));
+    public static void Stop()
+    {
+        PInvoke.UnhookWindowsHookEx(new HHOOK(_keyboardHookID.DangerousGetHandle()));
+        PInvoke.UnhookWindowsHookEx(new HHOOK(_mouseHookID.DangerousGetHandle()));
+    }
 
-    private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc)
+    private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc, WINDOWS_HOOK_ID hookId)
     {
         using var curProcess = Process.GetCurrentProcess();
         using var curModule = curProcess.MainModule;
-        return PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, proc, PInvoke.GetModuleHandle(curModule.ModuleName), 0);
+        return PInvoke.SetWindowsHookEx(hookId, proc, PInvoke.GetModuleHandle(curModule.ModuleName), 0);
     }
 
-    private static LRESULT HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    private static LRESULT HookKeyboardCallback(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
         {
@@ -244,7 +266,19 @@ internal static class KeyboardHook
             }
         }
 
-        return PInvoke.CallNextHookEx(new HHOOK(_hookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
+        return PInvoke.CallNextHookEx(new HHOOK(_keyboardHookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
+    }
+
+    private static unsafe LRESULT MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+    {
+        if (nCode >= 0 && wParam.Value == WM_XBUTTONCLK)
+        {
+            var mhookstruct = (MOUSEHOOKSTRUCT*)lParam.Value;
+            MouseSideButtonDown?.Invoke(null, EventArgs.Empty);
+            return new LRESULT(1);
+        }
+
+        return PInvoke.CallNextHookEx(new HHOOK(_mouseHookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
     }
 }
 
