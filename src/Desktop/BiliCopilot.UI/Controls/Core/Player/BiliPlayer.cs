@@ -127,41 +127,44 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
-    {
-        CheckPointerType(e.Pointer);
-        RestoreCursor();
-        if (!_isTouch)
-        {
-            CheckTransportControlVisibility(e);
-        }
-    }
+        => HandlePointerEvent(e);
 
     /// <inheritdoc/>
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
-    {
-        CheckPointerType(e.Pointer);
-        RestoreCursor();
-        if (!_isTouch)
-        {
-            CheckTransportControlVisibility(e);
-        }
-    }
+        => HandlePointerEvent(e);
 
     /// <inheritdoc/>
     protected override void OnPointerExited(PointerRoutedEventArgs e)
-    {
-        CheckPointerType(e.Pointer);
-        RestoreCursor();
-        if (TransportControls is not null && !_isTouch)
-        {
-            SetTransportVisibility(false);
-        }
-    }
+        => HandlePointerEvent(e, true);
 
     /// <inheritdoc/>
     protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
         CheckPointerType(e.Pointer);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnPointerCanceled(PointerRoutedEventArgs e)
+        => HandlePointerEvent(e, true);
+
+    /// <inheritdoc/>
+    protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
+        => HandlePointerEvent(e, true);
+
+    private void HandlePointerEvent(PointerRoutedEventArgs e, bool forceHideTransportControls = false)
+    {
+        CheckPointerType(e.Pointer);
+        RestoreCursor();
+        if (!_isTouch)
+        {
+            if (forceHideTransportControls)
+            {
+                SetTransportVisibility(false);
+                return;
+            }
+
+            CheckTransportControlVisibility(e);
+        }
     }
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
