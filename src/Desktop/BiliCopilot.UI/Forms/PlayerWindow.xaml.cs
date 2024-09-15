@@ -53,6 +53,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenVideo(VideoSnapshot snapshot)
     {
         Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
+            return;
+        }
+
         MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
     }
 

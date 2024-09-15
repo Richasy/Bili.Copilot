@@ -71,6 +71,13 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
             return;
         }
 
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUri().ToString());
+            return;
+        }
+
         this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data));
     }
 

@@ -20,6 +20,7 @@
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
     <Content Remove="Assets\bbdown\x64\BBDown.exe" />
+    <Content Remove="Assets\BewlyBewly.zip" />
     <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
@@ -338,6 +339,7 @@
     <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
     <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
+    <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
@@ -1335,6 +1337,9 @@
     <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Update="Assets\BewlyBewly.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1347,6 +1352,9 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
