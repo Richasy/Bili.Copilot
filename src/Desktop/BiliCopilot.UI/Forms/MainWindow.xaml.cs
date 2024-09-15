@@ -92,6 +92,11 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
     private void OnMouseSideButtonDown(object? sender, EventArgs e)
     {
+        if (RootLayout.TryBackToDefaultIfPlayerHostMode())
+        {
+            return;
+        }
+
         if (RootLayout.ViewModel.IsOverlayOpen)
         {
             RootLayout.ViewModel.Back();

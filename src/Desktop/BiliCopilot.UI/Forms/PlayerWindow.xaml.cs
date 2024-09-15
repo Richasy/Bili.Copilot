@@ -187,13 +187,44 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
         }
+    }
+
+    private void OnMouseSideButtonDown(object? sender, EventArgs e)
+        => TryBackToDefaultMode();
+
+    private bool TryBackToDefaultMode()
+    {
+        if (MainFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            return true;
+        }
+
+        return false;
     }
 
     private bool TryTogglePlayPauseIfInPlayer()
