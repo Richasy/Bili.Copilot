@@ -192,13 +192,17 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
     private void Redraw()
     {
-        DispatcherQueue.TryEnqueue(() =>
+        DispatcherQueue.TryEnqueue(async () =>
         {
             _danmakuController.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, default);
             ResetDanmakuStyle();
+
+            // 延迟加载弹幕，避免渲染失败.
+            await Task.Delay(1000);
             if (_cachedDanmakus.Count > 0)
             {
+                _danmakuController.Clear();
                 _danmakuController.AddDanmakuList(_cachedDanmakus);
                 _danmakuController.Resume();
                 _danmakuController.Seek(Convert.ToUInt32(_lastProgress * 1000));
