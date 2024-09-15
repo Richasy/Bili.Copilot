@@ -70,7 +70,11 @@ public sealed partial class ArticleReader : LayoutUserControlBase
     /// <summary>
     /// 清除内容.
     /// </summary>
-    public void ClearContent() => MainView.CoreWebView2.NavigateToString(string.Empty);
+    public void ClearContent()
+    {
+        MainView?.CoreWebView2.NavigateToString(string.Empty);
+        MainView?.Close();
+    }
 
     /// <inheritdoc/>
     protected override async void OnControlLoaded()

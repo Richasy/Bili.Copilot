@@ -108,7 +108,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            if (!TryOpenInNewWindowIfPreferred())
+            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
             {
                 var snapshot = new VideoSnapshot(vinfo);
                 this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
@@ -116,7 +116,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
-            if (!TryOpenInNewWindowIfPreferred())
+            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
             {
                 var hasEpid = einfo.Identifier.Id != "0";
                 if (hasEpid)
@@ -146,6 +146,23 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
                 OpenInNewWindowCommand.Execute(default);
+                return true;
+            }
+
+            return false;
+        }
+
+        bool TryOpenInWebPlayerIfPreferred()
+        {
+            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+            if (preferPlayer == PlayerType.Web)
+            {
+                var webUrl = GetMediaUrl();
+                if (webUrl is not null)
+                {
+                    this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, webUrl);
+                }
+
                 return true;
             }
 

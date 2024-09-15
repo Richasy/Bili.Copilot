@@ -95,4 +95,5 @@ public enum SettingNames
     LastSelectedAIService,
     AppVersion,
     FilterAISubtitle,
+    BewlyExtensionVersion,
 }

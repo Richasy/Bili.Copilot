@@ -64,6 +64,11 @@ public sealed partial class LiveChatSection : LiveChatSectionBase
 
     private void OnScrollToBottomRequested(object? sender, EventArgs e)
     {
+        if (View.ScrollView is null)
+        {
+            return;
+        }
+
         if (View.ScrollView.VerticalOffset + View.ScrollView.ViewportHeight >= View.ScrollView.ExtentHeight - 50)
         {
             View.ScrollView.ScrollTo(0, View.ScrollView.ExtentHeight + View.ScrollView.ViewportHeight + 50, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));

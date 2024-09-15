@@ -47,16 +47,20 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
             return;
         }
 
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            return;
+        }
+
         var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, id);
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
-    {
-        var url = $"https://www.bilibili.com/bangumi/play/ep{Data.Identifier.Id}";
-        await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
-    }
+    private Task OpenInBroswerAsync()
+        => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
 
     [RelayCommand]
     private void OpenInNewWindow()
@@ -68,4 +72,7 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
         var pinItem = new PinItem($"ep_{Data.Identifier.Id}", Data.Identifier.Title, Data.Identifier.Cover.Uri.ToString(), PinContentType.Pgc);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
+
+    private string GetWebUrl()
+        => $"https://www.bilibili.com/bangumi/play/ep{Data.Identifier.Id}";
 }

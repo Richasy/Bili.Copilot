@@ -53,16 +53,31 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenVideo(VideoSnapshot snapshot)
     {
         Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            MainFrame.Navigate(typeof(WebPlayerPage), $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
+            return;
+        }
+
         MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
     }
 
     /// <summary>
     /// 打开PGC内容.
     /// </summary>
-    public void OpenPgc(MediaIdentifier ep)
+    public void OpenPgc(MediaIdentifier pgc)
     {
         Activate();
-        MainFrame.Navigate(typeof(PgcPlayerPage), ep);
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            var url = $"https://www.bilibili.com/bangumi/play/{pgc.Id.Replace("_", string.Empty)}";
+            MainFrame.Navigate(typeof(WebPlayerPage), url);
+            return;
+        }
+
+        MainFrame.Navigate(typeof(PgcPlayerPage), pgc);
     }
 
     /// <summary>
@@ -71,6 +86,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenLive(MediaIdentifier room)
     {
         Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        if (preferPlayer == PlayerType.Web)
+        {
+            MainFrame.Navigate(typeof(WebPlayerPage), $"https://live.bilibili.com/{room.Id}");
+            return;
+        }
+
         MainFrame.Navigate(typeof(LivePlayerPage), room);
     }
 
@@ -187,19 +209,14 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
         }
     }
-
-    private void OnMouseSideButtonDown(object? sender, EventArgs e)
-        => TryBackToDefaultMode();
 
     private bool TryBackToDefaultMode()
     {
@@ -342,6 +359,16 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
                 SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
                 SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
             }
+        }
+    }
+
+    private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        var point = e.GetCurrentPoint((UIElement)sender);
+        if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
+        {
+            e.Handled = true;
+            TryBackToDefaultMode();
         }
     }
 }

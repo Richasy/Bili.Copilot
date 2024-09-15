@@ -15,11 +15,7 @@ public sealed partial class ArticleReaderPage : ArticleReaderPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleReaderPage"/> class.
     /// </summary>
-    public ArticleReaderPage()
-    {
-        InitializeComponent();
-        NavigationCacheMode = NavigationCacheMode.Required;
-    }
+    public ArticleReaderPage() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -79,8 +79,12 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// <summary>
     /// 重新绘制.
     /// </summary>
-    public void Redraw()
-        => RequestRedrawDanmaku?.Invoke(this, EventArgs.Empty);
+    public async void RedrawAsync()
+    {
+        await Task.Delay(1000);
+        _segmentIndex = -1;
+        RequestRedrawDanmaku?.Invoke(this, EventArgs.Empty);
+    }
 
     /// <summary>
     /// 清除数据.
@@ -124,12 +128,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
             }
 
             _segmentIndex = index;
-
-            // 初次加载时强制重绘.
-            if (_segmentIndex == 1)
-            {
-                Redraw();
-            }
         }
         catch (Exception ex)
         {
@@ -194,7 +192,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     {
         if (value)
         {
-            Redraw();
+            RedrawAsync();
         }
         else
         {

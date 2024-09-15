@@ -28,6 +28,7 @@ namespace Danmaku.Core
         private volatile int _lastIndex;
         private volatile uint _lastTimeMs;
         private volatile int _subtitleIndexAfterSeek = -1;
+        private Action _loadAction = default;
 
         public bool DebugMode
         {
@@ -38,14 +39,15 @@ namespace Danmaku.Core
         /// <summary>
         /// Must be called in UI thread
         /// </summary>
-        public DanmakuFrostMaster(Grid rootGrid, LoggingChannel loggingChannel = null)
+        public DanmakuFrostMaster(Grid rootGrid, LoggingChannel loggingChannel = null, Action loadAction = null)
         {
             rootGrid.Children.Clear();
             var canvas = new CanvasAnimatedControl();
             rootGrid.Children.Add(canvas);
             Logger.SetLogger(loggingChannel);
 
-            _render = new DanmakuRender(canvas);
+            _loadAction = loadAction;
+            _render = new DanmakuRender(canvas, _loadAction);
 
             Windows.System.Threading.ThreadPool.RunAsync(Updater_DoWork).AsTask();
             _isRenderEnabled = true;

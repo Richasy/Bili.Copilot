@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <RootNamespace>BiliCopilot.UI</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
@@ -20,12 +21,14 @@
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
     <Content Remove="Assets\bbdown\x64\BBDown.exe" />
+    <Content Remove="Assets\BewlyBewly.zip" />
     <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
     <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
+    <Content Remove="Assets\WebPlayer.js" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Providers\ali-avatar.png" />
@@ -338,6 +341,7 @@
     <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
     <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
+    <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
@@ -374,6 +378,7 @@
     <PackageReference Include="H.NotifyIcon.WinUI" />
     <PackageReference Include="HtmlAgilityPack" />
     <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.Web.WebView2" />
     <PackageReference Include="Microsoft.Windows.CsWin32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -1335,6 +1340,9 @@
     <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <None Update="Assets\BewlyBewly.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1347,6 +1355,12 @@
     <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\WebPlayer.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

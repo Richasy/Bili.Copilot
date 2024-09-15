@@ -196,13 +196,8 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         {
             _danmakuController.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, default);
+            _danmakuController.UpdateTime(Convert.ToUInt32(_lastProgress * 1000));
             ResetDanmakuStyle();
-            if (_cachedDanmakus.Count > 0)
-            {
-                _danmakuController.AddDanmakuList(_cachedDanmakus);
-                _danmakuController.Resume();
-                _danmakuController.Seek(Convert.ToUInt32(_lastProgress * 1000));
-            }
         });
     }
 }

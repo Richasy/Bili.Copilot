@@ -50,6 +50,7 @@ namespace Danmaku.Core
         private float _scale = 1.0f;
         private Color _borderColor = Colors.Blue;
         private string _defaultFontFamilyName = Default_Font_Family_Name;
+        private Action _loadAction;
 
         public float CanvasWidth
         {
@@ -67,7 +68,7 @@ namespace Danmaku.Core
         }
 
         /// <exception cref="System.ArgumentNullException">canvas is null</exception>
-        public DanmakuRender(CanvasAnimatedControl canvas)
+        public DanmakuRender(CanvasAnimatedControl canvas, Action loadAction = default)
         {
             _canvas = canvas ?? throw new ArgumentNullException("canvas");
 
@@ -84,6 +85,7 @@ namespace Danmaku.Core
             _canvas.Draw += CanvasAnimatedControl_Draw;
 
             _canvas.Paused = false;
+            _loadAction = loadAction;
 
             uint layerCount = DanmakuDefaultLayerDef.DefaultLayerCount;
             _renderLayerList = new RenderLayer[layerCount];
@@ -823,6 +825,12 @@ namespace Danmaku.Core
         {
             try
             {
+                if (_loadAction != null)
+                {
+                    _loadAction();
+                    _loadAction = null;
+                }
+
                 int totalCount = 0;
                 args.DrawingSession.Transform = new Matrix3x2 { M11 = 1f / _scale, M22 = 1f / _scale };
 
