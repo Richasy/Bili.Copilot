@@ -98,6 +98,42 @@ public sealed partial class RootLayout : RootLayoutBase
     }
 
     /// <summary>
+    /// 是否处于独占播放模式.
+    /// </summary>
+    /// <returns>结果.</returns>
+    public bool TryBackToDefaultIfPlayerHostMode()
+    {
+        if (MainTitleBar.Visibility == Visibility.Visible)
+        {
+            return false;
+        }
+
+        var isHandled = false;
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            isHandled = true;
+        }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            isHandled = true;
+        }
+        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        {
+            lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            isHandled = true;
+        }
+        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
+            isHandled = true;
+        }
+
+        return isHandled;
+    }
+
+    /// <summary>
     /// 尝试在播放器中切换播放暂停状态.
     /// </summary>
     /// <returns>是否处理.</returns>

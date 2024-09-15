@@ -4,3 +4,5 @@ UnhookWindowsHookEx
 GetModuleHandle
 CallNextHookEx
 GetKeyState
+Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
+Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT
