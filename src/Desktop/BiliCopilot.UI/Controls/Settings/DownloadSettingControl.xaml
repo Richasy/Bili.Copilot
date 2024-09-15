@@ -35,6 +35,9 @@
             <community:SettingsCard Header="{ext:Locale Name=DownloadWithDanmaku}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.DownloadWithDanmaku, Mode=TwoWay}" />
             </community:SettingsCard>
+            <community:SettingsCard Header="{ext:Locale Name=SkipAISubtitle}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.FilterAISubtitle, Mode=TwoWay}" />
+            </community:SettingsCard>
             <community:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderAfterDownload, Mode=TwoWay}" />
             </community:SettingsCard>

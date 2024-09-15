@@ -2669,4 +2669,7 @@
   <data name="NewWindow" xml:space="preserve">
     <value>新窗口</value>
   </data>
+  <data name="SkipAISubtitle" xml:space="preserve">
+    <value>跳过 AI 字幕下载</value>
+  </data>
 </root>
