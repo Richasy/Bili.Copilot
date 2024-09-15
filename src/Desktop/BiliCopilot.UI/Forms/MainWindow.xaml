@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid PointerPressed="OnPointerPressed">
         <controls:RootLayout x:Name="RootLayout" />
         <Grid x:Name="TipContainer" Visibility="Collapsed" />
     </Grid>

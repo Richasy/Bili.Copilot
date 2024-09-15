@@ -209,19 +209,14 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
         }
     }
-
-    private void OnMouseSideButtonDown(object? sender, EventArgs e)
-        => TryBackToDefaultMode();
 
     private bool TryBackToDefaultMode()
     {
@@ -364,6 +359,16 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
                 SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, Height);
                 SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, Width);
             }
+        }
+    }
+
+    private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        var point = e.GetCurrentPoint((UIElement)sender);
+        if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
+        {
+            e.Handled = true;
+            TryBackToDefaultMode();
         }
     }
 }

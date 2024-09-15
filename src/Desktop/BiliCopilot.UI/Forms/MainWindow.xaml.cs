@@ -79,27 +79,12 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown -= OnMouseSideButtonDown;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
-            GlobalHook.MouseSideButtonDown += OnMouseSideButtonDown;
-        }
-    }
-
-    private void OnMouseSideButtonDown(object? sender, EventArgs e)
-    {
-        if (RootLayout.TryBackToDefaultIfPlayerHostMode())
-        {
-            return;
-        }
-
-        if (RootLayout.ViewModel.IsOverlayOpen)
-        {
-            RootLayout.ViewModel.Back();
         }
     }
 
@@ -223,31 +208,59 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             }
         }
     }
+
+    private void OnPreviewKeyDown(object sender, KeyRoutedEventArgs e)
+    {
+        if (e.Key == VirtualKey.XButton1 || e.Key == VirtualKey.XButton2)
+        {
+            e.Handled = true;
+            if (RootLayout.TryBackToDefaultIfPlayerHostMode())
+            {
+                return;
+            }
+
+            if (RootLayout.ViewModel.IsOverlayOpen)
+            {
+                RootLayout.ViewModel.Back();
+            }
+        }
+    }
+
+    private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        var point = e.GetCurrentPoint((UIElement)sender);
+        if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
+        {
+            e.Handled = true;
+            if (RootLayout.TryBackToDefaultIfPlayerHostMode())
+            {
+                return;
+            }
+
+            if (RootLayout.ViewModel.IsOverlayOpen)
+            {
+                RootLayout.ViewModel.Back();
+            }
+        }
+    }
 }
 
 internal static class GlobalHook
 {
     private const int WM_KEYDOWN = 0x0100;
-    private const int WM_XBUTTONCLK = 0x020B;
 
     private static readonly HOOKPROC _procKeyboard = HookKeyboardCallback;
-    private static readonly HOOKPROC _procMouse = MouseHookCallback;
     private static UnhookWindowsHookExSafeHandle _keyboardHookID = new();
-    private static UnhookWindowsHookExSafeHandle _mouseHookID = new();
-
     public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
-    public static event EventHandler MouseSideButtonDown;
 
     public static void Start()
     {
         _keyboardHookID = SetHook(_procKeyboard, WINDOWS_HOOK_ID.WH_KEYBOARD_LL);
-        _mouseHookID = SetHook(_procMouse, WINDOWS_HOOK_ID.WH_MOUSE_LL);
     }
 
     public static void Stop()
     {
         PInvoke.UnhookWindowsHookEx(new HHOOK(_keyboardHookID.DangerousGetHandle()));
-        PInvoke.UnhookWindowsHookEx(new HHOOK(_mouseHookID.DangerousGetHandle()));
     }
 
     private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc, WINDOWS_HOOK_ID hookId)
@@ -271,19 +284,9 @@ internal static class GlobalHook
             }
         }
 
-        return PInvoke.CallNextHookEx(new HHOOK(_keyboardHookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
-    }
+        Debug.WriteLine("Keyboard Hook: " + nCode);
 
-    private static unsafe LRESULT MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
-    {
-        if (nCode >= 0 && wParam.Value == WM_XBUTTONCLK)
-        {
-            var mhookstruct = (MOUSEHOOKSTRUCT*)lParam.Value;
-            MouseSideButtonDown?.Invoke(null, EventArgs.Empty);
-            return new LRESULT(1);
-        }
-
-        return PInvoke.CallNextHookEx(new HHOOK(_mouseHookID.DangerousGetHandle()), nCode, new WPARAM(unchecked((nuint)wParam)), lParam);
+        return PInvoke.CallNextHookEx(HHOOK.Null, nCode, wParam, lParam);
     }
 }
 
