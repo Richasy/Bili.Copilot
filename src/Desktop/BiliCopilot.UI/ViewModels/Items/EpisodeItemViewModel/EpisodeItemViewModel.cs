@@ -40,6 +40,13 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
     [RelayCommand]
     private void Play()
     {
+        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        {
+            OpenInNewWindowCommand.Execute(default);
+            return;
+        }
+
         var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, id);
     }

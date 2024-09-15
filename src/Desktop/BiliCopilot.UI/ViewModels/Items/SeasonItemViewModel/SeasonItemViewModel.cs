@@ -44,6 +44,13 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
     [RelayCommand]
     private void Play()
     {
+        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        {
+            OpenInNewWindowCommand.Execute(default);
+            return;
+        }
+
         var identifier = new MediaIdentifier("ss_" + Data.Identifier.Id, default, default);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
     }

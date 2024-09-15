@@ -108,30 +108,48 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            var snapshot = new VideoSnapshot(vinfo);
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+            if (!TryOpenInNewWindowIfPreferred())
+            {
+                var snapshot = new VideoSnapshot(vinfo);
+                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+            }
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
-            var hasEpid = einfo.Identifier.Id != "0";
-            if (hasEpid)
+            if (!TryOpenInNewWindowIfPreferred())
             {
-                var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-                this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
-            }
-            else
-            {
-                // 出差番剧，使用网页打开.
-                OpenInBroswerCommand.Execute(default);
+                var hasEpid = einfo.Identifier.Id != "0";
+                if (hasEpid)
+                {
+                    var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
+                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+                }
+                else
+                {
+                    // 出差番剧，使用网页打开.
+                    OpenInBroswerCommand.Execute(default);
+                }
             }
         }
-        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
+        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo && !TryOpenInNewWindowIfPreferred())
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo.Identifier);
         }
         else if (FindInnerContent<IEnumerable<BiliImage>>() is not IEnumerable<BiliImage>)
         {
             OpenInBroswerCommand.Execute(default);
+        }
+
+        bool TryOpenInNewWindowIfPreferred()
+        {
+            var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+            {
+                OpenInNewWindowCommand.Execute(default);
+                return true;
+            }
+
+            return false;
         }
     }
 
@@ -209,6 +227,10 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             {
                 new PlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
             }
+        }
+        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
+        {
+            new PlayerWindow().OpenLive(linfo.Identifier);
         }
     }
 
