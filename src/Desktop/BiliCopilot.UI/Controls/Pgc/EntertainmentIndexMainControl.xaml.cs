@@ -65,7 +65,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
         }
 
         _viewModel = ViewModel;
-        SeasonScrollView.ScrollTo(0, 0, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
+        SeasonScrollView.ChangeView(0, 0, default, true);
         _viewModel.ItemsUpdated += OnItemsUpdatedAsync;
     }
 
@@ -75,7 +75,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
         CheckSeasonCount();
     }
 
-    private void OnViewChanged(ScrollView sender, object args)
+    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {

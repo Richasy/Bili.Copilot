@@ -16,10 +16,10 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ScrollView
+        <ScrollViewer
             x:Name="CommentScrollView"
             Padding="0"
-            Style="{StaticResource PageScrollViewStyle}">
+            Style="{StaticResource PageScrollViewerStyle}">
             <StackPanel Margin="12,0" Spacing="12">
                 <components:CommentItemControl IsMoreEnabled="False" ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
@@ -30,7 +30,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-        </ScrollView>
+        </ScrollViewer>
         <components:EmptyHolder
             Description="{ext:Locale Name=NoReply}"
             Emoji="&#x1FAE2;"

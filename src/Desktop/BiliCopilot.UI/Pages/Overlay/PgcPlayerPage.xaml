@@ -57,11 +57,11 @@
                     Grid.Row="2"
                     Grid.Column="1" />
 
-                <ScrollView
+                <ScrollViewer
                     x:Name="VideoContainer"
                     Grid.Row="2"
                     Margin="0,0,-6,0"
-                    Style="{StaticResource PageScrollViewStyle}">
+                    Style="{StaticResource PageScrollViewerStyle}">
                     <StackPanel>
                         <StackPanel.ChildrenTransitions>
                             <RepositionThemeTransition IsStaggeringEnabled="False" />
@@ -136,7 +136,7 @@
                                 ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
                         </Grid>
                     </StackPanel>
-                </ScrollView>
+                </ScrollViewer>
 
                 <Grid
                     x:Name="SideHeader"

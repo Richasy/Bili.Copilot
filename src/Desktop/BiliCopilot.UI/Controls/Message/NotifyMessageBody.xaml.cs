@@ -65,7 +65,7 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
 
         _viewModel = ViewModel;
         _viewModel.ListUpdated += OnMessageListUpdatedAsync;
-        MessageScrollView.ScrollTo(0, 0);
+        MessageScrollView.ChangeView(0, 0, default);
     }
 
     private async void OnMessageListUpdatedAsync(object? sender, EventArgs e)
@@ -74,7 +74,7 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
         CheckMessageCount();
     }
 
-    private void OnViewChanged(ScrollView sender, object args)
+    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {

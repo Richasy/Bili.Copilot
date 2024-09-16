@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="MomentScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="MomentScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsControl MaxWidth="1200" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
@@ -25,7 +25,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
 
         <components:EmptyHolder
             Description="{ext:Locale Name=NoSpecificData}"

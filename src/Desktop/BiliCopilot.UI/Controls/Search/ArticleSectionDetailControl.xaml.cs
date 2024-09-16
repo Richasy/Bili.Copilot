@@ -42,7 +42,7 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
         CheckArticleCount();
     }
 
-    private void OnViewChanged(ScrollView sender, object args)
+    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
