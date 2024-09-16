@@ -12,6 +12,8 @@ namespace BiliCopilot.UI.Controls.Player;
 /// </summary>
 public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
 {
+    private long _viewModelChangedToken;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoSeasonSection"/> class.
     /// </summary>
@@ -19,6 +21,16 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
 
     /// <inheritdoc/>
     protected override async void OnControlLoaded()
+    {
+        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
+        await CheckSelectedItemAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnControlUnloaded()
+        => UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
+
+    private async void OnViewModelPropertyChangedAsync(DependencyObject sender, DependencyProperty dp)
         => await CheckSelectedItemAsync();
 
     private async void OnSeasonChangedAsync(object sender, SelectionChangedEventArgs e)

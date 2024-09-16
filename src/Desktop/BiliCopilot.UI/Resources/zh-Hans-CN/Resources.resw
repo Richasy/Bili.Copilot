@@ -2684,4 +2684,13 @@
   <data name="StopWhenEndOfPlaylistDescription" xml:space="preserve">
     <value>当播放到播放列表最后一个视频时，不再切换到其它视频</value>
   </data>
+  <data name="SingleLoop" xml:space="preserve">
+    <value>单个循环</value>
+  </data>
+  <data name="ListLoop" xml:space="preserve">
+    <value>列表循环</value>
+  </data>
+  <data name="NoLoop" xml:space="preserve">
+    <value>不循环</value>
+  </data>
 </root>

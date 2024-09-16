@@ -44,12 +44,14 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         Subtitle = subtitle;
         Downloader = download;
         AI = ai;
+        CurrentLoop = VideoLoopType.None;
         Subtitle.SetInitializedCallback(SyncDownloadAndSubtitle);
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetStateAction(PlayerStateChanged);
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadPart);
         Player.SetSpeedAction(PlayerSpeedChanged);
+        Player.SetTapToggleFullScreenAction(Danmaku.RedrawAsync);
     }
 
     /// <summary>
@@ -101,6 +103,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             _part = initialPart;
             LoadInitialProgress();
             InitializeSections();
+            InitializeLoops();
             ChangePart(initialPart);
             ViewInitialized?.Invoke(this, EventArgs.Empty);
         }
@@ -234,10 +237,9 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             npvm.InjectSegments(vSeg, aSeg);
         }
 
+        Danmaku.ClearAll();
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress, extraOptions: _part.Identifier.Id);
         Player.InitializeSmtc(_view.Information.Identifier.Cover.SourceUri.ToString(), Title, UpName);
-        Danmaku?.ClearAll();
-        Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
 
         // 重置初始进度，避免影响其它视频.
         _initialProgress = 0;
@@ -288,4 +290,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
 
     partial void OnPlayerWidthChanged(double value)
         => CalcPlayerHeight();
+
+    partial void OnCurrentLoopChanged(VideoLoopType value)
+        => InitializeNextVideo();
 }

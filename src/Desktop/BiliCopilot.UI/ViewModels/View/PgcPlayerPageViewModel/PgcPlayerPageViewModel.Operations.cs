@@ -290,7 +290,6 @@ public sealed partial class PgcPlayerPageViewModel
         var aid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
         var cid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
         _comments.Initialize(aid, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
-        Danmaku?.ResetData(aid, cid);
         Subtitle?.ResetData(aid, cid);
         CalcPlayerHeight();
         ReloadEpisodeOpeartionCommand.Execute(default);
@@ -316,7 +315,17 @@ public sealed partial class PgcPlayerPageViewModel
     {
         if (state == PlayerState.Playing)
         {
-            Danmaku?.Resume();
+            if (Danmaku.IsEmpty())
+            {
+                var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+                var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+                Danmaku.ResetData(aid, cid);
+                Danmaku.RedrawAsync();
+            }
+            else
+            {
+                Danmaku?.Resume();
+            }
         }
         else
         {

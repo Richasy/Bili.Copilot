@@ -189,7 +189,7 @@ public sealed partial class VideoPlayerPageViewModel
         => Launcher.LaunchUriAsync(new Uri(GetWebLink())).AsTask();
 
     [RelayCommand]
-    private void PlayNextVideo()
+    private async Task PlayNextVideoAsync()
     {
         if (IsPageLoading || Player.IsPlayerDataLoading)
         {
@@ -204,6 +204,17 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _initialProgress = 0;
+        if (Player is MpvPlayerViewModel)
+        {
+            if (!Player.IsPaused)
+            {
+                Player.TogglePlayPauseCommand.Execute(default);
+            }
+
+            // 留出时间给 MPV 清理资源.
+            await Task.Delay(1500);
+        }
+
         if (nextPart is VideoPart part)
         {
             ChangePart(part);
@@ -294,7 +305,15 @@ public sealed partial class VideoPlayerPageViewModel
     {
         if (state == PlayerState.Playing)
         {
-            Danmaku?.Resume();
+            if (Danmaku.IsEmpty())
+            {
+                Danmaku.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
+                Danmaku.RedrawAsync();
+            }
+            else
+            {
+                Danmaku?.Resume();
+            }
         }
         else
         {
@@ -326,6 +345,13 @@ public sealed partial class VideoPlayerPageViewModel
 
             ReportProgressCommand.Execute(Player.Duration);
 
+            // 单视频循环.
+            if (CurrentLoop == VideoLoopType.Single)
+            {
+                Player.SeekCommand.Execute(0);
+                return;
+            }
+
             var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
             if ((!autoNext || !HasNextVideo) && !_isFormatChanging)
             {
@@ -347,7 +373,7 @@ public sealed partial class VideoPlayerPageViewModel
             var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
             if (withoutTip)
             {
-                PlayNextVideo();
+                PlayNextVideoCommand.Execute(default);
             }
             else
             {
@@ -361,7 +387,7 @@ public sealed partial class VideoPlayerPageViewModel
                     tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
                 }
 
-                var notification = new PlayerNotification(PlayNextVideo, tip, 5);
+                var notification = new PlayerNotification(() => PlayNextVideoCommand.Execute(default), tip, 5);
                 Player.ShowNotification(notification);
             }
         });

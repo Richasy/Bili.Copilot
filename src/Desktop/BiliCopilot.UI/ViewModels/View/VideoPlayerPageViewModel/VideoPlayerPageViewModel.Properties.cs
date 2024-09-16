@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Threading;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -132,6 +133,9 @@ public sealed partial class VideoPlayerPageViewModel
     private bool _isAIOverlayOpened;
 
     [ObservableProperty]
+    private VideoLoopType _currentLoop;
+
+    [ObservableProperty]
     private PlayerFormatItemViewModel? _selectedFormat;
 
     [ObservableProperty]
@@ -145,6 +149,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     [ObservableProperty]
     private IReadOnlyCollection<PlayerFavoriteFolderViewModel>? _favoriteFolders;
+
+    [ObservableProperty]
+    private IReadOnlyCollection<VideoLoopType> _loopTypes;
 
     [ObservableProperty]
     private IReadOnlyCollection<IPlayerSectionDetailViewModel>? _sections;

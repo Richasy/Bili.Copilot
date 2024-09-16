@@ -54,7 +54,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 
         _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         _interactionControl.Tapped += OnCoreTapped;
-        _interactionControl.DoubleTapped += OnCoreDoubleTapped;
+        _interactionControl.DoubleTapped += OnCoreDoubleTappedAsync;
         _interactionControl.Holding += OnCoreHolding;
         _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
@@ -108,7 +108,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         if (_interactionControl != null)
         {
             _interactionControl.Tapped -= OnCoreTapped;
-            _interactionControl.DoubleTapped -= OnCoreDoubleTapped;
+            _interactionControl.DoubleTapped -= OnCoreDoubleTappedAsync;
             _interactionControl.Holding -= OnCoreHolding;
             _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
@@ -198,7 +198,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
     }
 
-    private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+    private async void OnCoreDoubleTappedAsync(object sender, DoubleTappedRoutedEventArgs e)
     {
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (ViewModel is null)
@@ -212,11 +212,14 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
         else
         {
-            ViewModel.ToggleFullScreenCommand.Execute(default);
             if (ViewModel.IsPaused)
             {
                 ViewModel.TogglePlayPauseCommand.Execute(default);
+                await Task.Delay(100);
             }
+
+            ViewModel.ToggleFullScreenCommand.Execute(default);
+            ViewModel.ActiveWhenTapToggleFullScreen();
         }
     }
 
