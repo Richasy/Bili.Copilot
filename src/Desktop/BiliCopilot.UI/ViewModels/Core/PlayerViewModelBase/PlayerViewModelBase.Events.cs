@@ -37,8 +37,14 @@ public abstract partial class PlayerViewModelBase
     /// </summary>
     protected virtual void UpdateState(PlayerState state)
     {
-        _dispatcherQueue.TryEnqueue(() =>
+        _dispatcherQueue.TryEnqueue(async () =>
         {
+            if (_isClosed)
+            {
+                await OnCloseAsync();
+                return;
+            }
+
             if (state == PlayerState.Playing)
             {
                 IsPaused = false;

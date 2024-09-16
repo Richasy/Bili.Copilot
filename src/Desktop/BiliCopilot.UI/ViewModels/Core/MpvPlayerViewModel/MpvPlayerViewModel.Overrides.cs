@@ -70,7 +70,7 @@ public sealed partial class MpvPlayerViewModel
 
         try
         {
-            if (!string.IsNullOrEmpty(_videoUrl))
+            if (!string.IsNullOrEmpty(_videoUrl) && !Player.IsDisposed)
             {
                 await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);
 
@@ -79,7 +79,7 @@ public sealed partial class MpvPlayerViewModel
                     await WaitUntilAddAudioAsync(_audioUrl);
                 }
             }
-            else if (!string.IsNullOrEmpty(_audioUrl))
+            else if (!string.IsNullOrEmpty(_audioUrl) && !Player.IsDisposed)
             {
                 await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
             }

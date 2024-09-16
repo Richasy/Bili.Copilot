@@ -27,8 +27,8 @@ public sealed partial class ExternalPlayerViewModel : PlayerViewModelBase
 
     private void ResetPlayer()
     {
-        _mpvDebugMessages.Clear();
-        _dispatcherQueue.TryEnqueue(() =>
+        _mpvDebugMessages?.Clear();
+        _dispatcherQueue?.TryEnqueue(() =>
         {
             LogMessage = string.Empty;
         });
