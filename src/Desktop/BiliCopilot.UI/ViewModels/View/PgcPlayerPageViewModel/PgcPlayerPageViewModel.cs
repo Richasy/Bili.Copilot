@@ -47,6 +47,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadEpisode);
         Player.SetSpeedAction(PlayerSpeedChanged);
+        Player.SetTapToggleFullScreenAction(Danmaku.RedrawAsync);
     }
 
     /// <inheritdoc/>
@@ -199,9 +200,9 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
             npvm.InjectSegments(vSeg, aSeg);
         }
 
+        Danmaku.ClearAll();
         await Player.SetPlayDataAsync(videoUrl, audioUrl, isAutoPlay, _initialProgress < 0 ? 0 : _initialProgress, extraOptions: _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString());
         Player.InitializeSmtc(_episode.Identifier.Cover.SourceUri.ToString(), EpisodeTitle, SeasonTitle);
-        Danmaku?.RedrawAsync();
 
         // 重置初始进度，避免影响其它视频.
         _initialProgress = 0;

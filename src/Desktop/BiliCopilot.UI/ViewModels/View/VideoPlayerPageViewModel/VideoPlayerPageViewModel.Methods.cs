@@ -230,6 +230,9 @@ public sealed partial class VideoPlayerPageViewModel
 
     private object? FindNextVideo()
     {
+        var isListLoop = CurrentLoop == VideoLoopType.List;
+        var hasUgcSeason = Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().Any();
+
         // 1. 先检查分P列表中是否有下一个视频.
         if (Sections.OfType<VideoPlayerPartSectionDetailViewModel>().FirstOrDefault() is VideoPlayerPartSectionDetailViewModel partSection)
         {
@@ -237,6 +240,11 @@ public sealed partial class VideoPlayerPageViewModel
             if (index < partSection.Parts.Count - 1)
             {
                 return partSection.Parts.ElementAt(index + 1);
+            }
+
+            if (_playlist is null && isListLoop && !hasUgcSeason)
+            {
+                return partSection.Parts.First();
             }
         }
 
@@ -248,6 +256,15 @@ public sealed partial class VideoPlayerPageViewModel
             {
                 return _playlist.ElementAt(index + 1);
             }
+
+            if (isListLoop)
+            {
+                return _playlist.First();
+            }
+            else if (SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true))
+            {
+                return default;
+            }
         }
 
         // 3. 检查合集中是否有下一个视频.
@@ -257,6 +274,10 @@ public sealed partial class VideoPlayerPageViewModel
             if (index < seasonSection.Items.Count - 1)
             {
                 return seasonSection.Items.ElementAt(index + 1).Data;
+            }
+            else if (isListLoop)
+            {
+                return seasonSection.Items.First().Data;
             }
         }
 
@@ -272,6 +293,11 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void InitializeNextVideo()
     {
+        if (_view is null || Sections.Count == 0)
+        {
+            return;
+        }
+
         var next = FindNextVideo();
         HasNextVideo = next is not null;
         if (next is VideoPart part)
@@ -303,5 +329,26 @@ public sealed partial class VideoPlayerPageViewModel
     {
         var isAISubtitleFiltered = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         Downloader.HasAvailableSubtitle = Subtitle.IsAvailable && (isAISubtitleFiltered ? Subtitle.Metas.Any(p => !p.IsAI) : true);
+    }
+
+    private void InitializeLoops()
+    {
+        var currentType = CurrentLoop;
+        var loops = new List<VideoLoopType> { VideoLoopType.None, VideoLoopType.Single };
+        if (Sections.OfType<VideoPlayerPartSectionDetailViewModel>().Any()
+           || _playlist is not null
+           || Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().Any())
+        {
+            loops.Add(VideoLoopType.List);
+        }
+
+        if (!loops.Contains(CurrentLoop))
+        {
+            CurrentLoop = VideoLoopType.None;
+        }
+
+        LoopTypes = loops;
+        CurrentLoop = VideoLoopType.None;
+        CurrentLoop = currentType;
     }
 }

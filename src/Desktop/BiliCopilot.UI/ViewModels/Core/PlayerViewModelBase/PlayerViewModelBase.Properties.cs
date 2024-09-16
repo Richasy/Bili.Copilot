@@ -53,6 +53,7 @@ public abstract partial class PlayerViewModelBase
     protected Action<double> _speedAction;
     protected Action _endAction;
     protected Action _reloadAction;
+    protected Action _tapToggleFullScreenAction;
     protected DisplayRequest _displayRequest;
 
     protected SystemMediaTransportControls? _smtc;

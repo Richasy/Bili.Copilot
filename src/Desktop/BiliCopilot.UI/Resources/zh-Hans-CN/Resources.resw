@@ -2672,4 +2672,25 @@
   <data name="SkipAISubtitle" xml:space="preserve">
     <value>跳过 AI 字幕下载</value>
   </data>
+  <data name="PlayNextWithoutTip" xml:space="preserve">
+    <value>切换下一个视频时不显示提示</value>
+  </data>
+  <data name="PlayNextWithoutTipDescription" xml:space="preserve">
+    <value>自动播放下一个视频时不显示5秒的切换提示</value>
+  </data>
+  <data name="StopWhenEndOfPlaylist" xml:space="preserve">
+    <value>在播放列表结尾终止</value>
+  </data>
+  <data name="StopWhenEndOfPlaylistDescription" xml:space="preserve">
+    <value>当播放到播放列表最后一个视频时，不再切换到其它视频</value>
+  </data>
+  <data name="SingleLoop" xml:space="preserve">
+    <value>单个循环</value>
+  </data>
+  <data name="ListLoop" xml:space="preserve">
+    <value>列表循环</value>
+  </data>
+  <data name="NoLoop" xml:space="preserve">
+    <value>不循环</value>
+  </data>
 </root>

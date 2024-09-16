@@ -28,6 +28,8 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsAutoPlayWhenLoaded = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         IsAutoPlayNextRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
         AutoPlayNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, false);
+        PlayNextWithoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
+        EndWithPlaylist = SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true);
         SingleFastForwardAndRewindSpan = SettingsToolkit.ReadLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, 15d);
         IsCopyScreenshot = SettingsToolkit.ReadLocalSetting(SettingNames.CopyAfterScreenshot, true);
         IsOpenScreenshotFile = SettingsToolkit.ReadLocalSetting(SettingNames.OpenAfterScreenshot, true);
@@ -232,4 +234,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnFilterAISubtitleChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.FilterAISubtitle, value);
+
+    partial void OnPlayNextWithoutTipChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.PlayNextWithoutTip, value);
 }

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
@@ -16,4 +17,14 @@ public sealed partial class VideoOperationControl : VideoPlayerPageControlBase
 
     /// <inheritdoc/>
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
+
+    private void OnLoopSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (LoopComboBox.SelectedItem is null)
+        {
+            return;
+        }
+
+        ViewModel.CurrentLoop = (VideoLoopType)LoopComboBox.SelectedItem;
+    }
 }

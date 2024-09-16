@@ -35,6 +35,12 @@ public sealed partial class SettingsPageViewModel
     private bool _autoPlayNext;
 
     [ObservableProperty]
+    private bool _playNextWithoutTip;
+
+    [ObservableProperty]
+    private bool _endWithPlaylist;
+
+    [ObservableProperty]
     private PreferCodecType _preferCodec;
 
     [ObservableProperty]

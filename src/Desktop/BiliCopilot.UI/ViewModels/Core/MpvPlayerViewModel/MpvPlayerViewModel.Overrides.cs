@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Toolkits;
+using Microsoft.Extensions.Logging;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -67,26 +68,34 @@ public sealed partial class MpvPlayerViewModel
         UpdateState(Models.Constants.PlayerState.None);
         Player.Client.SetOption("start", Position.ToString());
 
-        if (!string.IsNullOrEmpty(_videoUrl))
+        try
         {
-            await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);
-
-            if (!string.IsNullOrEmpty(_audioUrl))
+            if (!string.IsNullOrEmpty(_videoUrl))
             {
-                await WaitUntilAddAudioAsync(_audioUrl);
+                await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);
+
+                if (!string.IsNullOrEmpty(_audioUrl))
+                {
+                    await WaitUntilAddAudioAsync(_audioUrl);
+                }
+            }
+            else if (!string.IsNullOrEmpty(_audioUrl))
+            {
+                await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
+            }
+
+            if (!IsLive && !IsWebDav)
+            {
+                await Task.Delay(200);
+                Player.ResetDuration();
+                SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
+                Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
             }
         }
-        else if (!string.IsNullOrEmpty(_audioUrl))
+        catch (Exception ex)
         {
-            await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
-        }
-
-        if (!IsLive && !IsWebDav)
-        {
-            await Task.Delay(200);
-            Player.ResetDuration();
-            SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
-            Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
+            _logger.LogError(ex, "加载播放数据时失败.");
+            UpdateState(Models.Constants.PlayerState.Failed);
         }
     }
 }

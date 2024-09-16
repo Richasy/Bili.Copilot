@@ -96,4 +96,6 @@ public enum SettingNames
     AppVersion,
     FilterAISubtitle,
     BewlyExtensionVersion,
+    PlayNextWithoutTip,
+    EndWithPlaylist,
 }

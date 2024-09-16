@@ -110,6 +110,13 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     public void ResetStyle()
         => RequestResetStyle?.Invoke(this, EventArgs.Empty);
 
+    /// <summary>
+    /// 是否为空.
+    /// </summary>
+    /// <returns>结果.</returns>
+    public bool IsEmpty()
+        => string.IsNullOrEmpty(_aid) || string.IsNullOrEmpty(_cid);
+
     [RelayCommand]
     private async Task LoadDanmakusAsync(int index = 0)
     {
