@@ -148,6 +148,13 @@ public partial class App : Application
     {
         GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogError(e.Exception, "Unhandled exception occurred.");
         e.Handled = true;
+
+        // 一旦出现布局循环检测异常，就删除上次选中的功能页，然后重启应用.
+        if (e.Message.Contains("Layout cycle detected"))
+        {
+            SettingsToolkit.DeleteLocalSetting(Models.Constants.SettingNames.LastSelectedFeaturePage);
+            GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().RestartCommand.Execute(default);
+        }
     }
 
     private void OnAppNotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)

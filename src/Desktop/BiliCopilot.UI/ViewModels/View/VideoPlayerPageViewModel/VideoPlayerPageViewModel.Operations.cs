@@ -344,18 +344,26 @@ public sealed partial class VideoPlayerPageViewModel
                 return;
             }
 
-            string tip = default;
-            if (next is VideoPart part)
+            var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
+            if (withoutTip)
             {
-                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), part.Identifier.Title);
+                PlayNextVideo();
             }
-            else if (next is VideoInformation video)
+            else
             {
-                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
-            }
+                string tip = default;
+                if (next is VideoPart part)
+                {
+                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), part.Identifier.Title);
+                }
+                else if (next is VideoInformation video)
+                {
+                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
+                }
 
-            var notification = new PlayerNotification(PlayNextVideo, tip, 5);
-            Player.ShowNotification(notification);
+                var notification = new PlayerNotification(PlayNextVideo, tip, 5);
+                Player.ShowNotification(notification);
+            }
         });
     }
 }

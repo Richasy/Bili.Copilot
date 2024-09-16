@@ -81,33 +81,23 @@
             <community:SettingsCard Header="{ext:Locale Name=AutoLoadHistoryWhenLoaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.AutoLoadHistory, Mode=TwoWay}" />
             </community:SettingsCard>
-            <community:SettingsCard>
-                <community:SettingsCard.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=AutoNextRelatedVideo}" />
-                        <ic:SymbolIcon
-                            VerticalAlignment="Center"
-                            FontSize="12"
-                            Foreground="{ThemeResource SystemFillColorAttentionBrush}"
-                            Symbol="QuestionCircle"
-                            ToolTipService.ToolTip="{ext:Locale Name=AutoNextRelatedVideoDescription}" />
-                    </StackPanel>
-                </community:SettingsCard.Header>
+            <community:SettingsCard Description="{ext:Locale Name=AutoNextRelatedVideoDescription}" Header="{ext:Locale Name=AutoNextRelatedVideo}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayNextRecommendVideo, Mode=TwoWay}" />
             </community:SettingsCard>
-            <community:SettingsCard>
-                <community:SettingsCard.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=ContinuousPlay}" />
-                        <ic:SymbolIcon
-                            VerticalAlignment="Center"
-                            FontSize="12"
-                            Foreground="{ThemeResource SystemFillColorAttentionBrush}"
-                            Symbol="QuestionCircle"
-                            ToolTipService.ToolTip="{ext:Locale Name=ContinuousPlayDescription}" />
-                    </StackPanel>
-                </community:SettingsCard.Header>
+            <community:SettingsCard Description="{ext:Locale Name=ContinuousPlayDescription}" Header="{ext:Locale Name=ContinuousPlay}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.AutoPlayNext, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard
+                Description="{ext:Locale Name=PlayNextWithoutTipDescription}"
+                Header="{ext:Locale Name=PlayNextWithoutTip}"
+                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayNextWithoutTip, Mode=TwoWay}" />
+            </community:SettingsCard>
+            <community:SettingsCard
+                Description="{ext:Locale Name=StopWhenEndOfPlaylistDescription}"
+                Header="{ext:Locale Name=StopWhenEndOfPlaylist}"
+                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.EndWithPlaylist, Mode=TwoWay}" />
             </community:SettingsCard>
             <community:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.NoP2P, Mode=TwoWay}" />

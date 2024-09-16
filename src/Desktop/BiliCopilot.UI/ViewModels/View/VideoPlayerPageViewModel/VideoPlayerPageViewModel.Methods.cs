@@ -248,6 +248,11 @@ public sealed partial class VideoPlayerPageViewModel
             {
                 return _playlist.ElementAt(index + 1);
             }
+
+            if (SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true))
+            {
+                return default;
+            }
         }
 
         // 3. 检查合集中是否有下一个视频.

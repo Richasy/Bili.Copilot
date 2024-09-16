@@ -114,9 +114,17 @@ public sealed partial class WebDavPlayerPageViewModel
                 return;
             }
 
-            var tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), next.Data.DisplayName);
-            var notification = new PlayerNotification(PlayNextVideo, tip, 5);
-            Player.ShowNotification(notification);
+            var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
+            if (withoutTip)
+            {
+                PlayNextVideo();
+            }
+            else
+            {
+                var tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), next.Data.DisplayName);
+                var notification = new PlayerNotification(PlayNextVideo, tip, 5);
+                Player.ShowNotification(notification);
+            }
         });
     }
 }

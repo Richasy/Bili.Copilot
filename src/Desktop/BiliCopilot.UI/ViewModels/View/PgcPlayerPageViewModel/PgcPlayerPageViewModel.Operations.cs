@@ -366,18 +366,26 @@ public sealed partial class PgcPlayerPageViewModel
                 return;
             }
 
-            string tip = default;
-            if (next is EpisodeInformation episode)
+            var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
+            if (withoutTip)
             {
-                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextEpisodeNotificationTemplate), episode.Identifier.Title);
+                PlayNextEpisode();
             }
-            else if (next is VideoInformation video)
+            else
             {
-                tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
-            }
+                string tip = default;
+                if (next is EpisodeInformation episode)
+                {
+                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextEpisodeNotificationTemplate), episode.Identifier.Title);
+                }
+                else if (next is VideoInformation video)
+                {
+                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
+                }
 
-            var notification = new PlayerNotification(PlayNextEpisode, tip, 5);
-            Player.ShowNotification(notification);
+                var notification = new PlayerNotification(PlayNextEpisode, tip, 5);
+                Player.ShowNotification(notification);
+            }
         });
     }
 
