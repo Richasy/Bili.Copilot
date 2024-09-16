@@ -10,8 +10,5 @@ public sealed partial class EntertainmentIndexSideControl : EntertainmentIndexCo
     /// <summary>
     /// Initializes a new instance of the <see cref="EntertainmentIndexSideControl"/> class.
     /// </summary>
-    public EntertainmentIndexSideControl()
-    {
-        InitializeComponent();
-    }
+    public EntertainmentIndexSideControl() => InitializeComponent();
 }

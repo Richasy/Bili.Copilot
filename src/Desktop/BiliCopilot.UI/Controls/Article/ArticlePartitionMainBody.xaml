@@ -11,10 +11,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView
+        <ScrollViewer
             x:Name="ArticleScrollView"
             Grid.Row="1"
-            Style="{StaticResource PageScrollViewStyle}">
+            Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" Layout="{StaticResource ArticleLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -24,7 +24,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsArticleLoading, Mode=OneWay}" />
     </Grid>
 </local:ArticlePartitionDetailControlBase>

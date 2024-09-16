@@ -16,7 +16,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ScrollView x:Name="MessageView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="MessageView" Style="{StaticResource PageScrollViewerStyle}">
             <ItemsControl
                 MaxWidth="800"
                 Margin="20,12,20,20"
@@ -32,7 +32,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollView>
+        </ScrollViewer>
         <components:EmptyHolder
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F37B;"

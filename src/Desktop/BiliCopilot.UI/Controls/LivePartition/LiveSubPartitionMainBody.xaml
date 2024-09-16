@@ -15,11 +15,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
-        <ScrollView
+
+        <ScrollViewer
             x:Name="LiveScrollView"
             Grid.Row="1"
-            Style="{StaticResource PageScrollViewStyle}">
+            Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rooms, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
@@ -37,7 +37,7 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLiveLoading, Mode=OneWay}" />
     </Grid>
 </local:LiveSubPartitionControlBase>

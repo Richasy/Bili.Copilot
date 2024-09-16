@@ -29,7 +29,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="VideoScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos}" Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -42,7 +42,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
         <components:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
     </Grid>
 </local:PopularPageControlBase>

@@ -65,9 +65,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ExternalPlayer">
-                    <ScrollView
+                    <ScrollViewer
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        Style="{StaticResource PageScrollViewStyle}"
+                        Style="{StaticResource PageScrollViewerStyle}"
                         VerticalScrollBarVisibility="Hidden">
                         <Grid Padding="12">
                             <TextBlock
@@ -83,7 +83,7 @@
                                 TextWrapping="Wrap"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
                         </Grid>
-                    </ScrollView>
+                    </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

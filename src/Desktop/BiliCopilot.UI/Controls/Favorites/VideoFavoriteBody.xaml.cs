@@ -73,7 +73,7 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
         CheckVideoCount();
     }
 
-    private void OnViewChanged(ScrollView sender, object args)
+    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {

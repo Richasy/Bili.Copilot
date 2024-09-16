@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="LiveScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="LiveScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.RecommendRooms, Mode=OneWay}" Layout="{StaticResource LiveLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -21,7 +21,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
         <components:LoadingWidget Visibility="{x:Bind ViewModel.IsRecommendLoading, Mode=OneWay}" />
     </Grid>
 </local:LivePartitionPageControlBase>

@@ -11,10 +11,10 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView
+        <ScrollViewer
             x:Name="VideoScrollView"
             Grid.Row="1"
-            Style="{StaticResource PageScrollViewStyle}">
+            Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Videos, Mode=OneWay}" Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -24,7 +24,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
         <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
     </Grid>
 </local:VideoPartitionDetailControlBase>

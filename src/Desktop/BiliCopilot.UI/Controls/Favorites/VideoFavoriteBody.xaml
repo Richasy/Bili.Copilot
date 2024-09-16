@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="VideoScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -22,7 +22,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
 
         <components:EmptyHolder
             Description="{ext:Locale Name=NoFavoriteVideos}"

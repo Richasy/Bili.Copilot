@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="UserScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="UserScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Users}" Layout="{StaticResource UserLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -22,7 +22,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
 
         <components:EmptyHolder
             Description="{ext:Locale Name=NoFans}"

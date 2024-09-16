@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="ArticleScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="ArticleScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource ArticleLayout}">
                     <ItemsRepeater.ItemTemplate>
@@ -22,7 +22,7 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
 
         <components:EmptyHolder
             Description="{ext:Locale Name=NoArticles}"

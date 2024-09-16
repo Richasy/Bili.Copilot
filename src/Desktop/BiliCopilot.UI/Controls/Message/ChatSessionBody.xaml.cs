@@ -67,7 +67,7 @@ public sealed partial class ChatSessionBody : ChatMessageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            MessageView.ScrollTo(0, MessageView.ExtentHeight + MessageView.ViewportHeight + 100, new ScrollingScrollOptions(ScrollingAnimationMode.Disabled));
+            MessageView.ChangeView(0, MessageView.ExtentHeight + MessageView.ViewportHeight + 100, default, true);
         });
     }
 }

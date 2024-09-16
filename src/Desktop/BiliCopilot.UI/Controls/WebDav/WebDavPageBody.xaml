@@ -13,7 +13,7 @@
 
     <Grid>
         <Grid Visibility="{x:Bind ViewModel.IsInvalidConfig, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <ScrollView Style="{StaticResource PageScrollViewStyle}">
+            <ScrollViewer Style="{StaticResource PageScrollViewerStyle}">
                 <ItemsControl Margin="16,12" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:WebDavStorageItemViewModel">
@@ -21,7 +21,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </ScrollView>
+            </ScrollViewer>
             <components:EmptyHolder
                 Title="{ext:Locale Name=NoFiles}"
                 Description="{ext:Locale Name=NoFilesDescription}"

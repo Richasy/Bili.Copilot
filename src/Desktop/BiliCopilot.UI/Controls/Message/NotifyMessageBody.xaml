@@ -14,7 +14,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="MessageScrollView" Style="{StaticResource PageScrollViewStyle}">
+        <ScrollViewer x:Name="MessageScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
                 <ItemsRepeater MaxWidth="1000" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
@@ -27,7 +27,7 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </Grid>
-        </ScrollView>
+        </ScrollViewer>
 
         <components:EmptyHolder
             Description="{ext:Locale Name=NoMessage}"
