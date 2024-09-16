@@ -76,7 +76,8 @@ public sealed partial class PopularPageViewModel
             var partitions = await _service.GetVideoPartitionsAsync();
             if (partitions != null)
             {
-                foreach (var item in partitions)
+                // 去除资讯分区，因为资讯分区没有排行榜.
+                foreach (var item in partitions.Where(p => p.Id != "202"))
                 {
                     Sections.Add(new PopularRankPartitionViewModel(item));
                 }
