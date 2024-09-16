@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settings="using:BiliCopilot.UI.Controls.Settings"
@@ -106,14 +107,29 @@
             Padding="16,0"
             Style="{StaticResource PageScrollViewerStyle}"
             Visibility="Collapsed">
-            <StackPanel
-                x:Name="AIPanel"
-                Margin="0,12"
-                Spacing="4">
-                <StackPanel.ChildrenTransitions>
-                    <RepositionThemeTransition IsStaggeringEnabled="False" />
-                </StackPanel.ChildrenTransitions>
+            <StackPanel Margin="0,12">
+                <InfoBar
+                    Title="{ext:Locale Name=AISettingHeaderTitle}"
+                    Margin="0,0,0,8"
+                    HorizontalAlignment="Stretch"
+                    IsClosable="False"
+                    IsOpen="True"
+                    Message="{ext:Locale Name=AISettingHeaderDescription}"
+                    Severity="Informational">
+                    <InfoBar.IconSource>
+                        <ic:SymbolIconSource Symbol="Sparkle" />
+                    </InfoBar.IconSource>
+                    <InfoBar.ActionButton>
+                        <HyperlinkButton Content="{ext:Locale Name=SeeDetail}" NavigateUri="https://agent.richasy.net/chat-config" />
+                    </InfoBar.ActionButton>
+                </InfoBar>
+                <StackPanel x:Name="AIPanel" Spacing="4">
+                    <StackPanel.ChildrenTransitions>
+                        <RepositionThemeTransition IsStaggeringEnabled="False" />
+                    </StackPanel.ChildrenTransitions>
+                </StackPanel>
             </StackPanel>
+
         </ScrollViewer>
     </Grid>
 </local:SettingsPageBase>
