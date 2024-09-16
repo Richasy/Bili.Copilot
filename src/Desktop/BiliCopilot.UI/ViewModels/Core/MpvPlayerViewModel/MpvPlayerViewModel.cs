@@ -160,6 +160,11 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
             try
             {
+                if (Player.IsDisposed)
+                {
+                    return;
+                }
+
                 await Player.Client.ExecuteAsync(["audio-add", audioUrl]);
                 isAudioAdded = true;
             }

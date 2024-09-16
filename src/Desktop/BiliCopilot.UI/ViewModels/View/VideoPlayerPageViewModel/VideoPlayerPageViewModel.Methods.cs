@@ -70,6 +70,11 @@ public sealed partial class VideoPlayerPageViewModel
             }
         }
 
+        if (_view == default)
+        {
+            return;
+        }
+
         var preferFormatSetting = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
         var availableFormats = Formats.Where(p => p.IsEnabled).ToList();
         var partIndex = _view.Parts?.IndexOf(_part) ?? 0;

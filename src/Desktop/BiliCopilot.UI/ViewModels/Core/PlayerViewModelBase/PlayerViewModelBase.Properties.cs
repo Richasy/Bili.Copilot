@@ -59,6 +59,7 @@ public abstract partial class PlayerViewModelBase
     protected SystemMediaTransportControls? _smtc;
 
     protected bool _isInitialized;
+    protected bool _isClosed;
 
     [ObservableProperty]
     private bool _isPlayerInitializing;

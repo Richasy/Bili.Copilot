@@ -17,7 +17,7 @@ public abstract partial class PlayerViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     protected async Task TryLoadPlayDataAsync()
     {
-        if (string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl))
+        if ((string.IsNullOrEmpty(_videoUrl) && string.IsNullOrEmpty(_audioUrl)) || _isClosed)
         {
             return;
         }
@@ -76,6 +76,11 @@ public abstract partial class PlayerViewModelBase
                 ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{LiveReferer}\\\" --user-agent \\\"{LiveUserAgent}\\\""
                 : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{VideoReferer}\\\" --user-agent=\\\"{VideoUserAgent}\\\"";
         var exeName = isMpv ? "mpv" : "mpvnet";
+        if (!string.IsNullOrEmpty(_extraOptions))
+        {
+            httpParams += $" --script-opts=\\\"cid={_extraOptions}\\\"";
+        }
+
         var command = $"{exeName} {httpParams} --title=\\\"{Title}\\\" \\\"{_videoUrl}\\\"";
         if (!string.IsNullOrEmpty(_audioUrl))
         {

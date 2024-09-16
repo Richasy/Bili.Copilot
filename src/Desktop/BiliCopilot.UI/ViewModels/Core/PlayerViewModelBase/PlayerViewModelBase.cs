@@ -66,6 +66,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     public virtual async Task SetPlayDataAsync(string? videoUrl, string? audioUrl, bool isAutoPlay, int position = 0, string? contentType = default, string? extraOptions = default)
     {
+        _isClosed = false;
         if (_smtc is null)
         {
             var currentWindow = this.Get<AppViewModel>().ActivatedWindow.GetWindowHandle();
@@ -120,7 +121,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         MaxSpeed = isSpeedEnhancement ? 6.0 : 3.0;
         SpeedStep = isSpeedEnhancement ? 0.1 : 0.5;
 
-        if (_isInitialized)
+        if (_isInitialized && !_isClosed)
         {
             BeforeLoadPlayData();
             await TryLoadPlayDataAsync();
@@ -176,6 +177,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     public Task CloseAsync()
     {
         IsPaused = true;
+        _isClosed = true;
         if (_smtc is not null)
         {
             _smtc.DisplayUpdater.ClearAll();

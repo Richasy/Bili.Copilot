@@ -303,6 +303,11 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void PlayerStateChanged(PlayerState state)
     {
+        if (_view == null)
+        {
+            return;
+        }
+
         if (state == PlayerState.Playing)
         {
             if (Danmaku.IsEmpty())

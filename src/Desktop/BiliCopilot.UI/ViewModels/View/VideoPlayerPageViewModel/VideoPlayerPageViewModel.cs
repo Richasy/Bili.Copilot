@@ -138,6 +138,11 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         {
             _dashLoadCancellationTokenSource = new CancellationTokenSource();
             var info = await _service.GetVideoPlayDetailAsync(_view.Information.Identifier, Convert.ToInt64(part.Identifier.Id), _dashLoadCancellationTokenSource.Token);
+            if (_view is null)
+            {
+                return;
+            }
+
             InitializeDash(info);
             var onlineCount = await _service.GetOnlineViewerAsync(_view.Information.Identifier.Id, part.Identifier.Id, _dashLoadCancellationTokenSource.Token);
             OnlineCountText = onlineCount.Text;
