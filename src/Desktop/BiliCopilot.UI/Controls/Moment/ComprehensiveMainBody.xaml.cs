@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Moment;
 /// </summary>
 public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
 {
-    private long _viewModelChangedToken;
-    private MomentUperSectionViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ComprehensiveMainBody"/> class.
     /// </summary>
@@ -27,15 +24,12 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
         MomentScrollView.ViewChanged += OnViewChanged;
         MomentScrollView.SizeChanged += OnScrollViewSizeChanged;
 
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.ListUpdated += OnListUpdatedAsync;
-
         CheckMomentCount();
     }
 
@@ -47,26 +41,24 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
             ViewModel.ListUpdated -= OnListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         MomentScrollView.ViewChanged -= OnViewChanged;
         MomentScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(MomentUperSectionViewModel? oldValue, MomentUperSectionViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnListUpdatedAsync;
+            oldValue.ListUpdated -= OnListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnListUpdatedAsync;
+        newValue.ListUpdated += OnListUpdatedAsync;
     }
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)

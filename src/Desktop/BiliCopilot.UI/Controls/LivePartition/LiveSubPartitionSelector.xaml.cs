@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.LivePartition;
 /// </summary>
 public sealed partial class LiveSubPartitionSelector : LiveSubPartitionControlBase
 {
-    private long _viewModelChangedToken;
-    private LivePartitionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveSubPartitionSelector"/> class.
     /// </summary>
@@ -22,13 +19,11 @@ public sealed partial class LiveSubPartitionSelector : LiveSubPartitionControlBa
     protected override void OnControlLoaded()
     {
         Selector.SelectionChanged += OnSelectorChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.Initialized += OnViewModelInitialized;
         InitializeTags();
     }
@@ -37,28 +32,26 @@ public sealed partial class LiveSubPartitionSelector : LiveSubPartitionControlBa
     protected override void OnControlUnloaded()
     {
         Selector.SelectionChanged -= OnSelectorChanged;
-        _viewModel = default;
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.Initialized -= OnViewModelInitialized;
         }
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(LivePartitionDetailViewModel? oldValue, LivePartitionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.Initialized -= OnViewModelInitialized;
+            oldValue.Initialized -= OnViewModelInitialized;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.Initialized += OnViewModelInitialized;
+        newValue.Initialized += OnViewModelInitialized;
         InitializeTags();
     }
 

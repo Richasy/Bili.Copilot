@@ -12,8 +12,6 @@ namespace BiliCopilot.UI.Controls.Core;
 /// </summary>
 public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
 {
-    private MpvPlayerViewModel? _viewModel;
-    private long _viewModelChangedToken;
     private RenderControl _renderControl;
 
     /// <summary>
@@ -24,42 +22,30 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
     /// <inheritdoc/>
     protected async override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
         _renderControl.Render += OnRender;
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        await _viewModel.InitializeAsync(_renderControl);
+        await ViewModel.InitializeAsync(_renderControl);
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-
-        _viewModel = default;
         _renderControl.Render -= OnRender;
     }
+
+    /// <inheritdoc/>
+    protected async override void OnViewModelChanged(MpvPlayerViewModel? oldValue, MpvPlayerViewModel? newValue)
+        => await newValue?.InitializeAsync(_renderControl);
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
         _renderControl = (RenderControl)GetTemplateChild("RenderControl");
         _renderControl.Setting = new ContextSettings();
-    }
-
-    private async void OnViewModelPropertyChangedAsync(DependencyObject sender, DependencyProperty dp)
-    {
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        _viewModel = ViewModel;
-        await _viewModel.InitializeAsync(_renderControl);
     }
 
     private void OnRender(TimeSpan e) => Render();

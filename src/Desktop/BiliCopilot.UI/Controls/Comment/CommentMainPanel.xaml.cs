@@ -11,9 +11,6 @@ namespace BiliCopilot.UI.Controls.Comment;
 /// </summary>
 public sealed partial class CommentMainPanel : CommentMainPanelBase
 {
-    private long _viewModelChangedToken;
-    private CommentMainViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="CommentMainPanel"/> class.
     /// </summary>
@@ -27,13 +24,11 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
     {
         CommentScrollView.ViewChanged += OnViewChanged;
         CommentScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.Initialized += OnInitialized;
         ViewModel.ListUpdated += OnCommentListUpdatedAsync;
 
@@ -50,28 +45,26 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
             ViewModel.Initialized -= OnInitialized;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         CommentScrollView.ViewChanged -= OnViewChanged;
         CommentScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(CommentMainViewModel? oldValue, CommentMainViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnCommentListUpdatedAsync;
-            ViewModel.Initialized -= OnInitialized;
+            oldValue.ListUpdated -= OnCommentListUpdatedAsync;
+            oldValue.Initialized -= OnInitialized;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.Initialized += OnInitialized;
-        _viewModel.ListUpdated += OnCommentListUpdatedAsync;
+        newValue.Initialized += OnInitialized;
+        newValue.ListUpdated += OnCommentListUpdatedAsync;
     }
 
     private async void OnCommentListUpdatedAsync(object? sender, EventArgs e)

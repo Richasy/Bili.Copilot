@@ -10,8 +10,6 @@ namespace BiliCopilot.UI.Controls.Core;
 /// </summary>
 public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewModel>
 {
-    private NativePlayerViewModel? _viewModel;
-    private long _viewModelChangedToken;
     private MediaPlayerElement _playerElement;
 
     /// <summary>
@@ -22,37 +20,19 @@ public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewMod
     /// <inheritdoc/>
     protected async override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChangedAsync));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        await _viewModel.InitializeAsync(_playerElement);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnControlUnloaded()
-    {
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        _viewModel = default;
+        await ViewModel.InitializeAsync(_playerElement);
     }
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
-    {
-        _playerElement = (MediaPlayerElement)GetTemplateChild("PlayerElement");
-    }
+        => _playerElement = (MediaPlayerElement)GetTemplateChild("PlayerElement");
 
-    private async void OnViewModelPropertyChangedAsync(DependencyObject sender, DependencyProperty dp)
-    {
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        _viewModel = ViewModel;
-        await _viewModel.InitializeAsync(_playerElement);
-    }
+    /// <inheritdoc/>
+    protected override async void OnViewModelChanged(NativePlayerViewModel? oldValue, NativePlayerViewModel? newValue)
+        => await newValue?.InitializeAsync(_playerElement);
 }

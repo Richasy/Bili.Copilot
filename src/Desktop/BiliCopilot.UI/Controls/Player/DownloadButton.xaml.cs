@@ -11,9 +11,6 @@ namespace BiliCopilot.UI.Controls.Player;
 /// </summary>
 public sealed partial class DownloadButton : DownloadButtonBase
 {
-    private long _viewModelChangedToken;
-    private DownloadViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="DownloadButton"/> class.
     /// </summary>
@@ -22,13 +19,11 @@ public sealed partial class DownloadButton : DownloadButtonBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.MetaInitialized += OnMetaInitialized;
     }
 
@@ -39,25 +34,22 @@ public sealed partial class DownloadButton : DownloadButtonBase
         {
             ViewModel.MetaInitialized -= OnMetaInitialized;
         }
-
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(DownloadViewModel? oldValue, DownloadViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.MetaInitialized -= OnMetaInitialized;
+            oldValue.MetaInitialized -= OnMetaInitialized;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.MetaInitialized += OnMetaInitialized;
+        newValue.MetaInitialized += OnMetaInitialized;
         DownloadFlyout.Items.Clear();
     }
 

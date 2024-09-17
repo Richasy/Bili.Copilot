@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.History;
 /// </summary>
 public sealed partial class LiveHistorySection : LiveHistorySectionBase
 {
-    private long _viewModelChangedToken;
-    private LiveHistorySectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveHistorySection"/> class.
     /// </summary>
@@ -26,13 +23,11 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
     {
         LiveScrollView.ViewChanged += OnViewChanged;
         LiveScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.ListUpdated += OnLiveListUpdatedAsync;
         CheckLiveCount();
     }
@@ -45,26 +40,24 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
             ViewModel.ListUpdated -= OnLiveListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         LiveScrollView.ViewChanged -= OnViewChanged;
         LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(LiveHistorySectionDetailViewModel? oldValue, LiveHistorySectionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnLiveListUpdatedAsync;
+            oldValue.ListUpdated -= OnLiveListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnLiveListUpdatedAsync;
+        newValue.ListUpdated += OnLiveListUpdatedAsync;
     }
 
     private async void OnLiveListUpdatedAsync(object? sender, EventArgs e)

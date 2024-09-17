@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Favorites;
 /// </summary>
 public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
 {
-    private long _viewModelChangedToken;
-    private VideoFavoriteSectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoFavoriteBody"/> class.
     /// </summary>
@@ -26,13 +23,11 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
     {
         VideoScrollView.ViewChanged += OnViewChanged;
         VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.ListUpdated += OnVideoListUpdatedAsync;
         CheckVideoCount();
     }
@@ -45,26 +40,24 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
             ViewModel.ListUpdated -= OnVideoListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(VideoFavoriteSectionDetailViewModel? oldValue, VideoFavoriteSectionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnVideoListUpdatedAsync;
+            oldValue.ListUpdated -= OnVideoListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnVideoListUpdatedAsync;
+        newValue.ListUpdated += OnVideoListUpdatedAsync;
     }
 
     private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)

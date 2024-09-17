@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Player;
 /// </summary>
 public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
 {
-    private long _viewModelChangedToken;
-    private VideoPlayerPageViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerSideHeader"/> class.
     /// </summary>
@@ -22,13 +19,11 @@ public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
     protected override void OnControlLoaded()
     {
         Selector.SelectionChanged += OnSelectorChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.SectionInitialized += OnViewModelSectionInitialized;
         InitializeChildPartitions();
     }
@@ -41,25 +36,23 @@ public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
             ViewModel.SectionInitialized -= OnViewModelSectionInitialized;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         Selector.SelectionChanged -= OnSelectorChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(VideoPlayerPageViewModel? oldValue, VideoPlayerPageViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.SectionInitialized -= OnViewModelSectionInitialized;
+            oldValue.SectionInitialized -= OnViewModelSectionInitialized;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.SectionInitialized += OnViewModelSectionInitialized;
+        newValue.SectionInitialized += OnViewModelSectionInitialized;
         InitializeChildPartitions();
     }
 

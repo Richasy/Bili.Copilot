@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Message;
 /// </summary>
 public sealed partial class ChatSessionBody : ChatMessageControlBase
 {
-    private long _viewModelChangedToken;
-    private ChatMessageSectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatSessionBody"/> class.
     /// </summary>
@@ -24,13 +21,11 @@ public sealed partial class ChatSessionBody : ChatMessageControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.RequestScrollToBottom += OnRequestScrollToBottom;
         OnRequestScrollToBottom(default, default);
     }
@@ -42,25 +37,22 @@ public sealed partial class ChatSessionBody : ChatMessageControlBase
         {
             ViewModel.RequestScrollToBottom -= OnRequestScrollToBottom;
         }
-
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(ChatMessageSectionDetailViewModel? oldValue, ChatMessageSectionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.RequestScrollToBottom -= OnRequestScrollToBottom;
+            oldValue.RequestScrollToBottom -= OnRequestScrollToBottom;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.RequestScrollToBottom += OnRequestScrollToBottom;
+        newValue.RequestScrollToBottom += OnRequestScrollToBottom;
     }
 
     private void OnRequestScrollToBottom(object? sender, EventArgs e)

@@ -13,9 +13,7 @@ namespace BiliCopilot.UI.Controls.Danmaku;
 public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 {
     private List<DanmakuItem> _cachedDanmakus = new();
-    private long _viewModelChangedToken;
     private int _lastProgress;
-    private DanmakuViewModel _viewModel;
     private DanmakuFrostMaster _danmakuController;
 
     /// <summary>
@@ -26,7 +24,6 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         _danmakuController ??= new DanmakuFrostMaster(RootGrid, default);
 
         if (ViewModel is null)
@@ -34,7 +31,6 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        _viewModel = ViewModel;
         ViewModel.ListAdded += OnDanmakuListAdded;
         ViewModel.RequestClearDanmaku += OnRequestClearDanmaku;
         ViewModel.ProgressChanged += OnProgressChanged;
@@ -50,7 +46,6 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.ListAdded -= OnDanmakuListAdded;
@@ -65,7 +60,37 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         }
 
         _danmakuController?.Close();
-        _viewModel = default;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(DanmakuViewModel? oldValue, DanmakuViewModel? newValue)
+    {
+        if (oldValue is not null)
+        {
+            oldValue.ListAdded -= OnDanmakuListAdded;
+            oldValue.RequestClearDanmaku -= OnRequestClearDanmaku;
+            oldValue.ProgressChanged -= OnProgressChanged;
+            oldValue.PauseDanmaku -= OnPauseDanmaku;
+            oldValue.ResumeDanmaku -= OnResumeDanmaku;
+            oldValue.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            oldValue.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
+            oldValue.RequestResetStyle -= OnRequestResetStyle;
+        }
+
+        if (newValue is null)
+        {
+            return;
+        }
+
+        newValue.ListAdded += OnDanmakuListAdded;
+        newValue.RequestClearDanmaku += OnRequestClearDanmaku;
+        newValue.ProgressChanged += OnProgressChanged;
+        newValue.PauseDanmaku += OnPauseDanmaku;
+        newValue.ResumeDanmaku += OnResumeDanmaku;
+        newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
+        newValue.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
+        newValue.RequestResetStyle += OnRequestResetStyle;
+        ResetDanmakuStyle();
     }
 
     private static DanmakuFontSize GetFontSize(double fontSize)
@@ -78,37 +103,6 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             2.5 => DanmakuFontSize.Largest,
             _ => DanmakuFontSize.Normal,
         };
-    }
-
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
-    {
-        if (_viewModel is not null)
-        {
-            _viewModel.ListAdded -= OnDanmakuListAdded;
-            _viewModel.RequestClearDanmaku -= OnRequestClearDanmaku;
-            _viewModel.ProgressChanged -= OnProgressChanged;
-            _viewModel.PauseDanmaku -= OnPauseDanmaku;
-            _viewModel.ResumeDanmaku -= OnResumeDanmaku;
-            _viewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
-            _viewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
-            _viewModel.RequestResetStyle -= OnRequestResetStyle;
-        }
-
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        _viewModel = ViewModel;
-        _viewModel.ListAdded += OnDanmakuListAdded;
-        _viewModel.RequestClearDanmaku += OnRequestClearDanmaku;
-        _viewModel.ProgressChanged += OnProgressChanged;
-        _viewModel.PauseDanmaku += OnPauseDanmaku;
-        _viewModel.ResumeDanmaku += OnResumeDanmaku;
-        _viewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
-        _viewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
-        _viewModel.RequestResetStyle += OnRequestResetStyle;
-        ResetDanmakuStyle();
     }
 
     private void OnDanmakuListAdded(object? sender, IReadOnlyList<DanmakuInformation> e)
