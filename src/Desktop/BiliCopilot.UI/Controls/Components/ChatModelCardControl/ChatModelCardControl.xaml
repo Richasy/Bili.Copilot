@@ -24,9 +24,9 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
+                                x:Name="NameBlock"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyStrongTextBlockStyle}"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                             <Button
@@ -38,8 +38,7 @@
                                 VerticalAlignment="Center"
                                 AutomationProperties.Name="{ext:Locale Name=MoreOptions}"
                                 Style="{StaticResource SmallIconButtonStyle}"
-                                ToolTipService.ToolTip="{ext:Locale Name=MoreOptions}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.IsCustomModel}">
+                                ToolTipService.ToolTip="{ext:Locale Name=MoreOptions}">
                                 <ic:SymbolIcon FontSize="14" Symbol="MoreVertical" />
                                 <Button.Flyout>
                                     <MenuFlyout Placement="Bottom">
@@ -59,11 +58,11 @@
                         </Grid>
 
                         <TextBlock
+                            x:Name="IdBlock"
                             Grid.Row="1"
                             VerticalAlignment="Center"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </Grid>
@@ -85,17 +84,17 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock
+                            x:Name="NameBlock"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Name}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
 
                         <TextBlock
+                            x:Name="IdBlock"
                             Grid.Row="1"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Id}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </Grid>

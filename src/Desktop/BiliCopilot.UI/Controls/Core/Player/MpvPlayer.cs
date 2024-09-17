@@ -39,7 +39,14 @@ public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
 
     /// <inheritdoc/>
     protected async override void OnViewModelChanged(MpvPlayerViewModel? oldValue, MpvPlayerViewModel? newValue)
-        => await newValue?.InitializeAsync(_renderControl);
+    {
+        if (_renderControl is null)
+        {
+            return;
+        }
+
+        await newValue?.InitializeAsync(_renderControl);
+    }
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()

@@ -26,6 +26,9 @@ public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
     [ObservableProperty]
     private bool _isSelected;
 
+    [ObservableProperty]
+    private bool _isCustomModel;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatModelItemViewModel"/> class.
     /// </summary>
@@ -34,6 +37,7 @@ public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
     {
         Name = model.DisplayName;
         Id = model.Id;
+        IsCustomModel = model.IsCustomModel;
         _deleteAction = deleteAction;
     }
 

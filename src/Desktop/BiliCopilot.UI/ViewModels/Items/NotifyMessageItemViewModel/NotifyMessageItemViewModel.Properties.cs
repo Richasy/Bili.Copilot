@@ -31,4 +31,14 @@ public sealed partial class NotifyMessageItemViewModel
     /// 副标题.
     /// </summary>
     public string Subtitle { get; init; }
+
+    /// <summary>
+    /// 消息.
+    /// </summary>
+    public string Message { get; init; }
+
+    /// <summary>
+    /// 源内容.
+    /// </summary>
+    public string SourceContent { get; init; }
 }

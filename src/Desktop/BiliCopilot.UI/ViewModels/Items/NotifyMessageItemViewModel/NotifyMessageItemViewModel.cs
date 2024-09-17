@@ -26,6 +26,8 @@ public sealed partial class NotifyMessageItemViewModel : ViewModelBase<NotifyMes
         FirstUserAvatar = data.Users?.First().Avatar.Uri;
         FirstUserName = data.Users?.First().Name;
         IsMultipleUsers = data.Users.Count > 1;
+        Message = data.Message;
+        SourceContent = data.SourceContent;
         if (data.Type == NotifyMessageType.Like)
         {
             var count = data.Properties["Count"];
