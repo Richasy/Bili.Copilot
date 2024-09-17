@@ -15,7 +15,7 @@ public sealed partial class MomentPageViewModel
     private readonly IMomentDiscoveryService _momentDiscoveryService;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IMomentSectionDetailViewModel> _sections;
+    private List<IMomentSectionDetailViewModel> _sections;
 
     [ObservableProperty]
     private IMomentSectionDetailViewModel _selectedSection;

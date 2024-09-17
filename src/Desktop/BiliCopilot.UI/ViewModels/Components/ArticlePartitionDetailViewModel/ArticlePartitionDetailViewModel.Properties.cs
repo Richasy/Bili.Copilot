@@ -26,10 +26,10 @@ public sealed partial class ArticlePartitionDetailViewModel
     private bool _preventLoadMore;
 
     [ObservableProperty]
-    private IReadOnlyCollection<ArticleSortType> _sortTypes;
+    private List<ArticleSortType> _sortTypes;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PartitionViewModel> _children;
+    private List<PartitionViewModel> _children;
 
     [ObservableProperty]
     private ArticleSortType _selectedSortType;

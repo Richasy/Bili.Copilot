@@ -29,8 +29,8 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <Button
+                                x:Name="UserButton"
                                 VerticalAlignment="Top"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <PersonPicture
@@ -55,7 +55,7 @@
                             BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
                             BorderThickness="1"
                             CornerRadius="{StaticResource ControlCornerRadius}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.IsTop}">
+                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsTop}">
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontSize="10"
@@ -85,7 +85,7 @@
                                     Height="8"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
-                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.User.Level, Converter={StaticResource LevelImageConverter}}" />
+                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Level, Converter={StaticResource LevelImageConverter}}" />
                                 <TextBlock
                                     x:Name="PublishTimeBlock"
                                     Grid.Column="2"
@@ -107,38 +107,19 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ToggleButton
-                                    x:Name="LikeButton"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                    IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}">
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <ic:SymbolIcon
-                                            VerticalAlignment="Center"
-                                            FontSize="12"
-                                            IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
-                                            Symbol="ThumbLike" />
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="12"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}" />
-                                    </StackPanel>
-                                </ToggleButton>
+                                <local:CommentLikeButton ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                                 <StackPanel
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ChildCount, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                    <HyperlinkButton
-                                        x:Name="MoreButton"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ShowMoreCommand}"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <HyperlinkButton x:Name="MoreButton" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock FontSize="12" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ChildCount, Converter={StaticResource ChildCommentTextConverter}}" />
                                     </HyperlinkButton>
                                 </StackPanel>
                                 <Button
+                                    x:Name="ReplyButton"
                                     Grid.Column="2"
                                     VerticalAlignment="Center"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.MarkReplyTargetCommand}"
                                     Style="{StaticResource SmallIconButtonStyle}"
                                     ToolTipService.ToolTip="{ext:Locale Name=Reply}"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">

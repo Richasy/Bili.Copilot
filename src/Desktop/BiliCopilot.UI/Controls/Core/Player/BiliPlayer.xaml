@@ -1,269 +1,167 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ResourceDictionary
+<local:PlayerControlBase
+    x:Class="BiliCopilot.UI.Controls.Core.BiliPlayer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="using:BiliCopilot.UI.Controls.Core.Common"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
-    xmlns:converters="using:BiliCopilot.UI.Converters"
-    xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
-    xmlns:local="using:BiliCopilot.UI.Controls.Core">
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush
-                x:Key="TransportBackground"
-                Opacity="0.78"
-                Color="White" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Default">
-            <SolidColorBrush
-                x:Key="TransportBackground"
-                Opacity="0.67"
-                Color="Black" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="TransportBackground" Color="{ThemeResource SystemColorWindowColor}" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
-
-    <Style x:Key="HiddenButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="1" />
-        <Setter Property="Height" Value="1" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabFocusNavigation" Value="Once" />
-        <Setter Property="TabNavigation" Value="Once" />
-        <Setter Property="XYFocusKeyboardNavigation" Value="Disabled" />
-        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
-    </Style>
-
-    <converters:FullScreenConverter x:Key="FullScreenConverter" />
-    <converters:CompactOverlayConverter x:Key="CompactOverlayConverter" />
-    <converters:FullWindowConverter x:Key="FullWindowConverter" />
-
-    <Style
-        x:Key="TransportButtonFlyoutPresenterStyle"
-        BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
-        TargetType="FlyoutPresenter">
-        <Setter Property="Padding" Value="12,10" />
-    </Style>
-
-    <Style TargetType="local:MpvPlayer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:MpvPlayer">
-                    <common:RenderControl x:Name="RenderControl" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="local:ExternalPlayer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:ExternalPlayer">
-                    <ScrollViewer
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        Style="{StaticResource PageScrollViewerStyle}"
-                        VerticalScrollBarVisibility="Hidden">
-                        <Grid Padding="12">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource BodyStrongTextBlockStyle}"
-                                Text="{ext:Locale Name=WatchOnExternalPlayer}"
-                                TextAlignment="Center"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
-                            <TextBlock
-                                LineHeight="24"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage}"
-                                TextWrapping="Wrap"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                        </Grid>
-                    </ScrollViewer>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="local:NativePlayer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:NativePlayer">
-                    <Grid Background="Black">
-                        <MediaPlayerElement
-                            x:Name="PlayerElement"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            AreTransportControlsEnabled="False" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="local:BiliPlayer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:BiliPlayer">
-                    <Grid Margin="0,0,-2,-2">
-                        <local:PlayerPresenter x:Name="PlayerPresenter" />
-                        <Grid x:Name="HiddenControlsContainer">
-                            <Button
-                                x:Name="IncreaseVolumeButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="DecreaseVolumeButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="ForwardSkipButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ForwardSkipCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Right" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="BackwardSkipButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackwardSkipCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Left" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="HiddenMiniViewButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator
-                                        Key="M"
-                                        IsEnabled="True"
-                                        Modifiers="Control" />
-                                    <KeyboardAccelerator Key="F9" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="HiddenFullWindowButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullWindowCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="F10" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="HiddenFullScreenButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                            <Button
-                                x:Name="BackToDefaultButton"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
-                                Style="{StaticResource HiddenButtonStyle}">
-                                <Button.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
-                                </Button.KeyboardAccelerators>
-                            </Button>
-                        </Grid>
-                        <ContentControl
-                            x:Name="DanmakuControlsContainer"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Content="{TemplateBinding DanmakuControls}"
-                            Style="{StaticResource AppContentControlStyle}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsExternalPlayer, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                        <ProgressBar
-                            Margin="0,0,0,1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom"
-                            IsIndeterminate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBuffering}"
-                            Maximum="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}"
-                            ShowPaused="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPaused}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsBottomProgressVisible}"
-                            Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Position}" />
-                        <Rectangle
-                            x:Name="InteractionControl"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Fill="Transparent"
-                            IsHoldingEnabled="True"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsExternalPlayer, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                            <Rectangle.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem
-                                        MinWidth="180"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.TakeScreenshotCommand}"
-                                        Text="{ext:Locale Name=Screenshot}">
-                                        <MenuFlyoutItem.Icon>
-                                            <ic:SymbolIcon Symbol="Screenshot" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReloadCommand}" Text="{ext:Locale Name=Reload}">
-                                        <MenuFlyoutItem.Icon>
-                                            <ic:SymbolIcon Symbol="ArrowClockwise" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </Rectangle.ContextFlyout>
-                        </Rectangle>
-                        <StackPanel
-                            x:Name="NotificationContainer"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                        <StackPanel
-                            x:Name="OperationContainer"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Bottom"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                            <ContentControl
-                                x:Name="SubtitleContainer"
-                                HorizontalAlignment="Stretch"
-                                Content="{TemplateBinding SubtitleControls}"
-                                Style="{StaticResource AppContentControlStyle}" />
-                            <ContentControl
-                                x:Name="TransportControlsContainer"
-                                MinHeight="16"
-                                HorizontalAlignment="Stretch"
-                                Content="{TemplateBinding TransportControls}"
-                                Style="{StaticResource AppContentControlStyle}" />
-                        </StackPanel>
-                        <components:LoadingWidget
-                            Margin="8"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPlayerDataLoading}" />
-                        <components:EmptyHolder
-                            Title="{ext:Locale Name=FailedToPlay}"
-                            Description="{ext:Locale Name=FailedToPlayDescription}"
-                            Emoji="&#x1F647;"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFailed, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <components:EmptyHolder.ActionElement>
-                                <Button
-                                    HorizontalAlignment="Stretch"
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ReloadCommand}"
-                                    Content="{ext:Locale Name=Reload}" />
-                            </components:EmptyHolder.ActionElement>
-                        </components:EmptyHolder>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-</ResourceDictionary>
+    <Grid Margin="0,0,-2,-2">
+        <local:PlayerPresenter x:Name="PlayerPresenter" />
+        <Grid x:Name="HiddenControlsContainer">
+            <Button
+                x:Name="IncreaseVolumeButton"
+                Command="{x:Bind ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="DecreaseVolumeButton"
+                Command="{x:Bind ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="ForwardSkipButton"
+                Command="{x:Bind ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="BackwardSkipButton"
+                Command="{x:Bind ViewModel.BackwardSkipCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenMiniViewButton"
+                Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="M"
+                        IsEnabled="True"
+                        Modifiers="Control" />
+                    <KeyboardAccelerator Key="F9" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenFullWindowButton"
+                Command="{x:Bind ViewModel.ToggleFullWindowCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F10" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenFullScreenButton"
+                Command="{x:Bind ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="BackToDefaultButton"
+                Command="{x:Bind ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+        </Grid>
+        <ContentControl
+            x:Name="DanmakuControlsContainer"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Content="{x:Bind DanmakuControls, Mode=OneWay}"
+            Style="{StaticResource AppContentControlStyle}"
+            Visibility="{x:Bind ViewModel.IsExternalPlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <ProgressBar
+            Margin="0,0,0,1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            IsIndeterminate="{x:Bind ViewModel.IsBuffering, Mode=OneWay}"
+            Maximum="{x:Bind ViewModel.Duration, Mode=OneWay}"
+            ShowPaused="{x:Bind ViewModel.IsPaused, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsBottomProgressVisible, Mode=OneWay}"
+            Value="{x:Bind ViewModel.Position, Mode=OneWay}" />
+        <Rectangle
+            x:Name="InteractionControl"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="Transparent"
+            IsHoldingEnabled="True"
+            Visibility="{x:Bind ViewModel.IsExternalPlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Rectangle.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem
+                        MinWidth="180"
+                        Command="{x:Bind ViewModel.TakeScreenshotCommand, Mode=OneWay}"
+                        Text="{ext:Locale Name=Screenshot}">
+                        <MenuFlyoutItem.Icon>
+                            <ic:SymbolIcon Symbol="Screenshot" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}" Text="{ext:Locale Name=Reload}">
+                        <MenuFlyoutItem.Icon>
+                            <ic:SymbolIcon Symbol="ArrowClockwise" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </Rectangle.ContextFlyout>
+        </Rectangle>
+        <StackPanel
+            x:Name="NotificationContainer"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Top"
+            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+        <StackPanel
+            x:Name="OperationContainer"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <ContentControl
+                x:Name="SubtitleContainer"
+                HorizontalAlignment="Stretch"
+                Content="{x:Bind SubtitleControls, Mode=OneWay}"
+                Style="{StaticResource AppContentControlStyle}" />
+            <ContentControl
+                x:Name="TransportControlsContainer"
+                MinHeight="16"
+                HorizontalAlignment="Stretch"
+                Content="{x:Bind TransportControls, Mode=OneWay}"
+                Style="{StaticResource AppContentControlStyle}" />
+        </StackPanel>
+        <components:LoadingWidget
+            Margin="8"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{x:Bind ViewModel.IsPlayerDataLoading, Mode=OneWay}" />
+        <components:EmptyHolder
+            Title="{ext:Locale Name=FailedToPlay}"
+            Description="{ext:Locale Name=FailedToPlayDescription}"
+            Emoji="&#x1F647;"
+            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <components:EmptyHolder.ActionElement>
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
+                    Content="{ext:Locale Name=Reload}" />
+            </components:EmptyHolder.ActionElement>
+        </components:EmptyHolder>
+    </Grid>
+</local:PlayerControlBase>

@@ -11,9 +11,6 @@ namespace BiliCopilot.UI.Controls.Favorites;
 /// </summary>
 public sealed partial class PgcFavoriteHeader : PgcFavoriteControlBase
 {
-    private long _viewModelChangedToken;
-    private PgcFavoriteSectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcFavoriteHeader"/> class.
     /// </summary>
@@ -26,53 +23,44 @@ public sealed partial class PgcFavoriteHeader : PgcFavoriteControlBase
     protected override void OnControlLoaded()
     {
         StatusComboBox.SelectionChanged += OnStatusChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        UpdateStatusSelection();
+        UpdateStatusSelectionAsync();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
+        => StatusComboBox.SelectionChanged -= OnStatusChanged;
+
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(PgcFavoriteSectionDetailViewModel? oldValue, PgcFavoriteSectionDetailViewModel? newValue)
     {
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        StatusComboBox.SelectionChanged -= OnStatusChanged;
-        _viewModel = default;
+        if (newValue is null)
+        {
+            return;
+        }
+
+        UpdateStatusSelectionAsync();
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    private async void UpdateStatusSelectionAsync()
     {
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        UpdateStatusSelection();
-    }
-
-    private void UpdateStatusSelection()
-    {
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        if (StatusComboBox.ItemsSource is null)
-        {
-            StatusComboBox.ItemsSource = ViewModel.StatusList;
-        }
-
+        StatusComboBox.SelectedIndex = -1;
+        await Task.Delay(500);
         StatusComboBox.SelectedIndex = (int)ViewModel.CurrentStatus - 1;
     }
 
     private void OnStatusChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!IsLoaded)
+        if (!IsLoaded || StatusComboBox.SelectedIndex == -1)
         {
             return;
         }

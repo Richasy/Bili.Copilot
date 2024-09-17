@@ -41,13 +41,12 @@ public sealed partial class AnimePageViewModel : LayoutPageViewModelBase
             return;
         }
 
-        var list = new List<IPgcSectionDetailViewModel>
+        Sections = new List<IPgcSectionDetailViewModel>
         {
             new AnimeTimelineViewModel(_service),
             new EntertainmentIndexViewModel(PgcSectionType.Anime, _service),
         };
 
-        Sections = list.AsReadOnly();
         var lastType = SettingsToolkit.ReadLocalSetting(SettingNames.AnimePageLastSelectedSectionType, PgcSectionType.Timeline);
         var section = Sections.FirstOrDefault(p => p.SectionType == lastType);
         await Task.Delay(500);

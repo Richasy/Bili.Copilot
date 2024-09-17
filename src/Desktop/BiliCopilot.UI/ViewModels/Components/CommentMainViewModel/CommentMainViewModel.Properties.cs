@@ -37,7 +37,7 @@ public sealed partial class CommentMainViewModel
     private bool _isLoading;
 
     [ObservableProperty]
-    private IReadOnlyCollection<CommentSortType> _sorts;
+    private List<CommentSortType> _sorts;
 
     [ObservableProperty]
     private CommentSortType _sortType;

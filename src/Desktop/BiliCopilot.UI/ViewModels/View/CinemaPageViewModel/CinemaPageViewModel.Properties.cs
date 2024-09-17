@@ -16,7 +16,7 @@ public sealed partial class CinemaPageViewModel
     private readonly ILogger<CinemaPageViewModel> _logger;
 
     [ObservableProperty]
-    private IReadOnlyCollection<EntertainmentIndexViewModel>? _sections;
+    private List<EntertainmentIndexViewModel>? _sections;
 
     [ObservableProperty]
     private EntertainmentIndexViewModel? _selectedSection;

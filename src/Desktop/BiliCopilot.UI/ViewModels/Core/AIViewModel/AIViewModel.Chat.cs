@@ -282,7 +282,7 @@ public sealed partial class AIViewModel
                 return default;
             }
 
-            _subtitles = await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token);
+            _subtitles = [..await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token)];
         }
 
         return string.Join(Environment.NewLine, _subtitles.Select(p => $"{AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.StartPosition))} - {AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.EndPosition))}: {p.Content}"));

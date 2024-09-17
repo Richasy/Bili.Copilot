@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NotifyMessageCardControl">
-                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActiveCommand}">
+                    <local:CardControl>
                         <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />

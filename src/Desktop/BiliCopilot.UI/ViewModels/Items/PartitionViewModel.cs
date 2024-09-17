@@ -15,7 +15,7 @@ public sealed partial class PartitionViewModel : ViewModelBase<Partition>
     /// 子分区.
     /// </summary>
     [ObservableProperty]
-    private IReadOnlyCollection<PartitionViewModel>? _children;
+    private List<PartitionViewModel>? _children;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PopularRankPartitionViewModel"/> class.

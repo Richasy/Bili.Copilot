@@ -23,7 +23,7 @@ public sealed partial class AIViewModel
 
     private VideoPlayerView? _videoView;
     private VideoPart? _videoPart;
-    private IReadOnlyCollection<SubtitleInformation>? _subtitles;
+    private List<SubtitleInformation>? _subtitles;
     private ArticleDetail? _articleDetail;
 
     private AIQuickItemViewModel? _currentPrompt;
@@ -32,16 +32,16 @@ public sealed partial class AIViewModel
     private CancellationTokenSource? _generateCancellationTokenSource;
 
     [ObservableProperty]
-    private IReadOnlyCollection<AIServiceItemViewModel> _services;
+    private List<AIServiceItemViewModel> _services;
 
     [ObservableProperty]
-    private IReadOnlyCollection<ChatModelItemViewModel> _models;
+    private List<ChatModelItemViewModel> _models;
 
     [ObservableProperty]
-    private IReadOnlyCollection<AIQuickItemViewModel> _quickItems;
+    private List<AIQuickItemViewModel> _quickItems;
 
     [ObservableProperty]
-    private IReadOnlyCollection<AIQuickItemViewModel> _morePrompts;
+    private List<AIQuickItemViewModel> _morePrompts;
 
     [ObservableProperty]
     private AIServiceItemViewModel _selectedService;

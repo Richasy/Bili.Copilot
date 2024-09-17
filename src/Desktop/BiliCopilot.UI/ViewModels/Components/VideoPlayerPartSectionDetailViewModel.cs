@@ -18,7 +18,7 @@ public sealed partial class VideoPlayerPartSectionDetailViewModel : ViewModelBas
     private readonly Action<VideoPart> _partSelectedAction;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoPart> _parts;
+    private List<VideoPart> _parts;
 
     [ObservableProperty]
     private VideoPart _selectedPart;

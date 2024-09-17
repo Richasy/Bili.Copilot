@@ -10,18 +10,20 @@ using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 单集条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformation>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EpisodeItemViewModel"/> class.
     /// </summary>
-    public EpisodeItemViewModel(EpisodeInformation data)
+    public EpisodeItemViewModel(EpisodeInformation data, EpisodeCardStyle style)
         : base(data)
     {
         Title = data.Identifier.Title;
@@ -31,6 +33,7 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
         CommentCount = data.CommunityInformation?.CommentCount;
         CoinCount = data.CommunityInformation?.CoinCount;
         LikeCount = data.CommunityInformation?.LikeCount;
+        Style = style;
         Duration = AppToolkit.FormatDuration(TimeSpan.FromSeconds(data.Duration ?? 0));
         IsPreview = data.GetExtensionIfNotNull<bool>(EpisodeExtensionDataId.IsPreview);
         HighlightText = data.GetExtensionIfNotNull<string>(EpisodeExtensionDataId.RecommendReason);

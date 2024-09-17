@@ -21,10 +21,10 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
     private readonly string _videoId;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoSeason> _seasons;
+    private List<VideoSeason> _seasons;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoItemViewModel> _items;
+    private List<VideoItemViewModel> _items;
 
     [ObservableProperty]
     private VideoSeason _selectedSeason;

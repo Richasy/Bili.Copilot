@@ -5,12 +5,14 @@ using BiliCopilot.UI.Controls.AI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 聊天模型项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
 {
     private readonly Action<ChatModelItemViewModel> _deleteAction;

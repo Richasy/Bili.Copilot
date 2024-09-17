@@ -127,13 +127,13 @@ public sealed partial class PgcPlayerPageViewModel
     private IPlayerSectionDetailViewModel? _selectedSection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFormatItemViewModel>? _formats;
+    private List<PlayerFormatItemViewModel>? _formats;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFavoriteFolderViewModel>? _favoriteFolders;
+    private List<PlayerFavoriteFolderViewModel>? _favoriteFolders;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IPlayerSectionDetailViewModel>? _sections;
+    private List<IPlayerSectionDetailViewModel>? _sections;
 
     /// <summary>
     /// 视图数据加载完成.

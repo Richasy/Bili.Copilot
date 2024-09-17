@@ -88,10 +88,10 @@ public sealed partial class LivePlayerPageViewModel
     private LiveLineInformation? _selectedLine;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFormatItemViewModel>? _formats;
+    private List<PlayerFormatItemViewModel>? _formats;
 
     [ObservableProperty]
-    private IReadOnlyCollection<LiveLineInformation>? _lines;
+    private List<LiveLineInformation>? _lines;
 
     /// <summary>
     /// 视图数据加载完成.

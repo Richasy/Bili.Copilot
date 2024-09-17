@@ -28,7 +28,7 @@ public sealed partial class LivePartitionPageViewModel
     private bool _isSubNavEnabled;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PartitionViewModel>? _subPartitions;
+    private List<PartitionViewModel>? _subPartitions;
 
     [ObservableProperty]
     private bool _isSectionLoading;

@@ -257,7 +257,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
                     continue;
                 }
 
-                Articles.Add(new ArticleItemViewModel(item));
+                Articles.Add(new ArticleItemViewModel(item, ArticleCardStyle.Partition));
             }
         }
     }

@@ -16,18 +16,20 @@ using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 动态条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformation>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentItemViewModel"/> class.
     /// </summary>
-    public MomentItemViewModel(MomentInformation data, Action<MomentItemViewModel> showCommentAction)
+    public MomentItemViewModel(MomentInformation data, MomentCardStyle style, Action<MomentItemViewModel> showCommentAction)
         : base(data)
     {
         _showMomentAction = showCommentAction;
@@ -41,12 +43,13 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         Tip = data.Tip;
         Description = data.Description;
         NoData = data.Data is null;
+        Style = style;
 
         if (!NoData)
         {
             if (data.Data is MomentInformation forward)
             {
-                InnerContent = new MomentItemViewModel(forward, showCommentAction);
+                InnerContent = new MomentItemViewModel(forward, Style, showCommentAction);
             }
             else if (data.Data is VideoInformation video)
             {
@@ -54,7 +57,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             }
             else if (data.Data is EpisodeInformation episode)
             {
-                InnerContent = new EpisodeItemViewModel(episode);
+                InnerContent = new EpisodeItemViewModel(episode, EpisodeCardStyle.Moment);
             }
             else if (data.Data is IEnumerable<BiliImage> images)
             {

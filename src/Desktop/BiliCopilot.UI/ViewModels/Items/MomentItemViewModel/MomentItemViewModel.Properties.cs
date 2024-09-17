@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
@@ -67,4 +68,9 @@ public sealed partial class MomentItemViewModel
     /// 内部内容.
     /// </summary>
     public object? InnerContent { get; init; }
+
+    /// <summary>
+    /// 卡片样式.
+    /// </summary>
+    public MomentCardStyle Style { get; init; }
 }

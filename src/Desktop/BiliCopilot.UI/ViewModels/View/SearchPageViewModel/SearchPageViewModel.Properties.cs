@@ -28,7 +28,7 @@ public sealed partial class SearchPageViewModel
     /// 详情分区列表.
     /// </summary>
     [ObservableProperty]
-    private IReadOnlyCollection<ISearchSectionDetailViewModel>? _sections;
+    private List<ISearchSectionDetailViewModel>? _sections;
 
     /// <summary>
     /// 分区初始化完成.

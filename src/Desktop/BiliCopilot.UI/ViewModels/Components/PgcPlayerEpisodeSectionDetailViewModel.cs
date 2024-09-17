@@ -18,7 +18,7 @@ public sealed partial class PgcPlayerEpisodeSectionDetailViewModel : ViewModelBa
     private readonly Action<EpisodeInformation> _episodeSelectedAction;
 
     [ObservableProperty]
-    private IReadOnlyCollection<EpisodeItemViewModel>? _episodes;
+    private List<EpisodeItemViewModel>? _episodes;
 
     [ObservableProperty]
     private EpisodeItemViewModel? _selectedEpisode;
@@ -35,7 +35,7 @@ public sealed partial class PgcPlayerEpisodeSectionDetailViewModel : ViewModelBa
         Action<EpisodeInformation> action)
     {
         _episodeSelectedAction = action;
-        Episodes = episodes.Select(p => new EpisodeItemViewModel(p)).ToList();
+        Episodes = episodes.Select(p => new EpisodeItemViewModel(p, EpisodeCardStyle.Player)).ToList();
         SelectedEpisode = Episodes.FirstOrDefault(p => p.Data.Identifier.Id == epid);
         OnlyIndex = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsPgcPlayerPartsOnlyIndex, false);
     }

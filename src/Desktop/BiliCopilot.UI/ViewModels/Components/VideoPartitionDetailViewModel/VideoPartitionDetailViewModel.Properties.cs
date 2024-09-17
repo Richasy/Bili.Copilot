@@ -23,10 +23,10 @@ public sealed partial class VideoPartitionDetailViewModel
     private long _recommendOffset;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PartitionVideoSortType> _sortTypes;
+    private List<PartitionVideoSortType> _sortTypes;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PartitionViewModel> _children;
+    private List<PartitionViewModel> _children;
 
     [ObservableProperty]
     private PartitionVideoSortType _selectedSortType;

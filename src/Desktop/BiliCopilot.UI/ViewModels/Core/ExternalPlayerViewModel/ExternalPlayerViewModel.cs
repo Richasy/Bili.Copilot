@@ -2,12 +2,14 @@
 
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
 /// 外部播放器视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class ExternalPlayerViewModel : PlayerViewModelBase
 {
     private readonly List<string> _mpvDebugMessages = new();

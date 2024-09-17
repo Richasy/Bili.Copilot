@@ -6,12 +6,14 @@ using Humanizer;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 通知消息项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class NotifyMessageItemViewModel : ViewModelBase<NotifyMessage>
 {
     /// <summary>

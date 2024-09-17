@@ -65,7 +65,7 @@ public sealed partial class ArticleSearchSectionDetailViewModel : ViewModelBase,
 
             foreach (var item in result)
             {
-                Items.Add(new ArticleItemViewModel(item.Article));
+                Items.Add(new ArticleItemViewModel(item.Article, Models.Constants.ArticleCardStyle.Search));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);

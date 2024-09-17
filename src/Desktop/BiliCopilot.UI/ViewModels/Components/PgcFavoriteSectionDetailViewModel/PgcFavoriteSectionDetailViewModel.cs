@@ -96,7 +96,7 @@ public sealed partial class PgcFavoriteSectionDetailViewModel : ViewModelBase, I
             {
                 foreach (var item in seasons)
                 {
-                    Items.Add(new SeasonItemViewModel(item, CurrentStatus, RemoveSeason));
+                    Items.Add(new SeasonItemViewModel(item, Models.Constants.SeasonCardStyle.Favorite, CurrentStatus, RemoveSeason));
                 }
             }
 

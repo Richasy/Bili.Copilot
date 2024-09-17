@@ -3,7 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Settings.DownloadSettingControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -11,12 +11,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <community:SettingsExpander Description="{ext:Locale Name=DownloadSettingDescription}" Header="{ext:Locale Name=DownloadSetting}">
-        <community:SettingsExpander.HeaderIcon>
+    <base:SettingsExpander Description="{ext:Locale Name=DownloadSettingDescription}" Header="{ext:Locale Name=DownloadSetting}">
+        <base:SettingsExpander.HeaderIcon>
             <ic:SymbolIcon Symbol="ArrowDownload" />
-        </community:SettingsExpander.HeaderIcon>
-        <community:SettingsExpander.Items>
-            <community:SettingsCard Description="{x:Bind ViewModel.DefaultDownloadPath, Mode=OneWay}" Header="{ext:Locale Name=DefaultDownloadFolder}">
+        </base:SettingsExpander.HeaderIcon>
+        <base:SettingsExpander.Items>
+            <base:SettingsCard Description="{x:Bind ViewModel.DefaultDownloadPath, Mode=OneWay}" Header="{ext:Locale Name=DefaultDownloadFolder}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button
                         MinWidth="120"
@@ -31,31 +31,31 @@
                         <ic:SymbolIcon FontSize="14" Symbol="FolderOpen" />
                     </Button>
                 </StackPanel>
-            </community:SettingsCard>
-            <community:SettingsCard Header="{ext:Locale Name=DownloadWithDanmaku}">
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=DownloadWithDanmaku}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.DownloadWithDanmaku, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard Header="{ext:Locale Name=SkipAISubtitle}">
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=SkipAISubtitle}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.FilterAISubtitle, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderAfterDownload, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard Description="{ext:Locale Name=UseExternalBBDownDescription}" Header="{ext:Locale Name=UseExternalBBDown}">
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=UseExternalBBDownDescription}" Header="{ext:Locale Name=UseExternalBBDown}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.UseExternalBBDown, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard
+            </base:SettingsCard>
+            <base:SettingsCard
                 Description="{ext:Locale Name=CopyCommandWhenDownloadDescription}"
                 Header="{ext:Locale Name=CopyCommandWhenDownload}"
                 IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.OnlyCopyCommandWhenDownload, Mode=TwoWay}" />
-            </community:SettingsCard>
-            <community:SettingsCard
+            </base:SettingsCard>
+            <base:SettingsCard
                 Description="{ext:Locale Name=GenCommandWithoutCredentialDescription}"
                 Header="{ext:Locale Name=GenCommandWithoutCredential}"
                 IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.WithoutCredentialWhenGenDownloadCommand, Mode=TwoWay}" />
-            </community:SettingsCard>
-        </community:SettingsExpander.Items>
-    </community:SettingsExpander>
+            </base:SettingsCard>
+        </base:SettingsExpander.Items>
+    </base:SettingsExpander>
 </local:SettingsPageControlBase>

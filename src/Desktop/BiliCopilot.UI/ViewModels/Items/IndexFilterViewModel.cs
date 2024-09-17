@@ -15,7 +15,7 @@ public sealed partial class IndexFilterViewModel : ViewModelBase<Filter>
     private readonly Action? _reloadAction;
 
     [ObservableProperty]
-    private IReadOnlyCollection<Condition>? _conditions;
+    private List<Condition>? _conditions;
 
     [ObservableProperty]
     private Condition? _currentCondition;

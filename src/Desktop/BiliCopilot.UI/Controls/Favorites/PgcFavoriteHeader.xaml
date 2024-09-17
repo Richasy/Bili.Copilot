@@ -50,6 +50,7 @@
                 x:Name="StatusComboBox"
                 MinWidth="120"
                 VerticalAlignment="Center"
+                ItemsSource="{x:Bind ViewModel.StatusList, Mode=OneWay}"
                 SelectionChanged="OnStatusChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="models:PgcFavoriteStatus">

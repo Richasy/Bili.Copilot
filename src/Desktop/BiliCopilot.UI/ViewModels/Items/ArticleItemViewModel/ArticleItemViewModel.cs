@@ -13,12 +13,14 @@ using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.Globalization;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 文章项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformation>
 {
     private readonly Action<ArticleItemViewModel>? _removeAction;
@@ -26,7 +28,7 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleItemViewModel"/> class.
     /// </summary>
-    public ArticleItemViewModel(ArticleInformation data, Action<ArticleItemViewModel>? removeAction = default)
+    public ArticleItemViewModel(ArticleInformation data, ArticleCardStyle style, Action<ArticleItemViewModel>? removeAction = default)
         : base(data)
     {
         var primaryLan = ApplicationLanguages.Languages[0];
@@ -37,6 +39,7 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
         Avatar = data.Publisher?.Avatar?.Uri;
         PublishRelativeTime = data.PublishDateTime.Humanize(culture: new CultureInfo(primaryLan));
         LikeCount = data.CommunityInformation?.LikeCount;
+        Style = style;
         var collectTime = data.GetExtensionIfNotNull<DateTimeOffset?>(ArticleExtensionDataId.CollectTime);
         if (collectTime is not null)
         {

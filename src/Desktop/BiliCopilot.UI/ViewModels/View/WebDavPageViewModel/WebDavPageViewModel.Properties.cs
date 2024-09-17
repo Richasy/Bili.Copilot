@@ -28,7 +28,7 @@ public sealed partial class WebDavPageViewModel
     private bool _isItemsEmpty;
 
     [ObservableProperty]
-    private IReadOnlyCollection<WebDavStorageItemViewModel> _items;
+    private List<WebDavStorageItemViewModel> _items;
 
     /// <summary>
     /// 路径段集合.

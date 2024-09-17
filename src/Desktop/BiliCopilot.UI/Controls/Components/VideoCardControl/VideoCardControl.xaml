@@ -219,10 +219,10 @@
                             </Grid.RowDefinitions>
                             <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -667,10 +667,10 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -847,10 +847,10 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse

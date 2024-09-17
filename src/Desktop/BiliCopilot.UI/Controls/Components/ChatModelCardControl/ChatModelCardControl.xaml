@@ -30,6 +30,7 @@
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                             <Button
+                                x:Name="MoreButton"
                                 Grid.Column="1"
                                 Width="28"
                                 Height="28"
@@ -42,18 +43,12 @@
                                 <ic:SymbolIcon FontSize="14" Symbol="MoreVertical" />
                                 <Button.Flyout>
                                     <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem
-                                            MinWidth="160"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ModifyCommand}"
-                                            Text="{ext:Locale Name=Modify}">
+                                        <MenuFlyoutItem MinWidth="160" Text="{ext:Locale Name=Modify}">
                                             <MenuFlyoutItem.Icon>
                                                 <ic:SymbolIcon Symbol="Edit" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem
-                                            MinWidth="160"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DeleteCommand}"
-                                            Text="{ext:Locale Name=Delete}">
+                                        <MenuFlyoutItem MinWidth="160" Text="{ext:Locale Name=Delete}">
                                             <MenuFlyoutItem.Icon>
                                                 <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
                                             </MenuFlyoutItem.Icon>

@@ -14,6 +14,7 @@ namespace BiliCopilot.UI.Controls.Components;
 public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewModel>
 {
     private CardControl _rootCard;
+    private Button _userButton;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoCardControl"/> class.
@@ -24,9 +25,18 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
     protected override void OnApplyTemplate()
     {
         _rootCard = GetTemplateChild("RootCard") as CardControl;
+        _userButton = GetTemplateChild("UserButton") as Button;
         if (ViewModel is not null)
         {
-            _rootCard.Command = ViewModel.PlayCommand;
+            if (_rootCard is not null)
+            {
+                _rootCard.Command = ViewModel.PlayCommand;
+            }
+
+            if (_userButton is not null)
+            {
+                _userButton.Command = ViewModel.ShowUserSpaceCommand;
+            }
         }
     }
 
@@ -41,9 +51,14 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
     /// <inheritdoc/>
     protected override void OnViewModelChanged(VideoItemViewModel? oldValue, VideoItemViewModel? newValue)
     {
-        if (_rootCard is not null && newValue is not null)
+        if (_rootCard is not null)
         {
-            _rootCard.Command = newValue.PlayCommand;
+            _rootCard.Command = newValue?.PlayCommand;
+        }
+
+        if (_userButton is not null)
+        {
+            _userButton.Command = newValue?.ShowUserSpaceCommand;
         }
     }
 
@@ -53,7 +68,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = "OpenInNewWindow",
+            Tag = nameof(ViewModel.OpenInNewWindowCommand),
         };
     }
 
@@ -63,7 +78,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.PlayInPrivate),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.EyeOff },
-            Tag = "PrivatePlay",
+            Tag = nameof(ViewModel.PlayInPrivateCommand),
         };
     }
 
@@ -73,7 +88,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.EnterUserSpace),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Person },
-            Tag = "UserSpace",
+            Tag = nameof(ViewModel.ShowUserSpaceCommand),
         };
     }
 
@@ -83,7 +98,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.AddToViewLater),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.CalendarAdd },
-            Tag = "AddViewLater",
+            Tag = nameof(ViewModel.AddToViewLaterCommand),
         };
     }
 
@@ -93,7 +108,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.Remove),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
-            Tag = "RemoveViewLater",
+            Tag = nameof(ViewModel.RemoveViewLaterCommand),
         };
     }
 
@@ -103,7 +118,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.Remove),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
-            Tag = "RemoveHistory",
+            Tag = nameof(ViewModel.RemoveHistoryCommand),
         };
     }
 
@@ -113,7 +128,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.Remove),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
-            Tag = "RemoveFavorite",
+            Tag = nameof(ViewModel.RemoveFavoriteCommand),
         };
     }
 
@@ -123,7 +138,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInBrowser),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Globe },
-            Tag = "OpenInBrowser",
+            Tag = nameof(ViewModel.OpenInBroswerCommand),
         };
     }
 
@@ -133,7 +148,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.CopyVideoUrl),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Copy },
-            Tag = "CopyUri",
+            Tag = nameof(ViewModel.CopyUriCommand),
         };
     }
 
@@ -143,7 +158,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.FixContent),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Pin },
-            Tag = "Pin",
+            Tag = nameof(ViewModel.PinCommand),
         };
     }
 
@@ -152,10 +167,12 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         if (ContextFlyout is null)
         {
             CreateContextFlyout();
-            ContextFlyout.ShowAt(this, new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Position = new Point(ActualWidth / 2, ActualHeight / 2) });
+            args.TryGetPosition(this, out var point);
+            ContextFlyout.ShowAt(this, new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Position = point });
         }
 
         RelocateCommands();
+        args.Handled = true;
     }
 
     private void CreateContextFlyout()
@@ -203,34 +220,34 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             switch (item.Tag.ToString())
             {
-                case "PrivatePlay":
+                case nameof(ViewModel.PlayInPrivateCommand):
                     item.Command = ViewModel.PlayInPrivateCommand;
                     break;
-                case "UserSpace":
+                case nameof(ViewModel.ShowUserSpaceCommand):
                     item.Command = ViewModel.ShowUserSpaceCommand;
                     break;
-                case "AddViewLater":
+                case nameof(ViewModel.AddToViewLaterCommand):
                     item.Command = ViewModel.AddToViewLaterCommand;
                     break;
-                case "RemoveViewLater":
+                case nameof(ViewModel.RemoveViewLaterCommand):
                     item.Command = ViewModel.RemoveViewLaterCommand;
                     break;
-                case "RemoveHistory":
+                case nameof(ViewModel.RemoveHistoryCommand):
                     item.Command = ViewModel.RemoveHistoryCommand;
                     break;
-                case "RemoveFavorite":
+                case nameof(ViewModel.RemoveFavoriteCommand):
                     item.Command = ViewModel.RemoveFavoriteCommand;
                     break;
-                case "OpenInBrowser":
+                case nameof(ViewModel.OpenInBroswerCommand):
                     item.Command = ViewModel.OpenInBroswerCommand;
                     break;
-                case "CopyUri":
+                case nameof(ViewModel.CopyUriCommand):
                     item.Command = ViewModel.CopyUriCommand;
                     break;
-                case "OpenInNewWindow":
+                case nameof(ViewModel.OpenInNewWindowCommand):
                     item.Command = ViewModel.OpenInNewWindowCommand;
                     break;
-                case "Pin":
+                case nameof(ViewModel.PinCommand):
                     item.Command = ViewModel.PinCommand;
                     break;
                 default:

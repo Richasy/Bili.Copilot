@@ -23,7 +23,7 @@ public sealed partial class GalleryPage : GalleryPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        if (e.Parameter is (BiliImage image, IReadOnlyList<BiliImage> list))
+        if (e.Parameter is (BiliImage image, List<BiliImage> list))
         {
             ViewModel = new GalleryPageViewModel(image, list);
         }

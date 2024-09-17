@@ -8,12 +8,14 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// AI服务项目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class AIServiceItemViewModel : ViewModelBase
 {
     /// <summary>

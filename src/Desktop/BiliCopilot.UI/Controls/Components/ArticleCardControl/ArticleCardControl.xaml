@@ -11,10 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl
-                        x:Name="RootCard"
-                        BorderThickness="0"
-                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenReaderCommand}">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -22,10 +19,10 @@
                             </Grid.RowDefinitions>
                             <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -78,25 +75,6 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
                             </Grid>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Person" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -107,10 +85,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl
-                        x:Name="RootCard"
-                        BorderThickness="0"
-                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenReaderCommand}">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -163,25 +138,6 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
                             </Grid>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Person" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -192,10 +148,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl
-                        x:Name="RootCard"
-                        BorderThickness="0"
-                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenReaderCommand}">
+                    <local:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -228,30 +181,6 @@
                                 </TextBlock>
                             </Grid>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Person" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RemoveHistoryCommand}" Text="{ext:Locale Name=Remove}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="Delete" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>

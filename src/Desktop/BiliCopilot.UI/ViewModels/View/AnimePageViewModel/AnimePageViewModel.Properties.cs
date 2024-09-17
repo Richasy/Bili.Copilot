@@ -16,7 +16,7 @@ public sealed partial class AnimePageViewModel
     private readonly ILogger<AnimePageViewModel> _logger;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IPgcSectionDetailViewModel>? _sections;
+    private List<IPgcSectionDetailViewModel>? _sections;
 
     [ObservableProperty]
     private IPgcSectionDetailViewModel? _selectedSection;

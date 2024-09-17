@@ -11,7 +11,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 public sealed partial class GalleryPageViewModel
 {
     [ObservableProperty]
-    private IReadOnlyCollection<BiliImage>? _images;
+    private List<BiliImage>? _images;
 
     [ObservableProperty]
     private bool _isGroup;

@@ -62,7 +62,7 @@ public sealed partial class ArticleHistorySectionDetailViewModel : ViewModelBase
             {
                 foreach (var article in group.Articles)
                 {
-                    Items.Add(new ArticleItemViewModel(article, removeAction: RemoveArticle));
+                    Items.Add(new ArticleItemViewModel(article, Models.Constants.ArticleCardStyle.History, removeAction: RemoveArticle));
                 }
             }
 

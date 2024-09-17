@@ -89,25 +89,6 @@
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
-                        <Grid.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Grid.ContextFlyout>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -205,25 +186,6 @@
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
-                        <Grid.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Grid.ContextFlyout>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

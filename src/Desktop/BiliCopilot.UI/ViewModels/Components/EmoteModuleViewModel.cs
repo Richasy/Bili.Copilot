@@ -21,7 +21,7 @@ public sealed partial class EmoteModuleViewModel : ViewModelBase
     private bool _isLoading;
 
     [ObservableProperty]
-    private IReadOnlyCollection<EmotePackage>? _packages;
+    private List<EmotePackage>? _packages;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EmoteModuleViewModel"/> class.
@@ -45,7 +45,7 @@ public sealed partial class EmoteModuleViewModel : ViewModelBase
         try
         {
             IsLoading = true;
-            Packages = await _service.GetEmotePackagesAsync();
+            Packages = [.. await _service.GetEmotePackagesAsync()];
         }
         catch (Exception ex)
         {

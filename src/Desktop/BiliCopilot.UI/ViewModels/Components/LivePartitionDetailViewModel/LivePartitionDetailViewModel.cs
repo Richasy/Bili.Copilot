@@ -38,7 +38,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         var (lives, tags, nextPageNumber) = await _service.GetPartitionLiveListAsync(Data.Data);
         if (tags is not null)
         {
-            Children = tags;
+            Children = [..tags];
         }
 
         TryAddRooms(lives);
@@ -139,7 +139,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         {
             foreach (var item in rooms)
             {
-                Rooms.Add(new LiveItemViewModel(item));
+                Rooms.Add(new LiveItemViewModel(item, Models.Constants.LiveCardStyle.Partition));
             }
         }
     }

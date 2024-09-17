@@ -12,7 +12,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActivateCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid Padding="12" RowSpacing="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -26,7 +26,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Style="{StaticResource AvatarButtonStyle}">
+                                <Button x:Name="UserButton" Style="{StaticResource AvatarButtonStyle}">
                                     <PersonPicture
                                         Width="36"
                                         Height="36"
@@ -82,91 +82,8 @@
                                 FontSize="13"
                                 MaxLines="1"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}" />
-                            <Grid Grid.Row="3" RowSpacing="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <ToggleButton
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Like}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
-                                                Symbol="ThumbLike" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </ToggleButton>
-                                    <Button
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowCommentCommand}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Reply}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Symbol="ChatEmpty" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPgc, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                                    Text="{ext:Locale Name=PlayInPrivate}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="EyeOff" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Text="{ext:Locale Name=EnterUserSpace}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Person" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="CalendarAdd" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CopyUrlCommand}" Text="{ext:Locale Name=CopyVideoUrl}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Copy" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -177,7 +94,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActivateCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid Padding="12" RowSpacing="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -205,86 +122,8 @@
                                 FontSize="13"
                                 MaxLines="1"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}" />
-                            <Grid Grid.Row="3" RowSpacing="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <ToggleButton
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Like}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
-                                                Symbol="ThumbLike" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </ToggleButton>
-                                    <Button
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowCommentCommand}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Reply}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Symbol="ChatEmpty" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayInPrivateCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsPgc, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                                    Text="{ext:Locale Name=PlayInPrivate}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="EyeOff" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.AddToViewLaterCommand}" Text="{ext:Locale Name=AddToViewLater}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="CalendarAdd" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CopyUrlCommand}" Text="{ext:Locale Name=CopyVideoUrl}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Copy" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -295,7 +134,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActivateCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -309,7 +148,7 @@
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}" Style="{StaticResource AvatarButtonStyle}">
+                                <Button x:Name="UserButton" Style="{StaticResource AvatarButtonStyle}">
                                     <PersonPicture
                                         Width="36"
                                         Height="36"
@@ -345,58 +184,8 @@
                                 Margin="0,0,0,12"
                                 ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                            <Grid Grid.Row="3" RowSpacing="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <ToggleButton
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Like}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
-                                                Symbol="ThumbLike" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </ToggleButton>
-                                    <Button
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowCommentCommand}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Reply}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Symbol="ChatEmpty" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -417,8 +206,8 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <HyperlinkButton
+                            x:Name="UserButton"
                             HorizontalAlignment="Left"
-                            Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                             Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                         <local:EmoteTextBlock
                             Grid.Row="1"
@@ -430,15 +219,6 @@
                             Grid.Row="2"
                             ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                             Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                        <Grid.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Grid.ContextFlyout>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -449,7 +229,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActivateCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -475,58 +255,8 @@
                                 Margin="0,0,0,12"
                                 ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                            <Grid Grid.Row="3" RowSpacing="6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <ToggleButton
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ToggleLikeCommand}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Like}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsLiked, Converter={StaticResource BoolToIconVariantConverter}}"
-                                                Symbol="ThumbLike" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </ToggleButton>
-                                    <Button
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowCommentCommand}"
-                                        ToolTipService.ToolTip="{ext:Locale Name=Reply}">
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <ic:SymbolIcon
-                                                VerticalAlignment="Center"
-                                                FontSize="12"
-                                                Symbol="ChatEmpty" />
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CommentCount, Converter={StaticResource CountConverter}}"
-                                                TextLineBounds="Tight" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
+                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>

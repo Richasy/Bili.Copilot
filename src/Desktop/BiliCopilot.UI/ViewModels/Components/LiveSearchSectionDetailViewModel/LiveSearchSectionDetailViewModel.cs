@@ -69,7 +69,7 @@ public sealed partial class LiveSearchSectionDetailViewModel : ViewModelBase, IS
                     continue;
                 }
 
-                Items.Add(new LiveItemViewModel(item.Live));
+                Items.Add(new LiveItemViewModel(item.Live, Models.Constants.LiveCardStyle.Search));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);

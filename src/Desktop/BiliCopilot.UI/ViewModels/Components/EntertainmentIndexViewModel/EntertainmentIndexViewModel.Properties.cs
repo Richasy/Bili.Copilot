@@ -19,7 +19,7 @@ public sealed partial class EntertainmentIndexViewModel
     private int _pageNumer;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IndexFilterViewModel>? _filters;
+    private List<IndexFilterViewModel>? _filters;
 
     [ObservableProperty]
     private bool _isFilterLoading;

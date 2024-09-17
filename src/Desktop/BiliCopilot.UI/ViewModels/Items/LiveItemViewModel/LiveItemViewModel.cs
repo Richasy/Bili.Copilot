@@ -13,12 +13,14 @@ using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 直播条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 {
     private readonly Action<LiveItemViewModel>? _removeAction;
@@ -26,13 +28,14 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveItemViewModel"/> class.
     /// </summary>
-    public LiveItemViewModel(LiveInformation data, Action<LiveItemViewModel>? removeAction = default)
+    public LiveItemViewModel(LiveInformation data, LiveCardStyle style, Action<LiveItemViewModel>? removeAction = default)
         : base(data)
     {
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover?.Uri;
         Author = data.User?.Name;
         Avatar = data.User?.Avatar?.Uri;
+        Style = style;
         ViewerCount = data.GetExtensionIfNotNull<double>(LiveExtensionDataId.ViewerCount);
         Subtitle = data.GetExtensionIfNotNull<string>(VideoExtensionDataId.Subtitle);
         TagName = data.GetExtensionIfNotNull<string>(LiveExtensionDataId.TagName);

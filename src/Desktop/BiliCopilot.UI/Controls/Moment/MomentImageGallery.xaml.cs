@@ -35,7 +35,7 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
     {
         e.Handled = true;
         var image = (sender as Image).Tag as BiliImage;
-        var itemsSource = ItemsSource as IReadOnlyCollection<BiliImage>;
-        new GalleryWindow(image, itemsSource.ToList()).Activate();
+        var itemsSource = ItemsSource as List<BiliImage>;
+        new GalleryWindow(image, itemsSource).Activate();
     }
 }

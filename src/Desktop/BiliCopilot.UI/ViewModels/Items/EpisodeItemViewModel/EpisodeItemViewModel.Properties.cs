@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
@@ -61,4 +63,9 @@ public sealed partial class EpisodeItemViewModel
     /// 高亮文本.
     /// </summary>
     public string? HighlightText { get; init; }
+
+    /// <summary>
+    /// 卡片样式.
+    /// </summary>
+    public EpisodeCardStyle Style { get; init; }
 }

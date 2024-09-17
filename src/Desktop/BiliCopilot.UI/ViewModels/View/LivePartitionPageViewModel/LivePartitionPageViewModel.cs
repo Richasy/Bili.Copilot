@@ -181,7 +181,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
             {
                 foreach (var item in recommends)
                 {
-                    RecommendRooms.Add(new LiveItemViewModel(item));
+                    RecommendRooms.Add(new LiveItemViewModel(item, LiveCardStyle.Recommend));
                 }
             }
 
@@ -191,7 +191,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
                 {
                     if (!FollowRooms.Any(p => p.Equals(item)))
                     {
-                        FollowRooms.Add(new LiveItemViewModel(item));
+                        FollowRooms.Add(new LiveItemViewModel(item, LiveCardStyle.Follow));
                     }
                 }
             }

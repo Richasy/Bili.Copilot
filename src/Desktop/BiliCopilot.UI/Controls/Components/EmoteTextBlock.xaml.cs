@@ -177,7 +177,7 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
         var image = (sender as Image).DataContext as BiliImage;
         if (image is not null)
         {
-            new GalleryWindow(image, Text.Pictures.AsReadOnly()).Activate();
+            new GalleryWindow(image, [.. Text.Pictures]).Activate();
         }
     }
 }

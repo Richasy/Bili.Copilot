@@ -28,7 +28,8 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     /// <summary>
     /// 导航条目列表.
     /// </summary>
-    public ObservableCollection<AppNavigationItemViewModel> MenuItems { get; } = new();
+    [ObservableProperty]
+    private List<AppNavigationItemViewModel> _menuItems;
 
     /// <summary>
     /// 底部条目列表.
@@ -178,10 +179,12 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         _navFrame = navFrame;
         _overFrame = overFrame;
         _overFrame.Navigated += OnOverlayNavigated;
-        foreach (var item in GetMenuItems())
-        {
-            MenuItems.Add(item);
-        }
+
+        // foreach (var item in GetMenuItems())
+        // {
+        //     MenuItems.Add(item);
+        // }
+        MenuItems = [.. GetMenuItems()];
 
         foreach (var item in GetFooterItems())
         {

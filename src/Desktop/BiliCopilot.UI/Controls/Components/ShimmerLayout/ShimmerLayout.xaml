@@ -2,8 +2,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:BiliCopilot.UI.Controls.Components"
-    xmlns:winui="using:CommunityToolkit.Labs.WinUI">
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
     <Style TargetType="local:ShimmerLayout">
         <Setter Property="Template">
             <Setter.Value>
@@ -21,31 +21,31 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <winui:Shimmer
+                        <base:Shimmer
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             CornerRadius="{StaticResource OverlayCornerRadius}"
                             IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
 
                         <StackPanel Grid.Row="1" Spacing="12">
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Height="40"
                                 HorizontalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Height="40"
                                 HorizontalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Height="40"
                                 HorizontalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
                         </StackPanel>
 
-                        <winui:Shimmer
+                        <base:Shimmer
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -68,57 +68,57 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <winui:Shimmer
+                            <base:Shimmer
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Column="2"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="2"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 HorizontalAlignment="Stretch"
@@ -149,7 +149,7 @@
                             <ColumnDefinition Width="280" />
                         </Grid.ColumnDefinitions>
 
-                        <winui:Shimmer
+                        <base:Shimmer
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             CornerRadius="{StaticResource OverlayCornerRadius}"
@@ -160,12 +160,12 @@
                                 <RowDefinition Height="3*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <winui:Shimmer
+                            <base:Shimmer
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 CornerRadius="{StaticResource OverlayCornerRadius}"
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
-                            <winui:Shimmer
+                            <base:Shimmer
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -173,14 +173,14 @@
                                 IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
                         </Grid>
 
-                        <winui:Shimmer
+                        <base:Shimmer
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             CornerRadius="{StaticResource OverlayCornerRadius}"
                             IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsActive}" />
 
-                        <winui:Shimmer
+                        <base:Shimmer
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
