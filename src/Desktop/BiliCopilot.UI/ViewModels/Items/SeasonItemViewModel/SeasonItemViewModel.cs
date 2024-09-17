@@ -54,12 +54,12 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;
         }
 
         var identifier = new MediaIdentifier("ss_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
     }
 
     [RelayCommand]

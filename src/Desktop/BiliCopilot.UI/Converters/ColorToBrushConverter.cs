@@ -6,7 +6,7 @@ using Windows.UI;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class ColorToBrushConverter : IValueConverter
+internal sealed partial class ColorToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

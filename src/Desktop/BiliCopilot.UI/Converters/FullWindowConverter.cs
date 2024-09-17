@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class FullWindowConverter : IValueConverter
+internal sealed partial class FullWindowConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

@@ -72,6 +72,6 @@ public sealed partial class AnimePageViewModel : LayoutPageViewModelBase
     private void ShowMyFavoriteAnime()
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFavoriteSection, $"pgc_{PgcFavoriteType.Anime}");
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage).FullName);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage));
     }
 }

@@ -5,7 +5,7 @@ using Richasy.BiliKernel.Models.Appearance;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class MomentDataTemplateSelector : DataTemplateSelector
+internal sealed partial class MomentDataTemplateSelector : DataTemplateSelector
 {
     public DataTemplate VideoTemplate { get; set; }
 

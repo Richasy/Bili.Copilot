@@ -50,12 +50,12 @@ public sealed partial class ArticleItemViewModel : ViewModelBase<ArticleInformat
     private void OpenReader()
     {
         var navVM = this.Get<NavigationViewModel>();
-        navVM.NavigateToOver(typeof(ArticleReaderPage).FullName, Data.Identifier);
+        navVM.NavigateToOver(typeof(ArticleReaderPage), Data.Identifier);
     }
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Publisher);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.Publisher);
 
     [RelayCommand]
     private async Task OpenInBroswerAsync()

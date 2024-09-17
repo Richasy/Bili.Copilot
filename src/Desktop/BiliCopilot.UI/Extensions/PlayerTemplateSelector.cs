@@ -4,7 +4,7 @@ using BiliCopilot.UI.ViewModels.Core;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class PlayerTemplateSelector : DataTemplateSelector
+internal sealed partial class PlayerTemplateSelector : DataTemplateSelector
 {
     public DataTemplate MpvTemplate { get; set; }
 

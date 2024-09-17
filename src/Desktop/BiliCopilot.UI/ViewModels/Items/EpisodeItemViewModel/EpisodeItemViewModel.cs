@@ -50,12 +50,12 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;
         }
 
         var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, id);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), id);
     }
 
     [RelayCommand]

@@ -44,7 +44,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
             return;
         }
 
-        var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>("__webdav.json", "[]");
+        var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
         var config = configList.FirstOrDefault(p => p.Id.Equals(localConfigId));
         if (config is null)
         {

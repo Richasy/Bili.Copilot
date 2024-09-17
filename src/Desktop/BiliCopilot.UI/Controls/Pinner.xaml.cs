@@ -32,27 +32,27 @@ public sealed partial class Pinner : PinnerBase
         if (item.Type == Models.Constants.PinContentType.User)
         {
             var user = new UserProfile(item.Id, item.Title, new BiliImage(new Uri(item.Cover)));
-            navVM.NavigateToOver(typeof(UserSpacePage).FullName, user);
+            navVM.NavigateToOver(typeof(UserSpacePage), user);
         }
         else if (item.Type == Models.Constants.PinContentType.Pgc)
         {
             var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+            navVM.NavigateToOver(typeof(PgcPlayerPage), identifier);
         }
         else if (item.Type == Models.Constants.PinContentType.Video)
         {
             var snapshot = new VideoSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
-            navVM.NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+            navVM.NavigateToOver(typeof(VideoPlayerPage), snapshot);
         }
         else if (item.Type == Models.Constants.PinContentType.Live)
         {
             var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(LivePlayerPage).FullName, identifier);
+            navVM.NavigateToOver(typeof(LivePlayerPage), identifier);
         }
         else if (item.Type == Models.Constants.PinContentType.Article)
         {
             var identifier = new ArticleIdentifier(item.Id, item.Title, default, default);
-            navVM.NavigateToOver(typeof(ArticleReaderPage).FullName, identifier);
+            navVM.NavigateToOver(typeof(ArticleReaderPage), identifier);
         }
 
         ItemsFlyout.Hide();

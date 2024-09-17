@@ -214,7 +214,7 @@ public sealed partial class NativePlayerViewModel
         Player.Source = new MediaPlaybackItem(source);
     }
 
-    internal sealed class HttpRandomAccessStream : IRandomAccessStreamWithContentType
+    internal sealed partial class HttpRandomAccessStream : IRandomAccessStreamWithContentType
     {
         private readonly Uri _requestedUri;
         private HttpClient _client;

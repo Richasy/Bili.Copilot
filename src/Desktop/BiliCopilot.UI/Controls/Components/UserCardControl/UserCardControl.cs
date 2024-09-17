@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 用户卡片.
 /// </summary>
-public sealed class UserCardControl : LayoutControlBase<UserItemViewModel>
+public sealed partial class UserCardControl : LayoutControlBase<UserItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserCardControl"/> class.

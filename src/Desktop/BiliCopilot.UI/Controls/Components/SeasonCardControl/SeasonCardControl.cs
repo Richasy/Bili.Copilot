@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 剧集卡片控件.
 /// </summary>
-public sealed class SeasonCardControl : LayoutControlBase<SeasonItemViewModel>
+public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SeasonCardControl"/> class.

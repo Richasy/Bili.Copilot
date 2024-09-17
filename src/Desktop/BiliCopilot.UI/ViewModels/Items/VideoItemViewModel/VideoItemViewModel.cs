@@ -15,12 +15,14 @@ using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Globalization;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 视频项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 {
     private readonly Action<VideoItemViewModel>? _removeAction;
@@ -74,23 +76,23 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUri().ToString());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUri().ToString());
             return;
         }
 
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data));
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data));
     }
 
     [RelayCommand]
     private void PlayInPrivate()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Data, true));
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data, true));
 
     [RelayCommand]
     private void ShowUserSpace()
     {
         if (Data.Publisher?.User is not null)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Publisher.User);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.Publisher.User);
         }
     }
 

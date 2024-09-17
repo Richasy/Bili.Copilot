@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class SearchSectionIconConverter : IValueConverter
+internal sealed partial class SearchSectionIconConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

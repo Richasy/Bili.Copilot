@@ -9,7 +9,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 评论项控件.
 /// </summary>
-public sealed class CommentItemControl : LayoutControlBase<CommentItemViewModel>
+public sealed partial class CommentItemControl : LayoutControlBase<CommentItemViewModel>
 {
     /// <summary>
     /// <see cref="ShowMoreCommand"/> 的依赖属性.

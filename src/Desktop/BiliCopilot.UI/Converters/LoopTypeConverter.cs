@@ -9,7 +9,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 循环类型转换器.
 /// </summary>
-internal sealed class LoopTypeConverter : IValueConverter
+internal sealed partial class LoopTypeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

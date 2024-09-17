@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 直播卡片控件.
 /// </summary>
-public sealed class LiveCardControl : LayoutControlBase<LiveItemViewModel>
+public sealed partial class LiveCardControl : LayoutControlBase<LiveItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveCardControl"/> class.

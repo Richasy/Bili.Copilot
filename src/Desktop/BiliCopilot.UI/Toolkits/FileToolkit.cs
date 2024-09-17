@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
@@ -44,10 +45,11 @@ internal static class FileToolkit
     /// </summary>
     /// <typeparam name="T">Conversion target type.</typeparam>
     /// <param name="fileName">File name.</param>
+    /// <param name="typeInfo">Json type info for deserialize.</param>
     /// <param name="defaultValue">The default value when the file does not exist or has no content.</param>
     /// <param name="folderName">The folder to which the file belongs.</param>
     /// <returns>Converted result.</returns>
-    public static async Task<T> ReadLocalDataAsync<T>(string fileName, string defaultValue = "{}", string folderName = "")
+    public static async Task<T> ReadLocalDataAsync<T>(string fileName, JsonTypeInfo<T> typeInfo, string defaultValue = "{}", string folderName = "")
     {
         var path = string.IsNullOrEmpty(folderName) ?
                         $"ms-appdata:///local/{fileName}" :
@@ -69,7 +71,7 @@ internal static class FileToolkit
         {
         }
 
-        return typeof(T) == typeof(string) ? (T)content.Clone() : JsonSerializer.Deserialize<T>(content);
+        return typeof(T) == typeof(string) ? (T)content.Clone() : JsonSerializer.Deserialize<T>(content, typeInfo);
     }
 
     /// <summary>
@@ -78,9 +80,10 @@ internal static class FileToolkit
     /// <typeparam name="T">Type of data.</typeparam>
     /// <param name="fileName">File name.</param>
     /// <param name="data">Data to be written.</param>
+    /// <param name="typeInfo">Type info for serialize.</param>
     /// <param name="folderName">The folder to which the file belongs.</param>
     /// <returns><see cref="Task"/>.</returns>
-    public static async Task WriteLocalDataAsync<T>(string fileName, T data, string folderName = "")
+    public static async Task WriteLocalDataAsync<T>(string fileName, T data, JsonTypeInfo<T> typeInfo, string folderName = "")
     {
         var folder = ApplicationData.Current.LocalFolder;
 
@@ -91,7 +94,7 @@ internal static class FileToolkit
         }
 
         var writeContent = string.Empty;
-        writeContent = data is string ? data.ToString() : JsonSerializer.Serialize(data);
+        writeContent = data is string ? data.ToString() : JsonSerializer.Serialize(data, typeInfo);
 
         var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists)
                     .AsTask();

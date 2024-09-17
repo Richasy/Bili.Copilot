@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 通知消息卡片控件.
 /// </summary>
-public sealed class NotifyMessageCardControl : LayoutControlBase<NotifyMessageItemViewModel>
+public sealed partial class NotifyMessageCardControl : LayoutControlBase<NotifyMessageItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="NotifyMessageCardControl"/> class.

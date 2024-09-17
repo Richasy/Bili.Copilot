@@ -51,7 +51,7 @@ public enum AzureOpenAIVersion
 /// <summary>
 /// Azure OpenAI 服务版本转换器.
 /// </summary>
-internal sealed class AzureOpenAIVersionConverter : JsonConverter<AzureOpenAIVersion>
+public sealed class AzureOpenAIVersionConverter : JsonConverter<AzureOpenAIVersion>
 {
     /// <inheritdoc/>
     public override AzureOpenAIVersion Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

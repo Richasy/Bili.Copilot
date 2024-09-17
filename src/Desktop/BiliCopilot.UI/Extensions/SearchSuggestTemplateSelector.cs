@@ -7,7 +7,7 @@ namespace BiliCopilot.UI.Extensions;
 /// <summary>
 /// 搜索建议模板选择器.
 /// </summary>
-internal sealed class SearchSuggestTemplateSelector : DataTemplateSelector
+internal sealed partial class SearchSuggestTemplateSelector : DataTemplateSelector
 {
     public DataTemplate BasicTemplate { get; set; }
 

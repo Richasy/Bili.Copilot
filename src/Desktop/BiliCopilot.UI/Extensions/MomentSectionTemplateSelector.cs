@@ -5,7 +5,7 @@ using BiliCopilot.UI.ViewModels.Items;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class MomentSectionTemplateSelector : DataTemplateSelector
+internal sealed partial class MomentSectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate VideoTemplate { get; set; }
 

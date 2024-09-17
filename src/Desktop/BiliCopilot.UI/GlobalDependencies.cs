@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics.CodeAnalysis;
 using BiliAgent.Core;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
@@ -111,14 +112,14 @@ internal static class GlobalDependencies
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddSingleton<T>(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddSingleton<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(this IKernelBuilder kernelBuilder)
         where T : class
     {
         kernelBuilder.Services.AddSingleton<T>();
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddTransient<T>(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddTransient<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(this IKernelBuilder kernelBuilder)
         where T : class
     {
         kernelBuilder.Services.AddTransient<T>();

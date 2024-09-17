@@ -105,12 +105,12 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
         if (Items.Count == 1)
         {
             var video = Items.First();
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(video.Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video.Data));
         }
         else
         {
             var data = (Items.Select(p => p.Data).ToList(), new VideoSnapshot(Items.First().Data));
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, data);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), data);
         }
     }
 

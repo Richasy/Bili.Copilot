@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 文章卡片控件.
 /// </summary>
-public sealed class ArticleCardControl : LayoutControlBase<ArticleItemViewModel>
+public sealed partial class ArticleCardControl : LayoutControlBase<ArticleItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleCardControl"/> class.

@@ -59,11 +59,11 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;
         }
 
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data.Identifier);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), Data.Identifier);
     }
 
     [RelayCommand]
@@ -91,7 +91,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User);
 
     [RelayCommand]
     private void Pin()

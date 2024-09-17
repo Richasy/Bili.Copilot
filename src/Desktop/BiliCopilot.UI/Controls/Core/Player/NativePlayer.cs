@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// 原生播放器.
 /// </summary>
-public sealed class NativePlayer : LayoutControlBase<NativePlayerViewModel>
+public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewModel>
 {
     private NativePlayerViewModel? _viewModel;
     private long _viewModelChangedToken;

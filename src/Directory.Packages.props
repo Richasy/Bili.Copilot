@@ -8,13 +8,13 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.240801-build.1708" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240821" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240821" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240821" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240821" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240916" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.1.240916" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240916" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.1.240916" />
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
-    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.258-ci" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.258" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
@@ -33,7 +33,8 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.2783-prerelease" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
-    <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.12" />
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.1.3" />
+    <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.13" />
     <PackageVersion Include="OpenTK" Version="4.8.2" />
     <PackageVersion Include="Roman-Numerals" Version="2.0.1" />
     <PackageVersion Include="Silk.NET.Direct3D11" Version="2.21.0" />

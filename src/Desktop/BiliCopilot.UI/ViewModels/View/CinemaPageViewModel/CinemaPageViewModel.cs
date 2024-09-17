@@ -72,6 +72,6 @@ public sealed partial class CinemaPageViewModel : LayoutPageViewModelBase
     private void ShowMyFavoriteCinema()
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFavoriteSection, $"pgc_{PgcFavoriteType.Cinema}");
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage).FullName);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(FavoritesPage));
     }
 }

@@ -42,7 +42,7 @@ public sealed partial class PinnerViewModel : ViewModelBase
     private async Task InitializeAsync()
     {
         var currentUserId = this.Get<IBiliTokenResolver>().GetToken().UserId;
-        var data = await FileToolkit.ReadLocalDataAsync<List<PinItem>>(string.Format(PinFileName, currentUserId), "[]", PinFolderName);
+        var data = await FileToolkit.ReadLocalDataAsync(string.Format(PinFileName, currentUserId), GlobalSerializeContext.Default.ListPinItem, "[]", PinFolderName);
         Items.Clear();
         if (data.Count > 0)
         {
@@ -75,7 +75,7 @@ public sealed partial class PinnerViewModel : ViewModelBase
 
     private async Task SaveDataAsync()
     {
-        await FileToolkit.WriteLocalDataAsync(string.Format(PinFileName, this.Get<IBiliTokenResolver>().GetToken().UserId), Items.ToList(), PinFolderName);
+        await FileToolkit.WriteLocalDataAsync(string.Format(PinFileName, this.Get<IBiliTokenResolver>().GetToken().UserId), Items.ToList(), GlobalSerializeContext.Default.ListPinItem, PinFolderName);
         IsEmpty = Items.Count == 0;
     }
 }

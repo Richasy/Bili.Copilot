@@ -17,6 +17,7 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
@@ -383,6 +384,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />

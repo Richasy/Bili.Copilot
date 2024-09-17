@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 聊天模型卡片控件.
 /// </summary>
-public sealed class ChatModelCardControl : LayoutControlBase<ChatModelItemViewModel>
+public sealed partial class ChatModelCardControl : LayoutControlBase<ChatModelItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatModelCardControl"/> class.

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class CountConverter : IValueConverter
+internal sealed partial class CountConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

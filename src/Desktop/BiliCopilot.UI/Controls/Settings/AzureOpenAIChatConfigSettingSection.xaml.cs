@@ -51,9 +51,9 @@ public sealed partial class AzureOpenAIChatConfigSettingSection : AIServiceConfi
 
     private void InitializeApiVersion()
     {
-        var versions = Enum.GetValues<AzureOpenAIVersion>();
-        var json = JsonSerializer.Serialize(versions);
-        VersionComboBox.ItemsSource = JsonSerializer.Deserialize<List<string>>(json);
+        var versions = Enum.GetValues<AzureOpenAIVersion>().ToList();
+        var json = JsonSerializer.Serialize(versions, GlobalSerializeContext.Default.ListAzureOpenAIVersion);
+        VersionComboBox.ItemsSource = JsonSerializer.Deserialize(json, GlobalSerializeContext.Default.ListString);
         ViewModel?.CheckCurrentConfig();
     }
 

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class ChildCommentTextConverter : IValueConverter
+internal sealed partial class ChildCommentTextConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

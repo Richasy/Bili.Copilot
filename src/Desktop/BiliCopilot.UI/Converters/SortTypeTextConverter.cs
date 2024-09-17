@@ -10,7 +10,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 视频排序方式可读文本转换器.
 /// </summary>
-public class SortTypeTextConverter : IValueConverter
+internal sealed partial class SortTypeTextConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

@@ -8,6 +8,6 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// 外部播放器.
 /// </summary>
-public sealed class ExternalPlayer : LayoutControlBase<ExternalPlayerViewModel>
+public sealed partial class ExternalPlayer : LayoutControlBase<ExternalPlayerViewModel>
 {
 }

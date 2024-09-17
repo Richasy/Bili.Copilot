@@ -58,5 +58,5 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User.User);
 }

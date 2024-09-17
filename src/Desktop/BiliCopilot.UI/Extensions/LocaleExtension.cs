@@ -10,7 +10,7 @@ namespace BiliCopilot.UI.Extensions;
 /// Localized text extension.
 /// </summary>
 [MarkupExtensionReturnType(ReturnType = typeof(string))]
-public sealed class LocaleExtension : MarkupExtension
+public sealed partial class LocaleExtension : MarkupExtension
 {
     /// <summary>
     /// Language name.

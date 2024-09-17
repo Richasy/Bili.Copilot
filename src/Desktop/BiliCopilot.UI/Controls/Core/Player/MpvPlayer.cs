@@ -10,7 +10,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// MPV 播放器.
 /// </summary>
-public sealed class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
+public sealed partial class MpvPlayer : LayoutControlBase<MpvPlayerViewModel>
 {
     private MpvPlayerViewModel? _viewModel;
     private long _viewModelChangedToken;

@@ -103,27 +103,27 @@ public sealed partial class AccountViewModel : ViewModelBase
 
     [RelayCommand]
     private void ShowFans()
-        => _navService.NavigateToOver(typeof(FansPage).FullName, MyProfile.User.Id);
+        => _navService.NavigateToOver(typeof(FansPage), MyProfile.User.Id);
 
     [RelayCommand]
     private void ShowFollows()
-        => _navService.NavigateToOver(typeof(FollowsPage).FullName, MyProfile.User.Id);
+        => _navService.NavigateToOver(typeof(FollowsPage), MyProfile.User.Id);
 
     [RelayCommand]
     private void ShowMoments()
-        => _navService.NavigateToOver(typeof(UserSpacePage).FullName, MyProfile.User);
+        => _navService.NavigateToOver(typeof(UserSpacePage), MyProfile.User);
 
     [RelayCommand]
     private void ShowViewLater()
-        => _navService.NavigateToOver(typeof(ViewLaterPage).FullName);
+        => _navService.NavigateToOver(typeof(ViewLaterPage));
 
     [RelayCommand]
     private void ShowHistory()
-        => _navService.NavigateToOver(typeof(HistoryPage).FullName);
+        => _navService.NavigateToOver(typeof(HistoryPage));
 
     [RelayCommand]
     private void ShowFavorites()
-        => _navService.NavigateToOver(typeof(FavoritesPage).FullName);
+        => _navService.NavigateToOver(typeof(FavoritesPage));
 
     [RelayCommand]
     private async Task UpdateUnreadAsync()

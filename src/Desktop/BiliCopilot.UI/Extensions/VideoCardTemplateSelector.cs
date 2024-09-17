@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Extensions;
 /// <summary>
 /// 视频卡片模板选择器.
 /// </summary>
-internal sealed class VideoCardTemplateSelector : DataTemplateSelector
+internal sealed partial class VideoCardTemplateSelector : DataTemplateSelector
 {
     public DataTemplate RecommendTemplate { get; set; }
 

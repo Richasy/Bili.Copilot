@@ -11,14 +11,23 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 视频卡片控件.
 /// </summary>
-public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
+public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewModel>
 {
+    private CardControl _rootCard;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoCardControl"/> class.
     /// </summary>
-    public VideoCardControl()
+    public VideoCardControl() => DefaultStyleKey = typeof(VideoCardControl);
+
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
     {
-        DefaultStyleKey = typeof(VideoCardControl);
+        _rootCard = GetTemplateChild("RootCard") as CardControl;
+        if (ViewModel is not null)
+        {
+            _rootCard.Command = ViewModel.PlayCommand;
+        }
     }
 
     /// <inheritdoc/>
@@ -28,6 +37,15 @@ public sealed class VideoCardControl : LayoutControlBase<VideoItemViewModel>
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
         => ContextRequested -= OnContextRequested;
+
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(VideoItemViewModel? oldValue, VideoItemViewModel? newValue)
+    {
+        if (_rootCard is not null && newValue is not null)
+        {
+            _rootCard.Command = newValue.PlayCommand;
+        }
+    }
 
     private static MenuFlyoutItem CreateOpenInNewWindowItem()
     {

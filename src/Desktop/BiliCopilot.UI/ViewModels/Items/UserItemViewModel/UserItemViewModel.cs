@@ -35,7 +35,7 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Profile.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.Profile.User);
 
     [RelayCommand]
     private void Pin()

@@ -128,7 +128,7 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Content.Author.Profile.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Content.Author.Profile.User);
 
     [RelayCommand]
     private void ToggleAIOverlayVisibility()

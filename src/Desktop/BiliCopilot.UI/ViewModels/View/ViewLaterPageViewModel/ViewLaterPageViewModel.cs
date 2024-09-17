@@ -112,12 +112,12 @@ public sealed partial class ViewLaterPageViewModel : ViewModelBase
     {
         if (Videos.Count == 1)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(Videos.First().Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Videos.First().Data));
         }
         else
         {
             var data = (Videos.Select(p => p.Data).ToList(), new VideoSnapshot(Videos.First().Data));
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, data);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), data);
         }
     }
 

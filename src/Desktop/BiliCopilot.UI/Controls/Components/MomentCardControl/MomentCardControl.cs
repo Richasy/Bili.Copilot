@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 动态卡片控件.
 /// </summary>
-public sealed class MomentCardControl : LayoutControlBase<MomentItemViewModel>
+public sealed partial class MomentCardControl : LayoutControlBase<MomentItemViewModel>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentCardControl"/> class.
