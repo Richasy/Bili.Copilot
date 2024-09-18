@@ -284,8 +284,6 @@ internal static class GlobalHook
             }
         }
 
-        Debug.WriteLine("Keyboard Hook: " + nCode);
-
         return PInvoke.CallNextHookEx(HHOOK.Null, nCode, wParam, lParam);
     }
 }
