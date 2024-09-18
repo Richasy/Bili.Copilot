@@ -10,6 +10,7 @@ using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.System.UserProfile;
 using WinRT.Interop;
 using WinUIEx;
@@ -81,6 +82,7 @@ public sealed partial class GalleryPageViewModel : ViewModelBase
 
         var dp = new DataPackage();
         dp.SetWebLink(SelectedImage.SourceUri);
+        dp.SetBitmap(RandomAccessStreamReference.CreateFromUri(SelectedImage.SourceUri));
         Clipboard.SetContent(dp);
         this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Copied), InfoType.Success));
     }

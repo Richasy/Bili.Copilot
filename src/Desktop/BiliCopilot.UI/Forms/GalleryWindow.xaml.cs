@@ -35,6 +35,7 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
         SetTitleBar(TitleBar);
 
         MainFrame.Navigate(typeof(GalleryPage), (image, list));
+        this.Get<AppViewModel>().Windows.Add(this);
 
         MoveAndResize();
     }
@@ -59,6 +60,11 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
+        if (args.WindowActivationState != WindowActivationState.Deactivated)
+        {
+            this.Get<AppViewModel>().ActivatedWindow = this;
+        }
+
         if (!_isActivated)
         {
             var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsGalleryWindowMaximized, false);
@@ -75,7 +81,10 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
     }
 
     private void OnClosed(object sender, WindowEventArgs args)
-        => SaveCurrentWindowStats();
+    {
+        this.Get<AppViewModel>().Windows.Remove(this);
+        SaveCurrentWindowStats();
+    }
 
     private RectInt32 GetRenderRect(RectInt32 workArea)
     {
@@ -106,9 +115,10 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
     private void MoveAndResize()
     {
         var lastPoint = GetSavedWindowPosition();
-        var workArea = DisplayArea.Primary.WorkArea;
+        var displayArea = DisplayArea.GetFromPoint(lastPoint, DisplayAreaFallback.Primary)
+            ?? DisplayArea.Primary;
 
-        var rect = GetRenderRect(workArea);
+        var rect = GetRenderRect(displayArea.WorkArea);
         AppWindow.MoveAndResize(rect);
     }
 

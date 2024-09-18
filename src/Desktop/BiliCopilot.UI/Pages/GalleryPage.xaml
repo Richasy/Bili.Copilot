@@ -80,6 +80,12 @@
                     <AppBarButton.Icon>
                         <ic:SymbolIcon Symbol="ZoomIn" />
                     </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="Add"
+                            IsEnabled="True"
+                            Modifiers="Control" />
+                    </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarElementContainer Padding="12,0" VerticalAlignment="Center">
                     <TextBlock
@@ -96,6 +102,12 @@
                     <AppBarButton.Icon>
                         <ic:SymbolIcon Symbol="ZoomOut" />
                     </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator
+                            Key="Subtract"
+                            IsEnabled="True"
+                            Modifiers="Control" />
+                    </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarSeparator />
                 <AppBarButton
@@ -107,7 +119,10 @@
                         <ic:SymbolIcon Symbol="Copy" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="C" Modifiers="Control" />
+                        <KeyboardAccelerator
+                            Key="C"
+                            IsEnabled="True"
+                            Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
                 <AppBarButton
@@ -119,7 +134,10 @@
                         <ic:SymbolIcon Symbol="Save" />
                     </AppBarButton.Icon>
                     <AppBarButton.KeyboardAccelerators>
-                        <KeyboardAccelerator Key="S" Modifiers="Control" />
+                        <KeyboardAccelerator
+                            Key="S"
+                            IsEnabled="True"
+                            Modifiers="Control" />
                     </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
 
