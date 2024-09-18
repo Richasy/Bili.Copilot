@@ -52,13 +52,13 @@
 
 哔哩助理拆分了多个模块的代码至独立仓库中，以便于其他开发者参考和使用。
 
-- [bili-kernel](https://github.com/Richasy/bili-kernel)
+- [bili-kernel](https://github.com/Richasy/bili-kernel)  
   哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，便于移植和二次开发。
-- [semantic-kernel](https://github.com/Richasy/semantic-kernel)
+- [semantic-kernel](https://github.com/Richasy/semantic-kernel)  
   基于 [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) 进行二次开发，支持更多国内大模型。
-- [mpv-winui](https://github.com/Richasy/bili-kernel)
+- [mpv-winui](https://github.com/Richasy/bili-kernel)  
   哔哩助理的核心播放器之一，将 MPV 集成进 WinUI3 以实现良好的播放体验。
-- [WinUI.Share](https://github.com/Richasy/WinUI.Share)
+- [WinUI.Share](https://github.com/Richasy/WinUI.Share)  
   我在多个 WinAppSDK 项目之间共用的一些基础样式及实现。
 
 这四个仓库以子模块的形式集成在哔哩助理开发项目中，所以在克隆本仓库时，需要同时克隆子仓库。
@@ -99,21 +99,34 @@ git submodule update --init --recursive
 
 ### 视频播放
 
-新版本的哔哩助理（V2）支持两种播放方案：
+新版本的哔哩助理（V2）支持多种播放方案：
 
 1. MPV
 2. 原生（MediaFoundation）
+3. 外部播放器（支持 MPV 和 MPV.NET）
+4. 网页播放器
 
 哔哩助理已经将 MPV 嵌入到了 WinUI XAML 界面之中，可以借助 MPV 强大的播放能力实现稳定高效的在线流媒体播放，这也是默认的选项。
 
-尽管 MPV 有着更好的播放效果，但在部分设备上（比如 AMD 显卡）可能会出现黑屏，此时建议使用原生播放器播放。
+尽管 MPV 有着更好的播放效果，但在部分设备上（比如 AMD 显卡）可能会出现黑屏，此时建议使用原生播放器或其他播放器播放。
 
-下面是两种播放方案的具体比较，请根据自己的情况选择合适的播放方案：
+下面是几种播放方案的具体比较，请根据自己的情况选择合适的播放方案：
 
 |方案|优点|缺点|
 |-|-|-|
-|MPV|解码速度快，播放稳定|内存占用相对较高，部分设备不支持|
+|MPV|解码速度快，播放稳定|内存占用相对较高，不兼容 AMD 设备|
 |原生|内存占用低，兼容性好|对2K以上的清晰度支持较差，部分直播无法播放|
+|外部播放器|自定义程度高，可以获得最佳播放体验|需要额外安装配置，门槛较高|
+|网页|只要不是断网就能播放|和打开浏览器看网页没有太大差别|
+
+> [!TIP]
+> **关于网页播放器**
+>
+> Windows 硬件平台太多，开发者无法保证在各个平台都有着稳定的体验，如果你的设备在播放视频时出现各种奇奇怪怪的bug，网页播放器将是你最稳妥的选择。
+>
+> 为了提高网页播放器的体验，哔哩助理引入了 [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) 作为默认插件，以便和应用主题同步，并提供美观的用户界面。
+>
+> _特在此向 BewlyBewly 的开发者表示感谢。_
 
 ### 人工智能
 
@@ -157,8 +170,10 @@ git submodule update --init --recursive
 - [BiliBili](https://www.bilibili.com/)
 - [哔哩哔哩-API收集整理](https://github.com/SocialSisterYi/bilibili-API-collect)
 - [BBDown](https://github.com/nilaoda/BBDown)
+- [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly)
 - [寒霜弹幕使](https://github.com/cotaku/DanmakuFrostMaster)
 - [cnbluefire/WinUI3.Win2D](https://github.com/cnbluefire/WinUI3.Win2D)
 - [Windows Community Toolkit](https://github.com/CommunityToolkit/Windows)
 - [FluentIcons](https://github.com/davidxuang/FluentIcons)
+- [ComputeSharp](https://github.com/Sergio0694/ComputeSharp)
 - 以及其他在开发过程中提供过助力的小伙伴
