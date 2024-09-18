@@ -51,7 +51,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadPart);
         Player.SetSpeedAction(PlayerSpeedChanged);
-        Player.SetTapToggleFullScreenAction(Danmaku.RedrawAsync);
+        Player.SetTapToggleFullScreenAction(OnTapToggleFullScreenAsync);
     }
 
     /// <summary>

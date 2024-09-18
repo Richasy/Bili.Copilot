@@ -37,7 +37,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             Player.PlaybackPositionChanged += OnPositionChanged;
             Player.PlaybackStateChanged += OnStateChanged;
             Player.PlaybackStopped += OnPlaybackStopped;
-            Player.LogMessageReceived += OnLogMessageReceived;
+            Player.LogMessageReceived += OnLogMessageReceivedAsync;
             renderControl.Initialize();
             Player.Client.SetProperty("vo", "libmpv");
 #if DEBUG
@@ -115,13 +115,23 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
     private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
         => ReachEnd();
 
-    private void OnLogMessageReceived(object? sender, LogMessageReceivedEventArgs e)
+    private async void OnLogMessageReceivedAsync(object? sender, LogMessageReceivedEventArgs e)
     {
 #if DEBUG
         System.Diagnostics.Debug.WriteLine($"core: [{e.Prefix}] {e.Message}");
 #else
         _logger.LogError($"core: {e.Message}");
 #endif
+        if (e.Message.Contains("mpv_render_context_render() not being called or stuck"))
+        {
+            await Player.TerminateAsync();
+
+            // 渲染崩溃，需要立刻终止.
+            _dispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.High, () =>
+            {
+                ReloadCommand.Execute(default);
+            });
+        }
     }
 
     private void InitializeDecode()

@@ -676,6 +676,11 @@ namespace Danmaku.Core
 
         private void CanvasAnimatedControl_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
+            if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0)
+            {
+                return;
+            }
+
             for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
             {
                 DanmakuYSlotManager ySlotManager = _renderLayerList[layerId].YSlotManager;
@@ -755,60 +760,6 @@ namespace Danmaku.Core
 
                                     break;
                                 }
-                            case DanmakuMode.Advanced:
-                                {
-                                    if (durationMs <= renderItem.DefinedDurationMs)
-                                    {
-                                        if (durationMs >= renderItem.DefinedTranslationDelayMs)
-                                        {
-                                            if (durationMs < renderItem.DefinedTranslationDelayMs + renderItem.DefinedTranslationDurationMs)
-                                            {
-                                                renderItem.X = renderItem.StartX + renderItem.TranslationSpeedX * (durationMs - renderItem.DefinedTranslationDelayMs);
-                                                renderItem.Y = renderItem.StartY + renderItem.TranslationSpeedY * (durationMs - renderItem.DefinedTranslationDelayMs);
-                                            }
-                                            else
-                                            {
-                                                renderItem.X = renderItem.EndX;
-                                                renderItem.Y = renderItem.EndY;
-                                            }
-                                        }
-
-                                        if (durationMs >= renderItem.DefinedAlphaDelayMs)
-                                        {
-                                            if (renderItem.DefinedEndAlpha != renderItem.DefinedStartAlpha)
-                                            {
-                                                if (durationMs < renderItem.DefinedAlphaDelayMs + renderItem.DefinedAlphaDurationMs)
-                                                {
-                                                    renderItem.Alpha = (byte)(renderItem.DefinedStartAlpha + (renderItem.DefinedEndAlpha - renderItem.DefinedStartAlpha) * (durationMs - renderItem.DefinedAlphaDelayMs) / renderItem.DefinedAlphaDurationMs);
-                                                }
-                                                else
-                                                {
-                                                    renderItem.Alpha = renderItem.DefinedEndAlpha;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        removeItem = true;
-                                    }
-
-                                    break;
-                                }
-                            case DanmakuMode.Subtitle:
-                                {
-                                    // Allow only one subtitle in render list
-                                    if ((renderList.Count > 1 && i < renderList.Count - 1) || durationMs > renderItem.DefinedDurationMs)
-                                    {
-                                        removeItem = true;
-                                    }
-                                    else
-                                    {
-                                        renderItem.X = (CanvasWidth - renderItem.Width) / 2;
-                                    }
-
-                                    break;
-                                }
                         }
 
                         if (removeItem)
@@ -829,6 +780,11 @@ namespace Danmaku.Core
                 {
                     _loadAction();
                     _loadAction = null;
+                }
+
+                if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0)
+                {
+                    return;
                 }
 
                 int totalCount = 0;
@@ -891,55 +847,6 @@ namespace Danmaku.Core
                                     case DanmakuMode.Top:
                                         {
                                             spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.StartY));
-
-                                            break;
-                                        }
-                                    case DanmakuMode.Advanced:
-                                        {
-                                            float opacity = (float)renderItem.Alpha / byte.MaxValue;
-
-                                            if (renderItem.TransformEffect != null)
-                                            {
-                                                Rect targetRect = renderItem.SourceRect;
-                                                targetRect.X += renderItem.X;
-                                                targetRect.Y += renderItem.Y;
-
-                                                // Draw Transform3DEffect directly in the DrawingSession since CanvasSpriteBatch.Draw() doesn't support Matrix4x4 transform matrix yet.
-                                                // This may cause rendering order issue since this object is rendered prior to the spriteBatch.
-                                                args.DrawingSession.DrawImage(renderItem.TransformEffect, targetRect, renderItem.SourceRect, opacity);
-                                            }
-                                            else
-                                            {
-                                                Vector4 tintVector = Vector4.One;
-                                                tintVector.W = opacity;
-
-                                                if (renderItem.DefinedRotateZ >= 0.01f || renderItem.DefinedRotateZ <= -0.01f)
-                                                {
-                                                    //Rotation on Z-axis only
-                                                    Vector2 posVector = new Vector2(renderItem.X + renderItem.Width / 2, renderItem.Y + renderItem.Height / 2);
-                                                    Vector2 originVector = new Vector2(renderItem.Width / 2, renderItem.Height / 2);
-                                                    float radianZ = DegreeToRadian(renderItem.DefinedRotateZ);
-
-                                                    spriteBatch.Draw(renderItem.RenderTarget, posVector, tintVector, originVector, radianZ, Vector2.One, CanvasSpriteFlip.None);
-                                                }
-                                                else
-                                                {
-                                                    spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.Y), tintVector);
-                                                }
-                                            }
-
-                                            break;
-                                        }
-                                    case DanmakuMode.Subtitle:
-                                        {
-                                            float y = CanvasHeight - renderItem.Height - renderItem.StartY;
-
-                                            using (args.DrawingSession.CreateLayer(0.7f))
-                                            {
-                                                args.DrawingSession.FillRectangle(renderItem.X - 4, y - 4, renderItem.Width + 8, renderItem.Height + 8, Colors.Black);
-                                            }
-
-                                            spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, y));
 
                                             break;
                                         }
@@ -1012,7 +919,7 @@ namespace Danmaku.Core
             public volatile float Width;
             public volatile float Height;
             public volatile float X;
-            public volatile float Y;
+            public volatile float Y = 0;
             public volatile bool NeedToReleaseYSlot;
 
             #region For Advanced mode

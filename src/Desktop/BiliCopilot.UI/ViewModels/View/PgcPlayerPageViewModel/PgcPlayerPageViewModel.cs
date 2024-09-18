@@ -47,7 +47,7 @@ public sealed partial class PgcPlayerPageViewModel : PlayerPageViewModelBase
         Player.SetEndAction(PlayerMediaEnded);
         Player.SetReloadAction(ReloadEpisode);
         Player.SetSpeedAction(PlayerSpeedChanged);
-        Player.SetTapToggleFullScreenAction(Danmaku.RedrawAsync);
+        Player.SetTapToggleFullScreenAction(OnTapToggleFullScreenAsync);
     }
 
     /// <inheritdoc/>
