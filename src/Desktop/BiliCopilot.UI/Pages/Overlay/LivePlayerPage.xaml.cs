@@ -50,23 +50,27 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <inheritdoc/>
     protected override void OnPageLoaded()
     {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            ViewModel.PlayerWidth = PlayerContainer.ActualWidth;
-        });
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, CheckPlayerSize);
     }
 
     private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : e.NewSize.Width;
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, CheckPlayerSize);
+    }
+
+    private void CheckPlayerSize()
+    {
+        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : PlayerContainer.ActualWidth;
 
         if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
         {
+            PlayerContainer.MaxHeight = ActualHeight;
             ViewModel.PlayerHeight = ActualHeight;
         }
-
-        // 播放器不能超出容器高度.
-        PlayerContainer.MaxHeight = ViewModel.Player.IsFullScreen ? ActualHeight : VerticalHolderContainer.ActualHeight;
+        else
+        {
+            PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
+        }
     }
 }
 
