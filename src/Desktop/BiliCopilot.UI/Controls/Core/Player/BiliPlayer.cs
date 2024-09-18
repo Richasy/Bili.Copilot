@@ -46,7 +46,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
 
         InteractionControl.Tapped += OnCoreTapped;
-        InteractionControl.DoubleTapped += OnCoreDoubleTappedAsync;
+        InteractionControl.DoubleTapped += OnCoreDoubleTapped;
         InteractionControl.Holding += OnCoreHolding;
         InteractionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         InteractionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
@@ -95,7 +95,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         if (InteractionControl != null)
         {
             InteractionControl.Tapped -= OnCoreTapped;
-            InteractionControl.DoubleTapped -= OnCoreDoubleTappedAsync;
+            InteractionControl.DoubleTapped -= OnCoreDoubleTapped;
             InteractionControl.Holding -= OnCoreHolding;
             InteractionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             InteractionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
@@ -199,7 +199,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
     }
 
-    private async void OnCoreDoubleTappedAsync(object sender, DoubleTappedRoutedEventArgs e)
+    private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (ViewModel is null)
@@ -216,11 +216,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
             if (ViewModel.IsPaused)
             {
                 ViewModel.TogglePlayPauseCommand.Execute(default);
-                await Task.Delay(100);
             }
 
-            ViewModel.ToggleFullScreenCommand.Execute(default);
             ViewModel.ActiveWhenTapToggleFullScreen();
+            ViewModel.ToggleFullScreenCommand.Execute(default);
         }
     }
 

@@ -404,4 +404,16 @@ public sealed partial class PgcPlayerPageViewModel
 
     private string GetEpisodeUrl()
         => $"https://www.bilibili.com/bangumi/play/ep{_episode.Identifier.Id}";
+
+    private async void OnTapToggleFullScreenAsync()
+    {
+        var isShowDanmaku = Danmaku.IsShowDanmaku;
+        Danmaku.IsShowDanmaku = false;
+        await Task.Delay(500);
+        Danmaku.IsShowDanmaku = isShowDanmaku;
+        if (isShowDanmaku)
+        {
+            Danmaku.RedrawAsync();
+        }
+    }
 }

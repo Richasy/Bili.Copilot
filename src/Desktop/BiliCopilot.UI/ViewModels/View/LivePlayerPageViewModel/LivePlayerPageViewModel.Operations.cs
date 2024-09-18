@@ -121,4 +121,16 @@ public sealed partial class LivePlayerPageViewModel
             this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToSendDanmaku), InfoType.Error));
         }
     }
+
+    private async void OnTapToggleFullScreenAsync()
+    {
+        var isShowDanmaku = Danmaku.IsShowDanmaku;
+        Danmaku.IsShowDanmaku = false;
+        await Task.Delay(500);
+        Danmaku.IsShowDanmaku = isShowDanmaku;
+        if (isShowDanmaku)
+        {
+            Danmaku.RedrawAsync();
+        }
+    }
 }
