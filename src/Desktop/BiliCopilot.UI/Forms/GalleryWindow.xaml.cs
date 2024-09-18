@@ -23,7 +23,7 @@ public sealed partial class GalleryWindow : WindowBase, ITipWindow
     /// <summary>
     /// Initializes a new instance of the <see cref="GalleryWindow"/> class.
     /// </summary>
-    public GalleryWindow(BiliImage image, IReadOnlyList<BiliImage> list = default)
+    public GalleryWindow(BiliImage image, List<BiliImage> list = default)
     {
         InitializeComponent();
         MainFrame.Tag = this;

@@ -9,7 +9,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 全屏图标及文本转换器.
 /// </summary>
-internal sealed class FullScreenConverter : IValueConverter
+internal sealed partial class FullScreenConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

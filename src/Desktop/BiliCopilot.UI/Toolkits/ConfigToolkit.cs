@@ -55,7 +55,7 @@ public static class ConfigToolkit
     {
         await InitializeChatConfigurationAsync();
         UpdateConfig(type, config);
-        await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", _config);
+        await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", _config!, GlobalSerializeContext.Default.ChatClientConfiguration);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public static class ConfigToolkit
             UpdateConfig(item.Key, item.Value);
         }
 
-        await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", _config);
+        await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", _config!, GlobalSerializeContext.Default.ChatClientConfiguration);
     }
 
     /// <summary>
@@ -160,11 +160,11 @@ public static class ConfigToolkit
             return;
         }
 
-        var config = await FileToolkit.ReadLocalDataAsync<ChatClientConfiguration>($"{nameof(ChatClientConfiguration)}.json");
+        var config = await FileToolkit.ReadLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", GlobalSerializeContext.Default.ChatClientConfiguration);
         if (config is null)
         {
             config = new ChatClientConfiguration();
-            await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", config);
+            await FileToolkit.WriteLocalDataAsync($"{nameof(ChatClientConfiguration)}.json", config!, GlobalSerializeContext.Default.ChatClientConfiguration);
         }
 
         _config = config;

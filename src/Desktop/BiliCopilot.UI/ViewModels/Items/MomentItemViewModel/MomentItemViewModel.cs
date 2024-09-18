@@ -16,18 +16,20 @@ using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 动态条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformation>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentItemViewModel"/> class.
     /// </summary>
-    public MomentItemViewModel(MomentInformation data, Action<MomentItemViewModel> showCommentAction)
+    public MomentItemViewModel(MomentInformation data, MomentCardStyle style, Action<MomentItemViewModel> showCommentAction)
         : base(data)
     {
         _showMomentAction = showCommentAction;
@@ -41,12 +43,13 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         Tip = data.Tip;
         Description = data.Description;
         NoData = data.Data is null;
+        Style = style;
 
         if (!NoData)
         {
             if (data.Data is MomentInformation forward)
             {
-                InnerContent = new MomentItemViewModel(forward, showCommentAction);
+                InnerContent = new MomentItemViewModel(forward, Style, showCommentAction);
             }
             else if (data.Data is VideoInformation video)
             {
@@ -54,7 +57,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             }
             else if (data.Data is EpisodeInformation episode)
             {
-                InnerContent = new EpisodeItemViewModel(episode);
+                InnerContent = new EpisodeItemViewModel(episode, EpisodeCardStyle.Moment);
             }
             else if (data.Data is IEnumerable<BiliImage> images)
             {
@@ -111,7 +114,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
             {
                 var snapshot = new VideoSnapshot(vinfo);
-                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
             }
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
@@ -122,7 +125,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
                 if (hasEpid)
                 {
                     var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
                 }
                 else
                 {
@@ -133,7 +136,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
         else if (FindInnerContent<LiveInformation>() is LiveInformation linfo && !TryOpenInNewWindowIfPreferred())
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, linfo.Identifier);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), linfo.Identifier);
         }
         else if (FindInnerContent<IEnumerable<BiliImage>>() is not IEnumerable<BiliImage>)
         {
@@ -160,7 +163,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
                 var webUrl = GetMediaUrl();
                 if (webUrl is not null)
                 {
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, webUrl);
+                    this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), webUrl);
                 }
 
                 return true;
@@ -172,7 +175,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User);
 
     [RelayCommand]
     private void PlayInPrivate()
@@ -184,7 +187,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
 
         var snapshot = new VideoSnapshot(vinfo, true);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, snapshot);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
     }
 
     [RelayCommand]

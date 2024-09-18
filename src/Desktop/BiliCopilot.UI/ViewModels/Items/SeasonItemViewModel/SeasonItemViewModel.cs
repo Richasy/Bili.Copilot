@@ -14,12 +14,14 @@ using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 剧集条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformation>
 {
     private readonly Action<SeasonItemViewModel>? _removeAction;
@@ -27,11 +29,12 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
     /// <summary>
     /// Initializes a new instance of the <see cref="SeasonItemViewModel"/> class.
     /// </summary>
-    public SeasonItemViewModel(SeasonInformation data, PgcFavoriteStatus? favStatus = default, Action<SeasonItemViewModel>? removeAction = default)
+    public SeasonItemViewModel(SeasonInformation data, SeasonCardStyle style, PgcFavoriteStatus? favStatus = default, Action<SeasonItemViewModel>? removeAction = default)
         : base(data)
     {
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover.Uri;
+        Style = style;
         Subtitle = data.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Subtitle);
         Highlight = data.GetExtensionIfNotNull<string>(SeasonExtensionDataId.Highlight);
         Score = data.GetExtensionIfNotNull<double>(SeasonExtensionDataId.Score);
@@ -54,12 +57,12 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;
         }
 
         var identifier = new MediaIdentifier("ss_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage).FullName, identifier);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
     }
 
     [RelayCommand]

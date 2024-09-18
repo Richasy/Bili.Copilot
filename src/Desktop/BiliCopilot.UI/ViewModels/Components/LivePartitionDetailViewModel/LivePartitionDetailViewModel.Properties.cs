@@ -22,7 +22,7 @@ public sealed partial class LivePartitionDetailViewModel
     private bool _preventLoadMore;
 
     [ObservableProperty]
-    private IReadOnlyCollection<LiveTag>? _children;
+    private List<LiveTag>? _children;
 
     [ObservableProperty]
     private bool _isLiveLoading;

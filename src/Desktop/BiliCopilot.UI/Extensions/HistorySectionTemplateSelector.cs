@@ -5,7 +5,7 @@ using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class HistorySectionTemplateSelector : DataTemplateSelector
+internal sealed partial class HistorySectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate VideoTemplate { get; set; }
 

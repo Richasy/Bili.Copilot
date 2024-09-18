@@ -233,7 +233,7 @@ public sealed partial class VideoPlayerPageViewModel
     private void OpenUserSpace()
     {
         var profile = _view.Information.Publisher.User;
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), profile);
     }
 
     [RelayCommand]

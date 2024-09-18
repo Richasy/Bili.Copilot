@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -112,7 +112,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -211,7 +211,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -219,10 +219,10 @@
                             </Grid.RowDefinitions>
                             <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -335,7 +335,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -461,7 +461,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -645,7 +645,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -667,10 +667,10 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -752,7 +752,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -825,7 +825,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -847,10 +847,10 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
                             <Button
+                                x:Name="UserButton"
                                 Margin="6"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ShowUserSpaceCommand}"
                                 Style="{StaticResource AvatarButtonStyle}">
                                 <Grid>
                                     <Ellipse
@@ -932,7 +932,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -1008,10 +1008,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl
-                        x:Name="RootCard"
-                        Height="104"
-                        Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard" Height="104">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="148" />

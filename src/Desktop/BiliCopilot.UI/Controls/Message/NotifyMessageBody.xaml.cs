@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Message;
 /// </summary>
 public sealed partial class NotifyMessageBody : NotifyMessageControlBase
 {
-    private long _viewModelChangedToken;
-    private NotifyMessageSectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="NotifyMessageBody"/> class.
     /// </summary>
@@ -26,14 +23,11 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
     {
         MessageScrollView.ViewChanged += OnViewChanged;
         MessageScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.ListUpdated += OnMessageListUpdatedAsync;
         CheckMessageCount();
     }
 
@@ -45,27 +39,25 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
             ViewModel.ListUpdated -= OnMessageListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         MessageScrollView.ViewChanged -= OnViewChanged;
         MessageScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(NotifyMessageSectionDetailViewModel? oldValue, NotifyMessageSectionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnMessageListUpdatedAsync;
+            oldValue.ListUpdated -= OnMessageListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnMessageListUpdatedAsync;
-        MessageScrollView.ChangeView(0, 0, default);
+        newValue.ListUpdated += OnMessageListUpdatedAsync;
+        MessageScrollView?.ChangeView(0, 0, default);
     }
 
     private async void OnMessageListUpdatedAsync(object? sender, EventArgs e)

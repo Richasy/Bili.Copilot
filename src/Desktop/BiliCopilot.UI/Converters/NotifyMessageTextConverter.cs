@@ -7,7 +7,7 @@ using Richasy.BiliKernel.Models.User;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class NotifyMessageTextConverter : IValueConverter
+internal sealed partial class NotifyMessageTextConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

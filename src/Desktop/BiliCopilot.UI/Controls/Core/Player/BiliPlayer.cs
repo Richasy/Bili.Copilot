@@ -6,22 +6,15 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Shapes;
-using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Core;
 
 /// <summary>
 /// MPV 播放器.
 /// </summary>
-public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
+public sealed partial class BiliPlayer : PlayerControlBase
 {
-    private PlayerViewModelBase? _viewModel;
-    private long _viewModelChangedToken;
     private Rect _transportControlTriggerRect;
-    private Rectangle _interactionControl;
-    private StackPanel? _notificationContainer;
-    private PlayerPresenter? _playerPresenter;
     private DispatcherTimer? _cursorTimer;
 
     private double _lastSpeed;
@@ -40,7 +33,7 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
     /// </summary>
-    public BiliPlayer() => DefaultStyleKey = typeof(BiliPlayer);
+    public BiliPlayer() => InitializeComponent();
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -52,25 +45,20 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             _cursorTimer.Tick += OnCursorTimerTick;
         }
 
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
-        _interactionControl.Tapped += OnCoreTapped;
-        _interactionControl.DoubleTapped += OnCoreDoubleTappedAsync;
-        _interactionControl.Holding += OnCoreHolding;
-        _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-        _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
-        _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
-        _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
+        InteractionControl.Tapped += OnCoreTapped;
+        InteractionControl.DoubleTapped += OnCoreDoubleTappedAsync;
+        InteractionControl.Holding += OnCoreHolding;
+        InteractionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+        InteractionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
+        InteractionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
+        InteractionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
 
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _playerPresenter.ViewModel = ViewModel;
-        _viewModel.RequestShowNotification += OnRequestShowNotification;
-        _viewModel.RequestCancelNotification += OnRequestCancelNotification;
-        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
+        PlayerPresenter.ViewModel = ViewModel;
         SizeChanged += OnSizeChanged;
         if (TransportControls is not null)
         {
@@ -87,7 +75,6 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     protected override void OnControlUnloaded()
     {
         SizeChanged -= OnSizeChanged;
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
@@ -102,27 +89,18 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
             _cursorTimer = default;
         }
 
-        _viewModel = default;
-        _playerPresenter.ViewModel = default;
+        ViewModel = default;
+        PlayerPresenter.ViewModel = default;
 
-        if (_interactionControl != null)
+        if (InteractionControl != null)
         {
-            _interactionControl.Tapped -= OnCoreTapped;
-            _interactionControl.DoubleTapped -= OnCoreDoubleTappedAsync;
-            _interactionControl.Holding -= OnCoreHolding;
-            _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
-            _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
-            _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
-            _interactionControl = default;
+            InteractionControl.Tapped -= OnCoreTapped;
+            InteractionControl.DoubleTapped -= OnCoreDoubleTappedAsync;
+            InteractionControl.Holding -= OnCoreHolding;
+            InteractionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
+            InteractionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
+            InteractionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void OnApplyTemplate()
-    {
-        _playerPresenter = (PlayerPresenter)GetTemplateChild("PlayerPresenter");
-        _interactionControl = (Rectangle)GetTemplateChild("InteractionControl");
-        _notificationContainer = (StackPanel)GetTemplateChild("NotificationContainer");
     }
 
     /// <inheritdoc/>
@@ -151,6 +129,29 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
     protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
         => HandlePointerEvent(e, true);
 
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(PlayerViewModelBase? oldValue, PlayerViewModelBase? newValue)
+    {
+        if (newValue is null)
+        {
+            PlayerPresenter.ViewModel = default;
+            return;
+        }
+
+        if (oldValue is not null)
+        {
+            oldValue.PropertyChanged -= OnViewModelInnerPropertyChanged;
+            oldValue.RequestShowNotification -= OnRequestShowNotification;
+            oldValue.RequestCancelNotification -= OnRequestCancelNotification;
+        }
+
+        PlayerPresenter.ViewModel = newValue;
+        newValue.PropertyChanged += OnViewModelInnerPropertyChanged;
+        newValue.RequestShowNotification += OnRequestShowNotification;
+        newValue.RequestCancelNotification += OnRequestCancelNotification;
+        ArrangeSubtitleSize();
+    }
+
     private void HandlePointerEvent(PointerRoutedEventArgs e, bool forceHideTransportControls = false)
     {
         CheckPointerType(e.Pointer);
@@ -169,19 +170,19 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
     {
-        _notificationContainer.Children.Clear();
+        NotificationContainer.Children.Clear();
         var control = new PlayerNotificationControl();
         control.ViewModel = e;
         e.IsNotificationVisible = true;
-        _notificationContainer.Children.Add(control);
+        NotificationContainer.Children.Add(control);
     }
 
     private void OnRequestCancelNotification(object? sender, EventArgs e)
     {
-        if (_notificationContainer is not null && _notificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
+        if (NotificationContainer is not null && NotificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
         {
             control.ViewModel.CancelCommand.Execute(default);
-            _notificationContainer.Children.Clear();
+            NotificationContainer.Children.Clear();
         }
     }
 
@@ -238,32 +239,9 @@ public sealed partial class BiliPlayer : LayoutControlBase<PlayerViewModelBase>
         }
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
-    {
-        if (ViewModel is null)
-        {
-            _playerPresenter.ViewModel = default;
-            return;
-        }
-
-        if (_viewModel is not null)
-        {
-            _viewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
-            _viewModel.RequestShowNotification -= OnRequestShowNotification;
-            _viewModel.RequestCancelNotification -= OnRequestCancelNotification;
-        }
-
-        _playerPresenter.ViewModel = ViewModel;
-        _viewModel = ViewModel;
-        _viewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
-        _viewModel.RequestShowNotification += OnRequestShowNotification;
-        _viewModel.RequestCancelNotification += OnRequestCancelNotification;
-        ArrangeSubtitleSize();
-    }
-
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
+        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
         {
             SetTransportVisibility(ViewModel.IsPaused);
         }

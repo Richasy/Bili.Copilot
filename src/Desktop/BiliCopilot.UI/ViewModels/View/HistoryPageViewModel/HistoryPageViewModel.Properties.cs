@@ -26,7 +26,7 @@ public sealed partial class HistoryPageViewModel
     private IHistorySectionDetailViewModel _selectedSection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IHistorySectionDetailViewModel> _sections;
+    private List<IHistorySectionDetailViewModel> _sections;
 
     [ObservableProperty]
     private bool _isSearching;

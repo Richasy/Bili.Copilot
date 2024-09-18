@@ -65,13 +65,13 @@ public sealed partial class DanmakuViewModel
     private bool _isLoading;
 
     [ObservableProperty]
-    private IReadOnlyCollection<DanmakuLocation> _locations;
+    private List<DanmakuLocation> _locations;
 
     [ObservableProperty]
-    private IReadOnlyCollection<Color> _colors;
+    private List<Color> _colors;
 
     [ObservableProperty]
-    private IReadOnlyCollection<string> _fonts;
+    private List<string> _fonts;
 
     /// <summary>
     /// 当弹幕列表添加时触发的事件.

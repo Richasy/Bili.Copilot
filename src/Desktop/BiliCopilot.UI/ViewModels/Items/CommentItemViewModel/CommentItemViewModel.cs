@@ -8,12 +8,14 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Models.Comment;
 using Richasy.WinUI.Share.ViewModels;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 评论项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformation>
 {
     /// <summary>
@@ -24,6 +26,8 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
     {
         _service = service;
         _logger = this.Get<ILogger<CommentItemViewModel>>();
+        Level = data.User.Level ?? 0;
+        IsTop = data.IsTop;
         IsLiked = data.CommunityInformation.IsLiked;
         LikeCount = Convert.ToInt32(data.CommunityInformation.LikeCount);
         RelativeTime = data.PublishTime.Humanize();
@@ -58,5 +62,5 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User.User);
 }

@@ -7,7 +7,7 @@ using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class PgcFavoriteStatusConverter : IValueConverter
+internal sealed partial class PgcFavoriteStatusConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

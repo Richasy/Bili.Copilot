@@ -10,7 +10,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 弹幕位置文本转换.
 /// </summary>
-internal sealed class DanmakuLocationConverter : IValueConverter
+internal sealed partial class DanmakuLocationConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

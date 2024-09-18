@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Reflection;
 using BiliAgent.Models;
 using BiliCopilot.UI.Controls.AI;
 using BiliCopilot.UI.Toolkits;
@@ -63,32 +62,15 @@ public sealed partial class ModelClientEndpointConfigSettingSection : AIServiceC
 
     private ClientConfigBase CreateCurrentConfig()
     {
-        var assembly = Assembly.GetAssembly(typeof(ClientEndpointConfigBase));
-        var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ClientEndpointConfigBase)));
-
-        foreach (var type in types)
+        return ViewModel.ProviderType switch
         {
-            if (type.Name.StartsWith(ViewModel.ProviderType.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                var config = (ClientEndpointConfigBase)Activator.CreateInstance(type);
-                if (config is AnthropicClientConfig)
-                {
-                    config.Endpoint = ProviderConstants.AnthropicApi;
-                }
-                else if (config is GeminiClientConfig)
-                {
-                    config.Endpoint = ProviderConstants.GeminiApi;
-                }
-                else if (config is OllamaClientConfig)
-                {
-                    config.Endpoint = ProviderConstants.OllamaApi;
-                }
-
-                return config;
-            }
-        }
-
-        return null;
+            ProviderType.OpenAI => new OpenAIClientConfig(),
+            ProviderType.AzureOpenAI => new AzureOpenAIClientConfig(),
+            ProviderType.Gemini => new GeminiClientConfig() { Endpoint = ProviderConstants.GeminiApi },
+            ProviderType.Anthropic => new AnthropicClientConfig() { Endpoint = ProviderConstants.AnthropicApi },
+            ProviderType.Ollama => new OllamaClientConfig() { Endpoint = ProviderConstants.OllamaApi },
+            _ => null,
+        };
     }
 
     private void OnPredefinedModelsButtonClick(object sender, RoutedEventArgs e)

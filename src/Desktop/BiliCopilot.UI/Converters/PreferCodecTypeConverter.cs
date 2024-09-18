@@ -9,7 +9,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 偏好解码模式到可读文本转换器.
 /// </summary>
-internal sealed class PreferCodecTypeConverter : IValueConverter
+internal sealed partial class PreferCodecTypeConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

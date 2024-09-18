@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Pgc;
 /// </summary>
 public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexControlBase
 {
-    private long _viewModelChangedToken;
-    private EntertainmentIndexViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="EntertainmentIndexMainControl"/> class.
     /// </summary>
@@ -27,14 +24,11 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
         SeasonScrollView.ViewChanged += OnViewChanged;
         SeasonScrollView.SizeChanged += OnScrollViewSizeChanged;
 
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.ItemsUpdated += OnItemsUpdatedAsync;
         CheckSeasonCount();
     }
 
@@ -46,27 +40,25 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
             ViewModel.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         SeasonScrollView.ViewChanged -= OnViewChanged;
         SeasonScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(EntertainmentIndexViewModel? oldValue, EntertainmentIndexViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ItemsUpdated -= OnItemsUpdatedAsync;
+            oldValue.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        SeasonScrollView.ChangeView(0, 0, default, true);
-        _viewModel.ItemsUpdated += OnItemsUpdatedAsync;
+        SeasonScrollView?.ChangeView(0, 0, default, true);
+        newValue.ItemsUpdated += OnItemsUpdatedAsync;
     }
 
     private async void OnItemsUpdatedAsync(object? sender, EventArgs e)

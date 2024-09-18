@@ -13,7 +13,7 @@ namespace BiliCopilot.UI.ViewModels.Items;
 public sealed partial class TimelineItemViewModel : ViewModelBase<TimelineInformation>
 {
     [ObservableProperty]
-    private IReadOnlyCollection<SeasonItemViewModel>? _items;
+    private List<SeasonItemViewModel>? _items;
 
     [ObservableProperty]
     private bool _isEmpty;
@@ -30,7 +30,7 @@ public sealed partial class TimelineItemViewModel : ViewModelBase<TimelineInform
         DayOfWeek = targetDay.ToString("ddd", culture);
         Date = info.Date;
         Count = info.Seasons.Count;
-        Items = info.Seasons.Select(p => new SeasonItemViewModel(p)).ToList() ?? default;
+        Items = info.Seasons.Select(p => new SeasonItemViewModel(p, Models.Constants.SeasonCardStyle.Timeline)).ToList() ?? default;
         IsEmpty = Items is null || Items.Count == 0;
     }
 

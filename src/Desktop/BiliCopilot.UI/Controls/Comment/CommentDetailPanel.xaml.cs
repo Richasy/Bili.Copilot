@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Comment;
 /// </summary>
 public sealed partial class CommentDetailPanel : CommentDetailPanelBase
 {
-    private long _viewModelChangedToken;
-    private CommentDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="CommentDetailPanel"/> class.
     /// </summary>
@@ -26,14 +23,11 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
     {
         CommentScrollView.ViewChanged += OnViewChanged;
         CommentScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.ListUpdated += OnCommentListUpdatedAsync;
         CheckCommentCount();
     }
 
@@ -45,26 +39,24 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
             ViewModel.ListUpdated -= OnCommentListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         CommentScrollView.ViewChanged -= OnViewChanged;
         CommentScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(CommentDetailViewModel? oldValue, CommentDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnCommentListUpdatedAsync;
+            oldValue.ListUpdated -= OnCommentListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnCommentListUpdatedAsync;
+        newValue.ListUpdated += OnCommentListUpdatedAsync;
     }
 
     private async void OnCommentListUpdatedAsync(object? sender, EventArgs e)

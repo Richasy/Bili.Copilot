@@ -12,9 +12,6 @@ namespace BiliCopilot.UI.Controls.VideoPartition;
 /// </summary>
 public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailControlBase
 {
-    private long _viewModelChangedToken;
-    private VideoPartitionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPartitionMainHeader"/> class.
     /// </summary>
@@ -27,14 +24,11 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
     protected override void OnControlLoaded()
     {
         Selector.SelectionChanged += OnSelectorChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
     }
 
@@ -46,25 +40,23 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
             ViewModel.Initialized -= OnViewModelInitialized;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         Selector.SelectionChanged -= OnSelectorChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(VideoPartitionDetailViewModel? oldValue, VideoPartitionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.Initialized -= OnViewModelInitialized;
+            oldValue.Initialized -= OnViewModelInitialized;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.Initialized += OnViewModelInitialized;
+        newValue.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
     }
 

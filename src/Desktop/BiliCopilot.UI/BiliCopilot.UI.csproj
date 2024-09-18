@@ -18,6 +18,12 @@
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
+    
+  <!-- TODO: 由于WebView2尚未支持 aot trim，所以暂时不会在 Publish 版本中使用 AOT -->
+  <PropertyGroup Condition="'$(Configuration)' != 'Publish'">
+    <PublishAot>true</PublishAot>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+  </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
     <Content Remove="Assets\bbdown\x64\BBDown.exe" />
@@ -146,6 +152,7 @@
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
+    <None Remove="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml" />
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
@@ -155,6 +162,7 @@
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
+    <None Remove="Controls\Core\Player\PlayerResources.xaml" />
     <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
@@ -349,6 +357,7 @@
     <None Remove="Pages\WebDavPage.xaml" />
     <None Remove="Styles\Overrides.xaml" />
     <None Remove="Styles\TrayResources.xaml" />
+    <None Remove="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -369,10 +378,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ColorCode.WinUI" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="H.NotifyIcon.WinUI" />
@@ -383,6 +390,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
@@ -1358,6 +1366,15 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\Overlay\WebPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,7 +27,7 @@ public sealed partial class UserSpacePageViewModel
     private CancellationTokenSource _searchCancellationTokenSource;
 
     [ObservableProperty]
-    private IReadOnlyCollection<UserMomentDetailViewModel> _sections;
+    private List<UserMomentDetailViewModel> _sections;
 
     [ObservableProperty]
     private UserMomentDetailViewModel _selectedSection;

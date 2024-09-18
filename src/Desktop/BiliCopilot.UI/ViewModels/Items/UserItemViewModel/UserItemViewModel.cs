@@ -10,12 +10,14 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 用户项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
 {
     /// <summary>
@@ -35,7 +37,7 @@ public sealed partial class UserItemViewModel : ViewModelBase<UserCard>
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.Profile.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.Profile.User);
 
     [RelayCommand]
     private void Pin()

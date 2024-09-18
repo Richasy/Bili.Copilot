@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Article;
 /// </summary>
 public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailControlBase
 {
-    private long _viewModelChangedToken;
-    private ArticlePartitionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticlePartitionMainBody"/> class.
     /// </summary>
@@ -26,14 +23,11 @@ public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailCon
     {
         ArticleScrollView.ViewChanged += OnViewChanged;
         ArticleScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
         CheckArticleCount();
     }
 
@@ -45,26 +39,24 @@ public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailCon
             ViewModel.ArticleListUpdated -= OnArticleListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         ArticleScrollView.ViewChanged -= OnViewChanged;
         ArticleScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(ArticlePartitionDetailViewModel? oldValue, ArticlePartitionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ArticleListUpdated -= OnArticleListUpdatedAsync;
+            oldValue.ArticleListUpdated -= OnArticleListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
+        newValue.ArticleListUpdated += OnArticleListUpdatedAsync;
     }
 
     private async void OnArticleListUpdatedAsync(object? sender, EventArgs e)

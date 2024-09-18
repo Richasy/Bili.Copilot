@@ -10,8 +10,6 @@ namespace BiliCopilot.UI.Controls.Message;
 /// </summary>
 public sealed partial class ChatMessageItemControl : ChatMessageItemControlBase
 {
-    private long _viewModelChangedToken;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatMessageItemControl"/> class.
     /// </summary>
@@ -21,17 +19,10 @@ public sealed partial class ChatMessageItemControl : ChatMessageItemControlBase
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
-        CheckState();
-    }
+    protected override void OnControlLoaded() => CheckState();
 
     /// <inheritdoc/>
-    protected override void OnControlUnloaded()
-        => UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    protected override void OnViewModelChanged(ChatMessageItemViewModel? oldValue, ChatMessageItemViewModel? newValue)
         => CheckState();
 
     private void CheckState()

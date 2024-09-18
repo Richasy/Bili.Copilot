@@ -21,7 +21,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     private string _aid;
     private string _cid;
     private int _position;
-    private IReadOnlyCollection<SubtitleInformation> _subtitles;
+    private List<SubtitleInformation> _subtitles;
     private Action? _initializedAction;
 
     [ObservableProperty]
@@ -31,7 +31,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     private bool _isEnabled;
 
     [ObservableProperty]
-    private IReadOnlyCollection<SubtitleMeta>? _metas;
+    private List<SubtitleMeta>? _metas;
 
     [ObservableProperty]
     private SubtitleMeta? _selectedMeta;
@@ -113,7 +113,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
 
         try
         {
-            Metas = await _service.GetSubtitleMetasAsync(_aid, _cid);
+            Metas = [.. await _service.GetSubtitleMetasAsync(_aid, _cid)];
             IsAvailable = Metas?.Count > 0;
             var firstMeta = GetInitialMeta();
             if (firstMeta is not null)
@@ -149,7 +149,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
             var subtitles = await _service.GetSubtitleDetailAsync(meta);
             if (subtitles is not null)
             {
-                _subtitles = subtitles;
+                _subtitles = [.. subtitles];
                 SelectedMeta = meta;
                 UpdatePosition(_position);
             }

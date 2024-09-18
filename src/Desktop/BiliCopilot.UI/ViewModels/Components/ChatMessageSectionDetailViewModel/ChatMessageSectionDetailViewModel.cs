@@ -50,7 +50,7 @@ public sealed partial class ChatMessageSectionDetailViewModel : ViewModelBase<Ch
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User);
 
     [RelayCommand]
     private async Task RefreshAsync()

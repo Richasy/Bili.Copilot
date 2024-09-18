@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
@@ -46,4 +48,9 @@ public sealed partial class SeasonItemViewModel
     /// 处于已看状态.
     /// </summary>
     public bool? InWatched { get; init; }
+
+    /// <summary>
+    /// 样式.
+    /// </summary>
+    public SeasonCardStyle Style { get; init; }
 }

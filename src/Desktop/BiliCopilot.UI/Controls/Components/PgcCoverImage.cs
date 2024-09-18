@@ -10,7 +10,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// PGC 封面图片.
 /// </summary>
-public sealed class PgcCoverImage : ImageExBase
+public sealed partial class PgcCoverImage : ImageExBase
 {
     /// <summary>
     /// <see cref="BlurRatio"/> 的依赖属性.

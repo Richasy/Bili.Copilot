@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.WebDav;
 /// </summary>
 public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
 {
-    private long _viewModelChangedToken;
-    private WebDavPlayerPageViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavPlayerSideBody"/> class.
     /// </summary>
@@ -21,14 +18,11 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
     /// <inheritdoc/>
     protected override async void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.VideoSelectionChanged += OnViewModelVideoSelectionChangedAsync;
         await CheckSelectedItemAsync();
     }
 
@@ -39,25 +33,22 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
         {
             ViewModel.VideoSelectionChanged -= OnViewModelVideoSelectionChangedAsync;
         }
-
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(WebDavPlayerPageViewModel? oldValue, WebDavPlayerPageViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.VideoSelectionChanged -= OnViewModelVideoSelectionChangedAsync;
+            oldValue.VideoSelectionChanged -= OnViewModelVideoSelectionChangedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.VideoSelectionChanged += OnViewModelVideoSelectionChangedAsync;
+        newValue.VideoSelectionChanged += OnViewModelVideoSelectionChangedAsync;
     }
 
     private async void OnViewModelVideoSelectionChangedAsync(object? sender, EventArgs e)

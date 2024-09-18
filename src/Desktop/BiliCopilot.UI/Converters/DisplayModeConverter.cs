@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class DisplayModeConverter : IValueConverter
+internal sealed partial class DisplayModeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

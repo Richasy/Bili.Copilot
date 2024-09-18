@@ -84,7 +84,7 @@ public sealed partial class WebDavStorageItemViewModel : ViewModelBase<WebDavRes
         else
         {
             var videoList = pageVM.Items.Where(p => p.FileType == WebDavFileType.Video).Select(p => p.Data).ToList() ?? new List<WebDavResource>();
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebDavPlayerPage).FullName, (videoList, Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebDavPlayerPage), (videoList, Data));
         }
     }
 

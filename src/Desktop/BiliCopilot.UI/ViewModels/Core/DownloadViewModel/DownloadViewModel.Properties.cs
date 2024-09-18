@@ -25,13 +25,13 @@ public sealed partial class DownloadViewModel
     private int _currentPartIndex;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFormatInformation> _formats;
+    private List<PlayerFormatInformation> _formats;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoPart>? _parts;
+    private List<VideoPart>? _parts;
 
     [ObservableProperty]
-    private IReadOnlyCollection<EpisodeInformation>? _episodes;
+    private List<EpisodeInformation>? _episodes;
 
     [ObservableProperty]
     private bool _hasAvailableSubtitle;

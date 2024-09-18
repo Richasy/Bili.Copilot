@@ -5,12 +5,14 @@ using BiliCopilot.UI.Controls.AI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 聊天模型项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
 {
     private readonly Action<ChatModelItemViewModel> _deleteAction;
@@ -24,6 +26,9 @@ public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
     [ObservableProperty]
     private bool _isSelected;
 
+    [ObservableProperty]
+    private bool _isCustomModel;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatModelItemViewModel"/> class.
     /// </summary>
@@ -32,6 +37,7 @@ public sealed partial class ChatModelItemViewModel : ViewModelBase<ChatModel>
     {
         Name = model.DisplayName;
         Id = model.Id;
+        IsCustomModel = model.IsCustomModel;
         _deleteAction = deleteAction;
     }
 

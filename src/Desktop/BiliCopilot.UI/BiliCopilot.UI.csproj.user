@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\Overlay\WebPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>

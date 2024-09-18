@@ -12,7 +12,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -43,30 +43,6 @@
                                 </Border>
                             </StackPanel>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FollowCommand}" Text="{ext:Locale Name=Follow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Heart" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -76,7 +52,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -120,30 +96,6 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
                             </Border>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FollowCommand}" Text="{ext:Locale Name=Follow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Heart" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -153,7 +105,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCommand}">
+                    <local:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -197,54 +149,6 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
                             </Border>
                         </Grid>
-                        <local:CardControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.MarkWantWatchCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.InWantWatch, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                                    Text="{ext:Locale Name=MarkWantWatch}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Thinking" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.MarkWatchingCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.InWatching, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                                    Text="{ext:Locale Name=MarkWatching}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Eye" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.MarkWatchedCommand}"
-                                    IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.InWatched, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                                    Text="{ext:Locale Name=MarkWatched}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Folder" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.UnfollowCommand}" Text="{ext:Locale Name=Unfollow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Foreground="{ThemeResource SystemFillColorCriticalBrush}" Symbol="HeartBroken" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </local:CardControl.ContextFlyout>
                     </local:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -281,30 +185,6 @@
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
                         </Border>
-                        <Grid.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInNewWindowCommand}" Text="{ext:Locale Name=OpenInNewWindow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="WindowPlay" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.OpenInBroswerCommand}" Text="{ext:Locale Name=OpenInBrowser}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Globe" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.FollowCommand}" Text="{ext:Locale Name=Follow}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Heart" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PinCommand}" Text="{ext:Locale Name=FixContent}">
-                                    <MenuFlyoutItem.Icon>
-                                        <ic:SymbolIcon Symbol="Pin" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Grid.ContextFlyout>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

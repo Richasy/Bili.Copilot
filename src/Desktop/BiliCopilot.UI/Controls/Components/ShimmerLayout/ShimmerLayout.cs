@@ -7,7 +7,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 骨架占位图.
 /// </summary>
-public sealed class ShimmerLayout : LayoutControlBase
+public sealed partial class ShimmerLayout : LayoutControlBase
 {
     /// <summary>
     /// <see cref="IsActive"/> 的依赖属性.

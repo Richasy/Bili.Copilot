@@ -3,7 +3,6 @@
 using BiliAgent.Models;
 using BiliCopilot.UI.Controls.AI;
 using BiliCopilot.UI.Controls.Settings;
-using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Richasy.WinUI.Share.Base;
@@ -30,17 +29,6 @@ public sealed partial class SettingsPage : SettingsPageBase
     /// <inheritdoc/>
     protected override void OnPageUnloaded()
         => ViewModel.SaveOnlineChatServicesCommand.Execute(default);
-
-    private static FrameworkElement CreateForm<TControl>(AIServiceItemViewModel vm)
-    {
-        var control = Activator.CreateInstance<TControl>();
-        if (control is AIServiceConfigControlBase form)
-        {
-            form.ViewModel = vm;
-        }
-
-        return control as FrameworkElement;
-    }
 
     private void OnJoinGroupButtonClick(object sender, RoutedEventArgs e)
         => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
@@ -81,16 +69,16 @@ public sealed partial class SettingsPage : SettingsPageBase
                 or ProviderType.TogetherAI
                 or ProviderType.Perplexity
                 or ProviderType.SiliconFlow
-                or ProviderType.DashScope => CreateForm<ModelClientConfigSettingSection>(item),
+                or ProviderType.DashScope => (AIServiceConfigControlBase)new ModelClientConfigSettingSection { ViewModel = item },
                 ProviderType.Anthropic
                 or ProviderType.Gemini
-                or ProviderType.Ollama => CreateForm<ModelClientEndpointConfigSettingSection>(item),
-                ProviderType.OpenAI => CreateForm<OpenAIChatConfigSettingSection>(item),
-                ProviderType.AzureOpenAI => CreateForm<AzureOpenAIChatConfigSettingSection>(item),
-                ProviderType.QianFan => CreateForm<QianFanChatConfigSettingSection>(item),
-                ProviderType.HunYuan => CreateForm<HunYuanChatConfigSettingSection>(item),
-                ProviderType.SparkDesk => CreateForm<SparkDeskChatConfigSettingSection>(item),
-                ProviderType.DouBao => CreateForm<DouBaoChatConfigSettingSection>(item),
+                or ProviderType.Ollama => new ModelClientEndpointConfigSettingSection { ViewModel = item },
+                ProviderType.OpenAI => new OpenAIChatConfigSettingSection { ViewModel = item },
+                ProviderType.AzureOpenAI => new AzureOpenAIChatConfigSettingSection { ViewModel = item },
+                ProviderType.QianFan => new QianFanChatConfigSettingSection { ViewModel = item },
+                ProviderType.HunYuan => new HunYuanChatConfigSettingSection { ViewModel = item },
+                ProviderType.SparkDesk => new SparkDeskChatConfigSettingSection { ViewModel = item },
+                ProviderType.DouBao => new DouBaoChatConfigSettingSection { ViewModel = item },
                 _ => throw new NotImplementedException(),
             };
 

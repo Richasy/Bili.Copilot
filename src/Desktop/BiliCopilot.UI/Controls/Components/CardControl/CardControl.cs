@@ -12,7 +12,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 卡片控件.
 /// </summary>
-public sealed class CardControl : Button
+public sealed partial class CardControl : Button
 {
     private const float PointerOverOffsetY = -4f;
 

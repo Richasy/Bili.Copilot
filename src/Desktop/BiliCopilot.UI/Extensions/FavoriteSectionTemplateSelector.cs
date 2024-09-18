@@ -4,7 +4,7 @@ using BiliCopilot.UI.ViewModels.Components;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class FavoriteSectionTemplateSelector : DataTemplateSelector
+internal sealed partial class FavoriteSectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate PgcTemplate { get; set; }
 

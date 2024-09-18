@@ -9,12 +9,14 @@ using Mpv.Core;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
 using Richasy.BiliKernel.Bili.Authorization;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
 /// MPV 播放器视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 {
     /// <summary>

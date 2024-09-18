@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BiliCopilot.UI.Converters;
 
-internal sealed class ExternalPlayerTypeConverter : IValueConverter
+internal sealed partial class ExternalPlayerTypeConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

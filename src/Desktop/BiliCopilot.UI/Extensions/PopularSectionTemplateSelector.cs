@@ -4,7 +4,7 @@ using BiliCopilot.UI.ViewModels.Items;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class PopularSectionTemplateSelector : DataTemplateSelector
+internal sealed partial class PopularSectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate SectionTemplate { get; set; }
 

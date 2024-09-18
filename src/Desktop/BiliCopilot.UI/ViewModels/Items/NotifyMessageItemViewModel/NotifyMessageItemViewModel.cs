@@ -6,12 +6,14 @@ using Humanizer;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 通知消息项视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class NotifyMessageItemViewModel : ViewModelBase<NotifyMessage>
 {
     /// <summary>
@@ -24,6 +26,8 @@ public sealed partial class NotifyMessageItemViewModel : ViewModelBase<NotifyMes
         FirstUserAvatar = data.Users?.First().Avatar.Uri;
         FirstUserName = data.Users?.First().Name;
         IsMultipleUsers = data.Users.Count > 1;
+        Message = data.Message;
+        SourceContent = data.SourceContent;
         if (data.Type == NotifyMessageType.Like)
         {
             var count = data.Properties["Count"];

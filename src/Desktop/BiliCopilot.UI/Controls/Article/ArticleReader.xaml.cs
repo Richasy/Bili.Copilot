@@ -129,7 +129,8 @@ public sealed partial class ArticleReader : LayoutUserControlBase
     private async void OnMessageReceivedAsync(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
         _ = this;
-        var jsonEle = JsonSerializer.Deserialize<JsonElement>(args.WebMessageAsJson);
+        var json = args.WebMessageAsJson;
+        var jsonEle = JsonDocument.Parse(json).RootElement;
         if (jsonEle.TryGetProperty("Name", out var nameEle))
         {
             var name = nameEle.GetString();

@@ -101,7 +101,7 @@ public sealed partial class UserMomentDetailViewModel : ViewModelBase
             _preventLoadMore = !hasMore || string.IsNullOrEmpty(offset);
             if (moments is not null)
             {
-                foreach (var item in moments.Select(p => new MomentItemViewModel(p, _showCommentAction)))
+                foreach (var item in moments.Select(p => new MomentItemViewModel(p, _isVideo ? MomentCardStyle.Video : MomentCardStyle.Comprehensive, _showCommentAction)))
                 {
                     Items.Add(item);
                 }

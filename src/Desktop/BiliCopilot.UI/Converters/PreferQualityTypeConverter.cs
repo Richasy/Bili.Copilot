@@ -9,7 +9,7 @@ namespace BiliCopilot.UI.Converters;
 /// <summary>
 /// 偏好画质的可读文本转换器.
 /// </summary>
-internal sealed class PreferQualityTypeConverter : IValueConverter
+internal sealed partial class PreferQualityTypeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

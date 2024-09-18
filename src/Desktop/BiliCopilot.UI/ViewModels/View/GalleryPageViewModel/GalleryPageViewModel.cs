@@ -26,7 +26,7 @@ public sealed partial class GalleryPageViewModel : ViewModelBase
     /// </summary>
     public GalleryPageViewModel(
         BiliImage image,
-        IReadOnlyList<BiliImage>? images = default)
+        List<BiliImage>? images = default)
     {
         SelectedImage = image;
         Images = images ?? new List<BiliImage> { image };

@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.Favorites;
 /// </summary>
 public sealed partial class PgcFavoriteBody : PgcFavoriteControlBase
 {
-    private long _viewModelChangedToken;
-    private PgcFavoriteSectionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcFavoriteBody"/> class.
     /// </summary>
@@ -26,14 +23,11 @@ public sealed partial class PgcFavoriteBody : PgcFavoriteControlBase
     {
         SeasonScrollView.ViewChanged += OnViewChanged;
         SeasonScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         if (ViewModel is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.ListUpdated += OnSeasonListUpdatedAsync;
         CheckSeasonCount();
     }
 
@@ -45,26 +39,24 @@ public sealed partial class PgcFavoriteBody : PgcFavoriteControlBase
             ViewModel.ListUpdated -= OnSeasonListUpdatedAsync;
         }
 
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         SeasonScrollView.ViewChanged -= OnViewChanged;
         SeasonScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(PgcFavoriteSectionDetailViewModel? oldValue, PgcFavoriteSectionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.ListUpdated -= OnSeasonListUpdatedAsync;
+            oldValue.ListUpdated -= OnSeasonListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        _viewModel.ListUpdated += OnSeasonListUpdatedAsync;
+        newValue.ListUpdated += OnSeasonListUpdatedAsync;
     }
 
     private async void OnSeasonListUpdatedAsync(object? sender, EventArgs e)

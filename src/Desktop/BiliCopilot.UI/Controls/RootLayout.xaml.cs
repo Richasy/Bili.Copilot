@@ -214,6 +214,12 @@ public sealed partial class RootLayout : RootLayoutBase
 
     private void OnBackRequested(object sender, EventArgs e)
         => ViewModel.Back();
+
+    private void OnUpdateActionButtonClick(TeachingTip sender, object args)
+        => _appViewModel.ShowUpdateCommand.Execute(default);
+
+    private void OnUpdateCloseButtonClick(TeachingTip sender, object args)
+        => _appViewModel.HideUpdateCommand.Execute(default);
 }
 
 /// <summary>

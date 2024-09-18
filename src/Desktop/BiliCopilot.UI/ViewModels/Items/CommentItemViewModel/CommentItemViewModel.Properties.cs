@@ -53,6 +53,16 @@ public sealed partial class CommentItemViewModel
     public bool IsVip { get; init; }
 
     /// <summary>
+    /// 用户等级.
+    /// </summary>
+    public int Level { get; init; }
+
+    /// <summary>
+    /// 是否为置顶评论.
+    /// </summary>
+    public bool IsTop { get; init; }
+
+    /// <summary>
     /// 内容.
     /// </summary>
     public EmoteText Content { get; init; }

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Shapes;
 
 namespace BiliCopilot.UI.Controls.Markdown.TextElements;
 
-internal class MyTableUIElement : Panel
+internal partial class MyTableUIElement : Panel
 {
     private readonly int _columnCount;
     private readonly int _rowCount;

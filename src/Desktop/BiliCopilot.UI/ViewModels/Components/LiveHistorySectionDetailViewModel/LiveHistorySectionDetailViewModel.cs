@@ -62,7 +62,7 @@ public sealed partial class LiveHistorySectionDetailViewModel : ViewModelBase, I
             {
                 foreach (var live in group.Lives)
                 {
-                    Items.Add(new LiveItemViewModel(live, removeAction: RemoveHistory));
+                    Items.Add(new LiveItemViewModel(live, Models.Constants.LiveCardStyle.History, removeAction: RemoveHistory));
                 }
             }
 

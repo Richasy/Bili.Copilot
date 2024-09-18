@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 视频封面图片.
 /// </summary>
-public sealed class VideoCoverImage : ImageExBase
+public sealed partial class VideoCoverImage : ImageExBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoCoverImage"/> class.

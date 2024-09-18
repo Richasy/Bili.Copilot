@@ -211,7 +211,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage).FullName, new VideoSnapshot(video));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video));
         }
         else
         {

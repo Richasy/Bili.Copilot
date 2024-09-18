@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
@@ -46,4 +48,9 @@ public sealed partial class ArticleItemViewModel
     /// 收集的相对时间.
     /// </summary>
     public string? CollectRelativeTime { get; init; }
+
+    /// <summary>
+    /// 卡片样式.
+    /// </summary>
+    public ArticleCardStyle Style { get; init; }
 }

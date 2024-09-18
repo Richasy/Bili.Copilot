@@ -16,7 +16,7 @@ namespace BiliCopilot.UI.ViewModels.Components;
 public sealed partial class PgcPlayerSeasonSectionDetailViewModel : ViewModelBase, IPlayerSectionDetailViewModel
 {
     [ObservableProperty]
-    private IReadOnlyCollection<SeasonItemViewModel>? _items;
+    private List<SeasonItemViewModel>? _items;
 
     [ObservableProperty]
     private SeasonItemViewModel? _selectedItem;
@@ -28,7 +28,7 @@ public sealed partial class PgcPlayerSeasonSectionDetailViewModel : ViewModelBas
         IList<SeasonInformation> items,
         string seasonId)
     {
-        Items = items.Select(p => new SeasonItemViewModel(p)).ToList();
+        Items = items.Select(p => new SeasonItemViewModel(p, SeasonCardStyle.Player)).ToList();
         SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == seasonId);
     }
 

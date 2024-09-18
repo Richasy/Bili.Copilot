@@ -13,12 +13,14 @@ using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
+using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
 /// 直播条目视图模型.
 /// </summary>
+[GeneratedBindableCustomProperty]
 public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 {
     private readonly Action<LiveItemViewModel>? _removeAction;
@@ -26,13 +28,14 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveItemViewModel"/> class.
     /// </summary>
-    public LiveItemViewModel(LiveInformation data, Action<LiveItemViewModel>? removeAction = default)
+    public LiveItemViewModel(LiveInformation data, LiveCardStyle style, Action<LiveItemViewModel>? removeAction = default)
         : base(data)
     {
         Title = data.Identifier.Title;
         Cover = data.Identifier.Cover?.Uri;
         Author = data.User?.Name;
         Avatar = data.User?.Avatar?.Uri;
+        Style = style;
         ViewerCount = data.GetExtensionIfNotNull<double>(LiveExtensionDataId.ViewerCount);
         Subtitle = data.GetExtensionIfNotNull<string>(VideoExtensionDataId.Subtitle);
         TagName = data.GetExtensionIfNotNull<string>(LiveExtensionDataId.TagName);
@@ -59,11 +62,11 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
         if (preferPlayer == PlayerType.Web)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage).FullName, GetWebUrl());
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;
         }
 
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage).FullName, Data.Identifier);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), Data.Identifier);
     }
 
     [RelayCommand]
@@ -91,7 +94,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 
     [RelayCommand]
     private void ShowUserSpace()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, Data.User);
+        => this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), Data.User);
 
     [RelayCommand]
     private void Pin()

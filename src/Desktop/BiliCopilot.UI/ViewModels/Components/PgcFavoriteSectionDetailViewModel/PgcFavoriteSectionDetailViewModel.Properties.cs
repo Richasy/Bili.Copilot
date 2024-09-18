@@ -29,7 +29,7 @@ public sealed partial class PgcFavoriteSectionDetailViewModel
     private PgcFavoriteStatus _currentStatus;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PgcFavoriteStatus> _statusList;
+    private List<PgcFavoriteStatus> _statusList;
 
     /// <summary>
     /// 列表已完成更新.

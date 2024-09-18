@@ -11,8 +11,6 @@ namespace BiliCopilot.UI.Controls.Danmaku;
 /// </summary>
 public sealed partial class LiveDanmakuPanel : DanmakuControlBase
 {
-    private long _viewModelChangedToken;
-    private DanmakuViewModel _viewModel;
     private DanmakuFrostMaster _danmakuController;
 
     /// <summary>
@@ -23,7 +21,6 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
         _danmakuController ??= new DanmakuFrostMaster(RootGrid, default);
 
         if (ViewModel is null)
@@ -31,18 +28,12 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.RequestClearDanmaku += OnRequestClearDanmaku;
-        ViewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
-        ViewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
-        ViewModel.RequestResetStyle += OnRequestResetStyle;
         ResetDanmakuStyle();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.RequestClearDanmaku -= OnRequestClearDanmaku;
@@ -52,7 +43,29 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
         }
 
         _danmakuController?.Close();
-        _viewModel = default;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(DanmakuViewModel? oldValue, DanmakuViewModel? newValue)
+    {
+        if (oldValue is not null)
+        {
+            oldValue.RequestClearDanmaku -= OnRequestClearDanmaku;
+            oldValue.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            oldValue.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
+            oldValue.RequestResetStyle -= OnRequestResetStyle;
+        }
+
+        if (newValue is null)
+        {
+            return;
+        }
+
+        newValue.RequestClearDanmaku += OnRequestClearDanmaku;
+        newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
+        newValue.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
+        newValue.RequestResetStyle += OnRequestResetStyle;
+        ResetDanmakuStyle();
     }
 
     private static DanmakuFontSize GetFontSize(double fontSize)
@@ -65,29 +78,6 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
             2.5 => DanmakuFontSize.Largest,
             _ => DanmakuFontSize.Normal,
         };
-    }
-
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
-    {
-        if (_viewModel is not null)
-        {
-            _viewModel.RequestClearDanmaku -= OnRequestClearDanmaku;
-            _viewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
-            _viewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
-            _viewModel.RequestResetStyle -= OnRequestResetStyle;
-        }
-
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        _viewModel = ViewModel;
-        _viewModel.RequestClearDanmaku += OnRequestClearDanmaku;
-        _viewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
-        _viewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
-        _viewModel.RequestResetStyle += OnRequestResetStyle;
-        ResetDanmakuStyle();
     }
 
     private void OnRequestClearDanmaku(object? sender, EventArgs e)

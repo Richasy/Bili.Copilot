@@ -33,7 +33,7 @@ public sealed partial class VideoSearchSectionDetailViewModel
     private ComprehensiveSearchSortType _sort;
 
     [ObservableProperty]
-    private IReadOnlyCollection<ComprehensiveSearchSortType> _sorts;
+    private List<ComprehensiveSearchSortType> _sorts;
 
     /// <summary>
     /// 列表已完成更新.

@@ -71,7 +71,7 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
                     continue;
                 }
 
-                Items.Add(new SeasonItemViewModel(item.Season));
+                Items.Add(new SeasonItemViewModel(item.Season, SeasonCardStyle.Search));
             }
 
             ListUpdated?.Invoke(this, EventArgs.Empty);

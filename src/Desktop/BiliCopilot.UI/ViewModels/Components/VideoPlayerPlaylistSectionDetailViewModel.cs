@@ -18,7 +18,7 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     private readonly string _videoId;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoItemViewModel> _items;
+    private List<VideoItemViewModel> _items;
 
     [ObservableProperty]
     private VideoItemViewModel _selectedItem;

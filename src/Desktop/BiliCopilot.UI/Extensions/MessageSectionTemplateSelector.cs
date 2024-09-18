@@ -4,7 +4,7 @@ using BiliCopilot.UI.ViewModels.Components;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class MessageSectionTemplateSelector : DataTemplateSelector
+internal sealed partial class MessageSectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate NotifyTemplate { get; set; }
 

@@ -90,7 +90,7 @@ public sealed partial class EntertainmentIndexViewModel : ViewModelBase, IPgcSec
             {
                 foreach (var item in seasons)
                 {
-                    Items.Add(new SeasonItemViewModel(item));
+                    Items.Add(new SeasonItemViewModel(item, SeasonCardStyle.Index));
                 }
 
                 if (hasNext)

@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+
 namespace BiliCopilot.UI.ViewModels.Items;
 
 /// <summary>
@@ -51,4 +53,9 @@ public sealed partial class LiveItemViewModel
     /// 收集时间.
     /// </summary>
     public string? CollectRelativeTime { get; init; }
+
+    /// <summary>
+    /// 样式.
+    /// </summary>
+    public LiveCardStyle Style { get; init; }
 }

@@ -142,19 +142,19 @@ public sealed partial class VideoPlayerPageViewModel
     private IPlayerSectionDetailViewModel? _selectedSection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFormatItemViewModel>? _formats;
+    private List<PlayerFormatItemViewModel>? _formats;
 
     [ObservableProperty]
-    private IReadOnlyCollection<BiliTag>? _tags;
+    private List<BiliTag>? _tags;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerFavoriteFolderViewModel>? _favoriteFolders;
+    private List<PlayerFavoriteFolderViewModel>? _favoriteFolders;
 
     [ObservableProperty]
-    private IReadOnlyCollection<VideoLoopType> _loopTypes;
+    private List<VideoLoopType> _loopTypes;
 
     [ObservableProperty]
-    private IReadOnlyCollection<IPlayerSectionDetailViewModel>? _sections;
+    private List<IPlayerSectionDetailViewModel>? _sections;
 
     /// <summary>
     /// 视图数据加载完成.

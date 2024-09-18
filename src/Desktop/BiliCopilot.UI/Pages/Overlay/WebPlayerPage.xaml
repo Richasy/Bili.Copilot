@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:CommunityToolkit.Labs.WinUI"
     mc:Ignorable="d">
 
     <Grid>
@@ -15,7 +14,7 @@
             x:Name="MainView"
             DefaultBackgroundColor="Transparent"
             NavigationCompleted="OnNavigationCompletedAsync" />
-        <winui:Shimmer
+        <base:Shimmer
             x:Name="LoadingShimmer"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" />

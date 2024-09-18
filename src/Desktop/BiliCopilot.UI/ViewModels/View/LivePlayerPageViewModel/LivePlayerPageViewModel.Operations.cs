@@ -86,7 +86,7 @@ public sealed partial class LivePlayerPageViewModel
     private void OpenUserSpace()
     {
         var profile = _view.Information.User;
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage).FullName, profile);
+        this.Get<NavigationViewModel>().NavigateToOver(typeof(UserSpacePage), profile);
     }
 
     [RelayCommand]

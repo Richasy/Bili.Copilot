@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Reflection;
 using BiliAgent.Models;
 using BiliCopilot.UI.Controls.AI;
 using BiliCopilot.UI.Toolkits;
@@ -47,18 +46,30 @@ public sealed partial class ModelClientConfigSettingSection : AIServiceConfigCon
 
     private ClientConfigBase CreateCurrentConfig()
     {
-        var assembly = Assembly.GetAssembly(typeof(ClientConfigBase));
-        var types = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(ClientConfigBase)));
-
-        foreach (var type in types)
+        return ViewModel.ProviderType switch
         {
-            if (type.Name.StartsWith(ViewModel.ProviderType.ToString(), StringComparison.OrdinalIgnoreCase))
-            {
-                return (ClientConfigBase)Activator.CreateInstance(type);
-            }
-        }
-
-        return null;
+            ProviderType.OpenAI => (ClientConfigBase)new OpenAIClientConfig(),
+            ProviderType.AzureOpenAI => new AzureOpenAIClientConfig(),
+            ProviderType.Gemini => new GeminiClientConfig(),
+            ProviderType.Anthropic => new AnthropicClientConfig(),
+            ProviderType.Moonshot => new MoonshotClientConfig(),
+            ProviderType.ZhiPu => new ZhiPuClientConfig(),
+            ProviderType.LingYi => new LingYiClientConfig(),
+            ProviderType.DeepSeek => new DeepSeekClientConfig(),
+            ProviderType.DashScope => new DashScopeClientConfig(),
+            ProviderType.QianFan => new QianFanClientConfig(),
+            ProviderType.HunYuan => new HunYuanClientConfig(),
+            ProviderType.DouBao => new DouBaoClientConfig(),
+            ProviderType.SparkDesk => new SparkDeskClientConfig(),
+            ProviderType.OpenRouter => new OpenRouterClientConfig(),
+            ProviderType.TogetherAI => new TogetherAIClientConfig(),
+            ProviderType.Groq => new GroqClientConfig(),
+            ProviderType.Perplexity => new PerplexityClientConfig(),
+            ProviderType.MistralAI => new MistralAIClientConfig(),
+            ProviderType.SiliconFlow => new SiliconFlowClientConfig(),
+            ProviderType.Ollama => new OllamaClientConfig(),
+            _ => throw new NotImplementedException(),
+        };
     }
 
     private void OnPredefinedModelsButtonClick(object sender, RoutedEventArgs e)

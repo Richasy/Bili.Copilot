@@ -4,7 +4,7 @@ using BiliCopilot.UI.ViewModels.Components;
 
 namespace BiliCopilot.UI.Extensions;
 
-internal sealed class PlayerSectionTemplateSelector : DataTemplateSelector
+internal sealed partial class PlayerSectionTemplateSelector : DataTemplateSelector
 {
     public DataTemplate CommentTemplate { get; set; }
 

@@ -128,22 +128,22 @@ public sealed partial class SettingsPageViewModel
     private WebDavConfig _selectedWebDav;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerDisplayMode> _playerDisplayModeCollection;
+    private List<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PreferCodecType> _preferCodecCollection;
+    private List<PreferCodecType> _preferCodecCollection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PreferQualityType> _preferQualityCollection;
+    private List<PreferQualityType> _preferQualityCollection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PreferDecodeType> _preferDecodeCollection;
+    private List<PreferDecodeType> _preferDecodeCollection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<PlayerType> _playerTypeCollection;
+    private List<PlayerType> _playerTypeCollection;
 
     [ObservableProperty]
-    private IReadOnlyCollection<ExternalPlayerType> _externalPlayerTypeCollection;
+    private List<ExternalPlayerType> _externalPlayerTypeCollection;
 
     /// <summary>
     /// WebDav 配置.

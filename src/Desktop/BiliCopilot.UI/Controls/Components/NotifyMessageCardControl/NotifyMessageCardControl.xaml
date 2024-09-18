@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NotifyMessageCardControl">
-                    <local:CardControl Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.ActiveCommand}">
+                    <local:CardControl>
                         <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -82,8 +82,8 @@
                                 <base:TrimTextBlock
                                     x:Name="DetailBlock"
                                     MaxLines="6"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Message}"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.Message, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Message}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Message, Converter={StaticResource ObjectToVisibilityConverter}}" />
                             </StackPanel>
                             <Border
                                 Grid.Row="2"
@@ -95,7 +95,7 @@
                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                     MaxLines="6"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Data.SourceContent}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.SourceContent}"
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>

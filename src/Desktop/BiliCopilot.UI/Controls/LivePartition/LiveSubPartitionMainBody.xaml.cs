@@ -10,9 +10,6 @@ namespace BiliCopilot.UI.Controls.LivePartition;
 /// </summary>
 public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBase
 {
-    private long _viewModelChangedToken;
-    private LivePartitionDetailViewModel _viewModel;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="LiveSubPartitionMainBody"/> class.
     /// </summary>
@@ -26,14 +23,6 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBa
     {
         LiveScrollView.ViewChanged += OnViewChanged;
         LiveScrollView.SizeChanged += OnScrollViewSizeChanged;
-        _viewModelChangedToken = RegisterPropertyChangedCallback(ViewModelProperty, new DependencyPropertyChangedCallback(OnViewModelPropertyChanged));
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        _viewModel = ViewModel;
-        ViewModel.LiveListUpdated += OnLiveListUpdatedAsync;
     }
 
     /// <inheritdoc/>
@@ -41,28 +30,26 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBa
     {
         LiveScrollView.ViewChanged -= OnViewChanged;
         LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;
-        _viewModel = default;
-        UnregisterPropertyChangedCallback(ViewModelProperty, _viewModelChangedToken);
         if (ViewModel is not null)
         {
             ViewModel.LiveListUpdated -= OnLiveListUpdatedAsync;
         }
     }
 
-    private void OnViewModelPropertyChanged(DependencyObject sender, DependencyProperty dp)
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(LivePartitionDetailViewModel? oldValue, LivePartitionDetailViewModel? newValue)
     {
-        if (_viewModel is not null)
+        if (oldValue is not null)
         {
-            _viewModel.LiveListUpdated -= OnLiveListUpdatedAsync;
+            oldValue.LiveListUpdated -= OnLiveListUpdatedAsync;
         }
 
-        if (ViewModel is null)
+        if (newValue is null)
         {
             return;
         }
 
-        _viewModel = ViewModel;
-        ViewModel.LiveListUpdated += OnLiveListUpdatedAsync;
+        newValue.LiveListUpdated += OnLiveListUpdatedAsync;
     }
 
     private async void OnLiveListUpdatedAsync(object? sender, EventArgs e)
