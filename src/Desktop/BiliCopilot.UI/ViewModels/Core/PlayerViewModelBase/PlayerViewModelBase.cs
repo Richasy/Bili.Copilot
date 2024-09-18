@@ -77,11 +77,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc.ButtonPressed += OnSystemControlsButtonPressedAsync;
 
             // 独立窗口播放时默认全窗口播放. 外置播放器播放时除外.
-            if (IsSeparatorWindowPlayer && !IsFullWindow && !IsExternalPlayer)
-            {
-                ToggleFullWindowCommand.Execute(default);
-            }
-            else if (!IsExternalPlayer)
+            if (!IsExternalPlayer)
             {
                 var defaultDisplay = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
                 if (!IsFullScreen && defaultDisplay == PlayerDisplayMode.FullScreen)
