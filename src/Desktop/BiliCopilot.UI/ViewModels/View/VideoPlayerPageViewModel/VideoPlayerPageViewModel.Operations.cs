@@ -297,6 +297,12 @@ public sealed partial class VideoPlayerPageViewModel
 
     private void PlayerProgressChanged(int progress, int duration)
     {
+        if (progress < duration && progress > 1 && (Danmaku?.IsEmpty() ?? false))
+        {
+            Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
+            Danmaku?.RedrawAsync();
+        }
+
         Danmaku?.UpdatePosition(progress);
         Subtitle?.UpdatePosition(progress);
     }
@@ -310,12 +316,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (state == PlayerState.Playing)
         {
-            if (Danmaku.IsEmpty())
-            {
-                Danmaku.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
-                Danmaku.RedrawAsync();
-            }
-            else
+            if (!Danmaku.IsEmpty())
             {
                 Danmaku?.Resume();
             }
