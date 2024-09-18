@@ -307,6 +307,14 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void PlayerProgressChanged(int progress, int duration)
     {
+        if (progress < duration && progress > 1 && (Danmaku?.IsEmpty() ?? false))
+        {
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+            Danmaku.ResetData(aid, cid);
+            Danmaku.RedrawAsync();
+        }
+
         Danmaku?.UpdatePosition(progress);
         Subtitle?.UpdatePosition(progress);
     }
@@ -315,14 +323,7 @@ public sealed partial class PgcPlayerPageViewModel
     {
         if (state == PlayerState.Playing)
         {
-            if (Danmaku.IsEmpty())
-            {
-                var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
-                var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
-                Danmaku.ResetData(aid, cid);
-                Danmaku.RedrawAsync();
-            }
-            else
+            if (!Danmaku.IsEmpty())
             {
                 Danmaku?.Resume();
             }

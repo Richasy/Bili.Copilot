@@ -72,7 +72,7 @@ public sealed partial class DownloadViewModel : ViewModelBase
         _parentUrl = ssUrl;
         _currentPartIndex = currentEpisode;
         Formats = [.. formats];
-        Episodes = [.. episodes];
+        Episodes = episodes is null ? default : [.. episodes];
         MetaInitialized?.Invoke(this, EventArgs.Empty);
     }
 
