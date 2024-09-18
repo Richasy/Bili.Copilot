@@ -98,4 +98,5 @@ public enum SettingNames
     BewlyExtensionVersion,
     PlayNextWithoutTip,
     EndWithPlaylist,
+    IsGpuChecked,
 }

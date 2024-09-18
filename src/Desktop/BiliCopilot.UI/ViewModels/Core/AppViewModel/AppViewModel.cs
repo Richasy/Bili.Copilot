@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Management;
 using System.Runtime.InteropServices;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
@@ -200,6 +201,57 @@ public sealed partial class AppViewModel : ViewModelBase
         var url = $"https://github.com/Richasy/Bili.Copilot/releases/tag/v{packVersion}";
         await Launcher.LaunchUriAsync(new Uri(url));
         HideUpdate();
+    }
+
+    [RelayCommand]
+    private async Task CheckGpuIsAmdAsync()
+    {
+        try
+        {
+            await Task.Run(() =>
+            {
+                using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
+                {
+                    foreach (var obj in searcher.Get())
+                    {
+                        var name = obj["Name"]?.ToString().ToLower();
+
+                        if (!string.IsNullOrEmpty(name) && name.Contains("amd"))
+                        {
+                            IsAmdGpu = true;
+                        }
+                    }
+                }
+
+                if (IsAmdGpu != true)
+                {
+                    IsAmdGpu = false;
+                }
+
+                SettingsToolkit.WriteLocalSetting(SettingNames.IsGpuChecked, true);
+            });
+
+            if (IsAmdGpu == true)
+            {
+                this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(async () =>
+                {
+                    var dialog = new ContentDialog
+                    {
+                        Title = ResourceToolkit.GetLocalizedString(StringNames.Tip),
+                        Content = ResourceToolkit.GetLocalizedString(StringNames.AmdGpuWarning),
+                        XamlRoot = ActivatedWindow.Content.XamlRoot,
+                        CloseButtonText = ResourceToolkit.GetLocalizedString(StringNames.Confirm),
+                        DefaultButton = ContentDialogButton.Close,
+                    };
+
+                    await dialog.ShowAsync();
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "检查GPU类型时失败");
+        }
     }
 
     partial void OnIsInitialLoadingChanged(bool value)

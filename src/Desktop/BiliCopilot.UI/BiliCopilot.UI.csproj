@@ -398,6 +398,7 @@
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Roman-Numerals" />
     <PackageReference Include="Silk.NET.Direct3D11" />
+    <PackageReference Include="System.Management" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>

@@ -112,6 +112,9 @@ public abstract partial class PlayerViewModelBase
     [ObservableProperty]
     private bool _isExternalPlayer;
 
+    [ObservableProperty]
+    private bool _isAmdMpvWarningShown;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

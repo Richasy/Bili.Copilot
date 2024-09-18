@@ -24,7 +24,7 @@
             <ic:SymbolIcon Symbol="Replay" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
-            <base:SettingsCard Header="{ext:Locale Name=PlayerType}">
+            <base:SettingsCard Description="{ext:Locale Name=PlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
                 <ComboBox
                     MinWidth="120"
                     ItemsSource="{x:Bind ViewModel.PlayerTypeCollection, Mode=OneWay}"

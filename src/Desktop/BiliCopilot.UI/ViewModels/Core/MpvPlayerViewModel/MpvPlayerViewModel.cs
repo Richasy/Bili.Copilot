@@ -47,6 +47,12 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 #endif
             var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);
+
+            var isGpuChecked = SettingsToolkit.ReadLocalSetting(SettingNames.IsGpuChecked, false);
+            if (!isGpuChecked)
+            {
+                this.Get<AppViewModel>().CheckGpuIsAmdCommand.Execute(default);
+            }
         }
 
         if (!IsWebDav)
