@@ -78,11 +78,10 @@
                                         VerticalAlignment="Center"
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
-                                        CornerRadius="10"
-                                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed}">
+                                        CornerRadius="10">
                                         <ic:SymbolIcon
+                                            x:Name="FollowIcon"
                                             FontSize="10"
-                                            IconVariant="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsFollowed, Converter={StaticResource BoolToIconVariantConverter}}"
                                             Symbol="Heart"
                                             ToolTipService.ToolTip="{ext:Locale Name=Follow}" />
                                     </ToggleButton>
