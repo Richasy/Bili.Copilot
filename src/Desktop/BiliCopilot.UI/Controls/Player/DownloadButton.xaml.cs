@@ -17,17 +17,6 @@ public sealed partial class DownloadButton : DownloadButtonBase
     public DownloadButton() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        ViewModel.MetaInitialized += OnMetaInitialized;
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)

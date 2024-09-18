@@ -28,10 +28,6 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        ViewModel.RequestClearDanmaku += OnRequestClearDanmaku;
-        ViewModel.RequestRedrawDanmaku += OnRedrawDanmaku;
-        ViewModel.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
-        ViewModel.RequestResetStyle += OnRequestResetStyle;
         ResetDanmakuStyle();
     }
 

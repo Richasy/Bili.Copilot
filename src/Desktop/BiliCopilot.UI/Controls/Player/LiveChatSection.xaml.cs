@@ -19,17 +19,6 @@ public sealed partial class LiveChatSection : LiveChatSectionBase
     protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        ViewModel.ScrollToBottomRequested += OnScrollToBottomRequested;
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)

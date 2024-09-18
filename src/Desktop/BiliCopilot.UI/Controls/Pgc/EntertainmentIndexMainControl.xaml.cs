@@ -29,7 +29,6 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
             return;
         }
 
-        ViewModel.ItemsUpdated += OnItemsUpdatedAsync;
         CheckSeasonCount();
     }
 
@@ -58,7 +57,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
             return;
         }
 
-        SeasonScrollView.ChangeView(0, 0, default, true);
+        SeasonScrollView?.ChangeView(0, 0, default, true);
         newValue.ItemsUpdated += OnItemsUpdatedAsync;
     }
 

@@ -28,7 +28,6 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
             return;
         }
 
-        ViewModel.ListUpdated += OnLiveListUpdatedAsync;
         CheckLiveCount();
     }
 

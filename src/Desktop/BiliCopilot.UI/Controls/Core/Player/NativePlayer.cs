@@ -34,5 +34,12 @@ public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewMod
 
     /// <inheritdoc/>
     protected override async void OnViewModelChanged(NativePlayerViewModel? oldValue, NativePlayerViewModel? newValue)
-        => await newValue?.InitializeAsync(_playerElement);
+    {
+        if (_playerElement is null)
+        {
+            return;
+        }
+
+        await newValue?.InitializeAsync(_playerElement);
+    }
 }

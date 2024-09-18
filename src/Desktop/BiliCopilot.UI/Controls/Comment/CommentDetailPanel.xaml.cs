@@ -28,7 +28,6 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
             return;
         }
 
-        ViewModel.ListUpdated += OnCommentListUpdatedAsync;
         CheckCommentCount();
     }
 

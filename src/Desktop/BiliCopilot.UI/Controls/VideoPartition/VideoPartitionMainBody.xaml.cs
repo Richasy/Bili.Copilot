@@ -28,7 +28,6 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
             return;
         }
 
-        ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
         CheckVideoCount();
     }
 

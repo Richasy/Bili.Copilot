@@ -28,7 +28,6 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
             return;
         }
 
-        ViewModel.ListUpdated += OnMessageListUpdatedAsync;
         CheckMessageCount();
     }
 
@@ -58,7 +57,7 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
         }
 
         newValue.ListUpdated += OnMessageListUpdatedAsync;
-        MessageScrollView.ChangeView(0, 0, default);
+        MessageScrollView?.ChangeView(0, 0, default);
     }
 
     private async void OnMessageListUpdatedAsync(object? sender, EventArgs e)

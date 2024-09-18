@@ -29,9 +29,6 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
             return;
         }
 
-        ViewModel.Initialized += OnInitialized;
-        ViewModel.ListUpdated += OnCommentListUpdatedAsync;
-
         CheckSortType();
         CheckCommentCount();
     }

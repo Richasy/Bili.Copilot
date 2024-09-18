@@ -24,7 +24,6 @@ public sealed partial class PgcPlayerSideHeader : PgcPlayerPageControlBase
             return;
         }
 
-        ViewModel.SectionInitialized += OnViewModelSectionInitialized;
         InitializeChildPartitions();
     }
 

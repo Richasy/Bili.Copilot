@@ -28,7 +28,6 @@ public sealed partial class UgcFavoriteBody : UgcFavoriteControlBase
             return;
         }
 
-        ViewModel.ListUpdated += OnVideoListUpdatedAsync;
         CheckVideoCount();
     }
 

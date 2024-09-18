@@ -28,7 +28,6 @@ public sealed partial class ArticlePartitionMainBody : ArticlePartitionDetailCon
             return;
         }
 
-        ViewModel.ArticleListUpdated += OnArticleListUpdatedAsync;
         CheckArticleCount();
     }
 

@@ -23,7 +23,6 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
             return;
         }
 
-        ViewModel.VideoSelectionChanged += OnViewModelVideoSelectionChangedAsync;
         await CheckSelectedItemAsync();
     }
 

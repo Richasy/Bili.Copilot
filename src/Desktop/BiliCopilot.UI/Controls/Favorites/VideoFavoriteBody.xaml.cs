@@ -28,7 +28,6 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
             return;
         }
 
-        ViewModel.ListUpdated += OnVideoListUpdatedAsync;
         CheckVideoCount();
     }
 

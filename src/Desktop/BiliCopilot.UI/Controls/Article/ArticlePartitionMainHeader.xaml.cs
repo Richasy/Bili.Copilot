@@ -29,7 +29,6 @@ public sealed partial class ArticlePartitionMainHeader : ArticlePartitionDetailC
             return;
         }
 
-        ViewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
     }
 

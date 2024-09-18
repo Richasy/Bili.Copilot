@@ -28,7 +28,6 @@ public sealed partial class ArticleHistorySection : ArticleHistorySectionBase
             return;
         }
 
-        ViewModel.ListUpdated += OnArticleListUpdatedAsync;
         CheckArticleCount();
     }
 

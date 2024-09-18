@@ -28,7 +28,6 @@ public sealed partial class PgcFavoriteBody : PgcFavoriteControlBase
             return;
         }
 
-        ViewModel.ListUpdated += OnSeasonListUpdatedAsync;
         CheckSeasonCount();
     }
 

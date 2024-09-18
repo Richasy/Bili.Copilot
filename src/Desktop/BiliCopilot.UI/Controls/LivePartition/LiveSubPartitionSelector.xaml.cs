@@ -24,7 +24,6 @@ public sealed partial class LiveSubPartitionSelector : LiveSubPartitionControlBa
             return;
         }
 
-        ViewModel.Initialized += OnViewModelInitialized;
         InitializeTags();
     }
 

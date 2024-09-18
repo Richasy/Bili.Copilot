@@ -24,7 +24,6 @@ public sealed partial class VideoPartsSection : VideoPartsSectionBase
             return;
         }
 
-        ViewModel.PartChanged += OnPartChanged;
         UpdateSelection();
         InitializeLayoutAsync();
     }

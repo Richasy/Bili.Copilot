@@ -23,12 +23,6 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBa
     {
         LiveScrollView.ViewChanged += OnViewChanged;
         LiveScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        ViewModel.LiveListUpdated += OnLiveListUpdatedAsync;
     }
 
     /// <inheritdoc/>

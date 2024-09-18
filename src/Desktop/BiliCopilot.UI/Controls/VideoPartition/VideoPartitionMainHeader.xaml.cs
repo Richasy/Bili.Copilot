@@ -29,7 +29,6 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
             return;
         }
 
-        ViewModel.Initialized += OnViewModelInitialized;
         InitializeChildPartitions();
     }
 

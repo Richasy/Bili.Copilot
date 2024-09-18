@@ -24,7 +24,6 @@ public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
             return;
         }
 
-        ViewModel.SectionInitialized += OnViewModelSectionInitialized;
         InitializeChildPartitions();
     }
 

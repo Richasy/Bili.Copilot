@@ -59,9 +59,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
 
         PlayerPresenter.ViewModel = ViewModel;
-        ViewModel.RequestShowNotification += OnRequestShowNotification;
-        ViewModel.RequestCancelNotification += OnRequestCancelNotification;
-        ViewModel.PropertyChanged += OnViewModelInnerPropertyChanged;
         SizeChanged += OnSizeChanged;
         if (TransportControls is not null)
         {

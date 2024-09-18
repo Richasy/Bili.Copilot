@@ -29,7 +29,6 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
             return;
         }
 
-        ViewModel.ListUpdated += OnListUpdatedAsync;
         CheckMomentCount();
     }
 

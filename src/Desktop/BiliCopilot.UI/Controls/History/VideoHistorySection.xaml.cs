@@ -28,7 +28,6 @@ public sealed partial class VideoHistorySection : VideoHistorySectionBase
             return;
         }
 
-        ViewModel.ListUpdated += OnVideoListUpdatedAsync;
         CheckVideoCount();
     }
 

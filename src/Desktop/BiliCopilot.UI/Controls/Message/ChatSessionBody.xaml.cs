@@ -26,7 +26,6 @@ public sealed partial class ChatSessionBody : ChatMessageControlBase
             return;
         }
 
-        ViewModel.RequestScrollToBottom += OnRequestScrollToBottom;
         OnRequestScrollToBottom(default, default);
     }
 
