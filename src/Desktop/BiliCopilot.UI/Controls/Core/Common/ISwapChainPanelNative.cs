@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.Runtime.InteropServices;
-using Silk.NET.Core.Native;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace BiliCopilot.UI.Controls.Core.Common;
 
@@ -11,14 +11,15 @@ namespace BiliCopilot.UI.Controls.Core.Common;
 [ComImport]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("63aad0b8-7c24-40ff-85a8-640d944cc325")]
+[GeneratedComInterface]
 public partial interface ISwapChainPanelNative
 {
     /// <summary>
     /// 设置交换链.
     /// </summary>
-    /// <returns><see cref="HResult"/>.</returns>
+    /// <returns><see cref="int"/>.</returns>
     [PreserveSig]
-    HResult SetSwapChain(IntPtr swapChain);
+    int SetSwapChain(IntPtr swapChain);
 
     /// <summary>
     /// 释放.
