@@ -155,18 +155,6 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         => _reloadAction = action;
 
     /// <summary>
-    /// 注入点击切换全屏时的回调.
-    /// </summary>
-    public void SetTapToggleFullScreenAction(Action action)
-        => _tapToggleFullScreenAction = action;
-
-    /// <summary>
-    /// 触摸切换全屏时的处理.
-    /// </summary>
-    public void ActiveWhenTapToggleFullScreen()
-        => _tapToggleFullScreenAction?.Invoke();
-
-    /// <summary>
     /// 关闭播放器.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>

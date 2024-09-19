@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.ViewModels.Core;
 using Danmaku.Core;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 
 namespace BiliCopilot.UI.Controls.Danmaku;
@@ -21,8 +22,6 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        _danmakuController ??= new DanmakuFrostMaster(RootGrid, default);
-
         if (ViewModel is null)
         {
             return;
@@ -87,6 +86,12 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
 
     private void OnRequestAddSingleDanmaku(object? sender, string e)
     {
+        if (_danmakuController is null)
+        {
+            _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
+            ResetDanmakuStyle();
+        }
+
         var model = new DanmakuItem
         {
             StartMs = 0,
@@ -126,15 +131,14 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
         _danmakuController.SetFontFamilyName(ViewModel.DanmakuFontFamily);
         _danmakuController.SetRollingSpeed(Convert.ToInt32(ViewModel.DanmakuSpeed * 5));
         _danmakuController.SetIsTextBold(ViewModel.IsDanmakuBold);
-        _danmakuController.SetRenderState(renderDanmaku: true, renderSubtitle: false);
     }
 
     private void Redraw()
     {
         DispatcherQueue.TryEnqueue(() =>
         {
-            _danmakuController.Close();
-            _danmakuController = new DanmakuFrostMaster(RootGrid, default);
+            _danmakuController?.Close();
+            _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
             ResetDanmakuStyle();
         });
     }
