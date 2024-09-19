@@ -22,19 +22,13 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// 进入播放器主持模式.
     /// </summary>
     public void EnterPlayerHostMode()
-    {
-        VisualStateManager.GoToState(this, "PlayerHostState", false);
-        ViewModel.Danmaku?.RedrawAsync();
-    }
+        => VisualStateManager.GoToState(this, "PlayerHostState", false);
 
     /// <summary>
     /// 退出播放器主持模式.
     /// </summary>
     public void ExitPlayerHostMode()
-    {
-        VisualStateManager.GoToState(this, "DefaultState", false);
-        ViewModel.Danmaku?.RedrawAsync();
-    }
+        => VisualStateManager.GoToState(this, "DefaultState", false);
 
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)

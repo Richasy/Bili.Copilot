@@ -300,7 +300,6 @@ public sealed partial class VideoPlayerPageViewModel
         if (progress < duration && progress > 1 && (Danmaku?.IsEmpty() ?? false))
         {
             Danmaku?.ResetData(_view.Information.Identifier.Id, _part.Identifier.Id);
-            Danmaku?.RedrawAsync();
         }
 
         Danmaku?.UpdatePosition(progress);
@@ -318,7 +317,7 @@ public sealed partial class VideoPlayerPageViewModel
         {
             if (!Danmaku.IsEmpty())
             {
-                Danmaku?.RedrawAsync();
+                Danmaku?.Resume();
             }
         }
         else
@@ -397,17 +396,5 @@ public sealed partial class VideoPlayerPageViewModel
                 Player.ShowNotification(notification);
             }
         });
-    }
-
-    private async void OnTapToggleFullScreenAsync()
-    {
-        var isShowDanmaku = Danmaku.IsShowDanmaku;
-        Danmaku.IsShowDanmaku = false;
-        await Task.Delay(500);
-        Danmaku.IsShowDanmaku = isShowDanmaku;
-        if (isShowDanmaku)
-        {
-            Danmaku.RedrawAsync();
-        }
     }
 }

@@ -218,7 +218,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
                 ViewModel.TogglePlayPauseCommand.Execute(default);
             }
 
-            ViewModel.ActiveWhenTapToggleFullScreen();
             ViewModel.ToggleFullScreenCommand.Execute(default);
         }
     }

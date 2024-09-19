@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -22,20 +23,17 @@ namespace Danmaku.Core
 {
     internal class DanmakuRender
     {
-        private const float Standard_Canvas_Width = 800;
-        private const float Default_Rolling_Speed = 0.1f; // pixel per millisecond
-        private const float Default_BottomAndTop_Duration_Ms = 3800f;
-        private const float Subtitle_StartY = 24f;
-        private const string Default_Font_Family_Name = "Microsoft YaHei";
+        private const float StandardCanvasWidth = 800;
+        private const float DefaultRollingSpeed = 0.1f; // pixel per millisecond
+        private const float DefaultBottomAndTopDurationMs = 3000f;
+        private const string DefaultFontFamilyName = "Segoe UI";
 
         private CanvasAnimatedControl _canvas;
+        private FrameworkElement _container;
         private CanvasDevice _device;
         private readonly RenderLayer[] _renderLayerList;
         private volatile bool _isStopped;
-        private volatile bool _isDanmakuEnabled = true;
-        private volatile bool _isSubtitleEnabled = true;
         private readonly float _dpi;
-        private readonly double _appMemoryLimitMb;
 
         private volatile bool _autoControlDensity = true;
         private volatile bool _textBold = true;
@@ -43,14 +41,12 @@ namespace Danmaku.Core
         private volatile int _maxDanmakuSize = 0;
         private volatile int _rollingDensity = -1;
         private volatile int _danmakuFontSizeOffset = (int)DanmakuFontSize.Normal;
-        private volatile int _subtitleFontSizeOffset = (int)DanmakuFontSize.Normal;
         private volatile float _rollingAreaRatio = 0.8f;
-        private volatile float _rollingSpeed = Default_Rolling_Speed; // 1 to 10
+        private volatile float _rollingSpeed = DefaultRollingSpeed; // 1 to 10
+        private volatile bool _isPaused;
         private double _textOpacity = 1.0;
-        private float _scale = 1.0f;
         private Color _borderColor = Colors.Blue;
-        private string _defaultFontFamilyName = Default_Font_Family_Name;
-        private Action _loadAction;
+        private string _defaultFontFamilyName = DefaultFontFamilyName;
 
         public float CanvasWidth
         {
@@ -68,24 +64,19 @@ namespace Danmaku.Core
         }
 
         /// <exception cref="System.ArgumentNullException">canvas is null</exception>
-        public DanmakuRender(CanvasAnimatedControl canvas, Action loadAction = default)
+        public DanmakuRender(CanvasAnimatedControl canvas, FrameworkElement container)
         {
             _canvas = canvas ?? throw new ArgumentNullException("canvas");
-
-            _canvas.IsFixedTimeStep = false;
+            _container = container;
             _dpi = _canvas.Dpi;
-            _scale = (float)_canvas.XamlRoot.RasterizationScale;
-            CanvasWidth = (float)_canvas.ActualWidth * _scale;
-            CanvasHeight = (float)_canvas.ActualHeight * _scale;
-            _rollingSpeed = Default_Rolling_Speed * _scale;
+            CanvasWidth = (float)container.ActualWidth;
+            CanvasHeight = (float)_container.ActualHeight;
+            _rollingSpeed = DefaultRollingSpeed;
 
-            _canvas.SizeChanged += CanvasAnimatedControl_SizeChanged;
-            _canvas.CreateResources += CanvasAnimatedControl_CreateResources;
-            _canvas.Update += CanvasAnimatedControl_Update;
-            _canvas.Draw += CanvasAnimatedControl_Draw;
-
-            _canvas.Paused = false;
-            _loadAction = loadAction;
+            _container.SizeChanged += OnContainerSizeChanged;
+            _canvas.CreateResources += OnCanvasCreateResources;
+            _canvas.Update += OnCanvasUpdate;
+            _canvas.Draw += OnCanvasDraw;
 
             uint layerCount = DanmakuDefaultLayerDef.DefaultLayerCount;
             _renderLayerList = new RenderLayer[layerCount];
@@ -97,8 +88,6 @@ namespace Danmaku.Core
                     _renderLayerList[i].UpdateYSlotManagerLength((uint)CanvasHeight, _rollingAreaRatio);
                 }
             }
-
-            _appMemoryLimitMb = (double)MemoryManager.AppMemoryUsageLimit / (1024 * 1024);
 
             Logger.Log("DanmakuRender is created");
         }
@@ -115,7 +104,7 @@ namespace Danmaku.Core
 
         public void SetRollingAreaRatio(int value)
         {
-            if (value > 0 && value <= 10)
+            if (value > 0 && value <= 10 && _renderLayerList != null)
             {
                 _rollingAreaRatio = (float)value / 10;
                 for (int i = 0; i < _renderLayerList.Length; i++)
@@ -127,7 +116,7 @@ namespace Danmaku.Core
 
         public void SetRollingSpeed(double value)
         {
-            _rollingSpeed = (float)(value * 0.02f * _scale);
+            _rollingSpeed = (float)(value * 0.02f);
         }
 
         public void SetOpacity(double value)
@@ -151,27 +140,14 @@ namespace Danmaku.Core
             }
         }
 
-        public void SetSubtitleFontSizeOffset(DanmakuFontSize value)
-        {
-            if (value >= DanmakuFontSize.Smallest && value <= DanmakuFontSize.Largest)
-            {
-                _subtitleFontSizeOffset = (int)value;
-            }
-        }
-
         public void SetDefaultFontFamilyName(string value)
         {
-            _defaultFontFamilyName = value ?? Default_Font_Family_Name;
+            _defaultFontFamilyName = value ?? DefaultFontFamilyName;
         }
 
         public void SetBorderColor(Color color)
         {
             _borderColor = color;
-        }
-
-        public void SetSubtitleEnabled(bool enable)
-        {
-            _isSubtitleEnabled = enable;
         }
 
         public void SetNoOverlapSubtitle(bool value)
@@ -183,18 +159,14 @@ namespace Danmaku.Core
         /// <exception cref="System.ArgumentNullException">device is null</exception>
         public void RenderDanmakuItem(uint layerId, DanmakuItem danmakuItem)
         {
-            if (layerId >= _renderLayerList.Length)
-            {
-                throw new ArgumentOutOfRangeException("layer", $"Max layer count: {_renderLayerList.Length}");
-            }
-
             if (_device == null || _isStopped)
             {
                 return;
             }
-            if ((!_isDanmakuEnabled && danmakuItem.Mode != DanmakuMode.Subtitle) || (!_isSubtitleEnabled && danmakuItem.Mode == DanmakuMode.Subtitle))
+
+            if (layerId >= _renderLayerList.Length)
             {
-                return;
+                throw new ArgumentOutOfRangeException("layer", $"Max layer count: {_renderLayerList.Length}");
             }
 
             DanmakuYSlotManager ySlotManager = _renderLayerList[layerId].YSlotManager;
@@ -237,22 +209,20 @@ namespace Danmaku.Core
                     textFormat.FontSize = renderItem.FontSize;
                     if (!danmakuItem.KeepDefinedFontSize)
                     {
-                        int fontSizeOffset = renderItem.Mode != DanmakuMode.Subtitle ? _danmakuFontSizeOffset : _subtitleFontSizeOffset;
+                        int fontSizeOffset = _danmakuFontSizeOffset;
                         textFormat.FontSize += (fontSizeOffset - 3) * (fontSizeOffset > 3 ? 6 : 3);
 
-                        if (CanvasWidth < Standard_Canvas_Width)
+                        if (CanvasWidth < StandardCanvasWidth)
                         {
-                            textFormat.FontSize = textFormat.FontSize * CanvasWidth / Standard_Canvas_Width;
+                            textFormat.FontSize = textFormat.FontSize * CanvasWidth / StandardCanvasWidth;
                             if (textFormat.FontSize >= 30f)
                             {
                                 textFormat.FontSize *= 0.75f;
                             }
-                            renderItem.MarginBottom = (int)(renderItem.MarginBottom * CanvasWidth * 0.75f / Standard_Canvas_Width);
+                            renderItem.MarginBottom = (int)(renderItem.MarginBottom * CanvasWidth * 0.75f / StandardCanvasWidth);
                         }
                     }
                     textFormat.FontSize = (int)Math.Max(textFormat.FontSize, 2f);
-
-                    textFormat.FontSize = textFormat.FontSize * _scale;
 
                     if (!string.IsNullOrWhiteSpace(renderItem.FontFamilyName))
                     {
@@ -260,7 +230,7 @@ namespace Danmaku.Core
                     }
                     else if (renderItem.Mode == DanmakuMode.Advanced)
                     {
-                        textFormat.FontFamily = Default_Font_Family_Name;
+                        textFormat.FontFamily = DefaultFontFamilyName;
                     }
                     else
                     {
@@ -439,11 +409,6 @@ namespace Danmaku.Core
 
                                         break;
                                     }
-                                case DanmakuMode.Subtitle:
-                                    {
-                                        renderItem.StartY = Subtitle_StartY;
-                                        break;
-                                    }
                             }
                             renderItem.X = renderItem.StartX;
 
@@ -470,25 +435,6 @@ namespace Danmaku.Core
                                     drawingSession.DrawGeometry(geometry, 0, 0, outlineColor, renderItem.OutlineSize);
                                 }
                                 drawingSession.FillGeometry(geometry, 0, 0, renderItem.TextColor);
-
-                                if (renderItem.Mode == DanmakuMode.Advanced && (renderItem.DefinedRotateY >= 0.01f || renderItem.DefinedRotateY <= -0.01f))
-                                {
-                                    renderItem.TransformEffect = new Transform3DEffect();
-                                    Matrix4x4 matrix1 = Matrix4x4.CreateTranslation(-renderItem.Width / 2, -renderItem.Height / 2, 0); // Set origin of coordinate to center
-                                    Matrix4x4 matrix2 = Matrix4x4.Identity;
-                                    if (renderItem.DefinedRotateZ >= 0.01f || renderItem.DefinedRotateZ <= -0.01f)
-                                    {
-                                        float radianZ = DegreeToRadian(renderItem.DefinedRotateZ);
-                                        matrix2 = Matrix4x4.CreateRotationZ(radianZ);
-                                    }
-                                    float radianY = DegreeToRadian(renderItem.DefinedRotateY);
-                                    matrix2 *= Matrix4x4.CreateRotationY(radianY);
-                                    matrix2.M14 = (float)-((1 / renderItem.Width) * Math.Sin(radianY)); // Perspective transform
-                                    Matrix4x4 matrix3 = Matrix4x4.CreateTranslation(renderItem.Width / 2, renderItem.Height / 2, 0); // Move back to original position
-                                    renderItem.TransformEffect.TransformMatrix = matrix1 * matrix2 * matrix3;
-                                    renderItem.TransformEffect.Source = renderItem.RenderTarget;
-                                    renderItem.SourceRect = renderItem.TransformEffect.GetBounds(renderItem.RenderTarget);
-                                }
                             }
                         }
                     }
@@ -514,62 +460,43 @@ namespace Danmaku.Core
             }
         }
 
-        public void SetRenderState(bool renderDanmaku, bool renderSubtitle)
-        {
-            _isDanmakuEnabled = renderDanmaku;
-            _isSubtitleEnabled = renderSubtitle;
-            if (!renderDanmaku)
-            {
-                for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
-                {
-                    if (!_renderLayerList[layerId].IsSubtitleLayer)
-                    {
-                        _renderLayerList[layerId].Clear();
-                    }
-                }
-            }
-            if (!renderSubtitle)
-            {
-                for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
-                {
-                    if (_renderLayerList[layerId].IsSubtitleLayer)
-                    {
-                        _renderLayerList[layerId].Clear();
-                    }
-                }
-            }
-            if (_canvas != null)
-            {
-                bool startRender = renderDanmaku || renderSubtitle;
-                if (!startRender)
-                {
-                    Pause();
-                    Stop();
-                }
-                else if (startRender && (!renderDanmaku || !renderSubtitle) && _canvas.Paused)
-                {
-                    Start();
-                }
-            }
-        }
-
         public void SetLayerRenderState(uint layerId, bool render)
         {
+            if (_renderLayerList is null)
+            {
+                return;
+            }
+
             _renderLayerList[layerId].IsEnabled = render;
         }
 
         public void SetSubtitleLayer(uint layerId)
         {
+            if (_renderLayerList is null)
+            {
+                return;
+            }
+
             _renderLayerList[layerId].SetSubtitleLayer(true);
         }
 
         public void ClearLayer(uint layerId)
         {
+            if (_renderLayerList is null)
+            {
+                return;
+            }
+
             _renderLayerList[layerId].Clear();
         }
 
         public void Clear()
         {
+            if (_renderLayerList is null)
+            {
+                return;
+            }
+
             for (int i = 0; i < _renderLayerList.Length; i++)
             {
                 _renderLayerList[i].Clear();
@@ -580,31 +507,29 @@ namespace Danmaku.Core
 
         public void Start()
         {
-            if (_isDanmakuEnabled || _isSubtitleEnabled)
-            {
-                Debug.WriteLine("DanmakuRender is started");
+            Debug.WriteLine("DanmakuRender is started");
 
-                if (_canvas != null)
+            if (_canvas != null)
+            {
+                _isPaused = false;
+                _canvas.DispatcherQueue?.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
                 {
-                    _canvas.Paused = false;
-                    _canvas.DispatcherQueue?.TryEnqueue(async () =>
+                    if (_canvas != null && !_isStopped)
                     {
-                        await Task.Delay(50); // Wait for CanvasAnimatedControl_Draw is called at least once to clear canvas first 
-                        if (_canvas != null && !_isStopped)
-                        {
-                            _canvas.Visibility = Visibility.Visible;
-                        }
-                    });
-                }
-                _isStopped = false;
+                        _canvas.Visibility = Visibility.Visible;
+                    }
+                });
             }
+
+            _isStopped = false;
         }
 
         public void Pause()
         {
             if (_canvas != null)
             {
-                _canvas.Paused = true;
+                _isPaused = true;
+                _canvas.Invalidate();
             }
 
             Debug.WriteLine("DanmakuRender is paused");
@@ -631,13 +556,19 @@ namespace Danmaku.Core
         public void Close()
         {
             Stop();
+            if (_container != null)
+            {
+                _container.SizeChanged -= OnContainerSizeChanged;
+                _container = null;
+            }
+
             if (_canvas != null)
             {
+                _isPaused = true;
                 _canvas.Paused = true;
-                _canvas.SizeChanged -= CanvasAnimatedControl_SizeChanged;
-                _canvas.CreateResources -= CanvasAnimatedControl_CreateResources;
-                _canvas.Update -= CanvasAnimatedControl_Update;
-                _canvas.Draw -= CanvasAnimatedControl_Draw;
+                _canvas.CreateResources -= OnCanvasCreateResources;
+                _canvas.Update -= OnCanvasUpdate;
+                _canvas.Draw -= OnCanvasDraw;
                 _canvas.RemoveFromVisualTree();
                 _canvas = null;
             }
@@ -645,10 +576,15 @@ namespace Danmaku.Core
             Logger.Log("DanmakuRender is closed");
         }
 
-        private void CanvasAnimatedControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnContainerSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            CanvasWidth = (float)e.NewSize.Width * _scale;
-            CanvasHeight = (float)e.NewSize.Height * _scale;
+            if (_renderLayerList is null)
+            {
+                return;
+            }
+
+            CanvasWidth = (float)e.NewSize.Width;
+            CanvasHeight = (float)e.NewSize.Height;
             for (int i = 0; i < _renderLayerList.Length; i++)
             {
                 _renderLayerList[i].UpdateYSlotManagerLength((uint)e.NewSize.Height, _rollingAreaRatio);
@@ -656,7 +592,7 @@ namespace Danmaku.Core
             Logger.Log($"Update canvas size: {CanvasWidth}x{CanvasHeight}");
         }
 
-        private void CanvasAnimatedControl_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
+        private void OnCanvasCreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
             Logger.Log(args.Reason.ToString());
             if (args.Reason == CanvasCreateResourcesReason.NewDevice)
@@ -674,9 +610,16 @@ namespace Danmaku.Core
             _maxDanmakuSize = sender.Dpi > 0 ? (int)(_device.MaximumBitmapSizeInPixels / (sender.Dpi / 96)) : 0; // https://microsoft.github.io/Win2D/html/DPI.htm
         }
 
-        private void CanvasAnimatedControl_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        private void OnCanvasUpdate(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0)
+            Logger.Log("Canvas Update event triggered");
+            if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0 || _isPaused)
+            {
+                return;
+            }
+
+            var hasItem = _renderLayerList.SelectMany(x => x.RenderList).Any();
+            if (!hasItem)
             {
                 return;
             }
@@ -730,7 +673,7 @@ namespace Danmaku.Core
                             case DanmakuMode.Top:
                                 {
                                     renderItem.X = (CanvasWidth - renderItem.Width) / 2;
-                                    float maxDurationMs = renderItem.DefinedDurationMs > 0 ? renderItem.DefinedDurationMs : Default_BottomAndTop_Duration_Ms;
+                                    float maxDurationMs = renderItem.DefinedDurationMs > 0 ? renderItem.DefinedDurationMs : DefaultBottomAndTopDurationMs;
                                     if (durationMs > maxDurationMs)
                                     {
                                         removeItem = true;
@@ -772,15 +715,11 @@ namespace Danmaku.Core
             }
         }
 
-        private void CanvasAnimatedControl_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        private void OnCanvasDraw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             try
             {
-                if (_loadAction != null)
-                {
-                    _loadAction();
-                    _loadAction = null;
-                }
+                Logger.Log("Canvas Draw event triggered");
 
                 if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0)
                 {
@@ -788,8 +727,6 @@ namespace Danmaku.Core
                 }
 
                 int totalCount = 0;
-                args.DrawingSession.Transform = new Matrix3x2 { M11 = 1f / _scale, M22 = 1f / _scale };
-
                 for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
                 {
                     if (!_renderLayerList[layerId].IsEnabled)
@@ -861,9 +798,8 @@ namespace Danmaku.Core
                     if (args.Timing.ElapsedTime.TotalMilliseconds > 0)
                     {
                         int fps = (int)(1000 / args.Timing.ElapsedTime.TotalMilliseconds);
-                        args.DrawingSession.FillRectangle(0, 0, 410, 30, fps >= 30 ? Colors.Gray : Colors.Red);
-                        ulong memoryUsage = MemoryManager.AppMemoryUsage / (1024 * 1024);
-                        string debugText = $"fps:{fps} count:{totalCount} {(int)CanvasWidth}x{(int)CanvasHeight} {memoryUsage:D}MB/{(ulong)_appMemoryLimitMb:D}MB";
+                        args.DrawingSession.FillRectangle(0, 0, 320, 30, fps >= 30 ? Colors.Gray : Colors.Red);
+                        string debugText = $"fps:{fps} count:{totalCount} {(int)CanvasWidth}x{(int)CanvasHeight}";
                         args.DrawingSession.DrawText(debugText, 0, 0, Colors.LightGreen);
                     }
                 }
@@ -914,7 +850,6 @@ namespace Danmaku.Core
             public TimeSpan FirstRenderTime;
             public CanvasRenderTarget RenderTarget;
             public Transform3DEffect TransformEffect;
-            public Rect SourceRect;
 
             public volatile float Width;
             public volatile float Height;
