@@ -56,6 +56,8 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
         {
             instance.InitializeContent();
         }
+
+        instance.FlyoutRichBlock?.Blocks?.Clear();
     }
 
     private void InitializeContent()
@@ -150,26 +152,6 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
     private void CheckTextTrim()
     {
         OverflowButton.Visibility = RichBlock.IsTextTrimmed ? Visibility.Visible : Visibility.Collapsed;
-        if (RichBlock.IsTextTrimmed)
-        {
-            if (FlyoutRichBlock.Blocks.Count > 0)
-            {
-                return;
-            }
-
-            var para = ParseText();
-            if (para != null)
-            {
-                FlyoutRichBlock.Blocks.Add(para);
-            }
-        }
-        else
-        {
-            if (FlyoutRichBlock.Blocks.Count > 0)
-            {
-                FlyoutRichBlock.Blocks.Clear();
-            }
-        }
     }
 
     private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -178,6 +160,20 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
         if (image is not null)
         {
             new GalleryWindow(image, [.. Text.Pictures]).Activate();
+        }
+    }
+
+    private void OnOverflowFlyoutOpened(object sender, object e)
+    {
+        if (FlyoutRichBlock.Blocks.Count > 0)
+        {
+            return;
+        }
+
+        var para = ParseText();
+        if (para != null)
+        {
+            FlyoutRichBlock.Blocks.Add(para);
         }
     }
 }
