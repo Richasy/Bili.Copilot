@@ -2697,7 +2697,7 @@
     <value>AI 如何配置？</value>
   </data>
   <data name="AISettingHeaderDescription" xml:space="preserve">
-    <value>哔哩助理和小幻助理采用同样的AI配置，请点击右侧按钮查看说明文档</value>
+    <value>哔哩助理和哔哩助理采用同样的AI配置，请点击右侧按钮查看说明文档</value>
   </data>
   <data name="PlayerTypeDescription" xml:space="preserve">
     <value>AMD 显卡用户请勿使用内置 mpv 播放器</value>
