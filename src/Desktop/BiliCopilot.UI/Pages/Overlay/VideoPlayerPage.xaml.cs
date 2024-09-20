@@ -56,12 +56,12 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <inheritdoc/>
     protected override void OnPageLoaded()
     {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, CheckPlayerSize);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
     }
 
     private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, CheckPlayerSize);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
     }
 
     private void CheckPlayerSize()
