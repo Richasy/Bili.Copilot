@@ -17,16 +17,6 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateKeyFile>BiliCopilot.UI_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>C:\Users\zrich\Desktop\</AppxPackageDir>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
     
   <!-- TODO: 由于WebView2尚未支持 aot trim，所以暂时不会在发布版本中使用 AOT -->
