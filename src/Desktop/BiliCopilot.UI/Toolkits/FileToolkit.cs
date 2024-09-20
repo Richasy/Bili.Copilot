@@ -57,17 +57,14 @@ internal static class FileToolkit
         var content = defaultValue;
         try
         {
-            if (File.Exists(path))
-            {
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path))
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path))
                     .AsTask();
-                var fileContent = await FileIO.ReadTextAsync(file)
-                               .AsTask();
+            var fileContent = await FileIO.ReadTextAsync(file)
+                           .AsTask();
 
-                if (!string.IsNullOrEmpty(fileContent))
-                {
-                    content = fileContent;
-                }
+            if (!string.IsNullOrEmpty(fileContent))
+            {
+                content = fileContent;
             }
         }
         catch (FileNotFoundException)
