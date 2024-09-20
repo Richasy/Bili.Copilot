@@ -239,6 +239,7 @@ public sealed partial class AppViewModel : ViewModelBase
                 }
 
                 // Write local setting
+                IsAmdGpu ??= false;
                 SettingsToolkit.WriteLocalSetting(SettingNames.IsGpuChecked, true);
             });
 
