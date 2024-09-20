@@ -7,7 +7,7 @@ export const zh = defineConfig({
     themeConfig: {
         nav: [
           { text: '下载应用', link: 'https://www.microsoft.com/store/productId/9MVFJLPH517M' },
-          { text: '播放体验', link: '/play' },
+          { text: '播放体验', link: '/player' },
           { text: 'AI 集成', link: '/ai' },
           { text: '常见问题', link: '/faq' },
         ],
@@ -27,7 +27,7 @@ export const zh = defineConfig({
           {
             text: '播放',
             items: [
-              { text: '播放器类型', link: '/player-type' },
+              { text: '播放器类型', link: '/player' },
               { text: '自定义操作', link: '/player-custom' },
               { text: '弹幕体验', link: '/danmaku' },
               { text: 'WebDAV', link: '/webdav' },

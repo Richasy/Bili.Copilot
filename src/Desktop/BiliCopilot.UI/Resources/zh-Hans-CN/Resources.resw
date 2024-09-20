@@ -2705,4 +2705,7 @@
   <data name="AmdGpuWarning" xml:space="preserve">
     <value>应用检测到您当前的设备中存在 AMD GPU。目前内置的 MPV 播放器在 AMD 平台无法正常工作，请尝试切换到原生播放器，或者使用其它的播放器类型</value>
   </data>
+  <data name="ReadDocument" xml:space="preserve">
+    <value>阅读文档</value>
+  </data>
 </root>

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Management;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
@@ -210,24 +210,35 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             await Task.Run(() =>
             {
-                using (var searcher = new ManagementObjectSearcher("select * from Win32_VideoController"))
+                // Initialize the process with required settings
+                var processStartInfo = new ProcessStartInfo
                 {
-                    foreach (var obj in searcher.Get())
-                    {
-                        var name = obj["Name"]?.ToString().ToLower();
+                    FileName = "wmic",
+                    Arguments = "path win32_videocontroller get name",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                };
 
-                        if (!string.IsNullOrEmpty(name) && name.Contains("amd"))
+                using (var process = new Process { StartInfo = processStartInfo })
+                {
+                    process.Start();
+                    var output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+
+                    // Process the output to check for AMD GPU
+                    var lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var line in lines)
+                    {
+                        if (line.Contains("amd", StringComparison.CurrentCultureIgnoreCase))
                         {
                             IsAmdGpu = true;
+                            break;
                         }
                     }
                 }
 
-                if (IsAmdGpu != true)
-                {
-                    IsAmdGpu = false;
-                }
-
+                // Write local setting
                 SettingsToolkit.WriteLocalSetting(SettingNames.IsGpuChecked, true);
             });
 

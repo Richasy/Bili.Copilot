@@ -8,7 +8,7 @@
 
 仅仅是出于个人兴趣做的一个小玩具。
 
-![聊天界面截图](./assets/zh/chat-overview.png)
+![聊天界面截图](./assets/zh/home-page.png)
 
 ## 为什么选择哔哩助理？
 

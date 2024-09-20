@@ -40,8 +40,6 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             Player.LogMessageReceived += OnLogMessageReceivedAsync;
             renderControl.Initialize();
             Player.Client.SetOption("vo", "libmpv");
-            Player.Client.SetOption("hwdec", "auto-safe");
-            Player.Client.SetOption("gpu-context", "dxinterop");
 #if DEBUG
             Player.Client.RequestLogMessage(MpvLogLevel.V);
 #else

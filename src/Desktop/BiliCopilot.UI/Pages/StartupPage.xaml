@@ -187,26 +187,17 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Stretch"
-                Click="OnDataUsageButtonClick">
+                NavigateUri="https://bili.richasy.net">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <ic:SymbolIcon
                         VerticalAlignment="Center"
                         FontSize="14"
-                        Symbol="Info" />
+                        Symbol="Book" />
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="12"
-                        Text="{ext:Locale Name=DataUsage}" />
+                        Text="{ext:Locale Name=ReadDocument}" />
                 </StackPanel>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout ShouldConstrainToRootBounds="False">
-                        <TextBlock
-                            MaxWidth="280"
-                            HorizontalAlignment="Left"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{ext:Locale Name=DataCollectWarning}" />
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
             </HyperlinkButton>
         </Grid>
     </Grid>
