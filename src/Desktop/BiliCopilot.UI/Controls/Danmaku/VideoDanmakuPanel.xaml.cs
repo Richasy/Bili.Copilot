@@ -180,7 +180,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     private void ResetSpeed()
     {
         var finalSpeed = ViewModel.DanmakuSpeed * 5 * ViewModel.ExtraSpeed;
-        _danmakuController.SetRollingSpeed(finalSpeed);
+        _danmakuController?.SetRollingSpeed(finalSpeed);
     }
 
     private void Redraw(bool force = false)
