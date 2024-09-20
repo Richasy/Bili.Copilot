@@ -612,7 +612,6 @@ namespace Danmaku.Core
 
         private void OnCanvasUpdate(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            Logger.Log("Canvas Update event triggered");
             if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0 || _isPaused)
             {
                 return;
@@ -719,8 +718,6 @@ namespace Danmaku.Core
         {
             try
             {
-                Logger.Log("Canvas Draw event triggered");
-
                 if (_canvas is null || CanvasWidth <= 0 || CanvasHeight <= 0)
                 {
                     return;

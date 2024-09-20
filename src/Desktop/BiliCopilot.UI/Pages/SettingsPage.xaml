@@ -98,6 +98,14 @@
                         Padding="8,4"
                         Content="{ext:Locale Name=SendFeedback}"
                         NavigateUri="https://github.com/Richasy/Bili.Copilot/issues/new/choose" />
+                    <StackPanel
+                        Width="1"
+                        Height="16"
+                        Background="{ThemeResource ControlStrokeColorDefaultBrush}" />
+                    <HyperlinkButton
+                        Padding="8,4"
+                        Content="{ext:Locale Name=ReadDocument}"
+                        NavigateUri="https://bili.richasy.net" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

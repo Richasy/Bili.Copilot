@@ -361,3 +361,6 @@ tools/Prompt.txt
 /src/App/Assets/AppCenterSecret.txt
 /src/Desktop/BiliCopilot.UI/Assets/libmpv/libmpv-2.dll
 /src/Desktop/BiliCopilot.UI/Assets/ffmpeg/ffmpeg.exe
+
+*/.vitepress/cache/
+*/.vitepress/dist/

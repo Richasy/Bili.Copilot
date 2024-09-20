@@ -27,6 +27,8 @@
 
 哔哩助理将以更开放的态度进行开发，借助社区力量，共同构建一个有意思的 UGC 客户端。
 
+文档地址：[哔哩助理](https://bili.richasy.net)
+
 ## 安装
 
 ### 商店下载（推荐）
@@ -130,7 +132,7 @@ git submodule update --init --recursive
 
 ### 人工智能
 
-哔哩助理与 [小幻助理](https://github.com/Richasy/Rodel.Agent) 共享代码，接入 20 余种国内外主流 AI 模型服务，给用户足够多的选择。
+哔哩助理与 [哔哩助理](https://github.com/Richasy/Rodel.Agent) 共享代码，接入 20 余种国内外主流 AI 模型服务，给用户足够多的选择。
 
 你可以通过大语言模型对视频/文章内容进行总结（视频需要有字幕），或者结合内容与评论对视频/文章进行 AI 评价。
 

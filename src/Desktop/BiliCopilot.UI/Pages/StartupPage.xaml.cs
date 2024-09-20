@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Richasy.WinUI.Share.Base;
 using Windows.System;
 
@@ -46,9 +45,6 @@ public sealed partial class StartupPage : StartupPageBase
 
     private async void OnBiliButtonClickAsync(object sender, RoutedEventArgs e)
         => await Launcher.LaunchUriAsync(new Uri("https://space.bilibili.com/5992670"));
-
-    private void OnDataUsageButtonClick(object sender, RoutedEventArgs e)
-        => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
 
     private void OnRefreshQRButtonClick(object sender, RoutedEventArgs e)
         => ViewModel.ReloadQRCodeCommand.Execute(default);
