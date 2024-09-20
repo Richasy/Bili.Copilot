@@ -41,6 +41,11 @@ namespace Danmaku.Core
         public DanmakuFrostMaster(Grid rootGrid, ILogger<DanmakuFrostMaster> logger = default)
         {
             rootGrid.Children.Clear();
+            if (rootGrid.XamlRoot is null)
+            {
+                return;
+            }
+
             var canvas = new CanvasAnimatedControl();
             canvas.UseSharedDevice = true;
             canvas.DpiScale = (float)rootGrid.XamlRoot.RasterizationScale;
@@ -58,7 +63,7 @@ namespace Danmaku.Core
 
         public void SetAutoControlDensity(bool value)
         {
-            _render.SetAutoControlDensity(value);
+            _render?.SetAutoControlDensity(value);
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace Danmaku.Core
         /// </summary>
         public void SetRollingDensity(int value)
         {
-            _render.SetRollingDensity(value);
+            _render?.SetRollingDensity(value);
         }
 
         /// <summary>
@@ -76,7 +81,7 @@ namespace Danmaku.Core
         /// <param name="value">in (0,10]</param>
         public void SetRollingAreaRatio(int value)
         {
-            _render.SetRollingAreaRatio(value);
+            _render?.SetRollingAreaRatio(value);
         }
 
         /// <summary>
@@ -86,23 +91,23 @@ namespace Danmaku.Core
         /// <param name="value">in [1,10]</param>
         public void SetRollingSpeed(double value)
         {
-            _render.SetRollingSpeed(value);
+            _render?.SetRollingSpeed(value);
         }
 
         /// <param name="value">in [0,1]</param>
         public void SetOpacity(double value)
         {
-            _render.SetOpacity(value);
+            _render?.SetOpacity(value);
         }
 
         public void SetIsTextBold(bool value)
         {
-            _render.SetIsTextBold(value);
+            _render?.SetIsTextBold(value);
         }
 
         public void SetDanmakuFontSizeOffset(DanmakuFontSize value)
         {
-            _render.SetDanmakuFontSizeOffset(value);
+            _render?.SetDanmakuFontSizeOffset(value);
         }
 
         /// <summary>
@@ -110,21 +115,26 @@ namespace Danmaku.Core
         /// </summary>
         public void SetFontFamilyName(string value)
         {
-            _render.SetDefaultFontFamilyName(value);
+            _render?.SetDefaultFontFamilyName(value);
         }
 
         public void SetBorderColor(Color borderColor)
         {
-            _render.SetBorderColor(borderColor);
+            _render?.SetBorderColor(borderColor);
         }
 
         public void SetNoOverlapSubtitle(bool value)
         {
-            _render.SetNoOverlapSubtitle(value);
+            _render?.SetNoOverlapSubtitle(value);
         }
 
         public void UpdateTime(uint currentMs)
         {
+            if (_render is null)
+            {
+                return;
+            }
+
             lock (_updateTimeQueue)
             {
                 _updateTimeQueue.Enqueue(currentMs);
@@ -134,7 +144,7 @@ namespace Danmaku.Core
 
         public void Pause()
         {
-            if (!_isClosing)
+            if (!_isClosing && _render is not null)
             {
                 _render.Pause();
             }
@@ -142,13 +152,13 @@ namespace Danmaku.Core
 
         public void Resume()
         {
-            _render.Start();
+            _render?.Start();
         }
 
         public void Stop()
         {
             Pause();
-            _render.Stop();
+            _render?.Stop();
             lock (_updateTimeQueue)
             {
                 _updateTimeQueue.Clear();
@@ -162,16 +172,16 @@ namespace Danmaku.Core
 
         public void SetLayerRenderState(uint layerId, bool render)
         {
-            _render.SetLayerRenderState(layerId, render);
-        }
-
-        public void SetSubtitleLayer(uint layerId)
-        {
-            _render.SetSubtitleLayer(layerId);
+            _render?.SetLayerRenderState(layerId, render);
         }
 
         public void Seek(uint targetMs)
         {
+            if (_render is null)
+            {
+                return;
+            }
+
             _isSeeking = true;
             Stop();
             lock (_danmakuList)
@@ -205,8 +215,8 @@ namespace Danmaku.Core
             if (!_isClosing)
             {
                 _isClosing = true;
-                _updateEvent.Set();
-                _render.Close();
+                _updateEvent?.Set();
+                _render?.Close();
 
                 Logger.Log("DanmakuFrostMaster is closed");
             }
@@ -214,6 +224,11 @@ namespace Danmaku.Core
 
         public void AddRealtimeDanmaku(DanmakuItem item, bool insertToList, uint layerId = DanmakuDefaultLayerDef.DefaultLayerId)
         {
+            if (_render is null)
+            {
+                return;
+            }
+
             item.AllowDensityControl = false;
             item.IsRealtime = true;
             _render.RenderDanmakuItem(layerId, item);
@@ -265,6 +280,11 @@ namespace Danmaku.Core
 
         private void Updater_DoWork(IAsyncAction action)
         {
+            if (_render is null)
+            {
+                return;
+            }
+
             try
             {
                 while (!_isClosing)

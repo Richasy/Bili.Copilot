@@ -71,17 +71,16 @@
                         VerticalScrollBarVisibility="Hidden">
                         <Grid Padding="12">
                             <TextBlock
+                                x:Name="HolderBlock"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Style="{StaticResource BodyStrongTextBlockStyle}"
                                 Text="{ext:Locale Name=WatchOnExternalPlayer}"
-                                TextAlignment="Center"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityReverseConverter}}" />
+                                TextAlignment="Center" />
                             <TextBlock
+                                x:Name="MessageBlock"
                                 LineHeight="24"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage}"
-                                TextWrapping="Wrap"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LogMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                TextWrapping="Wrap" />
                         </Grid>
                     </ScrollViewer>
                 </ControlTemplate>
