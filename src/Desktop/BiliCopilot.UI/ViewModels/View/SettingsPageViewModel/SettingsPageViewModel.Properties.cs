@@ -23,6 +23,9 @@ public sealed partial class SettingsPageViewModel
     private string _appThemeText;
 
     [ObservableProperty]
+    private bool _isTopNavShown;
+
+    [ObservableProperty]
     private bool _isAutoPlayWhenLoaded;
 
     [ObservableProperty]

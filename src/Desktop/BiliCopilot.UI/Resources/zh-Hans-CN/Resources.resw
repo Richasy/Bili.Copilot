@@ -2708,4 +2708,10 @@
   <data name="ReadDocument" xml:space="preserve">
     <value>阅读文档</value>
   </data>
+  <data name="TopNavVisibility" xml:space="preserve">
+    <value>顶部导航栏可见性</value>
+  </data>
+  <data name="TopNavVisibilityDescription" xml:space="preserve">
+    <value>是否显示顶部导航栏（包括收藏/稍后再看/历史记录）</value>
+  </data>
 </root>

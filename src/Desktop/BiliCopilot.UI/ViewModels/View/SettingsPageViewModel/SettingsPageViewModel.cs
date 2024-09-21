@@ -25,6 +25,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
         AppTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         CheckTheme();
+        IsTopNavShown = SettingsToolkit.ReadLocalSetting(SettingNames.IsTopNavBarShown, true);
         IsAutoPlayWhenLoaded = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         IsAutoPlayNextRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
         AutoPlayNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, false);
@@ -237,4 +238,10 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnPlayNextWithoutTipChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.PlayNextWithoutTip, value);
+
+    partial void OnIsTopNavShownChanged(bool value)
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsTopNavBarShown, value);
+        this.Get<NavigationViewModel>().IsTopNavBarShown = value;
+    }
 }

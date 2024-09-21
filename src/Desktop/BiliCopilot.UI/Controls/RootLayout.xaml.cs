@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Pages.Overlay;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
@@ -167,6 +168,7 @@ public sealed partial class RootLayout : RootLayoutBase
     protected override void OnControlLoaded()
     {
         ViewModel.Initialize(MainFrame, OverlayFrame);
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
         var selectedItem = ViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
         if (selectedItem is not null)
         {
@@ -175,8 +177,27 @@ public sealed partial class RootLayout : RootLayoutBase
         }
     }
 
+    /// <inheritdoc/>
+    protected override void OnControlUnloaded()
+        => ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+
+    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.IsTopNavBarShown))
+        {
+            InitializeSubtitle();
+        }
+    }
+
     private void InitializeSubtitle()
     {
+        var isTopNavBarShown = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsTopNavBarShown, true);
+        if (isTopNavBarShown)
+        {
+            MainTitleBar.Subtitle = string.Empty;
+            return;
+        }
+
 #if LOCAL_DEV
         var subtitles = new List<string>();
         subtitles.Add("🛠️");
@@ -220,6 +241,15 @@ public sealed partial class RootLayout : RootLayoutBase
 
     private void OnUpdateCloseButtonClick(TeachingTip sender, object args)
         => _appViewModel.HideUpdateCommand.Execute(default);
+
+    private void OnFavoriteButtonClick(object sender, EventArgs e)
+        => ViewModel.NavigateToOver(typeof(FavoritesPage), default);
+
+    private void OnViewLaterButtonClick(object sender, EventArgs e)
+        => ViewModel.NavigateToOver(typeof(ViewLaterPage), default);
+
+    private void OnHistoryButtonClick(object sender, EventArgs e)
+        => ViewModel.NavigateToOver(typeof(HistoryPage), default);
 }
 
 /// <summary>

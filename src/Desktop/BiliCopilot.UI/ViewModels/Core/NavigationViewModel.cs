@@ -31,6 +31,18 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     [ObservableProperty]
     private List<AppNavigationItemViewModel> _menuItems;
 
+    [ObservableProperty]
+    private bool _isTopNavBarShown;
+
+    [ObservableProperty]
+    private bool _isFavoritesPage;
+
+    [ObservableProperty]
+    private bool _isHistoryPage;
+
+    [ObservableProperty]
+    private bool _isViewLaterPage;
+
     /// <summary>
     /// 底部条目列表.
     /// </summary>
@@ -108,6 +120,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;
+        CheckSubPageStatus();
     }
 
     /// <summary>
@@ -164,6 +177,8 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = false;
             _navFrame.Focus(FocusState.Programmatic);
         }
+
+        CheckSubPageStatus();
     }
 
     /// <summary>
@@ -179,11 +194,8 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         _navFrame = navFrame;
         _overFrame = overFrame;
         _overFrame.Navigated += OnOverlayNavigated;
+        IsTopNavBarShown = SettingsToolkit.ReadLocalSetting(SettingNames.IsTopNavBarShown, true);
 
-        // foreach (var item in GetMenuItems())
-        // {
-        //     MenuItems.Add(item);
-        // }
         MenuItems = [.. GetMenuItems()];
 
         foreach (var item in GetFooterItems())
@@ -275,5 +287,13 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             searchBox.SetExtraRegion(string.Empty, string.Empty);
             searchBox.Keyword = string.Empty;
         }
+    }
+
+    private void CheckSubPageStatus()
+    {
+        var overPageType = _overFrame.Content?.GetType();
+        IsFavoritesPage = overPageType == typeof(FavoritesPage);
+        IsHistoryPage = overPageType == typeof(HistoryPage);
+        IsViewLaterPage = overPageType == typeof(ViewLaterPage);
     }
 }
