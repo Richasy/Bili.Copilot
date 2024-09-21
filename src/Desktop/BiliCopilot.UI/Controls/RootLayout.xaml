@@ -43,6 +43,33 @@
                 <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
             </base:AppTitleBar.IconElement>
 
+            <base:AppTitleBar.Header>
+                <StackPanel
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Orientation="Horizontal"
+                    Spacing="2"
+                    Visibility="{x:Bind ViewModel.IsTopNavBarShown, Mode=OneWay}">
+                    <components:TopNavigationItem
+                        Click="OnFavoriteButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsFavoritesPage, Mode=OneWay}"
+                        Symbol="StarLineHorizontal3"
+                        ToolTipService.ToolTip="{ext:Locale Name=MyFavorite}" />
+                    <components:TopNavigationItem
+                        Click="OnViewLaterButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsViewLaterPage, Mode=OneWay}"
+                        Symbol="CalendarClock"
+                        ToolTipService.ToolTip="{ext:Locale Name=ViewLater}" />
+                    <components:TopNavigationItem
+                        Click="OnHistoryButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsHistoryPage, Mode=OneWay}"
+                        Symbol="History"
+                        ToolTipService.ToolTip="{ext:Locale Name=ViewHistory}" />
+                </StackPanel>
+            </base:AppTitleBar.Header>
+
             <components:AppSearchBox
                 x:Name="SearchBox"
                 MinWidth="320"
@@ -135,6 +162,7 @@
                         <Setter Target="MainTitleBar.Title" Value="" />
                         <Setter Target="MainTitleBar.Subtitle" Value="" />
                         <Setter Target="SearchBox.Margin" Value="40,0,20,0" />
+                        <Setter Target="SearchBox.MinWidth" Value="100" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

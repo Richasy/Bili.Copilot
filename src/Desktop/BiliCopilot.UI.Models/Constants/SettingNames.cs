@@ -99,4 +99,5 @@ public enum SettingNames
     PlayNextWithoutTip,
     EndWithPlaylist,
     IsGpuChecked,
+    IsTopNavBarShown,
 }
