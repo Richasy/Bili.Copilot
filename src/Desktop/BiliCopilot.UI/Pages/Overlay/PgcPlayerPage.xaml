@@ -61,6 +61,7 @@
                     x:Name="VideoContainer"
                     Grid.Row="2"
                     Margin="0,0,-6,0"
+                    SizeChanged="OnPlayContainerSizeChanged"
                     Style="{StaticResource PageScrollViewerStyle}">
                     <StackPanel>
                         <StackPanel.ChildrenTransitions>
@@ -71,8 +72,7 @@
                             Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
                             MinHeight="200"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top"
-                            SizeChanged="OnPlayContainerSizeChanged">
+                            VerticalAlignment="Top">
                             <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
                                 <core:BiliPlayer.TransportControls>
                                     <core:VideoTransportControl
