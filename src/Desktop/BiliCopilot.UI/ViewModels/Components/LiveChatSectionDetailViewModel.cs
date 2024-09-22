@@ -118,6 +118,10 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
         IsSending = false;
     }
 
+    [RelayCommand]
+    private void ScrollToBottom()
+        => ScrollToBottomRequested?.Invoke(this, EventArgs.Empty);
+
     private void MessageLoop()
     {
         _ = Task.Run(async () =>

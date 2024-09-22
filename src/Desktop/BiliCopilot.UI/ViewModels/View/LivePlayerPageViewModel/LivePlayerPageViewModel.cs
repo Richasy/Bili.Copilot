@@ -40,6 +40,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         Player.IsLive = true;
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetReloadAction(ReloadFormat);
+        Player.SetWindowStateChangeAction(ScrollMessagesToBottom);
     }
 
     /// <inheritdoc/>
