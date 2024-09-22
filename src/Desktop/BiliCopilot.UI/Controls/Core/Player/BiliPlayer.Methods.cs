@@ -83,7 +83,7 @@ public sealed partial class BiliPlayer
         }
 
         TransportControls.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
-        ViewModel.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
+        ViewModel?.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
     }
 
     private void OnCursorTimerTick(object? sender, object e)

@@ -85,6 +85,7 @@
         </Grid>
         <ContentControl
             x:Name="DanmakuControlsContainer"
+            Margin="3,4,12,12"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Content="{x:Bind DanmakuControls, Mode=OneWay}"

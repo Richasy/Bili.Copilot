@@ -15,8 +15,16 @@ public sealed partial class MpvPlayerViewModel
         => Player.RerunEventLoop();
 
     /// <inheritdoc/>
-    protected override Task OnCloseAsync()
-        => Player?.DisposeAsync() ?? Task.CompletedTask;
+    protected override async Task OnCloseAsync()
+    {
+        if (!IsMediaLoaded())
+        {
+            return;
+        }
+
+        Player?.Pause();
+        await Player?.DisposeAsync();
+    }
 
     /// <inheritdoc/>
     protected override bool IsMediaLoaded()
@@ -86,7 +94,7 @@ public sealed partial class MpvPlayerViewModel
 
             if (!IsLive && !IsWebDav)
             {
-                await Task.Delay(200);
+                await Task.Delay(1000);
                 Player.ResetDuration();
                 SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
                 Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
