@@ -2714,4 +2714,7 @@
   <data name="TopNavVisibilityDescription" xml:space="preserve">
     <value>是否显示顶部导航栏（包括收藏/稍后再看/历史记录）</value>
   </data>
+  <data name="CanNotSeek" xml:space="preserve">
+    <value>当前状态不支持跳转</value>
+  </data>
 </root>
