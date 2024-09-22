@@ -19,25 +19,9 @@ public sealed partial class BiliPlayer
             var height = frameEle.ActualHeight;
 
             // 测量 frameEle 相对于 MpvPlayer 的位置.
-            var extraWidth = (ActualWidth - width) / 2;
             var transform = frameEle.TransformToVisual(this).TransformPoint(new Point(0, 0));
-            var actualX = transform.X - extraWidth >= 0 ? transform.X - extraWidth : 0;
-            var actualY = transform.Y - height >= 0 ? transform.Y - height : 0;
-            var actualWidth = width + (extraWidth * 2);
-            var actualHeight = height * 3;
-            if (actualWidth >= ActualWidth)
-            {
-                actualWidth = ActualWidth;
-                actualX = 0;
-            }
 
-            if (actualHeight >= ActualHeight)
-            {
-                actualHeight = ActualHeight;
-                actualY = 0;
-            }
-
-            _transportControlTriggerRect = new Rect(actualX, actualY, actualWidth, actualHeight);
+            _transportControlTriggerRect = new Rect((int)transform.X, (int)transform.Y, (int)width, (int)height);
         }
     }
 
@@ -61,17 +45,45 @@ public sealed partial class BiliPlayer
         SubtitleControls.Padding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
     }
 
-    private void CheckTransportControlVisibility(PointerRoutedEventArgs args)
+    private void CheckTransportControlVisibility(PointerRoutedEventArgs? args = default)
     {
-        if (TransportControls is null || ViewModel.IsPlayerDataLoading || ViewModel.IsPlayerInitializing || ViewModel.IsExternalPlayer)
+        if (_isTouch
+            || TransportControls is null
+            || ViewModel.IsPlayerDataLoading
+            || ViewModel.IsPlayerInitializing
+            || ViewModel.IsExternalPlayer)
         {
             return;
         }
 
         DispatcherQueue.TryEnqueue(() =>
         {
-            var point = args.GetCurrentPoint(this).Position;
-            SetTransportVisibility(_transportControlTriggerRect.Contains(point) || ViewModel.IsPaused);
+            if (args is not null)
+            {
+                _lastPointerPoint = args.GetCurrentPoint(this).Position;
+            }
+
+            if (_lastPointerPoint is null)
+            {
+                SetTransportVisibility(false);
+                return;
+            }
+
+            var isInStayArea = _transportControlTriggerRect.Contains(_lastPointerPoint ?? new(0, 0));
+            var shouldShow = isInStayArea;
+            if (!isInStayArea)
+            {
+                if (ViewModel.IsPaused)
+                {
+                    shouldShow = true;
+                }
+                else if (_mtcStayTime < 2)
+                {
+                    shouldShow = true;
+                }
+            }
+
+            SetTransportVisibility(shouldShow);
         });
     }
 
@@ -82,14 +94,22 @@ public sealed partial class BiliPlayer
             return;
         }
 
-        TransportControls.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
-        ViewModel?.CheckBottomProgressVisibility(TransportControls.Visibility == Visibility.Collapsed);
+        var visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+        ViewModel?.CheckBottomProgressVisibility(!isVisible);
+        if (TransportControls.Visibility == visibility)
+        {
+            return;
+        }
+
+        TransportControls.Visibility = visibility;
     }
 
     private void OnCursorTimerTick(object? sender, object e)
     {
         _cursorStayTime += 0.5;
+        _mtcStayTime += 0.5;
 
+        CheckTransportControlVisibility();
         if (_cursorStayTime >= 2
             && TransportControls is not null
             && TransportControls.Visibility == Visibility.Collapsed

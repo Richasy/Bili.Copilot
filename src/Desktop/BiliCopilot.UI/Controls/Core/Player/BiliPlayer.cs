@@ -19,8 +19,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private double _lastSpeed;
     private double _cursorStayTime;
+    private double _mtcStayTime;
     private bool _isCursorDisposed;
     private bool _isTouch;
+    private Point? _lastPointerPoint;
 
     private double _manipulationDeltaX = 0d;
     private double _manipulationDeltaY = 0d;
@@ -126,10 +128,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         => HandlePointerEvent(e, true);
 
     /// <inheritdoc/>
-    protected override void OnPointerCaptureLost(PointerRoutedEventArgs e)
-        => HandlePointerEvent(e, true);
-
-    /// <inheritdoc/>
     protected override void OnViewModelChanged(PlayerViewModelBase? oldValue, PlayerViewModelBase? newValue)
     {
         if (newValue is null)
@@ -160,10 +158,13 @@ public sealed partial class BiliPlayer : PlayerControlBase
         {
             if (forceHideTransportControls)
             {
+                _lastPointerPoint = default;
+                _mtcStayTime = 0;
                 SetTransportVisibility(false);
                 return;
             }
 
+            _mtcStayTime = 0;
             CheckTransportControlVisibility(e);
         }
     }
