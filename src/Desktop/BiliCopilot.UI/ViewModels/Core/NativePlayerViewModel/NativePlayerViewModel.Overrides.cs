@@ -3,6 +3,8 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security;
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using Microsoft.Graphics.Canvas;
 using Richasy.BiliKernel.Bili.Authorization;
 using Windows.Media.Core;
@@ -70,6 +72,12 @@ public sealed partial class NativePlayerViewModel
     /// <inheritdoc/>
     protected override Task OnSeekAsync(TimeSpan position)
     {
+        if (!Player?.CanSeek ?? false)
+        {
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.CanNotSeek), InfoType.Warning));
+            return Task.CompletedTask;
+        }
+
         Player.Position = position;
         return Task.CompletedTask;
     }
