@@ -97,7 +97,8 @@ public sealed partial class VideoPlayerPageViewModel
         }
         else if (preferFormatSetting == PreferQualityType.HD)
         {
-            selectedFormat = availableFormats.Find(p => p.Data.Quality == 116 || p.Data.Quality == 80);
+            var hdFormats = availableFormats.Where(p => p.Data.Quality == 116 || p.Data.Quality == 80).ToList();
+            selectedFormat = hdFormats.OrderByDescending(p => p.Data.Quality).FirstOrDefault();
         }
 
         if (selectedFormat is null)
