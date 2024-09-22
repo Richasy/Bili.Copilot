@@ -82,4 +82,7 @@ public sealed partial class LivePlayerPageViewModel
 
         ChangeFormatCommand.Execute(SelectedFormat);
     }
+
+    private void ScrollMessagesToBottom()
+        => Chat.ScrollToBottomCommand.Execute(default);
 }

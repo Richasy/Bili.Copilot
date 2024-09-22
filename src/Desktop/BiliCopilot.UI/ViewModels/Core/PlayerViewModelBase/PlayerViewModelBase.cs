@@ -131,6 +131,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         => _progressAction = action;
 
     /// <summary>
+    /// 注入窗口状态改变时的回调.
+    /// </summary>
+    public void SetWindowStateChangeAction(Action action)
+        => _windowStateChangeAction = action;
+
+    /// <summary>
     /// 注入状态改变时的回调.
     /// </summary>
     public void SetStateAction(Action<PlayerState> action)

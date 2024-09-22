@@ -140,6 +140,8 @@ public abstract partial class PlayerViewModelBase
         {
             this.Get<AppViewModel>().MakeCurrentWindowExitFullScreenCommand.Execute(default);
         }
+
+        _windowStateChangeAction?.Invoke();
     }
 
     [RelayCommand]
@@ -154,6 +156,8 @@ public abstract partial class PlayerViewModelBase
         {
             this.Get<AppViewModel>().MakeCurrentWindowExitOverlapCommand.Execute(default);
         }
+
+        _windowStateChangeAction?.Invoke();
     }
 
     [RelayCommand]
@@ -168,6 +172,8 @@ public abstract partial class PlayerViewModelBase
         {
             this.Get<AppViewModel>().MakeCurrentWindowExitCompactOverlayCommand.Execute(default);
         }
+
+        _windowStateChangeAction?.Invoke();
     }
 
     [RelayCommand]
