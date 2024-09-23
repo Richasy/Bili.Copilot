@@ -77,6 +77,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFeaturePage, pageType.FullName);
         _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+        CheckSubPageStatus();
     }
 
     /// <inheritdoc/>
@@ -292,8 +293,8 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     private void CheckSubPageStatus()
     {
         var overPageType = _overFrame.Content?.GetType();
-        IsFavoritesPage = overPageType == typeof(FavoritesPage);
-        IsHistoryPage = overPageType == typeof(HistoryPage);
-        IsViewLaterPage = overPageType == typeof(ViewLaterPage);
+        IsFavoritesPage = IsOverlayOpen && overPageType == typeof(FavoritesPage);
+        IsHistoryPage = IsOverlayOpen && overPageType == typeof(HistoryPage);
+        IsViewLaterPage = IsOverlayOpen && overPageType == typeof(ViewLaterPage);
     }
 }
