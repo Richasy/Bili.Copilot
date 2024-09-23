@@ -130,7 +130,7 @@ public sealed partial class LivePlayerPageViewModel
         Danmaku.IsShowDanmaku = isShowDanmaku;
         if (isShowDanmaku)
         {
-            Danmaku.Redraw();
+            Danmaku.RedrawAsync();
         }
     }
 }

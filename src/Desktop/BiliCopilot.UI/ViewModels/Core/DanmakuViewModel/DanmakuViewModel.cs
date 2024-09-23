@@ -79,8 +79,15 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// <summary>
     /// 重新绘制.
     /// </summary>
-    public void Redraw()
+    public async void RedrawAsync(bool force = false)
     {
+        if (force)
+        {
+            _segmentIndex = -1;
+            ClearDanmaku();
+            await Task.Delay(500);
+        }
+
         RequestRedrawDanmaku?.Invoke(this, EventArgs.Empty);
     }
 
@@ -197,7 +204,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     {
         if (value)
         {
-            Redraw();
+            RedrawAsync(true);
         }
         else
         {
