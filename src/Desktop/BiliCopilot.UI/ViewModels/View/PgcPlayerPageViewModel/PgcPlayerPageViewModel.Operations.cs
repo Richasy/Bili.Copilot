@@ -312,7 +312,7 @@ public sealed partial class PgcPlayerPageViewModel
             var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
             var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
             Danmaku.ResetData(aid, cid);
-            Danmaku.RedrawAsync();
+            Danmaku.Redraw(true);
         }
 
         Danmaku?.UpdatePosition(progress);
@@ -321,6 +321,11 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void PlayerStateChanged(PlayerState state)
     {
+        if (_view is null)
+        {
+            return;
+        }
+
         if (state == PlayerState.Playing)
         {
             if (!Danmaku.IsEmpty())
