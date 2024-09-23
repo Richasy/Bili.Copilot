@@ -23,15 +23,15 @@ internal static class Logger
             filePath = Path.GetFileName(filePath);
         }
 
-        message = $"{filePath}({lineNumber})->{memberName}(): {message}";
+        message = $"{filePath ?? string.Empty}({lineNumber})->{memberName ?? string.Empty}(): {message ?? string.Empty}";
 
         if (level == LoggingLevel.Error)
         {
-            _logger.LogError(message);
+            _logger?.LogError(message);
         }
         else
         {
-            _logger.LogInformation(message);
+            _logger?.LogInformation(message);
         }
     }
 }
