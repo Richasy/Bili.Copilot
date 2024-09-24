@@ -20,7 +20,7 @@
   </PropertyGroup>
     
   <!-- TODO: 由于WebView2尚未支持 aot trim，所以暂时不会在发布版本中使用 AOT -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup>
     <PublishAot>true</PublishAot>
   </PropertyGroup>
   <ItemGroup>
