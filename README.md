@@ -84,14 +84,14 @@ git submodule update --init --recursive
 |bili-kernel|src\Libs\bili-kernel|main|
 |semantic-kernel|src\Libs\semantic-kernel|dev|
 |mpv-winui|src\Libs\mpv-winui|main|
-|WinUI.Share|src\Libs\WinUI.Share|bili|
+|WinUI.Share|src\Libs\WinUI.Share|main|
 
 切换分支完成后，还需要下载 mpv / ffmpeg 到对应的目录：
 
 |文件名|目录|说明|
 |-|-|-|
-|libmpv-2.dll|src\Desktop\BiliCopilot.UI\Assets\libmpv\x64|可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新的 dev 构建，把 libmpv-2.dll 放入对应文件夹中，用以 mpv 播放|
-|ffmpeg.exe|src\Desktop\BiliCopilot.UI\Assets\ffmpeg|可以在 [BtbN/FFmpeg-Builds](https://github.com/BtbN/FFmpeg-Builds) 下载最新构建，将 ffmpeg.exe 放入对应文件夹中，用于视频下载后的混流|
+|libmpv-2.dll|src\Desktop\BiliCopilot.UI\Assets\libmpv\x64(或者 arm64)|可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新的 dev 构建（x64 对应 x86_x64，arm64 对应 aarch64），把 libmpv-2.dll 放入对应文件夹中，用以 mpv 播放|
+|ffmpeg.exe|src\Desktop\BiliCopilot.UI\Assets\ffmpeg|可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新 ffmpeg x64 构建，将 ffmpeg.exe 放入对应文件夹中，用于视频下载后的混流|
 
 ## 使用
 
