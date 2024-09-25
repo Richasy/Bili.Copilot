@@ -12,6 +12,8 @@ internal sealed partial class PlayerTemplateSelector : DataTemplateSelector
 
     public DataTemplate ExternalTemplate { get; set; }
 
+    public DataTemplate IslandTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         if (item is MpvPlayerViewModel)
@@ -25,6 +27,10 @@ internal sealed partial class PlayerTemplateSelector : DataTemplateSelector
         else if (item is ExternalPlayerViewModel)
         {
             return ExternalTemplate;
+        }
+        else if (item is IslandPlayerViewModel)
+        {
+            return IslandTemplate;
         }
 
         return default;

@@ -4,5 +4,17 @@ UnhookWindowsHookEx
 GetModuleHandle
 CallNextHookEx
 GetKeyState
+CreateWindowEx
+SetLayeredWindowAttributes
+ShowWindow
+UpdateWindow
+SetParent
+SetWindowLongPtrW
+GetWindowLongPtrW
+SetWindowPos
+DestroyWindow
+MoveWindow
+RegisterClassEx
+DefWindowProc
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT

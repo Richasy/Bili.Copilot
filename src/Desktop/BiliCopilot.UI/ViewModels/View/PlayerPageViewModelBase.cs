@@ -28,6 +28,7 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
         {
             PlayerType.Mpv => new MpvPlayerViewModel(),
             PlayerType.External => new ExternalPlayerViewModel(),
+            PlayerType.Island => new IslandPlayerViewModel(),
             _ => new NativePlayerViewModel(),
         };
     }

@@ -26,4 +26,9 @@ public enum PlayerType
     /// 网页播放器.
     /// </summary>
     Web,
+
+    /// <summary>
+    /// 岛播放器.
+    /// </summary>
+    Island,
 }

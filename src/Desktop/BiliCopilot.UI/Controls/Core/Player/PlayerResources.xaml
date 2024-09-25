@@ -61,6 +61,16 @@
         </Setter>
     </Style>
 
+    <Style TargetType="local:IslandPlayer">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:IslandPlayer">
+                    <Grid x:Name="RootGrid" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="local:ExternalPlayer">
         <Setter Property="Template">
             <Setter.Value>
