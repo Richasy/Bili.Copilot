@@ -29,6 +29,12 @@ public sealed partial class BiliPlayer
         DependencyProperty.Register(nameof(DanmakuControls), typeof(DanmakuControlBase), typeof(BiliPlayer), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="IsIsland"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsIslandProperty =
+        DependencyProperty.Register(nameof(IsIsland), typeof(bool), typeof(BiliPlayer), new PropertyMetadata(default));
+
+    /// <summary>
     /// 媒体传输控件.
     /// </summary>
     public FrameworkElement TransportControls
@@ -53,5 +59,14 @@ public sealed partial class BiliPlayer
     {
         get => (SubtitlePresenter)GetValue(SubtitleControlsProperty);
         set => SetValue(SubtitleControlsProperty, value);
+    }
+
+    /// <summary>
+    /// 是否为岛内控件.
+    /// </summary>
+    public bool IsIsland
+    {
+        get => (bool)GetValue(IsIslandProperty);
+        set => SetValue(IsIslandProperty, value);
     }
 }

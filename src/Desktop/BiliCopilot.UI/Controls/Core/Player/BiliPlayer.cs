@@ -31,6 +31,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private double _manipulationUnitLength = 0d;
     private bool _manipulationBeforeIsPlay = false;
     private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
+    private bool _isIslandPlayer = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -82,6 +83,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
             ViewModel.RequestCancelNotification -= OnRequestCancelNotification;
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
+            if (ViewModel is IslandPlayerViewModel islandVM)
+            {
+                islandVM.Initialized -= OnIslandViewModelInitialized;
+            }
         }
 
         if (_cursorTimer is not null)
@@ -119,9 +124,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     /// <inheritdoc/>
     protected override void OnPointerPressed(PointerRoutedEventArgs e)
-    {
-        CheckPointerType(e.Pointer);
-    }
+        => CheckPointerType(e.Pointer);
 
     /// <inheritdoc/>
     protected override void OnPointerCanceled(PointerRoutedEventArgs e)
@@ -133,6 +136,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         if (newValue is null)
         {
             PlayerPresenter.ViewModel = default;
+            _isIslandPlayer = false;
             return;
         }
 
@@ -141,17 +145,32 @@ public sealed partial class BiliPlayer : PlayerControlBase
             oldValue.PropertyChanged -= OnViewModelInnerPropertyChanged;
             oldValue.RequestShowNotification -= OnRequestShowNotification;
             oldValue.RequestCancelNotification -= OnRequestCancelNotification;
+            if (oldValue is IslandPlayerViewModel oldIslandVM)
+            {
+                oldIslandVM.Initialized -= OnIslandViewModelInitialized;
+            }
         }
 
+        _isIslandPlayer = newValue is IslandPlayerViewModel;
         PlayerPresenter.ViewModel = newValue;
         newValue.PropertyChanged += OnViewModelInnerPropertyChanged;
         newValue.RequestShowNotification += OnRequestShowNotification;
         newValue.RequestCancelNotification += OnRequestCancelNotification;
+        if (newValue is IslandPlayerViewModel islandVM)
+        {
+            islandVM.Initialized += OnIslandViewModelInitialized;
+        }
+
         ArrangeSubtitleSize();
     }
 
     private void HandlePointerEvent(PointerRoutedEventArgs e, bool forceHideTransportControls = false)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         CheckPointerType(e.Pointer);
         RestoreCursor();
         if (!_isTouch)
@@ -171,6 +190,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         NotificationContainer.Children.Clear();
         var control = new PlayerNotificationControl();
         control.ViewModel = e;
@@ -180,6 +204,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnRequestCancelNotification(object? sender, EventArgs e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         if (NotificationContainer is not null && NotificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
         {
             control.ViewModel.CancelCommand.Execute(default);
@@ -187,8 +216,20 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
     }
 
+    private void OnIslandViewModelInitialized(object? sender, EventArgs e)
+    {
+        var vm = ViewModel as IslandPlayerViewModel;
+        RootGrid.Children.Remove(OverlayContainer);
+        vm.SetXamlContent(OverlayContainer);
+    }
+
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (_isTouch)
         {
@@ -202,6 +243,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (ViewModel is null)
         {
@@ -225,6 +271,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnCoreHolding(object sender, HoldingRoutedEventArgs e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         if (e.HoldingState == HoldingState.Started)
         {
             _lastSpeed = ViewModel.Speed;
@@ -240,6 +291,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (!ShouldResponsePlayerRequest())
+        {
+            return;
+        }
+
         if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
         {
             SetTransportVisibility(ViewModel.IsPaused);
@@ -248,7 +304,13 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        MeasureTransportTriggerRect();
-        ArrangeSubtitleSize();
+        if (ShouldResponsePlayerRequest())
+        {
+            MeasureTransportTriggerRect();
+            ArrangeSubtitleSize();
+        }
     }
+
+    private bool ShouldResponsePlayerRequest()
+        => !_isIslandPlayer || IsIsland;
 }

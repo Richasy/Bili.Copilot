@@ -25,6 +25,7 @@ public sealed partial class IslandPlayerViewModel
         Player?.Pause();
         await Player?.DisposeAsync();
         _playerWindow?.Dispose();
+        _overlayWindow?.Dispose();
     }
 
     /// <inheritdoc/>

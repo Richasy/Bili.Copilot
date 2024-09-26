@@ -14,6 +14,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
 {
     private readonly Window _parentWindow;
     private MpvPlayerWindow _playerWindow;
+    private MpvPlayerOverlayWindow _overlayWindow;
     private double _scale;
     private Grid _rootGrid;
     private Point _windowLeftTopPoint;
@@ -43,12 +44,18 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
         if (_playerWindow is null)
         {
             _playerWindow = new MpvPlayerWindow();
-            _playerWindow.Create(new(_parentWindow.GetWindowHandle()), _windowLeftTopPoint, (int)_lastWidth, (int)_lastHeight);
+            _playerWindow.Create(_parentWindow.GetWindowHandle(), _windowLeftTopPoint, (int)_lastWidth, (int)_lastHeight);
+        }
+
+        if (_overlayWindow is null && _playerWindow.GetHandle() != IntPtr.Zero)
+        {
+            _overlayWindow = new MpvPlayerOverlayWindow();
+            _overlayWindow.Create(_playerWindow.GetHandle(), (int)_lastWidth, (int)_lastHeight);
         }
 
         if (_playerWindow.GetHandle() != IntPtr.Zero)
         {
-            await ViewModel.InitializeAsync(_playerWindow);
+            await ViewModel.InitializeAsync(_playerWindow, _overlayWindow);
         }
     }
 
@@ -61,6 +68,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
         }
 
         _playerWindow = default;
+        _overlayWindow = default;
     }
 
     private async void OnRootGridSizeChangedAsync(object sender, SizeChangedEventArgs e)
@@ -70,6 +78,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
         if (_playerWindow is not null && _playerWindow.GetHandle() != IntPtr.Zero)
         {
             PInvoke.SetWindowPos(new(_playerWindow.GetHandle()), HWND.Null, (int)_windowLeftTopPoint.X, (int)_windowLeftTopPoint.Y, (int)_lastWidth, (int)_lastHeight, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
+            _overlayWindow.MoveAndResize((int)_lastWidth, (int)_lastHeight);
         }
     }
 

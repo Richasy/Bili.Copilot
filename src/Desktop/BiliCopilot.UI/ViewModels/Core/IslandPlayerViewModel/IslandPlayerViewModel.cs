@@ -20,6 +20,12 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
 {
     private MpvPlayerWindow _playerWindow;
+    private MpvPlayerOverlayWindow _overlayWindow;
+
+    /// <summary>
+    /// 初始化已完成.
+    /// </summary>
+    public event EventHandler Initialized;
 
     /// <summary>
     /// 播放器内核.
@@ -30,7 +36,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
     /// 初始化播放器.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public async Task InitializeAsync(MpvPlayerWindow playerWindow)
+    public async Task InitializeAsync(MpvPlayerWindow playerWindow, MpvPlayerOverlayWindow overlayWindow)
     {
         Player ??= new Mpv.Core.Player();
         if (!Player.Client.IsInitialized)
@@ -41,6 +47,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             Player.PlaybackStopped += OnPlaybackStopped;
             Player.LogMessageReceived += OnLogMessageReceivedAsync;
             _playerWindow = playerWindow;
+            _overlayWindow = overlayWindow;
             Player.Client.SetOption("vo", "gpu-next");
             Player.Client.SetOption("wid", Convert.ToUInt32(playerWindow.GetHandle()));
 #if DEBUG
@@ -73,8 +80,15 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
         IsPlayerInitializing = false;
         _isInitialized = true;
 
+        Initialized?.Invoke(this, EventArgs.Empty);
         await TryLoadPlayDataAsync();
     }
+
+    /// <summary>
+    /// 设置XAML内容.
+    /// </summary>
+    public void SetXamlContent(UIElement element)
+        => _overlayWindow.SetContent(element);
 
     /// <inheritdoc/>
     protected override void SetWebDavConfig(WebDavConfig config)

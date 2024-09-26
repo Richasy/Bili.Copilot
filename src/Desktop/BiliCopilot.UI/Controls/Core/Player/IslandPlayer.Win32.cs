@@ -2,6 +2,8 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Hosting;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -126,5 +128,55 @@ public class MpvPlayerWindow : IDisposable
 
             _isWindowClassRegistered = true;
         }
+    }
+}
+
+/// <summary>
+/// MPV 播放覆盖窗口.
+/// </summary>
+public class MpvPlayerOverlayWindow : IDisposable
+{
+    private DesktopWindowXamlSource _desktopWindowXamlSource;
+
+    /// <summary>
+    /// 创建窗口.
+    /// </summary>
+    public void Create(
+        IntPtr parentWindow,
+        int width,
+        int height)
+    {
+        _desktopWindowXamlSource = new DesktopWindowXamlSource();
+        var windowId = Win32Interop.GetWindowIdFromWindow(parentWindow);
+        _desktopWindowXamlSource.Initialize(windowId);
+        var siteBridge = _desktopWindowXamlSource.SiteBridge;
+        siteBridge.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, width, height));
+    }
+
+    /// <summary>
+    /// 移动位置.
+    /// </summary>
+    public void MoveAndResize(
+        int width,
+        int height)
+    {
+        _desktopWindowXamlSource?.SiteBridge?.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, width, height));
+    }
+
+    /// <summary>
+    /// 设置根元素.
+    /// </summary>
+    public void SetContent(UIElement element)
+    {
+        if (_desktopWindowXamlSource != null)
+        {
+            _desktopWindowXamlSource.Content = element;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _desktopWindowXamlSource?.Dispose();
     }
 }
