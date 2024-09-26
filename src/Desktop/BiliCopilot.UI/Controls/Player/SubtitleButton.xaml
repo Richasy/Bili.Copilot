@@ -12,7 +12,7 @@
     xmlns:subtitle="using:Richasy.BiliKernel.Models.Subtitle"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Margin="8,0,0,0" Visibility="{x:Bind ViewModel.IsAvailable, Mode=OneWay}">
         <Button
             VerticalAlignment="Center"
             Style="{StaticResource CircleIconButtonStyle}"

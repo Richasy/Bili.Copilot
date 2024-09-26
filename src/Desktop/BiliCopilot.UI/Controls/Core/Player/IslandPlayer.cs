@@ -34,7 +34,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     protected override void OnApplyTemplate()
     {
         _rootGrid = (Grid)GetTemplateChild("RootGrid");
-        _rootGrid.SizeChanged += OnRootGridSizeChangedAsync;
+        _rootGrid.SizeChanged += OnRootGridSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -64,22 +64,25 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     {
         if (_rootGrid is not null)
         {
-            _rootGrid.SizeChanged -= OnRootGridSizeChangedAsync;
+            _rootGrid.SizeChanged -= OnRootGridSizeChanged;
         }
 
         _playerWindow = default;
         _overlayWindow = default;
     }
 
-    private async void OnRootGridSizeChangedAsync(object sender, SizeChangedEventArgs e)
+    private void OnRootGridSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        await Task.Delay(100);
-        InitializeLayoutPoints();
-        if (_playerWindow is not null && _playerWindow.GetHandle() != IntPtr.Zero)
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, async () =>
         {
-            PInvoke.SetWindowPos(new(_playerWindow.GetHandle()), HWND.Null, (int)_windowLeftTopPoint.X, (int)_windowLeftTopPoint.Y, (int)_lastWidth, (int)_lastHeight, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
-            _overlayWindow.MoveAndResize((int)_lastWidth, (int)_lastHeight);
-        }
+            await Task.Delay(200);
+            InitializeLayoutPoints();
+            if (_playerWindow is not null && _playerWindow.GetHandle() != IntPtr.Zero)
+            {
+                PInvoke.SetWindowPos(new(_playerWindow.GetHandle()), HWND.Null, (int)_windowLeftTopPoint.X, (int)_windowLeftTopPoint.Y, (int)_lastWidth, (int)_lastHeight, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
+                _overlayWindow.MoveAndResize((int)_lastWidth, (int)_lastHeight);
+            }
+        });
     }
 
     private void InitializeLayoutPoints()
@@ -90,7 +93,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
         _windowLeftTopPoint = transform.TransformPoint(new Point(0, 0));
         _windowLeftTopPoint.X *= _scale;
         _windowLeftTopPoint.Y *= _scale;
-        _lastWidth = ActualWidth * _scale;
+        _lastWidth = (ActualWidth - 6) * _scale;
         _lastHeight = ActualHeight * _scale;
     }
 }

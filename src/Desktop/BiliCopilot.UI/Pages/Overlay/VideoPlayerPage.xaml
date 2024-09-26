@@ -75,41 +75,7 @@
                             MinHeight="200"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Top">
-                            <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                                <core:BiliPlayer.TransportControls>
-                                    <core:VideoTransportControl
-                                        MaxWidth="800"
-                                        Margin="12"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Bottom"
-                                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                                        <core:VideoTransportControl.LeftContent>
-                                            <player:VideoPlayerTransportLeftPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                                        </core:VideoTransportControl.LeftContent>
-                                        <core:VideoTransportControl.MiddleContent>
-                                            <danmaku:DanmakuBox ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
-                                        </core:VideoTransportControl.MiddleContent>
-                                        <core:VideoTransportControl.RightContent>
-                                            <StackPanel Orientation="Horizontal">
-                                                <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                                                <player:SubtitleButton
-                                                    Margin="8,0,0,0"
-                                                    ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
-                                                    Visibility="{x:Bind ViewModel.Subtitle.IsAvailable, Mode=OneWay}" />
-                                            </StackPanel>
-                                        </core:VideoTransportControl.RightContent>
-                                    </core:VideoTransportControl>
-                                </core:BiliPlayer.TransportControls>
-                                <core:BiliPlayer.DanmakuControls>
-                                    <danmaku:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
-                                </core:BiliPlayer.DanmakuControls>
-                                <core:BiliPlayer.SubtitleControls>
-                                    <player:SubtitlePresenter
-                                        Margin="0,0,0,16"
-                                        ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
-                                        Visibility="{x:Bind ViewModel.Subtitle.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                                </core:BiliPlayer.SubtitleControls>
-                            </core:BiliPlayer>
+                            <core:BiliPlayer x:Name="BiliPlayer" ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
                         </Grid>
                         <core:ExternalTransportControl
                             Margin="0,12,0,0"

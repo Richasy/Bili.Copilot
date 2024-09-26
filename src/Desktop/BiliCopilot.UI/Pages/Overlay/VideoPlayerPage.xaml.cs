@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Controls.Danmaku;
+using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
@@ -16,7 +19,13 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerPage"/> class.
     /// </summary>
-    public VideoPlayerPage() => InitializeComponent();
+    public VideoPlayerPage()
+    {
+        InitializeComponent();
+        BiliPlayer.InjectDanmakuControlFunc(CreateDanmakuPanel);
+        BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
+        BiliPlayer.InjectSubtitleControlFunc(CreateSubtitleControl);
+    }
 
     /// <summary>
     /// 进入播放器主持模式.
@@ -77,6 +86,40 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
         }
+    }
+
+    private DanmakuControlBase CreateDanmakuPanel()
+        => new VideoDanmakuPanel() { ViewModel = ViewModel.Danmaku };
+
+    private FrameworkElement CreateTransportControl()
+    {
+        var leftPanel = new VideoPlayerTransportLeftPanel() { ViewModel = ViewModel };
+        var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
+        var rightPanel = new StackPanel() { Orientation = Orientation.Horizontal };
+        var formatButton = new VideoPlayerFormatButton() { ViewModel = ViewModel };
+        var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
+        rightPanel.Children.Add(formatButton);
+        rightPanel.Children.Add(subtitleButton);
+        return new VideoTransportControl()
+        {
+            LeftContent = leftPanel,
+            RightContent = rightPanel,
+            MiddleContent = danmakuBox,
+            ViewModel = ViewModel.Player,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(12),
+            MaxWidth = 800,
+        };
+    }
+
+    private SubtitlePresenter CreateSubtitleControl()
+    {
+        return new SubtitlePresenter
+        {
+            Margin = new Thickness(0, 0, 0, 16),
+            ViewModel = ViewModel.Subtitle,
+        };
     }
 }
 

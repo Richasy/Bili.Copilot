@@ -16,5 +16,7 @@ DestroyWindow
 MoveWindow
 RegisterClassEx
 DefWindowProc
+EnumChildWindows
+GetClassName
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT
