@@ -2,6 +2,7 @@
 
 using System.ComponentModel;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Input;
@@ -21,7 +22,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private double _cursorStayTime;
     private double _mtcStayTime;
     private bool _isCursorDisposed;
-    private bool _isTouch;
     private bool _needRemeasureSize = true;
     private Point? _lastPointerPoint;
 
@@ -174,9 +174,9 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void HandlePointerEvent(PointerRoutedEventArgs e, bool forceHideTransportControls = false)
     {
-        CheckPointerType(e.Pointer);
         RestoreCursor();
-        if (!_isTouch)
+        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
+        if (!isManual)
         {
             if (forceHideTransportControls)
             {
@@ -229,8 +229,8 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
     {
-        _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
-        if (_isTouch)
+        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
+        if (isManual)
         {
             if (_transportControl is not null)
             {
@@ -245,13 +245,13 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
-        _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (ViewModel is null)
         {
             return;
         }
 
-        if (_isTouch)
+        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
+        if (isManual)
         {
             ViewModel.TogglePlayPauseCommand.Execute(default);
         }

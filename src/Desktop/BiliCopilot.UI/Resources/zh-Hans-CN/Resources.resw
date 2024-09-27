@@ -1110,12 +1110,6 @@
   <data name="Movie" xml:space="preserve">
     <value>电影</value>
   </data>
-  <data name="MTCControlMode" xml:space="preserve">
-    <value>媒体传输控件控制模式</value>
-  </data>
-  <data name="MTCControlModeDescription" xml:space="preserve">
-    <value>选择媒体传输控件（包含播放进度的播放控制栏）显隐的方式</value>
-  </data>
   <data name="MultipleWindow" xml:space="preserve">
     <value>多窗口</value>
   </data>
@@ -2716,5 +2710,11 @@
   </data>
   <data name="CanNotSeek" xml:space="preserve">
     <value>当前状态不支持跳转</value>
+  </data>
+  <data name="MTCBehavior" xml:space="preserve">
+    <value>播放控制器显示方式</value>
+  </data>
+  <data name="MTCBehaviorDescription" xml:space="preserve">
+    <value>选择自动弹出（鼠标移动即显示）还是手动呼出（点击播放器才显示）</value>
   </data>
 </root>
