@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Controls.Danmaku;
+using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.Media;
@@ -15,7 +18,13 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerPage"/> class.
     /// </summary>
-    public PgcPlayerPage() => InitializeComponent();
+    public PgcPlayerPage()
+    {
+        InitializeComponent();
+        BiliPlayer.InjectDanmakuControlFunc(CreateDanmakuPanel);
+        BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
+        BiliPlayer.InjectSubtitleControlFunc(CreateSubtitleControl);
+    }
 
     /// <summary>
     /// 进入播放器主持模式.
@@ -47,30 +56,38 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
-    /// <inheritdoc/>
-    protected override void OnPageLoaded()
+    private DanmakuControlBase CreateDanmakuPanel()
+        => new VideoDanmakuPanel() { ViewModel = ViewModel.Danmaku };
+
+    private FrameworkElement CreateTransportControl()
     {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
+        var leftPanel = new PgcPlayerTransportLeftPanel() { ViewModel = ViewModel };
+        var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
+        var rightPanel = new StackPanel() { Orientation = Orientation.Horizontal };
+        var formatButton = new PgcPlayerFormatButton() { ViewModel = ViewModel };
+        var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
+        rightPanel.Children.Add(formatButton);
+        rightPanel.Children.Add(subtitleButton);
+        return new VideoTransportControl()
+        {
+            LeftContent = leftPanel,
+            RightContent = rightPanel,
+            MiddleContent = danmakuBox,
+            ViewModel = ViewModel.Player,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(12),
+            MaxWidth = 800,
+        };
     }
 
-    private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
+    private SubtitlePresenter CreateSubtitleControl()
     {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
-    }
-
-    private void CheckPlayerSize()
-    {
-        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : PlayerContainer.ActualWidth;
-
-        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
+        return new SubtitlePresenter
         {
-            PlayerContainer.MaxHeight = ActualHeight;
-            ViewModel.PlayerHeight = ActualHeight;
-        }
-        else
-        {
-            PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
-        }
+            Margin = new Thickness(0, 0, 0, 16),
+            ViewModel = ViewModel.Subtitle,
+        };
     }
 }
 

@@ -114,6 +114,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
     private void OnClosed(object sender, WindowEventArgs e)
     {
+        this.Get<AppViewModel>().IsClosed = true;
         RootLayout.ViewModel.Back();
 
         foreach (var item in this.Get<AppViewModel>().Windows)

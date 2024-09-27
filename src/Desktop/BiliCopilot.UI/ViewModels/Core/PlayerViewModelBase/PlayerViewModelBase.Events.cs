@@ -34,7 +34,7 @@ public abstract partial class PlayerViewModelBase
     {
         _dispatcherQueue.TryEnqueue(async () =>
         {
-            if (_isClosed)
+            if (_isClosed || this.Get<AppViewModel>().IsClosed)
             {
                 await OnCloseAsync();
                 return;
@@ -73,6 +73,12 @@ public abstract partial class PlayerViewModelBase
     /// </summary>
     protected virtual void ReachEnd()
         => _endAction?.Invoke();
+
+    /// <summary>
+    /// 初始化完成.
+    /// </summary>
+    protected void RaiseInitializedEvent()
+        => Initialized?.Invoke(this, EventArgs.Empty);
 
     private void OnSystemControlsButtonPressedAsync(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
     {

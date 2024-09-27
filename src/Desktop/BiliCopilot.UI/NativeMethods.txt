@@ -18,5 +18,7 @@ RegisterClassEx
 DefWindowProc
 EnumChildWindows
 GetClassName
+SetWindowRgn
+CreateRectRgn
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT

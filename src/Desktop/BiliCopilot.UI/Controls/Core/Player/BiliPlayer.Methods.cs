@@ -12,6 +12,17 @@ namespace BiliCopilot.UI.Controls.Core;
 /// </summary>
 public sealed partial class BiliPlayer
 {
+    /// <summary>
+    /// 处理滚动偏移.
+    /// </summary>
+    public void HandleScrollOffset(double verticalOffset)
+    {
+        if (ViewModel is IslandPlayerViewModel && PlayerPresenter.TryGetIslandPlayer() is IslandPlayer player)
+        {
+            player.CutTopRgn(verticalOffset);
+        }
+    }
+
     private void MeasureTransportTriggerRect()
     {
         if (_transportControl is FrameworkElement frameEle)

@@ -31,7 +31,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private double _manipulationUnitLength;
     private bool _manipulationBeforeIsPlay;
     private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
-    private bool _isIslandPlayer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -55,15 +54,16 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
         PlayerPresenter.ViewModel = ViewModel;
         SizeChanged += OnSizeChanged;
-        if (_transportControl is not null)
+
+        SetTransportVisibility(true);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            _transportControl.Visibility = Visibility.Visible;
             MeasureTransportTriggerRect();
             SetTransportVisibility(false);
-        }
+            ArrangeSubtitleSize();
+        });
 
         _cursorTimer?.Start();
-        ArrangeSubtitleSize();
     }
 
     /// <inheritdoc/>
@@ -75,10 +75,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
             ViewModel.RequestCancelNotification -= OnRequestCancelNotification;
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
-            if (ViewModel is IslandPlayerViewModel islandVM)
-            {
-                islandVM.Initialized -= OnIslandViewModelInitialized;
-            }
+            ViewModel.Initialized -= OnViewModelInitialized;
         }
 
         ViewModel = default;
@@ -91,7 +88,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         if (newValue is null)
         {
             PlayerPresenter.ViewModel = default;
-            _isIslandPlayer = false;
             return;
         }
 
@@ -100,21 +96,14 @@ public sealed partial class BiliPlayer : PlayerControlBase
             oldValue.PropertyChanged -= OnViewModelInnerPropertyChanged;
             oldValue.RequestShowNotification -= OnRequestShowNotification;
             oldValue.RequestCancelNotification -= OnRequestCancelNotification;
-            if (oldValue is IslandPlayerViewModel oldIslandVM)
-            {
-                oldIslandVM.Initialized -= OnIslandViewModelInitialized;
-            }
+            oldValue.Initialized -= OnViewModelInitialized;
         }
 
-        _isIslandPlayer = newValue is IslandPlayerViewModel;
         PlayerPresenter.ViewModel = newValue;
         newValue.PropertyChanged += OnViewModelInnerPropertyChanged;
         newValue.RequestShowNotification += OnRequestShowNotification;
         newValue.RequestCancelNotification += OnRequestCancelNotification;
-        if (newValue is IslandPlayerViewModel islandVM)
-        {
-            islandVM.Initialized += OnIslandViewModelInitialized;
-        }
+        newValue.Initialized += OnViewModelInitialized;
 
         ArrangeSubtitleSize();
     }
@@ -216,7 +205,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
     }
 
-    private void OnIslandViewModelInitialized(object? sender, EventArgs e)
+    private void OnViewModelInitialized(object? sender, EventArgs e)
     {
         if (_overlayContainer is not null)
         {
@@ -239,7 +228,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (_isTouch)
         {
-            SetTransportVisibility(TransportControls.Visibility == Visibility.Collapsed);
+            if (_transportControl is not null)
+            {
+                SetTransportVisibility(_transportControl.Visibility == Visibility.Collapsed);
+            }
         }
         else
         {
@@ -292,7 +284,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             HandleViewModelPropertyChanged(e);
         }
 
-        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
+        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && _transportControl is not null && !ViewModel.IsExternalPlayer)
         {
             SetTransportVisibility(ViewModel.IsPaused);
         }

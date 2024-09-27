@@ -76,7 +76,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
         IsPlayerInitializing = false;
         _isInitialized = true;
-
+        RaiseInitializedEvent();
         await TryLoadPlayDataAsync();
     }
 

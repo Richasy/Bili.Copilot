@@ -23,11 +23,6 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
     private MpvPlayerOverlayWindow _overlayWindow;
 
     /// <summary>
-    /// 初始化已完成.
-    /// </summary>
-    public event EventHandler Initialized;
-
-    /// <summary>
     /// 播放器内核.
     /// </summary>
     public Player? Player { get; private set; }
@@ -80,7 +75,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
         IsPlayerInitializing = false;
         _isInitialized = true;
 
-        Initialized?.Invoke(this, EventArgs.Empty);
+        RaiseInitializedEvent();
         await TryLoadPlayDataAsync();
     }
 

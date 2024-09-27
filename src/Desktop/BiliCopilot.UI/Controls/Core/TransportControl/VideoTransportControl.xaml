@@ -194,13 +194,6 @@
                     </Button>
                 </StackPanel>
             </Grid>
-
         </Grid>
-        <animations:Implicit.ShowAnimations>
-            <animations:OpacityAnimation
-                From="0.0"
-                To="1.0"
-                Duration="0:0:0.2" />
-        </animations:Implicit.ShowAnimations>
     </Grid>
 </local:PlayerControlBase>

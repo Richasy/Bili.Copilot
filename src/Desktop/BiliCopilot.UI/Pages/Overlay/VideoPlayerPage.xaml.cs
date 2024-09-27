@@ -62,32 +62,6 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
-    /// <inheritdoc/>
-    protected override void OnPageLoaded()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
-    }
-
-    private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
-    }
-
-    private void CheckPlayerSize()
-    {
-        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : PlayerContainer.ActualWidth;
-
-        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
-        {
-            PlayerContainer.MaxHeight = ActualHeight;
-            ViewModel.PlayerHeight = ActualHeight;
-        }
-        else
-        {
-            PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
-        }
-    }
-
     private DanmakuControlBase CreateDanmakuPanel()
         => new VideoDanmakuPanel() { ViewModel = ViewModel.Danmaku };
 

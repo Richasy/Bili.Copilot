@@ -20,6 +20,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     private Point _windowLeftTopPoint;
     private double _lastWidth;
     private double _lastHeight;
+    private double _lastOffset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IslandPlayer"/> class.
@@ -28,6 +29,22 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     {
         DefaultStyleKey = typeof(IslandPlayer);
         _parentWindow = this.Get<AppViewModel>().ActivatedWindow;
+    }
+
+    /// <summary>
+    /// 剪裁顶部区域.
+    /// </summary>
+    /// <param name="offset">裁切高度.</param>
+    public void CutTopRgn(double offset)
+    {
+        if (_playerWindow is not null)
+        {
+            var handle = _playerWindow.GetHandle();
+            _lastOffset = offset * _scale;
+            var rgn = PInvoke.CreateRectRgn(0, (int)_lastOffset, (int)_lastWidth, (int)_lastHeight);
+            PInvoke.SetWindowRgn(new(handle), rgn, true);
+            OnRootGridSizeChanged(default, default);
+        }
     }
 
     /// <inheritdoc/>

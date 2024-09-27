@@ -21,10 +21,14 @@
         <DataTemplate x:Key="SeasonTemplate" x:DataType="components:PgcPlayerSeasonSectionDetailViewModel">
             <local:PgcSeasonsSection ViewModel="{x:Bind}" />
         </DataTemplate>
+        <DataTemplate x:Key="InfoTemplate" x:DataType="components:PgcPlayerInfoSectionDetailViewModel">
+            <local:PgcInfoSection ViewModel="{x:Bind Page}" />
+        </DataTemplate>
         <extensions:PlayerSectionTemplateSelector
             x:Key="Selector"
             CommentTemplate="{StaticResource CommentTemplate}"
             EpisodeTemplate="{StaticResource EpisodeTemplate}"
+            InfoTemplate="{StaticResource InfoTemplate}"
             SeasonTemplate="{StaticResource SeasonTemplate}" />
     </UserControl.Resources>
 

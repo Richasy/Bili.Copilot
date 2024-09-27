@@ -14,15 +14,19 @@
 
     <Grid RowSpacing="8">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <local:LiveInfoSection ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}" />
         <components:EmptyHolder
+            Grid.Row="1"
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F526;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />
         <ItemsView
             x:Name="View"
+            Grid.Row="1"
             Padding="12"
             VerticalAlignment="Top"
             ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}"
@@ -39,7 +43,7 @@
             </ItemsView.ItemTemplate>
         </ItemsView>
         <AutoSuggestBox
-            Grid.Row="1"
+            Grid.Row="2"
             MaxHeight="80"
             Margin="12,0,12,8"
             HorizontalAlignment="Stretch"

@@ -43,4 +43,9 @@ public sealed partial class AppViewModel : ViewModelBase
     /// 是否为 AMD 显卡.
     /// </summary>
     public bool? IsAmdGpu { get; private set; }
+
+    /// <summary>
+    /// 是否已关闭.
+    /// </summary>
+    public bool IsClosed { get; set; }
 }

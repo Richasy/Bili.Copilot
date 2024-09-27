@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.Media;
@@ -15,7 +17,12 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="LivePlayerPage"/> class.
     /// </summary>
-    public LivePlayerPage() => InitializeComponent();
+    public LivePlayerPage()
+    {
+        InitializeComponent();
+        BiliPlayer.InjectDanmakuControlFunc(CreateDanmakuControl);
+        BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
+    }
 
     /// <summary>
     /// 进入播放器主持模式.
@@ -47,31 +54,11 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
-    /// <inheritdoc/>
-    protected override void OnPageLoaded()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
-    }
+    private DanmakuControlBase CreateDanmakuControl()
+        => new LiveDanmakuPanel { ViewModel = ViewModel.Danmaku };
 
-    private void OnPlayContainerSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, CheckPlayerSize);
-    }
-
-    private void CheckPlayerSize()
-    {
-        ViewModel.PlayerWidth = ViewModel.Player.IsFullScreen ? ActualWidth : PlayerContainer.ActualWidth;
-
-        if (ViewModel.Player.IsFullScreen || ViewModel.Player.IsFullWindow || ViewModel.Player.IsCompactOverlay)
-        {
-            PlayerContainer.MaxHeight = ActualHeight;
-            ViewModel.PlayerHeight = ActualHeight;
-        }
-        else
-        {
-            PlayerContainer.MaxHeight = VerticalHolderContainer.ActualHeight;
-        }
-    }
+    private FrameworkElement CreateTransportControl()
+        => new LiveTransportControl { MaxWidth = 640, Margin = new Thickness(12), HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom, ViewModel = ViewModel };
 }
 
 /// <summary>

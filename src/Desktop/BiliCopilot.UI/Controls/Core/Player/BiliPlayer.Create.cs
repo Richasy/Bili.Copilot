@@ -52,7 +52,7 @@ public sealed partial class BiliPlayer
     private void CreateOverlayContainer()
     {
         var rootGrid = new Grid();
-        _danmakuControl = _createDanmakuControlFunc();
+        _danmakuControl = _createDanmakuControlFunc?.Invoke() ?? default;
         if (_danmakuControl is not null)
         {
             _danmakuControl.Margin = new Thickness(3, 4, 12, 12);
@@ -113,18 +113,19 @@ public sealed partial class BiliPlayer
             VerticalAlignment = VerticalAlignment.Bottom,
         };
 
-        _subtitlePresenter = _createSubtitleControlFunc();
+        _subtitlePresenter = _createSubtitleControlFunc?.Invoke() ?? default;
         if (_subtitlePresenter is not null)
         {
             _subtitlePresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
             _operationContainer.Children.Add(_subtitlePresenter);
         }
 
-        _transportControl = _createTransportControlFunc();
+        _transportControl = _createTransportControlFunc?.Invoke() ?? default;
         if (_transportControl is not null)
         {
             _transportControl.MinHeight = 16;
             _transportControl.HorizontalAlignment = HorizontalAlignment.Stretch;
+            _transportControl.VerticalAlignment = VerticalAlignment.Bottom;
             _operationContainer.Children.Add(_transportControl);
         }
 

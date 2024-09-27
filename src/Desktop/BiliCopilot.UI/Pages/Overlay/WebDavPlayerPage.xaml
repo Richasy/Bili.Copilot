@@ -52,32 +52,9 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <core:BiliPlayer
-                x:Name="Player"
+                x:Name="BiliPlayer"
                 VerticalAlignment="Stretch"
-                ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                <core:BiliPlayer.TransportControls>
-                    <core:VideoTransportControl
-                        MaxWidth="800"
-                        Margin="12"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Bottom"
-                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                        <core:VideoTransportControl.LeftContent>
-                            <Button
-                                VerticalAlignment="Center"
-                                Command="{x:Bind ViewModel.PlayNextVideoCommand, Mode=OneWay}"
-                                Style="{StaticResource CircleIconButtonStyle}"
-                                ToolTipService.ToolTip="{x:Bind ViewModel.NextVideoTip, Mode=OneWay}"
-                                Visibility="{x:Bind ViewModel.HasNextVideo, Mode=OneWay}">
-                                <ic:SymbolIcon
-                                    FontSize="14"
-                                    IconVariant="Filled"
-                                    Symbol="Next" />
-                            </Button>
-                        </core:VideoTransportControl.LeftContent>
-                    </core:VideoTransportControl>
-                </core:BiliPlayer.TransportControls>
-            </core:BiliPlayer>
+                ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
             <core:ExternalTransportControl
                 Grid.Row="1"
                 Margin="0,12"
