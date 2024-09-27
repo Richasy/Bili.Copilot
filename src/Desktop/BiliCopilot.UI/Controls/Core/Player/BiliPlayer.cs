@@ -22,6 +22,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private double _mtcStayTime;
     private bool _isCursorDisposed;
     private bool _isTouch;
+    private bool _needRemeasureSize = true;
     private Point? _lastPointerPoint;
 
     private double _manipulationDeltaX;

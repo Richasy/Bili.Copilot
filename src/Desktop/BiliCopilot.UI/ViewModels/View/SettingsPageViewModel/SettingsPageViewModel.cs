@@ -174,7 +174,14 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         => SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerSpeedEnhancement, value);
 
     partial void OnGlobalPlayerSpeedChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerSpeedShare, value);
+    {
+        if (!value)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerSpeed, 1.0d);
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerSpeedShare, value);
+    }
 
     partial void OnIsAutoPlayNextRecommendVideoChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.AutoPlayNextRecommendVideo, value);
