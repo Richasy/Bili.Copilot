@@ -253,20 +253,6 @@ public sealed partial class VideoPlayerPageViewModel
     }
 
     [RelayCommand]
-    private void ToggleAIOverlayVisibility()
-    {
-        IsAIOverlayOpened = !IsAIOverlayOpened;
-        if (IsAIOverlayOpened)
-        {
-            AI.InitializeCommand.Execute(default);
-        }
-        else
-        {
-            AI.ClearCommand.Execute(default);
-        }
-    }
-
-    [RelayCommand]
     private void Pin()
     {
         var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Video);

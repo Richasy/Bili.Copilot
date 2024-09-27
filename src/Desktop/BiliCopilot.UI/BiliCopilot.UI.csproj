@@ -127,6 +127,7 @@
     <None Remove="Controls\AI\AIHeader.xaml" />
     <None Remove="Controls\AI\AILogo.xaml" />
     <None Remove="Controls\AI\AIOverlayPanel.xaml" />
+    <None Remove="Controls\AI\AIPanel.xaml" />
     <None Remove="Controls\AI\CustomChatModelDialog.xaml" />
     <None Remove="Controls\AI\CustomChatModelSection.xaml" />
     <None Remove="Controls\AI\PredefinedChatModelSection.xaml" />
@@ -1371,6 +1372,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\AIPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Player\PgcInfoSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

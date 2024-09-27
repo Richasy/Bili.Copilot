@@ -100,4 +100,5 @@ public enum SettingNames
     EndWithPlaylist,
     IsGpuChecked,
     IsTopNavBarShown,
+    MTCBehavior,
 }

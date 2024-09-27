@@ -59,6 +59,9 @@ public sealed partial class SettingsPageViewModel
     private ExternalPlayerType _externalPlayerType;
 
     [ObservableProperty]
+    private MTCBehavior _mTCBehavior;
+
+    [ObservableProperty]
     private bool _isExternalPlayerType;
 
     [ObservableProperty]
@@ -147,6 +150,9 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private List<ExternalPlayerType> _externalPlayerTypeCollection;
+
+    [ObservableProperty]
+    private List<MTCBehavior> _mTCBehaviorCollection;
 
     /// <summary>
     /// WebDav 配置.

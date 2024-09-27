@@ -46,12 +46,14 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
         PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
         PlayerTypeCollection = Enum.GetValues<PlayerType>().ToList();
+        MTCBehaviorCollection = Enum.GetValues<MTCBehavior>().ToList();
         ExternalPlayerTypeCollection = Enum.GetValues<ExternalPlayerType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
         PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
         PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        MTCBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic);
         ExternalPlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.ExternalPlayer, ExternalPlayerType.Mpv);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
         DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
@@ -251,4 +253,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         SettingsToolkit.WriteLocalSetting(SettingNames.IsTopNavBarShown, value);
         this.Get<NavigationViewModel>().IsTopNavBarShown = value;
     }
+
+    partial void OnMTCBehaviorChanged(MTCBehavior value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MTCBehavior, value);
 }

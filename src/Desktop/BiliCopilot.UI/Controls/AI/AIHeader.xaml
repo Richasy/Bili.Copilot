@@ -73,7 +73,10 @@
                     IconVariant="Filled"
                     Symbol="ChevronCircleDown" />
                 <Button.Flyout>
-                    <Flyout x:Name="ServiceFlyout" Placement="Bottom">
+                    <Flyout
+                        x:Name="ServiceFlyout"
+                        Placement="Bottom"
+                        ShouldConstrainToRootBounds="False">
                         <Flyout.FlyoutPresenterStyle>
                             <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="8" />
