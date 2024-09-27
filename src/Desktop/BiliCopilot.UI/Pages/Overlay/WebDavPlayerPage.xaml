@@ -100,7 +100,8 @@
             Grid.RowSpan="3"
             Grid.Column="1"
             ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
-            IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
+            IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}"
+            IsHideButtonEnabled="False"
             IsInvertDirection="True"
             MaxColumnWidth="500"
             MinColumnWidth="300" />

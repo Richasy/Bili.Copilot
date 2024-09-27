@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Visibility="{x:Bind ViewModel.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}"
     mc:Ignorable="d">
 
     <Grid
@@ -14,7 +13,8 @@
         Padding="{x:Bind Padding, Mode=OneWay}"
         HorizontalAlignment="Center"
         Background="{ThemeResource TransportBackground}"
-        CornerRadius="{StaticResource OverlayCornerRadius}">
+        CornerRadius="{StaticResource OverlayCornerRadius}"
+        Visibility="{x:Bind ViewModel.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
         <TextBlock
             VerticalAlignment="Center"
             FontSize="{x:Bind FontSize, Mode=OneWay}"

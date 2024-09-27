@@ -76,6 +76,7 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
+            <base:SideSplitButton IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}" IsInvertDirection="True" />
         </StackPanel>
     </Grid>
 </local:VideoPlayerPageControlBase>
