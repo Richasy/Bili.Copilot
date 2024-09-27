@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
@@ -27,6 +28,7 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     /// Initializes a new instance of the <see cref="VideoPlayerPlaylistSectionDetailViewModel"/> class.
     /// </summary>
     public VideoPlayerPlaylistSectionDetailViewModel(
+        VideoPlayerPageViewModel page,
         IList<VideoInformation> list,
         string videoId)
     {
@@ -37,6 +39,11 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
 
     /// <inheritdoc/>
     public string Title => ResourceToolkit.GetLocalizedString(StringNames.Playlist);
+
+    /// <summary>
+    /// 页面视图模型.
+    /// </summary>
+    public VideoPlayerPageViewModel Page { get; }
 
     [RelayCommand]
     private static Task TryFirstLoadAsync()

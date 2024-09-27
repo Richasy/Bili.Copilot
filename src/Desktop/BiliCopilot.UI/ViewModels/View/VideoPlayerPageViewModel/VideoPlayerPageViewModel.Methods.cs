@@ -125,7 +125,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (_playlist is not null)
         {
-            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(_playlist, AvId));
+            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
         }
 
         if (_view.Parts?.Count > 1)
@@ -135,7 +135,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (_view.Seasons is not null)
         {
-            sections.Add(new VideoPlayerSeasonSectionDetailViewModel(_view.Seasons, AvId));
+            sections.Add(new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
         }
 
         if (_view.Recommends is not null)
