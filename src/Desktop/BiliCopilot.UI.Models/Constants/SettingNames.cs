@@ -101,4 +101,5 @@ public enum SettingNames
     IsGpuChecked,
     IsTopNavBarShown,
     MTCBehavior,
+    IsAIStreamingResponse,
 }

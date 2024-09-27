@@ -157,7 +157,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
 
         bool TryOpenInWebPlayerIfPreferred()
         {
-            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
             if (preferPlayer == PlayerType.Web)
             {
                 var webUrl = GetMediaUrl();

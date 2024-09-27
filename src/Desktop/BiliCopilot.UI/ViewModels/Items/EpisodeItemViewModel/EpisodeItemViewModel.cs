@@ -50,7 +50,7 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
             return;
         }
 
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native);
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
         if (preferPlayer == PlayerType.Web)
         {
             this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());

@@ -10,7 +10,7 @@
   IgnorableNamespaces="uap rescap desktop com">
 
   <Identity
-    Name="Richasy.BiliCopilot"
+    Name="Richasy.BiliCopilot.Dev"
     Publisher="CN=Richasy"
     Version="1.0.0.0" />
 

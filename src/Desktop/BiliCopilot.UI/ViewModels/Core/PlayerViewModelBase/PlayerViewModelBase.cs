@@ -25,7 +25,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     {
         _logger = this.Get<ILogger<PlayerViewModelBase>>();
         _dispatcherQueue = this.Get<DispatcherQueue>();
-        IsExternalPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native) == PlayerType.External;
+        IsExternalPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.External;
     }
 
     /// <summary>

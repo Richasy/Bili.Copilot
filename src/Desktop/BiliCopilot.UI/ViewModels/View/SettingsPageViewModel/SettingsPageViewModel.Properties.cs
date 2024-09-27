@@ -125,6 +125,9 @@ public sealed partial class SettingsPageViewModel
     private bool _filterAISubtitle;
 
     [ObservableProperty]
+    private bool _isAIStreamingResponse;
+
+    [ObservableProperty]
     private bool _isWebDavEnabled;
 
     [ObservableProperty]
