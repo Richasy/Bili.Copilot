@@ -106,23 +106,27 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     }
 
     /// <inheritdoc/>
-    public void EnterPlayerHostMode()
+    public void EnterPlayerHostMode(PlayerDisplayMode mode)
     {
-        TitleBar.Visibility = Visibility.Collapsed;
+        TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
         if (MainFrame.Content is VideoPlayerPage vPage)
         {
+            TitleBar.Title = vPage.ViewModel.Title;
             vPage.EnterPlayerHostMode();
         }
         else if (MainFrame.Content is PgcPlayerPage pPage)
         {
+            TitleBar.Title = pPage.ViewModel.EpisodeTitle;
             pPage.EnterPlayerHostMode();
         }
         else if (MainFrame.Content is LivePlayerPage lPage)
         {
+            TitleBar.Title = lPage.ViewModel.Title;
             lPage.EnterPlayerHostMode();
         }
         else if (MainFrame.Content is WebDavPlayerPage wPage)
         {
+            TitleBar.Title = wPage.ViewModel.Title;
             wPage.EnterPlayerHostMode();
         }
     }
@@ -131,6 +135,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void ExitPlayerHostMode()
     {
         TitleBar.Visibility = Visibility.Visible;
+        TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         if (MainFrame.Content is VideoPlayerPage vPage)
         {
             vPage.ExitPlayerHostMode();

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -37,7 +38,7 @@ public sealed partial class RootLayout : RootLayoutBase
     /// <summary>
     /// 准备隐藏除播放器外的其它控件.
     /// </summary>
-    public void PrepareFullPlayerPresenter()
+    public void PrepareFullPlayerPresenter(PlayerDisplayMode mode)
     {
         if (!ViewModel.IsOverlayOpen)
         {
@@ -45,23 +46,29 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         MainTitleBar.Visibility = Visibility.Collapsed;
+        SecondaryTitleBar.Visibility = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay ? Visibility.Visible : Visibility.Collapsed;
+        this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         NavView.IsPaneOpen = false;
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)
         {
+            SecondaryTitleBar.Title = vPage.ViewModel.Title;
             vPage.EnterPlayerHostMode();
         }
         else if (OverlayFrame.Content is PgcPlayerPage pPage)
         {
+            SecondaryTitleBar.Title = pPage.ViewModel.EpisodeTitle;
             pPage.EnterPlayerHostMode();
         }
         else if (OverlayFrame.Content is LivePlayerPage lPage)
         {
+            SecondaryTitleBar.Title = lPage.ViewModel.Title;
             lPage.EnterPlayerHostMode();
         }
         else if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
+            SecondaryTitleBar.Title = wPage.ViewModel.Title;
             wPage.EnterPlayerHostMode();
         }
     }
@@ -77,6 +84,8 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         MainTitleBar.Visibility = Visibility.Visible;
+        SecondaryTitleBar.Visibility = Visibility.Collapsed;
+        this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
         NavView.IsPaneOpen = true;
         VisualStateManager.GoToState(this, nameof(NormalState), false);
 
