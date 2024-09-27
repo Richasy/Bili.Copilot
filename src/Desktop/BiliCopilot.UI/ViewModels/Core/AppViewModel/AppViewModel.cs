@@ -88,7 +88,7 @@ public sealed partial class AppViewModel : ViewModelBase
         window.SetWindowPresenter(AppWindowPresenterKind.FullScreen);
         if (window is IPlayerHostWindow hostWindow)
         {
-            hostWindow.EnterPlayerHostMode();
+            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullScreen);
         }
     }
 
@@ -114,7 +114,7 @@ public sealed partial class AppViewModel : ViewModelBase
 
         if (window is IPlayerHostWindow hostWindow)
         {
-            hostWindow.EnterPlayerHostMode();
+            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullWindow);
         }
     }
 
@@ -139,7 +139,7 @@ public sealed partial class AppViewModel : ViewModelBase
         window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
         if (window is IPlayerHostWindow hostWindow)
         {
-            hostWindow.EnterPlayerHostMode();
+            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.CompactOverlay);
         }
     }
 

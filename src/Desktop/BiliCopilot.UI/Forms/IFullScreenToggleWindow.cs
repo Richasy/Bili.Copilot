@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+
 namespace BiliCopilot.UI.Forms;
 
 /// <summary>
@@ -10,7 +12,7 @@ public interface IPlayerHostWindow
     /// <summary>
     /// 进入全屏.
     /// </summary>
-    void EnterPlayerHostMode();
+    void EnterPlayerHostMode(PlayerDisplayMode mode);
 
     /// <summary>
     /// 退出全屏.
