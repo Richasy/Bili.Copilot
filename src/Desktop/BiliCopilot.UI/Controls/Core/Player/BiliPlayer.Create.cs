@@ -83,12 +83,14 @@ public sealed partial class BiliPlayer
         {
             Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Screenshot),
             Command = ViewModel?.TakeScreenshotCommand,
+            MinWidth = 160,
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Screenshot },
         });
         contextFlyout.Items.Add(new MenuFlyoutItem
         {
             Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Reload),
             Command = ViewModel?.ReloadCommand,
+            MinWidth = 160,
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.ArrowClockwise },
         });
         _interactionControl = new Rectangle

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -48,7 +48,8 @@ public sealed partial class BiliPlayer
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs? args = default)
     {
-        if (_isTouch
+        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
+        if (isManual
             || _transportControl is null
             || ViewModel.IsPlayerDataLoading
             || ViewModel.IsPlayerInitializing
@@ -226,7 +227,6 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
     {
-        CheckPointerType(e.Pointer);
         if (ViewModel is IslandPlayerViewModel)
         {
             var point = e.GetCurrentPoint((UIElement)sender);
@@ -260,7 +260,4 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerMoved(object sender, PointerRoutedEventArgs e)
         => HandlePointerEvent(e);
-
-    private void CheckPointerType(Pointer pointer)
-        => _isTouch = pointer.PointerDeviceType == PointerDeviceType.Touch;
 }

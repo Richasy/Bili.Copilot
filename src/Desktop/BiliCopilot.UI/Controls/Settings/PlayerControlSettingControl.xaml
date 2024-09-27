@@ -16,6 +16,7 @@
     <UserControl.Resources>
         <converters:PreferCodecTypeConverter x:Key="PreferCodecConverter" />
         <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
+        <converters:MTCBehaviorConverter x:Key="MTCConverter" />
     </UserControl.Resources>
 
     <base:SettingsExpander Description="{ext:Locale Name=PlayerControlDescription}" Header="{ext:Locale Name=PlayerControl}">
@@ -23,6 +24,18 @@
             <ic:SymbolIcon Symbol="VideoPlayPause" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
+            <base:SettingsCard Description="{ext:Locale Name=MTCBehaviorDescription}" Header="{ext:Locale Name=MTCBehavior}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.MTCBehaviorCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.MTCBehavior, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:MTCBehavior">
+                            <TextBlock Text="{x:Bind Converter={StaticResource MTCConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=PreferCodecDescription}" Header="{ext:Locale Name=PreferCodec}">
                 <ComboBox
                     MinWidth="120"
