@@ -169,6 +169,11 @@ public sealed partial class RootLayout : RootLayoutBase
             lPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
             return true;
         }
+        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        {
+            wPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
+            return true;
+        }
 
         return false;
     }

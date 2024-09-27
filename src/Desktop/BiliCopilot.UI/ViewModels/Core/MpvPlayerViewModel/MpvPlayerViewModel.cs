@@ -113,7 +113,16 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
     }
 
     private void OnPlaybackStopped(object? sender, PlaybackStoppedEventArgs e)
-        => ReachEnd();
+    {
+        if (Math.Abs(Position - Duration) < 5)
+        {
+            ReachEnd();
+        }
+        else
+        {
+            UpdateState(PlayerState.Paused);
+        }
+    }
 
     private async void OnLogMessageReceivedAsync(object? sender, LogMessageReceivedEventArgs e)
     {
