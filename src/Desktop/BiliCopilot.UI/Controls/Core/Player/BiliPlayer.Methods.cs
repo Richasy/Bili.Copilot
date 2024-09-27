@@ -119,7 +119,7 @@ public sealed partial class BiliPlayer
         {
             if (!_isCursorDisposed)
             {
-                ProtectedCursor?.Dispose();
+                _overlayContainer.HideCursor();
                 _isCursorDisposed = true;
             }
 
@@ -132,7 +132,7 @@ public sealed partial class BiliPlayer
         _cursorStayTime = 0;
         if (_isCursorDisposed)
         {
-            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            _overlayContainer.ShowCursor();
             _isCursorDisposed = false;
         }
     }

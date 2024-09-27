@@ -1,13 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using System.ComponentModel;
+using System.Windows.Input;
 using BiliCopilot.UI.Controls.Components;
 using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI;
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Core;
 
@@ -20,7 +25,7 @@ public sealed partial class BiliPlayer
     private Func<FrameworkElement> _createTransportControlFunc;
     private Func<SubtitlePresenter> _createSubtitleControlFunc;
 
-    private Grid _overlayContainer;
+    private CursorGrid _overlayContainer;
     private Panel _operationContainer;
     private DanmakuControlBase _danmakuControl;
     private FrameworkElement _transportControl;
@@ -51,7 +56,7 @@ public sealed partial class BiliPlayer
 
     private void CreateOverlayContainer()
     {
-        var rootGrid = new Grid();
+        var rootGrid = new CursorGrid();
         _danmakuControl = _createDanmakuControlFunc?.Invoke() ?? default;
         if (_danmakuControl is not null)
         {
@@ -153,6 +158,11 @@ public sealed partial class BiliPlayer
             },
         };
         rootGrid.Children.Add(_failedHolder);
+        if (ViewModel is IslandPlayerViewModel)
+        {
+            rootGrid.Children.Insert(0, CreateHiddenControlsContainer());
+        }
+
         _overlayContainer = rootGrid;
         HookRootPointerEvents();
     }
@@ -231,4 +241,69 @@ public sealed partial class BiliPlayer
             }
         }
     }
+
+    private Grid CreateHiddenControlsContainer()
+    {
+        var grid = new Grid();
+        var increaseVolumeBtn = CreateHiddenButton(VirtualKey.Up, ViewModel.IncreaseVolumeCommand);
+        var decreaseVolumeBtn = CreateHiddenButton(VirtualKey.Down, ViewModel.DecreaseVolumeCommand);
+        var forwardBtn = CreateHiddenButton(VirtualKey.Right, ViewModel.ForwardSkipCommand);
+        var backwardBtn = CreateHiddenButton(VirtualKey.Left, ViewModel.BackwardSkipCommand);
+        var miniBtn = CreateHiddenButton(VirtualKey.F9, ViewModel.ToggleCompactOverlayCommand);
+        var fullBtn = CreateHiddenButton(VirtualKey.F11, ViewModel.ToggleFullScreenCommand);
+        var fullWindowBtn = CreateHiddenButton(VirtualKey.F10, ViewModel.ToggleFullWindowCommand);
+        var backBtn = CreateHiddenButton(VirtualKey.Escape, ViewModel.BackToDefaultModeCommand);
+        grid.Children.Add(increaseVolumeBtn);
+        grid.Children.Add(decreaseVolumeBtn);
+        grid.Children.Add(forwardBtn);
+        grid.Children.Add(backwardBtn);
+        grid.Children.Add(miniBtn);
+        grid.Children.Add(fullBtn);
+        grid.Children.Add(fullWindowBtn);
+        grid.Children.Add(backBtn);
+
+        Button CreateHiddenButton(VirtualKey key, ICommand command, VirtualKeyModifiers modifiers = VirtualKeyModifiers.None)
+        {
+            var accelerator = new KeyboardAccelerator();
+            accelerator.Key = key;
+            accelerator.Modifiers = modifiers;
+            accelerator.IsEnabled = true;
+
+            var btn = new Button
+            {
+                Background = new SolidColorBrush(Colors.Transparent),
+                Width = 1,
+                Height = 1,
+                BorderThickness = new Thickness(0),
+                IsTabStop = false,
+                TabFocusNavigation = Microsoft.UI.Xaml.Input.KeyboardNavigationMode.Once,
+                TabNavigation = Microsoft.UI.Xaml.Input.KeyboardNavigationMode.Once,
+                XYFocusKeyboardNavigation = Microsoft.UI.Xaml.Input.XYFocusKeyboardNavigationMode.Disabled,
+                Command = command,
+            };
+
+            btn.KeyboardAccelerators.Add(accelerator);
+            return btn;
+        }
+
+        return grid;
+    }
+}
+
+/// <summary>
+/// 光标网格.
+/// </summary>
+public partial class CursorGrid : Grid
+{
+    /// <summary>
+    /// 隐藏光标.
+    /// </summary>
+    public void HideCursor()
+        => ProtectedCursor?.Dispose();
+
+    /// <summary>
+    /// 显示光标.
+    /// </summary>
+    public void ShowCursor()
+        => ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
 }

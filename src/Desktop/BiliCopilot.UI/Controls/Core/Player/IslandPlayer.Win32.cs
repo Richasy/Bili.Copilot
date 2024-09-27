@@ -65,7 +65,7 @@ public class MpvPlayerWindow : IDisposable
             fixed (char* windowNamePtr = "BiliPlayer")
             {
                 var hwnd = PInvoke.CreateWindowEx(
-                    WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_TOPMOST,
+                    WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_NOACTIVATE | WINDOW_EX_STYLE.WS_EX_TOPMOST,
                     classNamePtr,
                     windowNamePtr,
                     WINDOW_STYLE.WS_CHILDWINDOW,
