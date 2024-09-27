@@ -123,9 +123,9 @@ public sealed partial class VideoPlayerPageViewModel
             new VideoPlayerInfoSectionDetailViewModel(this),
         };
 
-        if (_playlist is not null)
+        if (_view.Seasons is not null)
         {
-            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
+            sections.Insert(0, new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
         }
 
         if (_view.Parts?.Count > 1)
@@ -133,9 +133,9 @@ public sealed partial class VideoPlayerPageViewModel
             sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePart));
         }
 
-        if (_view.Seasons is not null)
+        if (_playlist is not null)
         {
-            sections.Add(new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
+            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
         }
 
         if (_view.Recommends is not null)
@@ -143,7 +143,7 @@ public sealed partial class VideoPlayerPageViewModel
             sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
         }
 
-        sections.Insert(1, _comments);
+        sections.Add(_comments);
 
         Sections = sections;
         SelectSection(Sections.First());
