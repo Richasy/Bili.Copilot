@@ -57,7 +57,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         // 这里针对 MPV 额外过滤掉杜比视界画质，目前使用 libmpv 暂时还不能正确处理色域映射.
         Downloader.Clear();
-        var isMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Native) == PlayerType.Mpv;
+        var isMpvPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.Mpv;
         var formats = isMpvPlayer ? info.Formats.Where(p => p.Quality != 126) : info.Formats;
         Formats = formats.Select(p => new PlayerFormatItemViewModel(p)).ToList();
 

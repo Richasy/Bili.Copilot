@@ -294,6 +294,7 @@
     <None Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\Settings\AboutSettingControl.xaml" />
+    <None Remove="Controls\Settings\AIResponseSettingControl.xaml" />
     <None Remove="Controls\Settings\AzureOpenAIChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\DouBaoChatConfigSettingSection.xaml" />
@@ -1372,6 +1373,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Settings\AIResponseSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\AIPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

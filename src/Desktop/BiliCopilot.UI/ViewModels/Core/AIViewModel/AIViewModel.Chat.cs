@@ -325,7 +325,10 @@ public sealed partial class AIViewModel
                 return;
             }
 
-            var result = await _client.SendMessageAsync(SelectedService.ProviderType, SelectedModel.Id, prompt, OnStreaming, _generateCancellationTokenSource.Token);
+            var useStreaming = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
+            var result = useStreaming
+                ? await _client.SendMessageAsync(SelectedService.ProviderType, SelectedModel.Id, prompt, OnStreaming, _generateCancellationTokenSource.Token)
+                : await _client.SendMessageAsync(SelectedService.ProviderType, SelectedModel.Id, prompt, cancellationToken: _generateCancellationTokenSource.Token);
             TempResult = string.Empty;
 
             if (_generateCancellationTokenSource?.IsCancellationRequested != false)

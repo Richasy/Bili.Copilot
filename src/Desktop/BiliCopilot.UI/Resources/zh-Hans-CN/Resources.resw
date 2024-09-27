@@ -2717,4 +2717,10 @@
   <data name="MTCBehaviorDescription" xml:space="preserve">
     <value>选择自动弹出（鼠标移动即显示）还是手动呼出（点击播放器才显示）</value>
   </data>
+  <data name="UseStreamResponse" xml:space="preserve">
+    <value>使用流式响应（打字机模式）</value>
+  </data>
+  <data name="UseStreamResponseDescription" xml:space="preserve">
+    <value>如果你所使用的服务不支持流式响应，请关闭该选项</value>
+  </data>
 </root>
