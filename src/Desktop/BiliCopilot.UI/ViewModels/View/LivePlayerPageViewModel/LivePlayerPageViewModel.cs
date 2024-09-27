@@ -28,14 +28,13 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         IDanmakuService danmakuService,
         IRelationshipService relationshipService,
         ILogger<LivePlayerPageViewModel> logger,
-        DanmakuViewModel danmaku,
-        LiveChatSectionDetailViewModel chat)
+        DanmakuViewModel danmaku)
     {
         _service = service;
         _danmakuService = danmakuService;
         _relationshipService = relationshipService;
         _logger = logger;
-        Chat = chat;
+        Chat = new LiveChatSectionDetailViewModel(_service, this);
         Danmaku = danmaku;
         Player.IsLive = true;
         Player.SetProgressAction(PlayerProgressChanged);

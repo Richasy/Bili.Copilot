@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Controls.Core.Common;
+using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -14,11 +14,14 @@ using WinRT;
 namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// MPV 播放器视图模型.
+/// 岛播放器视图模型.
 /// </summary>
 [GeneratedBindableCustomProperty]
-public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
+public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
 {
+    private MpvPlayerWindow _playerWindow;
+    private MpvPlayerOverlayWindow _overlayWindow;
+
     /// <summary>
     /// 播放器内核.
     /// </summary>
@@ -28,7 +31,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
     /// 初始化播放器.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
-    public async Task InitializeAsync(RenderControl renderControl)
+    public async Task InitializeAsync(MpvPlayerWindow playerWindow, MpvPlayerOverlayWindow overlayWindow)
     {
         Player ??= new Mpv.Core.Player();
         if (!Player.Client.IsInitialized)
@@ -38,21 +41,16 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
             Player.PlaybackStateChanged += OnStateChanged;
             Player.PlaybackStopped += OnPlaybackStopped;
             Player.LogMessageReceived += OnLogMessageReceivedAsync;
-            renderControl.Initialize();
-            Player.Client.SetOption("vo", "libmpv");
+            _playerWindow = playerWindow;
+            _overlayWindow = overlayWindow;
+            Player.Client.SetOption("vo", "gpu-next");
+            Player.Client.SetOption("wid", Convert.ToUInt32(playerWindow.GetHandle()));
 #if DEBUG
             Player.Client.RequestLogMessage(MpvLogLevel.V);
 #else
             Player.Client.RequestLogMessage(MpvLogLevel.Error);
 #endif
-            var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
-            await Player.InitializeAsync(args);
-
-            var isGpuChecked = SettingsToolkit.ReadLocalSetting(SettingNames.IsGpuChecked, false);
-            if (!isGpuChecked)
-            {
-                this.Get<AppViewModel>().CheckGpuIsAmdCommand.Execute(default);
-            }
+            await Player.InitializeAsync(default);
         }
 
         if (!IsWebDav)
@@ -76,9 +74,16 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
         IsPlayerInitializing = false;
         _isInitialized = true;
+
         RaiseInitializedEvent();
         await TryLoadPlayDataAsync();
     }
+
+    /// <summary>
+    /// 设置XAML内容.
+    /// </summary>
+    public void SetXamlContent(UIElement element)
+        => _overlayWindow.SetContent(element);
 
     /// <inheritdoc/>
     protected override void SetWebDavConfig(WebDavConfig config)
@@ -125,42 +130,6 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
         if (e.Message.Contains("mpv_render_context_render() not being called or stuck"))
         {
             await Player.TerminateAsync();
-
-            // 渲染崩溃，需要立刻终止.
-            _dispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.High, () =>
-            {
-                ReloadCommand.Execute(default);
-            });
-        }
-    }
-
-    private void InitializeDecode()
-    {
-        var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
-        switch (decodeType)
-        {
-            case PreferDecodeType.Software:
-                Player.Client.SetProperty("hwdec", "no");
-                Player.Client.SetProperty("gpu-context", "auto");
-                Player.Client.SetProperty("gpu-api", "auto");
-                break;
-            case PreferDecodeType.D3D11:
-                Player.Client.SetProperty("hwdec", "d3d11va");
-                Player.Client.SetProperty("gpu-context", "d3d11");
-                Player.Client.SetProperty("gpu-api", "d3d11");
-                break;
-            case PreferDecodeType.NVDEC:
-                Player.Client.SetProperty("hwdec", "nvdec");
-                Player.Client.SetProperty("gpu-context", "auto");
-                Player.Client.SetProperty("gpu-api", "auto");
-                break;
-            case PreferDecodeType.DXVA2:
-                Player.Client.SetProperty("hwdec", "dxva2");
-                Player.Client.SetProperty("gpu-context", "dxinterop");
-                Player.Client.SetProperty("gpu-api", "auto");
-                break;
-            default:
-                break;
         }
     }
 

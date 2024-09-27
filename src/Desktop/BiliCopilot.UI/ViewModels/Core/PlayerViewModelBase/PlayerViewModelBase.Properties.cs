@@ -132,6 +132,11 @@ public abstract partial class PlayerViewModelBase
     public event EventHandler RequestCancelNotification;
 
     /// <summary>
+    /// 初始化已完成.
+    /// </summary>
+    public event EventHandler Initialized;
+
+    /// <summary>
     /// 是否为直播准备.
     /// </summary>
     public bool IsLive { get; set; }

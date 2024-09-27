@@ -13,7 +13,8 @@
         Padding="{x:Bind Padding, Mode=OneWay}"
         HorizontalAlignment="Center"
         Background="{ThemeResource TransportBackground}"
-        CornerRadius="{StaticResource OverlayCornerRadius}">
+        CornerRadius="{StaticResource OverlayCornerRadius}"
+        Visibility="{x:Bind ViewModel.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
         <TextBlock
             VerticalAlignment="Center"
             FontSize="{x:Bind FontSize, Mode=OneWay}"

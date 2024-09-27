@@ -20,9 +20,13 @@
         <DataTemplate x:Key="ExternalTemplate" x:DataType="core:ExternalPlayerViewModel">
             <local:ExternalPlayer ViewModel="{x:Bind Mode=OneWay}" />
         </DataTemplate>
+        <DataTemplate x:Key="IslandTemplate" x:DataType="core:IslandPlayerViewModel">
+            <local:IslandPlayer ViewModel="{x:Bind Mode=OneWay}" />
+        </DataTemplate>
         <ext:PlayerTemplateSelector
             x:Key="PlayerTemplateSelector"
             ExternalTemplate="{StaticResource ExternalTemplate}"
+            IslandTemplate="{StaticResource IslandTemplate}"
             MpvTemplate="{StaticResource MpvTemplate}"
             NativeTemplate="{StaticResource NativeTemplate}" />
     </UserControl.Resources>

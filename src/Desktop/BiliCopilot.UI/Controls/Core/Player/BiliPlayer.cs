@@ -24,12 +24,12 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private bool _isTouch;
     private Point? _lastPointerPoint;
 
-    private double _manipulationDeltaX = 0d;
-    private double _manipulationDeltaY = 0d;
-    private double _manipulationProgress = 0d;
-    private double _manipulationVolume = 0d;
-    private double _manipulationUnitLength = 0d;
-    private bool _manipulationBeforeIsPlay = false;
+    private double _manipulationDeltaX;
+    private double _manipulationDeltaY;
+    private double _manipulationProgress;
+    private double _manipulationVolume;
+    private double _manipulationUnitLength;
+    private bool _manipulationBeforeIsPlay;
     private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
 
     /// <summary>
@@ -47,14 +47,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
             _cursorTimer.Tick += OnCursorTimerTick;
         }
 
-        InteractionControl.Tapped += OnCoreTapped;
-        InteractionControl.DoubleTapped += OnCoreDoubleTapped;
-        InteractionControl.Holding += OnCoreHolding;
-        InteractionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-        InteractionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
-        InteractionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
-        InteractionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
-
         if (ViewModel is null)
         {
             return;
@@ -62,70 +54,33 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
         PlayerPresenter.ViewModel = ViewModel;
         SizeChanged += OnSizeChanged;
-        if (TransportControls is not null)
+
+        SetTransportVisibility(true);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            TransportControls.Visibility = Visibility.Visible;
+            ArrangeSubtitleSize();
             MeasureTransportTriggerRect();
             SetTransportVisibility(false);
-        }
+        });
 
         _cursorTimer?.Start();
-        ArrangeSubtitleSize();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        SizeChanged -= OnSizeChanged;
+        UnHookEventsWithoutViewModel();
         if (ViewModel is not null)
         {
             ViewModel.RequestShowNotification -= OnRequestShowNotification;
             ViewModel.RequestCancelNotification -= OnRequestCancelNotification;
             ViewModel.PropertyChanged -= OnViewModelInnerPropertyChanged;
-        }
-
-        if (_cursorTimer is not null)
-        {
-            _cursorTimer.Tick -= OnCursorTimerTick;
-            _cursorTimer.Stop();
-            _cursorTimer = default;
+            ViewModel.Initialized -= OnViewModelInitialized;
         }
 
         ViewModel = default;
         PlayerPresenter.ViewModel = default;
-
-        if (InteractionControl != null)
-        {
-            InteractionControl.Tapped -= OnCoreTapped;
-            InteractionControl.DoubleTapped -= OnCoreDoubleTapped;
-            InteractionControl.Holding -= OnCoreHolding;
-            InteractionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
-            InteractionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
-            InteractionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
-        }
     }
-
-    /// <inheritdoc/>
-    protected override void OnPointerMoved(PointerRoutedEventArgs e)
-        => HandlePointerEvent(e);
-
-    /// <inheritdoc/>
-    protected override void OnPointerEntered(PointerRoutedEventArgs e)
-        => HandlePointerEvent(e);
-
-    /// <inheritdoc/>
-    protected override void OnPointerExited(PointerRoutedEventArgs e)
-        => HandlePointerEvent(e, true);
-
-    /// <inheritdoc/>
-    protected override void OnPointerPressed(PointerRoutedEventArgs e)
-    {
-        CheckPointerType(e.Pointer);
-    }
-
-    /// <inheritdoc/>
-    protected override void OnPointerCanceled(PointerRoutedEventArgs e)
-        => HandlePointerEvent(e, true);
 
     /// <inheritdoc/>
     protected override void OnViewModelChanged(PlayerViewModelBase? oldValue, PlayerViewModelBase? newValue)
@@ -141,13 +96,79 @@ public sealed partial class BiliPlayer : PlayerControlBase
             oldValue.PropertyChanged -= OnViewModelInnerPropertyChanged;
             oldValue.RequestShowNotification -= OnRequestShowNotification;
             oldValue.RequestCancelNotification -= OnRequestCancelNotification;
+            oldValue.Initialized -= OnViewModelInitialized;
         }
 
         PlayerPresenter.ViewModel = newValue;
         newValue.PropertyChanged += OnViewModelInnerPropertyChanged;
         newValue.RequestShowNotification += OnRequestShowNotification;
         newValue.RequestCancelNotification += OnRequestCancelNotification;
-        ArrangeSubtitleSize();
+        newValue.Initialized += OnViewModelInitialized;
+
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            ArrangeSubtitleSize();
+        });
+    }
+
+    private void HookRootPointerEvents()
+    {
+        _overlayContainer.PointerMoved += OnRootPointerMoved;
+        _overlayContainer.PointerEntered += OnRootPointerEntered;
+        _overlayContainer.PointerExited += OnRootPointerExited;
+        _overlayContainer.PointerPressed += OnRootPointerPressed;
+        _overlayContainer.PointerCanceled += OnRootPointerCanceled;
+    }
+
+    private void UnhookRootPointerEvents()
+    {
+        if (_overlayContainer is not null)
+        {
+            _overlayContainer.PointerMoved -= OnRootPointerMoved;
+            _overlayContainer.PointerEntered -= OnRootPointerEntered;
+            _overlayContainer.PointerExited -= OnRootPointerExited;
+            _overlayContainer.PointerPressed -= OnRootPointerPressed;
+            _overlayContainer.PointerCanceled -= OnRootPointerCanceled;
+        }
+    }
+
+    private void HookInteractionControlEvents()
+    {
+        _interactionControl.Tapped += OnCoreTapped;
+        _interactionControl.DoubleTapped += OnCoreDoubleTapped;
+        _interactionControl.Holding += OnCoreHolding;
+        _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+        _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
+        _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
+        _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
+    }
+
+    private void UnhookInteractionControlEvents()
+    {
+        if (_interactionControl != null)
+        {
+            _interactionControl.Tapped -= OnCoreTapped;
+            _interactionControl.DoubleTapped -= OnCoreDoubleTapped;
+            _interactionControl.Holding -= OnCoreHolding;
+            _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
+            _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
+            _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
+        }
+    }
+
+    private void UnHookEventsWithoutViewModel()
+    {
+        SizeChanged -= OnSizeChanged;
+
+        if (_cursorTimer is not null)
+        {
+            _cursorTimer.Tick -= OnCursorTimerTick;
+            _cursorTimer.Stop();
+            _cursorTimer = default;
+        }
+
+        UnhookInteractionControlEvents();
+        UnhookRootPointerEvents();
     }
 
     private void HandlePointerEvent(PointerRoutedEventArgs e, bool forceHideTransportControls = false)
@@ -171,19 +192,37 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnRequestShowNotification(object? sender, PlayerNotificationItemViewModel e)
     {
-        NotificationContainer.Children.Clear();
+        _notificationContainer.Children.Clear();
         var control = new PlayerNotificationControl();
         control.ViewModel = e;
         e.IsNotificationVisible = true;
-        NotificationContainer.Children.Add(control);
+        _notificationContainer.Children.Add(control);
     }
 
     private void OnRequestCancelNotification(object? sender, EventArgs e)
     {
-        if (NotificationContainer is not null && NotificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
+        if (_notificationContainer is not null && _notificationContainer.Children.FirstOrDefault() is PlayerNotificationControl control)
         {
             control.ViewModel.CancelCommand.Execute(default);
-            NotificationContainer.Children.Clear();
+            _notificationContainer.Children.Clear();
+        }
+    }
+
+    private void OnViewModelInitialized(object? sender, EventArgs e)
+    {
+        if (_overlayContainer is not null)
+        {
+            return;
+        }
+
+        CreateOverlayContainer();
+        if (ViewModel is IslandPlayerViewModel vm)
+        {
+            vm.SetXamlContent(_overlayContainer);
+        }
+        else
+        {
+            RootGrid.Children.Add(_overlayContainer);
         }
     }
 
@@ -192,7 +231,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _isTouch = e.PointerDeviceType == PointerDeviceType.Touch;
         if (_isTouch)
         {
-            SetTransportVisibility(TransportControls.Visibility == Visibility.Collapsed);
+            if (_transportControl is not null)
+            {
+                SetTransportVisibility(_transportControl.Visibility == Visibility.Collapsed);
+            }
         }
         else
         {
@@ -240,7 +282,12 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnViewModelInnerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && TransportControls is not null && !ViewModel.IsExternalPlayer)
+        if (_overlayContainer is not null)
+        {
+            HandleViewModelPropertyChanged(e);
+        }
+
+        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && _transportControl is not null && !ViewModel.IsExternalPlayer)
         {
             SetTransportVisibility(ViewModel.IsPaused);
         }

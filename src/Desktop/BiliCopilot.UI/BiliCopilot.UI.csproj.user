@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\PgcInfoSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoInfoSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\WebDavNextButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\LayoutSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -222,7 +231,7 @@
     <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\LiveDescriptorControl.xaml">
+    <Page Update="Controls\Player\LiveInfoSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\LivePlayerMainHeader.xaml">

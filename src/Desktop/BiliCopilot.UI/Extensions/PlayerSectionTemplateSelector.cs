@@ -20,6 +20,8 @@ internal sealed partial class PlayerSectionTemplateSelector : DataTemplateSelect
 
     public DataTemplate SeasonTemplate { get; set; }
 
+    public DataTemplate InfoTemplate { get; set; }
+
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
         if (item is CommentMainViewModel)
@@ -49,6 +51,10 @@ internal sealed partial class PlayerSectionTemplateSelector : DataTemplateSelect
         else if (item is PgcPlayerSeasonSectionDetailViewModel)
         {
             return SeasonTemplate;
+        }
+        else if (item is VideoPlayerInfoSectionDetailViewModel or PgcPlayerInfoSectionDetailViewModel)
+        {
+            return InfoTemplate;
         }
 
         return default;

@@ -87,7 +87,10 @@ public sealed partial class PgcPlayerPageViewModel
             return;
         }
 
-        var sections = new List<IPlayerSectionDetailViewModel>();
+        var sections = new List<IPlayerSectionDetailViewModel>
+        {
+            new PgcPlayerInfoSectionDetailViewModel(this),
+        };
 
         if (_view.Episodes?.Count > 1)
         {

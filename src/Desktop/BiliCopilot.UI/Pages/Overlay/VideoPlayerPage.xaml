@@ -59,83 +59,34 @@
                     Grid.Row="2"
                     Grid.Column="1" />
 
-                <ScrollViewer
+                <Grid
                     x:Name="VideoContainer"
                     Grid.Row="2"
-                    Margin="0,0,-6,0"
-                    SizeChanged="OnPlayContainerSizeChanged"
-                    Style="{StaticResource PageScrollViewerStyle}">
-                    <StackPanel>
-                        <StackPanel.ChildrenTransitions>
-                            <RepositionThemeTransition IsStaggeringEnabled="False" />
-                        </StackPanel.ChildrenTransitions>
-                        <Grid
-                            x:Name="PlayerContainer"
-                            Height="{x:Bind ViewModel.PlayerHeight, Mode=OneWay}"
-                            MinHeight="200"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Top">
-                            <core:BiliPlayer ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                                <core:BiliPlayer.TransportControls>
-                                    <core:VideoTransportControl
-                                        MaxWidth="800"
-                                        Margin="12"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Bottom"
-                                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}">
-                                        <core:VideoTransportControl.LeftContent>
-                                            <player:VideoPlayerTransportLeftPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                                        </core:VideoTransportControl.LeftContent>
-                                        <core:VideoTransportControl.MiddleContent>
-                                            <danmaku:DanmakuBox ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
-                                        </core:VideoTransportControl.MiddleContent>
-                                        <core:VideoTransportControl.RightContent>
-                                            <StackPanel Orientation="Horizontal">
-                                                <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                                                <player:SubtitleButton
-                                                    Margin="8,0,0,0"
-                                                    ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
-                                                    Visibility="{x:Bind ViewModel.Subtitle.IsAvailable, Mode=OneWay}" />
-                                            </StackPanel>
-                                        </core:VideoTransportControl.RightContent>
-                                    </core:VideoTransportControl>
-                                </core:BiliPlayer.TransportControls>
-                                <core:BiliPlayer.DanmakuControls>
-                                    <danmaku:VideoDanmakuPanel ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" Visibility="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=OneWay}" />
-                                </core:BiliPlayer.DanmakuControls>
-                                <core:BiliPlayer.SubtitleControls>
-                                    <player:SubtitlePresenter
-                                        Margin="0,0,0,16"
-                                        ViewModel="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
-                                        Visibility="{x:Bind ViewModel.Subtitle.CurrentSubtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                                </core:BiliPlayer.SubtitleControls>
-                            </core:BiliPlayer>
-                        </Grid>
-                        <core:ExternalTransportControl
-                            Margin="0,12,0,0"
-                            ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}"
-                            Visibility="{x:Bind ViewModel.Player.IsExternalPlayer, Mode=OneWay}">
-                            <core:ExternalTransportControl.LeftContent>
-                                <player:VideoPlayerTransportLeftPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                            </core:ExternalTransportControl.LeftContent>
-                            <core:ExternalTransportControl.RightContent>
-                                <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                            </core:ExternalTransportControl.RightContent>
-                        </core:ExternalTransportControl>
-                        <Grid
-                            x:Name="PlayerBottomContainer"
-                            Margin="0,12,0,20"
-                            Padding="12,0"
-                            ColumnSpacing="28">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <player:VideoDescriptorControl ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                            <player:VideoOperationControl Grid.Column="1" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
+                    Margin="0,0,-6,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid
+                        x:Name="PlayerContainer"
+                        MinHeight="200"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                        <core:BiliPlayer x:Name="BiliPlayer" ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}" />
+                    </Grid>
+                    <core:ExternalTransportControl
+                        Grid.Row="1"
+                        Margin="0,12,0,0"
+                        ViewModel="{x:Bind ViewModel.Player, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.Player.IsExternalPlayer, Mode=OneWay}">
+                        <core:ExternalTransportControl.LeftContent>
+                            <player:VideoPlayerTransportLeftPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                        </core:ExternalTransportControl.LeftContent>
+                        <core:ExternalTransportControl.RightContent>
+                            <player:VideoPlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                        </core:ExternalTransportControl.RightContent>
+                    </core:ExternalTransportControl>
+                </Grid>
 
                 <InfoBar
                     Grid.Row="2"
@@ -172,7 +123,8 @@
                     Grid.RowSpan="3"
                     Grid.Column="1"
                     ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
-                    IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}"
+                    IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}"
+                    IsHideButtonEnabled="False"
                     IsInvertDirection="True"
                     MaxColumnWidth="500"
                     MinColumnWidth="300" />
@@ -191,12 +143,10 @@
                         <Setter Target="HeaderRow.Height" Value="Auto" />
                         <Setter Target="HeaderDivider.Visibility" Value="Collapsed" />
                         <Setter Target="MainHeader.Visibility" Value="Collapsed" />
-                        <Setter Target="PlayerBottomContainer.Visibility" Value="Collapsed" />
                         <Setter Target="SideSplitter.Visibility" Value="Collapsed" />
                         <Setter Target="SideHeader.Visibility" Value="Collapsed" />
                         <Setter Target="SideBody.Visibility" Value="Collapsed" />
                         <Setter Target="VideoContainer.(Grid.ColumnSpan)" Value="3" />
-                        <Setter Target="VideoContainer.VerticalScrollBarVisibility" Value="Hidden" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

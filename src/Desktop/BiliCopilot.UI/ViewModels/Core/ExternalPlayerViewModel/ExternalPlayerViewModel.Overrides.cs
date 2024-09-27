@@ -110,7 +110,7 @@ public sealed partial class ExternalPlayerViewModel
         try
         {
             ResetPlayer();
-
+            RaiseInitializedEvent();
             _ = Task.Run(() =>
             {
                 PlayerProcess = new Process

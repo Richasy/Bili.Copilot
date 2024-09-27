@@ -23,26 +23,30 @@
             FontWeight="Bold"
             MaxLines="1"
             Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
-        <Button
+        <StackPanel
             Grid.Column="1"
             VerticalAlignment="Center"
-            Style="{StaticResource IconButtonStyle}">
-            <ic:SymbolIcon FontSize="14" Symbol="Share" />
-            <Button.Flyout>
-                <MenuFlyout Placement="Bottom">
-                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
-                    <MenuFlyoutItem
-                        MinWidth="200"
-                        Command="{x:Bind ViewModel.CopyVideoUrlCommand, Mode=OneWay}"
-                        Text="{ext:Locale Name=CopyVideoUrl}" />
-                    <MenuFlyoutItem Command="{x:Bind ViewModel.ShareVideoUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=ShareLink}" />
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />
-                    <MenuFlyoutItem Command="{x:Bind ViewModel.OpenInNewWindowCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenInNewWindow}" />
-                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpv}" />
-                    <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvNetCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpvNet}" />
-                </MenuFlyout>
-            </Button.Flyout>
-        </Button>
+            Orientation="Horizontal"
+            Spacing="4">
+            <Button Style="{StaticResource IconButtonStyle}">
+                <ic:SymbolIcon FontSize="14" Symbol="Share" />
+                <Button.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
+                        <MenuFlyoutItem
+                            MinWidth="200"
+                            Command="{x:Bind ViewModel.CopyVideoUrlCommand, Mode=OneWay}"
+                            Text="{ext:Locale Name=CopyVideoUrl}" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.ShareVideoUrlCommand, Mode=OneWay}" Text="{ext:Locale Name=ShareLink}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=OpenWith}" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.OpenInNewWindowCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenInNewWindow}" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpv}" />
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.Player.OpenWithMpvNetCommand, Mode=OneWay}" Text="{ext:Locale Name=OpenWithMpvNet}" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <base:SideSplitButton IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=TwoWay}" IsInvertDirection="True" />
+        </StackPanel>
     </Grid>
 </local:WebDavPlayerPageControlBase>

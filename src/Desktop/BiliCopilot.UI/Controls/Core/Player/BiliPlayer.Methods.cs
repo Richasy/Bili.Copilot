@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
@@ -13,7 +14,7 @@ public sealed partial class BiliPlayer
 {
     private void MeasureTransportTriggerRect()
     {
-        if (TransportControls is FrameworkElement frameEle)
+        if (_transportControl is FrameworkElement frameEle)
         {
             var width = frameEle.ActualWidth;
             var height = frameEle.ActualHeight;
@@ -27,7 +28,7 @@ public sealed partial class BiliPlayer
 
     private void ArrangeSubtitleSize()
     {
-        if (SubtitleControls is null)
+        if (_subtitlePresenter is null)
         {
             return;
         }
@@ -39,16 +40,16 @@ public sealed partial class BiliPlayer
 
         // 根据实际宽度调整字幕大小，线性增长，每增加100px，字体大小增加3，横向边距增加8，纵向边距增加6.
         var width = ActualWidth;
-        SubtitleControls.FontSize = Math.Max(12, (double)(initialFontSize + ((width - initialWidth) / 100 * 1.5)));
+        _subtitlePresenter.FontSize = Math.Max(12, (double)(initialFontSize + ((width - initialWidth) / 100 * 1.5)));
         var horizontalPadding = Math.Max(8, initialPaddingLeft + ((width - initialWidth) / 100 * 2.5));
         var verticalPadding = Math.Max(8, initialPaddingTop + ((width - initialWidth) / 100 * 1));
-        SubtitleControls.Padding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+        _subtitlePresenter.Padding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
     }
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs? args = default)
     {
         if (_isTouch
-            || TransportControls is null
+            || _transportControl is null
             || ViewModel.IsPlayerDataLoading
             || ViewModel.IsPlayerInitializing
             || ViewModel.IsExternalPlayer)
@@ -89,19 +90,19 @@ public sealed partial class BiliPlayer
 
     private void SetTransportVisibility(bool isVisible)
     {
-        if (TransportControls is null)
+        if (_transportControl is null)
         {
             return;
         }
 
         var visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
         ViewModel?.CheckBottomProgressVisibility(!isVisible);
-        if (TransportControls.Visibility == visibility)
+        if (_transportControl.Visibility == visibility)
         {
             return;
         }
 
-        TransportControls.Visibility = visibility;
+        _transportControl.Visibility = visibility;
     }
 
     private void OnCursorTimerTick(object? sender, object e)
@@ -111,14 +112,14 @@ public sealed partial class BiliPlayer
 
         CheckTransportControlVisibility();
         if (_cursorStayTime >= 2
-            && TransportControls is not null
-            && TransportControls.Visibility == Visibility.Collapsed
+            && _transportControl is not null
+            && _transportControl.Visibility == Visibility.Collapsed
             && !ViewModel.IsPaused
             && !ViewModel.IsPlayerDataLoading)
         {
             if (!_isCursorDisposed)
             {
-                ProtectedCursor?.Dispose();
+                _overlayContainer.HideCursor();
                 _isCursorDisposed = true;
             }
 
@@ -131,7 +132,7 @@ public sealed partial class BiliPlayer
         _cursorStayTime = 0;
         if (_isCursorDisposed)
         {
-            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            _overlayContainer.ShowCursor();
             _isCursorDisposed = false;
         }
     }
@@ -219,6 +220,46 @@ public sealed partial class BiliPlayer
             _manipulationUnitLength = unit / 1.5;
         }
     }
+
+    private void OnRootPointerCanceled(object sender, PointerRoutedEventArgs e)
+        => HandlePointerEvent(e, true);
+
+    private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        CheckPointerType(e.Pointer);
+        if (ViewModel is IslandPlayerViewModel)
+        {
+            var point = e.GetCurrentPoint((UIElement)sender);
+            if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
+            {
+                if (ViewModel.IsFullScreen || ViewModel.IsFullWindow || ViewModel.IsCompactOverlay)
+                {
+                    e.Handled = true;
+                    if (ViewModel.IsFullWindow)
+                    {
+                        ViewModel.ToggleFullWindowCommand.Execute(default);
+                    }
+                    else if (ViewModel.IsCompactOverlay)
+                    {
+                        ViewModel.ToggleCompactOverlayCommand.Execute(default);
+                    }
+                    else
+                    {
+                        ViewModel.ToggleFullScreenCommand.Execute(default);
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnRootPointerExited(object sender, PointerRoutedEventArgs e)
+        => HandlePointerEvent(e, true);
+
+    private void OnRootPointerEntered(object sender, PointerRoutedEventArgs e)
+        => HandlePointerEvent(e);
+
+    private void OnRootPointerMoved(object sender, PointerRoutedEventArgs e)
+        => HandlePointerEvent(e);
 
     private void CheckPointerType(Pointer pointer)
         => _isTouch = pointer.PointerDeviceType == PointerDeviceType.Touch;

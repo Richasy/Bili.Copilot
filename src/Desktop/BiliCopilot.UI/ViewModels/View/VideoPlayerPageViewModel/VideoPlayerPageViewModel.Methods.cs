@@ -118,7 +118,10 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _comments.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
-        var sections = new List<IPlayerSectionDetailViewModel>();
+        var sections = new List<IPlayerSectionDetailViewModel>
+        {
+            new VideoPlayerInfoSectionDetailViewModel(this),
+        };
 
         if (_playlist is not null)
         {

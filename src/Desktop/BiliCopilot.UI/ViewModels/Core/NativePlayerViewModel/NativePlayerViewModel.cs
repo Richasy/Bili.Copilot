@@ -41,6 +41,7 @@ public sealed partial class NativePlayerViewModel : PlayerViewModelBase
 
         IsPlayerInitializing = false;
         _isInitialized = true;
+        RaiseInitializedEvent();
         await TryLoadPlayDataAsync();
     }
 

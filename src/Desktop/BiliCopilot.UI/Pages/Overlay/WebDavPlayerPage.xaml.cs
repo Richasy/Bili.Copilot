@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
 using Richasy.WinUI.Share.Base;
@@ -15,7 +17,11 @@ public sealed partial class WebDavPlayerPage : WebDavPlayerPageBase
     /// <summary>
     /// Initializes a new instance of the <see cref="WebDavPlayerPage"/> class.
     /// </summary>
-    public WebDavPlayerPage() => InitializeComponent();
+    public WebDavPlayerPage()
+    {
+        InitializeComponent();
+        BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
+    }
 
     /// <summary>
     /// 进入播放器主持模式.
@@ -51,6 +57,20 @@ public sealed partial class WebDavPlayerPage : WebDavPlayerPageBase
     /// <inheritdoc/>
     protected override void OnNavigatedFrom(NavigationEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
+
+    private FrameworkElement CreateTransportControl()
+    {
+        var nextBtn = new WebDavNextButton { ViewModel = ViewModel };
+        return new VideoTransportControl
+        {
+            MaxWidth = 800,
+            Margin = new Thickness(12),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            ViewModel = ViewModel.Player,
+            LeftContent = nextBtn,
+        };
+    }
 }
 
 /// <summary>

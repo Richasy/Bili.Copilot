@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net.WebSockets;
 using System.Threading;
 using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -38,9 +39,11 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="LiveChatSectionDetailViewModel"/> class.
     /// </summary>
     public LiveChatSectionDetailViewModel(
-        IPlayerService service)
+        IPlayerService service,
+        LivePlayerPageViewModel pageVM)
     {
         _service = service;
+        Page = pageVM;
         _logger = this.Get<ILogger<LiveChatSectionDetailViewModel>>();
         IsEmpty = true;
     }
@@ -54,6 +57,11 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     /// 消息集合.
     /// </summary>
     public ObservableCollection<LiveDanmakuItemViewModel> Messages { get; } = new();
+
+    /// <summary>
+    /// 页面.
+    /// </summary>
+    public LivePlayerPageViewModel Page { get; }
 
     /// <summary>
     /// 开始监听.

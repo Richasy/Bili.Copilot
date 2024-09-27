@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Margin="0,0,-2,-2">
+    <Grid x:Name="RootGrid" Margin="0,0,-2,-2">
         <local:PlayerPresenter x:Name="PlayerPresenter" />
         <Grid x:Name="HiddenControlsContainer">
             <Button
@@ -83,86 +83,5 @@
                 </Button.KeyboardAccelerators>
             </Button>
         </Grid>
-        <ContentControl
-            x:Name="DanmakuControlsContainer"
-            Margin="3,4,12,12"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Content="{x:Bind DanmakuControls, Mode=OneWay}"
-            Style="{StaticResource AppContentControlStyle}"
-            Visibility="{x:Bind ViewModel.IsExternalPlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <ProgressBar
-            Margin="0,0,0,1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            IsIndeterminate="{x:Bind ViewModel.IsBuffering, Mode=OneWay}"
-            Maximum="{x:Bind ViewModel.Duration, Mode=OneWay}"
-            ShowPaused="{x:Bind ViewModel.IsPaused, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.IsBottomProgressVisible, Mode=OneWay}"
-            Value="{x:Bind ViewModel.Position, Mode=OneWay}" />
-        <Rectangle
-            x:Name="InteractionControl"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Fill="Transparent"
-            IsHoldingEnabled="True"
-            Visibility="{x:Bind ViewModel.IsExternalPlayer, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <Rectangle.ContextFlyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem
-                        MinWidth="180"
-                        Command="{x:Bind ViewModel.TakeScreenshotCommand, Mode=OneWay}"
-                        Text="{ext:Locale Name=Screenshot}">
-                        <MenuFlyoutItem.Icon>
-                            <ic:SymbolIcon Symbol="Screenshot" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}" Text="{ext:Locale Name=Reload}">
-                        <MenuFlyoutItem.Icon>
-                            <ic:SymbolIcon Symbol="ArrowClockwise" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                </MenuFlyout>
-            </Rectangle.ContextFlyout>
-        </Rectangle>
-        <StackPanel
-            x:Name="NotificationContainer"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <StackPanel
-            x:Name="OperationContainer"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Bottom"
-            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-            <ContentControl
-                x:Name="SubtitleContainer"
-                HorizontalAlignment="Stretch"
-                Content="{x:Bind SubtitleControls, Mode=OneWay}"
-                Style="{StaticResource AppContentControlStyle}" />
-            <ContentControl
-                x:Name="TransportControlsContainer"
-                MinHeight="16"
-                HorizontalAlignment="Stretch"
-                Content="{x:Bind TransportControls, Mode=OneWay}"
-                Style="{StaticResource AppContentControlStyle}" />
-        </StackPanel>
-        <components:LoadingWidget
-            Margin="8"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Visibility="{x:Bind ViewModel.IsPlayerDataLoading, Mode=OneWay}" />
-        <components:EmptyHolder
-            Title="{ext:Locale Name=FailedToPlay}"
-            Description="{ext:Locale Name=FailedToPlayDescription}"
-            Emoji="&#x1F647;"
-            Visibility="{x:Bind ViewModel.IsFailed, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-            <components:EmptyHolder.ActionElement>
-                <Button
-                    HorizontalAlignment="Stretch"
-                    Command="{x:Bind ViewModel.ReloadCommand, Mode=OneWay}"
-                    Content="{ext:Locale Name=Reload}" />
-            </components:EmptyHolder.ActionElement>
-        </components:EmptyHolder>
     </Grid>
 </local:PlayerControlBase>
