@@ -30,6 +30,23 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
         _parentWindow = this.Get<AppViewModel>().ActivatedWindow;
     }
 
+    /// <summary>
+    /// 重置窗口位置.
+    /// </summary>
+    public void ResetWindowPosition()
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, async () =>
+        {
+            await Task.Delay(300);
+            InitializeLayoutPoints();
+            if (_playerWindow is not null && _playerWindow.GetHandle() != IntPtr.Zero)
+            {
+                PInvoke.SetWindowPos(new(_playerWindow.GetHandle()), HWND.Null, (int)_windowLeftTopPoint.X, (int)_windowLeftTopPoint.Y, (int)_lastWidth, (int)_lastHeight, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
+                _overlayWindow.MoveAndResize((int)_lastWidth, (int)_lastHeight);
+            }
+        });
+    }
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
@@ -72,18 +89,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     }
 
     private void OnRootGridSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, async () =>
-        {
-            await Task.Delay(200);
-            InitializeLayoutPoints();
-            if (_playerWindow is not null && _playerWindow.GetHandle() != IntPtr.Zero)
-            {
-                PInvoke.SetWindowPos(new(_playerWindow.GetHandle()), HWND.Null, (int)_windowLeftTopPoint.X, (int)_windowLeftTopPoint.Y, (int)_lastWidth, (int)_lastHeight, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
-                _overlayWindow.MoveAndResize((int)_lastWidth, (int)_lastHeight);
-            }
-        });
-    }
+        => ResetWindowPosition();
 
     private void InitializeLayoutPoints()
     {

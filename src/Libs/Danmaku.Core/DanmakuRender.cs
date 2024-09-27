@@ -174,9 +174,10 @@ namespace Danmaku.Core
             try
             {
                 if (danmakuItem.Mode != DanmakuMode.Advanced && danmakuItem.Mode != DanmakuMode.Subtitle)
-                {
-                    danmakuItem.TextColor = Color.FromArgb((byte)(_textOpacity * byte.MaxValue), danmakuItem.TextColor.R, danmakuItem.TextColor.G, danmakuItem.TextColor.B);
-                }
+                    if (danmakuItem.Mode != DanmakuMode.Advanced && danmakuItem.Mode != DanmakuMode.Subtitle)
+                    {
+                        danmakuItem.TextColor = Color.FromArgb((byte)(_textOpacity * byte.MaxValue), danmakuItem.TextColor.R, danmakuItem.TextColor.G, danmakuItem.TextColor.B);
+                    }
                 DanmakuRenderItem renderItem = new DanmakuRenderItem(danmakuItem);
                 if (renderItem.Mode == DanmakuMode.Unknown)
                 {
@@ -788,6 +789,12 @@ namespace Danmaku.Core
                             }
                         }
                     }
+                }
+
+                if (totalCount == 0)
+                {
+                    // Draw an empty frame to keep the animation running.
+                    args.DrawingSession.Clear(Colors.Transparent);
                 }
 
                 if (DebugMode)

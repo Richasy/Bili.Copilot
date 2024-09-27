@@ -196,6 +196,13 @@ public sealed partial class BiliPlayer
             {
                 _progressBar.Value = ViewModel.Position;
             }
+
+            if (_needRemeasureSize && PlayerPresenter?.TryGetIslandPlayer() is IslandPlayer islandPlayer)
+            {
+                islandPlayer.ResetWindowPosition();
+            }
+
+            _needRemeasureSize = false;
         }
         else if (e.PropertyName == nameof(ViewModel.IsBottomProgressVisible))
         {
