@@ -36,38 +36,7 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource OverlayCornerRadius}" />
-            <Grid Width="400">
-                <Grid Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="56" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <local:AIHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                    <Border
-                        Grid.Row="1"
-                        Height="1"
-                        HorizontalAlignment="Stretch"
-                        Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-                    <components:EmptyHolder
-                        Title="{ext:Locale Name=NoAIModel}"
-                        Grid.Row="2"
-                        Description="{ext:Locale Name=NoAIModelDescription}"
-                        Emoji="&#x1F916;"
-                        Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay}" />
-                    <local:AIBody
-                        Grid.Row="2"
-                        ViewModel="{x:Bind ViewModel, Mode=OneWay}"
-                        Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                    <local:AIFooter Grid.Row="3" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-                </Grid>
-                <components:EmptyHolder
-                    Title="{ext:Locale Name=NoAIService}"
-                    Description="{ext:Locale Name=NoAIServiceDescription}"
-                    Emoji="&#x1F916;"
-                    Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay}" />
-            </Grid>
+            <local:AIPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:TranslationAnimation
                     From="20,0"

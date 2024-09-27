@@ -134,7 +134,6 @@
             Description="{ext:Locale Name=RequestVideoFailed}"
             Emoji="&#x1F635;"
             Visibility="{x:Bind ViewModel.IsPageLoadFailed, Mode=OneWay}" />
-        <ai:AIOverlayPanel IsPanelOpened="{x:Bind ViewModel.IsAIOverlayOpened, Mode=TwoWay}" ViewModel="{x:Bind ViewModel.AI, Mode=OneWay}" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="DefaultState" />

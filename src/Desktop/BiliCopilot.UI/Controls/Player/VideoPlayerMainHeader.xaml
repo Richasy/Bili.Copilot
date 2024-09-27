@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Player.VideoPlayerMainHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ai="using:BiliCopilot.UI.Controls.AI"
     xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -39,14 +40,26 @@
             Orientation="Horizontal"
             Spacing="4">
             <Button
+                x:Name="AIButton"
                 VerticalAlignment="Center"
-                Command="{x:Bind ViewModel.ToggleAIOverlayVisibilityCommand, Mode=OneWay}"
                 Style="{StaticResource IconButtonStyle}">
                 <ic:SymbolIcon
                     FontSize="16"
                     Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                     IconVariant="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
                     Symbol="Sparkle" />
+                <Button.Flyout>
+                    <Flyout
+                        Opened="OnAIOpened"
+                        Placement="BottomEdgeAlignedLeft"
+                        ShouldConstrainToRootBounds="False">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                    </Flyout>
+                </Button.Flyout>
             </Button>
             <Button VerticalAlignment="Center" Style="{StaticResource IconButtonStyle}">
                 <ic:SymbolIcon FontSize="14" Symbol="Share" />

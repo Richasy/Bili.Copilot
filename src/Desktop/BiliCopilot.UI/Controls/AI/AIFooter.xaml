@@ -54,7 +54,10 @@
                         <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=MorePrompts}" />
                     </StackPanel>
                     <FlyoutBase.AttachedFlyout>
-                        <Flyout x:Name="MorePromptFlyout" Placement="Top">
+                        <Flyout
+                            x:Name="MorePromptFlyout"
+                            Placement="Top"
+                            ShouldConstrainToRootBounds="False">
                             <Flyout.FlyoutPresenterStyle>
                                 <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                     <Setter Property="Padding" Value="8" />
