@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
@@ -29,7 +30,7 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
         var item = sender.SelectedItem as VideoItemViewModel;
         if (item is not null && ViewModel.SelectedItem != item)
         {
-            item.PlayCommand.Execute(default);
+            ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
         }
     }
 

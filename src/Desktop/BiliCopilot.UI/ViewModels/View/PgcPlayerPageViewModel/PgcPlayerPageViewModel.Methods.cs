@@ -102,14 +102,7 @@ public sealed partial class PgcPlayerPageViewModel
             sections.Add(new PgcPlayerSeasonSectionDetailViewModel(_view.Seasons, _view.Information.Identifier.Id));
         }
 
-        if (sections.Count == 0)
-        {
-            sections.Add(_comments);
-        }
-        else
-        {
-            sections.Insert(1, _comments);
-        }
+        sections.Add(_comments);
 
         Sections = sections;
         SelectSection(Sections.First());

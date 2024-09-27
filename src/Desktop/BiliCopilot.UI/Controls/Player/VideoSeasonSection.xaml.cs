@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models.Media;
@@ -37,7 +38,7 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
         var item = sender.SelectedItem as VideoItemViewModel;
         if (item is not null && ViewModel.SelectedItem != item)
         {
-            item.PlayCommand.Execute(default);
+            ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
         }
     }
 
