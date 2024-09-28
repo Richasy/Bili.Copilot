@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -247,6 +248,10 @@ public sealed partial class BiliPlayer
                     {
                         ViewModel.ToggleFullScreenCommand.Execute(default);
                     }
+                }
+                else if (this.Get<AppViewModel>().ActivatedWindow is MainWindow)
+                {
+                    this.Get<NavigationViewModel>().Back();
                 }
             }
         }
