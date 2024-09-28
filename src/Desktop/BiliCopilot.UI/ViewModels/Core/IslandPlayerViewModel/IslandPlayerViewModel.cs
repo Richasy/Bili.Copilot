@@ -216,7 +216,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
                 break;
             case PreferDecodeType.NVDEC:
                 Player.Client.SetOption("vo", "gpu");
-                Player.Client.SetOption("hwdec", "cuda");
+                Player.Client.SetOption("hwdec", "nvdec");
                 Player.Client.SetOption("gpu-context", "auto");
                 break;
             case PreferDecodeType.Vulkan:
