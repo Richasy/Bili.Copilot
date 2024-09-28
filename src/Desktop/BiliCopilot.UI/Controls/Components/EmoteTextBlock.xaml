@@ -68,7 +68,7 @@
             Visibility="Collapsed">
             <ic:SymbolIcon FontSize="12" Symbol="MoreHorizontal" />
             <Button.Flyout>
-                <Flyout Opened="OnOverflowFlyoutOpened">
+                <Flyout Opened="OnOverflowFlyoutOpened" ShouldConstrainToRootBounds="False">
                     <RichTextBlock
                         x:Name="FlyoutRichBlock"
                         MaxWidth="360"
