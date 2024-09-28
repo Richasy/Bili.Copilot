@@ -51,7 +51,16 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
-        PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
+        try
+        {
+            PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
+        }
+        catch (Exception)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
+            PreferDecode = PreferDecodeType.Auto;
+        }
+
         PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
         MTCBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic);
         ExternalPlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.ExternalPlayer, ExternalPlayerType.Mpv);
@@ -61,6 +70,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
         WithoutCredentialWhenGenDownloadCommand = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
         IsExternalPlayerType = PlayerType == PlayerType.External;
+        IsIslandPlayerType = PlayerType == PlayerType.Island;
         FilterAISubtitle = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         IsAIStreamingResponse = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
         if (string.IsNullOrEmpty(DefaultDownloadPath))
@@ -158,6 +168,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     partial void OnPlayerTypeChanged(PlayerType value)
     {
         IsExternalPlayerType = value == PlayerType.External;
+        IsIslandPlayerType = value == PlayerType.Island;
         SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, value);
     }
 

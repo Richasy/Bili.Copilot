@@ -15,7 +15,6 @@
 
     <UserControl.Resources>
         <converters:PreferCodecTypeConverter x:Key="PreferCodecConverter" />
-        <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
         <converters:MTCBehaviorConverter x:Key="MTCConverter" />
     </UserControl.Resources>
 
@@ -48,19 +47,6 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </base:SettingsCard>
-            <!--  目前该选项暂无用武之地  -->
-            <!--<base:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
-                <ComboBox
-                    MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.PreferDecode, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="constants:PreferDecodeType">
-                            <TextBlock Text="{x:Bind Converter={StaticResource PreferDecodeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </base:SettingsCard>-->
             <base:SettingsCard Description="{ext:Locale Name=SingleFastForwardAndRewindSpanDescription}" Header="{ext:Locale Name=SingleFastForwardAndRewindSpan}">
                 <NumberBox
                     MinWidth="120"

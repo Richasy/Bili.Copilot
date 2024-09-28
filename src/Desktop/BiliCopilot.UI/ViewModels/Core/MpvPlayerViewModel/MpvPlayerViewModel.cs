@@ -145,10 +145,10 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
     private void InitializeDecode()
     {
-        var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Software);
+        var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
         switch (decodeType)
         {
-            case PreferDecodeType.Software:
+            case PreferDecodeType.Auto:
                 Player.Client.SetProperty("hwdec", "no");
                 Player.Client.SetProperty("gpu-context", "auto");
                 Player.Client.SetProperty("gpu-api", "auto");

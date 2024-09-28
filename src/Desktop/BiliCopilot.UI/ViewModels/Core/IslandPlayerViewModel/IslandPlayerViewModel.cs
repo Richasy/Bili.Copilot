@@ -43,7 +43,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             Player.LogMessageReceived += OnLogMessageReceivedAsync;
             _playerWindow = playerWindow;
             _overlayWindow = overlayWindow;
-            Player.Client.SetOption("vo", "gpu-next");
+            InitializeDecode();
             Player.Client.SetOption("wid", Convert.ToUInt32(playerWindow.GetHandle()));
 #if DEBUG
             Player.Client.RequestLogMessage(MpvLogLevel.V);
@@ -188,5 +188,49 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
 
         var auth = $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}";
         Player.Client.SetOption("http-header-fields", $"Authorization: {auth}");
+    }
+
+    private void InitializeDecode()
+    {
+        var decodeType = PreferDecodeType.Auto;
+        try
+        {
+            decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
+        }
+        catch (Exception)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
+        }
+
+        switch (decodeType)
+        {
+            case PreferDecodeType.Auto:
+                Player.Client.SetOption("vo", "gpu");
+                Player.Client.SetOption("hwdec", "auto-safe");
+                Player.Client.SetOption("gpu-context", "auto");
+                break;
+            case PreferDecodeType.D3D11:
+                Player.Client.SetOption("vo", "gpu");
+                Player.Client.SetOption("hwdec", "d3d11va");
+                Player.Client.SetOption("gpu-context", "d3d11");
+                break;
+            case PreferDecodeType.NVDEC:
+                Player.Client.SetOption("vo", "gpu");
+                Player.Client.SetOption("hwdec", "nvdec");
+                Player.Client.SetOption("gpu-context", "auto");
+                break;
+            case PreferDecodeType.Vulkan:
+                Player.Client.SetOption("vo", "gpu-next");
+                Player.Client.SetOption("hwdec", "vulkan");
+                Player.Client.SetOption("gpu-context", "auto");
+                break;
+            case PreferDecodeType.DXVA2:
+                Player.Client.SetOption("vo", "gpu");
+                Player.Client.SetOption("hwdec", "dxva2");
+                Player.Client.SetOption("gpu-context", "d3d11");
+                break;
+            default:
+                break;
+        }
     }
 }

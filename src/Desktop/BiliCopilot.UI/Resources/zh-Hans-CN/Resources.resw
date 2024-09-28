@@ -2723,4 +2723,7 @@
   <data name="UseStreamResponseDescription" xml:space="preserve">
     <value>如果你所使用的服务不支持流式响应，请关闭该选项</value>
   </data>
+  <data name="VulkanDecode" xml:space="preserve">
+    <value>Vulkan 硬解</value>
+  </data>
 </root>
