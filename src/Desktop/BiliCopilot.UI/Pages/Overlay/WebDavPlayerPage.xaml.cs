@@ -55,7 +55,7 @@ public sealed partial class WebDavPlayerPage : WebDavPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
     private FrameworkElement CreateTransportControl()
