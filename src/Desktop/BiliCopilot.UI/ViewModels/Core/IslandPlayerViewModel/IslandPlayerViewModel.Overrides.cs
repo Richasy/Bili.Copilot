@@ -17,12 +17,11 @@ public sealed partial class IslandPlayerViewModel
     /// <inheritdoc/>
     protected override async Task OnCloseAsync()
     {
-        if (!IsMediaLoaded())
+        if (IsMediaLoaded())
         {
-            return;
+            Player?.Pause();
         }
 
-        Player?.Pause();
         await Player?.DisposeAsync();
         _playerWindow?.Dispose();
         _overlayWindow?.Dispose();

@@ -171,6 +171,11 @@ public class MpvPlayerOverlayWindow : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        _desktopWindowXamlSource?.Dispose();
+        if (_desktopWindowXamlSource != null)
+        {
+            _desktopWindowXamlSource.Content = default;
+            _desktopWindowXamlSource?.SiteBridge?.Dispose();
+            _desktopWindowXamlSource?.Dispose();
+        }
     }
 }

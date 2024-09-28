@@ -17,12 +17,11 @@ public sealed partial class MpvPlayerViewModel
     /// <inheritdoc/>
     protected override async Task OnCloseAsync()
     {
-        if (!IsMediaLoaded())
+        if (IsMediaLoaded())
         {
-            return;
+            Player?.Pause();
         }
 
-        Player?.Pause();
         await Player?.DisposeAsync();
     }
 
