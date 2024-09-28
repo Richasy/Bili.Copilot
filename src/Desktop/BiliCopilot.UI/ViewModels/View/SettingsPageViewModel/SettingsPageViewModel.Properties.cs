@@ -65,6 +65,9 @@ public sealed partial class SettingsPageViewModel
     private bool _isExternalPlayerType;
 
     [ObservableProperty]
+    private bool _isIslandPlayerType;
+
+    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]

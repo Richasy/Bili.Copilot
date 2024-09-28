@@ -8,9 +8,9 @@ namespace BiliCopilot.UI.Models.Constants;
 public enum PreferDecodeType
 {
     /// <summary>
-    /// 软解.
+    /// 自动.
     /// </summary>
-    Software,
+    Auto,
 
     /// <summary>
     /// D3D11硬解.
@@ -26,4 +26,9 @@ public enum PreferDecodeType
     /// DXVA2硬解.
     /// </summary>
     DXVA2,
+
+    /// <summary>
+    /// Vulkan硬解.
+    /// </summary>
+    Vulkan,
 }

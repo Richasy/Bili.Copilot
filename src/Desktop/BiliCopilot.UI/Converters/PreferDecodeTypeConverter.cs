@@ -13,9 +13,10 @@ internal sealed partial class PreferDecodeTypeConverter : IValueConverter
         var decode = (PreferDecodeType)value;
         return decode switch
         {
-            PreferDecodeType.Software => ResourceToolkit.GetLocalizedString(StringNames.SoftwareDecode),
+            PreferDecodeType.Auto => ResourceToolkit.GetLocalizedString(StringNames.Automatic),
             PreferDecodeType.D3D11 => ResourceToolkit.GetLocalizedString(StringNames.D3D11Decode),
             PreferDecodeType.NVDEC => ResourceToolkit.GetLocalizedString(StringNames.NVDECDecode),
+            PreferDecodeType.Vulkan => ResourceToolkit.GetLocalizedString(StringNames.VulkanDecode),
             PreferDecodeType.DXVA2 => ResourceToolkit.GetLocalizedString(StringNames.DXVA2Decode),
             _ => string.Empty,
         };
