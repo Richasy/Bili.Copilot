@@ -65,6 +65,7 @@ public sealed partial class BiliPlayer
 
         if (_danmakuControl is not null)
         {
+            _danmakuControl.Margin = new Thickness(4, 12, 4, 12);
             _danmakuControl.HorizontalAlignment = HorizontalAlignment.Stretch;
             _danmakuControl.VerticalAlignment = VerticalAlignment.Stretch;
             rootGrid.Children.Add(_danmakuControl);
