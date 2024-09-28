@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <RootNamespace>BiliCopilot.UI</RootNamespace>
@@ -19,8 +19,8 @@
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
     
-  <!-- TODO: 由于WebView2尚未支持 aot trim，所以暂时不会在发布版本中使用 AOT -->
-  <PropertyGroup>
+  <!-- TODO: .NET 8 AOT 可能会导致 XAML 随机崩溃，等待 .NET 9 正式推出再启用 -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <PublishAot>true</PublishAot>
   </PropertyGroup>
   <ItemGroup>
