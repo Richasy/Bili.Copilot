@@ -53,7 +53,7 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
     private DanmakuControlBase CreateDanmakuPanel()

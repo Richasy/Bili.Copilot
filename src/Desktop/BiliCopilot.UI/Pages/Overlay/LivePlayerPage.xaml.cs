@@ -51,7 +51,7 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         => ViewModel.CleanCommand.Execute(default);
 
     private DanmakuControlBase CreateDanmakuControl()
