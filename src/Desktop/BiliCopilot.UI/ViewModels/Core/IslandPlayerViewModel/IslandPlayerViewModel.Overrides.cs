@@ -95,6 +95,7 @@ public sealed partial class IslandPlayerViewModel
 
             if (!IsLive && !IsWebDav)
             {
+                await Task.Delay(500);
                 Player.ResetDuration();
                 SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
                 Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
