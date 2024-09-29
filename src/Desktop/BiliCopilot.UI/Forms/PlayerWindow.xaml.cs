@@ -64,6 +64,22 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     }
 
     /// <summary>
+    /// 打开视频.
+    /// </summary>
+    public void OpenVideo((List<VideoInformation> videos, VideoSnapshot snapshot) data)
+    {
+        Activate();
+        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
+        if (preferPlayer == PlayerType.Web)
+        {
+            MainFrame.Navigate(typeof(WebPlayerPage), $"https://www.bilibili.com/video/av{data.snapshot.Video.Identifier.Id}");
+            return;
+        }
+
+        MainFrame.Navigate(typeof(VideoPlayerPage), data);
+    }
+
+    /// <summary>
     /// 打开PGC内容.
     /// </summary>
     public void OpenPgc(MediaIdentifier pgc)
