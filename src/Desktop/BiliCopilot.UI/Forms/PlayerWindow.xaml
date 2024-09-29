@@ -18,6 +18,7 @@
         <base:AppTitleBar
             x:Name="TitleBar"
             Title="{ext:Locale Name=AppName}"
+            BackRequested="OnBackRequested"
             BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
             BorderThickness="0,0,0,1"
             IsBackButtonVisible="False">
