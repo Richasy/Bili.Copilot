@@ -38,6 +38,11 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             return;
         }
 
+        if (!string.IsNullOrEmpty(cover))
+        {
+            Cover = new Uri(cover);
+        }
+
         var updater = _smtc.DisplayUpdater;
         updater.ClearAll();
         updater.Type = MediaPlaybackType.Video;

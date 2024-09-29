@@ -11,7 +11,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" Margin="0,0,-2,-2">
+    <Grid x:Name="RootGrid" Background="Black">
+        <Image
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Source="{x:Bind ViewModel.Cover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+            Stretch="Uniform"
+            Visibility="{x:Bind ViewModel.Cover, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
         <local:PlayerPresenter x:Name="PlayerPresenter" />
         <Grid x:Name="HiddenControlsContainer">
             <Button
