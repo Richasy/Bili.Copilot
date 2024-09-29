@@ -109,6 +109,8 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void EnterPlayerHostMode(PlayerDisplayMode mode)
     {
         TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
+        TitleBar.IsBackButtonVisible = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
+        TitleBar.BackIcon = mode == PlayerDisplayMode.FullWindow ? FluentIcons.Common.Symbol.WindowAd : FluentIcons.Common.Symbol.ContractDownLeft;
         if (MainFrame.Content is VideoPlayerPage vPage)
         {
             TitleBar.Title = vPage.ViewModel.Title;
@@ -136,6 +138,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     {
         TitleBar.Visibility = Visibility.Visible;
         TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
+        TitleBar.IsBackButtonVisible = false;
         if (MainFrame.Content is VideoPlayerPage vPage)
         {
             vPage.ExitPlayerHostMode();
@@ -376,4 +379,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
             TryBackToDefaultMode();
         }
     }
+
+    private void OnBackRequested(object sender, EventArgs e)
+        => TryBackToDefaultMode();
 }

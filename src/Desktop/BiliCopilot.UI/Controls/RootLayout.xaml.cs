@@ -47,6 +47,8 @@ public sealed partial class RootLayout : RootLayoutBase
 
         MainTitleBar.Visibility = Visibility.Collapsed;
         SecondaryTitleBar.Visibility = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay ? Visibility.Visible : Visibility.Collapsed;
+        SecondaryTitleBar.IsBackButtonVisible = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
+        SecondaryTitleBar.BackIcon = mode == PlayerDisplayMode.FullWindow ? FluentIcons.Common.Symbol.WindowAd : FluentIcons.Common.Symbol.ContractDownLeft;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         NavView.IsPaneOpen = false;
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
@@ -85,6 +87,7 @@ public sealed partial class RootLayout : RootLayoutBase
 
         MainTitleBar.Visibility = Visibility.Visible;
         SecondaryTitleBar.Visibility = Visibility.Collapsed;
+        SecondaryTitleBar.IsBackButtonVisible = false;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
         NavView.IsPaneOpen = true;
         VisualStateManager.GoToState(this, nameof(NormalState), false);
@@ -264,6 +267,9 @@ public sealed partial class RootLayout : RootLayoutBase
 
     private void OnHistoryButtonClick(object sender, EventArgs e)
         => ViewModel.NavigateToOver(typeof(HistoryPage), default);
+
+    private void OnVideoBackRequested(object sender, EventArgs e)
+        => TryBackToDefaultIfPlayerHostMode();
 }
 
 /// <summary>
