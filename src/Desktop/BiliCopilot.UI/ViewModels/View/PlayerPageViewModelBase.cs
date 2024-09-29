@@ -31,5 +31,7 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
             PlayerType.Island => new IslandPlayerViewModel(),
             _ => new NativePlayerViewModel(),
         };
+
+        Player.AttachedWindow = this.Get<AppViewModel>().ActivatedWindow;
     }
 }

@@ -158,6 +158,11 @@ public abstract partial class PlayerViewModelBase
     /// 视频标题.
     /// </summary>
     public string Title { get; set; }
+
+    /// <summary>
+    /// 播放器关联的窗口.
+    /// </summary>
+    public Window AttachedWindow { get; set; }
 }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore SA1401 // Fields should be private
