@@ -12,7 +12,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// </summary>
 public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewModel>
 {
-    private readonly Window _parentWindow;
+    private Window _parentWindow;
     private MpvPlayerWindow _playerWindow;
     private MpvPlayerOverlayWindow _overlayWindow;
     private double _scale;
@@ -27,7 +27,6 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     public IslandPlayer()
     {
         DefaultStyleKey = typeof(IslandPlayer);
-        _parentWindow = this.Get<AppViewModel>().ActivatedWindow;
     }
 
     /// <summary>
@@ -57,6 +56,7 @@ public sealed partial class IslandPlayer : LayoutControlBase<IslandPlayerViewMod
     /// <inheritdoc/>
     protected override async void OnControlLoaded()
     {
+        _parentWindow = ViewModel.AttachedWindow;
         InitializeLayoutPoints();
         if (_playerWindow is null)
         {

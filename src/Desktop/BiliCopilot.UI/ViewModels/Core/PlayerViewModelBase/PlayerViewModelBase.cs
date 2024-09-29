@@ -173,6 +173,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     {
         IsPaused = true;
         _isClosed = true;
+        AttachedWindow = default;
         if (_smtc is not null)
         {
             _smtc.DisplayUpdater.ClearAll();
