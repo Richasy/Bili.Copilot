@@ -116,6 +116,9 @@ public abstract partial class PlayerViewModelBase
     [ObservableProperty]
     private bool _isAmdMpvWarningShown;
 
+    [ObservableProperty]
+    private Uri? _cover;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>
