@@ -38,13 +38,13 @@ public sealed partial class ModelClientEndpointConfigSettingSection : AIServiceC
             KeyCard.Visibility = Visibility.Collapsed;
         }
 
+        EndpointBox.Text = (ViewModel.Config as ClientEndpointConfigBase)?.Endpoint ?? string.Empty;
         ViewModel.CheckCurrentConfig();
     }
 
     private void OnKeyBoxLoaded(object sender, RoutedEventArgs e)
     {
         KeyBox.Password = ViewModel.Config?.Key ?? string.Empty;
-        EndpointBox.Text = (ViewModel.Config as ClientEndpointConfigBase)?.Endpoint ?? string.Empty;
         KeyBox.Focus(FocusState.Programmatic);
     }
 
