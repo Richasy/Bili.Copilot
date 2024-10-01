@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using Azure.AI.OpenAI;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
@@ -34,24 +33,10 @@ public sealed class AzureOpenAIProvider : ProviderBase, IAgentProvider
         if (ShouldRecreateKernel(modelId))
         {
             Kernel = Kernel.CreateBuilder()
-                .AddAzureOpenAIChatCompletion(modelId, BaseUri.AbsoluteUri, AccessKey, apiVersion: ConvertAzureOpenAIVersion(Version), modelId: modelId)
+                .AddAzureOpenAIChatCompletion(modelId, BaseUri.AbsoluteUri, AccessKey, serviceVersion: AzureOpenAIClientOptions.ServiceVersion.V2024_06_01, modelId: modelId)
                 .Build();
         }
 
         return Kernel;
-    }
-
-    private static OpenAIClientOptions.ServiceVersion ConvertAzureOpenAIVersion(AzureOpenAIVersion version)
-    {
-        return version switch
-        {
-            AzureOpenAIVersion.V2022_12_01 => OpenAIClientOptions.ServiceVersion.V2022_12_01,
-            AzureOpenAIVersion.V2023_05_15 or AzureOpenAIVersion.V2023_10_01_Preview => OpenAIClientOptions.ServiceVersion.V2023_05_15,
-            AzureOpenAIVersion.V2023_06_01_Preview => OpenAIClientOptions.ServiceVersion.V2023_06_01_Preview,
-            AzureOpenAIVersion.V2024_02_15_Preview => OpenAIClientOptions.ServiceVersion.V2024_02_15_Preview,
-            AzureOpenAIVersion.V2024_03_01_Preview => OpenAIClientOptions.ServiceVersion.V2024_03_01_Preview,
-            AzureOpenAIVersion.V2024_02_01 => OpenAIClientOptions.ServiceVersion.V2024_02_15_Preview,
-            _ => throw new NotSupportedException("Version not supported."),
-        };
     }
 }

@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <NoWarn>$(NoWarn);SKEXP0010;NU1900</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\semantic-kernel\dotnet\src\Connectors\Connectors.Anthropic\Connectors.Anthropic.csproj" />
+    <ProjectReference Include="..\..\semantic-kernel\dotnet\src\Connectors\Connectors.AzureOpenAI\Connectors.AzureOpenAI.csproj" />
     <ProjectReference Include="..\..\semantic-kernel\dotnet\src\Connectors\Connectors.DouBao\Connectors.DouBao.csproj" />
     <ProjectReference Include="..\..\semantic-kernel\dotnet\src\Connectors\Connectors.Google\Connectors.Google.csproj" />
     <ProjectReference Include="..\..\semantic-kernel\dotnet\src\Connectors\Connectors.HunYuan\Connectors.HunYuan.csproj" />

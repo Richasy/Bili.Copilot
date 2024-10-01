@@ -14,14 +14,10 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-  </PropertyGroup>
-    
-  <!-- TODO: .NET 8 AOT 可能会导致 XAML 随机崩溃，等待 .NET 9 正式推出再启用 -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <PublishAot>true</PublishAot>
+    <PublishAot>false</PublishAot>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
