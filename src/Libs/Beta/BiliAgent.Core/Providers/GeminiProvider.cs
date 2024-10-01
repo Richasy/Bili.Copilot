@@ -44,14 +44,9 @@ public sealed class GeminiProvider : ProviderBase, IAgentProvider
             Temperature = 1,
             SafetySettings =
             [
-                new(GeminiSafetyCategory.Sexual, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.SexuallyExplicit, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.Violence, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.DangerousContent, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.Medical, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.Toxicity, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.Harassment, GeminiSafetyThreshold.BlockOnlyHigh),
-                new(GeminiSafetyCategory.Derogatory, GeminiSafetyThreshold.BlockOnlyHigh),
+                new(GeminiSafetyCategory.DangerousContent, GeminiSafetyThreshold.BlockNone),
+                new(GeminiSafetyCategory.SexuallyExplicit, GeminiSafetyThreshold.BlockNone),
+                new(GeminiSafetyCategory.Harassment, GeminiSafetyThreshold.BlockNone),
             ],
         };
 }
