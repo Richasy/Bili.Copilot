@@ -2275,7 +2275,7 @@
     <value>D3D11 硬解</value>
   </data>
   <data name="NVDECDecode" xml:space="preserve">
-    <value>NVDEC 硬解（Nvdia 显卡）</value>
+    <value>NVDEC 硬解（仅限N卡）</value>
   </data>
   <data name="DXVA2Decode" xml:space="preserve">
     <value>DXVA2 硬解</value>

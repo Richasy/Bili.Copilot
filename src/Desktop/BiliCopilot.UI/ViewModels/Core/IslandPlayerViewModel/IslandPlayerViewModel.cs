@@ -207,7 +207,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             case PreferDecodeType.Auto:
                 Player.Client.SetOption("vo", "gpu");
                 Player.Client.SetOption("hwdec", "auto-safe");
-                Player.Client.SetOption("gpu-context", "auto");
+                Player.Client.SetOption("gpu-context", "win");
                 break;
             case PreferDecodeType.D3D11:
                 Player.Client.SetOption("vo", "gpu");
@@ -217,12 +217,12 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             case PreferDecodeType.NVDEC:
                 Player.Client.SetOption("vo", "gpu");
                 Player.Client.SetOption("hwdec", "nvdec");
-                Player.Client.SetOption("gpu-context", "auto");
+                Player.Client.SetOption("gpu-context", "win");
                 break;
             case PreferDecodeType.Vulkan:
                 Player.Client.SetOption("vo", "gpu-next");
                 Player.Client.SetOption("hwdec", "vulkan");
-                Player.Client.SetOption("gpu-context", "auto");
+                Player.Client.SetOption("gpu-context", "winvk");
                 break;
             case PreferDecodeType.DXVA2:
                 Player.Client.SetOption("vo", "gpu");
