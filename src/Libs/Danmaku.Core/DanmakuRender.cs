@@ -44,6 +44,7 @@ namespace Danmaku.Core
         private volatile float _rollingAreaRatio = 0.8f;
         private volatile float _rollingSpeed = DefaultRollingSpeed; // 1 to 10
         private volatile bool _isPaused;
+        private float _scale = 1.0f;
         private double _textOpacity = 1.0;
         private Color _borderColor = Colors.Blue;
         private string _defaultFontFamilyName = DefaultFontFamilyName;
@@ -69,9 +70,10 @@ namespace Danmaku.Core
             _canvas = canvas ?? throw new ArgumentNullException("canvas");
             _container = container;
             _dpi = _canvas.Dpi;
-            CanvasWidth = (float)container.ActualWidth;
-            CanvasHeight = (float)_container.ActualHeight;
-            _rollingSpeed = DefaultRollingSpeed;
+            _scale = (float)(_canvas?.XamlRoot?.RasterizationScale ?? 1.0);
+            CanvasWidth = (float)(container.ActualWidth * _scale);
+            CanvasHeight = (float)(_container.ActualHeight * _scale);
+            _rollingSpeed = (float)(DefaultRollingSpeed * _scale);
 
             _container.SizeChanged += OnContainerSizeChanged;
             _canvas.CreateResources += OnCanvasCreateResources;
@@ -116,7 +118,7 @@ namespace Danmaku.Core
 
         public void SetRollingSpeed(double value)
         {
-            _rollingSpeed = (float)(value * 0.02f);
+            _rollingSpeed = (float)(value * 0.02f * _scale);
         }
 
         public void SetOpacity(double value)
@@ -224,6 +226,7 @@ namespace Danmaku.Core
                         }
                     }
                     textFormat.FontSize = (int)Math.Max(textFormat.FontSize, 2f);
+                    textFormat.FontSize = textFormat.FontSize * _scale;
 
                     if (!string.IsNullOrWhiteSpace(renderItem.FontFamilyName))
                     {
@@ -584,11 +587,11 @@ namespace Danmaku.Core
                 return;
             }
 
-            CanvasWidth = (float)e.NewSize.Width;
-            CanvasHeight = (float)e.NewSize.Height;
+            CanvasWidth = (float)(e.NewSize.Width * _scale);
+            CanvasHeight = (float)(e.NewSize.Height * _scale);
             for (int i = 0; i < _renderLayerList.Length; i++)
             {
-                _renderLayerList[i].UpdateYSlotManagerLength((uint)e.NewSize.Height, _rollingAreaRatio);
+                _renderLayerList[i].UpdateYSlotManagerLength((uint)(e.NewSize.Height * _scale), _rollingAreaRatio);
             }
             Logger.Log($"Update canvas size: {CanvasWidth}x{CanvasHeight}");
         }
@@ -725,6 +728,7 @@ namespace Danmaku.Core
                 }
 
                 int totalCount = 0;
+                args.DrawingSession.Transform = new Matrix3x2 { M11 = 1f / _scale, M22 = 1f / _scale };
                 for (uint layerId = 0; layerId < _renderLayerList.Length; layerId++)
                 {
                     if (!_renderLayerList[layerId].IsEnabled)
