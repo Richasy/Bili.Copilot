@@ -36,7 +36,7 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="{StaticResource OverlayCornerRadius}" />
-            <local:AIPanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            <local:AIPanel Width="400" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:TranslationAnimation
                     From="20,0"

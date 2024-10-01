@@ -39,28 +39,6 @@
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="4">
-            <Button
-                x:Name="AIButton"
-                VerticalAlignment="Center"
-                Style="{StaticResource IconButtonStyle}">
-                <ic:SymbolIcon
-                    FontSize="16"
-                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                    IconVariant="{x:Bind ViewModel.IsAIOverlayOpened, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
-                    Symbol="Sparkle" />
-                <Button.Flyout>
-                    <Flyout
-                        Opened="OnAIOpened"
-                        Placement="BottomEdgeAlignedLeft"
-                        ShouldConstrainToRootBounds="False">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
             <Button VerticalAlignment="Center" Style="{StaticResource IconButtonStyle}">
                 <ic:SymbolIcon FontSize="14" Symbol="Share" />
                 <Button.Flyout>
