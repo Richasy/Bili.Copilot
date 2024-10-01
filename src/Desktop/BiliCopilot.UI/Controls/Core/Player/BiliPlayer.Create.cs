@@ -261,6 +261,11 @@ public sealed partial class BiliPlayer
             {
                 _loadingWidget.Visibility = ViewModel.IsPlayerDataLoading ? Visibility.Visible : Visibility.Collapsed;
             }
+
+            if (!ViewModel.IsPlayerDataLoading)
+            {
+                DispatcherQueue.TryEnqueue(ArrangeSubtitleSize);
+            }
         }
     }
 
