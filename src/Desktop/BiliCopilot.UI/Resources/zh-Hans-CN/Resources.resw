@@ -2726,4 +2726,7 @@
   <data name="VulkanDecode" xml:space="preserve">
     <value>Vulkan 硬解</value>
   </data>
+  <data name="IslandPlayer" xml:space="preserve">
+    <value>岛（MPV）</value>
+  </data>
 </root>

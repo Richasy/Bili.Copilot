@@ -45,7 +45,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         PreferCodecCollection = Enum.GetValues<PreferCodecType>().ToList();
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
         PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
-        PlayerTypeCollection = Enum.GetValues<PlayerType>().ToList();
+        PlayerTypeCollection = Enum.GetValues<PlayerType>().Where(p => p != PlayerType.Mpv).ToList();
         MTCBehaviorCollection = Enum.GetValues<MTCBehavior>().ToList();
         ExternalPlayerTypeCollection = Enum.GetValues<ExternalPlayerType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
@@ -59,6 +59,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
             PreferDecode = PreferDecodeType.Auto;
+        }
+
+        // 移除 MPV 播放器.
+        if (SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.Mpv)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, PlayerType.Island);
         }
 
         PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
