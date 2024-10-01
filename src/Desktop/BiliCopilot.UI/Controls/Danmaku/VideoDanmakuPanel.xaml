@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Visibility="{x:Bind ViewModel.IsShowDanmaku, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+    <Grid x:Name="RootGrid" x:Load="{x:Bind ViewModel.IsShowDanmaku, Mode=OneWay}" />
 </local:DanmakuControlBase>
