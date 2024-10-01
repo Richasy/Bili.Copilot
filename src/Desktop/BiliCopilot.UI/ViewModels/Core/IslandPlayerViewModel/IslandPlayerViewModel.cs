@@ -207,7 +207,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             case PreferDecodeType.Auto:
                 Player.Client.SetOption("vo", "gpu");
                 Player.Client.SetOption("hwdec", "auto-safe");
-                Player.Client.SetOption("gpu-context", "win");
+                Player.Client.SetOption("gpu-context", "auto");
                 break;
             case PreferDecodeType.D3D11:
                 Player.Client.SetOption("vo", "gpu");
