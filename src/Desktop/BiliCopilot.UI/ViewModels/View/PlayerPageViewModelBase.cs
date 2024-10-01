@@ -24,11 +24,16 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
     protected PlayerPageViewModelBase()
     {
         var playerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
+        if (playerType == PlayerType.Mpv)
+        {
+            playerType = PlayerType.Island;
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, playerType);
+        }
+
         Player = playerType switch
         {
-            PlayerType.Mpv => new MpvPlayerViewModel(),
-            PlayerType.External => new ExternalPlayerViewModel(),
             PlayerType.Island => new IslandPlayerViewModel(),
+            PlayerType.External => new ExternalPlayerViewModel(),
             _ => new NativePlayerViewModel(),
         };
 

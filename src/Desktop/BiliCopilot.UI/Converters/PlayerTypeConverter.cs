@@ -26,10 +26,10 @@ internal sealed partial class PlayerTypeConverter : IValueConverter
                     result = ResourceToolkit.GetLocalizedString(StringNames.Web);
                     break;
                 case PlayerType.Island:
-                    result = "岛（测试）";
+                    result = ResourceToolkit.GetLocalizedString(StringNames.IslandPlayer);
                     break;
                 default:
-                    result = "MPV";
+                    result = "MPV（已弃用）";
                     break;
             }
         }
