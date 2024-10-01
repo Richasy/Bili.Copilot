@@ -30,8 +30,12 @@
         <DataTemplate x:Key="InfoTemplate" x:DataType="components:VideoPlayerInfoSectionDetailViewModel">
             <local:VideoInfoSection ViewModel="{x:Bind Page}" />
         </DataTemplate>
+        <DataTemplate x:Key="AITemplate" x:DataType="components:VideoPlayerAISectionDetailViewModel">
+            <local:VideoAISection ViewModel="{x:Bind AI}" />
+        </DataTemplate>
         <extensions:PlayerSectionTemplateSelector
             x:Key="Selector"
+            AITemplate="{StaticResource AITemplate}"
             CommentTemplate="{StaticResource CommentTemplate}"
             InfoTemplate="{StaticResource InfoTemplate}"
             PartTemplate="{StaticResource PartTemplate}"

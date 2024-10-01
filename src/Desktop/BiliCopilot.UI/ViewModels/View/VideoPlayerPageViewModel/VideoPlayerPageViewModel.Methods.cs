@@ -144,6 +144,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         sections.Add(_comments);
+        sections.Add(new VideoPlayerAISectionDetailViewModel(AI));
 
         Sections = sections;
         SelectSection(Sections.First());

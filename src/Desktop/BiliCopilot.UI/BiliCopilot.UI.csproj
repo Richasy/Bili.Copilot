@@ -259,6 +259,7 @@
     <None Remove="Controls\Player\SubtitleButton.xaml" />
     <None Remove="Controls\Player\SubtitlePresenter.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
+    <None Remove="Controls\Player\VideoAISection.xaml" />
     <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
     <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
     <None Remove="Controls\Player\VideoInfoSection.xaml" />
@@ -1369,6 +1370,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Player\VideoAISection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Settings\AIResponseSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

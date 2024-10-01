@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Width="400">
+    <Grid>
         <Grid Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="56" />
