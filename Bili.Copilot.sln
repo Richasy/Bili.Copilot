@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliAgent.Core", "src\Libs\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.MistralAI", "src\Libs\semantic-kernel\dotnet\src\Connectors\Connectors.MistralAI\Connectors.MistralAI.csproj", "{9240C92E-FDBF-4793-9283-F6F3FB5E7933}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Connectors.AzureOpenAI", "src\Libs\semantic-kernel\dotnet\src\Connectors\Connectors.AzureOpenAI\Connectors.AzureOpenAI.csproj", "{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -895,6 +897,30 @@ Global
 		{9240C92E-FDBF-4793-9283-F6F3FB5E7933}.Release|x64.Build.0 = Release|Any CPU
 		{9240C92E-FDBF-4793-9283-F6F3FB5E7933}.Release|x86.ActiveCfg = Release|Any CPU
 		{9240C92E-FDBF-4793-9283-F6F3FB5E7933}.Release|x86.Build.0 = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|x64.Build.0 = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Debug|x86.Build.0 = Debug|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|Any CPU.Build.0 = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|ARM64.ActiveCfg = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|ARM64.Build.0 = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|x64.ActiveCfg = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|x64.Build.0 = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|x86.ActiveCfg = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Publish|x86.Build.0 = Publish|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|ARM64.Build.0 = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|x64.ActiveCfg = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|x64.Build.0 = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|x86.ActiveCfg = Release|Any CPU
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -934,6 +960,7 @@ Global
 		{CC540995-04F6-49AC-9B07-3EA8F6823593} = {5D8F912C-C45A-4E18-8477-24C5C55A0848}
 		{A53A4E28-FB98-4B5A-9052-084157BC91C5} = {5D8F912C-C45A-4E18-8477-24C5C55A0848}
 		{9240C92E-FDBF-4793-9283-F6F3FB5E7933} = {5D8F912C-C45A-4E18-8477-24C5C55A0848}
+		{CF9372D3-0B91-44B0-BC8A-06D8B57ABC01} = {5D8F912C-C45A-4E18-8477-24C5C55A0848}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A195D36-BD13-472D-B17E-5070E06D82C8}

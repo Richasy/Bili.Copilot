@@ -6,7 +6,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <NoWarn>CS1591;NU1507</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1507</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <Title>Connectors - WebDav</Title>
