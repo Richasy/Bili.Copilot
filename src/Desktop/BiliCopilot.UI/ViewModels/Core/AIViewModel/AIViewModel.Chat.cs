@@ -10,6 +10,7 @@ using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 

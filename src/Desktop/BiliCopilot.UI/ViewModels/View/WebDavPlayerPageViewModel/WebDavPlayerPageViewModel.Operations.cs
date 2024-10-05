@@ -7,6 +7,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
+using Richasy.WinUI.Share.Base;
 using Windows.ApplicationModel.DataTransfer;
 using WinUIEx;
 

@@ -130,7 +130,7 @@
                     MinColumnWidth="300" />
             </Grid>
         </Grid>
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=RequestVideoFailed}"
             Emoji="&#x1F635;"
             Visibility="{x:Bind ViewModel.IsPageLoadFailed, Mode=OneWay}" />

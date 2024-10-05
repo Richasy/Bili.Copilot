@@ -12,6 +12,7 @@ using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.System;
 using WinRT;

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models.Constants;
+using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Forms;
 

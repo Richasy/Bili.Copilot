@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.WebDav.WebDavPageBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -22,14 +23,14 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            <components:EmptyHolder
+            <base:EmptyHolder
                 Title="{ext:Locale Name=NoFiles}"
                 Description="{ext:Locale Name=NoFilesDescription}"
                 Emoji="&#x1F9D0;"
                 Visibility="{x:Bind ViewModel.IsItemsEmpty, Mode=OneWay}" />
             <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         </Grid>
-        <components:EmptyHolder
+        <base:EmptyHolder
             Title="{ext:Locale Name=InvalidServiceConfig}"
             Description="{ext:Locale Name=InvalidServiceConfigDescription}"
             Emoji="&#x1F62C;"

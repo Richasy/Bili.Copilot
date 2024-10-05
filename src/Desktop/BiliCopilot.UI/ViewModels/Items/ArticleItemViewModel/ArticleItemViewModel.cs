@@ -11,6 +11,7 @@ using Humanizer;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Article;
+using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 using Windows.Globalization;
 using WinRT;

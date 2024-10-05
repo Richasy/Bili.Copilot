@@ -29,7 +29,7 @@
             </Grid>
         </ScrollViewer>
 
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F92A;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

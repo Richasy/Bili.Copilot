@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Player.LiveChatSection"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -19,7 +20,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <local:LiveInfoSection ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}" />
-        <components:EmptyHolder
+        <base:EmptyHolder
             Grid.Row="1"
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F526;"

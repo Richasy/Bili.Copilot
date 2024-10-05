@@ -2,7 +2,6 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using BiliCopilot.UI.Controls.Components;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -206,23 +205,6 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             {
                 SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowHeight, Height);
                 SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowWidth, Width);
-            }
-        }
-    }
-
-    private void OnPreviewKeyDown(object sender, KeyRoutedEventArgs e)
-    {
-        if (e.Key == VirtualKey.XButton1 || e.Key == VirtualKey.XButton2)
-        {
-            e.Handled = true;
-            if (RootLayout.TryBackToDefaultIfPlayerHostMode())
-            {
-                return;
-            }
-
-            if (RootLayout.ViewModel.IsOverlayOpen)
-            {
-                RootLayout.ViewModel.Back();
             }
         }
     }

@@ -12,6 +12,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using Richasy.WinUI.Share.Base;
 using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Core;
