@@ -183,12 +183,6 @@
     <Page Update="Forms\GalleryWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Components\TipPopup.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\StatusTip.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -550,9 +544,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\EmptyHolder.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\LivePartition\LiveSubPartitionMainBody.xaml">

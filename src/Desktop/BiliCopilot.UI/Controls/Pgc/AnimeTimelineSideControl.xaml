@@ -9,7 +9,7 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     VerticalAlignment="Stretch"
     mc:Ignorable="d">
 
@@ -31,7 +31,7 @@
             </ItemsView.Layout>
         </ItemsView>
 
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=RequestPgcTimeLineFailed}"
             Emoji="&#x1F6F8;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}" />

@@ -8,6 +8,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 using WebDav;
 

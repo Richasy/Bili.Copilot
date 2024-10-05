@@ -142,7 +142,6 @@
     <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
     <None Remove="Controls\Components\EmotePanel.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
-    <None Remove="Controls\Components\EmptyHolder.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
     <None Remove="Controls\Components\IconTextBlock.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
@@ -152,9 +151,7 @@
     <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
     <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
-    <None Remove="Controls\Components\StatusTip.xaml" />
     <None Remove="Controls\Components\TipHeader.xaml" />
-    <None Remove="Controls\Components\TipPopup.xaml" />
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
     <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
@@ -721,11 +718,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\EmptyHolder.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1533,12 +1525,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Forms\GalleryWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Components\TipPopup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Components\StatusTip.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <None Update="NLog.config">

@@ -10,6 +10,7 @@ using Humanizer;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
+using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Components;

@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Search.VideoSectionDetailControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -24,7 +25,7 @@
             </Grid>
         </ScrollViewer>
 
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=NoSpecificData}"
             Emoji="&#x1F39E;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

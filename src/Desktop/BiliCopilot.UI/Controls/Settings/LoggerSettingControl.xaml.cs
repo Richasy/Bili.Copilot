@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
+using Richasy.WinUI.Share.Base;
 using Windows.Storage;
 using Windows.System;
 

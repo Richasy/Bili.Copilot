@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Comment.CommentDetailPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -31,14 +32,14 @@
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=NoReply}"
             Emoji="&#x1FAE2;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
-            <components:EmptyHolder.ActionElement>
+            <base:EmptyHolder.ActionElement>
                 <HyperlinkButton Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" Content="{ext:Locale Name=Refresh}" />
-            </components:EmptyHolder.ActionElement>
-        </components:EmptyHolder>
+            </base:EmptyHolder.ActionElement>
+        </base:EmptyHolder>
         <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <local:CommentTextBox
             Grid.Row="1"

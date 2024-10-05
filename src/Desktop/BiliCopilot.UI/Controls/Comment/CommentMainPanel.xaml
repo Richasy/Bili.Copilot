@@ -72,14 +72,14 @@
                     </ItemsControl>
                 </Grid>
             </ScrollViewer>
-            <components:EmptyHolder
+            <base:EmptyHolder
                 Description="{ext:Locale Name=NoReply}"
                 Emoji="&#x1FAE2;"
                 Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
-                <components:EmptyHolder.ActionElement>
+                <base:EmptyHolder.ActionElement>
                     <HyperlinkButton Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}" Content="{ext:Locale Name=Refresh}" />
-                </components:EmptyHolder.ActionElement>
-            </components:EmptyHolder>
+                </base:EmptyHolder.ActionElement>
+            </base:EmptyHolder>
             <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         </Grid>
         <local:CommentDetailPanel

@@ -13,6 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
 using Microsoft.UI;
 using BiliCopilot.UI.ViewModels.Core;
+using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Markdown.TextElements;
 

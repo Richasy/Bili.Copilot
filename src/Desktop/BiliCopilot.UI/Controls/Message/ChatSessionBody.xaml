@@ -8,7 +8,7 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Message"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <Grid>
@@ -33,7 +33,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollView>
-        <components:EmptyHolder
+        <base:EmptyHolder
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F37B;"
             Visibility="{x:Bind ViewModel.IsEmpty}" />

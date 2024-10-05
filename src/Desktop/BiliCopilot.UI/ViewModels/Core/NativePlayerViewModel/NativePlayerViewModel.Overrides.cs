@@ -3,10 +3,10 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security;
-using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Graphics.Canvas;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.WinUI.Share.Base;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.Streaming.Adaptive;
