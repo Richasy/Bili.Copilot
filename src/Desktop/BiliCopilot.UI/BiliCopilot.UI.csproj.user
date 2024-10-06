@@ -564,9 +564,6 @@
     <Page Update="Controls\LivePartition\LivePartitionMainSideBody.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Components\ColumnSplitter.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -622,9 +619,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Popular\PopularSideBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\VisibilityToggleButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Popular\PopularSideHeader.xaml">

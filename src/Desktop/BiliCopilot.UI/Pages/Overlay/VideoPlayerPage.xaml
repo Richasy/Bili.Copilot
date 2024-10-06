@@ -118,16 +118,18 @@
                 </Grid>
 
                 <!--  右侧分栏大小控制器  -->
-                <components:ColumnSplitter
+                <base:ColumnSplitter
                     x:Name="SideSplitter"
                     Grid.RowSpan="3"
                     Grid.Column="1"
                     ColumnWidth="{x:Bind ViewModel.NavColumnWidth, Mode=TwoWay}"
+                    HideTip="{ext:Locale Name=Show}"
                     IsHide="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay}"
                     IsHideButtonEnabled="False"
                     IsInvertDirection="True"
                     MaxColumnWidth="500"
-                    MinColumnWidth="300" />
+                    MinColumnWidth="300"
+                    ShowTip="{ext:Locale Name=Hide}" />
             </Grid>
         </Grid>
         <base:EmptyHolder
