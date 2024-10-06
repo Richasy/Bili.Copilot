@@ -138,7 +138,6 @@
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml" />
-    <None Remove="Controls\Components\ColumnSplitter.xaml" />
     <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
     <None Remove="Controls\Components\EmotePanel.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
@@ -228,7 +227,6 @@
     <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
     <None Remove="Controls\Components\TimelineControl.xaml" />
     <None Remove="Controls\Components\VideoCardControl\VideoCardControl.xaml" />
-    <None Remove="Controls\Components\VisibilityToggleButton.xaml" />
     <None Remove="Controls\Pgc\CinemaMainHeader.xaml" />
     <None Remove="Controls\Pgc\CinemaSideHeader.xaml" />
     <None Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
@@ -642,11 +640,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\CardControl\CardControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\VisibilityToggleButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
