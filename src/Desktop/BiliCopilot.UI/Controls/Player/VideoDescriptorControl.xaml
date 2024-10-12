@@ -12,7 +12,7 @@
 
     <StackPanel Spacing="8">
         <local:UpSectionControl
-            Margin="-6,0,0,0"
+            Margin="-8,0,0,0"
             HorizontalAlignment="Left"
             ActiveCommand="{x:Bind ViewModel.OpenUserSpaceCommand, Mode=OneWay}"
             Avatar="{x:Bind ViewModel.UpAvatar, Mode=OneWay}"
