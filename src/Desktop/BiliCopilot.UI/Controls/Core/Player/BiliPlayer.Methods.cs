@@ -72,8 +72,6 @@ public sealed partial class BiliPlayer
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine($"Pointer: {_lastPointerPoint.Value.X}, {_lastPointerPoint.Value.Y}");
-            System.Diagnostics.Debug.WriteLine($"Rect: {_transportControlTriggerRect.X}, {_transportControlTriggerRect.Y}, {_transportControlTriggerRect.Width}, {_transportControlTriggerRect.Height}");
             var isInStayArea = _transportControlTriggerRect.Contains(_lastPointerPoint ?? new(0, 0));
             var shouldShow = isInStayArea;
             if (!isInStayArea)
