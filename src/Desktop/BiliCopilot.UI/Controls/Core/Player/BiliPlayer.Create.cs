@@ -153,6 +153,7 @@ public sealed partial class BiliPlayer
         _loadingWidget = new LoadingWidget
         {
             Margin = new Thickness(8),
+            Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.LoadingAndWait),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             Visibility = ViewModel?.IsPlayerDataLoading ?? false ? Visibility.Visible : Visibility.Collapsed,

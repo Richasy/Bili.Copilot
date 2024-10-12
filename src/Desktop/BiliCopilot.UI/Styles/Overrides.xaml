@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:community="using:CommunityToolkit.WinUI.Controls">
 
     <Style x:Key="PageScrollViewerStyle" TargetType="ScrollViewer">
@@ -28,6 +29,12 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <Style TargetType="base:LoadingWidget">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="20" />
     </Style>
 
     <Style

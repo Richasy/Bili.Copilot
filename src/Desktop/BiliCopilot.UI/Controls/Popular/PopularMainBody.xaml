@@ -3,12 +3,13 @@
     x:Class="BiliCopilot.UI.Controls.Popular.PopularMainBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Popular"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -43,6 +44,6 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollViewer>
-        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
+        <base:LoadingWidget Text="{ext:Locale Name=LoadingAndWait}" Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
     </Grid>
 </local:PopularPageControlBase>

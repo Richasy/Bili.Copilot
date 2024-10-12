@@ -30,6 +30,6 @@
             Emoji="&#x1F92A;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <base:LoadingWidget Text="{ext:Locale Name=LoadingAndWait}" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
     </Grid>
 </local:LiveHistorySectionBase>
