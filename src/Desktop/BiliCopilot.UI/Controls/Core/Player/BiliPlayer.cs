@@ -38,6 +38,13 @@ public sealed partial class BiliPlayer : PlayerControlBase
     /// </summary>
     public BiliPlayer() => InitializeComponent();
 
+    /// <summary>
+    /// 获取当前是否有文本框获得焦点.
+    /// </summary>
+    /// <returns>结果.</returns>
+    public bool IsTextBoxFocused()
+        => _overlayContainer is not null ? FocusManager.GetFocusedElement(_overlayContainer.XamlRoot) is TextBox : false;
+
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
@@ -54,6 +61,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
 
         PlayerPresenter.ViewModel = ViewModel;
+        ViewModel.SetIsTextBoxFocusedFunc(IsTextBoxFocused);
         SizeChanged += OnSizeChanged;
 
         SetTransportVisibility(true);

@@ -271,23 +271,19 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     {
         if (MainFrame.Content is VideoPlayerPage vPage)
         {
-            vPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return vPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (MainFrame.Content is PgcPlayerPage pPage)
         {
-            pPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return pPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (MainFrame.Content is LivePlayerPage lPage)
         {
-            lPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return lPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (MainFrame.Content is WebDavPlayerPage wPage)
         {
-            wPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return wPage.ViewModel.Player.TryTogglePlayPause();
         }
 
         return false;

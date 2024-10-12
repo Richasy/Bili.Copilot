@@ -18,6 +18,21 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public abstract partial class PlayerViewModelBase
 {
     /// <summary>
+    /// 尝试切换播放/暂停. 如果此时输入框获得焦点，则不执行.
+    /// </summary>
+    /// <returns>结果.</returns>
+    public bool TryTogglePlayPause()
+    {
+        if (_isTextBoxFocusedFunc?.Invoke() ?? false)
+        {
+            return false;
+        }
+
+        TogglePlayPauseCommand.Execute(default);
+        return true;
+    }
+
+    /// <summary>
     /// 媒体是否就绪.
     /// </summary>
     /// <returns>结果.</returns>

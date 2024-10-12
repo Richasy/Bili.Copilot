@@ -166,6 +166,12 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         => _reloadAction = action;
 
     /// <summary>
+    /// 注入检查输入框是否聚焦的回调.
+    /// </summary>
+    public void SetIsTextBoxFocusedFunc(Func<bool> func)
+        => _isTextBoxFocusedFunc = func;
+
+    /// <summary>
     /// 关闭播放器.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
