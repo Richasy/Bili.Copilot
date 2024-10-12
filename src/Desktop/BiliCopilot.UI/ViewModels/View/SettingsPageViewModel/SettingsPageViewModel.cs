@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.ViewModels;
+using Windows.Storage;
 using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.View;
@@ -15,6 +16,13 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// </summary>
 public sealed partial class SettingsPageViewModel : ViewModelBase
 {
+    [RelayCommand]
+    private static async Task OpenMpvConfigAsync()
+    {
+        var mpvConfig = await ApplicationData.Current.LocalFolder.CreateFileAsync("mpv.conf", CreationCollisionOption.OpenIfExists).AsTask();
+        await Launcher.LaunchFileAsync(mpvConfig);
+    }
+
     [RelayCommand]
     private void Initialize()
     {
@@ -79,6 +87,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         IsIslandPlayerType = PlayerType == PlayerType.Island;
         FilterAISubtitle = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         IsAIStreamingResponse = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
+        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
         if (string.IsNullOrEmpty(DefaultDownloadPath))
         {
             DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
@@ -169,7 +178,10 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         => SettingsToolkit.WriteLocalSetting(SettingNames.PreferCodec, value);
 
     partial void OnPreferDecodeChanged(PreferDecodeType value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
+        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
+    }
 
     partial void OnPlayerTypeChanged(PlayerType value)
     {
