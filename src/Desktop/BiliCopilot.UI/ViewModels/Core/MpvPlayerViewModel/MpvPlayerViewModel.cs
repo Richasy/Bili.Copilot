@@ -45,19 +45,7 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 #else
             Player.Client.RequestLogMessage(MpvLogLevel.Error);
 #endif
-            var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
-            string configFilePath = default;
-            if (decodeType == PreferDecodeType.Custom)
-            {
-                var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-                configFilePath = System.IO.Path.Combine(localFolderPath, "mpv.conf");
-                if (!System.IO.File.Exists(configFilePath))
-                {
-                    await File.WriteAllTextAsync(configFilePath, string.Empty);
-                }
-            }
-
-            var args = new InitializeArgument(configFilePath, func: RenderContext.GetProcAddress);
+            var args = new InitializeArgument(default, func: RenderContext.GetProcAddress);
             await Player.InitializeAsync(args);
 
             var isGpuChecked = SettingsToolkit.ReadLocalSetting(SettingNames.IsGpuChecked, false);
