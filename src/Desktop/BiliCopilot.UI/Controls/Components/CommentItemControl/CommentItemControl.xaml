@@ -46,22 +46,22 @@
                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsVip}" />
                                 </Grid>
                             </Button>
-                        </StackPanel>
-                        <Border
-                            x:Name="TopContainer"
-                            Margin="0,12,0,0"
-                            Padding="2"
-                            HorizontalAlignment="Center"
-                            BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource ControlCornerRadius}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsTop}">
-                            <TextBlock
+                            <Border
+                                x:Name="TopContainer"
+                                Margin="0,12,0,0"
+                                Padding="2"
                                 HorizontalAlignment="Center"
-                                FontSize="10"
-                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                Text="{ext:Locale Name=Top}" />
-                        </Border>
+                                BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsTop}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="10"
+                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                    Text="{ext:Locale Name=Top}" />
+                            </Border>
+                        </StackPanel>
                         <Grid Grid.Column="1" RowSpacing="8">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />

@@ -100,7 +100,7 @@ public sealed partial class CommentMainViewModel : ViewModelBase, IPlayerSection
         finally
         {
             IsLoading = false;
-            IsEmpty = Comments.Count == 0;
+            IsEmpty = TopItem is null && Comments.Count == 0;
         }
     }
 
