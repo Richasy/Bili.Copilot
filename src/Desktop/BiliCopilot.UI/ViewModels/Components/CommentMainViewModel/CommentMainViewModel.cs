@@ -78,7 +78,7 @@ public sealed partial class CommentMainViewModel : ViewModelBase, IPlayerSection
             _preventLoadMore = view.IsEnd;
             if (view.TopComment is not null)
             {
-                TopItem = new CommentDetailViewModel(new CommentItemViewModel(view.TopComment, _service, default), ShowMore, _service);
+                TopItem = new CommentDetailViewModel(new CommentItemViewModel(view.TopComment, _service, SetReplyTarget), ShowMore, _service);
             }
 
             foreach (var item in view.Comments)

@@ -62,7 +62,7 @@
                 <StackPanel Margin="12,0">
                     <components:CommentItemControl
                         Margin="0,0,0,4"
-                        ShowMoreCommand="{x:Bind ViewModel.TopItem.ShowMoreCommand}"
+                        ShowMoreCommand="{x:Bind ViewModel.TopItem.ShowMoreCommand, Mode=OneWay}"
                         ViewModel="{x:Bind ViewModel.TopItem.Data, Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.TopItem, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
