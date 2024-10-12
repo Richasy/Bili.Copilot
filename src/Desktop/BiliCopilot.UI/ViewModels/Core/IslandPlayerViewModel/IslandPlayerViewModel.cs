@@ -50,7 +50,19 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
 #else
             Player.Client.RequestLogMessage(MpvLogLevel.Error);
 #endif
-            await Player.InitializeAsync(default);
+            var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
+            string configFilePath = default;
+            if (decodeType == PreferDecodeType.Custom)
+            {
+                var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+                configFilePath = System.IO.Path.Combine(localFolderPath, "mpv.conf");
+                if (!System.IO.File.Exists(configFilePath))
+                {
+                    await File.WriteAllTextAsync(configFilePath, string.Empty);
+                }
+            }
+
+            await Player.InitializeAsync(new InitializeArgument(configFilePath));
         }
 
         if (!IsWebDav)
@@ -217,7 +229,7 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
             case PreferDecodeType.NVDEC:
                 Player.Client.SetOption("vo", "gpu");
                 Player.Client.SetOption("hwdec", "nvdec");
-                Player.Client.SetOption("gpu-context", "win");
+                Player.Client.SetOption("gpu-context", "auto");
                 break;
             case PreferDecodeType.Vulkan:
                 Player.Client.SetOption("vo", "gpu-next");

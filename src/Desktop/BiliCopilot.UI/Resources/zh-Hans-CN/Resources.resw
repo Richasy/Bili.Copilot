@@ -2729,4 +2729,13 @@
   <data name="IslandPlayer" xml:space="preserve">
     <value>岛（MPV）</value>
   </data>
+  <data name="Custom" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="CustomMpvConfig" xml:space="preserve">
+    <value>自定义 MPV 配置</value>
+  </data>
+  <data name="CustomMpvConfigDescription" xml:space="preserve">
+    <value>MPV 用户请参考 mpv.io 的说明进行自定义配置</value>
+  </data>
 </root>

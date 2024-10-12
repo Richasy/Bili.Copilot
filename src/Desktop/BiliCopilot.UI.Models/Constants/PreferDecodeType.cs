@@ -31,4 +31,9 @@ public enum PreferDecodeType
     /// Vulkan硬解.
     /// </summary>
     Vulkan,
+
+    /// <summary>
+    /// 自定义.
+    /// </summary>
+    Custom,
 }

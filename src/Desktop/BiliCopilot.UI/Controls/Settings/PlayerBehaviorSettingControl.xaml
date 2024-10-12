@@ -53,6 +53,15 @@
                 </ComboBox>
             </base:SettingsCard>
             <base:SettingsCard
+                Description="{ext:Locale Name=CustomMpvConfigDescription}"
+                Header="{ext:Locale Name=CustomMpvConfig}"
+                Visibility="{x:Bind ViewModel.IsMpvCustomOptionVisible, Mode=OneWay}">
+                <Button
+                    MinWidth="120"
+                    Command="{x:Bind ViewModel.OpenMpvConfigCommand, Mode=OneWay}"
+                    Content="{ext:Locale Name=OpenConfig}" />
+            </base:SettingsCard>
+            <base:SettingsCard
                 Description="{ext:Locale Name=ExternalPlayerTypeDescription}"
                 Header="{ext:Locale Name=ExternalPlayerType}"
                 Visibility="{x:Bind ViewModel.IsExternalPlayerType, Mode=OneWay}">

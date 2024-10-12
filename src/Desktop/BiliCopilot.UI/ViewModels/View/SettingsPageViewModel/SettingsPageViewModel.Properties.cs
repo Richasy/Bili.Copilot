@@ -44,6 +44,9 @@ public sealed partial class SettingsPageViewModel
     private bool _endWithPlaylist;
 
     [ObservableProperty]
+    private bool _isMpvCustomOptionVisible;
+
+    [ObservableProperty]
     private PreferCodecType _preferCodec;
 
     [ObservableProperty]
