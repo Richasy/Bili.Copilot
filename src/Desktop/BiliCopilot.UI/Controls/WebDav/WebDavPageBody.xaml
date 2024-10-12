@@ -28,7 +28,7 @@
                 Description="{ext:Locale Name=NoFilesDescription}"
                 Emoji="&#x1F9D0;"
                 Visibility="{x:Bind ViewModel.IsItemsEmpty, Mode=OneWay}" />
-            <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+            <base:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         </Grid>
         <base:EmptyHolder
             Title="{ext:Locale Name=InvalidServiceConfig}"

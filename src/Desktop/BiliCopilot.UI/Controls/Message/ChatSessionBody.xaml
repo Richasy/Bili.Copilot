@@ -37,7 +37,7 @@
             Description="{ext:Locale Name=NoMessage}"
             Emoji="&#x1F37B;"
             Visibility="{x:Bind ViewModel.IsEmpty}" />
-        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <local:ChatMessageBox
             Grid.Row="1"
             MaxWidth="800"

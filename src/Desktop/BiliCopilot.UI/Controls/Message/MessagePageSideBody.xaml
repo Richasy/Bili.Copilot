@@ -10,7 +10,7 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Message"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -58,7 +58,7 @@
             VerticalAlignment="Bottom"
             Text="{ext:Locale Name=LoadingAndWait}"
             Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
-        <components1:LoadingWidget Visibility="{x:Bind ViewModel.IsChatSessionLoading, Mode=OneWay}" />
+        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsChatSessionLoading, Mode=OneWay}" />
         <animations:Implicit.ShowAnimations>
             <animations:TranslationAnimation
                 From="-20,0"

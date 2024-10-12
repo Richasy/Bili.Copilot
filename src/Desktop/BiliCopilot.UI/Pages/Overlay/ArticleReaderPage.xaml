@@ -10,7 +10,7 @@
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Pages.Overlay"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <Grid>
@@ -23,7 +23,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
         <comment:CommentOverlayPanel IsPanelOpened="{x:Bind ViewModel.IsCommentsOpened, Mode=TwoWay}" ViewModel="{x:Bind ViewModel.CommentModule, Mode=OneWay}" />
         <ai:AIOverlayPanel IsPanelOpened="{x:Bind ViewModel.IsAIOverlayOpened, Mode=TwoWay}" ViewModel="{x:Bind ViewModel.AI, Mode=OneWay}" />
     </Grid>

@@ -2,7 +2,6 @@
 
 using System.ComponentModel;
 using System.Windows.Input;
-using BiliCopilot.UI.Controls.Components;
 using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Toolkits;

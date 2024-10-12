@@ -8,7 +8,7 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Popular"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -43,6 +43,6 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollViewer>
-        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
+        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsVideoLoading, Mode=OneWay}" />
     </Grid>
 </local:PopularPageControlBase>

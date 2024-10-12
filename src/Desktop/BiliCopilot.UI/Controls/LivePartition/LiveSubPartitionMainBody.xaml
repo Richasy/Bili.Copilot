@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.LivePartition"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <Grid RowSpacing="8">
@@ -38,6 +38,6 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollViewer>
-        <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLiveLoading, Mode=OneWay}" />
+        <base:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsLiveLoading, Mode=OneWay}" />
     </Grid>
 </local:LiveSubPartitionControlBase>

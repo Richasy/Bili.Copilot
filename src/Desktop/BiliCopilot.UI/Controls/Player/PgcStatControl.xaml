@@ -7,32 +7,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <StackPanel Orientation="Horizontal" Spacing="12">
-        <comp:IconTextBlock
+        <base:IconTextBlock
             VerticalAlignment="Center"
             Foreground="{ThemeResource TextFillColorTertiaryBrush}"
             IconBrush="{ThemeResource AccentTextFillColorPrimaryBrush}"
             Symbol="PlayCircle"
             Text="{x:Bind ViewModel.PlayCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
             ToolTipService.ToolTip="{ext:Locale Name=PlayCount}" />
-        <comp:IconTextBlock
+        <base:IconTextBlock
             VerticalAlignment="Center"
             Foreground="{ThemeResource TextFillColorTertiaryBrush}"
             IconBrush="{ThemeResource TextFillColorSecondaryBrush}"
             Symbol="Comment"
             Text="{x:Bind ViewModel.CommentCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
             ToolTipService.ToolTip="{ext:Locale Name=ReplyCount}" />
-        <comp:IconTextBlock
+        <base:IconTextBlock
             VerticalAlignment="Center"
             Foreground="{ThemeResource TextFillColorTertiaryBrush}"
             IconBrush="{ThemeResource TextFillColorSecondaryBrush}"
             Symbol="TextBulletList"
             Text="{x:Bind ViewModel.DanmakuCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
             ToolTipService.ToolTip="{ext:Locale Name=DanmakuCount}" />
-        <comp:IconTextBlock
+        <base:IconTextBlock
             VerticalAlignment="Center"
             Foreground="{ThemeResource TextFillColorTertiaryBrush}"
             IconBrush="{ThemeResource TextFillColorSecondaryBrush}"

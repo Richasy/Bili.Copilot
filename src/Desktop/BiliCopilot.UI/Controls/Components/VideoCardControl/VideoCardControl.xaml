@@ -91,7 +91,7 @@
                                     </Grid>
 
 
-                                    <local:IconTextBlock
+                                    <base:IconTextBlock
                                         Grid.Column="1"
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorTertiaryBrush}"

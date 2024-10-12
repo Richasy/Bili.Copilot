@@ -32,6 +32,6 @@
             Emoji="&#x1F440;"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <components:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+        <base:LoadingWidget Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
     </Grid>
 </local:MomentUperSectionControlBase>

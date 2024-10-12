@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Article"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUI.Share.Base"
     mc:Ignorable="d">
 
     <Grid>
@@ -25,6 +25,6 @@
                 </ItemsRepeater>
             </Grid>
         </ScrollViewer>
-        <components:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsArticleLoading, Mode=OneWay}" />
+        <base:LoadingWidget Grid.Row="1" Visibility="{x:Bind ViewModel.IsArticleLoading, Mode=OneWay}" />
     </Grid>
 </local:ArticlePartitionDetailControlBase>

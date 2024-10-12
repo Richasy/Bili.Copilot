@@ -142,7 +142,6 @@
     <None Remove="Controls\Components\EmotePanel.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
-    <None Remove="Controls\Components\IconTextBlock.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
@@ -222,7 +221,6 @@
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
     <None Remove="Controls\Components\CardControl\CardControl.xaml" />
-    <None Remove="Controls\Components\LoadingWidget.xaml" />
     <None Remove="Controls\Components\SeasonCardControl\SeasonCardControl.xaml" />
     <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
     <None Remove="Controls\Components\TimelineControl.xaml" />
@@ -585,11 +583,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\LoadingWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1289,11 +1282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoDescriptorControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\IconTextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
