@@ -76,6 +76,21 @@
                                 DecodeHeight="280"
                                 DecodeWidth="380"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoCover}" />
+                            <Border
+                                Grid.Row="1"
+                                Margin="4"
+                                Padding="4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.6" Color="Black" />
+                                </Border.Background>
+                                <TextBlock
+                                    Foreground="White"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoDuration}" />
+                            </Border>
                             <base:TrimTextBlock
                                 Grid.Row="2"
                                 HorizontalAlignment="Left"

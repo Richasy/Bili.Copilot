@@ -50,6 +50,11 @@ public sealed partial class MomentItemViewModel
     public Uri? VideoCover { get; init; }
 
     /// <summary>
+    /// 视频时长.
+    /// </summary>
+    public string? VideoDuration { get; init; }
+
+    /// <summary>
     /// 说明.
     /// </summary>
     public EmoteText? Description { get; init; }
