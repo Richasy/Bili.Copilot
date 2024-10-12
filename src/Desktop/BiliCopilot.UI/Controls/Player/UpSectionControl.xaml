@@ -20,7 +20,7 @@
         <Grid Padding="12,8" ColumnSpacing="16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <PersonPicture
@@ -46,7 +46,7 @@
             <Button
                 Grid.Column="2"
                 Margin="8,0,0,0"
-                Padding="16,8"
+                Padding="8"
                 VerticalAlignment="Center"
                 Command="{x:Bind ToggleFollowCommand, Mode=OneWay}"
                 Visibility="{x:Bind IsFollowButtonShown, Mode=OneWay}">
@@ -56,10 +56,6 @@
                         FontSize="14"
                         IconVariant="{x:Bind IsFollow, Mode=OneWay, Converter={StaticResource BoolToIconVariantConverter}}"
                         Symbol="Heart" />
-                    <Grid VerticalAlignment="Center">
-                        <TextBlock Text="{ext:Locale Name=Follow}" Visibility="{x:Bind IsFollow, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                        <TextBlock Text="{ext:Locale Name=Followed}" Visibility="{x:Bind IsFollow, Mode=OneWay}" />
-                    </Grid>
                 </StackPanel>
             </Button>
         </Grid>
