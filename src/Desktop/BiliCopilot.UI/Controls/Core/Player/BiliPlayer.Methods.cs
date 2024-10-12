@@ -21,7 +21,7 @@ public sealed partial class BiliPlayer
             var height = frameEle.ActualHeight;
 
             // 测量 frameEle 相对于 MpvPlayer 的位置.
-            var transform = frameEle.TransformToVisual(this).TransformPoint(new Point(0, 0));
+            var transform = frameEle.TransformToVisual(_overlayContainer).TransformPoint(new Point(0, 0));
 
             _transportControlTriggerRect = new Rect((int)transform.X, (int)transform.Y, (int)width, (int)height);
         }
@@ -63,7 +63,7 @@ public sealed partial class BiliPlayer
         {
             if (args is not null)
             {
-                _lastPointerPoint = args.GetCurrentPoint(this).Position;
+                _lastPointerPoint = args.GetCurrentPoint(_overlayContainer).Position;
             }
 
             if (_lastPointerPoint is null)
@@ -72,6 +72,8 @@ public sealed partial class BiliPlayer
                 return;
             }
 
+            System.Diagnostics.Debug.WriteLine($"Pointer: {_lastPointerPoint.Value.X}, {_lastPointerPoint.Value.Y}");
+            System.Diagnostics.Debug.WriteLine($"Rect: {_transportControlTriggerRect.X}, {_transportControlTriggerRect.Y}, {_transportControlTriggerRect.Width}, {_transportControlTriggerRect.Height}");
             var isInStayArea = _transportControlTriggerRect.Contains(_lastPointerPoint ?? new(0, 0));
             var shouldShow = isInStayArea;
             if (!isInStayArea)

@@ -159,23 +159,19 @@ public sealed partial class RootLayout : RootLayoutBase
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)
         {
-            vPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return vPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (OverlayFrame.Content is PgcPlayerPage pPage)
         {
-            pPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return pPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (OverlayFrame.Content is LivePlayerPage lPage)
         {
-            lPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return lPage.ViewModel.Player.TryTogglePlayPause();
         }
         else if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
-            wPage.ViewModel.Player.TogglePlayPauseCommand.Execute(default);
-            return true;
+            return wPage.ViewModel.Player.TryTogglePlayPause();
         }
 
         return false;

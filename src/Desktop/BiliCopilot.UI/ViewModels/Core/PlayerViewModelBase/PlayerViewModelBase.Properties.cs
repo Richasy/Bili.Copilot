@@ -56,6 +56,7 @@ public abstract partial class PlayerViewModelBase
     protected Action _tapToggleFullScreenAction;
     protected Action _windowStateChangeAction;
     protected DisplayRequest _displayRequest;
+    protected Func<bool> _isTextBoxFocusedFunc;
 
     protected SystemMediaTransportControls? _smtc;
 

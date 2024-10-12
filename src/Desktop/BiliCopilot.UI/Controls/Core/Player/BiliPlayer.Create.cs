@@ -144,6 +144,7 @@ public sealed partial class BiliPlayer
                 _transportControl.MinHeight = 16;
                 _transportControl.HorizontalAlignment = HorizontalAlignment.Stretch;
                 _transportControl.VerticalAlignment = VerticalAlignment.Bottom;
+                _transportControl.SizeChanged += (_, _) => MeasureTransportTriggerRect();
                 _operationContainer.Children.Add(_transportControl);
             }
 
