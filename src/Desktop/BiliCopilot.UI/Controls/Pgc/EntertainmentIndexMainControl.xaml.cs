@@ -71,7 +71,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (SeasonScrollView.ExtentHeight - SeasonScrollView.ViewportHeight - SeasonScrollView.VerticalOffset <= 40)
+            if (SeasonScrollView.ExtentHeight - SeasonScrollView.ViewportHeight - SeasonScrollView.VerticalOffset <= 240)
             {
                 ViewModel.RequestIndexCommand.Execute(default);
             }
@@ -90,7 +90,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (SeasonScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (SeasonScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.RequestIndexCommand.Execute(default);
             }

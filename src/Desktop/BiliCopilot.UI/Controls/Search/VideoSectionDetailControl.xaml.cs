@@ -46,7 +46,7 @@ public sealed partial class VideoSectionDetailControl : VideoSectionDetailContro
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 40)
+            if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -65,7 +65,7 @@ public sealed partial class VideoSectionDetailControl : VideoSectionDetailContro
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (VideoScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (VideoScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }

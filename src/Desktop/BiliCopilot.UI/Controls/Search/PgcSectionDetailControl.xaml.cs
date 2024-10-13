@@ -46,7 +46,7 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 40)
+            if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -65,7 +65,7 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (PgcScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (PgcScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
