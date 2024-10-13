@@ -35,6 +35,7 @@ public sealed partial class BiliPlayer
     private StackPanel _notificationContainer;
     private LoadingWidget _loadingWidget;
     private EmptyHolder _failedHolder;
+    private GestureRecognizer _gestureRecognizer;
 
     /// <summary>
     /// 注入弹幕控件创建函数.
@@ -57,6 +58,10 @@ public sealed partial class BiliPlayer
     private void CreateOverlayContainer()
     {
         var rootGrid = new CursorGrid();
+        _gestureRecognizer = new GestureRecognizer
+        {
+            GestureSettings = GestureSettings.HoldWithMouse | GestureSettings.Hold,
+        };
 
         if (!ViewModel.IsExternalPlayer)
         {

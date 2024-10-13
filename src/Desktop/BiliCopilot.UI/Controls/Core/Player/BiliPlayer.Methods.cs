@@ -139,6 +139,15 @@ public sealed partial class BiliPlayer
         }
     }
 
+    private void OnInteractionControlContextRequested(UIElement sender, ContextRequestedEventArgs args)
+    {
+        if (_isHolding)
+        {
+            args.Handled = true;
+            sender.ContextFlyout?.Hide();
+        }
+    }
+
     private void OnInteractionControlManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
     {
         _manipulationVolume = 0;
@@ -224,10 +233,14 @@ public sealed partial class BiliPlayer
     }
 
     private void OnRootPointerCanceled(object sender, PointerRoutedEventArgs e)
-        => HandlePointerEvent(e, true);
+    {
+        _gestureRecognizer.ProcessUpEvent(e.GetCurrentPoint((UIElement)sender));
+        HandlePointerEvent(e, true);
+    }
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
     {
+        _gestureRecognizer.ProcessDownEvent(e.GetCurrentPoint((UIElement)sender));
         if (ViewModel is IslandPlayerViewModel)
         {
             var point = e.GetCurrentPoint((UIElement)sender);
@@ -264,5 +277,11 @@ public sealed partial class BiliPlayer
         => HandlePointerEvent(e);
 
     private void OnRootPointerMoved(object sender, PointerRoutedEventArgs e)
-        => HandlePointerEvent(e);
+    {
+        _gestureRecognizer.ProcessMoveEvents(e.GetIntermediatePoints((UIElement)sender));
+        HandlePointerEvent(e);
+    }
+
+    private void OnRootPointerReleased(object sender, PointerRoutedEventArgs e)
+        => _gestureRecognizer.ProcessUpEvent(e.GetCurrentPoint((UIElement)sender));
 }
