@@ -102,4 +102,5 @@ public enum SettingNames
     IsTopNavBarShown,
     MTCBehavior,
     IsAIStreamingResponse,
+    UseWebPlayerWhenLive,
 }
