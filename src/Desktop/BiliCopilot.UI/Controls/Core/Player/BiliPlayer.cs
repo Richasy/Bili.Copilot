@@ -18,6 +18,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private Rect _transportControlTriggerRect;
     private DispatcherTimer? _cursorTimer;
 
+    private bool _isHolding;
     private double _lastSpeed;
     private double _cursorStayTime;
     private double _mtcStayTime;
@@ -127,6 +128,23 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _overlayContainer.PointerExited += OnRootPointerExited;
         _overlayContainer.PointerPressed += OnRootPointerPressed;
         _overlayContainer.PointerCanceled += OnRootPointerCanceled;
+        _overlayContainer.PointerReleased += OnRootPointerReleased;
+    }
+
+    private void OnGestureRecognizerHolding(GestureRecognizer sender, HoldingEventArgs args)
+    {
+        _isHolding = true;
+        if (args.HoldingState == HoldingState.Started)
+        {
+            _lastSpeed = ViewModel.Speed;
+            ViewModel.SetSpeedCommand.Execute(3d);
+        }
+        else
+        {
+            _lastSpeed = _lastSpeed == 0 ? 1.0 : _lastSpeed;
+            ViewModel.SetSpeedCommand.Execute(_lastSpeed);
+            _lastSpeed = 0;
+        }
     }
 
     private void UnhookRootPointerEvents()
@@ -138,6 +156,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             _overlayContainer.PointerExited -= OnRootPointerExited;
             _overlayContainer.PointerPressed -= OnRootPointerPressed;
             _overlayContainer.PointerCanceled -= OnRootPointerCanceled;
+            _overlayContainer.PointerReleased -= OnRootPointerReleased;
         }
     }
 
@@ -145,11 +164,12 @@ public sealed partial class BiliPlayer : PlayerControlBase
     {
         _interactionControl.Tapped += OnCoreTapped;
         _interactionControl.DoubleTapped += OnCoreDoubleTapped;
-        _interactionControl.Holding += OnCoreHolding;
         _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
         _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
         _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
+        _interactionControl.ContextRequested += OnInteractionControlContextRequested;
+        _gestureRecognizer.Holding += OnGestureRecognizerHolding;
     }
 
     private void UnhookInteractionControlEvents()
@@ -158,10 +178,11 @@ public sealed partial class BiliPlayer : PlayerControlBase
         {
             _interactionControl.Tapped -= OnCoreTapped;
             _interactionControl.DoubleTapped -= OnCoreDoubleTapped;
-            _interactionControl.Holding -= OnCoreHolding;
             _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
             _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
+            _interactionControl.ContextRequested -= OnInteractionControlContextRequested;
+            _gestureRecognizer.Holding -= OnGestureRecognizerHolding;
         }
     }
 
@@ -237,6 +258,12 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
     {
+        if (_isHolding)
+        {
+            _isHolding = false;
+            return;
+        }
+
         var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
         if (isManual)
         {
@@ -271,21 +298,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
             }
 
             ViewModel.ToggleFullScreenCommand.Execute(default);
-        }
-    }
-
-    private void OnCoreHolding(object sender, HoldingRoutedEventArgs e)
-    {
-        if (e.HoldingState == HoldingState.Started)
-        {
-            _lastSpeed = ViewModel.Speed;
-            ViewModel.SetSpeedCommand.Execute(3d);
-        }
-        else
-        {
-            _lastSpeed = _lastSpeed == 0 ? 1.0 : _lastSpeed;
-            ViewModel.SetSpeedCommand.Execute(_lastSpeed);
-            _lastSpeed = 0;
         }
     }
 
