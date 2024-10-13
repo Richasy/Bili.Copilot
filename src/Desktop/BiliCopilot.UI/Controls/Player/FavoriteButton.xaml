@@ -44,7 +44,7 @@
             ActionButtonClick="OnConfirmButtonClick"
             ActionButtonContent="{ext:Locale Name=Confirm}"
             IsLightDismissEnabled="True"
-            PreferredPlacement="Top"
+            PreferredPlacement="Left"
             ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=FavoriteTip}"
             Target="{x:Bind Btn}">
