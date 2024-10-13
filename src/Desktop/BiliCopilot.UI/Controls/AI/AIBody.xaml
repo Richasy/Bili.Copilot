@@ -49,6 +49,7 @@
             <Grid Margin="0,12" RowSpacing="12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid
@@ -85,20 +86,21 @@
                             Text="{x:Bind ViewModel.SourceSubtitle, Mode=OneWay}" />
                     </StackPanel>
                 </Grid>
-                <StackPanel Grid.Row="1">
-                    <Border
-                        Margin="0,0,0,12"
-                        Padding="12,8"
-                        HorizontalAlignment="Center"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        BorderBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                        <base:TrimTextBlock
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            MaxLines="5"
-                            Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" />
-                    </Border>
+                <Border
+                    Grid.Row="1"
+                    Margin="0,0,0,12"
+                    Padding="12,8"
+                    HorizontalAlignment="Center"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <base:TrimTextBlock
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        MaxLines="2"
+                        Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" />
+                </Border>
+                <StackPanel Grid.Row="2">
                     <Grid
                         Margin="0,0,0,8"
                         Padding="12,8"
@@ -156,7 +158,7 @@
                     </Grid>
                 </StackPanel>
                 <ItemsRepeater
-                    Grid.Row="1"
+                    Grid.Row="2"
                     VerticalAlignment="Top"
                     ItemTemplate="{StaticResource QuickItemTemplate}"
                     ItemsSource="{x:Bind ViewModel.QuickItems, Mode=OneWay}"
