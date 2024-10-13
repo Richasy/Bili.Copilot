@@ -83,6 +83,7 @@ public sealed partial class AgentClient : IAgentClient
         catch (Exception ex)
         {
             _logger.LogError(ex, $"{type} | {modelId} 发生错误");
+            throw;
         }
 
         return !string.IsNullOrEmpty(responseContent) ? responseContent : throw new Exception($"{type} | {modelId} 返回空响应，具体错误请查看日志");

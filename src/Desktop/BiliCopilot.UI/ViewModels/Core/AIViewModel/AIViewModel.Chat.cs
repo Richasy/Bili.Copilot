@@ -346,6 +346,7 @@ public sealed partial class AIViewModel
         catch (Exception ex)
         {
             Cancel();
+            ErrorMessage = ex.Message;
             this.Get<AppViewModel>().ShowTipCommand.Execute((ex.Message, InfoType.Error));
         }
         finally
