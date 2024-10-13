@@ -102,7 +102,8 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     {
         Activate();
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
+        var useWebPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayerWhenLive, false);
+        if (preferPlayer == PlayerType.Web || useWebPlayer)
         {
             MainFrame.Navigate(typeof(WebPlayerPage), $"https://live.bilibili.com/{room.Id}");
             return;

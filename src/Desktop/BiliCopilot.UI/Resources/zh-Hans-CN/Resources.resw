@@ -2738,4 +2738,10 @@
   <data name="CustomMpvConfigDescription" xml:space="preserve">
     <value>MPV 用户请参考 mpv.io 的说明进行自定义配置</value>
   </data>
+  <data name="UseWebPlayerWhenLive" xml:space="preserve">
+    <value>使用网页播放器观看直播</value>
+  </data>
+  <data name="UseWebPlayerWhenLiveDescription" xml:space="preserve">
+    <value>如果本机观看直播体验不佳，请打开此选项在网页中观看</value>
+  </data>
 </root>

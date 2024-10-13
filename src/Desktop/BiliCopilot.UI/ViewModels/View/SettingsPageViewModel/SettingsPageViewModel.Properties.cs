@@ -163,6 +163,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private List<MTCBehavior> _mTCBehaviorCollection;
 
+    [ObservableProperty]
+    private bool _useWebPlayerWhenLive;
+
     /// <summary>
     /// WebDav 配置.
     /// </summary>

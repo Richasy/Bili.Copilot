@@ -61,7 +61,8 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
         }
 
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
+        var useWebPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayerWhenLive, false);
+        if (preferPlayer == PlayerType.Web || useWebPlayer)
         {
             this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
             return;

@@ -100,6 +100,9 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=UseWebPlayerWhenLiveDescription}" Header="{ext:Locale Name=UseWebPlayerWhenLive}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.UseWebPlayerWhenLive, Mode=TwoWay}" />
+            </base:SettingsCard>
             <base:SettingsCard Header="{ext:Locale Name=AutoPlayWhenLoaded}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayWhenLoaded, Mode=TwoWay}" />
             </base:SettingsCard>
