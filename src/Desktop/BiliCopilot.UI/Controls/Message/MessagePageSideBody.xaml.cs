@@ -50,7 +50,7 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (SectionView.ScrollView.ExtentHeight - SectionView.ScrollView.ViewportHeight - SectionView.ScrollView.VerticalOffset <= 40)
+            if (SectionView.ScrollView.ExtentHeight - SectionView.ScrollView.ViewportHeight - SectionView.ScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadChatSessionsCommand.Execute(default);
             }
@@ -75,7 +75,7 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (SectionView.ScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (SectionView.ScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadChatSessionsCommand.Execute(default);
             }

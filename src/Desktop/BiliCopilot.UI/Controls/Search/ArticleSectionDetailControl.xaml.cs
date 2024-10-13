@@ -46,7 +46,7 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (ArticleScrollView.ExtentHeight - ArticleScrollView.ViewportHeight - ArticleScrollView.VerticalOffset <= 40)
+            if (ArticleScrollView.ExtentHeight - ArticleScrollView.ViewportHeight - ArticleScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -65,7 +65,7 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (ArticleScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (ArticleScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }

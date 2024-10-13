@@ -69,7 +69,7 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (CommentScrollView.ExtentHeight - CommentScrollView.ViewportHeight - CommentScrollView.VerticalOffset <= 40)
+            if (CommentScrollView.ExtentHeight - CommentScrollView.ViewportHeight - CommentScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -88,7 +88,7 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (CommentScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (CommentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }

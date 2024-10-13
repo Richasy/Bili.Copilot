@@ -70,7 +70,7 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (MessageScrollView.ExtentHeight - MessageScrollView.ViewportHeight - MessageScrollView.VerticalOffset <= 40)
+            if (MessageScrollView.ExtentHeight - MessageScrollView.ViewportHeight - MessageScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }
@@ -89,7 +89,7 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (MessageScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (MessageScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadItemsCommand.Execute(default);
             }

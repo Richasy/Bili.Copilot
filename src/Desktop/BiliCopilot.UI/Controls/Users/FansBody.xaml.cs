@@ -45,7 +45,7 @@ public sealed partial class FansBody : FansPageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (UserScrollView.ExtentHeight - UserScrollView.ViewportHeight - UserScrollView.VerticalOffset <= 40)
+            if (UserScrollView.ExtentHeight - UserScrollView.ViewportHeight - UserScrollView.VerticalOffset <= 240)
             {
                 ViewModel.LoadUsersCommand.Execute(default);
             }
@@ -64,7 +64,7 @@ public sealed partial class FansBody : FansPageControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (UserScrollView.ScrollableHeight <= 0 && ViewModel is not null)
+            if (UserScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
                 ViewModel.LoadUsersCommand.Execute(default);
             }
