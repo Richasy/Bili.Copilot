@@ -287,6 +287,7 @@ public sealed partial class VideoPlayerPageViewModel
         if (progress < duration && progress > 1 && (Danmaku?.IsEmpty() ?? false))
         {
             Danmaku?.ResetData(_view?.Information.Identifier.Id, _part?.Identifier.Id);
+            Danmaku?.LoadDanmakusCommand.Execute(duration);
         }
 
         Danmaku?.UpdatePosition(progress);
