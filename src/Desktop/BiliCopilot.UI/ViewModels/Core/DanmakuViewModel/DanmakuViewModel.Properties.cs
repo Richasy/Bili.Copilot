@@ -19,8 +19,8 @@ public sealed partial class DanmakuViewModel
 
     private string _aid;
     private string _cid;
-    private int _segmentIndex;
     private int _position;
+    private int _duration;
 
     [ObservableProperty]
     private bool _isShowDanmaku;

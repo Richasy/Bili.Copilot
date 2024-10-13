@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
+using Richasy.BiliKernel.Models.Danmaku;
 using Richasy.WinUI.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -35,7 +36,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         ClearAll();
         _aid = aid;
         _cid = cid;
-        _segmentIndex = -1;
         ResetData();
     }
 
@@ -54,13 +54,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     public void UpdatePosition(int position)
     {
         _position = position;
-        var index = Convert.ToInt32(Math.Ceiling(position / 360d));
-        if (index == 0)
-        {
-            index = 1;
-        }
-
-        LoadDanmakusCommand.Execute(index);
         ProgressChanged?.Invoke(this, position);
     }
 
@@ -85,13 +78,8 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// <summary>
     /// 重新绘制.
     /// </summary>
-    public void Redraw(bool force = false)
+    public void Redraw()
     {
-        if (force)
-        {
-            _segmentIndex = -1;
-        }
-
         RequestRedrawDanmaku?.Invoke(this, EventArgs.Empty);
     }
 
@@ -100,8 +88,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// </summary>
     public void ClearAll()
     {
-        _segmentIndex = -1;
-        _position = 0;
+        _duration = 0;
         _aid = string.Empty;
         _cid = string.Empty;
         ClearDanmaku();
@@ -127,32 +114,43 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         => string.IsNullOrEmpty(_aid) || string.IsNullOrEmpty(_cid);
 
     [RelayCommand]
-    private async Task LoadDanmakusAsync(int index = 0)
+    private async Task LoadDanmakusAsync(int duration)
     {
-        if (IsLoading || _segmentIndex == index || !IsShowDanmaku || string.IsNullOrEmpty(_aid) || string.IsNullOrEmpty(_cid))
+        if (IsLoading || string.IsNullOrEmpty(_aid) || string.IsNullOrEmpty(_cid) || _duration == duration)
         {
             return;
         }
 
-        try
+        IsLoading = true;
+        _duration = duration;
+        var count = Convert.ToInt32(Math.Ceiling(_duration / 360d));
+        if (count == 0)
         {
-            IsLoading = true;
-            var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, index);
-            if (danmakus.Count > 0)
-            {
-                ListAdded?.Invoke(this, danmakus);
-            }
+            count = 1;
+        }
 
-            _segmentIndex = index;
-        }
-        catch (Exception ex)
+        var totalDanmakus = new List<DanmakuInformation>();
+        for (var i = 0; i < count; i++)
         {
-            _logger.LogError(ex, $"加载 {_aid} | {_cid} 的弹幕失败，索引为 {index}");
+            try
+            {
+                var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, i + 1);
+                totalDanmakus.AddRange(danmakus);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"加载 {_aid} | {_cid} 的弹幕失败，索引为 {i}");
+                break;
+            }
         }
-        finally
+
+        if (totalDanmakus.Count > 0)
         {
-            IsLoading = false;
+            ListAdded?.Invoke(this, totalDanmakus);
         }
+
+        Redraw();
+        IsLoading = false;
     }
 
     [RelayCommand]
@@ -208,10 +206,11 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     {
         if (value)
         {
-            Redraw(true);
+            Redraw();
         }
         else
         {
+            ClearDanmaku();
             ResetStyle();
         }
 

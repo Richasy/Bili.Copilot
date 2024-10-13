@@ -114,9 +114,13 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
     private void OnRequestClearDanmaku(object? sender, EventArgs e)
     {
-        _cachedDanmakus.Clear();
+        if (ViewModel.IsShowDanmaku)
+        {
+            _cachedDanmakus.Clear();
+            _lastProgress = 0;
+        }
+
         _danmakuController?.Clear();
-        _lastProgress = 0;
     }
 
     private void OnRequestAddSingleDanmaku(object? sender, string e)
@@ -192,8 +196,15 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
         DispatcherQueue?.TryEnqueue(() =>
         {
-            _danmakuController?.Close();
-            _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
+            if (_danmakuController is not null)
+            {
+                _danmakuController?.Clear();
+            }
+            else
+            {
+                _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
+            }
+
             if (_cachedDanmakus.Any())
             {
                 _danmakuController.AddDanmakuList(_cachedDanmakus);

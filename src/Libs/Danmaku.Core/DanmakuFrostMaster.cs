@@ -192,6 +192,8 @@ namespace Danmaku.Core
                             break;
                         }
                     }
+
+                    _render?.Start();
                 }
                 _lastTimeMs = targetMs;
                 _isSeeking = false;
