@@ -329,10 +329,7 @@ public sealed partial class PgcPlayerPageViewModel
 
         if (state == PlayerState.Playing)
         {
-            if (!Danmaku.IsEmpty())
-            {
-                Danmaku?.Resume();
-            }
+            Danmaku?.Resume();
         }
         else
         {

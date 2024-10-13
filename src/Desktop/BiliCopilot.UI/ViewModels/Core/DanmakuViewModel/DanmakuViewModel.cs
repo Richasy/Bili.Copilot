@@ -68,13 +68,19 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     /// 暂停.
     /// </summary>
     public void Pause()
-        => PauseDanmaku?.Invoke(this, EventArgs.Empty);
+    {
+        IsPaused = true;
+        PauseDanmaku?.Invoke(this, EventArgs.Empty);
+    }
 
     /// <summary>
     /// 恢复.
     /// </summary>
     public void Resume()
-        => ResumeDanmaku?.Invoke(this, EventArgs.Empty);
+    {
+        IsPaused = false;
+        ResumeDanmaku?.Invoke(this, EventArgs.Empty);
+    }
 
     /// <summary>
     /// 重新绘制.

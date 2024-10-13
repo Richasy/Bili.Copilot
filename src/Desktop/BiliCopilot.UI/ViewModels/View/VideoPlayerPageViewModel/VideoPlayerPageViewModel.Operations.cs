@@ -302,10 +302,7 @@ public sealed partial class VideoPlayerPageViewModel
 
         if (state == PlayerState.Playing)
         {
-            if (!Danmaku.IsEmpty())
-            {
-                Danmaku?.Resume();
-            }
+            Danmaku?.Resume();
         }
         else
         {

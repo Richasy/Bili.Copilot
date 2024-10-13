@@ -43,10 +43,10 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             ViewModel.ProgressChanged -= OnProgressChanged;
             ViewModel.PauseDanmaku -= OnPauseDanmaku;
             ViewModel.ResumeDanmaku -= OnResumeDanmaku;
-            ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
             ViewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
             ViewModel.RequestResetStyle -= OnRequestResetStyle;
             ViewModel.ExtraSpeedChanged -= OnExtraSpeedChanged;
+            ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
         }
 
         _danmakuController?.Close();
@@ -62,10 +62,10 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             oldValue.ProgressChanged -= OnProgressChanged;
             oldValue.PauseDanmaku -= OnPauseDanmaku;
             oldValue.ResumeDanmaku -= OnResumeDanmaku;
-            oldValue.RequestRedrawDanmaku -= OnRedrawDanmaku;
             oldValue.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
             oldValue.RequestResetStyle -= OnRequestResetStyle;
             oldValue.ExtraSpeedChanged -= OnExtraSpeedChanged;
+            oldValue.RequestRedrawDanmaku -= OnRedrawDanmaku;
         }
 
         if (newValue is null)
@@ -78,10 +78,10 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         newValue.ProgressChanged += OnProgressChanged;
         newValue.PauseDanmaku += OnPauseDanmaku;
         newValue.ResumeDanmaku += OnResumeDanmaku;
-        newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
         newValue.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
         newValue.RequestResetStyle += OnRequestResetStyle;
         newValue.ExtraSpeedChanged += OnExtraSpeedChanged;
+        newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
         ResetDanmakuStyle();
     }
 
@@ -104,7 +104,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         _cachedDanmakus = _cachedDanmakus.Concat(items).Distinct().ToList();
         if (isFirstLoad)
         {
-            await Task.Delay(250);
+            await Task.Delay(150);
             Redraw(true);
             return;
         }
@@ -190,7 +190,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        DispatcherQueue?.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        DispatcherQueue?.TryEnqueue(() =>
         {
             _danmakuController?.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
@@ -201,6 +201,11 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
             _danmakuController.UpdateTime(Convert.ToUInt32(_lastProgress * 1000));
             ResetDanmakuStyle();
+
+            if (!ViewModel.IsPaused)
+            {
+                _danmakuController.Resume();
+            }
         });
     }
 }

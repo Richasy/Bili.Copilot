@@ -105,6 +105,21 @@ public sealed partial class LivePlayerPageViewModel
         });
     }
 
+    private void PlayerStateChanged(PlayerState state)
+    {
+        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
+        {
+            if (state == PlayerState.Playing)
+            {
+                Danmaku?.Resume();
+            }
+            else if (state == PlayerState.Paused)
+            {
+                Danmaku?.Pause();
+            }
+        });
+    }
+
     private void DisplayDanmaku(string text)
         => Danmaku.AddDanmakuCommand.Execute(text);
 
@@ -120,18 +135,6 @@ public sealed partial class LivePlayerPageViewModel
         {
             _logger.LogError(ex, "发送直播弹幕时失败.");
             this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.FailedToSendDanmaku), InfoType.Error));
-        }
-    }
-
-    private async void OnTapToggleFullScreenAsync()
-    {
-        var isShowDanmaku = Danmaku.IsShowDanmaku;
-        Danmaku.IsShowDanmaku = false;
-        await Task.Delay(500);
-        Danmaku.IsShowDanmaku = isShowDanmaku;
-        if (isShowDanmaku)
-        {
-            Danmaku.Redraw();
         }
     }
 }
