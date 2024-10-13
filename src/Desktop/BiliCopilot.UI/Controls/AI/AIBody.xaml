@@ -46,13 +46,14 @@
 
     <Grid>
         <ScrollView Padding="16,0" Style="{StaticResource PageScrollViewStyle}">
-            <Grid Margin="0,12" RowSpacing="12">
+            <Grid Margin="0,12">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid
+                    Margin="0,0,0,12"
                     Padding="12,8"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="{StaticResource ControlCornerRadius}">
@@ -96,35 +97,37 @@
                     CornerRadius="{StaticResource ControlCornerRadius}"
                     Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
                     <base:TrimTextBlock
+                        FontSize="12"
                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                        MaxLines="2"
+                        MaxLines="3"
                         Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" />
                 </Border>
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,0,0,8"
+                    Padding="12,8"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    ColumnSpacing="12"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Visibility="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ProgressRing
+                        Width="14"
+                        Height="14"
+                        MinWidth="14"
+                        MinHeight="14"
+                        IsActive="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToBoolConverter}}"
+                        Style="{StaticResource PageProgressRingStyle}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        Text="{x:Bind ViewModel.ProgressTip, Mode=OneWay}" />
+                </Grid>
                 <StackPanel Grid.Row="2">
-                    <Grid
-                        Margin="0,0,0,8"
-                        Padding="12,8"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        ColumnSpacing="12"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <ProgressRing
-                            Width="14"
-                            Height="14"
-                            MinWidth="14"
-                            MinHeight="14"
-                            IsActive="{x:Bind ViewModel.ProgressTip, Mode=OneWay, Converter={StaticResource ObjectToBoolConverter}}"
-                            Style="{StaticResource PageProgressRingStyle}" />
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                            Text="{x:Bind ViewModel.ProgressTip, Mode=OneWay}" />
-                    </Grid>
                     <Grid Margin="0,0,0,12" Visibility="{x:Bind ViewModel.RequestText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
                         <Border
                             Padding="12,8"
