@@ -63,6 +63,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = false;
             _overFrame.Navigate(typeof(Page));
             _overFrame.BackStack.Clear();
+            CheckSubPageStatus();
 
             if (pageType.FullName == lastSelectedPage)
             {
@@ -77,7 +78,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedFeaturePage, pageType.FullName);
         _navFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
-        CheckSubPageStatus();
     }
 
     /// <inheritdoc/>
