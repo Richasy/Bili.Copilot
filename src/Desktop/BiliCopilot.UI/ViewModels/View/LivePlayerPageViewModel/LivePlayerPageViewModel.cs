@@ -37,6 +37,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         Chat = new LiveChatSectionDetailViewModel(_service, this);
         Danmaku = danmaku;
         Player.IsLive = true;
+        Player.SetStateAction(PlayerStateChanged);
         Player.SetProgressAction(PlayerProgressChanged);
         Player.SetReloadAction(ReloadFormat);
         Player.SetWindowStateChangeAction(ScrollMessagesToBottom);

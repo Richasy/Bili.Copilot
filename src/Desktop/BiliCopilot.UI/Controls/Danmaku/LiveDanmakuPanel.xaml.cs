@@ -88,8 +88,7 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
     {
         if (_danmakuController is null)
         {
-            _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
-            ResetDanmakuStyle();
+            Redraw();
         }
 
         var model = new DanmakuItem
@@ -118,11 +117,6 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        if (!ViewModel.IsShowDanmaku)
-        {
-            _danmakuController.Pause();
-        }
-
         _danmakuController.SetRollingDensity(-1);
         _danmakuController.SetOpacity(ViewModel.DanmakuOpacity);
         _danmakuController.SetBorderColor(Colors.Gray);
@@ -140,6 +134,11 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
             _danmakuController?.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
             ResetDanmakuStyle();
+
+            if (!ViewModel.IsPaused)
+            {
+                _danmakuController?.Resume();
+            }
         });
     }
 }

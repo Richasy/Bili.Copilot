@@ -8,5 +8,5 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" x:Load="{x:Bind ViewModel.IsShowDanmaku, Mode=OneWay}" />
+    <Grid x:Name="RootGrid" Visibility="{x:Bind ViewModel.IsShowDanmaku, Mode=OneWay}" />
 </local:DanmakuControlBase>

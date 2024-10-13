@@ -46,11 +46,7 @@ namespace Danmaku.Core
                 return;
             }
 
-            var canvas = new CanvasAnimatedControl();
-            canvas.UseSharedDevice = true;
-            canvas.DpiScale = (float)rootGrid.XamlRoot.RasterizationScale;
-            canvas.ClearColor = Colors.Transparent;
-            canvas.Background = new SolidColorBrush(Colors.Transparent);
+            var canvas = new CanvasSwapChainPanel();
             rootGrid.Children.Add(canvas);
             Logger.SetLogger(logger);
 
@@ -183,7 +179,6 @@ namespace Danmaku.Core
             }
 
             _isSeeking = true;
-            Stop();
             lock (_danmakuList)
             {
                 _lastIndex = 0;
@@ -199,7 +194,6 @@ namespace Danmaku.Core
                     }
                 }
                 _lastTimeMs = targetMs;
-                Resume();
                 _isSeeking = false;
             }
         }

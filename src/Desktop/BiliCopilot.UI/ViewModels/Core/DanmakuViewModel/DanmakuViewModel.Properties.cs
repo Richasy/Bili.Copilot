@@ -73,6 +73,9 @@ public sealed partial class DanmakuViewModel
     [ObservableProperty]
     private List<string> _fonts;
 
+    [ObservableProperty]
+    private bool _isPaused;
+
     /// <summary>
     /// 当弹幕列表添加时触发的事件.
     /// </summary>
