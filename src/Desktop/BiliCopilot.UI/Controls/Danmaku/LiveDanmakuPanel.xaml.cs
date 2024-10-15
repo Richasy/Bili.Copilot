@@ -129,7 +129,7 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
 
     private void Redraw()
     {
-        DispatcherQueue.TryEnqueue(() =>
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             _danmakuController?.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());

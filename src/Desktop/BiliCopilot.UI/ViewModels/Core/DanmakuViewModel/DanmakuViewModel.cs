@@ -91,6 +91,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         _duration = 0;
         _aid = string.Empty;
         _cid = string.Empty;
+        CanShowDanmaku = false;
         ClearDanmaku();
     }
 
@@ -135,14 +136,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
             try
             {
                 var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, i + 1);
-                if (i == 0)
-                {
-                    ListAdded?.Invoke(this, danmakus);
-                }
-                else
-                {
-                    totalDanmakus.AddRange(danmakus);
-                }
+                totalDanmakus.AddRange(danmakus);
             }
             catch (Exception ex)
             {
@@ -153,6 +147,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
 
         if (totalDanmakus.Count > 0)
         {
+            CanShowDanmaku = true;
             ListAdded?.Invoke(this, totalDanmakus);
         }
 
@@ -177,6 +172,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     [RelayCommand]
     private void AddDanmaku(string text)
     {
+        CanShowDanmaku = true;
         RequestAddSingleDanmaku?.Invoke(this, text);
     }
 

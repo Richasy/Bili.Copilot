@@ -40,13 +40,17 @@ namespace Danmaku.Core
         /// </summary>
         public DanmakuFrostMaster(Grid rootGrid, ILogger<DanmakuFrostMaster> logger = default)
         {
-            rootGrid?.Children.Clear();
-            if (rootGrid?.XamlRoot is null)
+            rootGrid.Children.Clear();
+            if (rootGrid.XamlRoot is null)
             {
                 return;
             }
 
-            var canvas = new CanvasSwapChainPanel();
+            var canvas = new CanvasAnimatedControl();
+            canvas.UseSharedDevice = true;
+            canvas.DpiScale = (float)rootGrid.XamlRoot.RasterizationScale;
+            canvas.ClearColor = Colors.Transparent;
+            canvas.Background = new SolidColorBrush(Colors.Transparent);
             rootGrid.Children.Add(canvas);
             Logger.SetLogger(logger);
 
@@ -179,6 +183,7 @@ namespace Danmaku.Core
             }
 
             _isSeeking = true;
+            Stop();
             lock (_danmakuList)
             {
                 _lastIndex = 0;
@@ -192,10 +197,9 @@ namespace Danmaku.Core
                             break;
                         }
                     }
-
-                    _render?.Start();
                 }
                 _lastTimeMs = targetMs;
+                Resume();
                 _isSeeking = false;
             }
         }
