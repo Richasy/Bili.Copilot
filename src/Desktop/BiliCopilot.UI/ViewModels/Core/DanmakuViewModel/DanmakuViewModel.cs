@@ -135,7 +135,14 @@ public sealed partial class DanmakuViewModel : ViewModelBase
             try
             {
                 var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, i + 1);
-                totalDanmakus.AddRange(danmakus);
+                if (i == 0)
+                {
+                    ListAdded?.Invoke(this, danmakus);
+                }
+                else
+                {
+                    totalDanmakus.AddRange(danmakus);
+                }
             }
             catch (Exception ex)
             {
@@ -149,7 +156,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
             ListAdded?.Invoke(this, totalDanmakus);
         }
 
-        Redraw();
         IsLoading = false;
     }
 
@@ -207,11 +213,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         if (value)
         {
             Redraw();
-        }
-        else
-        {
-            ClearDanmaku();
-            ResetStyle();
         }
 
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsShowDanmaku, value);

@@ -40,8 +40,8 @@ namespace Danmaku.Core
         /// </summary>
         public DanmakuFrostMaster(Grid rootGrid, ILogger<DanmakuFrostMaster> logger = default)
         {
-            rootGrid.Children.Clear();
-            if (rootGrid.XamlRoot is null)
+            rootGrid?.Children.Clear();
+            if (rootGrid?.XamlRoot is null)
             {
                 return;
             }

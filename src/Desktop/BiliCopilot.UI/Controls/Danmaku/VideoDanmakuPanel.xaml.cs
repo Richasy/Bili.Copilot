@@ -38,7 +38,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     {
         if (ViewModel is not null)
         {
-            ViewModel.ListAdded -= OnDanmakuListAddedAsync;
+            ViewModel.ListAdded -= OnDanmakuListAdded;
             ViewModel.RequestClearDanmaku -= OnRequestClearDanmaku;
             ViewModel.ProgressChanged -= OnProgressChanged;
             ViewModel.PauseDanmaku -= OnPauseDanmaku;
@@ -57,7 +57,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
     {
         if (oldValue is not null)
         {
-            oldValue.ListAdded -= OnDanmakuListAddedAsync;
+            oldValue.ListAdded -= OnDanmakuListAdded;
             oldValue.RequestClearDanmaku -= OnRequestClearDanmaku;
             oldValue.ProgressChanged -= OnProgressChanged;
             oldValue.PauseDanmaku -= OnPauseDanmaku;
@@ -73,7 +73,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        newValue.ListAdded += OnDanmakuListAddedAsync;
+        newValue.ListAdded += OnDanmakuListAdded;
         newValue.RequestClearDanmaku += OnRequestClearDanmaku;
         newValue.ProgressChanged += OnProgressChanged;
         newValue.PauseDanmaku += OnPauseDanmaku;
@@ -97,19 +97,19 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         };
     }
 
-    private async void OnDanmakuListAddedAsync(object? sender, IReadOnlyList<DanmakuInformation> e)
+    private void OnDanmakuListAdded(object? sender, IReadOnlyList<DanmakuInformation> e)
     {
         var items = BilibiliDanmakuParser.GetDanmakuList(e, true);
         var isFirstLoad = _cachedDanmakus.Count == 0;
         _cachedDanmakus = _cachedDanmakus.Concat(items).Distinct().ToList();
         if (isFirstLoad)
         {
-            await Task.Delay(150);
             Redraw(true);
-            return;
         }
-
-        _danmakuController?.AddDanmakuList(items);
+        else
+        {
+            _danmakuController?.AddDanmakuList(items);
+        }
     }
 
     private void OnRequestClearDanmaku(object? sender, EventArgs e)
