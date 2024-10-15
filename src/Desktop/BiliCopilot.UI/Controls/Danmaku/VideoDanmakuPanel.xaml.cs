@@ -104,12 +104,13 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         _cachedDanmakus = _cachedDanmakus.Concat(items).Distinct().ToList();
         if (isFirstLoad)
         {
-            await Task.Delay(150);
+            await Task.Delay(250);
             Redraw(true);
-            return;
         }
-
-        _danmakuController?.AddDanmakuList(items);
+        else
+        {
+            _danmakuController?.AddDanmakuList(items);
+        }
     }
 
     private void OnRequestClearDanmaku(object? sender, EventArgs e)
@@ -194,16 +195,10 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             return;
         }
 
-        DispatcherQueue?.TryEnqueue(() =>
+        DispatcherQueue?.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            if (_danmakuController is not null)
-            {
-                _danmakuController?.Clear();
-            }
-            else
-            {
-                _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
-            }
+            _danmakuController?.Close();
+            _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
 
             if (_cachedDanmakus.Any())
             {
@@ -212,11 +207,6 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
             _danmakuController.UpdateTime(Convert.ToUInt32(_lastProgress * 1000));
             ResetDanmakuStyle();
-
-            if (!ViewModel.IsPaused)
-            {
-                _danmakuController.Resume();
-            }
         });
     }
 }

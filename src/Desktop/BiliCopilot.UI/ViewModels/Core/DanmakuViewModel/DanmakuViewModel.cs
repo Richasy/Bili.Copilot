@@ -91,6 +91,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         _duration = 0;
         _aid = string.Empty;
         _cid = string.Empty;
+        CanShowDanmaku = false;
         ClearDanmaku();
     }
 
@@ -146,10 +147,10 @@ public sealed partial class DanmakuViewModel : ViewModelBase
 
         if (totalDanmakus.Count > 0)
         {
+            CanShowDanmaku = true;
             ListAdded?.Invoke(this, totalDanmakus);
         }
 
-        Redraw();
         IsLoading = false;
     }
 
@@ -171,6 +172,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     [RelayCommand]
     private void AddDanmaku(string text)
     {
+        CanShowDanmaku = true;
         RequestAddSingleDanmaku?.Invoke(this, text);
     }
 
@@ -207,11 +209,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         if (value)
         {
             Redraw();
-        }
-        else
-        {
-            ClearDanmaku();
-            ResetStyle();
         }
 
         SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.IsShowDanmaku, value);

@@ -278,7 +278,6 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerMoved(object sender, PointerRoutedEventArgs e)
     {
-        _gestureRecognizer.ProcessMoveEvents(e.GetIntermediatePoints((UIElement)sender));
         HandlePointerEvent(e);
     }
 

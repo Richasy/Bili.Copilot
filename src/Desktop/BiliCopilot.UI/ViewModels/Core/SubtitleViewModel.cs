@@ -96,7 +96,6 @@ public sealed partial class SubtitleViewModel : ViewModelBase
         _aid = default;
         _cid = default;
         _subtitles = default;
-        Metas = default;
         SelectedMeta = default;
         _position = 0;
         IsAvailable = false;
