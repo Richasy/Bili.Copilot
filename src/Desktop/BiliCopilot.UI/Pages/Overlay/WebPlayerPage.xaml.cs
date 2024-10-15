@@ -16,7 +16,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// </summary>
 public sealed partial class WebPlayerPage : LayoutPageBase
 {
-    private const string BewlyVersion = "0.30.2";
+    private const string BewlyVersion = "0.32.0";
     private const string UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 Edg/118.0.2048.1";
     private string _url;
     private bool _isInitialized;
