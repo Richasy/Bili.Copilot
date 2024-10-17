@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System.Diagnostics;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -44,6 +46,34 @@ public sealed partial class SearchPageViewModel : LayoutPageViewModelBase
         if (keyword == Keyword)
         {
             return;
+        }
+
+        if (keyword.StartsWith("av", StringComparison.InvariantCultureIgnoreCase))
+        {
+            var videoId = keyword[2..];
+
+            // videoId should be a number.
+            if (long.TryParse(videoId, out var id))
+            {
+                this.Get<NavigationViewModel>().Back();
+                var video = new VideoInformation(new MediaIdentifier(videoId, default, default), default);
+                new VideoItemViewModel(video, VideoCardStyle.Search).PlayCommand.Execute(default);
+                return;
+            }
+        }
+        else if (keyword.StartsWith("BV"))
+        {
+            try
+            {
+                var video = new VideoInformation(new MediaIdentifier(IdToolkit.Bv2Av(keyword).ToString(), default, default), default);
+                this.Get<NavigationViewModel>().Back();
+                new VideoItemViewModel(video, VideoCardStyle.Search).PlayCommand.Execute(default);
+                return;
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("尝试解析BV号时失败.");
+            }
         }
 
         Keyword = keyword;
