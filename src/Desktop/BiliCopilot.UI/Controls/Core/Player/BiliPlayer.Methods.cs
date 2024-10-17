@@ -4,6 +4,7 @@ using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -111,6 +112,18 @@ public sealed partial class BiliPlayer
     {
         _cursorStayTime += 0.5;
         _mtcStayTime += 0.5;
+
+        if (_lastPressedTime != null && DateTimeOffset.Now - _lastPressedTime > TimeSpan.FromSeconds(1) && !_isHolding)
+        {
+            _isHolding = true;
+            ToggleTripleSpeed(true);
+        }
+
+        if (_lastRightArrowPressedTime != null && DateTimeOffset.Now - _lastRightArrowPressedTime > TimeSpan.FromSeconds(1) && !_isHolding)
+        {
+            _isHolding = true;
+            ToggleTripleSpeed(true);
+        }
 
         CheckTransportControlVisibility();
         if (_cursorStayTime >= 2
@@ -234,13 +247,23 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerCanceled(object sender, PointerRoutedEventArgs e)
     {
-        _gestureRecognizer.ProcessUpEvent(e.GetCurrentPoint((UIElement)sender));
+        _lastPressedTime = default;
+        _lastRightArrowPressedTime = default;
+        if (_isHolding)
+        {
+            ToggleTripleSpeed(false);
+        }
+
         HandlePointerEvent(e, true);
     }
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
     {
-        _gestureRecognizer.ProcessDownEvent(e.GetCurrentPoint((UIElement)sender));
+        if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+        {
+            _lastPressedTime = DateTimeOffset.Now;
+        }
+
         if (ViewModel is IslandPlayerViewModel)
         {
             var point = e.GetCurrentPoint((UIElement)sender);
@@ -271,16 +294,51 @@ public sealed partial class BiliPlayer
     }
 
     private void OnRootPointerExited(object sender, PointerRoutedEventArgs e)
-        => HandlePointerEvent(e, true);
+    {
+        _lastPressedTime = default;
+        _lastRightArrowPressedTime = default;
+        if (_isHolding)
+        {
+            ToggleTripleSpeed(false);
+        }
+
+        HandlePointerEvent(e, true);
+    }
 
     private void OnRootPointerEntered(object sender, PointerRoutedEventArgs e)
         => HandlePointerEvent(e);
 
     private void OnRootPointerMoved(object sender, PointerRoutedEventArgs e)
-    {
-        HandlePointerEvent(e);
-    }
+        => HandlePointerEvent(e);
 
     private void OnRootPointerReleased(object sender, PointerRoutedEventArgs e)
-        => _gestureRecognizer.ProcessUpEvent(e.GetCurrentPoint((UIElement)sender));
+    {
+        _lastPressedTime = default;
+        _lastRightArrowPressedTime = default;
+        if (_isHolding)
+        {
+            ToggleTripleSpeed(false);
+        }
+        else
+        {
+            if (_isDoubleTapped)
+            {
+                _isDoubleTapped = false;
+                return;
+            }
+
+            var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
+            if (isManual)
+            {
+                if (_transportControl is not null)
+                {
+                    SetTransportVisibility(_transportControl.Visibility == Visibility.Collapsed);
+                }
+            }
+            else if (!_isHolding)
+            {
+                ViewModel?.TogglePlayPauseCommand.Execute(default);
+            }
+        }
+    }
 }

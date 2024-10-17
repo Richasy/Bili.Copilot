@@ -35,7 +35,6 @@ public sealed partial class BiliPlayer
     private StackPanel _notificationContainer;
     private LoadingWidget _loadingWidget;
     private EmptyHolder _failedHolder;
-    private GestureRecognizer _gestureRecognizer;
 
     /// <summary>
     /// 注入弹幕控件创建函数.
@@ -58,10 +57,6 @@ public sealed partial class BiliPlayer
     private void CreateOverlayContainer()
     {
         var rootGrid = new CursorGrid();
-        _gestureRecognizer = new GestureRecognizer
-        {
-            GestureSettings = GestureSettings.HoldWithMouse | GestureSettings.Hold,
-        };
 
         if (!ViewModel.IsExternalPlayer)
         {
@@ -112,7 +107,6 @@ public sealed partial class BiliPlayer
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Fill = new SolidColorBrush(Colors.Transparent),
-                IsHoldingEnabled = true,
                 Visibility = ViewModel?.IsExternalPlayer ?? false ? Visibility.Collapsed : Visibility.Visible,
                 ContextFlyout = contextFlyout,
             };
@@ -281,7 +275,6 @@ public sealed partial class BiliPlayer
         var grid = new Grid();
         var increaseVolumeBtn = CreateHiddenButton(VirtualKey.Up, ViewModel.IncreaseVolumeCommand);
         var decreaseVolumeBtn = CreateHiddenButton(VirtualKey.Down, ViewModel.DecreaseVolumeCommand);
-        var forwardBtn = CreateHiddenButton(VirtualKey.Right, ViewModel.ForwardSkipCommand);
         var backwardBtn = CreateHiddenButton(VirtualKey.Left, ViewModel.BackwardSkipCommand);
         var miniBtn = CreateHiddenButton(VirtualKey.F9, ViewModel.ToggleCompactOverlayCommand);
         var fullBtn = CreateHiddenButton(VirtualKey.F11, ViewModel.ToggleFullScreenCommand);
@@ -289,7 +282,6 @@ public sealed partial class BiliPlayer
         var backBtn = CreateHiddenButton(VirtualKey.Escape, ViewModel.BackToDefaultModeCommand);
         grid.Children.Add(increaseVolumeBtn);
         grid.Children.Add(decreaseVolumeBtn);
-        grid.Children.Add(forwardBtn);
         grid.Children.Add(backwardBtn);
         grid.Children.Add(miniBtn);
         grid.Children.Add(fullBtn);
