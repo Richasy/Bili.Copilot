@@ -44,7 +44,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         var primaryLan = ApplicationLanguages.Languages[0];
         Style = style;
         Title = info.Identifier.Title;
-        Cover = info.Identifier.Cover.Uri;
+        Cover = info.Identifier.Cover?.Uri;
         Author = info.Publisher?.User?.Name;
         Avatar = info.Publisher?.User?.Avatar?.Uri;
         Duration = AppToolkit.FormatDuration(TimeSpan.FromSeconds(info.Duration ?? 0));
