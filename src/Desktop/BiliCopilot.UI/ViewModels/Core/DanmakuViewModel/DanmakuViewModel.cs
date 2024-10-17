@@ -91,7 +91,6 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         _duration = 0;
         _aid = string.Empty;
         _cid = string.Empty;
-        CanShowDanmaku = false;
         ClearDanmaku();
     }
 

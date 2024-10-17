@@ -39,6 +39,36 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
     public void ExitPlayerHostMode()
         => VisualStateManager.GoToState(this, "DefaultState", false);
 
+    /// <summary>
+    /// 标记右箭头按下.
+    /// </summary>
+    /// <returns>是否成功.</returns>
+    public bool MarkRightArrowPressed()
+    {
+        if (ViewModel.Player.IsPaused)
+        {
+            return false;
+        }
+
+        BiliPlayer.MarkRightArrowKeyPressedTime();
+        return true;
+    }
+
+    /// <summary>
+    /// 取消右箭头按下.
+    /// </summary>
+    /// <returns>是否成功.</returns>
+    public bool CancelRightArrow()
+    {
+        if (ViewModel.Player.IsPaused)
+        {
+            return false;
+        }
+
+        BiliPlayer.CancelRightArrowKey();
+        return true;
+    }
+
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {

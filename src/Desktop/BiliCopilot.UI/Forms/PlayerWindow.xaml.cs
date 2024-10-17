@@ -233,12 +233,14 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.KeyUp -= OnWindowKeyUp;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.KeyUp += OnWindowKeyUp;
         }
     }
 
@@ -290,6 +292,34 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         return false;
     }
 
+    private bool TryMarkRightArrowPressedTime()
+    {
+        if (MainFrame.Content is VideoPlayerPage vPage)
+        {
+            return vPage.MarkRightArrowPressed();
+        }
+        else if (MainFrame.Content is PgcPlayerPage pPage)
+        {
+            return pPage.MarkRightArrowPressed();
+        }
+
+        return false;
+    }
+
+    private bool TryCancelRightArrow()
+    {
+        if (MainFrame.Content is VideoPlayerPage vPage)
+        {
+            return vPage.CancelRightArrow();
+        }
+        else if (MainFrame.Content is PgcPlayerPage pPage)
+        {
+            return pPage.CancelRightArrow();
+        }
+
+        return false;
+    }
+
     private void ClosePlayer()
     {
         if (MainFrame.Content is VideoPlayerPage vPage)
@@ -324,6 +354,18 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
             }
 
             e.Handled = TryTogglePlayPauseIfInPlayer();
+        }
+        else if (e.Key == VirtualKey.Right)
+        {
+            e.Handled = TryMarkRightArrowPressedTime();
+        }
+    }
+
+    private void OnWindowKeyUp(object? sender, PlayerKeyboardEventArgs e)
+    {
+        if (e.Key == VirtualKey.Right)
+        {
+            e.Handled = TryCancelRightArrow();
         }
     }
 

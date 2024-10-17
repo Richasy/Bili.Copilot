@@ -177,6 +177,52 @@ public sealed partial class RootLayout : RootLayoutBase
         return false;
     }
 
+    /// <summary>
+    /// 尝试标记右箭头按下时间.
+    /// </summary>
+    /// <returns>是否处理.</returns>
+    public bool TryMarkRightArrowPressedTime()
+    {
+        if (!ViewModel.IsOverlayOpen)
+        {
+            return false;
+        }
+
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            return vPage.MarkRightArrowPressed();
+        }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            return pPage.MarkRightArrowPressed();
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 尝试取消右箭头按下.
+    /// </summary>
+    /// <returns>是否处理.</returns>
+    public bool TryCancelRightArrow()
+    {
+        if (!ViewModel.IsOverlayOpen)
+        {
+            return false;
+        }
+
+        if (OverlayFrame.Content is VideoPlayerPage vPage)
+        {
+            return vPage.CancelRightArrow();
+        }
+        else if (OverlayFrame.Content is PgcPlayerPage pPage)
+        {
+            return pPage.CancelRightArrow();
+        }
+
+        return false;
+    }
+
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {

@@ -5,7 +5,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -25,6 +24,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private bool _isCursorDisposed;
     private bool _needRemeasureSize = true;
     private Point? _lastPointerPoint;
+    private bool _isDoubleTapped;
 
     private double _manipulationDeltaX;
     private double _manipulationDeltaY;
@@ -33,6 +33,8 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private double _manipulationUnitLength;
     private bool _manipulationBeforeIsPlay;
     private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
+    private DateTimeOffset? _lastPressedTime;
+    private DateTimeOffset? _lastRightArrowPressedTime;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -45,6 +47,36 @@ public sealed partial class BiliPlayer : PlayerControlBase
     /// <returns>结果.</returns>
     public bool IsTextBoxFocused()
         => _overlayContainer is not null ? FocusManager.GetFocusedElement(_overlayContainer.XamlRoot) is TextBox : false;
+
+    /// <summary>
+    /// 标记右箭头按下时间.
+    /// </summary>
+    public void MarkRightArrowKeyPressedTime()
+    {
+        if (_lastRightArrowPressedTime != null)
+        {
+            return;
+        }
+
+        _lastRightArrowPressedTime = DateTimeOffset.Now;
+    }
+
+    /// <summary>
+    /// 取消右箭头按下.
+    /// </summary>
+    public void CancelRightArrowKey()
+    {
+        if (_isHolding)
+        {
+            ToggleTripleSpeed(false);
+        }
+        else if (_lastPressedTime == null || DateTimeOffset.Now - _lastPressedTime < TimeSpan.FromSeconds(1))
+        {
+            ViewModel.ForwardSkipCommand.Execute(default);
+        }
+
+        _lastRightArrowPressedTime = default;
+    }
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -131,10 +163,10 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _overlayContainer.PointerReleased += OnRootPointerReleased;
     }
 
-    private void OnGestureRecognizerHolding(GestureRecognizer sender, HoldingEventArgs args)
+    private void ToggleTripleSpeed(bool isQuick)
     {
-        _isHolding = true;
-        if (args.HoldingState == HoldingState.Started)
+        _isHolding = isQuick;
+        if (isQuick)
         {
             _lastSpeed = ViewModel.Speed;
             ViewModel.SetSpeedCommand.Execute(3d);
@@ -144,6 +176,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             _lastSpeed = _lastSpeed == 0 ? 1.0 : _lastSpeed;
             ViewModel.SetSpeedCommand.Execute(_lastSpeed);
             _lastSpeed = 0;
+            _lastPressedTime = default;
         }
     }
 
@@ -162,27 +195,23 @@ public sealed partial class BiliPlayer : PlayerControlBase
 
     private void HookInteractionControlEvents()
     {
-        _interactionControl.Tapped += OnCoreTapped;
         _interactionControl.DoubleTapped += OnCoreDoubleTapped;
         _interactionControl.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
         _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
         _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
         _interactionControl.ContextRequested += OnInteractionControlContextRequested;
-        _gestureRecognizer.Holding += OnGestureRecognizerHolding;
     }
 
     private void UnhookInteractionControlEvents()
     {
         if (_interactionControl != null)
         {
-            _interactionControl.Tapped -= OnCoreTapped;
             _interactionControl.DoubleTapped -= OnCoreDoubleTapped;
             _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
             _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
             _interactionControl.ContextRequested -= OnInteractionControlContextRequested;
-            _gestureRecognizer.Holding -= OnGestureRecognizerHolding;
         }
     }
 
@@ -256,28 +285,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
     }
 
-    private void OnCoreTapped(object sender, TappedRoutedEventArgs e)
-    {
-        if (_isHolding)
-        {
-            _isHolding = false;
-            return;
-        }
-
-        var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
-        if (isManual)
-        {
-            if (_transportControl is not null)
-            {
-                SetTransportVisibility(_transportControl.Visibility == Visibility.Collapsed);
-            }
-        }
-        else
-        {
-            ViewModel?.TogglePlayPauseCommand.Execute(default);
-        }
-    }
-
     private void OnCoreDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
         if (ViewModel is null)
@@ -285,6 +292,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             return;
         }
 
+        _isDoubleTapped = true;
         var isManual = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic) == MTCBehavior.Manual;
         if (isManual)
         {
@@ -292,12 +300,12 @@ public sealed partial class BiliPlayer : PlayerControlBase
         }
         else
         {
+            ViewModel.ToggleFullScreenCommand.Execute(default);
+
             if (ViewModel.IsPaused)
             {
                 ViewModel.TogglePlayPauseCommand.Execute(default);
             }
-
-            ViewModel.ToggleFullScreenCommand.Execute(default);
         }
     }
 

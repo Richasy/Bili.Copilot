@@ -78,12 +78,14 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         if (isDeactivated)
         {
             GlobalHook.KeyDown -= OnWindowKeyDown;
+            GlobalHook.KeyUp -= OnWindowKeyUp;
             GlobalHook.Stop();
         }
         else
         {
             GlobalHook.Start();
             GlobalHook.KeyDown += OnWindowKeyDown;
+            GlobalHook.KeyUp += OnWindowKeyUp;
         }
     }
 
@@ -151,6 +153,30 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             }
 
             e.Handled = RootLayout.TryTogglePlayPauseIfInPlayer();
+        }
+        else if (e.Key == VirtualKey.Right)
+        {
+            var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
+            if (focusEle is TextBox)
+            {
+                return;
+            }
+
+            e.Handled = RootLayout.TryMarkRightArrowPressedTime();
+        }
+    }
+
+    private void OnWindowKeyUp(object? sender, PlayerKeyboardEventArgs e)
+    {
+        if (e.Key == VirtualKey.Right)
+        {
+            var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
+            if (focusEle is TextBox)
+            {
+                return;
+            }
+
+            e.Handled = RootLayout.TryCancelRightArrow();
         }
     }
 
@@ -231,10 +257,12 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 internal static class GlobalHook
 {
     private const int WM_KEYDOWN = 0x0100;
+    private const int WM_KEYUP = 0x0101;
 
     private static readonly HOOKPROC _procKeyboard = HookKeyboardCallback;
     private static UnhookWindowsHookExSafeHandle _keyboardHookID = new();
     public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
+    public static event EventHandler<PlayerKeyboardEventArgs> KeyUp;
 
     public static void Start()
     {
@@ -261,6 +289,17 @@ internal static class GlobalHook
             var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
             var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
             KeyDown?.Invoke(null, args);
+            if (args.Handled)
+            {
+                return new LRESULT(1);
+            }
+        }
+        else if (nCode >= 0 && wParam.Value == WM_KEYUP)
+        {
+            var vkCode = Marshal.ReadInt32(lParam);
+            var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
+            var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
+            KeyUp?.Invoke(null, args);
             if (args.Handled)
             {
                 return new LRESULT(1);
