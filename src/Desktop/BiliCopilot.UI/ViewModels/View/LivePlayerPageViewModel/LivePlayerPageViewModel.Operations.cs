@@ -93,7 +93,7 @@ public sealed partial class LivePlayerPageViewModel
     [RelayCommand]
     private void Pin()
     {
-        var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Video);
+        var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Live);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
 
