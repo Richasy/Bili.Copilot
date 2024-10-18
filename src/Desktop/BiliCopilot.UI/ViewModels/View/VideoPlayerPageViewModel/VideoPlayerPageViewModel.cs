@@ -100,6 +100,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
             InitializeView(view);
             var initialPart = FindInitialPart(default) ?? throw new Exception("无法找到视频的分集信息.");
             _part = initialPart;
+            _comments.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
             LoadInitialProgress();
             InitializeSections();
             InitializeLoops();
