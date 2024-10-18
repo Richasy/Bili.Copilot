@@ -2694,7 +2694,7 @@
     <value>哔哩助理和小幻助理采用同样的 AI 配置，请点击右侧按钮查看说明文档</value>
   </data>
   <data name="PlayerTypeDescription" xml:space="preserve">
-    <value>AMD 显卡用户请勿使用内置 mpv 播放器</value>
+    <value>如果其它类型闪退严重，请使用网页播放器</value>
   </data>
   <data name="AmdGpuWarning" xml:space="preserve">
     <value>应用检测到您当前的设备中存在 AMD GPU。目前内置的 MPV 播放器在 AMD 平台无法正常工作，请尝试切换到原生播放器，或者使用其它的播放器类型</value>
