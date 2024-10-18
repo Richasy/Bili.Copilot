@@ -166,6 +166,9 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _useWebPlayerWhenLive;
 
+    [ObservableProperty]
+    private bool _showSearchRecommend;
+
     /// <summary>
     /// WebDav 配置.
     /// </summary>

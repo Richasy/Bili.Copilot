@@ -45,6 +45,14 @@ public sealed partial class SearchBoxViewModel : ViewModelBase
         {
             if (string.IsNullOrEmpty(_extraRegionId))
             {
+                var isRecommendEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.ShowSearchRecommend, true);
+                if (!isRecommendEnabled)
+                {
+                    _recommendItems.Clear();
+                    Suggestion.Clear();
+                    return;
+                }
+
                 if (_recommendItems.Count == 0)
                 {
                     var recommends = await _searchService.GetSearchRecommendsAsync();
