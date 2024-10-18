@@ -96,6 +96,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         OpenFolderAfterDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OpenFolderAfterDownload, true);
         DownloadWithDanmaku = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadWithDanmaku, false);
         UseWebPlayerWhenLive = SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayerWhenLive, false);
+        ShowSearchRecommend = SettingsToolkit.ReadLocalSetting(SettingNames.ShowSearchRecommend, false);
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
@@ -293,4 +294,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnUseWebPlayerWhenLiveChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.UseWebPlayerWhenLive, value);
+
+    partial void OnShowSearchRecommendChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.ShowSearchRecommend, value);
 }

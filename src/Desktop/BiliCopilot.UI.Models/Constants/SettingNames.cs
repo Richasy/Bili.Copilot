@@ -103,4 +103,5 @@ public enum SettingNames
     MTCBehavior,
     IsAIStreamingResponse,
     UseWebPlayerWhenLive,
+    ShowSearchRecommend,
 }

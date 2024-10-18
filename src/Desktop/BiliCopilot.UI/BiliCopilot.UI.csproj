@@ -299,6 +299,7 @@
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\QianFanChatConfigSettingSection.xaml" />
+    <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
     <None Remove="Controls\Settings\SparkDeskChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
@@ -1343,6 +1344,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Settings\SearchRecommendSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Player\VideoAISection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

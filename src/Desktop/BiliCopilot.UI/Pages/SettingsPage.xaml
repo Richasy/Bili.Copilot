@@ -60,6 +60,7 @@
                     Text="{ext:Locale Name=Generic}" />
                 <settings:ThemeSettingControl />
                 <settings:LayoutSettingSection />
+                <settings:SearchRecommendSettingSection />
                 <!--<settings:CloseBehaviorSettingControl />-->
                 <settings:NotificationSettingControl />
                 <settings:LoggerSettingControl />

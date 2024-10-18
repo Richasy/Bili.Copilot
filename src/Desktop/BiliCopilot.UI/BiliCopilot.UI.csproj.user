@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Settings\SearchRecommendSettingSection.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\VideoAISection.xaml">
       <SubType>Designer</SubType>
     </Page>

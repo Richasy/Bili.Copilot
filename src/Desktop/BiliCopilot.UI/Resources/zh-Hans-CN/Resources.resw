@@ -2744,4 +2744,10 @@
   <data name="UseWebPlayerWhenLiveDescription" xml:space="preserve">
     <value>如果本机观看直播体验不佳，请打开此选项在网页中观看</value>
   </data>
+  <data name="ShowSearchRecommend" xml:space="preserve">
+    <value>显示搜索推荐</value>
+  </data>
+  <data name="ShowSearchRecommendDescription" xml:space="preserve">
+    <value>在顶部搜索框聚焦时提供搜索建议</value>
+  </data>
 </root>
