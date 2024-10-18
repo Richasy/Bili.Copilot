@@ -97,6 +97,11 @@ public sealed partial class IslandPlayerViewModel
             {
                 await Task.Delay(500);
                 Player.ResetDuration();
+                if (!_autoPlay)
+                {
+                    IsPaused = true;
+                }
+
                 SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
                 Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
             }
