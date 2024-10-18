@@ -29,6 +29,7 @@ public abstract partial class PlayerViewModelBase
         }
 
         TogglePlayPauseCommand.Execute(default);
+        IsPaused = !IsPaused;
         return true;
     }
 

@@ -69,7 +69,7 @@ public abstract partial class PlayerViewModelBase
     private bool _isPlayerDataLoading;
 
     [ObservableProperty]
-    private bool _isPaused;
+    private bool _isPaused = true;
 
     [ObservableProperty]
     private bool _isFailed;
