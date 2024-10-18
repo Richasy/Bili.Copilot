@@ -73,6 +73,9 @@ public sealed partial class RootLayout : RootLayoutBase
             SecondaryTitleBar.Title = wPage.ViewModel.Title;
             wPage.EnterPlayerHostMode();
         }
+
+        MainTitleBar.DelayUpdateAsync();
+        SecondaryTitleBar.DelayUpdateAsync();
     }
 
     /// <summary>
@@ -86,6 +89,7 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         MainTitleBar.Visibility = Visibility.Visible;
+
         SecondaryTitleBar.Visibility = Visibility.Collapsed;
         SecondaryTitleBar.IsBackButtonVisible = false;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
@@ -108,6 +112,9 @@ public sealed partial class RootLayout : RootLayoutBase
         {
             wPage.ExitPlayerHostMode();
         }
+
+        MainTitleBar.DelayUpdateAsync();
+        SecondaryTitleBar.DelayUpdateAsync();
     }
 
     /// <summary>
