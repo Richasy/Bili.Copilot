@@ -101,7 +101,8 @@
                 <Flyout
                     x:Name="HotSearchFlyout"
                     Opened="OnHotSearchFlyoutOpened"
-                    Placement="BottomEdgeAlignedLeft">
+                    Placement="BottomEdgeAlignedLeft"
+                    ShouldConstrainToRootBounds="False">
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="Padding" Value="0" />

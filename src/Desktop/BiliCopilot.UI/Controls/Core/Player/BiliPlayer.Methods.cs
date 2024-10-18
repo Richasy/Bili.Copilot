@@ -64,6 +64,11 @@ public sealed partial class BiliPlayer
         {
             if (args is not null)
             {
+                if (_transportControl != null)
+                {
+                    _lastRelativeMTCPoint = args.GetCurrentPoint(_transportControl).Position;
+                }
+
                 _lastPointerPoint = args.GetCurrentPoint(_overlayContainer).Position;
             }
 
@@ -73,7 +78,12 @@ public sealed partial class BiliPlayer
                 return;
             }
 
-            var isInStayArea = _transportControlTriggerRect.Contains(_lastPointerPoint ?? new(0, 0));
+            var isInStayArea = _lastRelativeMTCPoint != null
+                && _lastRelativeMTCPoint.Value.X >= 0
+                && _lastRelativeMTCPoint.Value.Y >= 0
+                && _lastRelativeMTCPoint.Value.X <= _transportControl.ActualWidth
+                && _lastRelativeMTCPoint.Value.Y <= _transportControl.ActualHeight;
+
             var shouldShow = isInStayArea;
             if (!isInStayArea)
             {
@@ -106,6 +116,7 @@ public sealed partial class BiliPlayer
         }
 
         _transportControl.Visibility = visibility;
+        MeasureTransportTriggerRect();
     }
 
     private void OnCursorTimerTick(object? sender, object e)

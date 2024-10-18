@@ -176,7 +176,6 @@ public sealed partial class VideoPlayerPageViewModel
         AvId = default;
         BvId = default;
         FavoriteFolders = default;
-        HasNextVideo = false;
         SelectedFormat = default;
     }
 
