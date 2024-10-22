@@ -48,6 +48,7 @@ public sealed partial class RootLayout : RootLayoutBase
         MainTitleBar.Visibility = Visibility.Collapsed;
         SecondaryTitleBar.Visibility = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay ? Visibility.Visible : Visibility.Collapsed;
         SecondaryTitleBar.IsBackButtonVisible = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
+        SecondaryTitleBar.IsBackEnabled = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
         SecondaryTitleBar.BackIcon = mode == PlayerDisplayMode.FullWindow ? FluentIcons.Common.Symbol.WindowAd : FluentIcons.Common.Symbol.ContractDownLeft;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         NavView.IsPaneOpen = false;
@@ -74,8 +75,8 @@ public sealed partial class RootLayout : RootLayoutBase
             wPage.EnterPlayerHostMode();
         }
 
-        MainTitleBar.DelayUpdateAsync();
-        SecondaryTitleBar.DelayUpdateAsync();
+        MainTitleBar.DelayUpdateAsync(100);
+        SecondaryTitleBar.DelayUpdateAsync(500);
     }
 
     /// <summary>
@@ -89,7 +90,6 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         MainTitleBar.Visibility = Visibility.Visible;
-
         SecondaryTitleBar.Visibility = Visibility.Collapsed;
         SecondaryTitleBar.IsBackButtonVisible = false;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
@@ -113,8 +113,8 @@ public sealed partial class RootLayout : RootLayoutBase
             wPage.ExitPlayerHostMode();
         }
 
-        MainTitleBar.DelayUpdateAsync();
-        SecondaryTitleBar.DelayUpdateAsync();
+        MainTitleBar.DelayUpdateAsync(500);
+        SecondaryTitleBar.DelayUpdateAsync(100);
     }
 
     /// <summary>
