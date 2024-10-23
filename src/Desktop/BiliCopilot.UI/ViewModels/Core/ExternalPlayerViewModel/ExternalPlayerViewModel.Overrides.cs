@@ -45,6 +45,10 @@ public sealed partial class ExternalPlayerViewModel
         => Task.CompletedTask;
 
     /// <inheritdoc/>
+    protected override Task ForcePlayAsync()
+        => Task.CompletedTask;
+
+    /// <inheritdoc/>
     protected override void OnSetVolume(int value)
     {
     }

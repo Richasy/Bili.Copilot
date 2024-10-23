@@ -46,6 +46,12 @@ public abstract partial class PlayerViewModelBase
     protected abstract Task OnTogglePlayPauseAsync();
 
     /// <summary>
+    /// 强制播放.
+    /// </summary>
+    /// <returns><see cref="Task"/>.</returns>
+    protected abstract Task ForcePlayAsync();
+
+    /// <summary>
     /// 跳转到指定位置.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>
@@ -67,6 +73,13 @@ public abstract partial class PlayerViewModelBase
     /// <param name="path">指定保存的文件路径.</param>
     /// <returns><see cref="Task"/>.</returns>
     protected abstract Task OnTakeScreenshotAsync(string path);
+
+    [RelayCommand]
+    private async Task RestartAsync()
+    {
+        await SeekAsync(0);
+        await ForcePlayAsync();
+    }
 
     [RelayCommand]
     private async Task TogglePlayPauseAsync()

@@ -338,7 +338,7 @@ public sealed partial class VideoPlayerPageViewModel
             // 单视频循环.
             if (CurrentLoop == VideoLoopType.Single)
             {
-                Player.SeekCommand.Execute(0);
+                Player.RestartCommand.Execute(default);
                 return;
             }
 

@@ -70,6 +70,17 @@ public sealed partial class NativePlayerViewModel
     }
 
     /// <inheritdoc/>
+    protected override Task ForcePlayAsync()
+    {
+        if (IsMediaLoaded())
+        {
+            Player.Play();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
     protected override Task OnSeekAsync(TimeSpan position)
     {
         if (!Player?.CanSeek ?? false)

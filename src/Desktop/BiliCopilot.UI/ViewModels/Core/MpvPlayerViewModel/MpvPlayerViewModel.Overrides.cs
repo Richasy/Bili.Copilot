@@ -34,6 +34,13 @@ public sealed partial class MpvPlayerViewModel
         => Player.ExecuteAfterMediaLoadedAsync("cycle pause");
 
     /// <inheritdoc/>
+    protected override Task ForcePlayAsync()
+    {
+        Player.Play();
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
     protected override Task OnSeekAsync(TimeSpan position)
     {
         Player.Seek(position);
