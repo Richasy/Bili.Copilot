@@ -55,6 +55,27 @@ public sealed partial class AccountViewModel : ViewModelBase
         catch (Exception ex)
         {
             _logger.LogCritical(ex, "无法获取登录用户的资料");
+
+            // 用户可能更改了密码，提醒用户是否需要重新登录.
+            var dialog = new ContentDialog()
+            {
+                Title = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.LoginExpiredTitle),
+                Content = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.LoginExpiredDescription),
+                PrimaryButtonText = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.ReSignIn),
+                CloseButtonText = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Exit),
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot,
+            };
+
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                await SignOutAsync();
+            }
+            else
+            {
+                App.Current.Exit();
+            }
         }
 
         IsInitializing = false;
