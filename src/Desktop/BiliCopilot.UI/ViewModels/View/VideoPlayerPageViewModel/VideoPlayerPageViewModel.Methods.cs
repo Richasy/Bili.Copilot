@@ -176,6 +176,7 @@ public sealed partial class VideoPlayerPageViewModel
         BvId = default;
         FavoriteFolders = default;
         SelectedFormat = default;
+        Sections?.Clear();
     }
 
     private void CalcPlayerHeight()
