@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Azure.AI.OpenAI;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
 using Microsoft.SemanticKernel;
@@ -33,7 +32,7 @@ public sealed class AzureOpenAIProvider : ProviderBase, IAgentProvider
         if (ShouldRecreateKernel(modelId))
         {
             Kernel = Kernel.CreateBuilder()
-                .AddAzureOpenAIChatCompletion(modelId, BaseUri.AbsoluteUri, AccessKey, serviceVersion: AzureOpenAIClientOptions.ServiceVersion.V2024_06_01, modelId: modelId)
+                .AddAzureOpenAIChatCompletion(modelId, BaseUri.AbsoluteUri, AccessKey, modelId: modelId)
                 .Build();
         }
 
