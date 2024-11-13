@@ -17,7 +17,7 @@
     <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-    <PublishAot>true</PublishAot>
+    <PublishAot>False</PublishAot>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
