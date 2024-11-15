@@ -205,7 +205,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _initialProgress = 0;
-        if (Player is MpvPlayerViewModel)
+        if (Player is IslandPlayerViewModel)
         {
             if (!Player.IsPaused)
             {

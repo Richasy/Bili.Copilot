@@ -317,7 +317,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
             HandleViewModelPropertyChanged(e);
         }
 
-        if (ViewModel != null && e.PropertyName == nameof(MpvPlayerViewModel.IsPaused) && _transportControl is not null && !ViewModel.IsExternalPlayer)
+        if (ViewModel != null && e.PropertyName == "IsPaused" && _transportControl is not null && !ViewModel.IsExternalPlayer)
         {
             SetTransportVisibility(ViewModel.IsPaused);
         }

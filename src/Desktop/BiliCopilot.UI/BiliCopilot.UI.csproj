@@ -14,7 +14,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <PublishAot>false</PublishAot>
@@ -391,10 +391,8 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
-    <PackageReference Include="OpenTK" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Roman-Numerals" />
-    <PackageReference Include="Silk.NET.Direct3D11" />
     <PackageReference Include="System.Management" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
