@@ -39,23 +39,6 @@
                     PlaceholderText="https://example.openai.azure.com"
                     TextChanged="OnEndpointBoxTextChanged" />
             </base:SettingsCard>
-            <base:SettingsCard
-                x:Name="OrganizationCard"
-                Description="{ext:Locale Name=AzureApiVersionDescription}"
-                Header="{ext:Locale Name=ApiVersion}">
-                <ComboBox
-                    x:Name="VersionComboBox"
-                    Width="200"
-                    HorizontalAlignment="Stretch"
-                    AutomationProperties.Name="{ext:Locale Name=ApiVersion}"
-                    SelectionChanged="OnVersionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="x:String">
-                            <TextBlock Text="{x:Bind}" TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </base:SettingsCard>
         </base:SettingsExpander.Items>
         <base:SettingsExpander.ItemsFooter>
             <Grid

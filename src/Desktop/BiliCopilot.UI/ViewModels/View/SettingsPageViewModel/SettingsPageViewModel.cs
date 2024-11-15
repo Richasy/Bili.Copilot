@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.AI;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -145,6 +146,54 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
         _shouldSaveChatServices = false;
         await AIViewModelShare.SaveOnlineChatServicesAsync(OnlineChatServices);
+    }
+
+    [RelayCommand]
+    private async Task EditVideoSummarizeAsync()
+    {
+        if (!FileToolkit.IsLocalDataExist("video_summarize.txt", "Prompt"))
+        {
+            await FileToolkit.WriteLocalDataAsync("video_summarize.txt", PromptConstants.VideoSummaryPrompt, default, "Prompt");
+        }
+
+        await new CustomPromptDialog("video_summarize", ResourceToolkit.GetLocalizedString(StringNames.VideoSummarize))
+        { XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot }.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task EditVideoEvaluationAsync()
+    {
+        if (!FileToolkit.IsLocalDataExist("video_evaluation.txt", "Prompt"))
+        {
+            await FileToolkit.WriteLocalDataAsync("video_evaluation.txt", PromptConstants.VideoEvaluationPrompt, default, "Prompt");
+        }
+
+        await new CustomPromptDialog("video_evaluation", ResourceToolkit.GetLocalizedString(StringNames.VideoEvaluation))
+        { XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot }.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task EditArticleSummarizeAsync()
+    {
+        if (!FileToolkit.IsLocalDataExist("article_summarize.txt", "Prompt"))
+        {
+            await FileToolkit.WriteLocalDataAsync("article_summarize.txt", PromptConstants.ArticleSummaryPrompt, default, "Prompt");
+        }
+
+        await new CustomPromptDialog("article_summarize", ResourceToolkit.GetLocalizedString(StringNames.ArticleSummarize))
+        { XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot }.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task EditArticleEvaluationAsync()
+    {
+        if (!FileToolkit.IsLocalDataExist("article_evaluation.txt", "Prompt"))
+        {
+            await FileToolkit.WriteLocalDataAsync("article_evaluation.txt", PromptConstants.ArticleEvaluationPrompt, default, "Prompt");
+        }
+
+        await new CustomPromptDialog("article_evaluation", ResourceToolkit.GetLocalizedString(StringNames.ArticleEvaluation))
+        { XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot }.ShowAsync();
     }
 
     private void CheckTheme()

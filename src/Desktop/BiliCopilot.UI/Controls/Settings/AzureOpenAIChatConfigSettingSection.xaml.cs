@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.Json;
 using BiliAgent.Models;
 using BiliCopilot.UI.Controls.AI;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,7 +17,6 @@ public sealed partial class AzureOpenAIChatConfigSettingSection : AIServiceConfi
     public AzureOpenAIChatConfigSettingSection()
     {
         InitializeComponent();
-        InitializeApiVersion();
     }
 
     /// <inheritdoc/>
@@ -33,7 +31,6 @@ public sealed partial class AzureOpenAIChatConfigSettingSection : AIServiceConfi
     {
         KeyBox.Password = ViewModel.Config?.Key ?? string.Empty;
         EndpointBox.Text = (ViewModel.Config as ClientEndpointConfigBase)?.Endpoint ?? string.Empty;
-        VersionComboBox.SelectedIndex = (int)((AzureOpenAIClientConfig)ViewModel.Config).Version;
         KeyBox.Focus(FocusState.Programmatic);
     }
 
@@ -47,25 +44,6 @@ public sealed partial class AzureOpenAIChatConfigSettingSection : AIServiceConfi
     {
         ((ClientEndpointConfigBase)ViewModel.Config).Endpoint = EndpointBox.Text;
         ViewModel.CheckCurrentConfig();
-    }
-
-    private void InitializeApiVersion()
-    {
-        var versions = Enum.GetValues<AzureOpenAIVersion>().ToList();
-        var json = JsonSerializer.Serialize(versions, GlobalSerializeContext.Default.ListAzureOpenAIVersion);
-        VersionComboBox.ItemsSource = JsonSerializer.Deserialize(json, GlobalSerializeContext.Default.ListString);
-        ViewModel?.CheckCurrentConfig();
-    }
-
-    private void OnVersionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        var index = VersionComboBox.SelectedIndex;
-        if (index < 0)
-        {
-            return;
-        }
-
-        ((AzureOpenAIClientConfig)ViewModel.Config).Version = (AzureOpenAIVersion)index;
     }
 
     private void OnPredefinedModelsButtonClick(object sender, RoutedEventArgs e)

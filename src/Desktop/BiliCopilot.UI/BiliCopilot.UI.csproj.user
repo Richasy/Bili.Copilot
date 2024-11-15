@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\AI\CustomPromptDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\PromptTemplateSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\SearchRecommendSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>

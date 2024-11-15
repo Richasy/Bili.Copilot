@@ -2759,4 +2759,50 @@
   <data name="ReSignIn" xml:space="preserve">
     <value>重新登录</value>
   </data>
+  <data name="ArticleEvaluation" xml:space="preserve">
+    <value>文章评价</value>
+  </data>
+  <data name="ArticleSummarize" xml:space="preserve">
+    <value>文章总结</value>
+  </data>
+  <data name="CustomArticleEvaluationDescription" xml:space="preserve">
+    <value>自定义文章评价提示词</value>
+  </data>
+  <data name="CustomArticleSummarizeDescription" xml:space="preserve">
+    <value>自定义文章总结提示词</value>
+  </data>
+  <data name="CustomPrompt" xml:space="preserve">
+    <value>自定义提示词</value>
+  </data>
+  <data name="CustomPromptDescription" xml:space="preserve">
+    <value>创建自己的AI提示词</value>
+  </data>
+  <data name="CustomVideoEvaluationDescription" xml:space="preserve">
+    <value>自定义视频评价提示词</value>
+  </data>
+  <data name="CustomVideoSummarizeDescription" xml:space="preserve">
+    <value>自定义视频总结提示词</value>
+  </data>
+  <data name="Prompt" xml:space="preserve">
+    <value>提示词</value>
+  </data>
+  <data name="PromptCanNotBeEmpty" xml:space="preserve">
+    <value>提示词不能为空</value>
+  </data>
+  <data name="PromptTip" xml:space="preserve">
+    <value>提示词支持一些特定场景的变量：
+- {title} : 标题
+- {description} : 简介
+- {subtitle} : 视频字幕
+- {comments} : 热门评论</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="VideoEvaluation" xml:space="preserve">
+    <value>视频评价</value>
+  </data>
+  <data name="VideoSummarize" xml:space="preserve">
+    <value>视频总结</value>
+  </data>
 </root>

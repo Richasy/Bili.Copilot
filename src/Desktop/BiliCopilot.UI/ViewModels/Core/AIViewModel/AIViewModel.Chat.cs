@@ -30,10 +30,7 @@ public sealed partial class AIViewModel
             IsGenerating = true;
             _generateCancellationTokenSource = new CancellationTokenSource();
             var subtitleText = await GetVideoSubtitleAsync();
-            if (string.IsNullOrEmpty(subtitleText))
-            {
-                return;
-            }
+            subtitleText ??= "无字幕";
 
             // 生成总结.
             ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.Summarizing);
@@ -111,14 +108,11 @@ public sealed partial class AIViewModel
             Erase();
             InitOtherPrompts(default);
             RequestText = question;
-            var promptTemplate = VideoQuestionPrompt;
+            var promptTemplate = PromptConstants.VideoQuestionPrompt;
             IsGenerating = true;
             _generateCancellationTokenSource = new CancellationTokenSource();
             var subtitleText = await GetVideoSubtitleAsync();
-            if (string.IsNullOrEmpty(subtitleText))
-            {
-                return;
-            }
+            subtitleText ??= "无字幕";
 
             // 生成总结.
             ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.Generating);
@@ -231,7 +225,7 @@ public sealed partial class AIViewModel
             Erase();
             InitOtherPrompts(default);
             RequestText = question;
-            var promptTemplate = ArticleQuestionPrompt;
+            var promptTemplate = PromptConstants.ArticleQuestionPrompt;
             IsGenerating = true;
             _generateCancellationTokenSource = new CancellationTokenSource();
             var articleContent = GetArticlePlainText();

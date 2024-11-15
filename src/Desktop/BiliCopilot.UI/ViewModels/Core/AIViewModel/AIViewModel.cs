@@ -37,7 +37,7 @@ public sealed partial class AIViewModel : ViewModelBase
     /// <summary>
     /// 注入视频信息.
     /// </summary>
-    public void InjectVideo(VideoPlayerView videoView, VideoPart videoPart)
+    public async void InjectVideoAsync(VideoPlayerView videoView, VideoPart videoPart)
     {
         Cancel();
         _videoView = videoView;
@@ -47,20 +47,20 @@ public sealed partial class AIViewModel : ViewModelBase
         SourceTitle = _videoView.Information.Identifier.Title;
         SourceSubtitle = string.IsNullOrEmpty(desc) ? _videoPart.Identifier.Title : desc;
         _subtitles = default;
-        InitializeVideoPrompts();
+        await InitializeVideoPromptsAsync();
     }
 
     /// <summary>
     /// 注入文章信息.
     /// </summary>
-    public void InjectArticle(ArticleDetail article)
+    public async void InjectArticleAsync(ArticleDetail article)
     {
         Cancel();
         _articleDetail = article;
         SourceCover = article.Identifier.Cover?.Uri;
         SourceTitle = article.Identifier.Title;
         SourceSubtitle = article.Identifier.Summary;
-        InitializeArticlePrompts();
+        await InitializeArticlePromptsAsync();
     }
 
     [RelayCommand]

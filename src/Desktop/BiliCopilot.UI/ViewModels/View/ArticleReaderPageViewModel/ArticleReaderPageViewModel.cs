@@ -46,7 +46,7 @@ public sealed partial class ArticleReaderPageViewModel : ViewModelBase
         try
         {
             Content = await _discoveryService.GetArticleContentAsync(article);
-            AI.InjectArticle(Content);
+            AI.InjectArticleAsync(Content);
             InitializeUser();
             InitializeStats();
             ArticleInitialized?.Invoke(this, EventArgs.Empty);
