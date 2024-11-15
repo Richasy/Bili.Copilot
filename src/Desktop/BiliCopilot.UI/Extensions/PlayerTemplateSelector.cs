@@ -16,11 +16,7 @@ internal sealed partial class PlayerTemplateSelector : DataTemplateSelector
 
     protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
     {
-        if (item is MpvPlayerViewModel)
-        {
-            return MpvTemplate;
-        }
-        else if (item is NativePlayerViewModel)
+        if (item is NativePlayerViewModel)
         {
             return NativeTemplate;
         }

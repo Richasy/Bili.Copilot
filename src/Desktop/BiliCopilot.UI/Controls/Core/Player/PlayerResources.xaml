@@ -2,7 +2,6 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="using:BiliCopilot.UI.Controls.Core.Common"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
@@ -49,16 +48,6 @@
         BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
         TargetType="FlyoutPresenter">
         <Setter Property="Padding" Value="12,10" />
-    </Style>
-
-    <Style TargetType="local:MpvPlayer">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:MpvPlayer">
-                    <common:RenderControl x:Name="RenderControl" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style TargetType="local:IslandPlayer">
