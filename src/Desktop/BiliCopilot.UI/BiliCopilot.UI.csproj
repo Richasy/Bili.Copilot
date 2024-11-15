@@ -126,6 +126,7 @@
     <None Remove="Controls\AI\AIPanel.xaml" />
     <None Remove="Controls\AI\CustomChatModelDialog.xaml" />
     <None Remove="Controls\AI\CustomChatModelSection.xaml" />
+    <None Remove="Controls\AI\CustomPromptDialog.xaml" />
     <None Remove="Controls\AI\PredefinedChatModelSection.xaml" />
     <None Remove="Controls\Article\ArticlePartitionMainBody.xaml" />
     <None Remove="Controls\Article\ArticlePartitionMainHeader.xaml" />
@@ -298,6 +299,7 @@
     <None Remove="Controls\Settings\OpenAIChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
+    <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
     <None Remove="Controls\Settings\QianFanChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
     <None Remove="Controls\Settings\SparkDeskChatConfigSettingSection.xaml" />
@@ -1342,6 +1344,12 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\AI\CustomPromptDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\PromptTemplateSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Settings\SearchRecommendSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

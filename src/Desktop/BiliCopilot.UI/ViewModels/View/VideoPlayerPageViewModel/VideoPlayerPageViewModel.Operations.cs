@@ -271,7 +271,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _part = part;
-        AI.InjectVideo(_view, part);
+        AI.InjectVideoAsync(_view, part);
         Player.CancelNotification();
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
