@@ -98,6 +98,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
         _subtitles = default;
         SelectedMeta = default;
         _position = 0;
+        Metas = default;
     }
 
     [RelayCommand]
