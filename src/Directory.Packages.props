@@ -45,7 +45,7 @@
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
     <PackageVersion Include="Polly" Version="8.4.1" />
     <PackageVersion Include="QRCoder" Version="1.4.1" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.0" />
