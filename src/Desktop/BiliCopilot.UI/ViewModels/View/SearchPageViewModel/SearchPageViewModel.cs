@@ -83,7 +83,7 @@ public sealed partial class SearchPageViewModel : LayoutPageViewModelBase
         try
         {
             IsSearching = true;
-            var (videos, partitions, nextVideoOffset) = await _service.GetComprehensiveSearchResultAsync(keyword);
+            var (videos, partitions, nextVideoOffset) = await _service.GetComprehensiveSearchResultAsync(keyword, sort: Richasy.BiliKernel.Models.ComprehensiveSearchSortType.Play);
             var sections = new List<ISearchSectionDetailViewModel>()
             {
                 CreateVideoSection(videos, nextVideoOffset),
