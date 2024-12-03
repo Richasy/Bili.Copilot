@@ -32,7 +32,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
     public void Initialize(string keyword, SearchPartition partition)
     {
         Clear();
-        Sort = ComprehensiveSearchSortType.Default;
+        Sort = ComprehensiveSearchSortType.Play;
         _keyword = keyword;
     }
 

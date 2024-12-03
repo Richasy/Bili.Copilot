@@ -144,7 +144,6 @@
                     </StackPanel.ChildrenTransitions>
                 </StackPanel>
             </StackPanel>
-
         </ScrollViewer>
     </Grid>
 </local:SettingsPageBase>
