@@ -72,7 +72,7 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
         {
             if (MomentScrollView.ExtentHeight - MomentScrollView.ViewportHeight - MomentScrollView.VerticalOffset <= 240)
             {
-                ViewModel.LoadItemsCommand.Execute(default);
+                ViewModel?.LoadItemsCommand.Execute(default);
             }
         });
     }
@@ -91,7 +91,7 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
         {
             if (MomentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
             {
-                ViewModel.LoadItemsCommand.Execute(default);
+                ViewModel?.LoadItemsCommand.Execute(default);
             }
         });
     }

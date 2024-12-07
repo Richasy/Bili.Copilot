@@ -8,6 +8,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 
@@ -33,7 +34,7 @@ public sealed partial class CinemaPageViewModel : LayoutPageViewModelBase
     protected override string GetPageKey() => nameof(CinemaPage);
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private void Initialize()
     {
         if (Sections?.Count > 0)
         {
@@ -48,9 +49,11 @@ public sealed partial class CinemaPageViewModel : LayoutPageViewModelBase
         };
         var lastType = SettingsToolkit.ReadLocalSetting(SettingNames.CinemaPageLastSelectedSectionType, PgcSectionType.Movie);
         var section = Sections.FirstOrDefault(p => p.SectionType == lastType);
-        await Task.Delay(500);
-        SelectSection(section ?? Sections.First());
-        SectionInitialized?.Invoke(this, EventArgs.Empty);
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
+        {
+            SelectSection(section ?? Sections.First());
+            SectionInitialized?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     [RelayCommand]

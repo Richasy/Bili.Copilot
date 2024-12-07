@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.ViewModels;
@@ -65,12 +66,17 @@ public sealed partial class EntertainmentIndexViewModel : ViewModelBase, IPgcSec
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private Task Refresh()
     {
         _pageNumer = 0;
-        Items.Clear();
-        Filters = default;
-        await InitializeAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Items.Clear();
+            Filters = default;
+            await InitializeAsync();
+        });
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
@@ -114,7 +120,10 @@ public sealed partial class EntertainmentIndexViewModel : ViewModelBase, IPgcSec
     private void RequestForConditionChanged()
     {
         _pageNumer = 0;
-        Items.Clear();
-        RequestIndexCommand.Execute(default);
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
+        {
+            Items.Clear();
+            RequestIndexCommand.Execute(default);
+        });
     }
 }

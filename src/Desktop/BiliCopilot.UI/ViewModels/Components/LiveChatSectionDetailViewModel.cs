@@ -8,6 +8,7 @@ using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
@@ -105,7 +106,7 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     public async Task CloseAsync()
     {
         _heartBeatTimer.Stop();
-        Messages.Clear();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, Messages.Clear);
         await _cancellationTokenSource?.CancelAsync();
         _cancellationTokenSource?.Dispose();
         _cancellationTokenSource = default;

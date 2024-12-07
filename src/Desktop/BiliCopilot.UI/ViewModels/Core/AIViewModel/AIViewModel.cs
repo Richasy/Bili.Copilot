@@ -79,17 +79,20 @@ public sealed partial class AIViewModel : ViewModelBase
     {
         SelectedService = default;
         SelectedModel = default;
-        if (Services is List<AIServiceItemViewModel> services)
+        _dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            services.Clear();
-            Services = default;
-        }
+            if (Services is List<AIServiceItemViewModel> services)
+            {
+                services.Clear();
+                Services = default;
+            }
 
-        if (Models is List<ChatModelItemViewModel> models)
-        {
-            models.Clear();
-            Models = default;
-        }
+            if (Models is List<ChatModelItemViewModel> models)
+            {
+                models.Clear();
+                Models = default;
+            }
+        });
     }
 
     [RelayCommand]

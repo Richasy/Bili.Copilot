@@ -5,6 +5,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Moment;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
@@ -36,13 +37,16 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
         _preventLoadMore = momentView.HasMoreMoments != true;
         _offset = momentView.Offset;
         _baseline = momentView.UpdateBaseline;
-        Items.Clear();
-        foreach (var item in momentView.Moments)
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            Items.Add(new MomentItemViewModel(item, MomentCardStyle.Comprehensive, ShowComment));
-        }
+            Items.Clear();
+            foreach (var item in momentView.Moments)
+            {
+                Items.Add(new MomentItemViewModel(item, MomentCardStyle.Comprehensive, ShowComment));
+            }
 
-        ListUpdated?.Invoke(this, EventArgs.Empty);
+            ListUpdated?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     [RelayCommand]
@@ -57,7 +61,7 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         if (IsTotal)
         {
@@ -69,7 +73,11 @@ public sealed partial class MomentUperSectionViewModel : ViewModelBase<MomentPro
         IsEmpty = false;
         _preventLoadMore = false;
         Items.Clear();
-        await LoadItemsAsync();
+
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            await LoadItemsAsync();
+        });
     }
 
     [RelayCommand]

@@ -3,20 +3,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
     <RootNamespace>BiliCopilot.UI</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-    <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048</NoWarn>
-    <Configurations>Debug;Release;Publish</Configurations>
-    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <PublishAot>False</PublishAot>
   </PropertyGroup>
   <ItemGroup>
@@ -219,9 +216,7 @@
     <None Remove="Controls\Pgc\AnimeTimelineSideControl.xaml" />
     <None Remove="Controls\Components\AccountCard.xaml" />
     <None Remove="Controls\Components\AppSearchBox.xaml" />
-    <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\HeaderAccountControl.xaml" />
-    <None Remove="Controls\Components\CardControl\CardControl.xaml" />
     <None Remove="Controls\Components\SeasonCardControl\SeasonCardControl.xaml" />
     <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
     <None Remove="Controls\Components\TimelineControl.xaml" />
@@ -396,6 +391,7 @@
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Roman-Numerals" />
     <PackageReference Include="System.Management" />
+    <PackageReference Include="System.Private.Uri" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
@@ -419,10 +415,6 @@
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Components\CardControl\CardControl.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\RootLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -629,11 +621,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Components\HeaderAccountControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\CardControl\CardControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1572,4 +1559,13 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+    
+  <!-- Publish Properties -->
+  <PropertyGroup>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">False</PublishTrimmed>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+  </PropertyGroup>
 </Project>

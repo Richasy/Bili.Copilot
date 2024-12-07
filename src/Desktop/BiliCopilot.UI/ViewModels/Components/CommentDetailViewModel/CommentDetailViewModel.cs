@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Comment;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -76,10 +77,10 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         Clear();
-        await LoadItemsAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () => await LoadItemsAsync());
     }
 
     [RelayCommand]
@@ -116,7 +117,7 @@ public sealed partial class CommentDetailViewModel : ViewModelBase<CommentItemVi
         {
             await _service.SendTextCommentAsync(content, targetId, Data.Data.CommentType, rootId, replyCommentId);
             await Task.Delay(500);
-            await RefreshAsync();
+            Refresh();
         }
         catch (Exception ex)
         {

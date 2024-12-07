@@ -4,6 +4,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Moment;
 using Richasy.BiliKernel.Models.Moment;
 using Richasy.WinUI.Share.ViewModels;
@@ -27,7 +28,7 @@ public sealed partial class MomentPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private void Initialize()
     {
         if (Sections?.Count > 0)
         {
@@ -43,8 +44,7 @@ public sealed partial class MomentPageViewModel : ViewModelBase
         var isLastVideoSection = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.LastMomentSectionIsVideo, true);
         var section = isLastVideoSection ? Sections.First() : Sections.Last();
         SelectSectionCommand.Execute(section);
-        await Task.Delay(200);
-        Initialized?.Invoke(this, EventArgs.Empty);
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () => Initialized?.Invoke(this, EventArgs.Empty));
     }
 
     [RelayCommand]

@@ -5,6 +5,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Article;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Article;
@@ -32,7 +33,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
     }
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private void Initialize()
     {
         if (Articles.Count > 0)
         {
@@ -50,20 +51,20 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         if (_isRecommendPartition || _isHotPartition)
         {
             IsRecommend = true;
-            await ChangeChildPartitionAsync(Data);
+            ChangeChildPartition(Data);
         }
         else
         {
             SortTypes = [.. Enum.GetValues<ArticleSortType>()];
             SelectedSortType = ArticleSortType.Default;
-            await ChangeChildPartitionAsync(Children.First());
+            ChangeChildPartition(Children.First());
         }
 
         Initialized?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]
-    private async Task ChangeSortTypeAsync(ArticleSortType sortType)
+    private void ChangeSortType(ArticleSortType sortType)
     {
         if (IsRecommend)
         {
@@ -71,14 +72,18 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         }
 
         SelectedSortType = sortType;
-        _childPartitionArticleCache.Clear();
-        Articles.Clear();
-        _childPartitionOffsetCache.Clear();
-        await LoadArticlesAsync();
+
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            _childPartitionArticleCache.Clear();
+            Articles.Clear();
+            _childPartitionOffsetCache.Clear();
+            await LoadArticlesAsync();
+        });
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         if (IsRecommend)
         {
@@ -92,12 +97,15 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
             _childPartitionOffsetCache.Remove(CurrentPartition.Data.Id);
         }
 
-        Articles.Clear();
-        await LoadArticlesAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Articles.Clear();
+            await LoadArticlesAsync();
+        });
     }
 
     [RelayCommand]
-    private async Task ChangeChildPartitionAsync(PartitionViewModel partition)
+    private void ChangeChildPartition(PartitionViewModel partition)
     {
         if (partition is null || partition.Data.Equals(CurrentPartition?.Data))
         {
@@ -118,30 +126,34 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         }
 
         CurrentPartition = partition;
-        Articles.Clear();
-        if (IsRecommend && _recommendCache?.Count > 0)
-        {
-            foreach (var item in _recommendCache)
-            {
-                Articles.Add(item);
-            }
-        }
-        else if (_childPartitionArticleCache.TryGetValue(CurrentPartition.Data.Id, out var cache))
-        {
-            foreach (var item in cache)
-            {
-                Articles.Add(item);
-            }
-        }
 
-        if (Articles.Count == 0)
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
         {
-            await LoadArticlesAsync();
-        }
-        else
-        {
-            ArticleListUpdated?.Invoke(this, EventArgs.Empty);
-        }
+            Articles.Clear();
+            if (IsRecommend && _recommendCache?.Count > 0)
+            {
+                foreach (var item in _recommendCache)
+                {
+                    Articles.Add(item);
+                }
+            }
+            else if (_childPartitionArticleCache.TryGetValue(CurrentPartition.Data.Id, out var cache))
+            {
+                foreach (var item in cache)
+                {
+                    Articles.Add(item);
+                }
+            }
+
+            if (Articles.Count == 0)
+            {
+                await LoadArticlesAsync();
+            }
+            else
+            {
+                ArticleListUpdated?.Invoke(this, EventArgs.Empty);
+            }
+        });
     }
 
     [RelayCommand]

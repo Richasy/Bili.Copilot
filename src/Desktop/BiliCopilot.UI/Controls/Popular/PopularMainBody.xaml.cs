@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Popular;
@@ -43,6 +44,12 @@ public sealed partial class PopularMainBody : PopularPageControlBase
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        if ((ViewModel.SelectedSection is PopularSectionItemViewModel secItem && secItem.Type == Models.Constants.PopularSectionType.Rank)
+            || ViewModel.SelectedSection is PopularRankPartitionViewModel)
+        {
+            return;
+        }
+
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 240)

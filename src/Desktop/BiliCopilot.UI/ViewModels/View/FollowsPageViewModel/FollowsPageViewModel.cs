@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
 
@@ -48,7 +49,7 @@ public sealed partial class FollowsPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task SelectGroupAsync(UserGroup group)
+    private void SelectGroup(UserGroup group)
     {
         if (group == null || group == SelectedGroup)
         {
@@ -62,22 +63,26 @@ public sealed partial class FollowsPageViewModel : LayoutPageViewModelBase
 
         SelectedGroup = group;
         SettingsToolkit.WriteLocalSetting(SettingNames.FollowsPageLastSelectedGroupId, group.Id);
-        Users.Clear();
-        if (_userCache.TryGetValue(group, out var list))
+
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
         {
-            foreach (var user in list)
+            Users.Clear();
+            if (_userCache.TryGetValue(group, out var list))
             {
-                Users.Add(user);
+                foreach (var user in list)
+                {
+                    Users.Add(user);
+                }
+
+                UserListUpdated?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                await LoadUsersAsync();
             }
 
-            UserListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            await LoadUsersAsync();
-        }
-
-        IsEmpty = Users.Count == 0;
+            IsEmpty = Users.Count == 0;
+        });
     }
 
     [RelayCommand]
@@ -123,14 +128,17 @@ public sealed partial class FollowsPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
-        Users.Clear();
-        Groups.Clear();
-        _userCache.Clear();
-        _offsetCache.Clear();
-        SelectedGroup = default;
-        await InitializeAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Users.Clear();
+            Groups.Clear();
+            _userCache.Clear();
+            _offsetCache.Clear();
+            SelectedGroup = default;
+            await InitializeAsync();
+        });
     }
 
     private async Task LoadGroupsAsync()

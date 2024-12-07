@@ -7,6 +7,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 
@@ -42,7 +43,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task InitializeAsync()
+    private void Initialize()
     {
         if (MainSections.Count > 1)
         {
@@ -53,47 +54,51 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
         IsFollowRoomsEmpty = true;
         try
         {
-            MainSections.Clear();
-            var rcmdSection = new Partition("_", ResourceToolkit.GetLocalizedString(StringNames.RecommendLive));
-            MainSections.Add(new PartitionViewModel(rcmdSection));
-            var sections = await _service.GetLivePartitionsAsync();
-            foreach (var section in sections)
+            this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
             {
-                if (section.Name == "推荐")
+                MainSections.Clear();
+                var rcmdSection = new Partition("_", ResourceToolkit.GetLocalizedString(StringNames.RecommendLive));
+                MainSections.Add(new PartitionViewModel(rcmdSection));
+                var sections = await _service.GetLivePartitionsAsync();
+                foreach (var section in sections)
                 {
-                    section.Name = ResourceToolkit.GetLocalizedString(StringNames.RecommendLivePartition);
+                    if (section.Name == "推荐")
+                    {
+                        section.Name = ResourceToolkit.GetLocalizedString(StringNames.RecommendLivePartition);
+                    }
+
+                    MainSections.Add(new PartitionViewModel(section));
                 }
 
-                MainSections.Add(new PartitionViewModel(section));
-            }
-
-            await SelectMainSectionAsync(MainSections.First());
-            SectionInitialized?.Invoke(this, EventArgs.Empty);
+                await SelectMainSectionAsync(MainSections.First());
+                SectionInitialized?.Invoke(this, EventArgs.Empty);
+                IsSectionLoading = false;
+            });
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "获取直播间分区时出现异常");
-        }
-        finally
-        {
             IsSectionLoading = false;
         }
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         if (SelectedDetail is null)
         {
             _recommendOffset = 0;
-            RecommendRooms.Clear();
-            FollowRooms.Clear();
-            IsFollowRoomsEmpty = true;
-            await LoadRecommendRoomsAsync();
+            this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+            {
+                RecommendRooms.Clear();
+                FollowRooms.Clear();
+                IsFollowRoomsEmpty = true;
+                await LoadRecommendRoomsAsync();
+            });
         }
         else
         {
-            await SelectedDetail.RefreshCommand.ExecuteAsync(default);
+            SelectedDetail.RefreshCommand.Execute(default);
         }
     }
 

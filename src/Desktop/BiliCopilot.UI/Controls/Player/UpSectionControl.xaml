@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <components:CardControl
+    <base:CardControl
         Background="Transparent"
         BorderBrush="Transparent"
         BorderThickness="0"
@@ -59,6 +59,6 @@
                 </StackPanel>
             </Button>
         </Grid>
-    </components:CardControl>
+    </base:CardControl>
 
 </base:LayoutUserControlBase>

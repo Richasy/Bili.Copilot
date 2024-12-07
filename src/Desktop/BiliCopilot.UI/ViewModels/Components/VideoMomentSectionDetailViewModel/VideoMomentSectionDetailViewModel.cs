@@ -5,6 +5,7 @@ using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Moment;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -38,16 +39,18 @@ public sealed partial class VideoMomentSectionDetailViewModel : ViewModelBase, I
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         _offset = default;
         _baseline = default;
         IsEmpty = false;
         _preventLoadMore = false;
-
         Items.Clear();
-        await LoadItemsAsync();
-        SaveLastTenMomentIds();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            await LoadItemsAsync();
+            SaveLastTenMomentIds();
+        });
     }
 
     [RelayCommand]
