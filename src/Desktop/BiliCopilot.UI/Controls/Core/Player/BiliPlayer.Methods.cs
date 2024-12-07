@@ -270,14 +270,21 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
     {
-        if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+        var point = e.GetCurrentPoint((UIElement)sender);
+        if (point.Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
+        {
+            // 右键单击不做处理.
+            return;
+        }
+
+        _isPointerHasPressed = true;
+        if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
         {
             _lastPressedTime = DateTimeOffset.Now;
         }
 
         if (ViewModel is IslandPlayerViewModel)
         {
-            var point = e.GetCurrentPoint((UIElement)sender);
             if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
             {
                 if (ViewModel.IsFullScreen || ViewModel.IsFullWindow || ViewModel.IsCompactOverlay)
@@ -324,6 +331,12 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerReleased(object sender, PointerRoutedEventArgs e)
     {
+        if (_isPointerHasPressed != true || e.GetCurrentPoint((UIElement)sender).Properties.PointerUpdateKind == PointerUpdateKind.RightButtonReleased)
+        {
+            return;
+        }
+
+        _isPointerHasPressed = default;
         _lastPressedTime = default;
         _lastRightArrowPressedTime = default;
         if (_isHolding)
