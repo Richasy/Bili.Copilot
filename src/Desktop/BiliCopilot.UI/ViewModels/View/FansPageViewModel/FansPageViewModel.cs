@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -36,13 +37,16 @@ public sealed partial class FansPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         IsEmpty = false;
         _pageNumber = 0;
         TotalCount = 0;
-        Users.Clear();
-        await InitializeAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Users.Clear();
+            await InitializeAsync();
+        });
     }
 
     [RelayCommand]

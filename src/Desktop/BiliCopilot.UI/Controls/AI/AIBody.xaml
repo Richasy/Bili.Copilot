@@ -15,7 +15,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="QuickItemTemplate" x:DataType="items:AIQuickItemViewModel">
-            <components:CardControl HorizontalAlignment="Stretch" Command="{x:Bind ExecuteCommand}">
+            <base:CardControl HorizontalAlignment="Stretch" Command="{x:Bind ExecuteCommand}">
                 <Grid Padding="16,12" ColumnSpacing="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -40,7 +40,7 @@
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
-            </components:CardControl>
+            </base:CardControl>
         </DataTemplate>
     </UserControl.Resources>
 

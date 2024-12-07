@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.WinUI.Share.ViewModels;
 
@@ -35,13 +36,18 @@ public sealed partial class LiveHistorySectionDetailViewModel : ViewModelBase, I
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private Task Refresh()
     {
         IsEmpty = false;
         _isPreventLoadMore = false;
-        Items.Clear();
-        _offset = 0;
-        await LoadItemsAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Items.Clear();
+            _offset = 0;
+            await LoadItemsAsync();
+        });
+
+        return Task.CompletedTask;
     }
 
     [RelayCommand]

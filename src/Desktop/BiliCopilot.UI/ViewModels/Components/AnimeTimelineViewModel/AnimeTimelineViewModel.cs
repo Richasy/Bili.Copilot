@@ -54,6 +54,11 @@ public sealed partial class AnimeTimelineViewModel : ViewModelBase, IPgcSectionD
         {
             await Task.WhenAll(tasks);
 
+            if (Timelines.Count > 0)
+            {
+                return;
+            }
+
             var combinedTimelines = new List<TimelineItemViewModel>();
             var todayIndex = bangumiTimelines.ToList().IndexOf(bangumiTimelines.FirstOrDefault(p => p.IsToday));
             for (var i = 0; i < bangumiTimelines.Count; i++)

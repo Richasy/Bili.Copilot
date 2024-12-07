@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Models;
 using Richasy.WinUI.Share.ViewModels;
@@ -172,7 +173,7 @@ public sealed partial class CommentMainViewModel : ViewModelBase, IPlayerSection
             }
         }
 
-        Comments.Clear();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, Comments.Clear);
         _offset = 0;
         _preventLoadMore = false;
         Id = default;

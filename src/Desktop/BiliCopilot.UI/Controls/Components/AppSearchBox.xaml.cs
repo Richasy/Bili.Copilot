@@ -66,7 +66,7 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
         }
 
         ViewModel.TryCancelSuggestCommand.Execute(default);
-        ViewModel.Suggestion.Clear();
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, ViewModel.Suggestion.Clear);
     }
 }
 

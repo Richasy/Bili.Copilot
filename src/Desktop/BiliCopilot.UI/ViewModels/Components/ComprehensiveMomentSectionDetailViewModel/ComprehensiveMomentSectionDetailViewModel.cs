@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Moment;
 
 namespace BiliCopilot.UI.ViewModels.Components;
@@ -44,18 +45,21 @@ public sealed partial class ComprehensiveMomentSectionDetailViewModel : LayoutPa
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         if (SelectedUper.IsTotal)
         {
             Upers.Clear();
-            SelectedUper?.Items?.Clear();
-            SelectedUper = default;
-            await InitializeAsync();
+            this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+            {
+                SelectedUper?.Items?.Clear();
+                SelectedUper = default;
+                await InitializeAsync();
+            });
         }
         else
         {
-            await SelectedUper.RefreshCommand.ExecuteAsync(default);
+            SelectedUper.RefreshCommand.Execute(default);
         }
     }
 

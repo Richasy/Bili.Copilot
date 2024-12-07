@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -102,7 +102,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -112,7 +112,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -201,7 +201,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -211,7 +211,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -325,7 +325,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -335,7 +335,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -451,7 +451,7 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -461,7 +461,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -546,7 +546,7 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -645,7 +645,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -742,7 +742,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -752,7 +752,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -815,7 +815,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -825,7 +825,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -922,7 +922,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -932,7 +932,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -998,7 +998,7 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1008,7 +1008,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
-                    <local:CardControl x:Name="RootCard" Height="104">
+                    <base:CardControl x:Name="RootCard" Height="104">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="148" />
@@ -1099,7 +1099,7 @@
                                 </StackPanel>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

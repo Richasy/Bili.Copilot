@@ -7,6 +7,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Article;
 using Richasy.BiliKernel.Models;
 
@@ -53,11 +54,13 @@ public sealed partial class ArticlePartitionPageViewModel : LayoutPageViewModelB
         }
 
         IsPartitionLoading = false;
-        await Task.Delay(200);
-        var lastSelectedPartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.ArticlePartitionPageLastSelectedPartitionId, Partitions.First().Data.Id);
-        var partition = Partitions.FirstOrDefault(p => p.Data.Id == lastSelectedPartitionId) ?? Partitions.First();
-        SelectPartition(partition);
-        PartitionInitialized?.Invoke(this, EventArgs.Empty);
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
+        {
+            var lastSelectedPartitionId = SettingsToolkit.ReadLocalSetting(SettingNames.ArticlePartitionPageLastSelectedPartitionId, Partitions.First().Data.Id);
+            var partition = Partitions.FirstOrDefault(p => p.Data.Id == lastSelectedPartitionId) ?? Partitions.First();
+            SelectPartition(partition);
+            PartitionInitialized?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     [RelayCommand]

@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Models.Search;
 using Richasy.WinUI.Share.ViewModels;
@@ -43,7 +44,7 @@ public sealed partial class PgcSearchSectionDetailViewModel : ViewModelBase, ISe
         _keyword = string.Empty;
         IsEmpty = false;
         _canRequest = false;
-        Items.Clear();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, Items.Clear);
     }
 
     [RelayCommand]

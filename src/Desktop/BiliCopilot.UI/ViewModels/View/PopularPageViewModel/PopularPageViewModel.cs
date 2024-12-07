@@ -9,6 +9,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 
 namespace BiliCopilot.UI.ViewModels.View;
@@ -72,7 +73,7 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task SelectSectionAsync(IPopularSectionItemViewModel vm)
+    private void SelectSection(IPopularSectionItemViewModel vm)
     {
         if (vm is null || vm == SelectedSection)
         {
@@ -92,20 +93,24 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
             _ => string.Empty
         };
         SettingsToolkit.WriteLocalSetting(SettingNames.PopularPageLastSelectedSectionId, sectionId);
-        Videos.Clear();
-        if (_videoCache.TryGetValue(vm, out var cacheVideos))
-        {
-            foreach (var video in cacheVideos)
-            {
-                Videos.Add(video);
-            }
 
-            VideoListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-        else
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
         {
-            await LoadVideosAsync();
-        }
+            Videos.Clear();
+            if (_videoCache.TryGetValue(vm, out var cacheVideos))
+            {
+                foreach (var video in cacheVideos)
+                {
+                    Videos.Add(video);
+                }
+
+                VideoListUpdated?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                await LoadVideosAsync();
+            }
+        });
     }
 
     [RelayCommand]
@@ -138,8 +143,7 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         }
 
         VideoListUpdated?.Invoke(this, EventArgs.Empty);
-        await Task.Delay(200);
-        IsVideoLoading = false;
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () => IsVideoLoading = false);
     }
 
     [RelayCommand]

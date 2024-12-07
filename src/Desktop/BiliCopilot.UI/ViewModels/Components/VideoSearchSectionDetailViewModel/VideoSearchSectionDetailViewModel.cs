@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
@@ -43,32 +44,35 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         IsEmpty = false;
         _isPreventLoadMore = false;
         _canRequest = false;
-        Items.Clear();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, Items.Clear);
     }
 
     internal void SetFirstPageData(IReadOnlyList<VideoInformation> videos, string initialOffset)
     {
         _canRequest = true;
         _offset = initialOffset;
-        Items.Clear();
-        _isPreventLoadMore = videos is null || videos.Count == 0;
-
-        if (!_isPreventLoadMore)
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            foreach (var item in videos)
+            Items.Clear();
+            _isPreventLoadMore = videos is null || videos.Count == 0;
+
+            if (!_isPreventLoadMore)
             {
-                if (Items.Any(p => p.Data.Equals(item)))
+                foreach (var item in videos)
                 {
-                    continue;
+                    if (Items.Any(p => p.Data.Equals(item)))
+                    {
+                        continue;
+                    }
+
+                    Items.Add(new VideoItemViewModel(item, VideoCardStyle.Search));
                 }
 
-                Items.Add(new VideoItemViewModel(item, VideoCardStyle.Search));
+                ListUpdated?.Invoke(this, EventArgs.Empty);
             }
 
-            ListUpdated?.Invoke(this, EventArgs.Empty);
-        }
-
-        IsEmpty = Items.Count == 0;
+            IsEmpty = Items.Count == 0;
+        });
     }
 
     [RelayCommand]
@@ -115,11 +119,16 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
     [RelayCommand]
     private async Task RefreshAsync()
     {
-        var keyword = _keyword;
-        Clear();
-        _keyword = keyword;
-        _canRequest = true;
-        await LoadItemsAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            var keyword = _keyword;
+            Clear();
+            _keyword = keyword;
+            _canRequest = true;
+            await LoadItemsAsync();
+        });
+
+        await Task.CompletedTask;
     }
 
     [RelayCommand]

@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NotifyMessageCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid Padding="12">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -99,7 +99,7 @@
                                     TextWrapping="Wrap" />
                             </Border>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -3,8 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.WebDav.WebDavStorageItemControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:base="using:BiliCopilot.UI.Controls.Components"
-    xmlns:base1="using:Richasy.WinUI.Share.Base"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Controls.WebDav"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -23,7 +22,7 @@
                     FontSize="32"
                     Glyph="{x:Bind ViewModel.Icon, Mode=OneWay}" />
             </Grid>
-            <base1:TrimTextBlock
+            <base:TrimTextBlock
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 MaxLines="1"

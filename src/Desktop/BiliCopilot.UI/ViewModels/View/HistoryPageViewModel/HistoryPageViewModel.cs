@@ -8,6 +8,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models;
@@ -169,7 +170,7 @@ public sealed partial class HistoryPageViewModel : ViewModelBase
         IsSearchMode = false;
         SearchKeyword = string.Empty;
         IsSearchEmpty = false;
-        SearchVideos.Clear();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, SearchVideos.Clear);
         _preventLoadMoreSearch = false;
         _searchPn = 0;
         CancelSearch();

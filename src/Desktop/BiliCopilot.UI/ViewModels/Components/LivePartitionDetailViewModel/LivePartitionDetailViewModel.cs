@@ -3,6 +3,7 @@
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
@@ -38,7 +39,7 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         var (lives, tags, nextPageNumber) = await _service.GetPartitionLiveListAsync(Data.Data);
         if (tags is not null)
         {
-            Children = [..tags];
+            Children = [.. tags];
         }
 
         TryAddRooms(lives);
@@ -49,18 +50,20 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
         _childPartitionRoomCache.Remove(CurrentTag);
         _childPartitionOffsetCache.Remove(CurrentTag);
-
-        Rooms.Clear();
-        _preventLoadMore = false;
-        await LoadRoomsAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Rooms.Clear();
+            _preventLoadMore = false;
+            await LoadRoomsAsync();
+        });
     }
 
     [RelayCommand]
-    private async Task ChangeChildPartitionAsync(LiveTag tag)
+    private void ChangeChildPartition(LiveTag tag)
     {
         if (tag is null || tag.Equals(CurrentTag))
         {
@@ -74,23 +77,26 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         }
 
         CurrentTag = tag;
-        Rooms.Clear();
-        if (_childPartitionRoomCache.TryGetValue(CurrentTag, out var cache))
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
         {
-            foreach (var item in cache)
+            Rooms.Clear();
+            if (_childPartitionRoomCache.TryGetValue(CurrentTag, out var cache))
             {
-                Rooms.Add(item);
+                foreach (var item in cache)
+                {
+                    Rooms.Add(item);
+                }
             }
-        }
 
-        if (Rooms.Count == 0)
-        {
-            await LoadRoomsAsync();
-        }
-        else
-        {
-            LiveListUpdated?.Invoke(this, EventArgs.Empty);
-        }
+            if (Rooms.Count == 0)
+            {
+                await LoadRoomsAsync();
+            }
+            else
+            {
+                LiveListUpdated?.Invoke(this, EventArgs.Empty);
+            }
+        });
     }
 
     [RelayCommand]

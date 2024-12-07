@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -75,7 +75,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -85,7 +85,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -138,7 +138,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -148,7 +148,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
-                    <local:CardControl x:Name="RootCard" BorderThickness="0">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -181,7 +181,7 @@
                                 </TextBlock>
                             </Grid>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

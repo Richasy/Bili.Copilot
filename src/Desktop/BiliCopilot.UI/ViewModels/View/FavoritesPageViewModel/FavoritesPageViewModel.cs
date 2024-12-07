@@ -6,6 +6,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models;
 
@@ -50,10 +51,13 @@ public sealed partial class FavoritesPageViewModel : LayoutPageViewModelBase
     }
 
     [RelayCommand]
-    private async Task RefreshAsync()
+    private void Refresh()
     {
-        Sections.Clear();
-        await InitializeAsync();
+        this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
+        {
+            Sections.Clear();
+            await InitializeAsync();
+        });
     }
 
     [RelayCommand]

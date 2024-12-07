@@ -12,7 +12,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -43,7 +43,7 @@
                                 </Border>
                             </StackPanel>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -52,7 +52,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -96,7 +96,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
                             </Border>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -105,7 +105,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SeasonCardControl">
-                    <local:CardControl x:Name="RootCard">
+                    <base:CardControl x:Name="RootCard">
                         <Grid>
                             <local:PgcCoverImage
                                 CornerRadius="{StaticResource ControlCornerRadius}"
@@ -149,7 +149,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Highlight}" />
                             </Border>
                         </Grid>
-                    </local:CardControl>
+                    </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
