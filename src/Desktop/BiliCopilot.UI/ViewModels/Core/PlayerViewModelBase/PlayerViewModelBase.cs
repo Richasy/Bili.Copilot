@@ -120,7 +120,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
         Speed = isSpeedShare ? localSpeed : 1.0;
         var isSpeedEnhancement = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false);
         MaxSpeed = isSpeedEnhancement ? 6.0 : 3.0;
-        SpeedStep = isSpeedEnhancement ? 0.1 : 0.5;
+        SpeedStep = isSpeedEnhancement ? 0.1 : 0.25;
 
         if (_isInitialized && !_isClosed)
         {
