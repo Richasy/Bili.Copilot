@@ -35,6 +35,7 @@ public sealed partial class BiliPlayer
     private StackPanel _notificationContainer;
     private LoadingWidget _loadingWidget;
     private EmptyHolder _failedHolder;
+    private MenuFlyout _contextFlyout;
 
     /// <summary>
     /// 注入弹幕控件创建函数.
@@ -102,13 +103,13 @@ public sealed partial class BiliPlayer
                 Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.ArrowClockwise },
             });
 
+            _contextFlyout = contextFlyout;
             _interactionControl = new Rectangle
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Fill = new SolidColorBrush(Colors.Transparent),
                 Visibility = ViewModel?.IsExternalPlayer ?? false ? Visibility.Collapsed : Visibility.Visible,
-                ContextFlyout = contextFlyout,
             };
             HookInteractionControlEvents();
             rootGrid.Children.Add(_interactionControl);

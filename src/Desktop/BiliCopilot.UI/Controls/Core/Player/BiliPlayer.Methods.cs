@@ -5,6 +5,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -163,15 +164,6 @@ public sealed partial class BiliPlayer
         }
     }
 
-    private void OnInteractionControlContextRequested(UIElement sender, ContextRequestedEventArgs args)
-    {
-        if (_isHolding)
-        {
-            args.Handled = true;
-            sender.ContextFlyout?.Hide();
-        }
-    }
-
     private void OnInteractionControlManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
     {
         _manipulationVolume = 0;
@@ -273,7 +265,11 @@ public sealed partial class BiliPlayer
         var point = e.GetCurrentPoint((UIElement)sender);
         if (point.Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
         {
-            // 右键单击不做处理.
+            var options = new FlyoutShowOptions
+            {
+                Position = point.Position,
+            };
+            _contextFlyout.ShowAt(_interactionControl, options);
             return;
         }
 

@@ -202,7 +202,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
         _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
         _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
-        _interactionControl.ContextRequested += OnInteractionControlContextRequested;
     }
 
     private void UnhookInteractionControlEvents()
@@ -213,7 +212,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
             _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
             _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
-            _interactionControl.ContextRequested -= OnInteractionControlContextRequested;
         }
     }
 
