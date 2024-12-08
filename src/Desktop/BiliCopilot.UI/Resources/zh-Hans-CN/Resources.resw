@@ -2805,4 +2805,7 @@
   <data name="VideoSummarize" xml:space="preserve">
     <value>视频总结</value>
   </data>
+  <data name="CopyTitle" xml:space="preserve">
+    <value>复制标题</value>
+  </data>
 </root>

@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <NoWarn>CS1570;NU1507;CS1591;</NoWarn>
+    <NoWarn>NU1900;CS1570;NU1507;CS1591;</NoWarn>
     <Configurations>Debug;Release;Publish</Configurations>
   </PropertyGroup>
 

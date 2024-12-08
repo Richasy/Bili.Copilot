@@ -260,6 +260,15 @@ public sealed partial class VideoPlayerPageViewModel
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
     }
 
+    [RelayCommand]
+    private void CopyTitle()
+    {
+        var dp = new DataPackage();
+        dp.SetText(Title);
+        Clipboard.SetContent(dp);
+        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.Copied), InfoType.Success));
+    }
+
     private string GetWebLink()
     => $"https://www.bilibili.com/video/av{_view.Information.Identifier.Id}";
 

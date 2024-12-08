@@ -32,6 +32,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             FontWeight="Bold"
+            IsTextSelectionEnabled="True"
             MaxLines="1"
             Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
         <StackPanel
@@ -51,6 +52,10 @@
                             MinWidth="200"
                             Command="{x:Bind ViewModel.PinCommand, Mode=OneWay}"
                             Text="{ext:Locale Name=FixContent}" />
+                        <MenuFlyoutItem
+                            MinWidth="200"
+                            Command="{x:Bind ViewModel.CopyTitleCommand, Mode=OneWay}"
+                            Text="{ext:Locale Name=CopyTitle}" />
                         <MenuFlyoutSeparator />
                         <MenuFlyoutSeparator Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" Tag="{ext:Locale Name=Link}" />
                         <MenuFlyoutItem
