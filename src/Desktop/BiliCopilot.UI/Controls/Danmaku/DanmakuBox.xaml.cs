@@ -12,6 +12,16 @@ public sealed partial class DanmakuBox : DanmakuControlBase
     /// </summary>
     public DanmakuBox() => InitializeComponent();
 
+    /// <summary>
+    /// 输入框失去焦点.
+    /// </summary>
+    public event EventHandler InputLostFocus;
+
+    /// <summary>
+    /// 输入框获得焦点.
+    /// </summary>
+    public event EventHandler InputGotFocus;
+
     private async void OnDanmakuInputBoxSubmittedAsync(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (string.IsNullOrEmpty(args.QueryText))
@@ -30,4 +40,10 @@ public sealed partial class DanmakuBox : DanmakuControlBase
 
     private void OnDisplayFlyoutClosed(object sender, object e)
         => ViewModel.ResetStyle();
+
+    private void OnInputLostFocus(object sender, RoutedEventArgs e)
+        => InputLostFocus?.Invoke(this, EventArgs.Empty);
+
+    private void OnInputFocus(object sender, RoutedEventArgs e)
+        => InputGotFocus?.Invoke(this, EventArgs.Empty);
 }

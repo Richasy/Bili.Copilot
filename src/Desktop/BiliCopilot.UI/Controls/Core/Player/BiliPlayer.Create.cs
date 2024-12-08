@@ -269,6 +269,10 @@ public sealed partial class BiliPlayer
                 DispatcherQueue.TryEnqueue(ArrangeSubtitleSize);
             }
         }
+        else if (e.PropertyName == nameof(ViewModel.IsDanmakuInputFocused))
+        {
+            DispatcherQueue.TryEnqueue(() => CheckTransportControlVisibility());
+        }
     }
 
     private Grid CreateHiddenControlsContainer()

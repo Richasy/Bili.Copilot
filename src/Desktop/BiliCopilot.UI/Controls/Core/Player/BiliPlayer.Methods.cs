@@ -36,17 +36,20 @@ public sealed partial class BiliPlayer
             return;
         }
 
-        const int initialWidth = 1280;
-        const int initialFontSize = 28;
-        const int initialPaddingLeft = 16;
-        const int initialPaddingTop = 12;
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            const int initialWidth = 1280;
+            const int initialFontSize = 28;
+            const int initialPaddingLeft = 16;
+            const int initialPaddingTop = 12;
 
-        // 根据实际宽度调整字幕大小，线性增长，每增加100px，字体大小增加3，横向边距增加8，纵向边距增加6.
-        var width = ActualWidth;
-        _subtitlePresenter.FontSize = Math.Max(12, (double)(initialFontSize + ((width - initialWidth) / 100 * 1.5)));
-        var horizontalPadding = Math.Max(8, initialPaddingLeft + ((width - initialWidth) / 100 * 2.5));
-        var verticalPadding = Math.Max(8, initialPaddingTop + ((width - initialWidth) / 100 * 1));
-        _subtitlePresenter.Padding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+            // 根据实际宽度调整字幕大小，线性增长，每增加100px，字体大小增加3，横向边距增加8，纵向边距增加6.
+            var width = ActualWidth;
+            _subtitlePresenter.FontSize = Math.Max(12, (double)(initialFontSize + ((width - initialWidth) / 100 * 1.5)));
+            var horizontalPadding = Math.Max(8, initialPaddingLeft + ((width - initialWidth) / 100 * 2.5));
+            var verticalPadding = Math.Max(8, initialPaddingTop + ((width - initialWidth) / 100 * 1));
+            _subtitlePresenter.Padding = new Thickness(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+        });
     }
 
     private void CheckTransportControlVisibility(PointerRoutedEventArgs? args = default)
@@ -71,6 +74,11 @@ public sealed partial class BiliPlayer
                 }
 
                 _lastPointerPoint = args.GetCurrentPoint(_overlayContainer).Position;
+            }
+
+            if (ViewModel.IsDanmakuInputFocused)
+            {
+                return;
             }
 
             if (_lastPointerPoint is null)
@@ -257,7 +265,7 @@ public sealed partial class BiliPlayer
             ToggleTripleSpeed(false);
         }
 
-        HandlePointerEvent(e, true);
+        HandlePointerEvent(e, !ViewModel.IsDanmakuInputFocused);
     }
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
@@ -316,7 +324,7 @@ public sealed partial class BiliPlayer
             ToggleTripleSpeed(false);
         }
 
-        HandlePointerEvent(e, true);
+        HandlePointerEvent(e, !ViewModel.IsDanmakuInputFocused);
     }
 
     private void OnRootPointerEntered(object sender, PointerRoutedEventArgs e)
