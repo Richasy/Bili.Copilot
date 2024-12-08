@@ -153,7 +153,7 @@
                                         Text="{ext:Locale Name=PlaybackRate}" />
                                     <Slider
                                         x:Name="SpeedSlider"
-                                        Width="300"
+                                        Width="360"
                                         IsThumbToolTipEnabled="True"
                                         Maximum="{x:Bind ViewModel.MaxSpeed, Mode=OneWay}"
                                         Minimum="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
