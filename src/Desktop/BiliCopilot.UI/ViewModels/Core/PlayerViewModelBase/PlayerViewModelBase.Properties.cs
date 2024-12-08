@@ -119,6 +119,9 @@ public abstract partial class PlayerViewModelBase
     [ObservableProperty]
     private Uri? _cover;
 
+    [ObservableProperty]
+    private bool _isDanmakuInputFocused;
+
     /// <summary>
     /// 播放数据加载完成.
     /// </summary>

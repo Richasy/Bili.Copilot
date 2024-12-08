@@ -48,6 +48,8 @@
             Grid.Column="1"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
+            GotFocus="OnInputFocus"
+            LostFocus="OnInputLostFocus"
             PlaceholderText="{ext:Locale Name=DanmakuPlaceholder}"
             QuerySubmitted="OnDanmakuInputBoxSubmittedAsync">
             <AutoSuggestBox.TextBoxStyle>

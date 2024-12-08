@@ -104,6 +104,8 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
         rightPanel.Children.Add(formatButton);
         rightPanel.Children.Add(subtitleButton);
+        danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
+        danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
         return new VideoTransportControl()
         {
             LeftContent = leftPanel,
@@ -116,6 +118,12 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
             MaxWidth = 800,
         };
     }
+
+    private void OnDanmakuInputGotFocus(object? sender, EventArgs e)
+        => ViewModel.Player.IsDanmakuInputFocused = true;
+
+    private void OnDanmakuInputLostFocus(object? sender, EventArgs e)
+        => ViewModel.Player.IsDanmakuInputFocused = false;
 
     private SubtitlePresenter CreateSubtitleControl()
     {
