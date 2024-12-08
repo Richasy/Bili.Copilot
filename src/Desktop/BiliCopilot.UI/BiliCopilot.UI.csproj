@@ -23,7 +23,8 @@
     <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoTemplate.xml" />
     <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
-    <Content Remove="Assets\ffmpeg\ffmpeg.exe" />
+    <Content Remove="Assets\ffmpeg\arm64\ffmpeg.exe" />
+    <Content Remove="Assets\ffmpeg\x64\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
     <Content Remove="Assets\WebPlayer.js" />
@@ -375,6 +376,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+    <PackageReference Include="ComputeSharp.D2D1.WinUI" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="H.NotifyIcon.WinUI" />
     <PackageReference Include="HtmlAgilityPack" />
@@ -1064,6 +1066,16 @@
     </None>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64'">
+      <None Update="Assets\ffmpeg\x64\ffmpeg.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+      <None Update="Assets\ffmpeg\arm64\ffmpeg.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
     <None Update="Assets\BBDown\x64\BBDown.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1323,9 +1335,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\WebPlayer.js">

@@ -14,6 +14,7 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.241112-preview1" />
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
+    <PackageVersion Include="ComputeSharp.D2D1.WinUI" Version="3.1.0-preview2" />
     <PackageVersion Include="FluentIcons.WinUI" Version="1.1.266" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />

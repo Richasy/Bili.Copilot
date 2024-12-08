@@ -5,6 +5,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -163,15 +164,6 @@ public sealed partial class BiliPlayer
         }
     }
 
-    private void OnInteractionControlContextRequested(UIElement sender, ContextRequestedEventArgs args)
-    {
-        if (_isHolding)
-        {
-            args.Handled = true;
-            sender.ContextFlyout?.Hide();
-        }
-    }
-
     private void OnInteractionControlManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
     {
         _manipulationVolume = 0;
@@ -270,14 +262,25 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerPressed(object sender, PointerRoutedEventArgs e)
     {
-        if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+        var point = e.GetCurrentPoint((UIElement)sender);
+        if (point.Properties.PointerUpdateKind == PointerUpdateKind.RightButtonPressed)
+        {
+            var options = new FlyoutShowOptions
+            {
+                Position = point.Position,
+            };
+            _contextFlyout.ShowAt(_interactionControl, options);
+            return;
+        }
+
+        _isPointerHasPressed = true;
+        if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
         {
             _lastPressedTime = DateTimeOffset.Now;
         }
 
         if (ViewModel is IslandPlayerViewModel)
         {
-            var point = e.GetCurrentPoint((UIElement)sender);
             if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
             {
                 if (ViewModel.IsFullScreen || ViewModel.IsFullWindow || ViewModel.IsCompactOverlay)
@@ -324,6 +327,12 @@ public sealed partial class BiliPlayer
 
     private void OnRootPointerReleased(object sender, PointerRoutedEventArgs e)
     {
+        if (_isPointerHasPressed != true || e.GetCurrentPoint((UIElement)sender).Properties.PointerUpdateKind == PointerUpdateKind.RightButtonReleased)
+        {
+            return;
+        }
+
+        _isPointerHasPressed = default;
         _lastPressedTime = default;
         _lastRightArrowPressedTime = default;
         if (_isHolding)

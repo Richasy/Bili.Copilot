@@ -36,6 +36,7 @@ public sealed partial class BiliPlayer : PlayerControlBase
     private PlayerManipulationType _manipulationType = PlayerManipulationType.None;
     private DateTimeOffset? _lastPressedTime;
     private DateTimeOffset? _lastRightArrowPressedTime;
+    private bool? _isPointerHasPressed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BiliPlayer"/> class.
@@ -201,7 +202,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
         _interactionControl.ManipulationStarted += OnInteractionControlManipulationStarted;
         _interactionControl.ManipulationDelta += OnInteractionControlManipulationDelta;
         _interactionControl.ManipulationCompleted += OnInteractionControlManipulationCompleted;
-        _interactionControl.ContextRequested += OnInteractionControlContextRequested;
     }
 
     private void UnhookInteractionControlEvents()
@@ -212,7 +212,6 @@ public sealed partial class BiliPlayer : PlayerControlBase
             _interactionControl.ManipulationStarted -= OnInteractionControlManipulationStarted;
             _interactionControl.ManipulationDelta -= OnInteractionControlManipulationDelta;
             _interactionControl.ManipulationCompleted -= OnInteractionControlManipulationCompleted;
-            _interactionControl.ContextRequested -= OnInteractionControlContextRequested;
         }
     }
 
