@@ -26,14 +26,14 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
     {
         _service = service;
         _logger = this.Get<ILogger<VideoSearchSectionDetailViewModel>>();
-        Sorts = Enum.GetValues<ComprehensiveSearchSortType>().ToList();
+        Sorts = [.. Enum.GetValues<ComprehensiveSearchSortType>()];
     }
 
     /// <inheritdoc/>
     public void Initialize(string keyword, SearchPartition partition)
     {
         Clear();
-        Sort = ComprehensiveSearchSortType.Play;
+        Sort = ComprehensiveSearchSortType.Default;
         _keyword = keyword;
     }
 
@@ -47,10 +47,10 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, Items.Clear);
     }
 
-    internal void SetFirstPageData(IReadOnlyList<VideoInformation> videos, string initialOffset)
+    internal void SetFirstPageData(IReadOnlyList<VideoInformation> videos, int? initialOffset)
     {
         _canRequest = true;
-        _offset = initialOffset;
+        _currentPage = initialOffset;
         this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
             Items.Clear();
@@ -81,7 +81,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
     [RelayCommand]
     private async Task LoadItemsAsync()
     {
-        if (!_canRequest || IsEmpty || _isPreventLoadMore || IsLoading)
+        if (!_canRequest || IsEmpty || _isPreventLoadMore || IsLoading || _currentPage == null)
         {
             return;
         }
@@ -89,9 +89,9 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         try
         {
             IsLoading = true;
-            var (videos, _, nextOffset) = await _service.GetComprehensiveSearchResultAsync(_keyword, _offset, Sort);
-            _offset = nextOffset;
-            _canRequest = !string.IsNullOrEmpty(_offset);
+            var (videos, nextOffset) = await _service.GetComprehensiveSearchResultAsync(_keyword, _currentPage, Sort);
+            _currentPage = nextOffset;
+            _canRequest = _currentPage != null;
             foreach (var item in videos)
             {
                 if (Items.Any(p => p.Data.Equals(item)))
@@ -122,6 +122,7 @@ public sealed partial class VideoSearchSectionDetailViewModel : ViewModelBase, I
         this.Get<DispatcherQueue>().TryEnqueue(DispatcherQueuePriority.Low, async () =>
         {
             var keyword = _keyword;
+            _currentPage = 1;
             Clear();
             _keyword = keyword;
             _canRequest = true;
