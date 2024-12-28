@@ -169,6 +169,27 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _showSearchRecommend;
 
+    [ObservableProperty]
+    private bool _isPopularNavVisible;
+
+    [ObservableProperty]
+    private bool _isMomentNavVisible;
+
+    [ObservableProperty]
+    private bool _isVideoNavVisible;
+
+    [ObservableProperty]
+    private bool _isLiveNavVisible;
+
+    [ObservableProperty]
+    private bool _isAnimeNavVisible;
+
+    [ObservableProperty]
+    private bool _isCinemaNavVisible;
+
+    [ObservableProperty]
+    private bool _isArticleNavVisible;
+
     /// <summary>
     /// WebDav 配置.
     /// </summary>

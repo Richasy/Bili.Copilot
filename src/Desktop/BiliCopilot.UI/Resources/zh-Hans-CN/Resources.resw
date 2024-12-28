@@ -2808,4 +2808,10 @@
   <data name="CopyTitle" xml:space="preserve">
     <value>复制标题</value>
   </data>
+  <data name="SideNavigationSetting" xml:space="preserve">
+    <value>侧边导航栏设置</value>
+  </data>
+  <data name="SideNavigationSettingDescription" xml:space="preserve">
+    <value>开启或关闭导航区块</value>
+  </data>
 </root>

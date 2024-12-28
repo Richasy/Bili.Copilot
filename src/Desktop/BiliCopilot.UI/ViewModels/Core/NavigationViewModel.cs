@@ -139,6 +139,18 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     }
 
     /// <summary>
+    /// 设置导航条目可见性.
+    /// </summary>
+    public void SetNavItemVisibility(Type pageType, bool isVisible)
+    {
+        var item = MenuItems.FirstOrDefault(p => p.PageKey == pageType.FullName);
+        if (item is not null)
+        {
+            item.IsVisible = isVisible;
+        }
+    }
+
+    /// <summary>
     /// 在指定区域执行搜索.
     /// </summary>
     public void SearchInRegion(string keyword)
@@ -236,12 +248,12 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
         foreach (var item in list)
         {
-            item.IsSelected = item.PageKey == lastSelectedPage;
+            item.IsSelected = item.PageKey == lastSelectedPage && item.IsVisible;
         }
 
-        if (!list.Any(p => p.IsSelected))
+        if (!list.Any(p => p.IsSelected) && list.Any(p => p.IsVisible))
         {
-            list[0].IsSelected = true;
+            list.First(p => p.IsVisible).IsSelected = true;
         }
 
         return list;
@@ -267,7 +279,10 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
     private AppNavigationItemViewModel GetItem<TPage>(StringNames title, FluentIcons.Common.Symbol symbol, bool isSelected = false)
         where TPage : Page
-        => new AppNavigationItemViewModel(this, typeof(TPage), ResourceToolkit.GetLocalizedString(title), symbol, isSelected);
+    {
+        var isVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(TPage).Name}Visible", true);
+        return new AppNavigationItemViewModel(this, typeof(TPage), ResourceToolkit.GetLocalizedString(title), symbol, isSelected, isVisible: isVisible);
+    }
 
     private void ActiveMainWindow()
         => this.Get<AppViewModel>().Windows.Find(p => p is MainWindow)?.Activate();
