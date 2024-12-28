@@ -504,46 +504,59 @@
                                     Grid.Row="1"
                                     HorizontalAlignment="Left"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
-                                <StackPanel
-                                    Grid.Row="2"
-                                    Orientation="Horizontal"
-                                    Spacing="12">
-                                    <StackPanel
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal"
-                                        Spacing="4"
-                                        ToolTipService.ToolTip="{ext:Locale Name=PlayCount}">
-                                        <ic:SymbolIcon
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <StackPanel
                                             VerticalAlignment="Center"
-                                            FontSize="10"
-                                            Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-                                            Symbol="PlayCircle" />
-                                        <TextBlock
+                                            Orientation="Horizontal"
+                                            Spacing="4"
+                                            ToolTipService.ToolTip="{ext:Locale Name=PlayCount}">
+                                            <ic:SymbolIcon
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
+                                                Symbol="PlayCircle" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}"
+                                                TextLineBounds="Tight" />
+                                        </StackPanel>
+                                        <StackPanel
                                             VerticalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PlayCount, Converter={StaticResource CountConverter}}"
-                                            TextLineBounds="Tight" />
+                                            Orientation="Horizontal"
+                                            Spacing="4"
+                                            ToolTipService.ToolTip="{ext:Locale Name=DanmakuCount}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                            <ic:SymbolIcon
+                                                VerticalAlignment="Center"
+                                                FontSize="10"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Symbol="TextBulletList" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource CountConverter}}"
+                                                TextLineBounds="Tight" />
+                                        </StackPanel>
                                     </StackPanel>
-                                    <StackPanel
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
-                                        Orientation="Horizontal"
-                                        Spacing="4"
-                                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuCount}"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                        <ic:SymbolIcon
-                                            VerticalAlignment="Center"
-                                            FontSize="10"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Symbol="TextBulletList" />
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.DanmakuCount, Converter={StaticResource CountConverter}}"
-                                            TextLineBounds="Tight" />
-                                    </StackPanel>
-                                </StackPanel>
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </base:CardControl>

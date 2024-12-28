@@ -19,7 +19,7 @@ public sealed partial class VideoSearchSectionDetailViewModel
     private readonly ILogger<VideoSearchSectionDetailViewModel> _logger;
 
     private bool _canRequest;
-    private string _offset;
+    private int? _currentPage;
     private string _keyword;
     private bool _isPreventLoadMore;
 

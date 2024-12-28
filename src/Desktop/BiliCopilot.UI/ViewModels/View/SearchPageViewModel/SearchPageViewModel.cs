@@ -83,23 +83,16 @@ public sealed partial class SearchPageViewModel : LayoutPageViewModelBase
         try
         {
             IsSearching = true;
-            var (videos, partitions, nextVideoOffset) = await _service.GetComprehensiveSearchResultAsync(keyword, sort: Richasy.BiliKernel.Models.ComprehensiveSearchSortType.Play);
-            var sections = new List<ISearchSectionDetailViewModel>()
+            var (videos, nextVideoOffset) = await _service.GetComprehensiveSearchResultAsync(keyword);
+            var sections = new List<ISearchSectionDetailViewModel>
             {
                 CreateVideoSection(videos, nextVideoOffset),
+                CreateSection(SearchSectionType.Anime),
+                CreateSection(SearchSectionType.Cinema),
+                CreateSection(SearchSectionType.Live),
+                CreateSection(SearchSectionType.User),
+                CreateSection(SearchSectionType.Article),
             };
-            if (partitions is not null)
-            {
-                foreach (var section in partitions)
-                {
-                    var sec = CreateSection(section);
-                    if (sec is not null)
-                    {
-                        sections.Add(sec);
-                    }
-                }
-            }
-
             Sections = [.. sections];
             SelectSection(Sections.FirstOrDefault());
             SectionInitialized?.Invoke(this, EventArgs.Empty);
@@ -129,23 +122,32 @@ public sealed partial class SearchPageViewModel : LayoutPageViewModelBase
         section.TryFirstLoadCommand.Execute(default);
     }
 
-    private VideoSearchSectionDetailViewModel CreateVideoSection(IReadOnlyList<VideoInformation> videos, string offset)
+    private VideoSearchSectionDetailViewModel CreateVideoSection(IReadOnlyList<VideoInformation> videos, int? page)
     {
         var newSection = new VideoSearchSectionDetailViewModel(_service);
         newSection.Initialize(Keyword, new SearchPartition(0, ResourceToolkit.GetLocalizedString(StringNames.Video)));
-        newSection.SetFirstPageData(videos, offset);
+        newSection.SetFirstPageData(videos, page);
         return newSection;
     }
 
-    private ISearchSectionDetailViewModel CreateSection(SearchPartition partition)
+    private ISearchSectionDetailViewModel CreateSection(SearchSectionType type)
     {
-        var type = (SearchSectionType)partition.Id;
         var sectionDetail = type switch
         {
             SearchSectionType.Anime or SearchSectionType.Cinema => (ISearchSectionDetailViewModel)new PgcSearchSectionDetailViewModel(_service),
             SearchSectionType.Live => new LiveSearchSectionDetailViewModel(_service),
             SearchSectionType.User => new UserSearchSectionDetailViewModel(_service),
             SearchSectionType.Article => new ArticleSearchSectionDetailViewModel(_service),
+            _ => default
+        };
+
+        var partition = type switch
+        {
+            SearchSectionType.Anime => new SearchPartition(7, ResourceToolkit.GetLocalizedString(StringNames.Anime)),
+            SearchSectionType.Cinema => new SearchPartition(8, ResourceToolkit.GetLocalizedString(StringNames.Cinema)),
+            SearchSectionType.Live => new SearchPartition(4, ResourceToolkit.GetLocalizedString(StringNames.Live)),
+            SearchSectionType.User => new SearchPartition(2, ResourceToolkit.GetLocalizedString(StringNames.User)),
+            SearchSectionType.Article => new SearchPartition(6, ResourceToolkit.GetLocalizedString(StringNames.Article)),
             _ => default
         };
 
