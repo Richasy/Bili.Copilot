@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
-using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
@@ -23,7 +22,6 @@ public sealed partial class RootLayout : RootLayoutBase
     {
         InitializeComponent();
         _appViewModel = this.Get<AppViewModel>();
-        InitializeSubtitle();
     }
 
     /// <inheritdoc/>
@@ -234,58 +232,12 @@ public sealed partial class RootLayout : RootLayoutBase
     protected override void OnControlLoaded()
     {
         ViewModel.Initialize(MainFrame, OverlayFrame);
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
         var selectedItem = ViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
         if (selectedItem is not null)
         {
             NavView.SelectedItem = selectedItem;
             selectedItem.NavigateCommand.Execute(default);
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void OnControlUnloaded()
-        => ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
-
-    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(ViewModel.IsTopNavBarShown))
-        {
-            InitializeSubtitle();
-        }
-    }
-
-    private void InitializeSubtitle()
-    {
-        var isTopNavBarShown = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsTopNavBarShown, true);
-        if (isTopNavBarShown)
-        {
-            MainTitleBar.Subtitle = string.Empty;
-            return;
-        }
-
-#if LOCAL_DEV
-        var subtitles = new List<string>();
-        subtitles.Add("🛠️");
-#if DEBUG
-        subtitles.Add("Debug");
-#else
-        subtitles.Add("Release");
-#endif
-#if ARCH_X64
-        subtitles.Add("x64");
-#elif ARCH_X86
-        subtitles.Add("x86");
-#elif ARCH_ARM64
-        subtitles.Add("ARM64");
-#endif
-        if (subtitles.Count > 0)
-        {
-            MainTitleBar.Subtitle = string.Join(" | ", subtitles);
-        }
-#else
-        _ = this;
-#endif
     }
 
     private void OnNavViewBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
