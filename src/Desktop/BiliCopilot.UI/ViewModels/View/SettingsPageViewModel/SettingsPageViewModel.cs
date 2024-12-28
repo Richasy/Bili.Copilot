@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Controls.AI;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
@@ -60,6 +61,13 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
+        IsPopularNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(PopularPage).Name}Visible", true);
+        IsMomentNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(MomentPage).Name}Visible", true);
+        IsVideoNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(VideoPartitionPage).Name}Visible", true);
+        IsLiveNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(LivePartitionPage).Name}Visible", true);
+        IsAnimeNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(AnimePage).Name}Visible", true);
+        IsCinemaNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(CinemaPage).Name}Visible", true);
+        IsArticleNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(ArticlePartitionPage).Name}Visible", true);
         try
         {
             PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
@@ -206,6 +214,12 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         };
     }
 
+    private void WriteNavVisibleSetting(Type pageType, bool isVisible)
+    {
+        SettingsToolkit.WriteLocalSetting($"Is{pageType.Name}Visible", isVisible);
+        this.Get<NavigationViewModel>().SetNavItemVisibility(pageType, isVisible);
+    }
+
     partial void OnAppThemeChanged(ElementTheme value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.AppTheme, value);
@@ -346,4 +360,25 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnShowSearchRecommendChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.ShowSearchRecommend, value);
+
+    partial void OnIsPopularNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(PopularPage), value);
+
+    partial void OnIsMomentNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(MomentPage), value);
+
+    partial void OnIsVideoNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(VideoPartitionPage), value);
+
+    partial void OnIsLiveNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(LivePartitionPage), value);
+
+    partial void OnIsAnimeNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(AnimePage), value);
+
+    partial void OnIsCinemaNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(CinemaPage), value);
+
+    partial void OnIsArticleNavVisibleChanged(bool value)
+        => WriteNavVisibleSetting(typeof(ArticlePartitionPage), value);
 }

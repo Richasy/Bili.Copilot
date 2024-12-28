@@ -23,7 +23,8 @@
                 ShowUnread="{x:Bind ShowUnread, Mode=OneWay}"
                 Style="{StaticResource MainNavigationViewItemStyle}"
                 Symbol="{x:Bind Symbol}"
-                Tag="{x:Bind}" />
+                Tag="{x:Bind}"
+                Visibility="{x:Bind IsVisible, Mode=OneWay}" />
         </DataTemplate>
     </UserControl.Resources>
 

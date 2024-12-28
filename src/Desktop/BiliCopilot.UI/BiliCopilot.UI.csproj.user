@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Settings\NavigationSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\AI\CustomPromptDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
