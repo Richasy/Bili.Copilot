@@ -85,7 +85,7 @@ public sealed partial class SubtitleViewModel : ViewModelBase
     /// <summary>
     /// 清除字幕.
     /// </summary>
-    public void ClearSubttile()
+    public void ClearSubtitle()
         => CurrentSubtitle = default;
 
     /// <summary>
