@@ -340,7 +340,7 @@ public sealed partial class VideoPlayerPageViewModel
         {
             // 清除弹幕.
             Danmaku.ClearDanmaku();
-            Subtitle.ClearSubttile();
+            Subtitle.ClearSubtitle();
 
             ReportProgressCommand.Execute(Player.Duration);
 

@@ -50,6 +50,7 @@ public sealed partial class RootLayout : RootLayoutBase
         SecondaryTitleBar.BackIcon = mode == PlayerDisplayMode.FullWindow ? FluentIcons.Common.Symbol.WindowAd : FluentIcons.Common.Symbol.ContractDownLeft;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         NavView.IsPaneOpen = false;
+        VisualStateManager.GoToState(NavView, "PaneCollapsed", false);
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)
@@ -92,6 +93,7 @@ public sealed partial class RootLayout : RootLayoutBase
         SecondaryTitleBar.IsBackButtonVisible = false;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Tall;
         NavView.IsPaneOpen = true;
+        VisualStateManager.GoToState(NavView, "PaneVisible", false);
         VisualStateManager.GoToState(this, nameof(NormalState), false);
 
         if (OverlayFrame.Content is VideoPlayerPage vPage)

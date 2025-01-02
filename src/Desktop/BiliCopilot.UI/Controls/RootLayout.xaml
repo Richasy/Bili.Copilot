@@ -110,10 +110,7 @@
             MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
             SelectionFollowsFocus="Disabled"
             Style="{StaticResource MainNavigationViewStyle}">
-            <Grid
-                x:Name="MainGrid"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1,1,0,0">
+            <Grid x:Name="MainGrid">
                 <Grid Visibility="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <Frame x:Name="MainFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
                     <Grid x:Name="OverlayGrid" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}">
