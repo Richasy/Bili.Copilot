@@ -9,8 +9,6 @@ namespace BiliCopilot.UI;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MediaIdentifier))]
-[JsonSerializable(typeof(AzureOpenAIVersion))]
-[JsonSerializable(typeof(List<AzureOpenAIVersion>))]
 [JsonSerializable(typeof(List<string>))]
 [JsonSerializable(typeof(ChatClientConfiguration))]
 [JsonSerializable(typeof(PinItem))]

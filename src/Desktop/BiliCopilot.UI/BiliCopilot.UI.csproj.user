@@ -87,10 +87,7 @@
     <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\QianFanChatConfigSettingSection.xaml">
+    <Page Update="Controls\Settings\ErnieChatConfigSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\OpenAIChatConfigSettingSection.xaml">
@@ -103,9 +100,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\AI\PredefinedChatModelSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\HunYuanChatConfigSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\DouBaoChatConfigSettingSection.xaml">

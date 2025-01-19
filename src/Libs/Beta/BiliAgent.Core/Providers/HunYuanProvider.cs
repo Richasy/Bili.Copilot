@@ -2,48 +2,34 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.HunYuan;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Tencent.Models;
 
 namespace BiliAgent.Core.Providers;
 
 /// <summary>
 /// 百度千帆提供程序.
 /// </summary>
-public sealed class HunYuanProvider : ProviderBase, IAgentProvider
+public sealed class HunyuanProvider : ProviderBase, IAgentProvider
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="HunYuanProvider"/> class.
+    /// Initializes a new instance of the <see cref="HunyuanProvider"/> class.
     /// </summary>
-    public HunYuanProvider(HunYuanClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.HunYuanApi);
-        SecretId = config.SecretId;
-        ServerModels = PredefinedModels.HunYuanModels;
-    }
-
-    /// <summary>
-    /// 密钥ID.
-    /// </summary>
-    private string SecretId { get; }
+    public HunyuanProvider(HunyuanClientConfig config)
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.Hunyuan);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddHunYuanChatCompletion(modelId, SecretId, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Hunyuan);
+        Service!.Initialize(new HunyuanChatServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 
     /// <inheritdoc/>
-    public override PromptExecutionSettings GetPromptExecutionSettings()
-        => new HunYuanPromptExecutionSettings
+    public override ChatOptions? GetChatOptions()
+        => new()
         {
             Temperature = 1,
             TopP = 1,

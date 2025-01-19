@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.OpenAI.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -17,26 +18,21 @@ public sealed class OpenAIProvider : ProviderBase, IAgentProvider
     public OpenAIProvider(OpenAIClientConfig config)
         : base(config.Key, config.CustomModels)
     {
-        SetBaseUri(ProviderConstants.OpenAIApi, config.Endpoint);
-        ServerModels = PredefinedModels.OpenAIModels;
+        TrySetBaseUri(config.Endpoint);
+        ServerModels = GetPredefinedModels(ProviderType.OpenAI);
         OrganizationId = config.OrganizationId;
     }
 
     /// <summary>
     /// 组织标识符.
     /// </summary>
-    private string OrganizationId { get; }
+    private string? OrganizationId { get; }
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey, OrganizationId)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.OpenAI);
+        Service!.Initialize(new OpenAIServiceConfig(AccessKey!, modelId, BaseUri, OrganizationId));
+        return Service;
     }
 }

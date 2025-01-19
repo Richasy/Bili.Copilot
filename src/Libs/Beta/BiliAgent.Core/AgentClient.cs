@@ -2,14 +2,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
+using Richasy.AgentKernel.Chat;
+using RichasyKernel;
 
 namespace BiliAgent.Core;
 
@@ -36,17 +37,8 @@ public sealed partial class AgentClient : IAgentClient
     /// <inheritdoc/>
     public IReadOnlyList<ChatModel> GetPredefinedModels(ProviderType type)
     {
-        var preType = typeof(PredefinedModels);
-        foreach (var prop in preType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
-        {
-            if (prop.Name.StartsWith(type.ToString()))
-            {
-                return prop.GetValue(default) as List<ChatModel>
-                    ?? throw new ArgumentException("Predefined models not found.");
-            }
-        }
-
-        return new List<ChatModel>();
+        var modelProvider = AgentStatics.GlobalKernel.GetRequiredService<IChatModelProvider>(type.ToString());
+        return [.. modelProvider.GetModels().Select(p => p.ToChatModel())];
     }
 
     /// <inheritdoc/>
@@ -54,26 +46,34 @@ public sealed partial class AgentClient : IAgentClient
         ProviderType type,
         string modelId,
         string? message,
-        Action<string> streamingAction = null,
+        Action<string>? streamingAction = null,
         CancellationToken cancellationToken = default)
     {
-        var session = new ChatHistory();
+        var messages = new List<ChatMessage>();
         var provider = GetProvider(type);
-        var executionSettings = GetExecutionSettings(type);
-        executionSettings.ModelId = modelId;
-        var kernel = FindKernelProvider(type, modelId) ?? throw new ArgumentException($"{type} | {modelId} 没有找到实现");
-        session.AddUserMessage(message);
+        var options = GetExecutionSettings(type);
+        options!.ModelId = modelId;
+        var service = FindChatServiceByProvider(type, modelId) ?? throw new ArgumentException($"{type} | {modelId} 没有找到实现");
+        messages.Add(new(ChatRole.User, message));
         var responseContent = string.Empty;
         try
         {
-            await foreach (var partialResponse in kernel.GetRequiredService<IChatCompletionService>().GetStreamingChatMessageContentsAsync(session, executionSettings, kernel, cancellationToken).ConfigureAwait(false))
+            if (streamingAction is null)
             {
-                if (!string.IsNullOrEmpty(partialResponse.Content))
+                var response = await service.Client!.CompleteAsync(messages, options, cancellationToken).ConfigureAwait(false);
+                responseContent = response.Choices.FirstOrDefault()?.Text ?? string.Empty;
+            }
+            else
+            {
+                await foreach (var partialResponse in service.Client!.CompleteStreamingAsync(messages, options, cancellationToken).ConfigureAwait(false))
                 {
-                    streamingAction?.Invoke(partialResponse.Content);
-                }
+                    if (!string.IsNullOrEmpty(partialResponse.Text))
+                    {
+                        streamingAction?.Invoke(partialResponse.Text);
+                    }
 
-                responseContent += partialResponse.Content;
+                    responseContent += partialResponse.Text;
+                }
             }
         }
         catch (TaskCanceledException)
@@ -86,7 +86,7 @@ public sealed partial class AgentClient : IAgentClient
             throw;
         }
 
-        return !string.IsNullOrEmpty(responseContent) ? responseContent : throw new Exception($"{type} | {modelId} 返回空响应，具体错误请查看日志");
+        return !string.IsNullOrEmpty(responseContent) ? responseContent : throw new KernelException($"{type} | {modelId} 返回空响应，具体错误请查看日志");
     }
 
     /// <inheritdoc/>
@@ -96,17 +96,14 @@ public sealed partial class AgentClient : IAgentClient
         GC.SuppressFinalize(this);
     }
 
-    private PromptExecutionSettings GetExecutionSettings(ProviderType provider)
-        => GetProvider(provider).GetPromptExecutionSettings();
+    private ChatOptions? GetExecutionSettings(ProviderType provider)
+        => GetProvider(provider).GetChatOptions();
 
-    private Kernel? FindKernelProvider(ProviderType type, string modelId)
-        => GetProvider(type).GetOrCreateKernel(modelId);
+    private IChatService? FindChatServiceByProvider(ProviderType type, string modelId)
+        => GetProvider(type).GetOrCreateService(modelId);
 
     private IAgentProvider GetProvider(ProviderType type)
         => _providerFactory.GetOrCreateProvider(type);
-
-    private ChatModel? FindModelInProvider(ProviderType type, string modelId)
-        => GetProvider(type).GetModelOrDefault(modelId);
 
     private void Dispose(bool disposing)
     {

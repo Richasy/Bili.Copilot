@@ -60,15 +60,15 @@ public sealed partial class ModelClientEndpointConfigSettingSection : AIServiceC
         ViewModel.CheckCurrentConfig();
     }
 
-    private ClientConfigBase CreateCurrentConfig()
+    private ClientConfigBase? CreateCurrentConfig()
     {
         return ViewModel.ProviderType switch
         {
             ProviderType.OpenAI => new OpenAIClientConfig(),
             ProviderType.AzureOpenAI => new AzureOpenAIClientConfig(),
-            ProviderType.Gemini => new GeminiClientConfig() { Endpoint = ProviderConstants.GeminiApi },
-            ProviderType.Anthropic => new AnthropicClientConfig() { Endpoint = ProviderConstants.AnthropicApi },
-            ProviderType.Ollama => new OllamaClientConfig() { Endpoint = ProviderConstants.OllamaApi },
+            ProviderType.Gemini => new GeminiClientConfig(),
+            ProviderType.Anthropic => new AnthropicClientConfig(),
+            ProviderType.Ollama => new OllamaClientConfig() { Endpoint = "http://localhost:11434" },
             _ => null,
         };
     }

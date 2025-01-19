@@ -201,3 +201,6 @@ dotnet_diagnostic.SA1633.severity = error
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 dotnet_diagnostic.IDE0073.severity = warning
+
+# SA1106: Code should not contain empty statements
+dotnet_diagnostic.SA1106.severity = none

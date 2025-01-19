@@ -14,121 +14,148 @@ public sealed class ChatClientConfiguration
     /// Open AI 客户端配置.
     /// </summary>
     [JsonPropertyName("openai")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OpenAIClientConfig? OpenAI { get; set; }
 
     /// <summary>
     /// Azure Open AI 客户端配置.
     /// </summary>
     [JsonPropertyName("azure_openai")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AzureOpenAIClientConfig? AzureOpenAI { get; set; }
 
     /// <summary>
     /// 智谱客户端配置.
     /// </summary>
     [JsonPropertyName("zhipu")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ZhiPuClientConfig? ZhiPu { get; set; }
 
     /// <summary>
     /// 零一万物客户端配置.
     /// </summary>
     [JsonPropertyName("lingyi")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LingYiClientConfig? LingYi { get; set; }
 
     /// <summary>
     /// 月之暗面客户端配置.
     /// </summary>
     [JsonPropertyName("moonshot")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MoonshotClientConfig? Moonshot { get; set; }
 
     /// <summary>
-    /// 阿里灵积客户端配置.
+    /// 通义千问客户端配置.
     /// </summary>
-    [JsonPropertyName("dash_scope")]
-    public DashScopeClientConfig? DashScope { get; set; }
+    [JsonPropertyName("qwen")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public QwenClientConfig? Qwen { get; set; }
 
     /// <summary>
     /// DeepSeek 客户端配置.
     /// </summary>
     [JsonPropertyName("deep_seek")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DeepSeekClientConfig? DeepSeek { get; set; }
 
     /// <summary>
     /// 千帆客户端配置.
     /// </summary>
-    [JsonPropertyName("qianfan")]
-    public QianFanClientConfig? QianFan { get; set; }
+    [JsonPropertyName("ernie")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ErnieClientConfig? Ernie { get; set; }
 
     /// <summary>
     /// 讯飞星火客户端配置.
     /// </summary>
-    [JsonPropertyName("spark_desk")]
-    public SparkDeskClientConfig? SparkDesk { get; set; }
+    [JsonPropertyName("spark")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SparkClientConfig? Spark { get; set; }
 
     /// <summary>
     /// Gemini 客户端配置.
     /// </summary>
     [JsonPropertyName("gemini")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GeminiClientConfig? Gemini { get; set; }
 
     /// <summary>
     /// Groq 客户端配置.
     /// </summary>
     [JsonPropertyName("groq")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GroqClientConfig? Groq { get; set; }
 
     /// <summary>
     /// Mistral AI 客户端配置.
     /// </summary>
-    [JsonPropertyName("mistral_ai")]
-    public MistralAIClientConfig? MistralAI { get; set; }
+    [JsonPropertyName("mistral")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MistralClientConfig? Mistral { get; set; }
 
     /// <summary>
     /// Perplexity 客户端配置.
     /// </summary>
     [JsonPropertyName("perplexity")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PerplexityClientConfig? Perplexity { get; set; }
 
     /// <summary>
     /// Together AI 客户端配置.
     /// </summary>
     [JsonPropertyName("together_ai")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TogetherAIClientConfig? TogetherAI { get; set; }
 
     /// <summary>
     /// Open Router 客户端配置.
     /// </summary>
     [JsonPropertyName("open_router")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OpenRouterClientConfig? OpenRouter { get; set; }
 
     /// <summary>
     /// Anthropic 客户端配置.
     /// </summary>
     [JsonPropertyName("anthropic")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public AnthropicClientConfig? Anthropic { get; set; }
 
     /// <summary>
     /// Ollama 客户端配置.
     /// </summary>
     [JsonPropertyName("ollama")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public OllamaClientConfig? Ollama { get; set; }
 
     /// <summary>
     /// 混元客户端配置.
     /// </summary>
     [JsonPropertyName("hunyuan")]
-    public HunYuanClientConfig? HunYuan { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HunyuanClientConfig? HunYuan { get; set; }
 
     /// <summary>
     /// 硅动客户端配置.
     /// </summary>
     [JsonPropertyName("silicon_flow")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SiliconFlowClientConfig? SiliconFlow { get; set; }
 
     /// <summary>
     /// 豆包客户端配置.
     /// </summary>
     [JsonPropertyName("doubao")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DouBaoClientConfig? DouBao { get; set; }
+
+    /// <summary>
+    /// XAI 客户端配置.
+    /// </summary>
+    [JsonPropertyName("xai")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public XAIClientConfig? XAI { get; set; }
 }
 
 /// <summary>
@@ -148,32 +175,25 @@ public class OpenAIClientConfig : ClientEndpointConfigBase
 /// </summary>
 public class AzureOpenAIClientConfig : ClientEndpointConfigBase
 {
-    /// <summary>
-    /// 版本.
-    /// </summary>
-    [JsonPropertyName("version")]
-    public AzureOpenAIVersion Version { get; set; } = AzureOpenAIVersion.V2024_02_01;
-
     /// <inheritdoc/>
     public override bool IsValid()
     {
         return base.IsValid()
             && !string.IsNullOrEmpty(Endpoint)
-            && CustomModels != null
-            && CustomModels.Count > 0;
+            && CustomModels?.Count > 0;
     }
 }
 
 /// <summary>
 /// 千帆客户端配置.
 /// </summary>
-public class QianFanClientConfig : ClientConfigBase
+public class ErnieClientConfig : ClientConfigBase
 {
     /// <summary>
     /// 密匙.
     /// </summary>
     [JsonPropertyName("secret")]
-    public string Secret { get; set; }
+    public string? Secret { get; set; }
 
     /// <inheritdoc/>
     public override bool IsValid()
@@ -183,34 +203,12 @@ public class QianFanClientConfig : ClientConfigBase
 /// <summary>
 /// 讯飞星火服务配置.
 /// </summary>
-public sealed class SparkDeskClientConfig : QianFanClientConfig
-{
-    /// <summary>
-    /// 应用程序 ID.
-    /// </summary>
-    [JsonPropertyName("app_id")]
-    public string AppId { get; set; }
-
-    /// <inheritdoc/>
-    public override bool IsValid()
-        => base.IsValid() && !string.IsNullOrEmpty(AppId);
-}
+public sealed class SparkClientConfig : ClientConfigBase;
 
 /// <summary>
 /// 混元客户端配置.
 /// </summary>
-public sealed class HunYuanClientConfig : ClientConfigBase
-{
-    /// <summary>
-    /// 密匙 ID.
-    /// </summary>
-    [JsonPropertyName("secret_id")]
-    public string SecretId { get; set; }
-
-    /// <inheritdoc/>
-    public override bool IsValid()
-        => base.IsValid() && !string.IsNullOrEmpty(SecretId);
-}
+public sealed class HunyuanClientConfig : ClientConfigBase;
 
 /// <summary>
 /// 豆包大模型配置.
@@ -223,95 +221,85 @@ public sealed class DouBaoClientConfig : ClientConfigBase
 }
 
 /// <summary>
+/// xAI大模型配置.
+/// </summary>
+public sealed class XAIClientConfig : ClientConfigBase;
+
+/// <summary>
 /// 智谱客户端配置.
 /// </summary>
-public sealed class ZhiPuClientConfig : ClientConfigBase
-{
-}
+public sealed class ZhiPuClientConfig : ClientConfigBase;
 
 /// <summary>
 /// 零一万物客户端配置.
 /// </summary>
-public sealed class LingYiClientConfig : ClientConfigBase
-{
-}
+public sealed class LingYiClientConfig : ClientConfigBase;
 
 /// <summary>
 /// 月之暗面客户端配置.
 /// </summary>
-public sealed class MoonshotClientConfig : ClientConfigBase
-{
-}
+public sealed class MoonshotClientConfig : ClientConfigBase;
 
 /// <summary>
-/// 阿里灵积客户端配置.
+/// 通义千问客户端配置.
 /// </summary>
-public sealed class DashScopeClientConfig : ClientConfigBase
-{
-}
+public sealed class QwenClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Gemini 客户端配置.
 /// </summary>
-public sealed class GeminiClientConfig : ClientEndpointConfigBase
-{
-}
+public sealed class GeminiClientConfig : ClientEndpointConfigBase;
 
 /// <summary>
 /// Groq 客户端配置.
 /// </summary>
-public sealed class GroqClientConfig : ClientConfigBase
-{
-}
+public sealed class GroqClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Mistral AI 客户端配置.
 /// </summary>
-public sealed class MistralAIClientConfig : ClientConfigBase
+public sealed class MistralClientConfig : ClientConfigBase
 {
+    /// <summary>
+    /// Codestral 密钥.
+    /// </summary>
+    public string? CodestralKey { get; set; }
+
+    /// <summary>
+    /// 是否使用 Codestral.
+    /// </summary>
+    public bool UseCodestral { get; set; }
 }
 
 /// <summary>
 /// Perplexity 客户端配置.
 /// </summary>
-public sealed class PerplexityClientConfig : ClientConfigBase
-{
-}
+public sealed class PerplexityClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Together AI 客户端配置.
 /// </summary>
-public sealed class TogetherAIClientConfig : ClientConfigBase
-{
-}
+public sealed class TogetherAIClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Open Router 客户端配置.
 /// </summary>
-public sealed class OpenRouterClientConfig : ClientConfigBase
-{
-}
+public sealed class OpenRouterClientConfig : ClientConfigBase;
 
 /// <summary>
 /// DeepSeek 客户端配置.
 /// </summary>
-public sealed class DeepSeekClientConfig : ClientConfigBase
-{
-}
+public sealed class DeepSeekClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Anthropic 客户端配置.
 /// </summary>
-public sealed class AnthropicClientConfig : ClientEndpointConfigBase
-{
-}
+public sealed class AnthropicClientConfig : ClientEndpointConfigBase;
 
 /// <summary>
 /// 硅动客户端配置.
 /// </summary>
-public sealed class SiliconFlowClientConfig : ClientConfigBase
-{
-}
+public sealed class SiliconFlowClientConfig : ClientConfigBase;
 
 /// <summary>
 /// Ollama 客户端配置.
@@ -344,7 +332,7 @@ public abstract class ConfigBase
     /// </summary>
     /// <returns>是否不为空.</returns>
     public bool IsCustomModelNotEmpty()
-        => CustomModels != null && CustomModels.Count > 0;
+        => CustomModels?.Count > 0;
 }
 
 /// <summary>

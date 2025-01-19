@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.OpenRouter.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,22 +16,13 @@ public sealed class OpenRouterProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="OpenRouterProvider"/> class.
     /// </summary>
     public OpenRouterProvider(OpenRouterClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.OpenRouterApi);
-        ServerModels = PredefinedModels.OpenRouterModels;
-    }
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.OpenRouter);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.OpenRouter);
+        Service!.Initialize(new OpenRouterServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ai:AIServiceConfigControlBase
-    x:Class="BiliCopilot.UI.Controls.Settings.HunYuanChatConfigSettingSection"
+    x:Class="BiliCopilot.UI.Controls.Settings.ErnieChatConfigSettingSection"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ai="using:BiliCopilot.UI.Controls.AI"
@@ -17,23 +17,23 @@
             <ai:AILogo x:Name="Logo" Height="22" />
         </base:SettingsExpander.Header>
         <base:SettingsExpander.Items>
-            <base:SettingsCard x:Name="KeyCard" Header="{ext:Locale Name=SecretKey}">
+            <base:SettingsCard x:Name="KeyCard" Header="{ext:Locale Name=ApiKey}">
                 <PasswordBox
                     x:Name="KeyBox"
                     Width="200"
-                    AutomationProperties.Name="{ext:Locale Name=SecretKey}"
+                    AutomationProperties.Name="{ext:Locale Name=ApiKey}"
                     Loaded="OnKeyBoxLoaded"
                     PasswordChanged="OnKeyBoxPasswordChanged" />
             </base:SettingsCard>
             <base:SettingsCard
                 x:Name="SecretCard"
-                Description="{ext:Locale Name=HunYuanSecretDescription}"
-                Header="{ext:Locale Name=SecretId}">
+                Description="{ext:Locale Name=QianFanSecretDescription}"
+                Header="{ext:Locale Name=SecretKey}">
                 <PasswordBox
                     x:Name="SecretBox"
                     Width="200"
                     HorizontalAlignment="Stretch"
-                    AutomationProperties.Name="{ext:Locale Name=SecretId}"
+                    AutomationProperties.Name="{ext:Locale Name=SecretKey}"
                     PasswordChanged="OnSecretBoxTextChanged" />
             </base:SettingsCard>
             <base:SettingsCard

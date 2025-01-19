@@ -35,6 +35,6 @@ public interface IAgentClient : IDisposable
         ProviderType type,
         string modelId,
         string? message,
-        Action<string> streamingAction = default,
+        Action<string>? streamingAction = default,
         CancellationToken cancellationToken = default);
 }

@@ -53,29 +53,29 @@ public enum ProviderType
     DeepSeek,
 
     /// <summary>
-    /// 阿里灵积.
+    /// 通义千问.
     /// </summary>
-    DashScope,
+    Qwen,
 
     /// <summary>
-    /// 百度千帆.
+    /// 文心一言.
     /// </summary>
-    QianFan,
+    Ernie,
 
     /// <summary>
     /// 腾讯混元.
     /// </summary>
-    HunYuan,
+    Hunyuan,
 
     /// <summary>
     /// 豆包.
     /// </summary>
-    DouBao,
+    Doubao,
 
     /// <summary>
     /// 讯飞星火.
     /// </summary>
-    SparkDesk,
+    Spark,
 
     /// <summary>
     /// Open Router.
@@ -100,7 +100,7 @@ public enum ProviderType
     /// <summary>
     /// Mistral AI.
     /// </summary>
-    MistralAI,
+    Mistral,
 
     /// <summary>
     /// Silicon Flow.
@@ -111,6 +111,11 @@ public enum ProviderType
     /// Ollama.
     /// </summary>
     Ollama,
+
+    /// <summary>
+    /// xAI.
+    /// </summary>
+    XAI,
 }
 
 /// <summary>
@@ -121,7 +126,7 @@ public sealed class ProviderTypeConverter : JsonConverter<ProviderType>
     /// <inheritdoc/>
     public override ProviderType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return reader.GetString().ToLower() switch
+        return reader.GetString()!.ToLower(System.Globalization.CultureInfo.CurrentCulture) switch
         {
             "openai" => ProviderType.OpenAI,
             "azure_openai" or "azureopenai" => ProviderType.AzureOpenAI,
@@ -131,18 +136,19 @@ public sealed class ProviderTypeConverter : JsonConverter<ProviderType>
             "together_ai" or "togetherai" => ProviderType.TogetherAI,
             "groq" => ProviderType.Groq,
             "perplexity" => ProviderType.Perplexity,
-            "mistral_ai" or "mistralai" => ProviderType.MistralAI,
+            "mistral" => ProviderType.Mistral,
             "moonshot" => ProviderType.Moonshot,
             "zhipu" => ProviderType.ZhiPu,
             "lingyi" => ProviderType.LingYi,
-            "dash_scope" or "dashscope" => ProviderType.DashScope,
-            "qianfan" => ProviderType.QianFan,
-            "spark_desk" or "sparkdesk" => ProviderType.SparkDesk,
+            "qwen" => ProviderType.Qwen,
+            "ernie" => ProviderType.Ernie,
+            "spark" => ProviderType.Spark,
             "deep_seek" or "deepseek" => ProviderType.DeepSeek,
-            "hunyuan" => ProviderType.HunYuan,
+            "hunyuan" => ProviderType.Hunyuan,
             "ollama" => ProviderType.Ollama,
             "silicon_flow" or "siliconflow" => ProviderType.SiliconFlow,
-            "doubao" => ProviderType.DouBao,
+            "doubao" => ProviderType.Doubao,
+            "xai" => ProviderType.XAI,
             _ => throw new JsonException(),
         };
     }
@@ -160,18 +166,19 @@ public sealed class ProviderTypeConverter : JsonConverter<ProviderType>
             ProviderType.TogetherAI => "together_ai",
             ProviderType.Groq => "groq",
             ProviderType.Perplexity => "perplexity",
-            ProviderType.MistralAI => "mistral_ai",
+            ProviderType.Mistral => "mistral",
             ProviderType.Moonshot => "moonshot",
             ProviderType.ZhiPu => "zhipu",
             ProviderType.LingYi => "lingyi",
-            ProviderType.DashScope => "dash_scope",
-            ProviderType.QianFan => "qianfan",
-            ProviderType.SparkDesk => "spark_desk",
+            ProviderType.Qwen => "qwen",
+            ProviderType.Ernie => "ernie",
+            ProviderType.Spark => "spark",
             ProviderType.DeepSeek => "deep_seek",
-            ProviderType.HunYuan => "hunyuan",
+            ProviderType.Hunyuan => "hunyuan",
             ProviderType.Ollama => "ollama",
             ProviderType.SiliconFlow => "silicon_flow",
-            ProviderType.DouBao => "doubao",
+            ProviderType.Doubao => "doubao",
+            ProviderType.XAI => "xai",
             _ => throw new JsonException(),
         };
 

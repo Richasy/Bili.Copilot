@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using System;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.ZhiPu.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -16,30 +18,22 @@ public sealed class ZhiPuProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="ZhiPuProvider"/> class.
     /// </summary>
     public ZhiPuProvider(ZhiPuClientConfig config)
-        : base(config.Key, config.CustomModels)
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.ZhiPu);
+
+    /// <inheritdoc/>
+    public IChatService? GetOrCreateService(string modelId)
     {
-        SetBaseUri(ProviderConstants.ZhipuApi);
-        ServerModels = PredefinedModels.ZhiPuModels;
+        Service ??= GetService(ProviderType.ZhiPu);
+        Service!.Initialize(new ZhiPuServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
-    {
-        if (ShouldRecreateKernel(modelId))
+    public override ChatOptions? GetChatOptions()
+        => new ZhiPuChatOptions
         {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
-    }
-
-    /// <inheritdoc/>
-    public override PromptExecutionSettings GetPromptExecutionSettings()
-        => new OpenAIPromptExecutionSettings
-        {
-            Temperature = 0.95,
-            TopP = 0.7d,
+            Temperature = 0.95f,
+            TopP = 0.7f,
+            VisionSupport = Service?.Config?.Model?.Contains("v-", StringComparison.OrdinalIgnoreCase) ?? false,
         };
 }

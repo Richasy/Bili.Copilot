@@ -10,8 +10,10 @@ using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using NLog.Extensions.Logging;
+using Richasy.AgentKernel;
 using Richasy.BiliKernel;
 using Richasy.WinUI.Share.ViewModels;
+using RichasyKernel;
 
 namespace BiliCopilot.UI;
 
@@ -31,12 +33,12 @@ internal static class GlobalDependencies
 
         Kernel = Kernel.CreateBuilder()
             .AddNLog()
-            .AddHttpClient()
-            .AddBasicAuthenticator()
+            .AddBiliClient()
+            .AddBiliAuthenticator()
             .AddWinUICookiesResolver()
             .AddWinUITokenResolver()
             .AddWinUIQRCodeResolver(RenderQRCodeAsync)
-            .AddTVAuthentication()
+            .AddTVAuthenticationService()
             .AddMyProfileService()
             .AddUserService()
             .AddRelationshipService()
@@ -56,8 +58,55 @@ internal static class GlobalDependencies
             .AddDanmakuService()
             .AddSubtitleService()
             .AddPlayerService()
+
             .AddDispatcherQueue()
-            .AddAIServices()
+            .AddAgentProvider()
+
+            .AddOpenAIChatService()
+            .AddAzureOpenAIChatService()
+            .AddXAIChatService()
+            .AddZhiPuChatService()
+            .AddLingYiChatService()
+            .AddAnthropicChatService()
+            .AddMoonshotChatService()
+            .AddGeminiChatService()
+            .AddDeepSeekChatService()
+            .AddQwenChatService()
+            .AddErnieChatService()
+            .AddHunyuanChatService()
+            .AddSparkChatService()
+            .AddDoubaoChatService()
+            .AddSiliconFlowChatService()
+            .AddOpenRouterChatService()
+            .AddTogetherAIChatService()
+            .AddGroqChatService()
+            .AddOllamaChatService()
+            .AddMistralChatService()
+            .AddPerplexityChatService()
+
+            .AddQwenChatModelProvider()
+            .AddAzureOpenAIChatModelProvider()
+            .AddAnthropicChatModelProvider()
+            .AddErnieChatModelProvider()
+            .AddDeepSeekChatModelProvider()
+            .AddGeminiChatModelProvider()
+            .AddGroqChatModelProvider()
+            .AddSparkChatModelProvider()
+            .AddLingYiChatModelProvider()
+            .AddMoonshotChatModelProvider()
+            .AddOllamaChatModelProvider()
+            .AddOpenAIChatModelProvider()
+            .AddOpenRouterChatModelProvider()
+            .AddSiliconFlowChatModelProvider()
+            .AddHunyuanChatModelProvider()
+            .AddTogetherAIChatModelProvider()
+            .AddDoubaoChatModelProvider()
+            .AddXAIChatModelProvider()
+            .AddDoubaoChatModelProvider()
+            .AddMistralChatModelProvider()
+            .AddZhiPuChatModelProvider()
+            .AddPerplexityChatModelProvider()
+
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<PinnerViewModel>()
             .AddSingleton<AppViewModel>()
@@ -104,7 +153,7 @@ internal static class GlobalDependencies
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddAIServices(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddAgentProvider(this IKernelBuilder kernelBuilder)
     {
         var chatProviderFactory = new AgentProviderFactory(new ChatClientConfiguration());
         kernelBuilder.Services.AddSingleton<IAgentProviderFactory>(chatProviderFactory)

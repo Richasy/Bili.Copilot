@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Connectors.DeepSeek.Models;
+using Richasy.AgentKernel.Chat;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,22 +16,13 @@ public sealed class DeepSeekProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="DeepSeekProvider"/> class.
     /// </summary>
     public DeepSeekProvider(DeepSeekClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.DeepSeekApi);
-        ServerModels = PredefinedModels.DeepSeekModels;
-    }
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.DeepSeek);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.DeepSeek);
+        Service!.Initialize(new DeepSeekServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

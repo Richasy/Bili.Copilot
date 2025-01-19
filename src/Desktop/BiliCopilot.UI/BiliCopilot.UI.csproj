@@ -12,9 +12,10 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <PublishAot>False</PublishAot>
+    <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
@@ -286,7 +287,6 @@
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\DouBaoChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
-    <None Remove="Controls\Settings\HunYuanChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\LayoutSettingSection.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
     <None Remove="Controls\Settings\ModelClientConfigSettingSection.xaml" />
@@ -296,9 +296,7 @@
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
-    <None Remove="Controls\Settings\QianFanChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
-    <None Remove="Controls\Settings\SparkDeskChatConfigSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
@@ -391,6 +389,17 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
+    <PackageReference Include="Richasy.BiliKernel.Authorizers.TV" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUICookies" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUIQRCode" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUIToken" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Article" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Comment" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Media" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Moment" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Search" />
+    <PackageReference Include="Richasy.BiliKernel.Services.User" />
+    <PackageReference Include="RichasyKernel.Core" />
     <PackageReference Include="Roman-Numerals" />
     <PackageReference Include="System.Management" />
     <PackageReference Include="System.Private.Uri" />
@@ -399,18 +408,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\Beta\BiliAgent.Core\BiliAgent.Core.csproj" />
     <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Authorizers\Authorizers.Tv\Authorizers.Tv.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Abstractions\BiliKernel.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\BiliKernel.Core\BiliKernel.Core.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUICookies\Resolvers.WinUICookies.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIQRCode\Resolvers.WinUIQRCode.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Resolvers\Resolvers.WinUIToken\Resolvers.WinUIToken.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Article\Services.Article.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Comment\Services.Comment.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Media\Services.Media.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Moment\Services.Moment.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.Search\Services.Search.csproj" />
-    <ProjectReference Include="..\..\Libs\bili-kernel\src\Services\Services.User\Services.User.csproj" />
     <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
     <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
     <ProjectReference Include="..\..\Libs\WinUI.Share\src\Richasy.WinUI.Share.csproj" />
@@ -1406,10 +1403,7 @@
     <Page Update="Controls\AI\AIHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Settings\QianFanChatConfigSettingSection.xaml">
+    <Page Update="Controls\Settings\ErnieChatConfigSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\Settings\OpenAIChatConfigSettingSection.xaml">
@@ -1422,9 +1416,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\AI\PredefinedChatModelSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Settings\HunYuanChatConfigSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\Settings\DouBaoChatConfigSettingSection.xaml">

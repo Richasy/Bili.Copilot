@@ -21,8 +21,8 @@ public sealed partial class AgentProviderFactory : IAgentProviderFactory
     /// </summary>
     public AgentProviderFactory(ChatClientConfiguration configuration)
     {
-        _providers = new Dictionary<ProviderType, IAgentProvider>();
-        _functions = new Dictionary<ProviderType, Func<IAgentProvider>>();
+        _providers = [];
+        _functions = [];
         Initialize(configuration);
     }
 
@@ -60,12 +60,12 @@ public sealed partial class AgentProviderFactory : IAgentProviderFactory
         InjectZhiPu(config.ZhiPu);
         InjectLingYi(config.LingYi);
         InjectMoonshot(config.Moonshot);
-        InjectDashScope(config.DashScope);
-        InjectQianFan(config.QianFan);
-        InjectSparkDesk(config.SparkDesk);
+        InjectQwen(config.Qwen);
+        InjectErnie(config.Ernie);
+        InjectSparkDesk(config.Spark);
         InjectGemini(config.Gemini);
         InjectGroq(config.Groq);
-        InjectMistralAI(config.MistralAI);
+        InjectMistralAI(config.Mistral);
         InjectPerplexity(config.Perplexity);
         InjectTogetherAI(config.TogetherAI);
         InjectOpenRouter(config.OpenRouter);
@@ -75,6 +75,7 @@ public sealed partial class AgentProviderFactory : IAgentProviderFactory
         InjectOllama(config.Ollama);
         InjectSiliconFlow(config.SiliconFlow);
         InjectDouBao(config.DouBao);
+        InjectXAI(config.XAI);
     }
 
     private void AddCreateMethod(ProviderType type, Func<IAgentProvider> createFunc)

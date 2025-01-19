@@ -31,17 +31,18 @@ public static class ConfigToolkit
             ProviderType.ZhiPu => _config.ZhiPu,
             ProviderType.LingYi => _config.LingYi,
             ProviderType.DeepSeek => _config.DeepSeek,
-            ProviderType.DashScope => _config.DashScope,
-            ProviderType.QianFan => _config.QianFan,
-            ProviderType.HunYuan => _config.HunYuan,
-            ProviderType.SparkDesk => _config.SparkDesk,
+            ProviderType.Qwen => _config.Qwen,
+            ProviderType.Ernie => _config.Ernie,
+            ProviderType.Hunyuan => _config.HunYuan,
+            ProviderType.Spark => _config.Spark,
             ProviderType.OpenRouter => _config.OpenRouter,
             ProviderType.TogetherAI => _config.TogetherAI,
             ProviderType.Groq => _config.Groq,
             ProviderType.Perplexity => _config.Perplexity,
-            ProviderType.MistralAI => _config.MistralAI,
+            ProviderType.Mistral => _config.Mistral,
             ProviderType.SiliconFlow => _config.SiliconFlow,
-            ProviderType.DouBao => _config.DouBao,
+            ProviderType.Doubao => _config.DouBao,
+            ProviderType.XAI => _config.XAI,
             _ => throw new NotImplementedException(),
         };
     }
@@ -115,17 +116,17 @@ public static class ConfigToolkit
             case ProviderType.DeepSeek:
                 _config.DeepSeek = (DeepSeekClientConfig)config;
                 break;
-            case ProviderType.DashScope:
-                _config.DashScope = (DashScopeClientConfig)config;
+            case ProviderType.Qwen:
+                _config.Qwen = (QwenClientConfig)config;
                 break;
-            case ProviderType.QianFan:
-                _config.QianFan = (QianFanClientConfig)config;
+            case ProviderType.Ernie:
+                _config.Ernie = (ErnieClientConfig)config;
                 break;
-            case ProviderType.HunYuan:
-                _config.HunYuan = (HunYuanClientConfig)config;
+            case ProviderType.Hunyuan:
+                _config.HunYuan = (HunyuanClientConfig)config;
                 break;
-            case ProviderType.SparkDesk:
-                _config.SparkDesk = (SparkDeskClientConfig)config;
+            case ProviderType.Spark:
+                _config.Spark = (SparkClientConfig)config;
                 break;
             case ProviderType.OpenRouter:
                 _config.OpenRouter = (OpenRouterClientConfig)config;
@@ -139,14 +140,17 @@ public static class ConfigToolkit
             case ProviderType.Perplexity:
                 _config.Perplexity = (PerplexityClientConfig)config;
                 break;
-            case ProviderType.MistralAI:
-                _config.MistralAI = (MistralAIClientConfig)config;
+            case ProviderType.Mistral:
+                _config.Mistral = (MistralClientConfig)config;
                 break;
             case ProviderType.SiliconFlow:
                 _config.SiliconFlow = (SiliconFlowClientConfig)config;
                 break;
-            case ProviderType.DouBao:
+            case ProviderType.Doubao:
                 _config.DouBao = (DouBaoClientConfig)config;
+                break;
+            case ProviderType.XAI:
+                _config.XAI = (XAIClientConfig)config;
                 break;
             default:
                 throw new NotImplementedException();

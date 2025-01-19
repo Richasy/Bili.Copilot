@@ -60,30 +60,28 @@ public sealed partial class AgentProviderFactory
         }
     }
 
-    private void InjectDashScope(DashScopeClientConfig? config)
+    private void InjectQwen(QwenClientConfig? config)
     {
         if (!string.IsNullOrEmpty(config?.Key))
         {
-            AddCreateMethod(ProviderType.DashScope, () => new DashScopeProvider(config));
+            AddCreateMethod(ProviderType.Qwen, () => new QwenProvider(config));
         }
     }
 
-    private void InjectQianFan(QianFanClientConfig? config)
+    private void InjectErnie(ErnieClientConfig? config)
     {
         if (!string.IsNullOrEmpty(config?.Key)
             && !string.IsNullOrEmpty(config?.Secret))
         {
-            AddCreateMethod(ProviderType.QianFan, () => new QianFanProvider(config));
+            AddCreateMethod(ProviderType.Ernie, () => new ErnieProvider(config));
         }
     }
 
-    private void InjectSparkDesk(SparkDeskClientConfig? config)
+    private void InjectSparkDesk(SparkClientConfig? config)
     {
-        if (!string.IsNullOrEmpty(config?.Key)
-            && !string.IsNullOrEmpty(config?.AppId)
-            && !string.IsNullOrEmpty(config?.Secret))
+        if (!string.IsNullOrEmpty(config?.Key))
         {
-            AddCreateMethod(ProviderType.SparkDesk, () => new SparkDeskProvider(config));
+            AddCreateMethod(ProviderType.Spark, () => new SparkProvider(config));
         }
     }
 
@@ -95,11 +93,11 @@ public sealed partial class AgentProviderFactory
         }
     }
 
-    private void InjectMistralAI(MistralAIClientConfig? config)
+    private void InjectMistralAI(MistralClientConfig? config)
     {
         if (!string.IsNullOrEmpty(config?.Key))
         {
-            AddCreateMethod(ProviderType.MistralAI, () => new MistralAIProvider(config));
+            AddCreateMethod(ProviderType.Mistral, () => new MistralProvider(config));
         }
     }
 
@@ -143,12 +141,11 @@ public sealed partial class AgentProviderFactory
         }
     }
 
-    private void InjectHunYuan(HunYuanClientConfig? config)
+    private void InjectHunYuan(HunyuanClientConfig? config)
     {
-        if (!string.IsNullOrEmpty(config?.Key)
-            && !string.IsNullOrEmpty(config?.SecretId))
+        if (!string.IsNullOrEmpty(config?.Key))
         {
-            AddCreateMethod(ProviderType.HunYuan, () => new HunYuanProvider(config));
+            AddCreateMethod(ProviderType.Hunyuan, () => new HunyuanProvider(config));
         }
     }
 
@@ -172,7 +169,15 @@ public sealed partial class AgentProviderFactory
     {
         if (!string.IsNullOrEmpty(config?.Key))
         {
-            AddCreateMethod(ProviderType.DouBao, () => new DouBaoProvider(config));
+            AddCreateMethod(ProviderType.Doubao, () => new DoubaoProvider(config));
+        }
+    }
+
+    private void InjectXAI(XAIClientConfig? config)
+    {
+        if (!string.IsNullOrEmpty(config?.Key))
+        {
+            AddCreateMethod(ProviderType.XAI, () => new XAIProvider(config));
         }
     }
 }

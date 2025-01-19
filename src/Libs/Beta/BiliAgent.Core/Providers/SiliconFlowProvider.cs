@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.SiliconFlow.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,22 +16,13 @@ public sealed class SiliconFlowProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="SiliconFlowProvider"/> class.
     /// </summary>
     public SiliconFlowProvider(SiliconFlowClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        ServerModels = PredefinedModels.SiliconFlowModels;
-        SetBaseUri(ProviderConstants.SiliconFlowApi);
-    }
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.SiliconFlow);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.SiliconFlow);
+        Service!.Initialize(new SiliconFlowServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

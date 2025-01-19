@@ -32,7 +32,7 @@ public sealed partial class OpenAIChatConfigSettingSection : AIServiceConfigCont
         KeyBox.PlaceholderText = string.Format(ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.AccessKeyPlaceholder), ViewModel.Name);
         PredefinedCard.Description = string.Format(ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.PredefinedModelsDescription), ViewModel.Name);
 
-        ViewModel.Config ??= new OpenAIClientConfig() { Endpoint = ProviderConstants.OpenAIApi };
+        ViewModel.Config ??= new OpenAIClientConfig();
         ViewModel.CheckCurrentConfig();
     }
 
