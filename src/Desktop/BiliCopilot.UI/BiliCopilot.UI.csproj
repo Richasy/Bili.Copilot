@@ -14,7 +14,7 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
-    <PublishAot>False</PublishAot>
+    <PublishAot>True</PublishAot>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
   <ItemGroup>
@@ -1563,9 +1563,9 @@
   <!-- Publish Properties -->
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">False</PublishTrimmed>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">False</PublishReadyToRun>
+    <PublishAot Condition="'$(Configuration)' == 'Debug'">False</PublishAot>
+    <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
 </Project>
