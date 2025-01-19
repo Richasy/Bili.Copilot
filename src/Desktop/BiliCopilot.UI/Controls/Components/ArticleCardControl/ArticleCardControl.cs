@@ -9,12 +9,16 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Components;
 
 /// <summary>
+/// 文章卡片展示.
+/// </summary>
+public abstract class ArticleCardPresenter : LayoutUserControlBase<ArticleItemViewModel>;
+
+/// <summary>
 /// 文章卡片控件.
 /// </summary>
 public sealed partial class ArticleCardControl : LayoutControlBase<ArticleItemViewModel>
 {
     private CardControl _rootCard;
-    private Button _userButton;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleCardControl"/> class.
@@ -25,17 +29,11 @@ public sealed partial class ArticleCardControl : LayoutControlBase<ArticleItemVi
     protected override void OnApplyTemplate()
     {
         _rootCard = GetTemplateChild("RootCard") as CardControl;
-        _userButton = GetTemplateChild("UserButton") as Button;
         if (ViewModel is not null)
         {
             if (_rootCard is not null)
             {
                 _rootCard.Command = ViewModel.OpenReaderCommand;
-            }
-
-            if (_userButton is not null)
-            {
-                _userButton.Command = ViewModel.ShowUserSpaceCommand;
             }
         }
     }
@@ -54,11 +52,6 @@ public sealed partial class ArticleCardControl : LayoutControlBase<ArticleItemVi
         if (_rootCard is not null)
         {
             _rootCard.Command = newValue?.OpenReaderCommand;
-        }
-
-        if (_userButton is not null)
-        {
-            _userButton.Command = newValue?.ShowUserSpaceCommand;
         }
     }
 

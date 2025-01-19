@@ -3,11 +3,15 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUI.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Components;
+
+/// <summary>
+/// 动态卡片展示器.
+/// </summary>
+public abstract class MomentCardPresenter : LayoutUserControlBase<MomentItemViewModel>;
 
 /// <summary>
 /// 动态卡片控件.
@@ -15,7 +19,6 @@ namespace BiliCopilot.UI.Controls.Components;
 public sealed partial class MomentCardControl : LayoutControlBase<MomentItemViewModel>
 {
     private CardControl _rootCard;
-    private ButtonBase _userButton;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MomentCardControl"/> class.
@@ -26,17 +29,11 @@ public sealed partial class MomentCardControl : LayoutControlBase<MomentItemView
     protected override void OnApplyTemplate()
     {
         _rootCard = GetTemplateChild("RootCard") as CardControl;
-        _userButton = GetTemplateChild("UserButton") as ButtonBase;
         if (ViewModel is not null)
         {
             if (_rootCard is not null)
             {
                 _rootCard.Command = ViewModel.ActivateCommand;
-            }
-
-            if (_userButton is not null)
-            {
-                _userButton.Command = ViewModel.ShowUserSpaceCommand;
             }
         }
     }
@@ -55,11 +52,6 @@ public sealed partial class MomentCardControl : LayoutControlBase<MomentItemView
         if (_rootCard is not null)
         {
             _rootCard.Command = newValue?.ActivateCommand;
-        }
-
-        if (_userButton is not null)
-        {
-            _userButton.Command = newValue?.ShowUserSpaceCommand;
         }
     }
 

@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
+using Richasy.BiliKernel.Models.Danmaku;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
-using Richasy.BiliKernel.Models.Danmaku;
 using Windows.UI;
 
 namespace Danmaku.Core;
@@ -35,14 +32,13 @@ public static class BilibiliDanmakuParser
                 {
                     var startMs = (uint)(danmakuElem.StartPosition * 1000);
 
-                    if (!duplicatedDanmakuDict.ContainsKey(danmakuElem.Content))
+                    if (!duplicatedDanmakuDict.TryGetValue(danmakuElem.Content, out var duplicatedDanmakuList))
                     {
-                        duplicatedDanmakuDict.Add(danmakuElem.Content, new List<DuplicatedDanmakuItem>() { new DuplicatedDanmakuItem() { StartMs = startMs, Count = 1 } });
+                        duplicatedDanmakuDict.Add(danmakuElem.Content, [new DuplicatedDanmakuItem() { StartMs = startMs, Count = 1 }]);
                     }
                     else
                     {
                         var merged = false;
-                        var duplicatedDanmakuList = duplicatedDanmakuDict[danmakuElem.Content];
                         foreach (var duplicatedDanmaku in duplicatedDanmakuList)
                         {
                             if (Math.Abs((int)(startMs - duplicatedDanmaku.StartMs)) <= 20000) // Merge duplicate danmaku in timeframe of 20s
@@ -66,7 +62,7 @@ public static class BilibiliDanmakuParser
             }
 
             var item = ParseDanmakuItem(danmakuElem);
-            if(item != null)
+            if (item != null)
             {
                 list.Add(item);
             }
@@ -333,7 +329,7 @@ public static class BilibiliDanmakuParser
         }
     }
 
-    private class DuplicatedDanmakuItem
+    private sealed class DuplicatedDanmakuItem
     {
         public uint StartMs { get; set; }
         public uint Count { get; set; }

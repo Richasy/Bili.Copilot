@@ -60,7 +60,7 @@
                 Padding="0"
                 Style="{StaticResource PageScrollViewerStyle}">
                 <StackPanel Margin="12,0">
-                    <components:CommentItemControl
+                    <local:CommentItemControl
                         Margin="0,0,0,4"
                         ShowMoreCommand="{x:Bind ViewModel.TopItem.ShowMoreCommand, Mode=OneWay}"
                         ViewModel="{x:Bind ViewModel.TopItem.Data, Mode=OneWay}"
@@ -68,7 +68,7 @@
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="components1:CommentDetailViewModel">
-                                <components:CommentItemControl
+                                <local:CommentItemControl
                                     Margin="0,2"
                                     ShowMoreCommand="{x:Bind ShowMoreCommand}"
                                     ViewModel="{x:Bind Data}" />

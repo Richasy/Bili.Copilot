@@ -68,7 +68,7 @@ internal sealed partial class SortTypeTextConverter : IValueConverter
                     break;
             }
         }
-        else if(value is ComprehensiveSearchSortType chst)
+        else if (value is ComprehensiveSearchSortType chst)
         {
             result = chst switch
             {
@@ -79,7 +79,7 @@ internal sealed partial class SortTypeTextConverter : IValueConverter
                 _ => string.Empty,
             };
         }
-        else if(value is CommentSortType cst)
+        else if (value is CommentSortType cst)
         {
             var name = cst switch
             {

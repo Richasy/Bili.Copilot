@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.ObjectModel;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 

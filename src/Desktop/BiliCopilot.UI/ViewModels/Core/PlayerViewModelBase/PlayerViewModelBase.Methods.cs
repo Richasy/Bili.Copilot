@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
 using BiliCopilot.UI.Models;
 using Richasy.BiliKernel.Bili.Authorization;
+using System.Diagnostics;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 

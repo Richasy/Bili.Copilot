@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- StyleCop Analyzers configuration -->
-  <!-- This config may be incompatible with Jumpstart since it uses the same file.
-       If we opt for Jumpstart, this may need to be migrated. -->
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
-    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)App.ruleset</CodeAnalysisRuleSet>
-	<NoWarn>$(NoWarn);NU1701;CS9057;MSB3277;NETSDK1206;NU1507;NU1008;CA2007;NU1900</NoWarn>
+	<NoWarn>$(NoWarn);NU1507</NoWarn>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<EditorConfigFilePath>$(MSBuildThisFileDirectory).editorconfig</EditorConfigFilePath>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
-    <PackageReference Include="Microsoft.CodeAnalysis.Metrics">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" PrivateAssets="all" />
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory).editorconfig" Link=".editorconfig" />
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
-    <None Include="$(CodeAnalysisRuleSet)" Condition="'$(CodeAnalysisRuleSet)' != ''" Link="%(Filename)%(Extension)" />
+  <ItemGroup>
+  	<AdditionalFiles Include="$(EditorConfigFilePath)" />
   </ItemGroup>
+
+  <PropertyGroup>
+  	<RepoRoot>$([System.IO.Path]::GetDirectoryName($([MSBuild]::GetPathOfFileAbove('.gitignore', '$(MSBuildThisFileDirectory)'))))</RepoRoot>
+  </PropertyGroup>
 </Project>

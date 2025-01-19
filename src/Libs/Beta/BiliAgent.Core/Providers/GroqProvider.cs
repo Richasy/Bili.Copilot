@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Groq.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -16,21 +17,13 @@ public sealed class GroqProvider : ProviderBase, IAgentProvider
     /// </summary>
     public GroqProvider(GroqClientConfig config)
         : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.GroqApi);
-        ServerModels = PredefinedModels.GroqModels;
-    }
+        => ServerModels = GetPredefinedModels(ProviderType.Groq);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Groq);
+        Service!.Initialize(new GroqServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

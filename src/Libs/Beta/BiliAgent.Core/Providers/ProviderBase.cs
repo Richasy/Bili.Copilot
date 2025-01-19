@@ -1,13 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Services;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
 
 namespace BiliAgent.Core.Providers;
 
@@ -19,7 +14,7 @@ public abstract class ProviderBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ProviderBase"/> class.
     /// </summary>
-    protected ProviderBase(string key, List<ChatModel>? customModels = null)
+    protected ProviderBase(string? key, List<ChatModel>? customModels = null)
     {
         AccessKey = key;
 
@@ -47,7 +42,7 @@ public abstract class ProviderBase
     /// <summary>
     /// 内核.
     /// </summary>
-    protected Kernel? Kernel { get; set; }
+    protected IChatService? Service { get; set; }
 
     /// <summary>
     /// 基础 URL.
@@ -64,21 +59,14 @@ public abstract class ProviderBase
     /// </summary>
     /// <returns>模型 ID.</returns>
     public string? GetCurrentModelId()
-        => GetKernelModelId(Kernel);
-
-    /// <summary>
-    /// 获取当前内核.
-    /// </summary>
-    /// <returns>当前内核.</returns>
-    public Kernel? GetCurrentKernel()
-        => Kernel;
+        => Service!.Config!.Model;
 
     /// <summary>
     /// 获取模型信息.
     /// </summary>
     /// <param name="modelId">模型标识符.</param>
     /// <returns>模型信息或者 <c>null</c>.</returns>
-    public ChatModel GetModelOrDefault(string modelId)
+    public ChatModel? GetModelOrDefault(string modelId)
         => CustomModels?.FirstOrDefault(m => m.Id == modelId)
             ?? ServerModels?.FirstOrDefault(m => m.Id == modelId)
             ?? default;
@@ -100,63 +88,60 @@ public abstract class ProviderBase
             models.AddRange(CustomModels);
         }
 
-        return models.Distinct().OrderByDescending(p => p.IsCustomModel).ToList();
+        return [.. models.Distinct().OrderByDescending(p => p.IsCustomModel)];
     }
 
     /// <summary>
     /// 释放资源.
     /// </summary>
     public void Release()
-        => Kernel = default;
+        => Service = default;
 
     /// <summary>
     /// 获取执行设置.
     /// </summary>
     /// <returns>执行设置.</returns>
-    public virtual PromptExecutionSettings GetPromptExecutionSettings()
-        => new OpenAIPromptExecutionSettings
+    public virtual ChatOptions? GetChatOptions()
+        => new()
         {
-            Temperature = 0.6,
+            Temperature = 0.6f,
             TopP = 1,
         };
 
-    internal static string GetKernelModelId(Kernel? kernel)
-    {
-        if (kernel == null)
-        {
-            return null;
-        }
-
-        var chatService = kernel.GetRequiredService<IChatCompletionService>();
-        if (chatService?.Attributes.TryGetValue(AIServiceExtensions.ModelIdKey, out var modelId) != true)
-        {
-            return default;
-        }
-
-        return modelId?.ToString();
-    }
+    /// <summary>
+    /// 获取服务.
+    /// </summary>
+    /// <param name="key">名称.</param>
+    /// <returns><see cref="IChatService"/>.</returns>
+    protected static IChatService? GetService(ProviderType key)
+        => AgentStatics.GlobalKernel.GetRequiredService<IChatService>(key.ToString());
 
     /// <summary>
-    /// 是否需要重新创建内核.
+    /// 获取预定义模型.
     /// </summary>
-    /// <returns>是否需要.</returns>
-    protected bool ShouldRecreateKernel(string modelId)
-        => Kernel == null || GetCurrentModelId() != modelId;
+    /// <returns>模型列表.</returns>
+    protected static List<ChatModel> GetPredefinedModels(ProviderType type)
+        => AgentStatics.GlobalKernel.GetRequiredService<IChatModelProvider>(type.ToString()).GetModels().ToList().ConvertAll(p => p.ToChatModel());
 
     /// <summary>
     /// 设置基础 URL.
     /// </summary>
-    protected void SetBaseUri(string baseUrl, string? proxyUrl = null)
+    protected void TrySetBaseUri(string? proxyUrl = null)
     {
-        var url = !string.IsNullOrEmpty(proxyUrl) ? proxyUrl : baseUrl;
-        if (!url.StartsWith("http"))
+        if (string.IsNullOrEmpty(proxyUrl))
         {
-            var isLocalHost = url.Contains("localhost") || url.Contains("127.0.0.1") || url.Contains("0.0.0.0");
-            var schema = isLocalHost ? "http" : "https";
-            url = $"{schema}://{url}";
+            BaseUri = default;
+            return;
         }
 
-        if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
+        if (!proxyUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+        {
+            var isLocalHost = proxyUrl.Contains("localhost", StringComparison.OrdinalIgnoreCase) || proxyUrl.Contains("127.0.0.1", StringComparison.OrdinalIgnoreCase) || proxyUrl.Contains("0.0.0.0", StringComparison.OrdinalIgnoreCase);
+            var schema = isLocalHost ? "http" : "https";
+            proxyUrl = $"{schema}://{proxyUrl}";
+        }
+
+        if (Uri.TryCreate(proxyUrl, UriKind.Absolute, out var uri))
         {
             BaseUri = uri;
         }

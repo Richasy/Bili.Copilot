@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.Generic;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
 
 namespace BiliAgent.Interfaces;
 
@@ -16,29 +16,13 @@ public interface IAgentProvider
     /// </summary>
     /// <param name="modelId">要使用的模型标识符.</param>
     /// <returns>内核.</returns>
-    Kernel? GetOrCreateKernel(string modelId);
+    IChatService? GetOrCreateService(string modelId);
 
     /// <summary>
-    /// 获取当前内核.
+    /// 获取聊天选项.
     /// </summary>
-    /// <returns>如果有，则返回当前正在使用的内核.</returns>
-    Kernel? GetCurrentKernel();
-
-    /// <summary>
-    /// 获取模型信息.
-    /// </summary>
-    /// <param name="modelId">模型标识符.</param>
-    /// <returns>模型信息或者 <c>null</c>.</returns>
-    ChatModel? GetModelOrDefault(string modelId);
-
-    /// <summary>
-    /// 获取执行设置.
-    /// </summary>
-    /// <remarks>
-    /// 哔哩助理在特定的场景中使用 AI，提示词和参数是固定的，暂不提供自定义能力.
-    /// </remarks>
-    /// <returns><see cref="PromptExecutionSettings"/>.</returns>
-    PromptExecutionSettings GetPromptExecutionSettings();
+    /// <returns><see cref="ChatOptions"/>.</returns>
+    ChatOptions? GetChatOptions();
 
     /// <summary>
     /// 获取模型列表.

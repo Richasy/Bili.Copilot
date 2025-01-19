@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics.CodeAnalysis;
 using BiliAgent.Core;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
@@ -9,9 +8,13 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
-using NLog.Extensions.Logging;
+using Richasy.AgentKernel;
 using Richasy.BiliKernel;
 using Richasy.WinUI.Share.ViewModels;
+using RichasyKernel;
+using Serilog;
+using System.Diagnostics.CodeAnalysis;
+using Windows.Storage;
 
 namespace BiliCopilot.UI;
 
@@ -30,13 +33,13 @@ internal static class GlobalDependencies
         }
 
         Kernel = Kernel.CreateBuilder()
-            .AddNLog()
-            .AddHttpClient()
-            .AddBasicAuthenticator()
+            .AddSerilog()
+            .AddBiliClient()
+            .AddBiliAuthenticator()
             .AddWinUICookiesResolver()
             .AddWinUITokenResolver()
             .AddWinUIQRCodeResolver(RenderQRCodeAsync)
-            .AddTVAuthentication()
+            .AddTVAuthenticationService()
             .AddMyProfileService()
             .AddUserService()
             .AddRelationshipService()
@@ -56,8 +59,55 @@ internal static class GlobalDependencies
             .AddDanmakuService()
             .AddSubtitleService()
             .AddPlayerService()
+
             .AddDispatcherQueue()
-            .AddAIServices()
+            .AddAgentProvider()
+
+            .AddOpenAIChatService()
+            .AddAzureOpenAIChatService()
+            .AddXAIChatService()
+            .AddZhiPuChatService()
+            .AddLingYiChatService()
+            .AddAnthropicChatService()
+            .AddMoonshotChatService()
+            .AddGeminiChatService()
+            .AddDeepSeekChatService()
+            .AddQwenChatService()
+            .AddErnieChatService()
+            .AddHunyuanChatService()
+            .AddSparkChatService()
+            .AddDoubaoChatService()
+            .AddSiliconFlowChatService()
+            .AddOpenRouterChatService()
+            .AddTogetherAIChatService()
+            .AddGroqChatService()
+            .AddOllamaChatService()
+            .AddMistralChatService()
+            .AddPerplexityChatService()
+
+            .AddQwenChatModelProvider()
+            .AddAzureOpenAIChatModelProvider()
+            .AddAnthropicChatModelProvider()
+            .AddErnieChatModelProvider()
+            .AddDeepSeekChatModelProvider()
+            .AddGeminiChatModelProvider()
+            .AddGroqChatModelProvider()
+            .AddSparkChatModelProvider()
+            .AddLingYiChatModelProvider()
+            .AddMoonshotChatModelProvider()
+            .AddOllamaChatModelProvider()
+            .AddOpenAIChatModelProvider()
+            .AddOpenRouterChatModelProvider()
+            .AddSiliconFlowChatModelProvider()
+            .AddHunyuanChatModelProvider()
+            .AddTogetherAIChatModelProvider()
+            .AddDoubaoChatModelProvider()
+            .AddXAIChatModelProvider()
+            .AddDoubaoChatModelProvider()
+            .AddMistralChatModelProvider()
+            .AddZhiPuChatModelProvider()
+            .AddPerplexityChatModelProvider()
+
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<PinnerViewModel>()
             .AddSingleton<AppViewModel>()
@@ -104,7 +154,7 @@ internal static class GlobalDependencies
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddAIServices(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddAgentProvider(this IKernelBuilder kernelBuilder)
     {
         var chatProviderFactory = new AgentProviderFactory(new ChatClientConfiguration());
         kernelBuilder.Services.AddSingleton<IAgentProviderFactory>(chatProviderFactory)
@@ -126,10 +176,21 @@ internal static class GlobalDependencies
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddNLog(this IKernelBuilder kernelBuilder)
+    public static RichasyKernel.IKernelBuilder AddSerilog(this RichasyKernel.IKernelBuilder builder)
     {
-        kernelBuilder.Services.AddLogging(builder => builder.AddNLog());
-        return kernelBuilder;
+        var loggerPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logger");
+        if (!Directory.Exists(loggerPath))
+        {
+            Directory.CreateDirectory(loggerPath);
+        }
+
+        // Create a logger with current date.
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File(Path.Combine(loggerPath, $"log-{DateTimeOffset.Now:yyyy-MM-dd}.txt"))
+            .CreateLogger();
+
+        builder.Services.AddLogging(b => b.AddSerilog(dispose: true));
+        return builder;
     }
 
     public static T Get<T>(this Window window)

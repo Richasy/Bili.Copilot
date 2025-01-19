@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LiveCardPresenter
+    x:Class="BiliCopilot.UI.Controls.Components.FollowLivePresenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="12,8" ColumnSpacing="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <PersonPicture
+            Width="48"
+            Height="48"
+            VerticalAlignment="Center"
+            DisplayName="{x:Bind ViewModel.Author, Mode=OneWay}"
+            ProfilePicture="{x:Bind ViewModel.Avatar, Converter={StaticResource BitmapConverter}, Mode=OneWay}" />
+        <StackPanel
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Spacing="4">
+            <TextBlock
+                FontSize="12"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.Author, Mode=OneWay}" />
+            <base:TrimTextBlock MaxLines="1" Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        </StackPanel>
+    </Grid>
+</local:LiveCardPresenter>

@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.ObjectModel;
 using BiliAgent.Models;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels;
 

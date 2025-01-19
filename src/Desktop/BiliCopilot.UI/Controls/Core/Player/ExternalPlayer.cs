@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.ComponentModel;
 using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUI.Share.Base;
+using System.ComponentModel;
 
 namespace BiliCopilot.UI.Controls.Core;
 

@@ -65,27 +65,24 @@ public sealed partial class SettingsPage : SettingsPageBase
                 or ProviderType.DeepSeek
                 or ProviderType.OpenRouter
                 or ProviderType.Groq
-                or ProviderType.MistralAI
+                or ProviderType.Mistral
                 or ProviderType.TogetherAI
                 or ProviderType.Perplexity
                 or ProviderType.SiliconFlow
-                or ProviderType.DashScope => (AIServiceConfigControlBase)new ModelClientConfigSettingSection { ViewModel = item },
+                or ProviderType.Hunyuan
+                or ProviderType.Spark
+                or ProviderType.XAI
+                or ProviderType.Qwen => (AIServiceConfigControlBase)new ModelClientConfigSettingSection { ViewModel = item },
                 ProviderType.Anthropic
                 or ProviderType.Gemini
                 or ProviderType.Ollama => new ModelClientEndpointConfigSettingSection { ViewModel = item },
                 ProviderType.OpenAI => new OpenAIChatConfigSettingSection { ViewModel = item },
                 ProviderType.AzureOpenAI => new AzureOpenAIChatConfigSettingSection { ViewModel = item },
-                ProviderType.QianFan => new QianFanChatConfigSettingSection { ViewModel = item },
-                ProviderType.HunYuan => new HunYuanChatConfigSettingSection { ViewModel = item },
-                ProviderType.SparkDesk => new SparkDeskChatConfigSettingSection { ViewModel = item },
-                ProviderType.DouBao => new DouBaoChatConfigSettingSection { ViewModel = item },
+                ProviderType.Ernie => new ErnieChatConfigSettingSection { ViewModel = item },
+                ProviderType.Doubao => new DouBaoChatConfigSettingSection { ViewModel = item },
                 _ => throw new NotImplementedException(),
             };
-
-            if (section is not null)
-            {
-                AIPanel.Children.Add(section);
-            }
+            AIPanel.Children.Add(section);
         }
     }
 }

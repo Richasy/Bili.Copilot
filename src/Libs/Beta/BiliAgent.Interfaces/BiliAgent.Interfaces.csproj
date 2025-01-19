@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Richasy.AgentKernel.Core" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BiliAgent.Models\BiliAgent.Models.csproj" />

@@ -128,7 +128,7 @@ public sealed partial class VideoPlayerPageViewModel
         try
         {
             await _service.FavoriteVideoAsync(_view.Information.Identifier.Id, selectedFolders, unselectedFolders);
-            IsFavorited = selectedFolders.Any();
+            IsFavorited = selectedFolders.Count != 0;
             FavoriteFolders = default;
         }
         catch (Exception ex)

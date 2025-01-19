@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Azure.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,27 +16,13 @@ public sealed class AzureOpenAIProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="AzureOpenAIProvider"/> class.
     /// </summary>
     public AzureOpenAIProvider(AzureOpenAIClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(config.Endpoint);
-        Version = config.Version;
-    }
-
-    /// <summary>
-    /// 获取 API 版本.
-    /// </summary>
-    private AzureOpenAIVersion Version { get; }
+        : base(config.Key, config.CustomModels) => TrySetBaseUri(config.Endpoint);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddAzureOpenAIChatCompletion(modelId, BaseUri.AbsoluteUri, AccessKey, modelId: modelId)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.AzureOpenAI);
+        Service!.Initialize(new AzureOpenAIServiceConfig(AccessKey!, modelId, BaseUri!));
+        return Service;
     }
 }

@@ -1,18 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Graphics.Canvas;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
+using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Media.Streaming.Adaptive;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.Web.Http;
+using HttpClient = Windows.Web.Http.HttpClient;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -30,8 +30,8 @@ public sealed partial class NativePlayerViewModel
         }
 
         _isDisposed = true;
-        _element.SetMediaPlayer(default);
-        if (Player?.PlaybackSession != null)
+        _element?.SetMediaPlayer(default);
+        if (Player.PlaybackSession != null)
         {
             Player.PlaybackSession.PositionChanged -= OnMediaPositionChanged;
         }
@@ -40,7 +40,7 @@ public sealed partial class NativePlayerViewModel
         Player.CurrentStateChanged -= OnMediaPlayerStateChanged;
         Player.MediaFailed -= OnMediaPlayerFailed;
         Player.MediaEnded -= OnMediaPlayerEnded;
-        Player?.Dispose();
+        Player.Dispose();
         Player = null;
         return Task.CompletedTask;
     }
@@ -314,7 +314,7 @@ public sealed partial class NativePlayerViewModel
 
             if (_client != null)
             {
-                _client?.Dispose();
+                _client.Dispose();
                 _client = null;
             }
         }
@@ -369,7 +369,7 @@ public sealed partial class NativePlayerViewModel
                 return;
             }
 
-            var request = new HttpRequestMessage(HttpMethod.Get, _requestedUri);
+            var request = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, _requestedUri);
 
             request.Headers.Add("Range", string.Format("bytes={0}-", Position));
             request.Headers.Add("Connection", "Keep-Alive");
@@ -386,7 +386,7 @@ public sealed partial class NativePlayerViewModel
 
             var response = await _client.SendRequestAsync(
                 request,
-                HttpCompletionOption.ResponseHeadersRead).AsTask().ConfigureAwait(false);
+                Windows.Web.Http.HttpCompletionOption.ResponseHeadersRead).AsTask().ConfigureAwait(false);
 
             if (response.Content.Headers.ContentType != null)
             {

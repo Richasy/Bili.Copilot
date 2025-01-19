@@ -2,43 +2,39 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.DouBao;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Volcano.Models;
 
 namespace BiliAgent.Core.Providers;
 
 /// <summary>
 /// Azure Open AI 服务商.
 /// </summary>
-public sealed class DouBaoProvider : ProviderBase, IAgentProvider
+public sealed class DoubaoProvider : ProviderBase, IAgentProvider
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DouBaoProvider"/> class.
+    /// Initializes a new instance of the <see cref="DoubaoProvider"/> class.
     /// </summary>
-    public DouBaoProvider(DouBaoClientConfig config)
+    public DoubaoProvider(DouBaoClientConfig config)
         : base(config.Key, config.CustomModels)
     {
     }
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddDouBaoChatCompletion(modelId, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Doubao);
+        Service!.Initialize(new DoubaoServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 
     /// <inheritdoc/>
-    public override PromptExecutionSettings GetPromptExecutionSettings()
-        => new DouBaoPromptExecutionSettings
+    public override ChatOptions? GetChatOptions()
+        => new()
         {
-            MaxTokens = default,
-            Temperature = 0.7,
+            MaxOutputTokens = default,
+            Temperature = 0.7f,
             TopP = 1,
             FrequencyPenalty = 0,
         };

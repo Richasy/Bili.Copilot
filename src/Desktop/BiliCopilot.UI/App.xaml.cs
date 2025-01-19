@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.Json;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Toolkits;
@@ -11,8 +10,9 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Windows.AppLifecycle;
 using Microsoft.Windows.AppNotifications;
-using NLog;
 using Richasy.BiliKernel.Models.Media;
+using Serilog;
+using System.Text.Json;
 using Windows.Storage;
 
 namespace BiliCopilot.UI;
@@ -66,7 +66,6 @@ public partial class App : Application
             }
 
             instance.Activated += OnInstanceActivated;
-            NLog.GlobalDiagnosticsContext.Set("LogPath", fullPath);
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
             var mainWindow = GetMainWindow();
@@ -131,7 +130,7 @@ public partial class App : Application
         }
         catch (Exception)
         {
-            var logger = LogManager.GetCurrentClassLogger();
+            var logger = Log.Logger.ForContext<App>();
             logger.Error("初始化任务栏图标失败");
         }
     }

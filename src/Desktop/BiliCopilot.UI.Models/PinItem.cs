@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.Models;

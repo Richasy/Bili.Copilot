@@ -2,8 +2,9 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.Anthropic;
+using Microsoft.Extensions.AI;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Anthropic.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -18,30 +19,24 @@ public sealed class AnthropicProvider : ProviderBase, IAgentProvider
     public AnthropicProvider(AnthropicClientConfig config)
         : base(config.Key, config.CustomModels)
     {
-        ServerModels = PredefinedModels.AnthropicModels;
-        SetBaseUri(ProviderConstants.AnthropicApi, config.Endpoint);
+        TrySetBaseUri(config.Endpoint);
+        ServerModels = GetPredefinedModels(ProviderType.Anthropic);
     }
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddAnthropicChatCompletion(modelId, AccessKey, BaseUri)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Anthropic);
+        Service!.Initialize(new AnthropicServiceConfig(AccessKey!, modelId, default));
+        return Service;
     }
 
     /// <inheritdoc/>
-    public override PromptExecutionSettings GetPromptExecutionSettings()
-        => new AnthropicPromptExecutionSettings
+    public override ChatOptions? GetChatOptions()
+        => new ChatOptions
         {
-            MaxTokens = default,
+            MaxOutputTokens = default,
             Temperature = 1,
             TopP = 1,
-            Stream = true,
         };
 }

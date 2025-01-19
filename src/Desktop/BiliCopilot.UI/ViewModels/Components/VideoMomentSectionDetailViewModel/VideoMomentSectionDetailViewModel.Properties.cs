@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.ObjectModel;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
+using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 

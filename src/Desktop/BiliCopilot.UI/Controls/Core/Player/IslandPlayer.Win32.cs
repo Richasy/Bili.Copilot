@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Hosting;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -41,7 +41,7 @@ public class MpvPlayerWindow : IDisposable
     /// </summary>
     /// <returns>Window handle.</returns>
     public IntPtr GetHandle()
-        => _hwnd.Value;
+        => _hwnd;
 
     /// <summary>
     /// 创建窗口.
@@ -69,7 +69,7 @@ public class MpvPlayerWindow : IDisposable
                     new(parentWindow),
                     HMENU.Null,
                     HINSTANCE.Null);
-                if (hwnd.Value == IntPtr.Zero)
+                if (hwnd == IntPtr.Zero)
                 {
                     var error = Marshal.GetLastWin32Error();
                     Debug.WriteLine($"CreateWindowEx failed with error code: {error}");
@@ -80,7 +80,7 @@ public class MpvPlayerWindow : IDisposable
                 PInvoke.UpdateWindow(hwnd);
                 PInvoke.SetParent(hwnd, new(parentWindow));
                 _hwnd = hwnd;
-                return hwnd.Value;
+                return hwnd;
             }
         }
     }

@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.TogetherAI.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,22 +16,13 @@ public sealed class TogetherAIProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="TogetherAIProvider"/> class.
     /// </summary>
     public TogetherAIProvider(TogetherAIClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.TogetherAIApi);
-        ServerModels = PredefinedModels.TogetherAIModels;
-    }
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.TogetherAI);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.TogetherAI);
+        Service!.Initialize(new TogetherAIServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

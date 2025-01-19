@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.RegularExpressions;
 using BiliCopilot.UI.Forms;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.WinUI.Share.Base;
+using System.Text.RegularExpressions;
 
 namespace BiliCopilot.UI.Controls.Components;
 

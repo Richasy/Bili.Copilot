@@ -3,7 +3,7 @@
   <PropertyGroup>
     <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
     <AppxShowAllApps>False</AppxShowAllApps>
-    <AppxBuildConfigurationSelection>x64|arm64</AppxBuildConfigurationSelection>
+    <AppxBuildConfigurationSelection>x64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
     <Source>C:\Users\zrich\Desktop\Logo.png</Source>
     <SmallTileSource>C:\Users\zrich\Desktop\Logo.png</SmallTileSource>
@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Components\UserCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageCardControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Comment\CommentItemControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\NavigationSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -87,10 +96,7 @@
     <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Settings\SparkDeskChatConfigSettingSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\QianFanChatConfigSettingSection.xaml">
+    <Page Update="Controls\Settings\ErnieChatConfigSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\OpenAIChatConfigSettingSection.xaml">
@@ -103,9 +109,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\AI\PredefinedChatModelSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\HunYuanChatConfigSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\DouBaoChatConfigSettingSection.xaml">
@@ -453,9 +456,6 @@
     <Page Update="Controls\Comment\CommentDetailPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Components\CommentItemControl\CommentItemControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -544,9 +544,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Users\FansHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\FansPage.xaml">

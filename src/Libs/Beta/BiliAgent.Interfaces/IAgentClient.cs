@@ -1,9 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using BiliAgent.Models;
 
 namespace BiliAgent.Interfaces;
@@ -35,6 +31,6 @@ public interface IAgentClient : IDisposable
         ProviderType type,
         string modelId,
         string? message,
-        Action<string> streamingAction = default,
+        Action<string>? streamingAction = default,
         CancellationToken cancellationToken = default);
 }

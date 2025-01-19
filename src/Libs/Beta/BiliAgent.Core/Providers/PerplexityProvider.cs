@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Perplexity.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,22 +16,13 @@ public sealed class PerplexityProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="PerplexityProvider"/> class.
     /// </summary>
     public PerplexityProvider(PerplexityClientConfig config)
-        : base(config.Key, config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.PerplexityApi);
-        ServerModels = PredefinedModels.PerplexityModels;
-    }
+        : base(config.Key, config.CustomModels) => ServerModels = GetPredefinedModels(ProviderType.Perplexity);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Perplexity);
+        Service!.Initialize(new PerplexityServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

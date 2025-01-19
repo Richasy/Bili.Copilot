@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Diagnostics;
 using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Core;

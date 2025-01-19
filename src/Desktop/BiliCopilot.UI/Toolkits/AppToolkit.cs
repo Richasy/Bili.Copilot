@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using BiliCopilot.UI.Models.Constants;
 
 namespace BiliCopilot.UI.Toolkits;
 

@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Ollama.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -15,21 +16,13 @@ public sealed class OllamaProvider : ProviderBase, IAgentProvider
     /// Initializes a new instance of the <see cref="OllamaProvider"/> class.
     /// </summary>
     public OllamaProvider(OllamaClientConfig config)
-        : base("ollama", config.CustomModels)
-    {
-        SetBaseUri(ProviderConstants.OllamaApi, config.Endpoint);
-    }
+        : base("ollama", config.CustomModels) => TrySetBaseUri(config.Endpoint);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Ollama);
+        Service!.Initialize(new OllamaServiceConfig(modelId, BaseUri));
+        return Service;
     }
 }

@@ -17,11 +17,8 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/SeasonCardControl/SeasonCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/LiveCardControl/LiveCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ArticleCardControl/ArticleCardControl.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Components/UserCardControl/UserCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/EpisodeCardControl/EpisodeCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Components/CommentItemControl/CommentItemControl.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Components/NotifyMessageCardControl/NotifyMessageCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ChatModelCardControl/ChatModelCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Core/Player/PlayerResources.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Markdown/MarkdownTextBlock.xaml" />

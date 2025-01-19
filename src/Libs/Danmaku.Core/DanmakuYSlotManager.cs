@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-
 namespace Danmaku.Core;
 
-internal class DanmakuYSlotManager
+internal sealed class DanmakuYSlotManager
 {
     private readonly Random _random;
     private Slot[] _ySlotArray;

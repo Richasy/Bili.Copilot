@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Net;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -10,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
+using System.Net;
 using WebDav;
 
 namespace BiliCopilot.UI.ViewModels.View;
@@ -46,7 +46,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
         }
 
         var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
-        var config = configList.FirstOrDefault(p => p.Id.Equals(localConfigId));
+        var config = configList.FirstOrDefault(p => p.Id.Equals(localConfigId, StringComparison.Ordinal));
         if (config is null)
         {
             IsInvalidConfig = true;

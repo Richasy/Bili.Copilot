@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -12,6 +10,8 @@ using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
 using WinUIEx;
@@ -227,7 +227,7 @@ public sealed partial class AppViewModel : ViewModelBase
                     process.WaitForExit();
 
                     // Process the output to check for AMD GPU
-                    var lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var lines = output.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
                     foreach (var line in lines)
                     {
                         if (line.Contains("amd", StringComparison.CurrentCultureIgnoreCase))

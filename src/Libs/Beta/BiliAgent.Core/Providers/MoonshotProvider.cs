@@ -2,7 +2,8 @@
 
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
-using Microsoft.SemanticKernel;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel.Connectors.Moonshot.Models;
 
 namespace BiliAgent.Core.Providers;
 
@@ -16,21 +17,13 @@ public sealed class MoonshotProvider : ProviderBase, IAgentProvider
     /// </summary>
     public MoonshotProvider(MoonshotClientConfig config)
         : base(config.Key, config.CustomModels)
-    {
-        ServerModels = PredefinedModels.MoonshotModels;
-        SetBaseUri(ProviderConstants.MoonshotApi);
-    }
+        => ServerModels = GetPredefinedModels(ProviderType.Moonshot);
 
     /// <inheritdoc/>
-    public Kernel? GetOrCreateKernel(string modelId)
+    public IChatService? GetOrCreateService(string modelId)
     {
-        if (ShouldRecreateKernel(modelId))
-        {
-            Kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion(modelId, BaseUri, AccessKey)
-                .Build();
-        }
-
-        return Kernel;
+        Service ??= GetService(ProviderType.Moonshot);
+        Service!.Initialize(new MoonshotServiceConfig(AccessKey!, modelId));
+        return Service;
     }
 }

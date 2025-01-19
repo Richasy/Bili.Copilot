@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.Json;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -8,6 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.Web.WebView2.Core;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.WinUI.Share.Base;
+using System.Text.Json;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 

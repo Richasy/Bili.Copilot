@@ -1,8 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.ObjectModel;
-using System.Net.WebSockets;
-using System.Threading;
 using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,6 +9,8 @@ using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.ViewModels;
+using System.Collections.ObjectModel;
+using System.Net.WebSockets;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 

@@ -1,16 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.Json.Serialization;
 using BiliAgent.Models;
 using BiliCopilot.UI.Models;
 using Richasy.BiliKernel.Models.Media;
+using System.Text.Json.Serialization;
 
 namespace BiliCopilot.UI;
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MediaIdentifier))]
-[JsonSerializable(typeof(AzureOpenAIVersion))]
-[JsonSerializable(typeof(List<AzureOpenAIVersion>))]
 [JsonSerializable(typeof(List<string>))]
 [JsonSerializable(typeof(ChatClientConfiguration))]
 [JsonSerializable(typeof(PinItem))]
