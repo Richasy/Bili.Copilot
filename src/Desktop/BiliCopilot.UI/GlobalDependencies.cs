@@ -9,11 +9,12 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
-using NLog.Extensions.Logging;
 using Richasy.AgentKernel;
 using Richasy.BiliKernel;
 using Richasy.WinUI.Share.ViewModels;
 using RichasyKernel;
+using Serilog;
+using Windows.Storage;
 
 namespace BiliCopilot.UI;
 
@@ -32,7 +33,7 @@ internal static class GlobalDependencies
         }
 
         Kernel = Kernel.CreateBuilder()
-            .AddNLog()
+            .AddSerilog()
             .AddBiliClient()
             .AddBiliAuthenticator()
             .AddWinUICookiesResolver()
@@ -175,10 +176,21 @@ internal static class GlobalDependencies
         return kernelBuilder;
     }
 
-    public static IKernelBuilder AddNLog(this IKernelBuilder kernelBuilder)
+    public static RichasyKernel.IKernelBuilder AddSerilog(this RichasyKernel.IKernelBuilder builder)
     {
-        kernelBuilder.Services.AddLogging(builder => builder.AddNLog());
-        return kernelBuilder;
+        var loggerPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logger");
+        if (!Directory.Exists(loggerPath))
+        {
+            Directory.CreateDirectory(loggerPath);
+        }
+
+        // Create a logger with current date.
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File(Path.Combine(loggerPath, $"log-{DateTimeOffset.Now:yyyy-MM-dd}.txt"))
+            .CreateLogger();
+
+        builder.Services.AddLogging(b => b.AddSerilog(dispose: true));
+        return builder;
     }
 
     public static T Get<T>(this Window window)

@@ -13,7 +13,7 @@
     <Nullable>enable</Nullable>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
@@ -407,7 +407,6 @@
     <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
-    <PackageReference Include="NLog.Extensions.Logging" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
     <PackageReference Include="Richasy.BiliKernel.Authorizers.TV" />
     <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUICookies" />
@@ -421,6 +420,9 @@
     <PackageReference Include="Richasy.BiliKernel.Services.User" />
     <PackageReference Include="RichasyKernel.Core" />
     <PackageReference Include="Roman-Numerals" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.File" />
     <PackageReference Include="System.Management" />
     <PackageReference Include="System.Private.Uri" />
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
@@ -1646,15 +1648,5 @@
     <PublishAot Condition="'$(Configuration)' == 'Debug'">False</PublishAot>
     <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateKeyFile>BiliCopilot.UI_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>C:\Users\zrich\Desktop\</AppxPackageDir>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 </Project>
