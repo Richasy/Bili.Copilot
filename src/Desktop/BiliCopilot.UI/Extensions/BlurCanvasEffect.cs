@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 // 源自 https://learn.microsoft.com/zh-cn/windows/apps/develop/win2d/custom-effects#custom-effects-in-c-using-computesharp
-using System.Numerics;
 using ComputeSharp;
 using ComputeSharp.D2D1;
 using ComputeSharp.D2D1.WinUI;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI;
+using System.Numerics;
 using Windows.Graphics.Effects;
 using Windows.UI;
 

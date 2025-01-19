@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics.CodeAnalysis;
 using BiliAgent.Core;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
@@ -14,6 +13,7 @@ using Richasy.BiliKernel;
 using Richasy.WinUI.Share.ViewModels;
 using RichasyKernel;
 using Serilog;
+using System.Diagnostics.CodeAnalysis;
 using Windows.Storage;
 
 namespace BiliCopilot.UI;

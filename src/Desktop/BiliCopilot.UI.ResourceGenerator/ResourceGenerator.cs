@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Text;
-using System.Xml;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System.Text;
+using System.Xml;
 
 namespace BiliCopilot.UI.ResourceGenerator;
 

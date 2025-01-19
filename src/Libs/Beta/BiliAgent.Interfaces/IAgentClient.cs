@@ -1,9 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using BiliAgent.Models;
 
 namespace BiliAgent.Interfaces;

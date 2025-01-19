@@ -113,7 +113,7 @@ public sealed partial class PgcPlayerPageViewModel
         {
             var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
             await _service.FavoriteVideoAsync(aid, selectedFolders, unselectedFolders);
-            IsFavorited = selectedFolders.Any();
+            IsFavorited = selectedFolders.Count != 0;
             FavoriteFolders = default;
             ReloadEpisodeOpeartionCommand.Execute(default);
         }

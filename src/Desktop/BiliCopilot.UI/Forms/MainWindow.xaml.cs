@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -9,6 +7,8 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUI.Share.Base;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.System;
 using Windows.UI.WindowManagement;
@@ -310,7 +310,7 @@ internal static class GlobalHook
     }
 }
 
-internal class PlayerKeyboardEventArgs
+internal sealed class PlayerKeyboardEventArgs
 {
     public PlayerKeyboardEventArgs(int keyCode, bool isControlPressed)
     {

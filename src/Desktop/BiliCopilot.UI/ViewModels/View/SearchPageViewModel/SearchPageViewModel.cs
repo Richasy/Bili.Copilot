@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -12,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Search;
+using System.Diagnostics;
 
 namespace BiliCopilot.UI.ViewModels.View;
 

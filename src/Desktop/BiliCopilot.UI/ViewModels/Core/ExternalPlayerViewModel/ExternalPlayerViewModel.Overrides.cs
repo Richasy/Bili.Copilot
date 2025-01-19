@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 

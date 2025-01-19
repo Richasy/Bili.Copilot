@@ -200,7 +200,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             _danmakuController?.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
 
-            if (_cachedDanmakus.Any())
+            if (_cachedDanmakus.Count != 0)
             {
                 _danmakuController.AddDanmakuList(_cachedDanmakus);
             }

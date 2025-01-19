@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Globalization;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -13,6 +12,7 @@ using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
+using System.Globalization;
 using Windows.Globalization;
 using WinRT;
 

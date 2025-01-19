@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.ComponentModel;
-using System.Windows.Input;
 using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Toolkits;
@@ -12,6 +10,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Richasy.WinUI.Share.Base;
+using System.ComponentModel;
+using System.Windows.Input;
 using Windows.System;
 
 namespace BiliCopilot.UI.Controls.Core;

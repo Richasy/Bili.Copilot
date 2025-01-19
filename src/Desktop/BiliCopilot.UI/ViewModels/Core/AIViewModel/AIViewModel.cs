@@ -181,7 +181,7 @@ public sealed partial class AIViewModel : ViewModelBase
     {
         if (_currentPrompt is not null)
         {
-            _currentPrompt?.ExecuteCommand.Execute(default);
+            _currentPrompt.ExecuteCommand.Execute(default);
         }
         else if (!string.IsNullOrEmpty(_lastQuestion))
         {
@@ -194,8 +194,8 @@ public sealed partial class AIViewModel : ViewModelBase
     {
         if (_generateCancellationTokenSource is not null)
         {
-            _generateCancellationTokenSource?.Cancel();
-            _generateCancellationTokenSource?.Dispose();
+            _generateCancellationTokenSource.Cancel();
+            _generateCancellationTokenSource.Dispose();
             _generateCancellationTokenSource = default;
         }
 

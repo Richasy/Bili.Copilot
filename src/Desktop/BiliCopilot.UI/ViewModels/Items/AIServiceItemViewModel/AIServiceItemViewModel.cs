@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Collections.ObjectModel;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
 using BiliCopilot.UI.Controls.AI;
@@ -9,6 +8,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUI.Share.Base;
 using Richasy.WinUI.Share.ViewModels;
+using System.Collections.ObjectModel;
 using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;

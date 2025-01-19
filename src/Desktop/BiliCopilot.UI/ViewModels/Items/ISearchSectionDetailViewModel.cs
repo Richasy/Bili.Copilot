@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.ComponentModel;
 using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Search;
+using System.ComponentModel;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 

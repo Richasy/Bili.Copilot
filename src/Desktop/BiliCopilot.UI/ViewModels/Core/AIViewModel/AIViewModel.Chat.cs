@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.RegularExpressions;
-using System.Threading;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
@@ -11,6 +9,7 @@ using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUI.Share.Base;
+using System.Text.RegularExpressions;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -271,13 +270,13 @@ public sealed partial class AIViewModel
 
             // 2. 选择字幕元数据.
             ProgressTip = ResourceToolkit.GetLocalizedString(StringNames.GettingSubtitleInformation);
-            var meta = metas?.FirstOrDefault(p => !p.IsAI) ?? metas.First();
+            var meta = metas.FirstOrDefault(p => !p.IsAI) ?? metas.First();
             if (_generateCancellationTokenSource?.IsCancellationRequested != false)
             {
                 return default;
             }
 
-            _subtitles = [..await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token)];
+            _subtitles = [.. await service.GetSubtitleDetailAsync(meta, _generateCancellationTokenSource.Token)];
         }
 
         return string.Join(Environment.NewLine, _subtitles.Select(p => $"{AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.StartPosition))} - {AppToolkit.FormatDuration(TimeSpan.FromSeconds(p.EndPosition))}: {p.Content}"));

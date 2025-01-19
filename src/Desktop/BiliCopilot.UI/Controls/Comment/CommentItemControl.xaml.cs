@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Windows.Input;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUI.Share.Base;
+using System.Windows.Input;
 
 namespace BiliCopilot.UI.Controls.Comment;
 

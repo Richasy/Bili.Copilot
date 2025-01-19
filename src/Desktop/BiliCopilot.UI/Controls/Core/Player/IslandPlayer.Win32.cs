@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Hosting;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace BiliCopilot.UI.Controls.Core;

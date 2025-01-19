@@ -26,7 +26,7 @@ public sealed partial class SettingsPageViewModel
 
         var selectedDav = SettingsToolkit.ReadLocalSetting(SettingNames.SelectedWebDavConfigId, string.Empty);
         SelectedWebDav = !string.IsNullOrEmpty(selectedDav)
-            ? WebDavConfigs.FirstOrDefault(p => p.Id.Equals(selectedDav))
+            ? WebDavConfigs.FirstOrDefault(p => p.Id.Equals(selectedDav, StringComparison.Ordinal))
             : WebDavConfigs.FirstOrDefault();
     }
 
@@ -43,7 +43,7 @@ public sealed partial class SettingsPageViewModel
     [RelayCommand]
     private async Task UpdateWebDavConfigAsync(WebDavConfig config)
     {
-        var sourceConfig = WebDavConfigs.FirstOrDefault(p => p.Id.Equals(config.Id));
+        var sourceConfig = WebDavConfigs.FirstOrDefault(p => p.Id.Equals(config.Id, StringComparison.Ordinal));
         if (sourceConfig is null)
         {
             return;

@@ -169,7 +169,7 @@ public sealed partial class ArticlePartitionDetailViewModel : ViewModelBase<Part
         {
             await LoadRecommendPartitionArticlesAsync();
         }
-        else if(_isHotPartition)
+        else if (_isHotPartition)
         {
             await LoadHotPartitionArticlesAsync();
         }

@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
-
 namespace BiliCopilot.UI.Models;
 
 /// <summary>

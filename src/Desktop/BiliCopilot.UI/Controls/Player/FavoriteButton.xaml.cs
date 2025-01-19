@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Windows.Input;
 using Richasy.WinUI.Share.Base;
+using System.Windows.Input;
 
 namespace BiliCopilot.UI.Controls.Player;
 

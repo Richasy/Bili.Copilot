@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System;
 using BiliAgent.Interfaces;
 using BiliAgent.Models;
 using Microsoft.Extensions.AI;

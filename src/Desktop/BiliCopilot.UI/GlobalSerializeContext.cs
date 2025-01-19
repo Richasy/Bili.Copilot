@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using System.Text.Json.Serialization;
 using BiliAgent.Models;
 using BiliCopilot.UI.Models;
 using Richasy.BiliKernel.Models.Media;
+using System.Text.Json.Serialization;
 
 namespace BiliCopilot.UI;
 
