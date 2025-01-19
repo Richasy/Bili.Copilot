@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="UserButton"
-                Command="{x:Bind ViewModel.ShowCommentCommand, Mode=OneWay}"
+                Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
                 Style="{StaticResource AvatarButtonStyle}">
                 <PersonPicture
                     Width="36"

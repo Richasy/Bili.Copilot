@@ -22,7 +22,7 @@
         <HyperlinkButton
             x:Name="UserButton"
             HorizontalAlignment="Left"
-            Command="{x:Bind ViewModel.ShowCommentCommand, Mode=OneWay}"
+            Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
             Content="{x:Bind ViewModel.Author, Mode=OneWay}" />
         <local:EmoteTextBlock
             Grid.Row="1"
