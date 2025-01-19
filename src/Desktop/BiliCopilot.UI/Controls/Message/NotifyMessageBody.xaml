@@ -19,7 +19,7 @@
                 <ItemsRepeater MaxWidth="1000" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:NotifyMessageItemViewModel">
-                            <components:NotifyMessageCardControl ViewModel="{x:Bind}" />
+                            <local:NotifyMessageCardControl ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>

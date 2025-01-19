@@ -22,11 +22,11 @@
             Padding="0"
             Style="{StaticResource PageScrollViewerStyle}">
             <StackPanel Margin="12,0" Spacing="12">
-                <components:CommentItemControl IsMoreEnabled="False" ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
+                <local:CommentItemControl IsMoreEnabled="False" ViewModel="{x:Bind ViewModel.Data, Mode=OneWay}" />
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Comments, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="items:CommentItemViewModel">
-                            <components:CommentItemControl Margin="0,2" ViewModel="{x:Bind}" />
+                            <local:CommentItemControl Margin="0,2" ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

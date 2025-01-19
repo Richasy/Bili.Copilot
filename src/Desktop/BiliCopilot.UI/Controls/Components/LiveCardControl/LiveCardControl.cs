@@ -9,6 +9,11 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Components;
 
 /// <summary>
+/// 直播卡片控件基类.
+/// </summary>
+public abstract class LiveCardPresenter : LayoutUserControlBase<LiveItemViewModel>;
+
+/// <summary>
 /// 直播卡片控件.
 /// </summary>
 public sealed partial class LiveCardControl : LayoutControlBase<LiveItemViewModel>

@@ -12,69 +12,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
                     <base:CardControl x:Name="RootCard" BorderThickness="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="80" />
-                            </Grid.RowDefinitions>
-                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
-                            <Button
-                                x:Name="UserButton"
-                                Margin="6"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Style="{StaticResource AvatarButtonStyle}">
-                                <Grid>
-                                    <Ellipse
-                                        Width="35"
-                                        Height="35"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Fill="Black"
-                                        Opacity="0.7" />
-                                    <PersonPicture
-                                        Width="32"
-                                        Height="32"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
-                                        ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                                </Grid>
-                            </Button>
-                            <Grid
-                                Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid ColumnSpacing="8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <base:TrimTextBlock
-                                        FontSize="12"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="NoWrap"
-                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.PublishRelativeTime, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                                </Grid>
-                                <base:TrimTextBlock
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
-                            </Grid>
-                        </Grid>
+                        <local:PartitionArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -86,58 +24,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
                     <base:CardControl x:Name="RootCard" BorderThickness="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="80" />
-                            </Grid.RowDefinitions>
-                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
-                            <Grid
-                                Margin="6"
-                                Padding="4"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                <Grid.Background>
-                                    <SolidColorBrush Opacity="0.55" Color="Black" />
-                                </Grid.Background>
-                                <StackPanel
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal"
-                                    Spacing="4"
-                                    ToolTipService.ToolTip="{ext:Locale Name=LikeCount}">
-                                    <ic:SymbolIcon
-                                        VerticalAlignment="Center"
-                                        FontSize="10"
-                                        Foreground="{ThemeResource AccentTextFillColorTertiaryBrush}"
-                                        Symbol="ThumbLike" />
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Foreground="White"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.LikeCount, Converter={StaticResource CountConverter}}"
-                                        TextLineBounds="Tight" />
-                                </StackPanel>
-                            </Grid>
-                            <Grid
-                                Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <base:TrimTextBlock
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                                <base:TrimTextBlock
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
-                            </Grid>
-                        </Grid>
+                        <local:SearchArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -149,38 +36,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:ArticleCardControl">
                     <base:CardControl x:Name="RootCard" BorderThickness="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
-                            </Grid.RowDefinitions>
-                            <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
-                            <Grid
-                                Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <base:TrimTextBlock
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                                <base:TrimTextBlock
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Title}" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}">
-                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.CollectRelativeTime}" />
-                                    <Run Text="{ext:Locale Name=Read}" />
-                                </TextBlock>
-                            </Grid>
-                        </Grid>
+                        <local:HistoryArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>

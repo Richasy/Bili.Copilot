@@ -4,7 +4,6 @@ using System.ComponentModel;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUI.Share.Base;
 
@@ -13,33 +12,19 @@ namespace BiliCopilot.UI.Controls.Components;
 /// <summary>
 /// 用户卡片.
 /// </summary>
-public sealed partial class UserCardControl : LayoutControlBase<UserItemViewModel>
+public sealed partial class UserCardControl : UserCardControlBase
 {
-    private CardControl _rootCard;
-    private ToggleButton _followButton;
-    private FluentIcons.WinUI.SymbolIcon _followIcon;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="UserCardControl"/> class.
     /// </summary>
-    public UserCardControl() => DefaultStyleKey = typeof(UserCardControl);
+    public UserCardControl()
+    {
+        this.InitializeComponent();
+    }
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
-        _rootCard = GetTemplateChild("RootCard") as CardControl;
-        _followButton = GetTemplateChild("FollowButton") as ToggleButton;
-        _followIcon = GetTemplateChild("FollowIcon") as FluentIcons.WinUI.SymbolIcon;
-        if (_rootCard is not null)
-        {
-            _rootCard.Command = ViewModel?.ShowUserSpaceCommand;
-        }
-
-        if (_followButton is not null)
-        {
-            _followButton.Command = ViewModel?.ToggleFollowCommand;
-        }
-
         CheckFollowState();
     }
 
@@ -72,16 +57,6 @@ public sealed partial class UserCardControl : LayoutControlBase<UserItemViewMode
         {
             newValue.PropertyChanged += OnViewModelPropertyChanged;
         }
-
-        if (_rootCard is not null)
-        {
-            _rootCard.Command = newValue?.ShowUserSpaceCommand;
-        }
-
-        if (_followButton is not null)
-        {
-            _followButton.Command = newValue?.ToggleFollowCommand;
-        }
     }
 
     private static MenuFlyoutItem CreatePinItem()
@@ -104,14 +79,14 @@ public sealed partial class UserCardControl : LayoutControlBase<UserItemViewMode
 
     private void CheckFollowState()
     {
-        if (_followButton is not null)
+        if (FollowButton is not null)
         {
-            _followButton.IsChecked = ViewModel?.IsFollowed;
+            FollowButton.IsChecked = ViewModel?.IsFollowed;
         }
 
-        if (_followIcon is not null)
+        if (FollowIcon is not null)
         {
-            _followIcon.IconVariant = ViewModel?.IsFollowed == true ? FluentIcons.Common.IconVariant.Filled : FluentIcons.Common.IconVariant.Regular;
+            FollowIcon.IconVariant = ViewModel?.IsFollowed == true ? FluentIcons.Common.IconVariant.Filled : FluentIcons.Common.IconVariant.Regular;
         }
     }
 
@@ -153,3 +128,8 @@ public sealed partial class UserCardControl : LayoutControlBase<UserItemViewMode
         }
     }
 }
+
+/// <summary>
+/// 用户卡片.
+/// </summary>
+public abstract class UserCardControlBase : LayoutUserControlBase<UserItemViewModel>;

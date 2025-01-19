@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:CommentItemControlBase
+    x:Class="BiliCopilot.UI.Controls.Comment.CommentItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:comp="using:BiliCopilot.UI.Controls.Components"
+    xmlns:converters="using:BiliCopilot.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Comment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:ChildCommentTextConverter x:Key="ChildCommentTextConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        Margin="0,0,0,4"
+        Padding="12"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+        BorderThickness="1"
+        ColumnSpacing="12"
+        CornerRadius="{StaticResource ControlCornerRadius}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Button
+                x:Name="UserButton"
+                VerticalAlignment="Top"
+                Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
+                Style="{StaticResource AvatarButtonStyle}">
+                <Grid>
+                    <PersonPicture
+                        Width="40"
+                        Height="40"
+                        DisplayName="{x:Bind ViewModel.UserName, Mode=OneWay}"
+                        ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+                    <Image
+                        Width="16"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Source="ms-appx:///Assets/vip.png"
+                        Visibility="{x:Bind ViewModel.IsVip, Mode=OneWay}" />
+                </Grid>
+            </Button>
+            <Border
+                x:Name="TopContainer"
+                Margin="0,12,0,0"
+                Padding="2"
+                HorizontalAlignment="Center"
+                BorderBrush="{ThemeResource AccentFillColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Visibility="{x:Bind ViewModel.IsTop, Mode=OneWay}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="10"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{ext:Locale Name=Top}" />
+            </Border>
+        </StackPanel>
+        <Grid Grid.Column="1" RowSpacing="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Name="UserNameBlock"
+                    FontWeight="Bold"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind ViewModel.UserName, Mode=OneWay}" />
+                <Image
+                    x:Name="LevelImage"
+                    Grid.Column="1"
+                    Height="8"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="{x:Bind ViewModel.Level, Converter={StaticResource LevelImageConverter}, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="PublishTimeBlock"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.RelativeTime, Mode=OneWay}"
+                    ToolTipService.ToolTip="{x:Bind ViewModel.ActualTime, Mode=OneWay}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <comp:EmoteTextBlock
+                    x:Name="ReplyContentBlock"
+                    HorizontalAlignment="Left"
+                    Text="{x:Bind ViewModel.Content, Mode=OneWay}" />
+            </Grid>
+            <Grid Grid.Row="2" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <comp:CommentLikeButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    Visibility="{x:Bind ViewModel.ChildCount, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}">
+                    <HyperlinkButton
+                        x:Name="MoreButton"
+                        Command="{x:Bind ShowMoreCommand, Mode=OneWay}"
+                        Visibility="{x:Bind IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock FontSize="12" Text="{x:Bind ViewModel.ChildCount, Converter={StaticResource ChildCommentTextConverter}, Mode=OneWay}" />
+                    </HyperlinkButton>
+                </StackPanel>
+                <Button
+                    x:Name="ReplyButton"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.MarkReplyTargetCommand, Mode=OneWay}"
+                    Style="{StaticResource SmallIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Reply}"
+                    Visibility="{x:Bind IsMoreEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ic:SymbolIcon FontSize="12" Symbol="CommentMention" />
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</local:CommentItemControlBase>

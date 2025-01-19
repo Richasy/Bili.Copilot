@@ -9,6 +9,11 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Components;
 
 /// <summary>
+/// 剧集卡片展示器.
+/// </summary>
+public abstract class SeasonCardPresenter : LayoutUserControlBase<SeasonItemViewModel>;
+
+/// <summary>
 /// 剧集卡片控件.
 /// </summary>
 public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemViewModel>

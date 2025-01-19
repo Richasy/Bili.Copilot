@@ -11,10 +11,10 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
-    <PublishAot>True</PublishAot>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
   <ItemGroup>
@@ -133,25 +133,43 @@
     <None Remove="Controls\Article\ArticleReaderCommentPanel.xaml" />
     <None Remove="Controls\Article\ArticleReaderToolBar.xaml" />
     <None Remove="Controls\Comment\CommentDetailPanel.xaml" />
+    <None Remove="Controls\Comment\CommentItemControl.xaml" />
     <None Remove="Controls\Comment\CommentMainPanel.xaml" />
     <None Remove="Controls\Comment\CommentTextBox.xaml" />
     <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
     <None Remove="Controls\Components\ArticleReader.xaml" />
     <None Remove="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml" />
-    <None Remove="Controls\Components\CommentItemControl\CommentItemControl.xaml" />
+    <None Remove="Controls\Components\DefaultCommentItemPresenter.xaml" />
     <None Remove="Controls\Components\EmotePanel.xaml" />
     <None Remove="Controls\Components\EmoteTextBlock.xaml" />
     <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
+    <None Remove="Controls\Components\FavoriteSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\FollowLivePresenter.xaml" />
+    <None Remove="Controls\Components\ForwardMomentPresenter.xaml" />
+    <None Remove="Controls\Components\FullMomentPresenter.xaml" />
+    <None Remove="Controls\Components\HistoryArticlePresenter.xaml" />
+    <None Remove="Controls\Components\HistoryLivePresenter.xaml" />
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
+    <None Remove="Controls\Components\IndexSeasonPresenter.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
     <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml" />
-    <None Remove="Controls\Components\NotifyMessageCardControl\NotifyMessageCardControl.xaml" />
+    <None Remove="Controls\Components\MomentEpisodePresenter.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
+    <None Remove="Controls\Components\PartitionArticlePresenter.xaml" />
+    <None Remove="Controls\Components\PartitionLivePresenter.xaml" />
+    <None Remove="Controls\Components\PersonalFullMomentPresenter.xaml" />
+    <None Remove="Controls\Components\PersonalVideoMomentPresenter.xaml" />
+    <None Remove="Controls\Components\PlayerEpisodePresenter.xaml" />
+    <None Remove="Controls\Components\PlayerSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\RecommendLivePresenter.xaml" />
+    <None Remove="Controls\Components\SearchLivePresenter.xaml" />
     <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
+    <None Remove="Controls\Components\TimelineSeasonPresenter.xaml" />
     <None Remove="Controls\Components\TipHeader.xaml" />
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
-    <None Remove="Controls\Components\UserCardControl\UserCardControl.xaml" />
+    <None Remove="Controls\Components\UserCardControl.xaml" />
+    <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
@@ -194,6 +212,7 @@
     <None Remove="Controls\Message\MessagePageSideBody.xaml" />
     <None Remove="Controls\Message\MessagePageSideHeader.xaml" />
     <None Remove="Controls\Message\NotifyMessageBody.xaml" />
+    <None Remove="Controls\Message\NotifyMessageCardControl.xaml" />
     <None Remove="Controls\Message\NotifyMessageHeader.xaml" />
     <None Remove="Controls\Message\NotifyMessageSideItem.xaml" />
     <None Remove="Controls\Moment\ComprehensiveMainBody.xaml" />
@@ -273,6 +292,7 @@
     <None Remove="Controls\Popular\PopularSideBody.xaml" />
     <None Remove="Controls\Popular\PopularSideHeader.xaml" />
     <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\SearchArticlePresenter.xaml" />
     <None Remove="Controls\Search\ArticleSectionDetailControl.xaml" />
     <None Remove="Controls\Search\LiveSectionDetailControl.xaml" />
     <None Remove="Controls\Search\SearchHeader.xaml" />
@@ -665,11 +685,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Components\UserCardControl\UserCardControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1003,11 +1018,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Components\CommentItemControl\CommentItemControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1337,6 +1347,75 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Components\UserCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PlayerSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FavoriteSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\IndexSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\TimelineSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PersonalFullMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\ForwardMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FullMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PersonalVideoMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\VideoMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\HistoryLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PartitionLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FollowLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\SearchLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\RecommendLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PlayerEpisodePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\MomentEpisodePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Comment\CommentItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\DefaultCommentItemPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\HistoryArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\SearchArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PartitionArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\AI\CustomPromptDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1567,5 +1646,15 @@
     <PublishAot Condition="'$(Configuration)' == 'Debug'">False</PublishAot>
     <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateKeyFile>BiliCopilot.UI_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>C:\Users\zrich\Desktop\</AppxPackageDir>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
 </Project>

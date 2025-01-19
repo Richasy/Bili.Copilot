@@ -13,92 +13,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
                     <base:CardControl x:Name="RootCard">
-                        <Grid Padding="12" RowSpacing="12">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid ColumnSpacing="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Button x:Name="UserButton" Style="{StaticResource AvatarButtonStyle}">
-                                    <PersonPicture
-                                        Width="36"
-                                        Height="36"
-                                        VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
-                                </Button>
-                                <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Spacing="2">
-                                    <TextBlock
-                                        MaxLines="1"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        TextTrimming="CharacterEllipsis" />
-                                    <TextBlock
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        MaxLines="1"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Tip}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                                <Button
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="{ext:Locale Name=Description}"
-                                    Style="{StaticResource IconButtonStyle}"
-                                    ToolTipService.ToolTip="{ext:Locale Name=Description}"
-                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}">
-                                    <ic:SymbolIcon FontSize="12" Symbol="Feed" />
-                                    <Button.Flyout>
-                                        <Flyout Placement="Bottom">
-                                            <local:EmoteTextBlock
-                                                MaxWidth="400"
-                                                MaxLines="99"
-                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}" />
-                                        </Flyout>
-                                    </Button.Flyout>
-                                </Button>
-                            </Grid>
-                            <local:VideoCoverImage
-                                Grid.Row="1"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                DecodeHeight="280"
-                                DecodeWidth="380"
-                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoCover}" />
-                            <Border
-                                Grid.Row="1"
-                                Margin="4"
-                                Padding="4"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                CornerRadius="{StaticResource ControlCornerRadius}">
-                                <Border.Background>
-                                    <SolidColorBrush Opacity="0.6" Color="Black" />
-                                </Border.Background>
-                                <TextBlock
-                                    Foreground="White"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoDuration}" />
-                            </Border>
-                            <base:TrimTextBlock
-                                Grid.Row="2"
-                                HorizontalAlignment="Left"
-                                FontSize="13"
-                                MaxLines="1"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}" />
-                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
-                        </Grid>
+                        <local:VideoMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -110,35 +25,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
                     <base:CardControl x:Name="RootCard">
-                        <Grid Padding="12" RowSpacing="12">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                MaxLines="1"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Tip}"
-                                TextTrimming="CharacterEllipsis" />
-                            <local:VideoCoverImage
-                                Grid.Row="1"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="{StaticResource ControlCornerRadius}"
-                                DecodeHeight="280"
-                                DecodeWidth="380"
-                                Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoCover}" />
-                            <base:TrimTextBlock
-                                Grid.Row="2"
-                                HorizontalAlignment="Left"
-                                FontSize="13"
-                                MaxLines="1"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.VideoTitle}" />
-                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
-                        </Grid>
+                        <local:PersonalVideoMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -150,57 +37,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
                     <base:CardControl x:Name="RootCard">
-                        <Grid Padding="12">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid Margin="0,0,0,12" ColumnSpacing="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Button x:Name="UserButton" Style="{StaticResource AvatarButtonStyle}">
-                                    <PersonPicture
-                                        Width="36"
-                                        Height="36"
-                                        VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}" />
-                                </Button>
-                                <StackPanel
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Spacing="2">
-                                    <TextBlock
-                                        MaxLines="1"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        TextTrimming="CharacterEllipsis" />
-                                    <TextBlock
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        MaxLines="1"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Tip}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                            </Grid>
-                            <local:EmoteTextBlock
-                                Grid.Row="1"
-                                Margin="0,0,0,12"
-                                MaxLines="8"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                            <moment:MomentPresenter
-                                Grid.Row="2"
-                                Margin="0,0,0,12"
-                                ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
-                        </Grid>
+                        <local:FullMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>
@@ -211,30 +48,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
-                    <Grid
-                        Padding="12,4,12,12"
-                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <HyperlinkButton
-                            x:Name="UserButton"
-                            HorizontalAlignment="Left"
-                            Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-                        <local:EmoteTextBlock
-                            Grid.Row="1"
-                            Margin="0,0,0,12"
-                            MaxLines="8"
-                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                        <moment:MomentPresenter
-                            Grid.Row="2"
-                            ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
-                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                    </Grid>
+                    <local:ForwardMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -245,33 +59,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:MomentCardControl">
                     <base:CardControl x:Name="RootCard">
-                        <Grid Padding="12">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Margin="0,0,0,12"
-                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                MaxLines="1"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Tip}"
-                                TextTrimming="CharacterEllipsis" />
-                            <local:EmoteTextBlock
-                                Grid.Row="1"
-                                Margin="0,0,0,12"
-                                MaxLines="8"
-                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Description, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                            <moment:MomentPresenter
-                                Grid.Row="2"
-                                Margin="0,0,0,12"
-                                ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}"
-                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.NoData, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                            <local:MomentItemOperationPanel Grid.Row="3" ViewModel="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel}" />
-                        </Grid>
+                        <local:PersonalFullMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
                     </base:CardControl>
                 </ControlTemplate>
             </Setter.Value>

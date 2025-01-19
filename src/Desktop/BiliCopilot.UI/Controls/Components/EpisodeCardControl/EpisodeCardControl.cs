@@ -9,6 +9,11 @@ using Richasy.WinUI.Share.Base;
 namespace BiliCopilot.UI.Controls.Components;
 
 /// <summary>
+/// Episode card presenter.
+/// </summary>
+public abstract class EpisodeCardPresenter : LayoutUserControlBase<EpisodeItemViewModel>;
+
+/// <summary>
 /// 单集卡片控件.
 /// </summary>
 public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemViewModel>
