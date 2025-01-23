@@ -30,7 +30,14 @@ public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewMod
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
-        => _playerElement = (MediaPlayerElement)GetTemplateChild("PlayerElement");
+    {
+        var rootGrid = GetTemplateChild("RootGrid") as Grid;
+        _playerElement = new MediaPlayerElement();
+        _playerElement.HorizontalAlignment = HorizontalAlignment.Stretch;
+        _playerElement.VerticalAlignment = VerticalAlignment.Stretch;
+        _playerElement.AreTransportControlsEnabled = false;
+        rootGrid.Children.Add(_playerElement);
+    }
 
     /// <inheritdoc/>
     protected override async void OnViewModelChanged(NativePlayerViewModel? oldValue, NativePlayerViewModel? newValue)

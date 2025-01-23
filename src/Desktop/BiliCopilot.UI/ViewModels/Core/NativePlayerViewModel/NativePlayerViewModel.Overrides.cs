@@ -140,7 +140,7 @@ public sealed partial class NativePlayerViewModel
             await LoadDashVideoSourceAsync();
         }
 
-        _element.SetMediaPlayer(Player);
+        _element?.SetMediaPlayer(Player);
     }
 
     /// <inheritdoc/>
