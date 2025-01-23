@@ -91,13 +91,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NativePlayer">
-                    <Grid Background="Black">
-                        <MediaPlayerElement
-                            x:Name="PlayerElement"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            AreTransportControlsEnabled="False" />
-                    </Grid>
+                    <Grid x:Name="RootGrid" Background="Black" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
