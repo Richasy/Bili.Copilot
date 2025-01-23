@@ -1645,7 +1645,7 @@
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">False</PublishReadyToRun>
-    <PublishAot Condition="'$(Configuration)' == 'Debug'">False</PublishAot>
+    <PublishAot Condition="'$(Configuration)' == 'Debug'">True</PublishAot>
     <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>

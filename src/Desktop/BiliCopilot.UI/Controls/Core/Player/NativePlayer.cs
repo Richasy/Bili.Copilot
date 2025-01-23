@@ -30,7 +30,9 @@ public sealed partial class NativePlayer : LayoutControlBase<NativePlayerViewMod
 
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
-        => _playerElement = (MediaPlayerElement)GetTemplateChild("PlayerElement");
+    {
+        _playerElement = GetTemplateChild("PlayerElement") as MediaPlayerElement;
+    }
 
     /// <inheritdoc/>
     protected override async void OnViewModelChanged(NativePlayerViewModel? oldValue, NativePlayerViewModel? newValue)

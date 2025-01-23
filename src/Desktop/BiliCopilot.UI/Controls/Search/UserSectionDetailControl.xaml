@@ -18,7 +18,7 @@
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource UserLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:UserItemViewModel">
-                            <components:UserCardControl Style="{StaticResource DefaultUserCardStyle}" ViewModel="{x:Bind}" />
+                            <components:UserCardControl ViewModel="{x:Bind}" />
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
