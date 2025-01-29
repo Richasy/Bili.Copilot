@@ -146,6 +146,8 @@ internal static class GlobalDependencies
             .AddTransient<UserMomentDetailViewModel>()
             .AddTransient<DownloadViewModel>()
             .Build();
+
+        AgentStatics.GlobalKernel = Kernel;
     }
 
     public static IKernelBuilder AddDispatcherQueue(this IKernelBuilder kernelBuilder)
