@@ -3,7 +3,7 @@
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Pages.Overlay;
 

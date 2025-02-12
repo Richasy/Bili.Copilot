@@ -9,7 +9,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using System.ComponentModel;
 using System.Windows.Input;
 using Windows.System;

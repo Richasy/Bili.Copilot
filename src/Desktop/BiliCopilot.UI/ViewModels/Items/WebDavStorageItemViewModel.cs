@@ -6,7 +6,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 using WebDav;
 
 namespace BiliCopilot.UI.ViewModels.Items;

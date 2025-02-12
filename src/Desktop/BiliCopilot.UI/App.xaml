@@ -3,14 +3,14 @@
     x:Class="BiliCopilot.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="using:Richasy.WinUI.Share.Converters"
+    xmlns:converters="using:Richasy.WinUIKernel.Share.Converters"
     xmlns:local="using:BiliCopilot.UI"
     xmlns:localConverters="using:BiliCopilot.UI.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="ms-appx:///Richasy.WinUI.Share/Base/CustomNavigationViewResources.xaml" />
+                <ResourceDictionary Source="ms-appx:///Richasy.WinUIKernel.Share/Base/CustomNavigationViewResources.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Overrides.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/VideoCardControl/VideoCardControl.xaml" />

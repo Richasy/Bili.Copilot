@@ -9,7 +9,7 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using WebDav;
 using Windows.Graphics;
 using Windows.System;

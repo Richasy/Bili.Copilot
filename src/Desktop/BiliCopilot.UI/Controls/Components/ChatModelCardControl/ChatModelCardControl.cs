@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Items;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.AI.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
 using System.ComponentModel;
 
 namespace BiliCopilot.UI.Controls.Components;
@@ -119,7 +120,7 @@ public sealed partial class ChatModelCardControl : LayoutControlBase<ChatModelIt
         {
             Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.Delete),
             MinWidth = 160,
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = ResourceToolkit.GetThemeBrush("SystemFillColorCriticalBrush") },
+            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Delete, Foreground = this.Get<IResourceToolkit>().GetThemeBrush("SystemFillColorCriticalBrush") },
             Tag = nameof(ViewModel.DeleteCommand),
             Command = ViewModel.DeleteCommand,
         });

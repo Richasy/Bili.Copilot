@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using Richasy.WinUIKernel.Share.Toolkits;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -15,16 +16,16 @@ public sealed partial class AIViewModel
     {
         if (!FileToolkit.IsLocalDataExist("video_summarize.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("video_summarize.txt", PromptConstants.VideoSummaryPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("video_summarize.txt", PromptConstants.VideoSummaryPrompt, default, "Prompt");
         }
 
         if (!FileToolkit.IsLocalDataExist("video_evaluation.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("video_evaluation.txt", PromptConstants.VideoEvaluationPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("video_evaluation.txt", PromptConstants.VideoEvaluationPrompt, default, "Prompt");
         }
 
-        var videoSummarizePrompt = await FileToolkit.ReadLocalDataAsync<string>("video_summarize.txt", default, string.Empty, "Prompt");
-        var videoEvaluationPrompt = await FileToolkit.ReadLocalDataAsync<string>("video_evaluation.txt", default, string.Empty, "Prompt");
+        var videoSummarizePrompt = await this.Get<IFileToolkit>().ReadLocalDataAsync<string>("video_summarize.txt", default, string.Empty, "Prompt");
+        var videoEvaluationPrompt = await this.Get<IFileToolkit>().ReadLocalDataAsync<string>("video_evaluation.txt", default, string.Empty, "Prompt");
 
         var videoSummaryItem = new AIQuickItemViewModel(
             FluentIcons.Common.Symbol.TextBulletListSquareSparkle,
@@ -47,16 +48,16 @@ public sealed partial class AIViewModel
     {
         if (!FileToolkit.IsLocalDataExist("article_summarize.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("article_summarize.txt", PromptConstants.ArticleSummaryPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("article_summarize.txt", PromptConstants.ArticleSummaryPrompt, default, "Prompt");
         }
 
         if (!FileToolkit.IsLocalDataExist("article_evaluation.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("article_evaluation.txt", PromptConstants.ArticleEvaluationPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("article_evaluation.txt", PromptConstants.ArticleEvaluationPrompt, default, "Prompt");
         }
 
-        var articleSummarizePrompt = await FileToolkit.ReadLocalDataAsync<string>("article_summarize.txt", default, string.Empty, "Prompt");
-        var articleEvaluationPrompt = await FileToolkit.ReadLocalDataAsync<string>("article_evaluation.txt", default, string.Empty, "Prompt");
+        var articleSummarizePrompt = await this.Get<IFileToolkit>().ReadLocalDataAsync<string>("article_summarize.txt", default, string.Empty, "Prompt");
+        var articleEvaluationPrompt = await this.Get<IFileToolkit>().ReadLocalDataAsync<string>("article_evaluation.txt", default, string.Empty, "Prompt");
 
         var articleSummaryItem = new AIQuickItemViewModel(
             FluentIcons.Common.Symbol.DocumentOnePageSparkle,

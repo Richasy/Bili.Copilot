@@ -11,8 +11,8 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Search;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUI.Share.Base;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 

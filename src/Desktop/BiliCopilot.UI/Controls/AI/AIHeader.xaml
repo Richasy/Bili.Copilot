@@ -3,6 +3,8 @@
     x:Class="BiliCopilot.UI.Controls.AI.AIHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ai="using:Richasy.WinUIKernel.AI"
+    xmlns:aiVM="using:Richasy.WinUIKernel.AI.ViewModels"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -13,7 +15,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="ServiceItemTemplate" x:DataType="items:AIServiceItemViewModel">
+        <DataTemplate x:Key="ServiceItemTemplate" x:DataType="aiVM:ChatServiceItemViewModel">
             <Button
                 Padding="12,8"
                 HorizontalAlignment="Stretch"
@@ -25,7 +27,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <local:AILogo
+                    <ai:AILogo
                         Width="28"
                         Height="28"
                         HorizontalAlignment="Left"
@@ -51,7 +53,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
-            <local:AILogo
+            <ai:AILogo
                 Width="28"
                 Height="28"
                 VerticalAlignment="Center"
@@ -101,7 +103,7 @@
             SelectedItem="{x:Bind ViewModel.SelectedModel, Mode=TwoWay}"
             Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="items:ChatModelItemViewModel">
+                <DataTemplate x:DataType="aiVM:ChatModelItemViewModel">
                     <TextBlock Text="{x:Bind Name}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>

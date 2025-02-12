@@ -9,7 +9,8 @@ using BiliCopilot.UI.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -280,7 +281,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     private AppNavigationItemViewModel GetItem<TPage>(StringNames title, FluentIcons.Common.Symbol symbol, bool isSelected = false)
         where TPage : Page
     {
-        var isVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(TPage).Name}Visible", true);
+        var isVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(TPage).Name}Visible", true);
         return new AppNavigationItemViewModel(this, typeof(TPage), ResourceToolkit.GetLocalizedString(title), symbol, isSelected, isVisible: isVisible);
     }
 

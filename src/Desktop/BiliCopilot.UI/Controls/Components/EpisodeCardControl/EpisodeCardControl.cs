@@ -4,7 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Xaml.Input;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Components;
 

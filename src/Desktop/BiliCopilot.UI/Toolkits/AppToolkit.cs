@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using Richasy.WinUIKernel.Share.Toolkits;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -9,13 +10,13 @@ namespace BiliCopilot.UI.Toolkits;
 /// <summary>
 /// 应用工具组.
 /// </summary>
-public static partial class AppToolkit
+internal sealed partial class AppToolkit : IAppToolkit
 {
     /// <summary>
     /// 获取应用包版本.
     /// </summary>
     /// <returns>包版本.</returns>
-    public static string GetPackageVersion()
+    public string GetPackageVersion()
     {
         var appVersion = Package.Current.Id.Version;
         return $"{appVersion.Major}.{appVersion.Minor}.{appVersion.Build}.{appVersion.Revision}";
@@ -125,8 +126,18 @@ public static partial class AppToolkit
     /// 重置控件主题.
     /// </summary>
     /// <param name="element">控件.</param>
-    public static void ResetControlTheme(FrameworkElement element)
+    public void ResetControlTheme(FrameworkElement element)
         => element.RequestedTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+
+    /// <summary>
+    /// 获取当前主题.
+    /// </summary>
+    /// <returns><see cref="ApplicationTheme"/>.</returns>
+    public ApplicationTheme GetCurrentTheme()
+    {
+        var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
+        return localTheme == ElementTheme.Default ? App.Current.RequestedTheme : localTheme == ElementTheme.Light ? ApplicationTheme.Light : ApplicationTheme.Dark;
+    }
 
     /// <summary>
     /// 获取WebDav服务器地址.

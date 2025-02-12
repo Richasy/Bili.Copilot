@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels;
 
@@ -23,8 +23,8 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     protected LayoutPageViewModelBase()
     {
 #pragma warning disable CA2214
-        NavColumnWidth = SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", GetDefaultNavColumnWidth());
-        IsNavColumnManualHide = SettingsToolkit.ReadLocalSetting($"Is{GetPageKey()}NavColumnManualHide", false);
+        NavColumnWidth = this.Get<ISettingsToolkit>().ReadLocalSetting($"{GetPageKey()}NavColumnWidth", GetDefaultNavColumnWidth());
+        IsNavColumnManualHide = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{GetPageKey()}NavColumnManualHide", false);
 #pragma warning restore CA2214
     }
 
@@ -44,19 +44,19 @@ public abstract partial class LayoutPageViewModelBase : ViewModelBase
     /// 导航栏手动关闭时的行为.
     /// </summary>
     protected virtual void IsNavManualHideChanged(bool value)
-        => NavColumnWidth = value ? 0 : SettingsToolkit.ReadLocalSetting($"{GetPageKey()}NavColumnWidth", 240d);
+        => NavColumnWidth = value ? 0 : this.Get<ISettingsToolkit>().ReadLocalSetting($"{GetPageKey()}NavColumnWidth", 240d);
 
     partial void OnNavColumnWidthChanged(double value)
     {
         if (value > 0)
         {
-            SettingsToolkit.WriteLocalSetting($"{GetPageKey()}NavColumnWidth", value);
+            this.Get<ISettingsToolkit>().WriteLocalSetting($"{GetPageKey()}NavColumnWidth", value);
         }
     }
 
     partial void OnIsNavColumnManualHideChanged(bool value)
     {
-        SettingsToolkit.WriteLocalSetting($"Is{GetPageKey()}NavColumnManualHide", value);
+        this.Get<ISettingsToolkit>().WriteLocalSetting($"Is{GetPageKey()}NavColumnManualHide", value);
         IsNavManualHideChanged(value);
     }
 }

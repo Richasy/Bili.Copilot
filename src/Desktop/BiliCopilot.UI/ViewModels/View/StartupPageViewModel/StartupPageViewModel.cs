@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -36,7 +36,7 @@ public sealed partial class StartupPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task InitializeAsync(Image qrcodeImageControl)
     {
-        Version = AppToolkit.GetPackageVersion();
+        Version = this.Get<IAppToolkit>().GetPackageVersion();
         QRCodeImage = qrcodeImageControl;
         await ReloadQRCodeAsync();
     }

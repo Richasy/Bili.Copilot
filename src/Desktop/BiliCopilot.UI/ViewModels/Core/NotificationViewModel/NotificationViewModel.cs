@@ -4,7 +4,7 @@ using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Moment;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 

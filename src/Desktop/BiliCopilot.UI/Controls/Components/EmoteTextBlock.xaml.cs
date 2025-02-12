@@ -4,7 +4,7 @@ using BiliCopilot.UI.Forms;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Models.Appearance;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using System.Text.RegularExpressions;
 
 namespace BiliCopilot.UI.Controls.Components;

@@ -6,7 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Windowing;
 using Richasy.BiliKernel.Models.Appearance;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using Windows.Graphics;
 using WinUIEx;
 

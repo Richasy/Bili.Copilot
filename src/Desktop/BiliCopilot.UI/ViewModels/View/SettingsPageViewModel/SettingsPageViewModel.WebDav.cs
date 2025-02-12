@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
+using Richasy.WinUIKernel.Share.Toolkits;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -17,7 +18,7 @@ public sealed partial class SettingsPageViewModel
     {
         IsWebDavEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
         WebDavConfigs.Clear();
-        var configList = await FileToolkit.ReadLocalDataAsync("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
+        var configList = await this.Get<IFileToolkit>().ReadLocalDataAsync("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
         IsWebDavEmpty = configList.Count == 0;
         if (!IsWebDavEmpty)
         {
@@ -34,7 +35,7 @@ public sealed partial class SettingsPageViewModel
     private async Task AddWebDavConfigAsync(WebDavConfig webDavConfig)
     {
         WebDavConfigs.Add(webDavConfig);
-        await FileToolkit.WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
+        await this.Get<IFileToolkit>().WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
         IsWebDavEmpty = false;
 
         SelectedWebDav ??= WebDavConfigs.FirstOrDefault();
@@ -51,7 +52,7 @@ public sealed partial class SettingsPageViewModel
 
         WebDavConfigs.Remove(sourceConfig);
         WebDavConfigs.Add(config);
-        await FileToolkit.WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
+        await this.Get<IFileToolkit>().WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
         IsWebDavEmpty = WebDavConfigs.Count == 0;
         SelectedWebDav = config;
     }
@@ -60,7 +61,7 @@ public sealed partial class SettingsPageViewModel
     private async Task RemoveWebDavConfigAsync(WebDavConfig webDavConfig)
     {
         WebDavConfigs.Remove(webDavConfig);
-        await FileToolkit.WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
+        await this.Get<IFileToolkit>().WriteLocalDataAsync("__webdav.json", WebDavConfigs.ToList(), GlobalSerializeContext.Default.ListWebDavConfig);
         IsWebDavEmpty = WebDavConfigs.Count == 0;
 
         if (SelectedWebDav?.Equals(webDavConfig) == true)

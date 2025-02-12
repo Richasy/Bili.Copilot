@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.User;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.System;
 
 namespace BiliCopilot.UI.ViewModels.Components;

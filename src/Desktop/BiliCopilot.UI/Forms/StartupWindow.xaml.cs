@@ -8,7 +8,7 @@ using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media.Animation;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;

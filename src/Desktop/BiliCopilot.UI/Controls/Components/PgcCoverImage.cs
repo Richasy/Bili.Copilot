@@ -2,7 +2,7 @@
 
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUI.Share.Effects;
 
 namespace BiliCopilot.UI.Controls.Components;

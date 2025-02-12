@@ -7,8 +7,9 @@ using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Richasy.WinUI.Share.Base;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using System.Net;
 using WebDav;
 
@@ -45,7 +46,7 @@ public sealed partial class WebDavPageViewModel : ViewModelBase
             return;
         }
 
-        var configList = await FileToolkit.ReadLocalDataAsync<List<WebDavConfig>>("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
+        var configList = await this.Get<IFileToolkit>().ReadLocalDataAsync<List<WebDavConfig>>("__webdav.json", GlobalSerializeContext.Default.ListWebDavConfig, "[]");
         var config = configList.FirstOrDefault(p => p.Id.Equals(localConfigId, StringComparison.Ordinal));
         if (config is null)
         {

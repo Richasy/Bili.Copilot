@@ -4,7 +4,7 @@ using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Navigation;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using WebDav;
 
 namespace BiliCopilot.UI.Pages.Overlay;

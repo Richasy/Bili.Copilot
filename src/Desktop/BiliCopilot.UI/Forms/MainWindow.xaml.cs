@@ -3,10 +3,11 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
+using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
@@ -26,6 +27,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
     private const int WindowMinHeight = 480;
     private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
+    private bool _shouldExit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -113,30 +115,39 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         _isFirstActivated = false;
     }
 
-    private void OnClosed(object sender, WindowEventArgs e)
+    private async void OnClosed(object sender, WindowEventArgs e)
     {
-        this.Get<AppViewModel>().IsClosed = true;
-        RootLayout.ViewModel.Back();
-
-        foreach (var item in this.Get<AppViewModel>().Windows)
+        if (!_shouldExit)
         {
-            if (item is not MainWindow)
+            e.Handled = true;
+            this.Get<AppViewModel>().IsClosed = true;
+            RootLayout.ViewModel.Back();
+            foreach (var item in this.Get<AppViewModel>().Windows)
             {
-                item.Close();
+                if (item is not MainWindow)
+                {
+                    item.Close();
+                }
             }
+
+            _shouldExit = true;
+            this.Hide();
+
+            var hideWhenClose = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
+            if (!hideWhenClose)
+            {
+                Activated -= OnActivated;
+                Closed -= OnClosed;
+
+                GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
+                await this.Get<SettingsPageViewModel>().CheckSaveServicesAsync();
+            }
+
+            GlobalHook.Stop();
+            SaveCurrentWindowStats();
+            App.Current?.Exit();
+            Environment.Exit(0);
         }
-
-        var hideWhenClose = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
-        if (!hideWhenClose)
-        {
-            Activated -= OnActivated;
-            Closed -= OnClosed;
-
-            GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
-        }
-
-        GlobalHook.Stop();
-        SaveCurrentWindowStats();
     }
 
     private void OnWindowKeyDown(object? sender, PlayerKeyboardEventArgs e)

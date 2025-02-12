@@ -7,7 +7,7 @@ using Humanizer;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Models.Comment;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Items;

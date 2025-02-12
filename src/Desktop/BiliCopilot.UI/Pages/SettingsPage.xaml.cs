@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliAgent.Models;
-using BiliCopilot.UI.Controls.AI;
-using BiliCopilot.UI.Controls.Settings;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Richasy.WinUI.Share.Base;
+using Microsoft.UI.Xaml.Navigation;
+using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Pages;
 
@@ -27,8 +25,8 @@ public sealed partial class SettingsPage : SettingsPageBase
     }
 
     /// <inheritdoc/>
-    protected override void OnPageUnloaded()
-        => ViewModel.SaveOnlineChatServicesCommand.Execute(default);
+    protected override async void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        => await ViewModel.CheckSaveServicesAsync();
 
     private void OnJoinGroupButtonClick(object sender, RoutedEventArgs e)
         => FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
@@ -45,44 +43,25 @@ public sealed partial class SettingsPage : SettingsPageBase
         {
             GenericContainer.Visibility = Visibility.Collapsed;
             AIContainer.Visibility = Visibility.Visible;
+            await ViewModel.InitializeChatServicesAsync();
             if (AIPanel.Children.Count == 0)
             {
-                await LoadAIServicesAsync();
+                await LoadChatControlsAsync();
             }
         }
     }
 
-    private async Task LoadAIServicesAsync()
+    private async Task LoadChatControlsAsync()
     {
-        await ViewModel.InitializeOnlineChatServicesCommand.ExecuteAsync(default);
-        foreach (var item in ViewModel.OnlineChatServices)
+        foreach (var vm in ViewModel.ChatServices)
         {
-            var section = item.ProviderType switch
+            var control = vm.GetSettingControl();
+
+            if (control != null)
             {
-                ProviderType.Moonshot
-                or ProviderType.ZhiPu
-                or ProviderType.LingYi
-                or ProviderType.DeepSeek
-                or ProviderType.OpenRouter
-                or ProviderType.Groq
-                or ProviderType.Mistral
-                or ProviderType.TogetherAI
-                or ProviderType.Perplexity
-                or ProviderType.SiliconFlow
-                or ProviderType.Hunyuan
-                or ProviderType.Spark
-                or ProviderType.XAI
-                or ProviderType.Qwen => (AIServiceConfigControlBase)new ModelClientConfigSettingSection { ViewModel = item },
-                ProviderType.Anthropic
-                or ProviderType.Gemini
-                or ProviderType.Ollama => new ModelClientEndpointConfigSettingSection { ViewModel = item },
-                ProviderType.OpenAI => new OpenAIChatConfigSettingSection { ViewModel = item },
-                ProviderType.AzureOpenAI => new AzureOpenAIChatConfigSettingSection { ViewModel = item },
-                ProviderType.Ernie => new ErnieChatConfigSettingSection { ViewModel = item },
-                ProviderType.Doubao => new DouBaoChatConfigSettingSection { ViewModel = item },
-                _ => throw new NotImplementedException(),
-            };
-            AIPanel.Children.Add(section);
+                await vm.InitializeCommand.ExecuteAsync(default);
+                AIPanel.Children.Add(control);
+            }
         }
     }
 }

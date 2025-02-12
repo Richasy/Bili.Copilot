@@ -9,7 +9,7 @@ using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Article;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Article;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Components;
 

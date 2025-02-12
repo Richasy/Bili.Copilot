@@ -3,7 +3,7 @@
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Graphics.Canvas;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 using System.Diagnostics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security;

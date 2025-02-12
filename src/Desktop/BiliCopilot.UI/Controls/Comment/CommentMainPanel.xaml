@@ -3,7 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Comment.CommentMainPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:base="using:Richasy.WinUI.Share.Base"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:components1="using:BiliCopilot.UI.ViewModels.Components"
     xmlns:converters="using:BiliCopilot.UI.Converters"

@@ -6,7 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.Media;
 using Windows.Storage.Streams;
 using WinUIEx;

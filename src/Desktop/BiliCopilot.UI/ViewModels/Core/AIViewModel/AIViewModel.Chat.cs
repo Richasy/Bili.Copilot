@@ -3,12 +3,16 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
+using Richasy.AgentKernel.Chat;
+using Richasy.AgentKernel;
 using Richasy.BiliKernel.Bili.Comment;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
+using RichasyKernel;
 using System.Text.RegularExpressions;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -321,8 +325,8 @@ public sealed partial class AIViewModel
 
             var useStreaming = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
             var result = useStreaming
-                ? await _client.SendMessageAsync(SelectedService.ProviderType, SelectedModel.Id, prompt, OnStreaming, _generateCancellationTokenSource.Token)
-                : await _client.SendMessageAsync(SelectedService.ProviderType, SelectedModel.Id, prompt, cancellationToken: _generateCancellationTokenSource.Token);
+                ? await SendMessageInternalAsync(SelectedService.ProviderType, prompt, OnStreaming, _generateCancellationTokenSource.Token)
+                : await SendMessageInternalAsync(SelectedService.ProviderType, prompt, cancellationToken: _generateCancellationTokenSource.Token);
             TempResult = string.Empty;
 
             if (_generateCancellationTokenSource?.IsCancellationRequested != false)
@@ -346,6 +350,55 @@ public sealed partial class AIViewModel
         {
             IsGenerating = false;
         }
+    }
+
+    private async Task<string> SendMessageInternalAsync(
+        ChatProviderType type,
+        string? message,
+        Action<string>? streamingAction = null,
+        CancellationToken cancellationToken = default)
+    {
+        var messages = new List<ChatMessage>();
+        var options = new ChatOptions
+        {
+            ModelId = SelectedModel.Id,
+        };
+        var config = await this.Get<IChatConfigManager>().GetServiceConfigAsync(type, SelectedModel.Data);
+        var service = GlobalDependencies.Kernel.GetRequiredService<IChatService>(type.ToString());
+        service.Initialize(config);
+        messages.Add(new(ChatRole.User, message));
+        var responseContent = string.Empty;
+        try
+        {
+            if (streamingAction is null)
+            {
+                var response = await service.Client!.CompleteAsync(messages, options, cancellationToken).ConfigureAwait(false);
+                responseContent = response.Choices.FirstOrDefault()?.Text ?? string.Empty;
+            }
+            else
+            {
+                await foreach (var partialResponse in service.Client!.CompleteStreamingAsync(messages, options, cancellationToken).ConfigureAwait(false))
+                {
+                    if (!string.IsNullOrEmpty(partialResponse.Text))
+                    {
+                        streamingAction?.Invoke(partialResponse.Text);
+                    }
+
+                    responseContent += partialResponse.Text;
+                }
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"{type} | {SelectedModel.Id} 发生错误");
+            throw;
+        }
+
+        return !string.IsNullOrEmpty(responseContent) ? responseContent : throw new KernelException($"{type} | {SelectedModel.Id} 返回空响应，具体错误请查看日志");
     }
 
     private string GetArticlePlainText()
