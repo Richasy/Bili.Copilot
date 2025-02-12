@@ -2,7 +2,8 @@
 
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
 
 namespace BiliCopilot.UI.Controls.AI;
 
@@ -28,7 +29,7 @@ public sealed partial class CustomPromptDialog : ContentDialog
     private async void OnLoadedAsync(object sender, RoutedEventArgs e)
     {
         var fileName = $"{_promptId}.txt";
-        PromptBox.Text = await FileToolkit.ReadLocalDataAsync<string>(fileName, default, string.Empty, "Prompt");
+        PromptBox.Text = await this.Get<IFileToolkit>().ReadLocalDataAsync<string>(fileName, default, string.Empty, "Prompt");
     }
 
     private async void OnPrimaryButtonClickAsync(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -41,7 +42,7 @@ public sealed partial class CustomPromptDialog : ContentDialog
         }
 
         var fileName = $"{_promptId}.txt";
-        await FileToolkit.WriteLocalDataAsync(fileName, PromptBox.Text, default, "Prompt");
+        await this.Get<IFileToolkit>().WriteLocalDataAsync(fileName, PromptBox.Text, default, "Prompt");
         Hide();
     }
 }

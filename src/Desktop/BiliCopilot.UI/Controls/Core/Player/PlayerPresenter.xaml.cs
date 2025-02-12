@@ -2,7 +2,7 @@
 
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.WinUI;
-using Richasy.WinUI.Share.Base;
+using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Core;
 

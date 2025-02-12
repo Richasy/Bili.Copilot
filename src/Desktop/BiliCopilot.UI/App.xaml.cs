@@ -24,7 +24,7 @@ public partial class App : Application
 {
     private const string Id = "Richasy.BiliCopilot";
     private readonly DispatcherQueue _dispatcherQueue;
-    private readonly AppNotificationManager _notificationManager;
+    private AppNotificationManager _notificationManager;
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -140,6 +140,7 @@ public partial class App : Application
         TrayIcon?.Dispose();
         TrayIcon = null;
         _notificationManager?.Unregister();
+        _notificationManager = null;
         Exit();
     }
 

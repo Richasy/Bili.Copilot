@@ -1,17 +1,18 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliAgent.Interfaces;
-using BiliAgent.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Richasy.AgentKernel;
+using Richasy.AgentKernel.Chat;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
-using Richasy.WinUI.Share.Base;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.AI.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -25,11 +26,9 @@ public sealed partial class AIViewModel : ViewModelBase
     /// Initializes a new instance of the <see cref="AIViewModel"/> class.
     /// </summary>
     public AIViewModel(
-        IAgentClient client,
         ILogger<AIViewModel> logger,
         DispatcherQueue dispatcherQueue)
     {
-        _client = client;
         _logger = logger;
         _dispatcherQueue = dispatcherQueue;
     }
@@ -81,7 +80,7 @@ public sealed partial class AIViewModel : ViewModelBase
         SelectedModel = default;
         _dispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            if (Services is List<AIServiceItemViewModel> services)
+            if (Services is List<ChatServiceItemViewModel> services)
             {
                 services.Clear();
                 Services = default;
@@ -98,15 +97,15 @@ public sealed partial class AIViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReloadAvailableServicesAsync()
     {
-        await ConfigToolkit.ResetConfigFactoryAsync();
-        var providers = Enum.GetValues<ProviderType>();
-        var services = new List<AIServiceItemViewModel>();
+        var providers = Enum.GetValues<ChatProviderType>();
+        var services = new List<ChatServiceItemViewModel>();
+        var chatConfigManager = this.Get<IChatConfigManager>();
         foreach (var p in providers)
         {
-            var service = await ConfigToolkit.GetChatConfigAsync(p);
-            if (service is not null && service.IsValid())
+            var config = await chatConfigManager.GetChatConfigAsync(p);
+            if (config is not null && config.IsValid())
             {
-                services.Add(new AIServiceItemViewModel(p));
+                services.Add(new ChatServiceItemViewModel(p));
             }
         }
 
@@ -115,14 +114,14 @@ public sealed partial class AIViewModel : ViewModelBase
 
         if (!IsNoService)
         {
-            var lastSelectService = SettingsToolkit.ReadLocalSetting(UI.Models.Constants.SettingNames.LastSelectedAIService, ProviderType.OpenAI.ToString());
+            var lastSelectService = SettingsToolkit.ReadLocalSetting(UI.Models.Constants.SettingNames.LastSelectedAIService, ChatProviderType.OpenAI.ToString());
             var service = Services.FirstOrDefault(p => p.ProviderType.ToString() == lastSelectService) ?? Services.FirstOrDefault();
-            SelectService(service);
+            SelectServiceCommand.Execute(service);
         }
     }
 
     [RelayCommand]
-    private void SelectService(AIServiceItemViewModel service)
+    private async Task SelectServiceAsync(ChatServiceItemViewModel service)
     {
         if (SelectedService == service)
         {
@@ -138,12 +137,16 @@ public sealed partial class AIViewModel : ViewModelBase
         }
 
         SettingsToolkit.WriteLocalSetting(UI.Models.Constants.SettingNames.LastSelectedAIService, service.ProviderType.ToString());
-        var models = _client.GetModels(service.ProviderType);
-        Models = models.Select(p => new ChatModelItemViewModel(p)).ToList();
+        var config = await this.Get<IChatConfigManager>().GetChatConfigAsync(service.ProviderType);
+        var customModels = config?.CustomModels ?? [];
+        var preModels = GlobalDependencies.Kernel.GetRequiredService<IChatService>(service.ProviderType.ToString()).GetPredefinedModels();
+        var models = preModels.ToList();
+        models.AddRange(customModels);
+        Models = models.ConvertAll(p => new ChatModelItemViewModel(p));
         IsNoModel = Models.Count == 0;
         if (!IsNoModel)
         {
-            var lastSelectModel = SettingsToolkit.ReadLocalSetting($"LastSelected{service.ProviderType}Model", string.Empty);
+            var lastSelectModel = this.Get<ISettingsToolkit>().ReadLocalSetting($"LastSelected{service.ProviderType}Model", string.Empty);
             var model = Models.FirstOrDefault(p => p.Id == lastSelectModel) ?? Models.FirstOrDefault();
             SelectModel(model);
         }
@@ -257,7 +260,7 @@ public sealed partial class AIViewModel : ViewModelBase
     {
         if (value is not null && SelectedService is not null)
         {
-            SettingsToolkit.WriteLocalSetting($"LastSelected{SelectedService.ProviderType}Model", value.Id);
+            this.Get<ISettingsToolkit>().WriteLocalSetting($"LastSelected{SelectedService.ProviderType}Model", value.Id);
         }
     }
 }

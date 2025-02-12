@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliAgent.Core;
-using BiliAgent.Interfaces;
-using BiliAgent.Models;
+using BiliCopilot.UI.Extensions;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
@@ -10,7 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Richasy.AgentKernel;
 using Richasy.BiliKernel;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.AI;
+using Richasy.WinUIKernel.Share;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using RichasyKernel;
 using Serilog;
 using System.Diagnostics.CodeAnalysis;
@@ -34,6 +36,11 @@ internal static class GlobalDependencies
 
         Kernel = Kernel.CreateBuilder()
             .AddSerilog()
+            .AddDispatcherQueue()
+            .AddShareToolkits()
+            .AddConfigManager()
+            .AddXamlRootProvider()
+
             .AddBiliClient()
             .AddBiliAuthenticator()
             .AddWinUICookiesResolver()
@@ -60,11 +67,9 @@ internal static class GlobalDependencies
             .AddSubtitleService()
             .AddPlayerService()
 
-            .AddDispatcherQueue()
-            .AddAgentProvider()
-
             .AddOpenAIChatService()
             .AddAzureOpenAIChatService()
+            .AddAzureAIChatService()
             .AddXAIChatService()
             .AddZhiPuChatService()
             .AddLingYiChatService()
@@ -84,29 +89,6 @@ internal static class GlobalDependencies
             .AddOllamaChatService()
             .AddMistralChatService()
             .AddPerplexityChatService()
-
-            .AddQwenChatModelProvider()
-            .AddAzureOpenAIChatModelProvider()
-            .AddAnthropicChatModelProvider()
-            .AddErnieChatModelProvider()
-            .AddDeepSeekChatModelProvider()
-            .AddGeminiChatModelProvider()
-            .AddGroqChatModelProvider()
-            .AddSparkChatModelProvider()
-            .AddLingYiChatModelProvider()
-            .AddMoonshotChatModelProvider()
-            .AddOllamaChatModelProvider()
-            .AddOpenAIChatModelProvider()
-            .AddOpenRouterChatModelProvider()
-            .AddSiliconFlowChatModelProvider()
-            .AddHunyuanChatModelProvider()
-            .AddTogetherAIChatModelProvider()
-            .AddDoubaoChatModelProvider()
-            .AddXAIChatModelProvider()
-            .AddDoubaoChatModelProvider()
-            .AddMistralChatModelProvider()
-            .AddZhiPuChatModelProvider()
-            .AddPerplexityChatModelProvider()
 
             .AddTransient<CommentMainViewModel>()
             .AddSingleton<PinnerViewModel>()
@@ -145,23 +127,47 @@ internal static class GlobalDependencies
             .AddTransient<LiveChatSectionDetailViewModel>()
             .AddTransient<UserMomentDetailViewModel>()
             .AddTransient<DownloadViewModel>()
+            .AddNotificationViewModel()
             .Build();
 
-        AgentStatics.GlobalKernel = Kernel;
+        Kernel.InitializeShareKernel();
+        Kernel.InitializeAIKernel();
     }
 
-    public static IKernelBuilder AddDispatcherQueue(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddDispatcherQueue(this IKernelBuilder builder)
     {
-        kernelBuilder.Services.AddSingleton<DispatcherQueue>(_ => DispatcherQueue.GetForCurrentThread());
-        return kernelBuilder;
+        var queue = DispatcherQueue.GetForCurrentThread();
+        builder.Services.AddSingleton(queue);
+        return builder;
     }
 
-    public static IKernelBuilder AddAgentProvider(this IKernelBuilder kernelBuilder)
+    public static IKernelBuilder AddNotificationViewModel(this IKernelBuilder builder)
     {
-        var chatProviderFactory = new AgentProviderFactory(new ChatClientConfiguration());
-        kernelBuilder.Services.AddSingleton<IAgentProviderFactory>(chatProviderFactory)
-            .AddSingleton<IAgentClient, AgentClient>();
-        return kernelBuilder;
+        builder.Services.AddSingleton<INotificationViewModel, NotificationViewModel>();
+        return builder;
+    }
+
+    public static IKernelBuilder AddShareToolkits(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IAppToolkit, AppToolkit>()
+            .AddSingleton<ISettingsToolkit, SettingsToolkit>()
+            .AddSingleton<IFileToolkit, FileToolkit>()
+            .AddSingleton<IResourceToolkit, ResourceToolkit>()
+            .AddSingleton<IFontToolkit, SharedFontToolkit>();
+        return builder;
+    }
+
+    public static IKernelBuilder AddXamlRootProvider(this IKernelBuilder builder)
+    {
+        builder.Services.AddSingleton<IXamlRootProvider, XamlRootProvider>();
+        return builder;
+    }
+
+    public static IKernelBuilder AddConfigManager(this IKernelBuilder builder)
+    {
+        builder.Services
+            .AddSingleton<IChatConfigManager, ChatConfigManager>();
+        return builder;
     }
 
     public static IKernelBuilder AddSingleton<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(this IKernelBuilder kernelBuilder)
@@ -195,19 +201,7 @@ internal static class GlobalDependencies
         return builder;
     }
 
-    public static T Get<T>(this Window window)
-        where T : class
-        => Kernel.GetRequiredService<T>();
-
-    public static T Get<T>(this FrameworkElement element)
-        where T : class
-        => Kernel.GetRequiredService<T>();
-
-    public static T Get<T>(this Page page)
-        where T : class
-        => Kernel.GetRequiredService<T>();
-
-    public static T Get<T>(this ViewModelBase vm)
+    public static T Get<T>(this object ele)
         where T : class
         => Kernel.GetRequiredService<T>();
 

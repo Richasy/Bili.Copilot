@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
@@ -14,7 +13,6 @@ namespace BiliCopilot.UI.ViewModels.View;
 public sealed partial class SettingsPageViewModel
 {
     private bool _isInitialized;
-    private bool _shouldSaveChatServices;
 
     [ObservableProperty]
     private ElementTheme _appTheme;
@@ -194,9 +192,4 @@ public sealed partial class SettingsPageViewModel
     /// WebDav 配置.
     /// </summary>
     public ObservableCollection<WebDavConfig> WebDavConfigs { get; } = new();
-
-    /// <summary>
-    /// AI服务.
-    /// </summary>
-    public ObservableCollection<AIServiceItemViewModel> OnlineChatServices { get; } = new();
 }

@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Danmaku;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -194,7 +195,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReloadFontsAsync()
     {
-        var fonts = await FontToolkit.GetFontsAsync();
+        var fonts = await this.Get<IFontToolkit>().GetFontsAsync();
         Fonts = fonts.ToList();
         var localFont = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuFontFamily, "Segoe UI");
         if (!Fonts.Contains(localFont))

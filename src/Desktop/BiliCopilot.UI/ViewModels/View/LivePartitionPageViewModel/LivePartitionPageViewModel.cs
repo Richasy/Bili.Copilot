@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models;
+using Richasy.WinUIKernel.Share.Toolkits;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -39,7 +40,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
     {
         base.IsNavManualHideChanged(value);
         IsSubNavEnabled = !value && SelectedMainSection?.Children?.Count > 0;
-        SubNavColumnWidth = !IsSubNavEnabled ? 0 : SettingsToolkit.ReadLocalSetting($"{GetPageKey()}SubNavColumnWidth", 200d);
+        SubNavColumnWidth = !IsSubNavEnabled ? 0 : this.Get<ISettingsToolkit>().ReadLocalSetting($"{GetPageKey()}SubNavColumnWidth", 200d);
     }
 
     [RelayCommand]
@@ -219,7 +220,7 @@ public sealed partial class LivePartitionPageViewModel : LayoutPageViewModelBase
     {
         if (value > 0)
         {
-            SettingsToolkit.WriteLocalSetting($"{GetPageKey()}SubNavColumnWidth", value);
+            this.Get<ISettingsToolkit>().WriteLocalSetting($"{GetPageKey()}SubNavColumnWidth", value);
         }
     }
 }

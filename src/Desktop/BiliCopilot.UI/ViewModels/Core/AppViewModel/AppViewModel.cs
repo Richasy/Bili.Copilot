@@ -8,8 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.Base;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Storage;
@@ -182,7 +183,7 @@ public sealed partial class AppViewModel : ViewModelBase
     private void CheckUpate()
     {
         var localVersion = SettingsToolkit.ReadLocalSetting(SettingNames.AppVersion, string.Empty);
-        var currentVersion = AppToolkit.GetPackageVersion();
+        var currentVersion = this.Get<IAppToolkit>().GetPackageVersion();
         if (localVersion != currentVersion)
         {
             SettingsToolkit.WriteLocalSetting(SettingNames.AppVersion, currentVersion);
@@ -197,7 +198,7 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private async Task ShowUpdateAsync()
     {
-        var packVersion = AppToolkit.GetPackageVersion();
+        var packVersion = this.Get<IAppToolkit>().GetPackageVersion();
         var url = $"https://github.com/Richasy/Bili.Copilot/releases/tag/v{packVersion}";
         await Launcher.LaunchUriAsync(new Uri(url));
         HideUpdate();

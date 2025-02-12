@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliAgent.Interfaces;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
@@ -8,6 +7,7 @@ using Microsoft.UI.Dispatching;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.Subtitle;
+using Richasy.WinUIKernel.AI.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -17,7 +17,6 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class AIViewModel
 {
     private readonly ILogger<AIViewModel> _logger;
-    private readonly IAgentClient _client;
     private readonly DispatcherQueue _dispatcherQueue;
 
     private VideoPlayerView? _videoView;
@@ -31,7 +30,7 @@ public sealed partial class AIViewModel
     private CancellationTokenSource? _generateCancellationTokenSource;
 
     [ObservableProperty]
-    private List<AIServiceItemViewModel> _services;
+    private List<ChatServiceItemViewModel> _services;
 
     [ObservableProperty]
     private List<ChatModelItemViewModel> _models;
@@ -43,7 +42,7 @@ public sealed partial class AIViewModel
     private List<AIQuickItemViewModel> _morePrompts;
 
     [ObservableProperty]
-    private AIServiceItemViewModel _selectedService;
+    private ChatServiceItemViewModel _selectedService;
 
     [ObservableProperty]
     private ChatModelItemViewModel _selectedModel;

@@ -33,15 +33,7 @@
 
 ### 商店下载（推荐）
 
-<p align="left">
-  <a title="从 Microsoft Store 中获取" href="https://www.microsoft.com/store/apps/9MVFJLPH517M?launch=true&mode=full" target="_blank">
-    <picture>
-      <source srcset="https://get.microsoft.com/images/en-US%20light.svg" media="(prefers-color-scheme: dark)" />
-      <source srcset="https://get.microsoft.com/images/en-US%20dark.svg" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" />
-      <img src="https://get.microsoft.com/images/en-US%20dark.svg" width=160 />
-    </picture>
-  </a>
-</p>
+[从 Microsoft Store 中获取](https://www.microsoft.com/store/apps/9MVFJLPH517M?launch=true&mode=full)
 
 ### 侧加载
 
@@ -52,18 +44,18 @@
 
 ## 开发
 
-哔哩助理拆分了多个模块的代码至独立仓库中，以便于其他开发者参考和使用。
+在开发哔哩助理的过程中，抽离出了多个单独组件，可以被其它开发者集成到自己的项目中：
 
 - [bili-kernel](https://github.com/Richasy/bili-kernel)  
-  哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，便于移植和二次开发。
-- [semantic-kernel](https://github.com/Richasy/semantic-kernel)  
-  基于 [microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel) 进行二次开发，支持更多国内大模型。
-- [mpv-winui](https://github.com/Richasy/bili-kernel)  
+  哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，完全的AOT支持，便于移植和二次开发。
+- [agent-kernel](https://github.com/Richasy/agent-kernel)  
+  小幻助理 / 小幻阅读 / 哔哩助理 共享的 AI 基础库，支持20余种AI服务，并提供完全的 AOT 支持。
+- [mpv-winui](https://github.com/Richasy/mpv-winui)  
   哔哩助理的核心播放器之一，将 MPV 集成进 WinUI3 以实现良好的播放体验。
-- [WinUI.Share](https://github.com/Richasy/WinUI.Share)  
+- [winui-kernel](https://github.com/Richasy/winui-kernel)  
   我在多个 WinAppSDK 项目之间共用的一些基础样式及实现。
 
-这四个仓库以子模块的形式集成在哔哩助理开发项目中，所以在克隆本仓库时，需要同时克隆子仓库。
+除 mpv-winui 外，其它都以 nuget 形式集成在项目内
 
 第一次克隆时可以运行下面的命令：
 
@@ -77,14 +69,11 @@ git clone --recurse-submodules https://github.com/Richasy/Bili.Copilot.git
 git submodule update --init --recursive
 ```
 
-在克隆之后，你需要在命令行中进入克隆的三个子模块的目录，切换它们的 HEAD，这是对应的列表：
+在克隆之后，你需要在命令行中进入克隆的子模块的目录，切换 HEAD，这是对应的列表：
 
 |模块|路径|HEAD (分支)|
 |-|-|-|
-|bili-kernel|src\Libs\bili-kernel|main|
-|semantic-kernel|src\Libs\semantic-kernel|dev|
 |mpv-winui|src\Libs\mpv-winui|main|
-|WinUI.Share|src\Libs\WinUI.Share|main|
 
 切换分支完成后，还需要下载 mpv / ffmpeg 到对应的目录：
 

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.ViewModels.Items;
+using Richasy.WinUIKernel.AI.ViewModels;
 
 namespace BiliCopilot.UI.Controls.AI;
 
@@ -16,7 +16,7 @@ public sealed partial class AIHeader : AIControlBase
 
     private void OnServiceItemClick(object sender, RoutedEventArgs e)
     {
-        var context = (sender as FrameworkElement).DataContext as AIServiceItemViewModel;
+        var context = (sender as FrameworkElement).DataContext as ChatServiceItemViewModel;
         ViewModel.SelectServiceCommand.Execute(context);
         ServiceFlyout.Hide();
     }

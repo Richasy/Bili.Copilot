@@ -7,8 +7,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
-using Richasy.WinUI.Share.Base;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
+using Richasy.WinUIKernel.Share.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -43,7 +44,7 @@ public sealed partial class PinnerViewModel : ViewModelBase
     private async Task InitializeAsync()
     {
         var currentUserId = this.Get<IBiliTokenResolver>().GetToken().UserId;
-        var data = await FileToolkit.ReadLocalDataAsync(string.Format(PinFileName, currentUserId), GlobalSerializeContext.Default.ListPinItem, "[]", PinFolderName);
+        var data = await this.Get<IFileToolkit>().ReadLocalDataAsync(string.Format(PinFileName, currentUserId), GlobalSerializeContext.Default.ListPinItem, "[]", PinFolderName);
         Items.Clear();
         if (data.Count > 0)
         {
@@ -76,7 +77,7 @@ public sealed partial class PinnerViewModel : ViewModelBase
 
     private async Task SaveDataAsync()
     {
-        await FileToolkit.WriteLocalDataAsync(string.Format(PinFileName, this.Get<IBiliTokenResolver>().GetToken().UserId), Items.ToList(), GlobalSerializeContext.Default.ListPinItem, PinFolderName);
+        await this.Get<IFileToolkit>().WriteLocalDataAsync(string.Format(PinFileName, this.Get<IBiliTokenResolver>().GetToken().UserId), Items.ToList(), GlobalSerializeContext.Default.ListPinItem, PinFolderName);
         IsEmpty = Items.Count == 0;
     }
 }

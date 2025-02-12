@@ -7,7 +7,8 @@ using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
-using Richasy.WinUI.Share.ViewModels;
+using Richasy.WinUIKernel.AI.ViewModels;
+using Richasy.WinUIKernel.Share.Toolkits;
 using Windows.Storage;
 using Windows.System;
 
@@ -16,7 +17,7 @@ namespace BiliCopilot.UI.ViewModels.View;
 /// <summary>
 /// 设置页面视图模型.
 /// </summary>
-public sealed partial class SettingsPageViewModel : ViewModelBase
+public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 {
     [RelayCommand]
     private static async Task OpenMpvConfigAsync()
@@ -61,13 +62,13 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
-        IsPopularNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(PopularPage).Name}Visible", true);
-        IsMomentNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(MomentPage).Name}Visible", true);
-        IsVideoNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(VideoPartitionPage).Name}Visible", true);
-        IsLiveNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(LivePartitionPage).Name}Visible", true);
-        IsAnimeNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(AnimePage).Name}Visible", true);
-        IsCinemaNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(CinemaPage).Name}Visible", true);
-        IsArticleNavVisible = SettingsToolkit.ReadLocalSetting($"Is{typeof(ArticlePartitionPage).Name}Visible", true);
+        IsPopularNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(PopularPage).Name}Visible", true);
+        IsMomentNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(MomentPage).Name}Visible", true);
+        IsVideoNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(VideoPartitionPage).Name}Visible", true);
+        IsLiveNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(LivePartitionPage).Name}Visible", true);
+        IsAnimeNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(AnimePage).Name}Visible", true);
+        IsCinemaNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(CinemaPage).Name}Visible", true);
+        IsArticleNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(ArticlePartitionPage).Name}Visible", true);
         try
         {
             PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
@@ -109,7 +110,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
-        PackageVersion = AppToolkit.GetPackageVersion();
+        PackageVersion = this.Get<IAppToolkit>().GetPackageVersion();
 
         InitializeWebDavConfigCommand.Execute(default);
 
@@ -119,7 +120,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     [RelayCommand]
     private async Task ChooseDownloadFolderAsync()
     {
-        var folder = await FileToolkit.PickFolderAsync(this.Get<AppViewModel>().ActivatedWindow);
+        var folder = await this.Get<IFileToolkit>().PickFolderAsync(this.Get<AppViewModel>().ActivatedWindow);
         if (folder != null)
         {
             DefaultDownloadPath = folder.Path;
@@ -138,30 +139,11 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private Task InitializeOnlineChatServicesAsync()
-    {
-        _shouldSaveChatServices = true;
-        return AIViewModelShare.InitializeOnlineChatServicesAsync(OnlineChatServices);
-    }
-
-    [RelayCommand]
-    private async Task SaveOnlineChatServicesAsync()
-    {
-        if (!_shouldSaveChatServices)
-        {
-            return;
-        }
-
-        _shouldSaveChatServices = false;
-        await AIViewModelShare.SaveOnlineChatServicesAsync(OnlineChatServices);
-    }
-
-    [RelayCommand]
     private async Task EditVideoSummarizeAsync()
     {
         if (!FileToolkit.IsLocalDataExist("video_summarize.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("video_summarize.txt", PromptConstants.VideoSummaryPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("video_summarize.txt", PromptConstants.VideoSummaryPrompt, default, "Prompt");
         }
 
         await new CustomPromptDialog("video_summarize", ResourceToolkit.GetLocalizedString(StringNames.VideoSummarize))
@@ -173,7 +155,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     {
         if (!FileToolkit.IsLocalDataExist("video_evaluation.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("video_evaluation.txt", PromptConstants.VideoEvaluationPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("video_evaluation.txt", PromptConstants.VideoEvaluationPrompt, default, "Prompt");
         }
 
         await new CustomPromptDialog("video_evaluation", ResourceToolkit.GetLocalizedString(StringNames.VideoEvaluation))
@@ -185,7 +167,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     {
         if (!FileToolkit.IsLocalDataExist("article_summarize.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("article_summarize.txt", PromptConstants.ArticleSummaryPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("article_summarize.txt", PromptConstants.ArticleSummaryPrompt, default, "Prompt");
         }
 
         await new CustomPromptDialog("article_summarize", ResourceToolkit.GetLocalizedString(StringNames.ArticleSummarize))
@@ -197,7 +179,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
     {
         if (!FileToolkit.IsLocalDataExist("article_evaluation.txt", "Prompt"))
         {
-            await FileToolkit.WriteLocalDataAsync("article_evaluation.txt", PromptConstants.ArticleEvaluationPrompt, default, "Prompt");
+            await this.Get<IFileToolkit>().WriteLocalDataAsync("article_evaluation.txt", PromptConstants.ArticleEvaluationPrompt, default, "Prompt");
         }
 
         await new CustomPromptDialog("article_evaluation", ResourceToolkit.GetLocalizedString(StringNames.ArticleEvaluation))
@@ -216,7 +198,7 @@ public sealed partial class SettingsPageViewModel : ViewModelBase
 
     private void WriteNavVisibleSetting(Type pageType, bool isVisible)
     {
-        SettingsToolkit.WriteLocalSetting($"Is{pageType.Name}Visible", isVisible);
+        this.Get<ISettingsToolkit>().WriteLocalSetting($"Is{pageType.Name}Visible", isVisible);
         this.Get<NavigationViewModel>().SetNavItemVisibility(pageType, isVisible);
     }
 
