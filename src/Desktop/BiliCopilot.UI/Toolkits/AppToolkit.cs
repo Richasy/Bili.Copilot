@@ -10,16 +10,10 @@ namespace BiliCopilot.UI.Toolkits;
 /// <summary>
 /// 应用工具组.
 /// </summary>
-internal sealed partial class AppToolkit : IAppToolkit
+internal sealed partial class AppToolkit : SharedAppToolkit
 {
-    /// <summary>
-    /// 获取应用包版本.
-    /// </summary>
-    /// <returns>包版本.</returns>
-    public string GetPackageVersion()
+    public AppToolkit(ISettingsToolkit settings) : base(settings)
     {
-        var appVersion = Package.Current.Id.Version;
-        return $"{appVersion.Major}.{appVersion.Minor}.{appVersion.Build}.{appVersion.Revision}";
     }
 
     /// <summary>
@@ -120,23 +114,6 @@ internal sealed partial class AppToolkit : IAppToolkit
     {
         var uri = new Uri(url);
         return P2PRegex().IsMatch(uri.Host);
-    }
-
-    /// <summary>
-    /// 重置控件主题.
-    /// </summary>
-    /// <param name="element">控件.</param>
-    public void ResetControlTheme(FrameworkElement element)
-        => element.RequestedTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
-
-    /// <summary>
-    /// 获取当前主题.
-    /// </summary>
-    /// <returns><see cref="ApplicationTheme"/>.</returns>
-    public ApplicationTheme GetCurrentTheme()
-    {
-        var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
-        return localTheme == ElementTheme.Default ? App.Current.RequestedTheme : localTheme == ElementTheme.Light ? ApplicationTheme.Light : ApplicationTheme.Dark;
     }
 
     /// <summary>
