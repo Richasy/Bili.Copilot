@@ -372,12 +372,12 @@ public sealed partial class AIViewModel
         {
             if (streamingAction is null)
             {
-                var response = await service.Client!.CompleteAsync(messages, options, cancellationToken).ConfigureAwait(false);
+                var response = await service.Client!.GetResponseAsync(messages, options, cancellationToken).ConfigureAwait(false);
                 responseContent = response.Choices.FirstOrDefault()?.Text ?? string.Empty;
             }
             else
             {
-                await foreach (var partialResponse in service.Client!.CompleteStreamingAsync(messages, options, cancellationToken).ConfigureAwait(false))
+                await foreach (var partialResponse in service.Client!.GetStreamingResponseAsync(messages, options, cancellationToken).ConfigureAwait(false))
                 {
                     if (!string.IsNullOrEmpty(partialResponse.Text))
                     {

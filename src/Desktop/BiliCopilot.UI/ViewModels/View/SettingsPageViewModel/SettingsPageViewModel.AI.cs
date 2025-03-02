@@ -14,7 +14,7 @@ public sealed partial class SettingsPageViewModel
             return;
         }
 
-        foreach (var provider in Enum.GetValues<ChatProviderType>())
+        foreach (var provider in Enum.GetValues<ChatProviderType>().Where(p => p is not ChatProviderType.Windows and not ChatProviderType.Onnx))
         {
             ChatServices.Add(new ChatServiceItemViewModel(provider));
         }
