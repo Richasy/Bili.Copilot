@@ -154,7 +154,12 @@ public class MpvPlayerOverlayWindow : IDisposable
         int width,
         int height)
     {
-        _desktopWindowXamlSource?.SiteBridge?.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, width, height));
+        // 判断窗口是否被销毁，如果销毁了就不重置位置
+        // 之前没有判断直接重置窗口位置会导致程序闪退
+        if (_desktopWindowXamlSource != null && _desktopWindowXamlSource.SiteBridge != null && !_desktopWindowXamlSource.SiteBridge.IsClosed)
+        {
+            _desktopWindowXamlSource.SiteBridge.MoveAndResize(new Windows.Graphics.RectInt32(0, 0, width, height));
+        }
     }
 
     /// <summary>
