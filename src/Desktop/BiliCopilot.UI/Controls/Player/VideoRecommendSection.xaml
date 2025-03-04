@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoRecommendSectionBase
+    x:Class="BiliCopilot.UI.Controls.Player.VideoRecommendSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
+            <Grid Margin="12">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:VideoItemViewModel">
+                            <components:VideoCardControl Style="{StaticResource PlayerRecommendVideoCardStyle}" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="12" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollView>
+    </Grid>
+</local:VideoRecommendSectionBase>

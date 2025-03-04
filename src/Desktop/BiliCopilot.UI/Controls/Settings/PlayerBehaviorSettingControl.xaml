@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.PlayerBehaviorSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:constants="using:BiliCopilot.UI.Models.Constants"
+    xmlns:converters="using:BiliCopilot.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:PreferQualityTypeConverter x:Key="PreferQualityConverter" />
+        <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
+        <converters:ExternalPlayerTypeConverter x:Key="ExternalPlayerTypeConverter" />
+        <converters:DisplayModeConverter x:Key="DisplayModeConverter" />
+        <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
+    </UserControl.Resources>
+
+    <base:SettingsExpander Description="{ext:Locale Name=PlayerBehaviorDescription}" Header="{ext:Locale Name=PlayerBehavior}">
+        <base:SettingsExpander.HeaderIcon>
+            <ic:SymbolIcon Symbol="Replay" />
+        </base:SettingsExpander.HeaderIcon>
+        <base:SettingsExpander.Items>
+            <base:SettingsCard Description="{ext:Locale Name=PlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerTypeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=PreferDecodeDescription}"
+                Header="{ext:Locale Name=PreferDecode}"
+                Visibility="{x:Bind ViewModel.IsIslandPlayerType, Mode=OneWay}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PreferDecode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PreferDecodeType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PreferDecodeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=CustomMpvConfigDescription}"
+                Header="{ext:Locale Name=CustomMpvConfig}"
+                Visibility="{x:Bind ViewModel.IsMpvCustomOptionVisible, Mode=OneWay}">
+                <Button
+                    MinWidth="120"
+                    Command="{x:Bind ViewModel.OpenMpvConfigCommand, Mode=OneWay}"
+                    Content="{ext:Locale Name=OpenConfig}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=ExternalPlayerTypeDescription}"
+                Header="{ext:Locale Name=ExternalPlayerType}"
+                Visibility="{x:Bind ViewModel.IsExternalPlayerType, Mode=OneWay}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.ExternalPlayerTypeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.ExternalPlayerType, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:ExternalPlayerType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource ExternalPlayerTypeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=PreferQuality}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PreferQualityCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.PreferQuality, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PreferQualityType">
+                            <TextBlock Text="{x:Bind Converter={StaticResource PreferQualityConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=DefaultPlayerDisplayMode}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.PlayerDisplayModeCollection, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.DefaultPlayerDisplayMode, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="constants:PlayerDisplayMode">
+                            <TextBlock Text="{x:Bind Converter={StaticResource DisplayModeConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=UseWebPlayerWhenLiveDescription}" Header="{ext:Locale Name=UseWebPlayerWhenLive}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.UseWebPlayerWhenLive, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=AutoPlayWhenLoaded}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayWhenLoaded, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=AutoLoadHistoryWhenLoaded}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoLoadHistory, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=AutoNextRelatedVideoDescription}" Header="{ext:Locale Name=AutoNextRelatedVideo}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayNextRecommendVideo, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=ContinuousPlayDescription}" Header="{ext:Locale Name=ContinuousPlay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoPlayNext, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=PlayNextWithoutTipDescription}"
+                Header="{ext:Locale Name=PlayNextWithoutTip}"
+                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayNextWithoutTip, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=StopWhenEndOfPlaylistDescription}"
+                Header="{ext:Locale Name=StopWhenEndOfPlaylist}"
+                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.EndWithPlaylist, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.NoP2P, Mode=TwoWay}" />
+            </base:SettingsCard>
+        </base:SettingsExpander.Items>
+    </base:SettingsExpander>
+</local:SettingsPageControlBase>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PlayerControlBase
+    x:Class="BiliCopilot.UI.Controls.Core.VideoTransportControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Background="{ThemeResource TransportBackground}"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="{StaticResource OverlayCornerRadius}">
+        <Grid Padding="12,8" RowSpacing="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Name="ProgressText"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.Position, Converter={StaticResource DurationConverter}, Mode=OneWay}" />
+                <Slider
+                    x:Name="ProgressSlider"
+                    Grid.Column="1"
+                    MinHeight="0"
+                    HorizontalAlignment="Stretch"
+                    IsThumbToolTipEnabled="False"
+                    Maximum="{x:Bind ViewModel.Duration, Mode=OneWay}"
+                    ValueChanged="OnProgressSliderValueChanged"
+                    Value="{x:Bind ViewModel.Position, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="DurationText"
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.Duration, Converter={StaticResource DurationConverter}, Mode=OneWay}" />
+            </Grid>
+            <Grid Grid.Row="1" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <ProgressRing
+                        Width="38"
+                        Height="38"
+                        VerticalAlignment="Center"
+                        IsActive="{x:Bind ViewModel.IsBuffering, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsBuffering, Mode=OneWay}" />
+                    <Button
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource ButtonBackground}"
+                        Command="{x:Bind ViewModel.TogglePlayPauseCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.IsBuffering, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                        Style="{StaticResource CircleIconButtonStyle}">
+                        <Grid>
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Play"
+                                Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Pause"
+                                Visibility="{x:Bind ViewModel.IsPaused, Converter={StaticResource BoolToVisibilityReverseConverter}, Mode=OneWay}" />
+                        </Grid>
+                    </Button>
+                </Grid>
+
+                <ContentControl
+                    x:Name="LeftPanel"
+                    Grid.Column="1"
+                    Content="{x:Bind LeftContent, Mode=OneWay}"
+                    Style="{StaticResource AppContentControlStyle}" />
+                <ContentControl
+                    x:Name="MiddlePanel"
+                    Grid.Column="2"
+                    Content="{x:Bind MiddleContent, Mode=OneWay}"
+                    Style="{StaticResource AppContentControlStyle}" />
+                <ContentControl
+                    x:Name="RightPanel"
+                    Grid.Column="3"
+                    Content="{x:Bind RightContent, Mode=OneWay}"
+                    Style="{StaticResource AppContentControlStyle}" />
+                <StackPanel Grid.Column="4" Orientation="Horizontal">
+                    <!--  音量  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}">
+                        <ic:SymbolIcon FontSize="14" Symbol="Speaker2" />
+                        <Button.Flyout>
+                            <Flyout
+                                FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}"
+                                Placement="Top"
+                                ShouldConstrainToRootBounds="False">
+                                <StackPanel>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{ext:Locale Name=CurrentVolume}" />
+                                    <Slider
+                                        x:Name="VolumeSlider"
+                                        Width="200"
+                                        IsThumbToolTipEnabled="True"
+                                        Maximum="100"
+                                        Minimum="0"
+                                        StepFrequency="1"
+                                        TickFrequency="1"
+                                        ValueChanged="OnVolumeSliderValueChanged"
+                                        Value="{x:Bind ViewModel.Volume, Mode=OneWay}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <!--  倍速  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=PlaybackRate}">
+                        <TextBlock FontSize="14">
+                            <Run Text="{x:Bind ViewModel.Speed, Mode=OneWay}" /><Run Text="x" />
+                        </TextBlock>
+                        <Button.Flyout>
+                            <Flyout
+                                FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}"
+                                Placement="Top"
+                                ShouldConstrainToRootBounds="False">
+                                <StackPanel>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{ext:Locale Name=PlaybackRate}" />
+                                    <Slider
+                                        x:Name="SpeedSlider"
+                                        Width="360"
+                                        IsThumbToolTipEnabled="True"
+                                        Maximum="{x:Bind ViewModel.MaxSpeed, Mode=OneWay}"
+                                        Minimum="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
+                                        StepFrequency="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
+                                        TickFrequency="{x:Bind ViewModel.SpeedStep, Mode=OneWay}"
+                                        TickPlacement="Outside"
+                                        ValueChanged="OnSpeedSliderValueChanged"
+                                        Value="{x:Bind ViewModel.Speed, Mode=OneWay}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <!--  小窗  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.IsCompactOverlay, Converter={StaticResource CompactOverlayConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.IsCompactOverlay, Converter={StaticResource CompactOverlayConverter}, Mode=OneWay}" />
+                    </Button>
+
+                    <!--  全窗口  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.ToggleFullWindowCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}" />
+                    </Button>
+
+                    <!--  全屏  -->
+                    <Button
+                        Command="{x:Bind ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.IsFullScreen, Converter={StaticResource FullScreenConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.IsFullScreen, Converter={StaticResource FullScreenConverter}, Mode=OneWay}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</local:PlayerControlBase>

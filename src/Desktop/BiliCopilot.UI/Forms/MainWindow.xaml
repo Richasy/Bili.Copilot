@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:WindowBase
+    x:Class="BiliCopilot.UI.Forms.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid PointerPressed="OnPointerPressed">
+        <controls:RootLayout x:Name="RootLayout" />
+        <Grid x:Name="TipContainer" Visibility="Collapsed" />
+    </Grid>
+</base:WindowBase>

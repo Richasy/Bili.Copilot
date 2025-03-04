@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SeasonCardPresenter
+    x:Class="BiliCopilot.UI.Controls.Components.PlayerSeasonPresenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <local:PgcCoverImage
+            BlurRatio="0.28"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Source="{x:Bind ViewModel.Cover, Mode=OneWay}"
+            ToolTipService.ToolTip="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <base:TrimTextBlock
+            Margin="12,8"
+            VerticalAlignment="Bottom"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="White"
+            MaxLines="1"
+            Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+        <Border
+            Margin="8"
+            Padding="8,4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="{ThemeResource AccentFillColorTertiaryBrush}"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Visibility="{x:Bind ViewModel.Highlight, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}">
+            <TextBlock
+                Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.Highlight, Mode=OneWay}" />
+        </Border>
+    </Grid>
+</local:SeasonCardPresenter>

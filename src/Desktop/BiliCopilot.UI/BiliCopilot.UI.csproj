@@ -1,0 +1,1555 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>BiliCopilot.UI</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <Nullable>enable</Nullable>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
+    <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
+    <AllowUnsafe>True</AllowUnsafe>
+  </PropertyGroup>
+  <ItemGroup>
+  	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net9.0-windows10.0.22621\Assets\**\*">
+  		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
+    <Content Remove="Assets\bbdown\x64\BBDown.exe" />
+    <Content Remove="Assets\BewlyBewly.zip" />
+    <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
+    <Content Remove="Assets\DashVideoTemplate.xml" />
+    <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
+    <Content Remove="Assets\ffmpeg\arm64\ffmpeg.exe" />
+    <Content Remove="Assets\ffmpeg\x64\ffmpeg.exe" />
+    <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
+    <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
+    <Content Remove="Assets\WebPlayer.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\qq_group_dark.jpg" />
+    <None Remove="Assets\qq_group_light.jpg" />
+    <None Remove="Assets\Reader\Dark.css" />
+    <None Remove="Assets\Reader\Light.css" />
+    <None Remove="Assets\Reader\ShowPage.html" />
+    <None Remove="Controls\AI\AIBody.xaml" />
+    <None Remove="Controls\AI\AIFooter.xaml" />
+    <None Remove="Controls\AI\AIHeader.xaml" />
+    <None Remove="Controls\AI\AIOverlayPanel.xaml" />
+    <None Remove="Controls\AI\AIPanel.xaml" />
+    <None Remove="Controls\AI\CustomPromptDialog.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionMainBody.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionMainHeader.xaml" />
+    <None Remove="Controls\Article\ArticlePartitionSideBody.xaml" />
+    <None Remove="Controls\Article\ArticleReaderCommentPanel.xaml" />
+    <None Remove="Controls\Article\ArticleReaderToolBar.xaml" />
+    <None Remove="Controls\Comment\CommentDetailPanel.xaml" />
+    <None Remove="Controls\Comment\CommentItemControl.xaml" />
+    <None Remove="Controls\Comment\CommentMainPanel.xaml" />
+    <None Remove="Controls\Comment\CommentTextBox.xaml" />
+    <None Remove="Controls\Components\ArticleCardControl\ArticleCardControl.xaml" />
+    <None Remove="Controls\Components\ArticleReader.xaml" />
+    <None Remove="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml" />
+    <None Remove="Controls\Components\DefaultCommentItemPresenter.xaml" />
+    <None Remove="Controls\Components\EmotePanel.xaml" />
+    <None Remove="Controls\Components\EmoteTextBlock.xaml" />
+    <None Remove="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml" />
+    <None Remove="Controls\Components\FavoriteSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\FollowLivePresenter.xaml" />
+    <None Remove="Controls\Components\ForwardMomentPresenter.xaml" />
+    <None Remove="Controls\Components\FullMomentPresenter.xaml" />
+    <None Remove="Controls\Components\HistoryArticlePresenter.xaml" />
+    <None Remove="Controls\Components\HistoryLivePresenter.xaml" />
+    <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
+    <None Remove="Controls\Components\IndexSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
+    <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
+    <None Remove="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml" />
+    <None Remove="Controls\Components\MomentEpisodePresenter.xaml" />
+    <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
+    <None Remove="Controls\Components\PartitionArticlePresenter.xaml" />
+    <None Remove="Controls\Components\PartitionLivePresenter.xaml" />
+    <None Remove="Controls\Components\PersonalFullMomentPresenter.xaml" />
+    <None Remove="Controls\Components\PersonalVideoMomentPresenter.xaml" />
+    <None Remove="Controls\Components\PlayerEpisodePresenter.xaml" />
+    <None Remove="Controls\Components\PlayerSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\RecommendLivePresenter.xaml" />
+    <None Remove="Controls\Components\SearchLivePresenter.xaml" />
+    <None Remove="Controls\Components\ShimmerLayout\ShimmerLayout.xaml" />
+    <None Remove="Controls\Components\TimelineSeasonPresenter.xaml" />
+    <None Remove="Controls\Components\TopNavigationItem.xaml" />
+    <None Remove="Controls\Components\UserCardControl.xaml" />
+    <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
+    <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
+    <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
+    <None Remove="Controls\Core\Player\PlayerResources.xaml" />
+    <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
+    <None Remove="Controls\Danmaku\LiveDanmakuPanel.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
+    <None Remove="Controls\Favorites\FavoritesPageSideHeader.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\PgcFavoriteSideItem.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\UgcFavoriteSideItem.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteBody.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteHeader.xaml" />
+    <None Remove="Controls\Favorites\VideoFavoriteSideItem.xaml" />
+    <None Remove="Controls\History\ArticleHistorySection.xaml" />
+    <None Remove="Controls\History\HistoryHeader.xaml" />
+    <None Remove="Controls\History\HistoryVideoSearchSection.xaml" />
+    <None Remove="Controls\History\LiveHistorySection.xaml" />
+    <None Remove="Controls\History\VideoHistorySection.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
+    <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
+    <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\Message\ChatMessageBox.xaml" />
+    <None Remove="Controls\Message\ChatMessageHeader.xaml" />
+    <None Remove="Controls\Message\ChatMessageItemControl.xaml" />
+    <None Remove="Controls\Message\ChatSessionBody.xaml" />
+    <None Remove="Controls\Message\ChatSessionSideItem.xaml" />
+    <None Remove="Controls\Message\MessagePageMainBody.xaml" />
+    <None Remove="Controls\Message\MessagePageMainHeader.xaml" />
+    <None Remove="Controls\Message\MessagePageSideBody.xaml" />
+    <None Remove="Controls\Message\MessagePageSideHeader.xaml" />
+    <None Remove="Controls\Message\NotifyMessageBody.xaml" />
+    <None Remove="Controls\Message\NotifyMessageCardControl.xaml" />
+    <None Remove="Controls\Message\NotifyMessageHeader.xaml" />
+    <None Remove="Controls\Message\NotifyMessageSideItem.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMainBody.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveMomentSpaceControl.xaml" />
+    <None Remove="Controls\Moment\ComprehensiveSideBody.xaml" />
+    <None Remove="Controls\Moment\MomentHeader.xaml" />
+    <None Remove="Controls\Moment\MomentImageGallery.xaml" />
+    <None Remove="Controls\Moment\MomentPresenter.xaml" />
+    <None Remove="Controls\Moment\MomentUperItemControl.xaml" />
+    <None Remove="Controls\Moment\UserSpacePageBody.xaml" />
+    <None Remove="Controls\Moment\UserSpacePageHeader.xaml" />
+    <None Remove="Controls\Moment\UserSpaceVideoSearchSection.xaml" />
+    <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
+    <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
+    <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
+    <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
+    <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
+    <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
+    <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
+    <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
+    <None Remove="Controls\Pgc\AnimeTimelineSideControl.xaml" />
+    <None Remove="Controls\Components\AccountCard.xaml" />
+    <None Remove="Controls\Components\AppSearchBox.xaml" />
+    <None Remove="Controls\Components\HeaderAccountControl.xaml" />
+    <None Remove="Controls\Components\SeasonCardControl\SeasonCardControl.xaml" />
+    <None Remove="Controls\Components\SideBottomLoadingWidget.xaml" />
+    <None Remove="Controls\Components\TimelineControl.xaml" />
+    <None Remove="Controls\Components\VideoCardControl\VideoCardControl.xaml" />
+    <None Remove="Controls\Pgc\CinemaMainHeader.xaml" />
+    <None Remove="Controls\Pgc\CinemaSideHeader.xaml" />
+    <None Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+    <None Remove="Controls\Pgc\EntertainmentIndexSideControl.xaml" />
+    <None Remove="Controls\Pinner.xaml" />
+    <None Remove="Controls\Player\CoinButton.xaml" />
+    <None Remove="Controls\Player\DownloadButton.xaml" />
+    <None Remove="Controls\Player\FavoriteButton.xaml" />
+    <None Remove="Controls\Player\LikeButton.xaml" />
+    <None Remove="Controls\Player\LiveChatSection.xaml" />
+    <None Remove="Controls\Player\LiveInfoSection.xaml" />
+    <None Remove="Controls\Player\LivePlayerFormatButton.xaml" />
+    <None Remove="Controls\Player\LivePlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\PgcDescriptorControl.xaml" />
+    <None Remove="Controls\Player\PgcEpisodesSection.xaml" />
+    <None Remove="Controls\Player\PgcInfoSection.xaml" />
+    <None Remove="Controls\Player\PgcOperationControl.xaml" />
+    <None Remove="Controls\Player\PgcPlayerFormatButton.xaml" />
+    <None Remove="Controls\Player\PgcPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerSideBody.xaml" />
+    <None Remove="Controls\Player\PgcPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\PgcSeasonsSection.xaml" />
+    <None Remove="Controls\Player\PgcStatControl.xaml" />
+    <None Remove="Controls\Player\SubtitleButton.xaml" />
+    <None Remove="Controls\Player\SubtitlePresenter.xaml" />
+    <None Remove="Controls\Player\UpSectionControl.xaml" />
+    <None Remove="Controls\Player\VideoAISection.xaml" />
+    <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
+    <None Remove="Controls\Player\VideoDescriptorControl.xaml" />
+    <None Remove="Controls\Player\VideoInfoSection.xaml" />
+    <None Remove="Controls\Player\VideoOperationControl.xaml" />
+    <None Remove="Controls\Player\VideoPartsSection.xaml" />
+    <None Remove="Controls\Player\VideoPlayerFormatButton.xaml" />
+    <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
+    <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
+    <None Remove="Controls\Player\VideoRecommendSection.xaml" />
+    <None Remove="Controls\Player\VideoSeasonSection.xaml" />
+    <None Remove="Controls\Player\VideoStatControl.xaml" />
+    <None Remove="Controls\Player\WebDavNextButton.xaml" />
+    <None Remove="Controls\Popular\PopularMainBody.xaml" />
+    <None Remove="Controls\Popular\PopularMainHeader.xaml" />
+    <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
+    <None Remove="Controls\Popular\PopularSectionItemControl.xaml" />
+    <None Remove="Controls\Popular\PopularSideBody.xaml" />
+    <None Remove="Controls\Popular\PopularSideHeader.xaml" />
+    <None Remove="Controls\RootLayout.xaml" />
+    <None Remove="Controls\SearchArticlePresenter.xaml" />
+    <None Remove="Controls\Search\ArticleSectionDetailControl.xaml" />
+    <None Remove="Controls\Search\LiveSectionDetailControl.xaml" />
+    <None Remove="Controls\Search\SearchHeader.xaml" />
+    <None Remove="Controls\Search\SearchSectionItemControl.xaml" />
+    <None Remove="Controls\Search\SearchSideBody.xaml" />
+    <None Remove="Controls\Search\UserSectionDetailControl.xaml" />
+    <None Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+    <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
+    <None Remove="Controls\Settings\AboutSettingControl.xaml" />
+    <None Remove="Controls\Settings\AIResponseSettingControl.xaml" />
+    <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+    <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
+    <None Remove="Controls\Settings\LayoutSettingSection.xaml" />
+    <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
+    <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
+    <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
+    <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
+    <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
+    <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
+    <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
+    <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
+    <None Remove="Controls\Users\FansBody.xaml" />
+    <None Remove="Controls\Users\FansHeader.xaml" />
+    <None Remove="Controls\Users\FollowsMainBody.xaml" />
+    <None Remove="Controls\Users\FollowsMainHeader.xaml" />
+    <None Remove="Controls\Users\FollowsSideBody.xaml" />
+    <None Remove="Controls\VideoPartition\PartitionItemControl.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionMainBody.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionMainHeader.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionSideBody.xaml" />
+    <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
+    <None Remove="Controls\ViewLater\ViewLaterBody.xaml" />
+    <None Remove="Controls\ViewLater\ViewLaterHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavConfigDialog.xaml" />
+    <None Remove="Controls\WebDav\WebDavPageBody.xaml" />
+    <None Remove="Controls\WebDav\WebDavPageHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
+    <None Remove="Controls\WebDav\WebDavPlayerSideBody.xaml" />
+    <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
+    <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
+    <None Remove="Forms\GalleryWindow.xaml" />
+    <None Remove="Forms\PlayerWindow.xaml" />
+    <None Remove="Forms\StartupWindow.xaml" />
+    <None Remove="Forms\WebSignInWindow.xaml" />
+    <None Remove="Pages\AnimePage.xaml" />
+    <None Remove="Pages\ArticlePartitionPage.xaml" />
+    <None Remove="Pages\CinemaPage.xaml" />
+    <None Remove="Pages\DownloadPage.xaml" />
+    <None Remove="Pages\GalleryPage.xaml" />
+    <None Remove="Pages\LivePartitionPage.xaml" />
+    <None Remove="Pages\MessagePage.xaml" />
+    <None Remove="Pages\MomentPage.xaml" />
+    <None Remove="Pages\Overlay\ArticleReaderPage.xaml" />
+    <None Remove="Pages\Overlay\FansPage.xaml" />
+    <None Remove="Pages\Overlay\FavoritesPage.xaml" />
+    <None Remove="Pages\Overlay\FollowsPage.xaml" />
+    <None Remove="Pages\Overlay\HistoryPage.xaml" />
+    <None Remove="Pages\Overlay\LivePlayerPage.xaml" />
+    <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
+    <None Remove="Pages\Overlay\SearchPage.xaml" />
+    <None Remove="Pages\Overlay\UserSpacePage.xaml" />
+    <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
+    <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
+    <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
+    <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
+    <None Remove="Pages\PopularPage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\StartupPage.xaml" />
+    <None Remove="Pages\VideoPartitionPage.xaml" />
+    <None Remove="Pages\WebDavPage.xaml" />
+    <None Remove="Styles\Overrides.xaml" />
+    <None Remove="Styles\TrayResources.xaml" />
+    <None Remove="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\StoreLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ColorCode.WinUI" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+    <PackageReference Include="ComputeSharp.D2D1.WinUI" />
+    <PackageReference Include="FluentIcons.WinUI" />
+    <PackageReference Include="H.NotifyIcon.WinUI" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.Web.WebView2" />
+    <PackageReference Include="Microsoft.Windows.CsWin32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWinRT" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Ali" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Anthropic" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Azure" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Baidu" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.DeepSeek" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Google" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Groq" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.IFlyTek" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.LingYi" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Mistral" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Moonshot" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Ollama" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.OpenAI" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.OpenRouter" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Perplexity" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.SiliconFlow" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Tencent" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.TogetherAI" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Volcano" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Windows" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.XAI" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.Youdao" />
+	<PackageReference Include="Richasy.AgentKernel.Connectors.ZhiPu" />
+    <PackageReference Include="Richasy.BiliKernel.Authorizers.TV" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUICookies" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUIQRCode" />
+    <PackageReference Include="Richasy.BiliKernel.Resolvers.WinUIToken" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Article" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Comment" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Media" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Moment" />
+    <PackageReference Include="Richasy.BiliKernel.Services.Search" />
+    <PackageReference Include="Richasy.BiliKernel.Services.User" />
+    <PackageReference Include="Richasy.WinUIKernel.AI" />
+    <PackageReference Include="RichasyKernel.Core" />
+    <PackageReference Include="Roman-Numerals" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="System.Management" />
+    <PackageReference Include="System.Private.Uri" />
+    <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
+    <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
+    <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
+    <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\RootLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ArticlePartitionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CinemaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\AnimePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\LivePartitionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\VideoPartitionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MomentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\PopularPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>$(DefineConstants);LOCAL_DEV</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>$(DefineConstants);LOCAL_DEV</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x86'">
+    <DefineConstants>$(DefineConstants);ARCH_X86</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x64'">
+    <DefineConstants>$(DefineConstants);ARCH_X64</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'ARM64'">
+    <DefineConstants>$(DefineConstants);ARCH_ARM64</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|x86'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Publish|ARM64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Pages\SettingsPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Styles\Overrides.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\StartupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Forms\StartupWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\DownloadPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MessagePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Forms\WebSignInWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\IndexFilterItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\SeasonCardControl\SeasonCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeTimelineMainControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\SideBottomLoadingWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\TimelineControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeTimelineSideControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\PartitionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\VideoCardControl\VideoCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularRankParitionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSectionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\AppSearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\AccountCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\HeaderAccountControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Popular\PopularSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\VideoPartition\VideoPartitionSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Anime\AnimeSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Pgc\EntertainmentIndexMainControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FollowsSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\FollowsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FansBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FansHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ArticlePartition\ArticlePartitionSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\ArticleCardControl\ArticleCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Markdown\MarkdownTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveSubPartitionMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\LiveCardControl\LiveCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveRecommendMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionSubSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LivePartitionMainSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Pgc\CinemaMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Pgc\CinemaSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\FansPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Users\FollowsMainHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Users\FollowsMainHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Users\FollowsMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\ArticleSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\UserSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\LiveSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\VideoSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchSectionItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LivePartition\LiveSubPartitionSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Search\SearchHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Search\VideoSearchExtraHeader.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentUperItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMomentSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\MomentCardControl\MomentCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\VideoMomentSectionDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Components\EmoteTextBlock.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\MessageCardControl\NotifyMessageCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\MessagePageSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Message\NotifyMessageSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\UgcFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\VideoFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageMainBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\FavoritesPageSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\FavoritesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\ArticleHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\LiveHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\VideoHistorySection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\HistoryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ViewLater\ViewLaterBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ViewLater\ViewLaterHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\ViewLaterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\EmotePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Article\ArticleReaderCommentPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentMainPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Article\ArticleReaderToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\ArticleReaderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\ArticleReader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentImageGallery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\EpisodeCardControl\EpisodeCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\MomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comment\CommentDetailPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\History\HistoryHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Favorites\PgcFavoriteSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <None Update="Assets\libmpv\x64\libmpv-2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+    <None Update="Assets\libmpv\arm64\libmpv-2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+      <None Update="Assets\ffmpeg\x64\ffmpeg.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+      <None Update="Assets\ffmpeg\arm64\ffmpeg.exe">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <None Update="Assets\BBDown\x64\BBDown.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Platform)' == 'ARM64'">
+    <None Update="Assets\BBDown\arm64\BBDown.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\ThemeSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LiveChatSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LiveInfoSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcSeasonsSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcEpisodesSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcOperationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcStatControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcDescriptorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\SubtitlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\SubtitleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoDanmakuPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlaylistSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoSeasonSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPartsSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoRecommendSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\FavoriteButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\CoinButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoOperationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\LikeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoDescriptorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\VideoStatControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Player\UpSectionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Assets\BewlyBewly.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DashVideoTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\WebPlayer.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\Components\UserCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PlayerSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FavoriteSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\IndexSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\TimelineSeasonPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\NotifyMessageCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PersonalFullMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\ForwardMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FullMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PersonalVideoMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\VideoMomentPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\HistoryLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PartitionLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\FollowLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\SearchLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\RecommendLivePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PlayerEpisodePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\MomentEpisodePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Comment\CommentItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\DefaultCommentItemPresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\HistoryArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\SearchArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\PartitionArticlePresenter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\CustomPromptDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\PromptTemplateSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\SearchRecommendSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoAISection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\AIResponseSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AIPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\PgcInfoSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoInfoSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\WebDavNextButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\LayoutSettingSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\TopNavigationItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Moment\UserSpaceVideoSearchSection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Pinner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AIFooter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AIBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AIOverlayPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AI\AIHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\WebDavPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Forms\PlayerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\TrayResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Components\ShimmerLayout\ShimmerLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\DownloadSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\DownloadButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatMessageItemControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Message\ChatSessionSideItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\GalleryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Forms\GalleryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\VideoMomentSpaceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\UserSpacePageBody.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Moment\UserSpacePageHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Overlay\UserSpacePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\PlayerBehaviorSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\PlayerControlSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\AboutSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\LoggerSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\NotificationSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+    
+  <!-- Publish Properties -->
+  <PropertyGroup>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">False</PublishReadyToRun>
+    <PublishAot Condition="'$(Configuration)' == 'Debug'">True</PublishAot>
+    <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+</Project>

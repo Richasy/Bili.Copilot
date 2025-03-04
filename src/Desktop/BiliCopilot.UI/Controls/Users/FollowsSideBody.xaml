@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:FollowsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Users.FollowsSideBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Users"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:user="using:Richasy.BiliKernel.Models.User"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsView
+            x:Name="GroupView"
+            Padding="2,8,8,8"
+            ItemsSource="{x:Bind ViewModel.Groups}"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="user:UserGroup">
+                    <ItemContainer
+                        Height="40"
+                        Margin="8,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        Style="{StaticResource AppItemContainerStyle}">
+                        <Grid Padding="16,0" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <base:TrimTextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                MaxLines="1"
+                                Text="{x:Bind Name}" />
+                            <InfoBadge
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource InformationalValueInfoBadgeStyle}"
+                                Value="{x:Bind TotalCount}" />
+                        </Grid>
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+        <components:SideBottomLoadingWidget
+            VerticalAlignment="Bottom"
+            Text="{ext:Locale Name=GettingGroups}"
+            Visibility="{x:Bind ViewModel.IsGroupLoading, Mode=OneWay}" />
+        <animations:Implicit.ShowAnimations>
+            <animations:TranslationAnimation
+                From="-20,0"
+                To="0,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:TranslationAnimation
+                From="0,0"
+                To="-20,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.HideAnimations>
+    </Grid>
+</local:FollowsPageControlBase>

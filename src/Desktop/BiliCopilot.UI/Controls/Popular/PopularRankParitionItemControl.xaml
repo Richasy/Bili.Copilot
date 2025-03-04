@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PopularRankParitionItemControlBase
+    x:Class="BiliCopilot.UI.Controls.Popular.PopularRankParitionItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Popular"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image
+            Width="18"
+            Height="18"
+            VerticalAlignment="Center"
+            Source="{x:Bind ViewModel.Logo, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+            Stretch="Uniform" />
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal"
+            Spacing="8">
+            <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.Title, Mode=OneWay}" />
+            <TextBlock
+                VerticalAlignment="Bottom"
+                FontSize="10"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Text="{ext:Locale Name=PartitionRank}" />
+        </StackPanel>
+    </Grid>
+</local:PopularRankParitionItemControlBase>

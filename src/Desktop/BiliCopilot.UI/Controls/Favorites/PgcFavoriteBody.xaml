@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PgcFavoriteControlBase
+    x:Class="BiliCopilot.UI.Controls.Favorites.PgcFavoriteBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Favorites"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ScrollViewer x:Name="SeasonScrollView" Style="{StaticResource PageScrollViewerStyle}">
+            <Grid Margin="16,12">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource PgcLayout}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:SeasonItemViewModel">
+                            <components:SeasonCardControl Style="{StaticResource FavoriteSeasonCardStyle}" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollViewer>
+
+        <base:EmptyHolder
+            Description="{ext:Locale Name=NoFavoritesPgc}"
+            Emoji="&#x1F92A;"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <base:LoadingWidget Text="{ext:Locale Name=LoadingAndWait}" Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+    </Grid>
+</local:PgcFavoriteControlBase>

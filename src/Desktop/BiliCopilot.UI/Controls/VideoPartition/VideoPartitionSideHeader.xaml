@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="BiliCopilot.UI.Controls.VideoPartition.VideoPartitionSideHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.VideoPartition"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0">
+        <TextBlock
+            VerticalAlignment="Center"
+            Style="{StaticResource BodyStrongTextBlockStyle}"
+            Text="{ext:Locale Name=VideoPartition}" />
+        <animations:Implicit.ShowAnimations>
+            <animations:TranslationAnimation
+                From="-20,0"
+                To="0,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="0.0"
+                To="1.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:TranslationAnimation
+                From="0,0"
+                To="-20,0"
+                Duration="0:0:0.24" />
+            <animations:OpacityAnimation
+                From="1.0"
+                To="0.0"
+                Duration="0:0:0.2" />
+        </animations:Implicit.HideAnimations>
+    </Grid>
+</UserControl>

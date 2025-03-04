@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoPlaylistSectionBase
+    x:Class="BiliCopilot.UI.Controls.Player.VideoPlaylistSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsView
+            x:Name="View"
+            Padding="12"
+            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+            SelectionChanged="OnVideoSelectionChanged"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="items:VideoItemViewModel">
+                    <ItemContainer Style="{StaticResource AppItemContainerStyle}">
+                        <components:VideoCardControl Style="{StaticResource PlayerPlaylistVideoCardStyle}" ViewModel="{x:Bind}" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+    </Grid>
+</local:VideoPlaylistSectionBase>

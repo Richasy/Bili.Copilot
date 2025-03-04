@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:VideoFavoriteControlBase
+    x:Class="BiliCopilot.UI.Controls.Favorites.VideoFavoriteHeader"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Favorites"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="16,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <local:VideoFavoriteSideItem
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            <InfoBadge
+                VerticalAlignment="Center"
+                Style="{StaticResource InformationalValueInfoBadgeStyle}"
+                Value="{x:Bind ViewModel.TotalCount, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8">
+            <Button
+                VerticalAlignment="Center"
+                AutomationProperties.Name="{ext:Locale Name=PlayCurrentList}"
+                Command="{x:Bind ViewModel.PlayCurrentListCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsEmpty, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="NavigationPlay" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=PlayCurrentList}" />
+                </StackPanel>
+            </Button>
+            <Button
+                AutomationProperties.Name="{ext:Locale Name=Refresh}"
+                Command="{x:Bind ViewModel.RefreshCommand, Mode=OneWay}"
+                IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <ic:SymbolIcon
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                        Symbol="ArrowSync" />
+                    <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=Refresh}" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</local:VideoFavoriteControlBase>

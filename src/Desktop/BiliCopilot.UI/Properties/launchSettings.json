@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BiliCopilot.UI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BiliCopilot.UI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

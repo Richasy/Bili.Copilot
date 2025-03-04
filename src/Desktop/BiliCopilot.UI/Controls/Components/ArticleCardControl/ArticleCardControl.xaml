@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+
+    <Style x:Key="PartitionArticleCardStyle" TargetType="local:ArticleCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ArticleCardControl">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
+                        <local:PartitionArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SearchArticleCardStyle" TargetType="local:ArticleCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ArticleCardControl">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
+                        <local:SearchArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HistoryArticleCardStyle" TargetType="local:ArticleCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ArticleCardControl">
+                    <base:CardControl x:Name="RootCard" BorderThickness="0">
+                        <local:HistoryArticlePresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

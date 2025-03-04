@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LivePartitionPageControlBase
+    x:Class="BiliCopilot.UI.Controls.LivePartition.LivePartitionSubSideBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.LivePartition"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsView
+            x:Name="PartitionView"
+            Padding="2,8,8,8"
+            ItemsSource="{x:Bind ViewModel.SubPartitions, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollMode="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionChanged="OnPartitionSelectionChanged"
+            SelectionMode="Single">
+            <ItemsView.ItemTemplate>
+                <DataTemplate x:DataType="items:PartitionViewModel">
+                    <ItemContainer
+                        Height="40"
+                        Margin="8,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        Style="{StaticResource AppItemContainerStyle}">
+                        <components:PartitionItemControl Margin="12,0" ViewModel="{x:Bind}" />
+                    </ItemContainer>
+                </DataTemplate>
+            </ItemsView.ItemTemplate>
+            <ItemsView.Layout>
+                <StackLayout Spacing="8" />
+            </ItemsView.Layout>
+        </ItemsView>
+    </Grid>
+</local:LivePartitionPageControlBase>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LiveSubPartitionControlBase
+    x:Class="BiliCopilot.UI.Controls.LivePartition.LiveSubPartitionMainBody"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.LivePartition"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer
+            x:Name="LiveScrollView"
+            Grid.Row="1"
+            Style="{StaticResource PageScrollViewerStyle}">
+            <Grid Margin="16,12">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rooms, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="items:LiveItemViewModel">
+                            <components:LiveCardControl Style="{StaticResource PartitionLiveCardStyle}" ViewModel="{x:Bind}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout
+                            ItemsStretch="Fill"
+                            MinColumnSpacing="16"
+                            MinItemHeight="220"
+                            MinItemWidth="200"
+                            MinRowSpacing="16" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </Grid>
+        </ScrollViewer>
+        <base:LoadingWidget
+            Grid.Row="1"
+            Text="{ext:Locale Name=LoadingAndWait}"
+            Visibility="{x:Bind ViewModel.IsLiveLoading, Mode=OneWay}" />
+    </Grid>
+</local:LiveSubPartitionControlBase>

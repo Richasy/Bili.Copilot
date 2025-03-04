@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog
+    x:Class="BiliCopilot.UI.Controls.AI.CustomPromptDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.AI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="{ext:Locale Name=CustomPrompt}"
+    CloseButtonText="{ext:Locale Name=Cancel}"
+    DefaultButton="Primary"
+    PrimaryButtonClick="OnPrimaryButtonClickAsync"
+    PrimaryButtonText="{ext:Locale Name=Save}"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBox
+            x:Name="TitleBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=Title}" />
+        <StackPanel Grid.Row="1" Spacing="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="{ext:Locale Name=Prompt}" />
+                <Button
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource SmallIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Tip}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <TextBlock
+                                MaxWidth="200"
+                                Text="{ext:Locale Name=PromptTip}"
+                                TextWrapping="Wrap" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <TextBox
+                x:Name="PromptBox"
+                Width="340"
+                MaxHeight="380"
+                AcceptsReturn="True"
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
+</ContentDialog>

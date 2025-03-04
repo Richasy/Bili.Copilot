@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:RootLayoutBase
+    x:Class="BiliCopilot.UI.Controls.RootLayout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Richasy.WinUIKernel.Share.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="AppNavItemTemplate" x:DataType="viewmodels:AppNavigationItemViewModel">
+            <base:AppNavigationViewItem
+                Content="{x:Bind Title}"
+                IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                SelectsOnInvoked="True"
+                ShowUnread="{x:Bind ShowUnread, Mode=OneWay}"
+                Style="{StaticResource MainNavigationViewItemStyle}"
+                Symbol="{x:Bind Symbol}"
+                Tag="{x:Bind}"
+                Visibility="{x:Bind IsVisible, Mode=OneWay}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <base:AppTitleBar
+            x:Name="MainTitleBar"
+            Title="{ext:Locale Name=AppName}"
+            BackRequested="OnBackRequested"
+            IsBackButtonVisible="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}"
+            IsBackEnabled="True">
+            <base:AppTitleBar.IconElement>
+                <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
+            </base:AppTitleBar.IconElement>
+
+            <base:AppTitleBar.Header>
+                <StackPanel
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    Orientation="Horizontal"
+                    Spacing="2"
+                    Visibility="{x:Bind ViewModel.IsTopNavBarShown, Mode=OneWay}">
+                    <components:TopNavigationItem
+                        Click="OnFavoriteButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsFavoritesPage, Mode=OneWay}"
+                        Symbol="StarLineHorizontal3"
+                        ToolTipService.ToolTip="{ext:Locale Name=MyFavorite}" />
+                    <components:TopNavigationItem
+                        Click="OnViewLaterButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsViewLaterPage, Mode=OneWay}"
+                        Symbol="CalendarClock"
+                        ToolTipService.ToolTip="{ext:Locale Name=ViewLater}" />
+                    <components:TopNavigationItem
+                        Click="OnHistoryButtonClick"
+                        IsSelected="{x:Bind ViewModel.IsHistoryPage, Mode=OneWay}"
+                        Symbol="History"
+                        ToolTipService.ToolTip="{ext:Locale Name=ViewHistory}" />
+                </StackPanel>
+            </base:AppTitleBar.Header>
+
+            <components:AppSearchBox
+                x:Name="SearchBox"
+                MinWidth="320"
+                MaxWidth="500"
+                Margin="20,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
+
+            <base:AppTitleBar.Footer>
+                <StackPanel Orientation="Horizontal">
+                    <local:Pinner Margin="0,0,16,0" VerticalAlignment="Center" />
+                    <components:HeaderAccountControl />
+                </StackPanel>
+            </base:AppTitleBar.Footer>
+        </base:AppTitleBar>
+
+        <base:AppTitleBar
+            x:Name="SecondaryTitleBar"
+            Title="{ext:Locale Name=AppName}"
+            BackRequested="OnVideoBackRequested"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,0,1"
+            IsBackButtonVisible="False"
+            Visibility="Collapsed">
+            <base:AppTitleBar.IconElement>
+                <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
+            </base:AppTitleBar.IconElement>
+        </base:AppTitleBar>
+
+        <NavigationView
+            x:Name="NavView"
+            Grid.Row="1"
+            BackRequested="OnNavViewBackRequested"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterItems, Mode=OneWay}"
+            ItemInvoked="OnNavViewItemInvoked"
+            MenuItemTemplate="{StaticResource AppNavItemTemplate}"
+            MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
+            SelectionFollowsFocus="Disabled"
+            Style="{StaticResource MainNavigationViewStyle}">
+            <Grid x:Name="MainGrid">
+                <Grid Visibility="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                    <Frame x:Name="MainFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <Grid x:Name="OverlayGrid" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}">
+                        <Frame x:Name="OverlayFrame" />
+                    </Grid>
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation
+                            From="0"
+                            To="1"
+                            Duration="0:0:0.26" />
+                    </animations:Implicit.ShowAnimations>
+                </Grid>
+                <components:ShimmerLayout
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    IsActive="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay}"
+                    Visibility="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay}">
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation
+                            From="1"
+                            To="0"
+                            Duration="0:0:0.26" />
+                    </animations:Implicit.HideAnimations>
+                </components:ShimmerLayout>
+            </Grid>
+        </NavigationView>
+
+        <TeachingTip
+            Title="{ext:Locale Name=HasUpdate}"
+            Grid.Row="1"
+            MinWidth="320"
+            ActionButtonClick="OnUpdateActionButtonClick"
+            ActionButtonContent="{ext:Locale Name=OpenUpdate}"
+            CloseButtonClick="OnUpdateCloseButtonClick"
+            IsLightDismissEnabled="False"
+            IsOpen="{x:Bind _appViewModel.IsUpdateShown, Mode=OneWay}"
+            PlacementMargin="0,20,0,0"
+            PreferredPlacement="RightTop"
+            Subtitle="{ext:Locale Name=HasUpdateDescription}">
+            <TeachingTip.IconSource>
+                <ic:SymbolIconSource
+                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                    IconVariant="Filled"
+                    Symbol="CheckmarkCircle" />
+            </TeachingTip.IconSource>
+        </TeachingTip>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource WindowNarrowMinWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainTitleBar.Title" Value="" />
+                        <Setter Target="MainTitleBar.Subtitle" Value="" />
+                        <Setter Target="SearchBox.Margin" Value="40,0,20,0" />
+                        <Setter Target="SearchBox.MinWidth" Value="100" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="PlayerStates">
+                <VisualState x:Name="NormalState" />
+                <VisualState x:Name="PlayerState">
+                    <VisualState.Setters>
+                        <Setter Target="MainGrid.BorderThickness" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:RootLayoutBase>

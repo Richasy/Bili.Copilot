@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components">
+
+    <Style BasedOn="{StaticResource TimelineSeasonCardStyle}" TargetType="local:SeasonCardControl" />
+    <Style x:Key="TimelineSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:TimelineSeasonPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="IndexSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:IndexSeasonPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="FavoriteSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:FavoriteSeasonPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PlayerSeasonCardStyle" TargetType="local:SeasonCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SeasonCardControl">
+                    <local:PlayerSeasonPresenter ViewModel="{TemplateBinding ViewModel}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

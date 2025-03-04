@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Components"
+    xmlns:moment="using:BiliCopilot.UI.Controls.Moment">
+
+    <Style x:Key="VideoMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:VideoMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PersonalVideoMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:PersonalVideoMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FullMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:FullMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ForwardMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <local:ForwardMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PersonalFullMomentCardStyle" TargetType="local:MomentCardControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MomentCardControl">
+                    <base:CardControl x:Name="RootCard">
+                        <local:PersonalFullMomentPresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:CardControl>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -6,7 +6,6 @@
 # User-specific files
 *.rsuser
 *.suo
-*.user
 *.userosscache
 *.sln.docstates
 
@@ -190,12 +189,8 @@ publish/
 # in these scripts will be unencrypted
 PublishScripts/
 
-# NuGet Packages
-*.nupkg
 # NuGet Symbol Packages
 *.snupkg
-# The packages folder can be ignored because of Package Restore
-**/[Pp]ackages/*
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
@@ -364,3 +359,8 @@ tools/Prompt.txt
 
 # Plugin package
 /src/App/Assets/AppCenterSecret.txt
+/src/Desktop/BiliCopilot.UI/Assets/libmpv/libmpv-2.dll
+/src/Desktop/BiliCopilot.UI/Assets/ffmpeg/ffmpeg.exe
+
+*/.vitepress/cache/
+*/.vitepress/dist/

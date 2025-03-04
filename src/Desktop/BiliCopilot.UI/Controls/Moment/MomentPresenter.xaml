@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:MomentPresenterBase
+    x:Class="BiliCopilot.UI.Controls.Moment.MomentPresenter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:component="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Moment"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="MomentVideoDataTemplate" x:DataType="items:VideoItemViewModel">
+            <component:VideoCardControl Style="{StaticResource MomentVideoCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="MomentForwardDataTemplate" x:DataType="items:MomentItemViewModel">
+            <component:MomentCardControl Style="{StaticResource ForwardMomentCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="EpisodeDataTemplate" x:DataType="items:EpisodeItemViewModel">
+            <component:EpisodeCardControl Style="{StaticResource MomentEpisodeCardStyle}" ViewModel="{x:Bind}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ImageDataTemplate">
+            <local:MomentImageGallery ItemsSource="{Binding}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="NotSupportTemplate">
+            <Grid
+                Padding="12,8"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Text="{ext:Locale Name=NotSupportContent}" />
+            </Grid>
+        </DataTemplate>
+
+        <ext:MomentDataTemplateSelector
+            x:Key="DataSelector"
+            EpisodeTemplate="{StaticResource EpisodeDataTemplate}"
+            ForwardTemplate="{StaticResource MomentForwardDataTemplate}"
+            ImageTemplate="{StaticResource ImageDataTemplate}"
+            NotSupportTemplate="{StaticResource NotSupportTemplate}"
+            VideoTemplate="{StaticResource MomentVideoDataTemplate}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <ContentControl
+            Content="{x:Bind ViewModel.InnerContent, Mode=OneWay}"
+            ContentTemplateSelector="{StaticResource DataSelector}"
+            Style="{StaticResource AppContentControlStyle}" />
+    </Grid>
+</local:MomentPresenterBase>

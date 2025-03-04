@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DownloadButtonBase
+    x:Class="BiliCopilot.UI.Controls.Player.DownloadButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Name="MenuFlyoutItemHeader">
+            <MenuFlyoutSeparator x:Name="QualityHeader" Style="{StaticResource MenuFlyoutHeaderSeparatorStyle}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <DropDownButton
+            x:Name="Btn"
+            HorizontalAlignment="Stretch"
+            Click="OnBtnClick"
+            Style="{StaticResource AccentDropDownButtonStyle}">
+            <StackPanel>
+                <TextBlock Text="{ext:Locale Name=DownloadVideo}" />
+                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=DownloadVideoTip}" />
+            </StackPanel>
+            <DropDownButton.Flyout>
+                <MenuFlyout x:Name="DownloadFlyout" ShouldConstrainToRootBounds="False" />
+            </DropDownButton.Flyout>
+        </DropDownButton>
+        <TeachingTip
+            x:Name="SelectionTip"
+            IsLightDismissEnabled="True"
+            PreferredPlacement="Top"
+            ShouldConstrainToRootBounds="False"
+            Subtitle="{ext:Locale Name=DownloadSelectPartTip}"
+            Target="{x:Bind Btn}">
+            <AutoSuggestBox
+                x:Name="SelectionBox"
+                Margin="0,8,0,0"
+                HorizontalAlignment="Stretch"
+                QuerySubmitted="OnSelectionSubmitted" />
+        </TeachingTip>
+    </Grid>
+</local:DownloadButtonBase>

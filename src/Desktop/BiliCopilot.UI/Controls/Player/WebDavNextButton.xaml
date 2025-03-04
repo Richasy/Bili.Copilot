@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:WebDavNextButtonBase
+    x:Class="BiliCopilot.UI.Controls.Player.WebDavNextButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Button
+        VerticalAlignment="Center"
+        Command="{x:Bind ViewModel.PlayNextVideoCommand, Mode=OneWay}"
+        Style="{StaticResource CircleIconButtonStyle}"
+        ToolTipService.ToolTip="{x:Bind ViewModel.NextVideoTip, Mode=OneWay}"
+        Visibility="{x:Bind ViewModel.HasNextVideo, Mode=OneWay}">
+        <ic:SymbolIcon
+            FontSize="14"
+            IconVariant="Filled"
+            Symbol="Next" />
+    </Button>
+</local:WebDavNextButtonBase>

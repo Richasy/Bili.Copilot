@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.PromptTemplateSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <base:SettingsExpander Description="{ext:Locale Name=CustomPromptDescription}" Header="{ext:Locale Name=CustomPrompt}">
+        <base:SettingsExpander.HeaderIcon>
+            <ic:SymbolIcon Symbol="ClipboardTextEdit" />
+        </base:SettingsExpander.HeaderIcon>
+        <base:SettingsExpander.Items>
+            <base:SettingsCard Description="{ext:Locale Name=CustomVideoSummarizeDescription}" Header="{ext:Locale Name=VideoSummarize}">
+                <Button Command="{x:Bind ViewModel.EditVideoSummarizeCommand}" Content="{ext:Locale Name=Edit}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=CustomVideoEvaluationDescription}" Header="{ext:Locale Name=VideoEvaluation}">
+                <Button Command="{x:Bind ViewModel.EditVideoEvaluationCommand}" Content="{ext:Locale Name=Edit}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=CustomArticleSummarizeDescription}" Header="{ext:Locale Name=ArticleSummarize}">
+                <Button Command="{x:Bind ViewModel.EditArticleSummarizeCommand}" Content="{ext:Locale Name=Edit}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=CustomArticleEvaluationDescription}" Header="{ext:Locale Name=ArticleEvaluation}">
+                <Button Command="{x:Bind ViewModel.EditArticleEvaluationCommand}" Content="{ext:Locale Name=Edit}" />
+            </base:SettingsCard>
+        </base:SettingsExpander.Items>
+    </base:SettingsExpander>
+</local:SettingsPageControlBase>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:NotifyMessageCardControlBase
+    x:Class="BiliCopilot.UI.Controls.Message.NotifyMessageCardControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Message"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <base:CardControl x:Name="RootCard" Margin="0,0,0,4">
+        <Grid Padding="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Margin="0,0,0,8" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Grid>
+                        <PersonPicture
+                            Width="32"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            DisplayName="{x:Bind ViewModel.FirstUserName, Mode=OneWay}"
+                            ProfilePicture="{x:Bind ViewModel.FirstUserAvatar, Converter={StaticResource BitmapConverter}, Mode=OneWay}" />
+                        <Ellipse
+                            x:Name="MultipleHolder"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,-20,0"
+                            Fill="{ThemeResource SubtleFillColorSecondaryBrush}"
+                            Visibility="{x:Bind ViewModel.IsMultipleUsers, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    </Grid>
+
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="{x:Bind ViewModel.FirstUserName, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock
+                            x:Name="UserNameBlock"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.FirstUserName, Mode=OneWay}" />
+                        <TextBlock
+                            x:Name="MultipleBlock"
+                            Margin="-4,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{ext:Locale Name=MorePeople}"
+                            Visibility="{x:Bind ViewModel.IsMultipleUsers, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock
+                    x:Name="TimeBlock"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.PublishRelativeTime, Mode=OneWay}" />
+            </Grid>
+
+            <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                <TextBlock
+                    x:Name="SubtitleBlock"
+                    Margin="0,0,0,4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.Subtitle, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}" />
+                <base:TrimTextBlock
+                    x:Name="DetailBlock"
+                    MaxLines="6"
+                    Text="{x:Bind ViewModel.Message, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.Message, Converter={StaticResource ObjectToVisibilityConverter}, Mode=OneWay}" />
+            </StackPanel>
+            <Border
+                Grid.Row="2"
+                Padding="8,4"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="{StaticResource ControlCornerRadius}">
+                <TextBlock
+                    x:Name="SourceContentBlock"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    MaxLines="6"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.SourceContent, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </Border>
+        </Grid>
+    </base:CardControl>
+</local:NotifyMessageCardControlBase>

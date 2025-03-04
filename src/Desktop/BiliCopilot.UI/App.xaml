@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="BiliCopilot.UI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Richasy.WinUIKernel.Share.Converters"
+    xmlns:local="using:BiliCopilot.UI"
+    xmlns:localConverters="using:BiliCopilot.UI.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="ms-appx:///Richasy.WinUIKernel.Share/Base/CustomNavigationViewResources.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/Overrides.xaml" />
+                <ResourceDictionary Source="ms-appx:///Styles/TrayResources.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/VideoCardControl/VideoCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/SeasonCardControl/SeasonCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/LiveCardControl/LiveCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/ArticleCardControl/ArticleCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/EpisodeCardControl/EpisodeCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/ChatModelCardControl/ChatModelCardControl.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Core/Player/PlayerResources.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Markdown/MarkdownTextBlock.xaml" />
+                <ResourceDictionary Source="ms-appx:///Controls/Components/ShimmerLayout/ShimmerLayout.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_light.jpg" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
+
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityReverseConverter" IsReverse="True" />
+            <converters:ObjectToBoolConverter x:Key="ObjectToBoolConverter" />
+            <converters:ObjectToBoolConverter x:Key="ObjectToBoolReverseConverter" IsReverse="True" />
+            <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+            <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityReverseConverter" IsReverse="True" />
+            <converters:BoolToIconVariantConverter x:Key="BoolToIconVariantConverter" />
+            <localConverters:UriToBitmapConverter x:Key="BitmapConverter" />
+            <localConverters:LevelImageConverter x:Key="LevelImageConverter" />
+            <localConverters:CountConverter x:Key="CountConverter" />
+            <localConverters:GridLengthConverter x:Key="GridLengthConverter" />
+            <localConverters:SortTypeTextConverter x:Key="SortTypeTextConverter" />
+            <localConverters:DurationConverter x:Key="DurationConverter" />
+            <localConverters:ColorTextConverter x:Key="ColorTextConverter" />
+            <localConverters:ColorToBrushConverter x:Key="BrushConverter" />
+
+            <UniformGridLayout
+                x:Key="VideoLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="240"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="PgcLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="266"
+                MinItemWidth="148"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="LiveLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="200"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="ArticleLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="200"
+                MinItemWidth="200"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="UserLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="84"
+                MinItemWidth="220"
+                MinRowSpacing="16" />
+
+            <UniformGridLayout
+                x:Key="MomentLayout"
+                ItemsStretch="Fill"
+                MinColumnSpacing="16"
+                MinItemHeight="292"
+                MinItemWidth="240"
+                MinRowSpacing="16" />
+
+            <SolidColorBrush x:Key="AnthropicColor" Color="#F1F0E8" />
+            <SolidColorBrush x:Key="AzureOpenAIColor" Color="#FFFFFF" />
+            <LinearGradientBrush x:Key="DashScopeColor" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#00055F" />
+                <GradientStop Offset="1" Color="#6F69F7" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="DeepSeekColor" Color="#4D6BFE" />
+            <LinearGradientBrush x:Key="GeminiColor" StartPoint="0,1" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#1C69FF" />
+                <GradientStop Offset="1" Color="#F0DCD6" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="GroqColor" Color="#F55036" />
+            <SolidColorBrush x:Key="HunYuanColor" Color="#0053e0" />
+            <SolidColorBrush x:Key="LingYiColor" Color="#003425" />
+            <LinearGradientBrush x:Key="MistralAIColor" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#F7D046" />
+                <GradientStop Offset="0.25" Color="#F2A73B" />
+                <GradientStop Offset="0.5" Color="#EE792F" />
+                <GradientStop Offset="0.75" Color="#EE792F" />
+                <GradientStop Offset="1" Color="#EA3326" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="MoonshotColor" Color="#16191E" />
+            <SolidColorBrush x:Key="OllamaColor" Color="White" />
+            <SolidColorBrush x:Key="OpenAIColor" Color="Black" />
+            <SolidColorBrush x:Key="OpenRouterColor" Color="#6566F1" />
+            <SolidColorBrush x:Key="PerplexityColor" Color="#22B8CD" />
+            <LinearGradientBrush x:Key="QianFanColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#0A51C3" />
+                <GradientStop Offset="1" Color="#23A4FB" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="SparkDeskColor" Color="#0070f0" />
+            <SolidColorBrush x:Key="TogetherAIColor" Color="#0f6fff" />
+            <SolidColorBrush x:Key="ZhiPuColor" Color="#3859FF" />
+            <SolidColorBrush x:Key="BaiduColor" Color="#2932E1" />
+            <LinearGradientBrush x:Key="AzureColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#3CCBF4" />
+                <GradientStop Offset="1" Color="#2892DF" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="AzureSpeechColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#50E6FF" />
+                <GradientStop Offset="1" Color="#773ADC" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="AliColor" Color="#FF6A00" />
+            <SolidColorBrush x:Key="TencentColor" Color="#00A3FF" />
+            <SolidColorBrush x:Key="YoudaoColor" Color="#E10012" />
+            <LinearGradientBrush x:Key="VolcanoColor" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="#00F3CE" />
+                <GradientStop Offset="1" Color="#3F30FF" />
+            </LinearGradientBrush>
+            <SolidColorBrush x:Key="SiliconFlowColor" Color="#7C3AED" />
+            <SolidColorBrush x:Key="DouBaoColor" Color="White" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

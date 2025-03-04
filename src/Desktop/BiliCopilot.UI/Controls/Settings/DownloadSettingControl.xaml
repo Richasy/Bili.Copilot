@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.DownloadSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <base:SettingsExpander Description="{ext:Locale Name=DownloadSettingDescription}" Header="{ext:Locale Name=DownloadSetting}">
+        <base:SettingsExpander.HeaderIcon>
+            <ic:SymbolIcon Symbol="ArrowDownload" />
+        </base:SettingsExpander.HeaderIcon>
+        <base:SettingsExpander.Items>
+            <base:SettingsCard Description="{x:Bind ViewModel.DefaultDownloadPath, Mode=OneWay}" Header="{ext:Locale Name=DefaultDownloadFolder}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button
+                        MinWidth="120"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.ChooseDownloadFolderCommand, Mode=OneWay}"
+                        Content="{ext:Locale Name=ChooseDownloadFolder}" />
+                    <Button
+                        VerticalAlignment="Center"
+                        Command="{x:Bind ViewModel.OpenDownloadFolderCommand}"
+                        Style="{StaticResource IconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=OpenFolder}">
+                        <ic:SymbolIcon FontSize="14" Symbol="FolderOpen" />
+                    </Button>
+                </StackPanel>
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=DownloadWithDanmaku}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.DownloadWithDanmaku, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=SkipAISubtitle}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.FilterAISubtitle, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Header="{ext:Locale Name=OpenFolderWhenDownloaded}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.OpenFolderAfterDownload, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=UseExternalBBDownDescription}" Header="{ext:Locale Name=UseExternalBBDown}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.UseExternalBBDown, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=CopyCommandWhenDownloadDescription}"
+                Header="{ext:Locale Name=CopyCommandWhenDownload}"
+                IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.OnlyCopyCommandWhenDownload, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                Description="{ext:Locale Name=GenCommandWithoutCredentialDescription}"
+                Header="{ext:Locale Name=GenCommandWithoutCredential}"
+                IsEnabled="{x:Bind ViewModel.UseExternalBBDown, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.WithoutCredentialWhenGenDownloadCommand, Mode=TwoWay}" />
+            </base:SettingsCard>
+        </base:SettingsExpander.Items>
+    </base:SettingsExpander>
+</local:SettingsPageControlBase>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<player:LivePlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Core.LiveTransportControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:BiliCopilot.UI.Controls.Player"
+    mc:Ignorable="d">
+
+    <Grid
+        Background="{ThemeResource TransportBackground}"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="{StaticResource OverlayCornerRadius}">
+        <Grid Padding="12,8" RowSpacing="4">
+            <Grid Grid.Row="1" ColumnSpacing="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Button
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource ButtonBackground}"
+                        Command="{x:Bind ViewModel.Player.TogglePlayPauseCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}">
+                        <Grid>
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Play"
+                                Visibility="{x:Bind ViewModel.Player.IsPaused, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                IconVariant="Filled"
+                                Symbol="Pause"
+                                Visibility="{x:Bind ViewModel.Player.IsPaused, Converter={StaticResource BoolToVisibilityReverseConverter}, Mode=OneWay}" />
+                        </Grid>
+                    </Button>
+                </Grid>
+
+                <!--  直播计时  -->
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="8,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Ellipse
+                        Width="8"
+                        Height="8"
+                        VerticalAlignment="Center"
+                        Fill="{ThemeResource SystemFillColorCriticalBrush}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Duration, Mode=OneWay, Converter={StaticResource DurationConverter}}"
+                        TextLineBounds="Tight" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="3"
+                    Orientation="Horizontal"
+                    Spacing="6">
+                    <ToggleButton
+                        x:Name="DanmakuToggleButton"
+                        Width="36"
+                        Height="36"
+                        AutomationProperties.Name="{ext:Locale Name=DanmakuSwitch}"
+                        Content="弹"
+                        CornerRadius="18"
+                        FontSize="12"
+                        FontWeight="Black"
+                        IsChecked="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=TwoWay}"
+                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuSwitch}" />
+                    <Button
+                        x:Name="DanmakuOptionButton"
+                        AutomationProperties.Name="{ext:Locale Name=DanmakuDisplaySettings}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuDisplaySettings}">
+                        <ic:SymbolIcon FontSize="14" Symbol="ContentSettings" />
+                        <Button.Flyout>
+                            <Flyout Closed="OnDisplayFlyoutClosed" FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}">
+                                <danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <player:LivePlayerFormatButton ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="4" Orientation="Horizontal">
+                    <!--  音量  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}">
+                        <ic:SymbolIcon FontSize="14" Symbol="Speaker2" />
+                        <Button.Flyout>
+                            <Flyout
+                                FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}"
+                                Placement="Top"
+                                ShouldConstrainToRootBounds="False">
+                                <StackPanel>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{ext:Locale Name=CurrentVolume}" />
+                                    <Slider
+                                        x:Name="VolumeSlider"
+                                        Width="200"
+                                        IsThumbToolTipEnabled="True"
+                                        Maximum="100"
+                                        Minimum="0"
+                                        StepFrequency="1"
+                                        TickFrequency="1"
+                                        ValueChanged="OnVolumeSliderValueChanged"
+                                        Value="{x:Bind ViewModel.Player.Volume, Mode=OneWay}" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <!--  小窗  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.Player.ToggleCompactOverlayCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Player.IsCompactOverlay, Converter={StaticResource CompactOverlayConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.Player.IsCompactOverlay, Converter={StaticResource CompactOverlayConverter}, Mode=OneWay}" />
+                    </Button>
+
+                    <!--  全窗口  -->
+                    <Button
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.Player.ToggleFullWindowCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Player.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.Player.IsFullWindow, Converter={StaticResource FullWindowConverter}, Mode=OneWay}" />
+                    </Button>
+
+                    <!--  全屏  -->
+                    <Button
+                        Command="{x:Bind ViewModel.Player.ToggleFullScreenCommand, Mode=OneWay}"
+                        Style="{StaticResource CircleIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Player.IsFullScreen, Converter={StaticResource FullScreenConverter}, Mode=OneWay}">
+                        <ic:SymbolIcon FontSize="14" Symbol="{x:Bind ViewModel.Player.IsFullScreen, Converter={StaticResource FullScreenConverter}, Mode=OneWay}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</player:LivePlayerPageControlBase>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:LivePlayerPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.LiveInfoSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:comp="using:BiliCopilot.UI.Controls.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Padding="16,12" Spacing="8">
+        <local:UpSectionControl
+            Margin="-8,0,0,0"
+            HorizontalAlignment="Left"
+            ActiveCommand="{x:Bind ViewModel.OpenUserSpaceCommand, Mode=OneWay}"
+            Avatar="{x:Bind ViewModel.UpAvatar, Mode=OneWay}"
+            IsFollow="{x:Bind ViewModel.IsFollow, Mode=OneWay}"
+            Subtitle="{x:Bind ViewModel.StartRelativeTime, Mode=OneWay}"
+            ToggleFollowCommand="{x:Bind ViewModel.ToggleFollowCommand, Mode=OneWay}"
+            UserName="{x:Bind ViewModel.UpName, Mode=OneWay}" />
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.TagName, Mode=OneWay}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="·" />
+            <base:IconTextBlock
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                IconBrush="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                Symbol="Eye"
+                Text="{x:Bind ViewModel.ViewerCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                ToolTipService.ToolTip="{ext:Locale Name=Viewer}" />
+        </StackPanel>
+    </StackPanel>
+</local:LivePlayerPageControlBase>
