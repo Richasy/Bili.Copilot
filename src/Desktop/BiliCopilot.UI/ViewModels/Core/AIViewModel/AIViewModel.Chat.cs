@@ -373,7 +373,7 @@ public sealed partial class AIViewModel
             if (streamingAction is null)
             {
                 var response = await service.Client!.GetResponseAsync(messages, options, cancellationToken).ConfigureAwait(false);
-                responseContent = response.Choices.FirstOrDefault()?.Text ?? string.Empty;
+                responseContent = response.Text ?? string.Empty;
             }
             else
             {
