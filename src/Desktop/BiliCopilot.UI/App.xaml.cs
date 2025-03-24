@@ -34,7 +34,6 @@ public partial class App : Application
     {
         InitializeComponent();
         _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        FluentIcons.WinUI.Extensions.UseSegoeMetrics(this);
         UnhandledException += OnUnhandledException;
         _notificationManager = AppNotificationManager.Default;
         _notificationManager.NotificationInvoked += OnAppNotificationInvoked;

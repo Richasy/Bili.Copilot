@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
+using Microsoft.Windows.BadgeNotifications;
 using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.Media;
 using Windows.Storage.Streams;
@@ -177,7 +178,6 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
     /// <returns><see cref="Task"/>.</returns>
     public Task CloseAsync()
     {
-        IsPaused = true;
         _isClosed = true;
         AttachedWindow = default;
         if (_smtc is not null)
@@ -187,6 +187,9 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc.ButtonPressed -= OnSystemControlsButtonPressedAsync;
             _smtc = default;
         }
+
+        BadgeNotificationManager.Current.ClearBadge();
+        ReleaseDisplay();
 
         return OnCloseAsync();
     }

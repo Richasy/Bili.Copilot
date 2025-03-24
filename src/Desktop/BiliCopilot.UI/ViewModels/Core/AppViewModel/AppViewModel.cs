@@ -6,6 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
+using Microsoft.Windows.BadgeNotifications;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUIKernel.Share.Base;
@@ -61,6 +62,8 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private void Launch()
     {
+        // 清除所有之前的badges.
+        BadgeNotificationManager.Current.ClearBadge();
         if (_tokenResolver.GetToken() is not null)
         {
             IsInitialLoading = true;

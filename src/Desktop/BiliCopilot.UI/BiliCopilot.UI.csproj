@@ -1489,9 +1489,6 @@
     <Page Update="Forms\GalleryWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
