@@ -33,7 +33,7 @@
 
 ### 商店下载（推荐）
 
-[从 Microsoft Store 中获取](https://www.microsoft.com/store/apps/9MVFJLPH517M?launch=true&mode=full)
+[从 Microsoft Store 中获取](https://apps.microsoft.com/detail/9MVFJLPH517M?launch=true&mode=full)
 
 ### 侧加载
 
