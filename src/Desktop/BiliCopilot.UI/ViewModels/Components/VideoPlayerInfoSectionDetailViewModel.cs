@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
@@ -20,10 +21,18 @@ public sealed partial class VideoPlayerInfoSectionDetailViewModel : ViewModelBas
     public VideoPlayerInfoSectionDetailViewModel(VideoPlayerPageViewModel pageVM)
         => Page = pageVM;
 
+    public VideoPlayerInfoSectionDetailViewModel(VideoSourceViewModel source)
+        => Source = source;
+
     /// <summary>
     /// 视频播放页视图模型.
     /// </summary>
     public VideoPlayerPageViewModel Page { get; }
+
+    /// <summary>
+    /// 视频源视图模型.
+    /// </summary>
+    public VideoSourceViewModel? Source { get; }
 
     /// <inheritdoc/>
     public string Title { get; } = ResourceToolkit.GetLocalizedString(StringNames.Information);

@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Dispatching;
@@ -9,28 +10,67 @@ using Microsoft.UI.Windowing;
 using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core;
 using Richasy.MpvKernel.Core.Enums;
-using Richasy.MpvKernel.Core.Models;
 using Richasy.MpvKernel.WinUI;
+using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.Graphics;
-using WinRT;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
-[GeneratedBindableCustomProperty]
-public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
+public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
 {
-    public async Task InitializeAsync()
+    public MpvPlayerWindowViewModel(
+        IMediaSourceResolver sourceResolver,
+        IMediaUIProvider? uiProvider)
     {
-        if (Client != null)
+        _logger = this.Get<ILogger<MpvPlayerWindowViewModel>>();
+        _queue = this.Get<DispatcherQueue>();
+        _sourceResolver = sourceResolver;
+        _uiProvider = uiProvider;
+        _tipTimer = _queue.CreateTimer();
+        _tipTimer.Interval = TimeSpan.FromSeconds(1);
+        _tipTimer.Tick += OnTipTimerTick;
+    }
+
+    [RelayCommand]
+    private async Task InitializeAsync()
+    {
+        if (Client is not null)
         {
             return;
         }
 
-        IsPlayerInitializing = true;
-        Client = await MpvClient.CreateAsync(logger: this.Get<ILogger<MpvPlayerViewModel>>());
-        Client.DataNotify += OnDataNotify;
+        Client = await MpvClient.CreateAsync();
+        Client.DataNotify += OnClientDataNotify;
+        Client.ReachFileLoading += OnFileLoading;
+        Client.ReachFileLoaded += OnFileLoaded;
         await Client.SetLogLevelAsync(MpvLogLevel.Warn);
         await Client.UseIdleAsync(true);
+
+        await InitializeConfigAsync();
+        await InitializeDecodeAsync();
+
+        InitializeWindow();
+
+        try
+        {
+            IsSourceLoading = true;
+            await _sourceResolver.InitializeAsync();
+            IsSourceLoading = false;
+        }
+        catch (Exception ex)
+        {
+            IsSourceLoading = false;
+            _logger.LogError(ex, "加载媒体源失败.");
+            _uiProvider?.ShowError("加载媒体源失败.", ex.Message);
+            return;
+        }
+
+        await LoadMediaAsync();
+        _sourceResolver.RequestReload += OnRequestReload;
+    }
+
+    private async Task InitializeConfigAsync()
+    {
         var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
         string configFilePath = default;
         if (decodeType == PreferDecodeType.Custom)
@@ -45,61 +85,8 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
         if (!string.IsNullOrEmpty(configFilePath))
         {
-            // TODO: 添加配置.
+            await Client.SetConfigFileAsync(configFilePath);
         }
-
-        await InitializeDecodeAsync();
-
-        _playerWindow = new MpvPlayerWindow(Client, this.Get<DispatcherQueue>());
-        MoveAndResize();
-        var wnd = _playerWindow.GetWindow();
-        wnd.Closing += OnClosing;
-        wnd.TitleBar.ExtendsContentIntoTitleBar = true;
-        wnd.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-        wnd.TitleBar.PreferredTheme = Microsoft.UI.Windowing.TitleBarTheme.UseDefaultAppMode;
-        _playerWindow.Show();
-        var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerWindowMaximized, false);
-        if (isMaximized)
-        {
-            (wnd.Presenter as OverlappedPresenter).Maximize();
-        }
-
-        IsPlayerInitializing = false;
-        _isInitialized = true;
-
-        RaiseInitializedEvent();
-        await TryLoadPlayDataAsync();
-    }
-
-    private void OnDataNotify(object? sender, MpvClientNotifyEventArgs e)
-    {
-        this.Get<DispatcherQueue>().TryEnqueue(() =>
-        {
-            switch (e.Id)
-            {
-                case MpvClientEventId.StateChanged:
-                    _lastState = (MpvPlayerState)e.Data;
-                    break;
-                case MpvClientEventId.VolumeChanged:
-                    var volume = (double)e.Data;
-                    Volume = Convert.ToInt32(volume);
-                    break;
-                case MpvClientEventId.DurationChanged:
-                    var duration = (double)e.Data;
-                    Duration = Convert.ToInt32(duration);
-                    break;
-                case MpvClientEventId.PositionChanged:
-                    var position = (double)e.Data;
-                    Position = Convert.ToInt32(position);
-                    break;
-            }
-        });
-    }
-
-    private void OnClosing(AppWindow sender, AppWindowClosingEventArgs args)
-    {
-        _playerWindow.GetWindow().Closing -= OnClosing;
-        SaveCurrentWindowStats();
     }
 
     private async Task InitializeDecodeAsync()
@@ -152,12 +139,55 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
         var displayArea = DisplayArea.GetFromPoint(lastPoint, DisplayAreaFallback.Primary)
             ?? DisplayArea.Primary;
         var rect = GetRenderRect(displayArea.WorkArea);
-        _playerWindow.GetWindow().MoveAndResize(rect);
+        Window.GetWindow().MoveAndResize(rect);
+    }
+
+    private void InitializeWindow()
+    {
+        Window = new MpvPlayerWindow(Client, this.Get<DispatcherQueue>());
+        Window.UINotify += OnUINotify;
+        MoveAndResize();
+        var wnd = Window.GetWindow();
+        wnd.TitleBar.ExtendsContentIntoTitleBar = true;
+        wnd.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+        wnd.TitleBar.ButtonForegroundColor = Colors.Transparent;
+        wnd.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
+
+        var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerWindowMaximized, false);
+        if (isMaximized)
+        {
+            (wnd.Presenter as OverlappedPresenter).Maximize();
+        }
+
+        wnd.Closing += OnWindowClosing;
+
+        if (_uiProvider != null)
+        {
+            var element = _uiProvider.GetUIElement();
+            Window.SetUIElement(element);
+        }
+
+        Window.Show();
+    }
+
+    private async Task LoadMediaAsync()
+    {
+        if (Client is null)
+        {
+            return;
+        }
+
+        var (url, options) = _sourceResolver.GetSource();
+        options.WindowHandle = Window.Handle;
+        options.InitialVolume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
+        options.InitialSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1d);
+        Window.GetWindow().Title = _sourceResolver.GetTitle();
+        await Client.PlayAsync(url, options);
     }
 
     private RectInt32 GetRenderRect(RectInt32 workArea)
     {
-        var scaleFactor = PInvoke.GetDpiForWindow(new(Win32Interop.GetWindowFromWindowId(_playerWindow.GetWindow().Id))) / 96d;
+        var scaleFactor = PInvoke.GetDpiForWindow(new(Win32Interop.GetWindowFromWindowId(Window.GetWindow().Id))) / 96d;
         var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowWidth, 1120d);
         var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowHeight, 740d);
         var width = Convert.ToInt32(previousWidth * scaleFactor);
@@ -183,10 +213,11 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
     private void SaveCurrentWindowStats()
     {
-        var wnd = _playerWindow.GetWindow();
+        var wnd = Window.GetWindow();
+        var scaleFactor = PInvoke.GetDpiForWindow(new(Win32Interop.GetWindowFromWindowId(wnd.Id))) / 96d;
         var left = wnd.Position.X;
         var top = wnd.Position.Y;
-        var isMaximized = PInvoke.IsZoomed(new(Win32Interop.GetWindowFromWindowId(_playerWindow.GetWindow().Id)));
+        var isMaximized = PInvoke.IsZoomed(new(Win32Interop.GetWindowFromWindowId(Window.GetWindow().Id)));
         SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerWindowMaximized, (bool)isMaximized);
 
         if (!isMaximized)
@@ -196,8 +227,8 @@ public sealed partial class MpvPlayerViewModel : PlayerViewModelBase
 
             if (wnd.Size.Height >= WindowMinHeight && wnd.Size.Width >= WindowMinWidth)
             {
-                SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, wnd.Size.Height * 1d);
-                SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, wnd.Size.Width * 1d);
+                SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowHeight, (wnd.Size.Height / scaleFactor) * 1d);
+                SettingsToolkit.WriteLocalSetting(SettingNames.PlayerWindowWidth, (wnd.Size.Width / scaleFactor) * 1d);
             }
         }
     }

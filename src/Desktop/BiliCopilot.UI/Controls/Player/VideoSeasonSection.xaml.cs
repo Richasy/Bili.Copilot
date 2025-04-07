@@ -33,13 +33,21 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
         await CheckSelectedItemAsync();
     }
 
-    private void OnVideoSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
+    private async void OnVideoSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var item = sender.SelectedItem as VideoItemViewModel;
         if (item is not null && ViewModel.SelectedItem != item)
         {
             ViewModel.SelectedItem = item;
-            ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
+            if (ViewModel.Source != null)
+            {
+                ViewModel.Source.InjectSnapshot(new VideoSnapshot(item.Data));
+                await ViewModel.Source.InitializeAsync();
+            }
+            else if (ViewModel.Page != null)
+            {
+                ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
+            }
         }
     }
 

@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -48,6 +49,18 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
         ChangeSeason(selectedSeason);
     }
 
+    public VideoPlayerSeasonSectionDetailViewModel(
+        VideoSourceViewModel source,
+        IList<VideoSeason> seasons,
+        string videoId)
+    {
+        Source = source;
+        Seasons = [.. seasons];
+        _videoId = videoId;
+        var selectedSeason = Seasons.FirstOrDefault(p => p.Videos.Any(q => q.Identifier.Id == _videoId));
+        ChangeSeason(selectedSeason);
+    }
+
     /// <inheritdoc/>
     public string Title => ResourceToolkit.GetLocalizedString(StringNames.UgcSeason);
 
@@ -55,6 +68,11 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
     /// 页面视图模型.
     /// </summary>
     public VideoPlayerPageViewModel Page { get; }
+
+    /// <summary>
+    /// 视频源视图模型.
+    /// </summary>
+    public VideoSourceViewModel? Source { get; }
 
     [RelayCommand]
     private static Task TryFirstLoadAsync()

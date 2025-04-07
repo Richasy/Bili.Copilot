@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -38,6 +39,17 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
         SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == _videoId);
     }
 
+    public VideoPlayerPlaylistSectionDetailViewModel(
+        VideoSourceViewModel source,
+        IList<VideoInformation> list,
+        string videoId)
+    {
+        _videoId = videoId;
+        Source = source;
+        Items = list.Select(p => new VideoItemViewModel(p, VideoCardStyle.PlayerPlaylist)).ToList();
+        SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == _videoId);
+    }
+
     /// <inheritdoc/>
     public string Title => ResourceToolkit.GetLocalizedString(StringNames.Playlist);
 
@@ -45,6 +57,11 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     /// 页面视图模型.
     /// </summary>
     public VideoPlayerPageViewModel Page { get; }
+
+    /// <summary>
+    /// 视频源视图模型.
+    /// </summary>
+    public VideoSourceViewModel? Source { get; }
 
     [RelayCommand]
     private static Task TryFirstLoadAsync()

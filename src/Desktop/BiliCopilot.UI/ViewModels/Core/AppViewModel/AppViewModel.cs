@@ -40,14 +40,24 @@ public sealed partial class AppViewModel : ViewModelBase
 
     public void OpenVideo(VideoSnapshot? snapshot, List<VideoInformation>? videos = default)
     {
+        var sourceVM = this.Get<VideoSourceViewModel>();
+        sourceVM.InjectSnapshot(snapshot);
         if (videos is not null)
         {
-            new PlayerWindow().OpenVideo((videos!, snapshot!));
+            sourceVM.InjectPlaylist(videos);
         }
-        else
-        {
-            new PlayerWindow().OpenVideo(snapshot);
-        }
+
+        var windowVM = new MpvPlayerWindowViewModel(sourceVM, default);
+        windowVM.InitializeCommand.Execute(default);
+
+        //if (videos is not null)
+        //{
+        //    new PlayerWindow().OpenVideo((videos!, snapshot!));
+        //}
+        //else
+        //{
+        //    new PlayerWindow().OpenVideo(snapshot);
+        //}
     }
 
     [RelayCommand]

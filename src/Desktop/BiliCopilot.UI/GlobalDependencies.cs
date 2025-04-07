@@ -127,6 +127,7 @@ internal static class GlobalDependencies
             .AddTransient<LiveChatSectionDetailViewModel>()
             .AddTransient<UserMomentDetailViewModel>()
             .AddTransient<DownloadViewModel>()
+            .AddTransient<VideoSourceViewModel>()
             .AddNotificationViewModel()
             .Build();
 

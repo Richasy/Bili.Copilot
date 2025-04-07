@@ -71,7 +71,7 @@
     <PackageVersion Include="Richasy.BiliKernel.Services.Moment" Version="0.0.1-preview3" />
     <PackageVersion Include="Richasy.BiliKernel.Services.Search" Version="0.0.1-preview3" />
     <PackageVersion Include="Richasy.BiliKernel.Services.User" Version="0.0.1-preview3" />
-    <PackageVersion Include="Richasy.MpvKernel.WinUI" Version="0.0.1-preview3" />
+    <PackageVersion Include="Richasy.MpvKernel.WinUI" Version="0.0.1-preview4" />
     <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.7-preview5" />
     <PackageVersion Include="RichasyKernel.Core" Version="0.0.1" />
     <PackageVersion Include="Roman-Numerals" Version="2.0.1" />
