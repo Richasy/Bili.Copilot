@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -112,7 +111,7 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
             var video = Items.First();
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(new VideoSnapshot(video.Data));
+                this.Get<AppViewModel>().OpenVideo(new(video.Data));
                 return;
             }
 
@@ -120,14 +119,15 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
         }
         else
         {
-            var data = (Items.Select(p => p.Data).ToList(), new VideoSnapshot(Items.First().Data));
+            var snapshot = new VideoSnapshot(Items.First().Data);
+            var videos = Items.Select(p => p.Data).ToList();
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(data);
+                this.Get<AppViewModel>().OpenVideo(snapshot, videos);
                 return;
             }
 
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), data);
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), (videos, snapshot));
         }
     }
 

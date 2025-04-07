@@ -32,8 +32,8 @@ public abstract partial class PlayerPageViewModelBase : LayoutPageViewModelBase
 
         Player = playerType switch
         {
-            PlayerType.Island => new IslandPlayerViewModel(),
             PlayerType.External => new ExternalPlayerViewModel(),
+            PlayerType.Island => new MpvPlayerViewModel(),
             _ => new NativePlayerViewModel(),
         };
 

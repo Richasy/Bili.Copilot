@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -285,33 +283,6 @@ public sealed partial class BiliPlayer
         if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
         {
             _lastPressedTime = DateTimeOffset.Now;
-        }
-
-        if (ViewModel is IslandPlayerViewModel)
-        {
-            if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
-            {
-                if (ViewModel.IsFullScreen || ViewModel.IsFullWindow || ViewModel.IsCompactOverlay)
-                {
-                    e.Handled = true;
-                    if (ViewModel.IsFullWindow)
-                    {
-                        ViewModel.ToggleFullWindowCommand.Execute(default);
-                    }
-                    else if (ViewModel.IsCompactOverlay)
-                    {
-                        ViewModel.ToggleCompactOverlayCommand.Execute(default);
-                    }
-                    else
-                    {
-                        ViewModel.ToggleFullScreenCommand.Execute(default);
-                    }
-                }
-                else if (this.Get<AppViewModel>().ActivatedWindow is MainWindow)
-                {
-                    this.Get<NavigationViewModel>().Back();
-                }
-            }
         }
     }
 

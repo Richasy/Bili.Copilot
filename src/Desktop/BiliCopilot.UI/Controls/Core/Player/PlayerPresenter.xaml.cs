@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Core;
-using CommunityToolkit.WinUI;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -16,12 +15,13 @@ public sealed partial class PlayerPresenter : PlayerPresenterBase
     /// </summary>
     public PlayerPresenter() => InitializeComponent();
 
-    /// <summary>
-    /// 尝试获取岛屿播放器.
-    /// </summary>
-    /// <returns>实例.</returns>
-    public IslandPlayer? TryGetIslandPlayer()
-        => this.FindDescendant<IslandPlayer>();
+    protected override async void OnControlLoaded()
+    {
+        if(ViewModel is MpvPlayerViewModel vm)
+        {
+            await vm.InitializeAsync();
+        }
+    }
 }
 
 /// <summary>

@@ -237,7 +237,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            new PlayerWindow().OpenVideo(new VideoSnapshot(vinfo));
+            this.Get<AppViewModel>().OpenVideo(new(vinfo));
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {

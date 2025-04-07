@@ -114,9 +114,6 @@ public abstract partial class PlayerViewModelBase
     private bool _isExternalPlayer;
 
     [ObservableProperty]
-    private bool _isAmdMpvWarningShown;
-
-    [ObservableProperty]
     private Uri? _cover;
 
     [ObservableProperty]

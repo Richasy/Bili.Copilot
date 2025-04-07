@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -163,7 +162,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 
     [RelayCommand]
     private void OpenInNewWindow()
-        => new PlayerWindow().OpenVideo(new VideoSnapshot(Data));
+        => this.Get<AppViewModel>().OpenVideo(new(Data));
 
     [RelayCommand]
     private void CopyUri()

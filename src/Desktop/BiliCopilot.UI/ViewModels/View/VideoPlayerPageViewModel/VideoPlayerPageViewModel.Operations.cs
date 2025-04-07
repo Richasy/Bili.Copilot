@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -190,7 +189,7 @@ public sealed partial class VideoPlayerPageViewModel
         => Launcher.LaunchUriAsync(new Uri(GetWebLink())).AsTask();
 
     [RelayCommand]
-    private async Task PlayNextVideoAsync()
+    private void PlayNextVideo()
     {
         if (IsPageLoading || Player.IsPlayerDataLoading)
         {
@@ -205,16 +204,6 @@ public sealed partial class VideoPlayerPageViewModel
         }
 
         _initialProgress = 0;
-        if (Player is IslandPlayerViewModel)
-        {
-            if (!Player.IsPaused)
-            {
-                Player.TogglePlayPauseCommand.Execute(default);
-            }
-
-            // 留出时间给 MPV 清理资源.
-            await Task.Delay(1500);
-        }
 
         if (nextPart is VideoPart part)
         {
@@ -250,7 +239,7 @@ public sealed partial class VideoPlayerPageViewModel
             Player.TogglePlayPauseCommand.Execute(default);
         }
 
-        new PlayerWindow().OpenVideo(new VideoSnapshot(_view.Information, IsPrivatePlay));
+        this.Get<AppViewModel>().OpenVideo(new VideoSnapshot(_view.Information, IsPrivatePlay));
     }
 
     [RelayCommand]

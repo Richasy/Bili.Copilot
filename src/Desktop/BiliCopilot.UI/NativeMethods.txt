@@ -20,5 +20,6 @@ EnumChildWindows
 GetClassName
 SetWindowRgn
 CreateRectRgn
+GetDpiForWindow
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT

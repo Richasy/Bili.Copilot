@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
@@ -175,10 +174,6 @@ public sealed partial class BiliPlayer
             },
         };
         rootGrid.Children.Add(_failedHolder);
-        if (ViewModel is IslandPlayerViewModel)
-        {
-            rootGrid.Children.Insert(0, CreateHiddenControlsContainer());
-        }
 
         _overlayContainer = rootGrid;
         HookRootPointerEvents();
@@ -213,13 +208,6 @@ public sealed partial class BiliPlayer
             {
                 _progressBar.Value = ViewModel.Position;
             }
-
-            if (_needRemeasureSize && PlayerPresenter?.TryGetIslandPlayer() is IslandPlayer islandPlayer)
-            {
-                islandPlayer.ResetWindowPosition();
-            }
-
-            _needRemeasureSize = false;
         }
         else if (e.PropertyName == nameof(ViewModel.IsBottomProgressVisible))
         {

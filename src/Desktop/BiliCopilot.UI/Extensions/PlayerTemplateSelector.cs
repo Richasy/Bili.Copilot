@@ -24,10 +24,6 @@ internal sealed partial class PlayerTemplateSelector : DataTemplateSelector
         {
             return ExternalTemplate;
         }
-        else if (item is IslandPlayerViewModel)
-        {
-            return IslandTemplate;
-        }
 
         return default;
     }

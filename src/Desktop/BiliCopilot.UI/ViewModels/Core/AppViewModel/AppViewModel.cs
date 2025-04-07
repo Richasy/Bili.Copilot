@@ -1,14 +1,16 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.Windows.BadgeNotifications;
-using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
+using Richasy.BiliKernel.Models.Media;
+using Richasy.MpvKernel;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
@@ -36,6 +38,18 @@ public sealed partial class AppViewModel : ViewModelBase
         _tokenResolver = tokenResolver;
     }
 
+    public void OpenVideo(VideoSnapshot? snapshot, List<VideoInformation>? videos = default)
+    {
+        if (videos is not null)
+        {
+            new PlayerWindow().OpenVideo((videos!, snapshot!));
+        }
+        else
+        {
+            new PlayerWindow().OpenVideo(snapshot);
+        }
+    }
+
     [RelayCommand]
     private static void Restart()
     {
@@ -50,7 +64,7 @@ public sealed partial class AppViewModel : ViewModelBase
         var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
         var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/libmpv/{identifier}/libmpv-2.dll")).AsTask();
         var libPath = libFile.Path;
-        Resolver.SetCustomMpvPath(libPath);
+        MpvNative.Initialize(libPath);
 
         var bbdownFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/BBDown/{identifier}/BBDown.exe")).AsTask();
         BBDownPath = bbdownFile.Path;
@@ -269,6 +283,9 @@ public sealed partial class AppViewModel : ViewModelBase
             _logger.LogError(ex, "检查GPU类型时失败");
         }
     }
+
+    private bool IsUseMpv()
+        => SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.Island;
 
     partial void OnIsInitialLoadingChanged(bool value)
     {

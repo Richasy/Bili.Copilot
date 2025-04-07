@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\MpvVideoPlayerContainer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\UserCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>
