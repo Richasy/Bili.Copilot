@@ -315,6 +315,7 @@
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="H.NotifyIcon.WinUI" />
     <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="ImageEx.WinUI" />
     <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.Web.WebView2" />
     <PackageReference Include="Microsoft.Windows.CsWin32">

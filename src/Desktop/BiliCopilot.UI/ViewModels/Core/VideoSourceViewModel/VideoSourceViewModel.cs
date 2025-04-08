@@ -64,7 +64,6 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         {
             if (_view is not null && _view.Information.Identifier.Id != video.Identifier.Id)
             {
-                // TODO: 记录上一个视频的播放进度.
                 await ReportProgressAsync(_lastPosition);
             }
 

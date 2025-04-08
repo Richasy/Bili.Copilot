@@ -39,12 +39,6 @@ public sealed partial class MpvPlayerWindowViewModel
     [ObservableProperty]
     public partial bool IsFileLoading { get; set; }
 
-    /// <summary>
-    /// 表示媒体是否正在加载，比如 seeking 或者 buffering.
-    /// </summary>
-    [ObservableProperty]
-    public partial bool IsMediaLoading { get; set; }
-
     [ObservableProperty]
     public partial bool IsPlaying { get; set; }
 

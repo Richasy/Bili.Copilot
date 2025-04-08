@@ -244,13 +244,19 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
     }
 
     private void CheckBackdropVisible()
-        => IsBackdropVisible = IsFileLoading || IsMediaLoading || IsIdle || IsSourceLoading;
+        => IsBackdropVisible = IsFileLoading || IsIdle || IsSourceLoading;
 
     partial void OnIsFileLoadingChanged(bool value) => CheckBackdropVisible();
-
-    partial void OnIsMediaLoadingChanged(bool value) => CheckBackdropVisible();
 
     partial void OnIsIdleChanged(bool value) => CheckBackdropVisible();
 
     partial void OnIsSourceLoadingChanged(bool value) => CheckBackdropVisible();
+
+    partial void OnIsProgressChangingChanged(bool value)
+    {
+        if (!IsControlVisible)
+        {
+            IsControlVisible = true;
+        }
+    }
 }

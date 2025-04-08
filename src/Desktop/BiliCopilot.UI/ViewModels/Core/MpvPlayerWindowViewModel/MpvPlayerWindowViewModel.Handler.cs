@@ -21,12 +21,16 @@ public sealed partial class MpvPlayerWindowViewModel
             switch (e.Id)
             {
                 case MpvClientEventId.StateChanged:
+                    var state = (MpvPlayerState)e.Data;
+                    if (state != LastState)
+                    {
+                        _sourceResolver.HandlePlayerStateChanged(state);
+                    }
+
                     LastState = (MpvPlayerState)e.Data;
                     IsPlaying = LastState == MpvPlayerState.Playing;
-                    IsMediaLoading = LastState is MpvPlayerState.Buffering or MpvPlayerState.Seeking;
                     IsIdle = LastState == MpvPlayerState.Idle;
                     IsRestartVisible = LastState == MpvPlayerState.End;
-                    _sourceResolver.HandlePlayerStateChanged(LastState);
                     break;
                 case MpvClientEventId.VolumeChanged:
                     var volume = (double)e.Data;
@@ -56,9 +60,25 @@ public sealed partial class MpvPlayerWindowViewModel
                     break;
                 case MpvClientEventId.FullScreenChanged:
                     IsFullScreen = (bool)e.Data;
+                    if (IsFullScreen)
+                    {
+                        Window?.GetWindow().SetPresenter(AppWindowPresenterKind.FullScreen);
+                    }
+                    else
+                    {
+                        Window?.GetWindow().SetPresenter(AppWindowPresenterKind.Default);
+                    }
                     break;
                 case MpvClientEventId.CompactOverlayChanged:
                     IsCompactOverlay = (bool)e.Data;
+                    if (IsCompactOverlay)
+                    {
+                        Window?.GetWindow().SetPresenter(AppWindowPresenterKind.CompactOverlay);
+                    }
+                    else
+                    {
+                        Window?.GetWindow().SetPresenter(AppWindowPresenterKind.Default);
+                    }
                     break;
                 default:
                     break;
