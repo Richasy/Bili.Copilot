@@ -89,6 +89,7 @@
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
     <None Remove="Controls\Components\UserCardControl.xaml" />
     <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
+    <None Remove="Controls\Core\OverlayTransportControl.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
@@ -1267,6 +1268,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\OverlayTransportControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Core\VideoPlayerOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,7 +5,7 @@ using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Core;
 
-public sealed partial class VideoPlayerOverlay : VideoPlayerOverlayBase
+public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase
 {
     public VideoSourceViewModel Source { get; }
 
@@ -17,4 +17,4 @@ public sealed partial class VideoPlayerOverlay : VideoPlayerOverlayBase
     }
 }
 
-public abstract class VideoPlayerOverlayBase : LayoutUserControlBase<MpvPlayerWindowViewModel>;
+public abstract class MpvPlayerControlBase : LayoutUserControlBase<MpvPlayerWindowViewModel>;
