@@ -39,6 +39,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
             return;
         }
 
+        _uiProvider?.SetWindowViewModel(this);
         Client = await MpvClient.CreateAsync();
         Client.DataNotify += OnClientDataNotify;
         Client.ReachFileLoading += OnFileLoading;
@@ -152,6 +153,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         wnd.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         wnd.TitleBar.ButtonForegroundColor = Colors.Transparent;
         wnd.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
+        wnd.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
         var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerWindowMaximized, false);
         if (isMaximized)
@@ -164,6 +166,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         if (_uiProvider != null)
         {
             var element = _uiProvider.GetUIElement();
+            IsControlVisible = true;
             Window.SetUIElement(element);
         }
 
@@ -239,4 +242,15 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         var top = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerWindowPositionTop, 0);
         return new PointInt32(left, top);
     }
+
+    private void CheckBackdropVisible()
+        => IsBackdropVisible = IsFileLoading || IsMediaLoading || IsIdle || IsSourceLoading;
+
+    partial void OnIsFileLoadingChanged(bool value) => CheckBackdropVisible();
+
+    partial void OnIsMediaLoadingChanged(bool value) => CheckBackdropVisible();
+
+    partial void OnIsIdleChanged(bool value) => CheckBackdropVisible();
+
+    partial void OnIsSourceLoadingChanged(bool value) => CheckBackdropVisible();
 }

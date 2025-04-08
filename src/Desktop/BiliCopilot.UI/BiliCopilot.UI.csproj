@@ -93,6 +93,7 @@
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
     <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
+    <None Remove="Controls\Core\VideoPlayerOverlay.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
     <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
@@ -1266,6 +1267,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\VideoPlayerOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Player\MpvVideoPlayerContainer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

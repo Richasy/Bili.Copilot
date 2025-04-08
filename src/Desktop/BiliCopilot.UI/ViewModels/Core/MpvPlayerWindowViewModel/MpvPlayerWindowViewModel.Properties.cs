@@ -89,4 +89,10 @@ public sealed partial class MpvPlayerWindowViewModel
 
     [ObservableProperty]
     public partial bool IsVolumeChanging { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsControlVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsBackdropVisible { get; set; }
 }

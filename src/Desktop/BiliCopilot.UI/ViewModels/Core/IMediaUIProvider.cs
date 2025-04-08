@@ -8,6 +8,12 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public interface IMediaUIProvider
 {
     /// <summary>
+    /// 设置窗口视图模型.
+    /// </summary>
+    /// <param name="vm">视图模型.</param>
+    public void SetWindowViewModel(MpvPlayerWindowViewModel vm);
+
+    /// <summary>
     /// 提供用于显示的UI元素.
     /// </summary>
     /// <returns>元素.</returns>

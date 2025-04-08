@@ -47,7 +47,8 @@ public sealed partial class AppViewModel : ViewModelBase
             sourceVM.InjectPlaylist(videos);
         }
 
-        var windowVM = new MpvPlayerWindowViewModel(sourceVM, default);
+        var uiProvider = new VideoUIProvider(sourceVM);
+        var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
         windowVM.InitializeCommand.Execute(default);
 
         //if (videos is not null)

@@ -78,12 +78,13 @@ public sealed partial class MpvPlayerWindowViewModel
                     break;
                 case MpvUIEventId.VolumeChanged:
                     IsVolumeChanging = true;
-                    _tipTimer.Stop();
-                    _tipTimer.Start();
+                    _tipTimer?.Stop();
+                    _tipTimer?.Start();
                     break;
                 case MpvUIEventId.PointerMoved:
                     break;
                 case MpvUIEventId.Tapped:
+                    IsControlVisible = !IsControlVisible;
                     break;
                 default:
                     break;
