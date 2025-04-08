@@ -155,6 +155,13 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         wnd.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
         wnd.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
 
+        if (wnd.Presenter is OverlappedPresenter presenter)
+        {
+            var scaleFactor = PInvoke.GetDpiForWindow(new(Win32Interop.GetWindowFromWindowId(wnd.Id))) / 96d;
+            presenter.PreferredMinimumWidth = Convert.ToInt32(WindowMinWidth * scaleFactor);
+            presenter.PreferredMinimumHeight = Convert.ToInt32(WindowMinHeight * scaleFactor);
+        }
+
         var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerWindowMaximized, false);
         if (isMaximized)
         {
