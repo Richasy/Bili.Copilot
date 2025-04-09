@@ -46,7 +46,7 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
     private async Task CheckSelectedItemAsync()
     {
         await Task.Delay(100);
-        if (ViewModel.SelectedItem is null)
+        if (ViewModel?.SelectedItem is null)
         {
             return;
         }

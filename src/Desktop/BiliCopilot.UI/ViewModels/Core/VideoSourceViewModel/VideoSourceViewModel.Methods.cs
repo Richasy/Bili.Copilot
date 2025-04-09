@@ -109,41 +109,17 @@ public sealed partial class VideoSourceViewModel
 
     private void InitializeSections()
     {
-        if (Sections?.Count > 0)
+        if (_isSeasonInitialized)
         {
             return;
         }
 
-        var sections = new List<IPlayerSectionDetailViewModel>
-        {
-            new VideoPlayerInfoSectionDetailViewModel(this),
-        };
+        SeasonSection = _view.Seasons is not null ? new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId) : default;
+        PartSection = _view.Parts?.Count > 1 ? new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePartCommand.Execute) : default;
+        PlaylistSection = _playlist is not null ? new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId) : default;
+        RecommendSection = _view.Recommends is not null ? new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends) : default;
 
-        if (_view.Seasons is not null)
-        {
-            sections.Insert(0, new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
-        }
-
-        if (_view.Parts?.Count > 1)
-        {
-            sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePartCommand.Execute));
-        }
-
-        if (_playlist is not null)
-        {
-            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
-        }
-
-        if (_view.Recommends is not null)
-        {
-            sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
-        }
-
-        sections.Add(_comments);
-        sections.Add(new VideoPlayerAISectionDetailViewModel(AI));
-
-        Sections = sections;
-        SelectSection(Sections[0]);
+        _isSeasonInitialized = true;
         SectionInitialized?.Invoke(this, EventArgs.Empty);
     }
 
@@ -172,7 +148,6 @@ public sealed partial class VideoSourceViewModel
         BvId = default;
         FavoriteFolders = default;
         SelectedFormat = default;
-        Sections?.Clear();
     }
 
     private VideoPart? FindInitialPart(string? initialPartId = default)
@@ -221,20 +196,19 @@ public sealed partial class VideoSourceViewModel
     private object? FindNextVideo()
     {
         var isListLoop = CurrentLoop == VideoLoopType.List;
-        var hasUgcSeason = Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().Any();
 
         // 1. 先检查分P列表中是否有下一个视频.
-        if (Sections.OfType<VideoPlayerPartSectionDetailViewModel>().FirstOrDefault() is VideoPlayerPartSectionDetailViewModel partSection)
+        if (PartSection != null)
         {
-            var index = partSection.Parts.ToList().IndexOf(_part);
-            if (index < partSection.Parts.Count - 1)
+            var index = PartSection.Parts.ToList().IndexOf(_part);
+            if (index < PartSection.Parts.Count - 1)
             {
-                return partSection.Parts[index + 1];
+                return PartSection.Parts[index + 1];
             }
 
-            if (_playlist is null && isListLoop && !hasUgcSeason)
+            if (_playlist is null && isListLoop && SeasonSection is null)
             {
-                return partSection.Parts[0];
+                return PartSection.Parts[0];
             }
         }
 
@@ -258,24 +232,24 @@ public sealed partial class VideoSourceViewModel
         }
 
         // 3. 检查合集中是否有下一个视频.
-        if (Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().FirstOrDefault() is VideoPlayerSeasonSectionDetailViewModel seasonSection)
+        if (SeasonSection != null)
         {
-            var index = seasonSection.Items.ToList().IndexOf(seasonSection.SelectedItem);
-            if (index < seasonSection.Items.Count - 1)
+            var index = SeasonSection.Items.ToList().IndexOf(SeasonSection.SelectedItem);
+            if (index < SeasonSection.Items.Count - 1)
             {
-                return seasonSection.Items[index + 1].Data;
+                return SeasonSection.Items[index + 1].Data;
             }
             else if (isListLoop)
             {
-                return seasonSection.Items[0].Data;
+                return SeasonSection.Items[0].Data;
             }
         }
 
         // 4. 检查推荐视频中是否有下一个视频.
         var isAutoPlayRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
-        if (isAutoPlayRecommendVideo && Sections.OfType<VideoPlayerRecommendSectionDetailViewModel>().FirstOrDefault() is VideoPlayerRecommendSectionDetailViewModel recommendSection)
+        if (isAutoPlayRecommendVideo && RecommendSection != null)
         {
-            return recommendSection.Items[0].Data;
+            return RecommendSection.Items[0].Data;
         }
 
         return default;
@@ -283,7 +257,7 @@ public sealed partial class VideoSourceViewModel
 
     private void InitializeNextVideo()
     {
-        if (_view is null || Sections?.Count == 0)
+        if (_view is null || !_isSeasonInitialized)
         {
             return;
         }
@@ -320,9 +294,9 @@ public sealed partial class VideoSourceViewModel
     {
         var currentType = CurrentLoop;
         var loops = new List<VideoLoopType> { VideoLoopType.None, VideoLoopType.Single };
-        if (Sections.OfType<VideoPlayerPartSectionDetailViewModel>().Any()
+        if (PartSection is not null
            || _playlist is not null
-           || Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().Any())
+           || SeasonSection is not null)
         {
             loops.Add(VideoLoopType.List);
         }

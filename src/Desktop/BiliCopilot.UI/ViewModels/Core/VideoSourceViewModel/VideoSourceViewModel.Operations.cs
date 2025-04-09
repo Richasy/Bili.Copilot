@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -244,7 +243,6 @@ public sealed partial class VideoSourceViewModel
         await InitializeDashMediaAsync(part);
         Subtitle?.InitializeCommand.Execute(default);
         InitializeNextVideo();
-        var partSection = Sections.Find(p => p is VideoPlayerPartSectionDetailViewModel) as VideoPlayerPartSectionDetailViewModel;
-        partSection?.UpdateSelectedPartCommand.Execute(part);
+        PartSection?.UpdateSelectedPartCommand.Execute(part);
     }
 }

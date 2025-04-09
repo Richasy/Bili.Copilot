@@ -23,7 +23,6 @@ public sealed partial class VideoSourceViewModel
     private readonly IRelationshipService _relationshipService;
     private readonly IFavoriteService _favoriteService;
     private readonly ILogger<VideoPlayerPageViewModel> _logger;
-    private readonly CommentMainViewModel _comments;
 
     private VideoSnapshot _cachedSnapshot;
     private VideoPlayerView? _view;
@@ -33,6 +32,7 @@ public sealed partial class VideoSourceViewModel
     private IList<VideoInformation>? _playlist;
     private double _initialProgress;
     private double _lastPosition;
+    private bool _isSeasonInitialized;
 
     private string _videoUrl;
     private string _audioUrl;
@@ -119,16 +119,10 @@ public sealed partial class VideoSourceViewModel
     public partial bool IsInteractionVideo{ get; set; }
 
     [ObservableProperty]
-    public partial bool IsAIOverlayOpened{ get; set; }
-
-    [ObservableProperty]
     public partial VideoLoopType CurrentLoop{ get; set; }
 
     [ObservableProperty]
     public partial PlayerFormatItemViewModel? SelectedFormat{ get; set; }
-
-    [ObservableProperty]
-    public partial IPlayerSectionDetailViewModel? SelectedSection{ get; set; }
 
     [ObservableProperty]
     public partial List<PlayerFormatItemViewModel>? Formats{ get; set; }
@@ -143,7 +137,40 @@ public sealed partial class VideoSourceViewModel
     public partial List<VideoLoopType>? LoopTypes{ get; set; }
 
     [ObservableProperty]
-    public partial List<IPlayerSectionDetailViewModel>? Sections{ get; set; }
+    public partial CommentMainViewModel? CommentSection { get; set; }
+
+    [ObservableProperty]
+    public partial VideoPlayerPartSectionDetailViewModel? PartSection { get; set; }
+
+    [ObservableProperty]
+    public partial VideoPlayerPlaylistSectionDetailViewModel? PlaylistSection { get; set; }
+
+    [ObservableProperty]
+    public partial VideoPlayerRecommendSectionDetailViewModel? RecommendSection { get; set; }
+
+    [ObservableProperty]
+    public partial VideoPlayerSeasonSectionDetailViewModel? SeasonSection { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsInfoSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsCommentSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPartSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPlaylistSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsRecommendSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsSeasonSectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsAISectionPanelVisible { get; set; }
 
     /// <summary>
     /// 区块加载完成.

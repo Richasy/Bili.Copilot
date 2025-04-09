@@ -5,14 +5,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView x:Name="VideoScrollView" Style="{StaticResource PageScrollViewStyle}">
-            <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="16,12"
+            Style="{StaticResource BodyStrongTextBlockStyle}"
+            Text="{ext:Locale Name=Recommend}" />
+        <ScrollView
+            x:Name="VideoScrollView"
+            Grid.Row="1"
+            Style="{StaticResource PageScrollViewStyle}">
+            <Grid Margin="16,0,16,12">
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">

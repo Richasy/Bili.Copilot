@@ -5,7 +5,7 @@ namespace BiliCopilot.UI.Controls.Player;
 /// <summary>
 /// 视频播放器左侧面板.
 /// </summary>
-public sealed partial class VideoPlayerTransportLeftPanel : VideoPlayerPageControlBase
+public sealed partial class VideoPlayerTransportLeftPanel : VideoSourceControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerTransportLeftPanel"/> class.

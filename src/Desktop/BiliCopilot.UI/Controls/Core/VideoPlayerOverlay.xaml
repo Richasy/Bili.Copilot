@@ -5,13 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:comment="using:BiliCopilot.UI.Controls.Comment"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
     xmlns:imageex="using:ImageEx"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:BiliCopilot.UI.Controls.Player"
     mc:Ignorable="d">
 
     <Grid>
@@ -121,7 +124,8 @@
                             <Button
                                 Padding="8"
                                 Background="Transparent"
-                                BorderThickness="0">
+                                BorderThickness="0"
+                                Click="OnVideoInfoButtonClick">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -179,7 +183,305 @@
                         </Grid>
                     </local:OverlayTransportControl.LeftElement>
                 </local:OverlayTransportControl>
+                <StackPanel
+                    x:Name="SideContainer"
+                    Margin="0,0,20,100"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <StackPanel Visibility="{x:Bind ViewModel.IsControlVisible, Mode=OneWay}">
+                        <Button
+                            Margin="0,0,0,8"
+                            Click="OnCommentButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=Comments}">
+                            <ic:SymbolIcon FontSize="14" Symbol="Comment" />
+                        </Button>
+                        <Button
+                            Margin="0,0,0,8"
+                            Click="OnPlaylistButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=Parts}"
+                            Visibility="{x:Bind Source.PlaylistSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <ic:SymbolIcon FontSize="14" Symbol="NavigationPlay" />
+                        </Button>
+                        <Button
+                            Margin="0,0,0,8"
+                            Click="OnPartButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=Parts}"
+                            Visibility="{x:Bind Source.PartSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <ic:SymbolIcon FontSize="14" Symbol="Grid" />
+                        </Button>
+                        <Button
+                            Margin="0,0,0,8"
+                            Click="OnSeasonButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=UgcSeason}"
+                            Visibility="{x:Bind Source.SeasonSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <ic:SymbolIcon FontSize="14" Symbol="AppsList" />
+                        </Button>
+                        <Button
+                            Margin="0,0,0,8"
+                            Click="OnRecommendButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=Recommend}"
+                            Visibility="{x:Bind Source.RecommendSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                            <ic:SymbolIcon FontSize="14" Symbol="ListBarTreeOffset" />
+                        </Button>
+                        <Button
+                            Click="OnAIButtonClick"
+                            Style="{StaticResource SidePlayerButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=AIService}">
+                            <ic:SymbolIcon FontSize="14" Symbol="Sparkle" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
+        </Grid>
+
+        <!--  视频信息  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Left"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsInfoSectionPanelVisible, Mode=OneWay}">
+            <player:VideoInfoSection
+                x:Name="VideoInfoSec"
+                x:Load="{x:Bind Source.IsInfoSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="-80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="-80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  推荐视频  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsRecommendSectionPanelVisible, Mode=OneWay}">
+            <player:VideoRecommendSection
+                x:Name="RecommendSec"
+                x:Load="{x:Bind Source.IsRecommendSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.RecommendSection, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  视频分集  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsPartSectionPanelVisible, Mode=OneWay}">
+            <player:VideoPartsSection
+                x:Name="PartSec"
+                x:Load="{x:Bind Source.IsPartSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.PartSection, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  视频合集  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsSeasonSectionPanelVisible, Mode=OneWay}">
+            <player:VideoSeasonSection
+                x:Name="SeasonSec"
+                x:Load="{x:Bind Source.IsSeasonSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.SeasonSection, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  播放列表  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsPlaylistSectionPanelVisible, Mode=OneWay}">
+            <player:VideoPlaylistSection
+                x:Name="PlaylistSec"
+                x:Load="{x:Bind Source.IsPlaylistSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.PlaylistSection, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  评论  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsCommentSectionPanelVisible, Mode=OneWay}">
+            <comment:CommentMainPanel
+                x:Name="CommentSec"
+                x:Load="{x:Bind Source.IsCommentSectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.CommentSection, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
+        </Grid>
+
+        <!--  AI  -->
+        <Grid
+            Width="380"
+            Margin="20"
+            HorizontalAlignment="Right"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            CornerRadius="{StaticResource OverlayCornerRadius}"
+            RowSpacing="4"
+            Visibility="{x:Bind Source.IsAISectionPanelVisible, Mode=OneWay}">
+            <player:VideoAISection
+                x:Name="AISec"
+                x:Load="{x:Bind Source.IsAISectionPanelVisible, Mode=OneWay}"
+                ViewModel="{x:Bind Source.AI, Mode=OneWay}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation
+                    From="0.0"
+                    To="1.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="80,0,0"
+                    To="0,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation
+                    From="1.0"
+                    To="0.0"
+                    Duration="0:0:0.2" />
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="80,0,0"
+                    Duration="0:0:0.25" />
+            </animations:Implicit.HideAnimations>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

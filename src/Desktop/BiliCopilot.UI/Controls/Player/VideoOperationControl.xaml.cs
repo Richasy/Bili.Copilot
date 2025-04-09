@@ -8,7 +8,7 @@ namespace BiliCopilot.UI.Controls.Player;
 /// <summary>
 /// 视频操作区域.
 /// </summary>
-public sealed partial class VideoOperationControl : VideoPlayerPageControlBase
+public sealed partial class VideoOperationControl : VideoSourceControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoOperationControl"/> class.

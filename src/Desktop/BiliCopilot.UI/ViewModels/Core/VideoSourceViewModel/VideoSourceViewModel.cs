@@ -35,7 +35,7 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         _relationshipService = relationshipService;
         _favoriteService = favoriteService;
         _logger = logger;
-        _comments = comments;
+        CommentSection = comments;
         Danmaku = danmaku;
         Subtitle = subtitle;
         Downloader = download;
@@ -57,8 +57,8 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
 
     public async Task InitializeAsync()
     {
+        _isSeasonInitialized = false;
         var video = _cachedSnapshot.Video;
-        IsAIOverlayOpened = false;
         IsPrivatePlay = _cachedSnapshot.IsPrivate;
         try
         {
@@ -79,7 +79,7 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
             InitializeView(view);
             var initialPart = FindInitialPart(default) ?? throw new Exception("无法找到视频的分集信息.");
             _part = initialPart;
-            _comments.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
+            CommentSection.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
             LoadInitialProgress();
             InitializeSections();
             InitializeLoops();
@@ -230,8 +230,9 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         try
         {
             var info = await _service.GetVideoPlayDetailAsync(_view.Information.Identifier, Convert.ToInt64(part.Identifier.Id));
-            if (_view is null)
+            if (info is null)
             {
+                // TODO: 显示错误提示.
                 return;
             }
 
@@ -305,18 +306,6 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         ClearView();
         Subtitle?.ClearAll();
         Danmaku.ClearAll();
-    }
-
-    [RelayCommand]
-    private void SelectSection(IPlayerSectionDetailViewModel section)
-    {
-        if (section is null || section == SelectedSection)
-        {
-            return;
-        }
-
-        SelectedSection = section;
-        SelectedSection.TryFirstLoadCommand.Execute(default);
     }
 
     [RelayCommand]

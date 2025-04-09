@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPlayerPageControlBase
+<local:VideoSourceControlBase
     x:Class="BiliCopilot.UI.Controls.Player.VideoPlayerSideBody"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -28,7 +28,7 @@
             <local:VideoPlaylistSection ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Key="InfoTemplate" x:DataType="components:VideoPlayerInfoSectionDetailViewModel">
-            <local:VideoInfoSection ViewModel="{x:Bind Page}" />
+            <local:VideoInfoSection ViewModel="{x:Bind Source}" />
         </DataTemplate>
         <DataTemplate x:Key="AITemplate" x:DataType="components:VideoPlayerAISectionDetailViewModel">
             <local:VideoAISection ViewModel="{x:Bind AI}" />
@@ -45,9 +45,9 @@
     </UserControl.Resources>
 
     <Grid>
-        <ContentControl
+        <!--<ContentControl
             Content="{x:Bind ViewModel.SelectedSection, Mode=OneWay}"
             ContentTemplateSelector="{StaticResource Selector}"
-            Style="{StaticResource AppContentControlStyle}" />
+            Style="{StaticResource AppContentControlStyle}" />-->
     </Grid>
-</local:VideoPlayerPageControlBase>
+</local:VideoSourceControlBase>

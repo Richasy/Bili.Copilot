@@ -97,18 +97,18 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
 
     private FrameworkElement CreateTransportControl()
     {
-        var leftPanel = new VideoPlayerTransportLeftPanel() { ViewModel = ViewModel };
+        //var leftPanel = new VideoPlayerTransportLeftPanel() { ViewModel = ViewModel };
         var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
         var rightPanel = new StackPanel() { Orientation = Orientation.Horizontal };
-        var formatButton = new VideoPlayerFormatButton() { ViewModel = ViewModel };
+        //var formatButton = new VideoPlayerFormatButton() { ViewModel = ViewModel };
         var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
-        rightPanel.Children.Add(formatButton);
+        //rightPanel.Children.Add(formatButton);
         rightPanel.Children.Add(subtitleButton);
         danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
         danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
         return new VideoTransportControl()
         {
-            LeftContent = leftPanel,
+            //LeftContent = leftPanel,
             RightContent = rightPanel,
             MiddleContent = danmakuBox,
             ViewModel = ViewModel.Player,
