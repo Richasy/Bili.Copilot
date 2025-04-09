@@ -46,6 +46,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         Client.ReachFileLoaded += OnFileLoaded;
         await Client.SetLogLevelAsync(MpvLogLevel.Warn);
         await Client.UseIdleAsync(true);
+        await Client.UseKeepOpenAsync(true);
 
         await InitializeConfigAsync();
         await InitializeDecodeAsync();
@@ -68,6 +69,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
 
         await LoadMediaAsync();
         _sourceResolver.RequestReload += OnRequestReload;
+        _sourceResolver.RequestClear += OnRequestClear;
     }
 
     private async Task InitializeConfigAsync()
@@ -196,7 +198,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         _isFirstPlayChecked = false;
         var (url, options) = _sourceResolver.GetSource();
         options.WindowHandle = Window.Handle;
-        options.InitialVolume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
+        options.InitialVolume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100d);
         options.InitialSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1d);
         Window.GetWindow().Title = _sourceResolver.GetTitle();
         await Client.PlayAsync(url, options);
@@ -272,5 +274,24 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         {
             IsControlVisible = true;
         }
+    }
+
+    partial void OnSpeedChanged(double value)
+    {
+        var isShareSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
+        if (isShareSpeed)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerSpeed, value);
+        }
+    }
+
+    partial void OnVolumeChanged(double value)
+    {
+        if (value is < 0 or > 100)
+        {
+            return;
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerVolume, value);
     }
 }

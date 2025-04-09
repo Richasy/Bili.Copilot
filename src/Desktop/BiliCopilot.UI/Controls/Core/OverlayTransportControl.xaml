@@ -148,7 +148,6 @@
                                 Minimum="0"
                                 SmallChange="1"
                                 TickFrequency="1"
-                                TickPlacement="Outside"
                                 ValueChanged="OnVolumeValueChanged"
                                 Value="{x:Bind ViewModel.Volume, Mode=OneWay}" />
                         </Flyout>

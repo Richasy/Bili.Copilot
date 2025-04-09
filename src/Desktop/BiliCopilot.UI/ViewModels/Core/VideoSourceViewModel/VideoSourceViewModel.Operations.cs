@@ -196,6 +196,7 @@ public sealed partial class VideoSourceViewModel
 
         if (nextPart is VideoPart part)
         {
+            RequestClear?.Invoke(this, EventArgs.Empty);
             await ChangePartAsync(part);
         }
         else if (nextPart is VideoInformation video)

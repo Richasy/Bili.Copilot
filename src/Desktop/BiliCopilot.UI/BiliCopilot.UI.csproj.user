@@ -294,12 +294,6 @@
     <Page Update="Controls\Player\VideoRecommendSection.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -104,8 +104,6 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
         //rightPanel.Children.Add(formatButton);
         rightPanel.Children.Add(subtitleButton);
-        danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
-        danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
         return new VideoTransportControl()
         {
             //LeftContent = leftPanel,

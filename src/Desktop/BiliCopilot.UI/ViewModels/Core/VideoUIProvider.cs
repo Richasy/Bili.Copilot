@@ -15,7 +15,7 @@ public sealed class VideoUIProvider : IMediaUIProvider
 
     public UIElement GetUIElement() => new VideoPlayerOverlay(_sourceViewModel, _windowViewModel);
 
-    public UIElement? GetBackgroundElement() => new VideoDanmakuPanel { ViewModel = _sourceViewModel.Danmaku };
+    public UIElement? GetBackgroundElement() => new VideoDanmakuPanel { ViewModel = _sourceViewModel.Danmaku, Margin = new Thickness(0,8,0,0) };
 
     public void SetWindowViewModel(MpvPlayerWindowViewModel vm) => _windowViewModel = vm;
 

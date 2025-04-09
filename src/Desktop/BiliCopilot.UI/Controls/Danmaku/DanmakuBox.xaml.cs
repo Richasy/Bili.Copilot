@@ -7,20 +7,21 @@ namespace BiliCopilot.UI.Controls.Danmaku;
 /// </summary>
 public sealed partial class DanmakuBox : DanmakuControlBase
 {
+    public static readonly DependencyProperty IsTextBoxVisibleProperty =
+        DependencyProperty.Register(nameof(IsTextBoxVisible), typeof(bool), typeof(DanmakuBox), new PropertyMetadata(true));
+
     /// <summary>
     /// Initializes a new instance of the <see cref="DanmakuBox"/> class.
     /// </summary>
     public DanmakuBox() => InitializeComponent();
 
-    /// <summary>
-    /// 输入框失去焦点.
-    /// </summary>
-    public event EventHandler InputLostFocus;
+    public bool IsTextBoxVisible
+    {
+        get => (bool)GetValue(IsTextBoxVisibleProperty);
+        set => SetValue(IsTextBoxVisibleProperty, value);
+    }
 
-    /// <summary>
-    /// 输入框获得焦点.
-    /// </summary>
-    public event EventHandler InputGotFocus;
+    public bool IsTextBoxFocused { get; set; }
 
     private async void OnDanmakuInputBoxSubmittedAsync(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
@@ -42,8 +43,8 @@ public sealed partial class DanmakuBox : DanmakuControlBase
         => ViewModel.ResetStyle();
 
     private void OnInputLostFocus(object sender, RoutedEventArgs e)
-        => InputLostFocus?.Invoke(this, EventArgs.Empty);
+        => IsTextBoxFocused = false;
 
     private void OnInputFocus(object sender, RoutedEventArgs e)
-        => InputGotFocus?.Invoke(this, EventArgs.Empty);
+        => IsTextBoxFocused = true;
 }

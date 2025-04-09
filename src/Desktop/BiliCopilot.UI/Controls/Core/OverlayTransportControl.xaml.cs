@@ -30,7 +30,7 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
         => isFullScreen ? FluentIcons.Common.Symbol.FullScreenMinimize : FluentIcons.Common.Symbol.FullScreenMaximize;
 
     private bool IsPlayPauseEnabled(MpvPlayerState state)
-        => state is MpvPlayerState.Playing or MpvPlayerState.Paused;
+        => state is MpvPlayerState.Playing or MpvPlayerState.Paused or MpvPlayerState.End;
 
     private bool IsLoading(MpvPlayerState state)
         => state is MpvPlayerState.Seeking or MpvPlayerState.Buffering;
@@ -51,6 +51,11 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
         {
             await ViewModel.Client.ResumeAsync();
         }
+        else if(ViewModel.LastState is MpvPlayerState.End)
+        {
+            await ViewModel.Client.ReplayAsync();
+            await ViewModel.Client.ResumeAsync();
+        }
     }
 
     private async void OnProgressValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -58,6 +63,13 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
         var v = e.NewValue;
         if (Math.Abs(v - ViewModel.CurrentPosition) > 1.5)
         {
+            if (ViewModel.LastState is MpvPlayerState.End)
+            {
+                await ViewModel.Client.ReplayAsync(v);
+                await ViewModel.Client.ResumeAsync();
+                return;
+            }
+
             await ViewModel.Client.SetCurrentPositionAsync(v);
         }
     }

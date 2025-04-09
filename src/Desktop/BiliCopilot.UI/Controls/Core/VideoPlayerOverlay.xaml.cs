@@ -3,7 +3,6 @@
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Richasy.MpvKernel.WinUI;
 using Richasy.WinUIKernel.Share.Base;
@@ -13,9 +12,7 @@ namespace BiliCopilot.UI.Controls.Core;
 
 public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIElement
 {
-    private readonly DispatcherQueueTimer _cursorTimer;
     private readonly DispatcherQueueTimer _controlTimer;
-    private bool _isCursorDisposed;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
 
@@ -24,11 +21,8 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
     public VideoPlayerOverlay(VideoSourceViewModel sourceVM, MpvPlayerWindowViewModel stateVM)
     {
         InitializeComponent();
-        _cursorTimer = DispatcherQueue.CreateTimer();
         _controlTimer = DispatcherQueue.CreateTimer();
-        _cursorTimer.Interval = TimeSpan.FromMilliseconds(2000);
         _controlTimer.Interval = TimeSpan.FromMilliseconds(1500);
-        _cursorTimer.Tick += OnCursorTimerTick;
         _controlTimer.Tick += OnControlTimerTick;
         Source = sourceVM;
         ViewModel = stateVM;
@@ -41,26 +35,15 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
     protected override void OnPointerExited(PointerRoutedEventArgs e)
         => _isPointerOnUI = false;
 
-    private void OnCursorTimerTick(DispatcherQueueTimer sender, object args)
-    {
-        if (_isPointerOnUI)
-        {
-            return;
-        }
-
-        _cursorTimer.Stop();
-        ProtectedCursor?.Dispose();
-        _isCursorDisposed = true;
-    }
-
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI)
+        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || DanmakuBox.IsTextBoxFocused)
         {
             return;
         }
 
         _controlTimer.Stop();
+        ViewModel.Window.HideCursor();
         ViewModel.IsControlVisible = false;
     }
 
@@ -145,14 +128,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         {
             var args = data as PointerRoutedEventArgs;
             _lastCursorPoint = args.GetCurrentPoint(this).Position;
-            if (_isCursorDisposed)
-            {
-                ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
-                _isCursorDisposed = false;
-            }
-
-            _cursorTimer.Stop();
-            _cursorTimer.Start();
+            ViewModel.Window.ShowCursor();
 
             if (!Source.IsInfoSectionPanelVisible
                 && !Source.IsCommentSectionPanelVisible
@@ -175,12 +151,6 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         {
             _controlTimer.Stop();
             _controlTimer.Tick -= OnControlTimerTick;
-        }
-
-        if (_cursorTimer != null)
-        {
-            _cursorTimer.Stop();
-            _cursorTimer.Tick -= OnCursorTimerTick;
         }
 
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;

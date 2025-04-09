@@ -2,6 +2,7 @@
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
+using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core.Enums;
 using Richasy.MpvKernel.Core.Models;
 using Richasy.MpvKernel.WinUI;
@@ -123,6 +124,11 @@ public sealed partial class MpvPlayerWindowViewModel
 
     private async void OnRequestReload(object? sender, EventArgs e)
         => await LoadMediaAsync();
+
+    private void OnRequestClear(object? sender, EventArgs e)
+    {
+        MpvNative.SetCommandString(Client.Handle, "stop");
+    }
 
     private void HandleStateChanged(MpvPlayerState state)
     {

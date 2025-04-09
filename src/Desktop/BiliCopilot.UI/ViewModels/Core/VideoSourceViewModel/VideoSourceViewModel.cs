@@ -46,6 +46,8 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
 
     public event EventHandler RequestReload;
 
+    public event EventHandler RequestClear;
+
     /// <summary>
     /// 注入播放列表.
     /// </summary>
@@ -62,6 +64,7 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         IsPrivatePlay = _cachedSnapshot.IsPrivate;
         try
         {
+            RequestClear?.Invoke(this, EventArgs.Empty);
             if (_view is not null && _view.Information.Identifier.Id != video.Identifier.Id)
             {
                 await ReportProgressAsync(_lastPosition);

@@ -199,8 +199,6 @@
     <None Remove="Controls\Player\VideoPartsSection.xaml" />
     <None Remove="Controls\Player\VideoPlayerFormatButton.xaml" />
     <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
-    <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
-    <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
     <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
     <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
@@ -1176,16 +1174,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoRecommendSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerSideBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

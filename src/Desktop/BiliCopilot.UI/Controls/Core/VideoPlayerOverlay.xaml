@@ -18,6 +18,90 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid>
+            <Button
+                x:Name="IncreaseSpeedButton"
+                Command="{x:Bind ViewModel.IncreaseSpeedCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="Up"
+                        IsEnabled="True"
+                        Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="DecreaseSpeedButton"
+                Command="{x:Bind ViewModel.DecreaseSpeedCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="Down"
+                        IsEnabled="True"
+                        Modifiers="Control" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="IncreaseVolumeButton"
+                Command="{x:Bind ViewModel.IncreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Up" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="DecreaseVolumeButton"
+                Command="{x:Bind ViewModel.DecreaseVolumeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Down" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="ForwardSkipButton"
+                Command="{x:Bind ViewModel.ForwardSkipCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Right" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="BackwardSkipButton"
+                Command="{x:Bind ViewModel.BackwardSkipCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Left" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenMiniViewButton"
+                Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="M"
+                        IsEnabled="True"
+                        Modifiers="Control" />
+                    <KeyboardAccelerator Key="F9" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="HiddenFullScreenButton"
+                Command="{x:Bind ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F11" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+            <Button
+                x:Name="BackToDefaultButton"
+                Command="{x:Bind ViewModel.BackToDefaultModeCommand, Mode=OneWay}"
+                Style="{StaticResource HiddenButtonStyle}">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape" IsEnabled="True" />
+                </Button.KeyboardAccelerators>
+            </Button>
+        </Grid>
         <Rectangle
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -46,12 +130,14 @@
                     x:Name="HeaderBar"
                     Title="{x:Bind Source.Title, Mode=OneWay}"
                     Height="48"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    TitleMaxWidth="300">
                     <base:AppTitleBar.IconElement>
                         <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                     </base:AppTitleBar.IconElement>
                     <base:AppTitleBar.Footer>
                         <ComboBox
+                            x:Name="FormatComboBox"
                             MinWidth="120"
                             VerticalAlignment="Center"
                             ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
@@ -120,66 +206,85 @@
                             Duration="0:0:0.25" />
                     </animations:Implicit.HideAnimations>
                     <local:OverlayTransportControl.LeftElement>
-                        <Grid Background="{ThemeResource SmokeFillColorDefaultBrush}" CornerRadius="{StaticResource ControlCornerRadius}">
-                            <Button
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid
+                                x:Name="DanmakuContainer"
+                                Margin="0,-40,0,8"
                                 Padding="8"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Click="OnVideoInfoButtonClick">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <imageex:ImageEx
-                                        Width="80"
-                                        Height="60"
-                                        CornerRadius="{StaticResource ControlCornerRadius}"
-                                        DecodePixelWidth="160"
-                                        Source="{x:Bind Source.Cover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
-                                        Stretch="UniformToFill" />
-                                    <StackPanel
-                                        x:Name="DetailPanel"
-                                        Grid.Column="1"
-                                        Margin="12,0,0,0"
-                                        Spacing="4">
-                                        <base:TrimTextBlock
-                                            FontSize="12"
-                                            FontWeight="Bold"
-                                            MaxLines="1"
-                                            Text="{x:Bind Source.UpName, Mode=OneWay}" />
-                                        <base:TrimTextBlock
-                                            FontSize="12"
-                                            MaxLines="1"
-                                            Text="{x:Bind Source.PublishRelativeTime, Mode=OneWay}" />
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <Border
-                                                Padding="8,4"
-                                                Background="{ThemeResource ControlFillColorInputActiveBrush}"
-                                                CornerRadius="8">
-                                                <base:IconTextBlock
-                                                    VerticalAlignment="Center"
-                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                    IconBrush="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                                    Symbol="PlayCircle"
-                                                    Text="{x:Bind Source.PlayCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
-                                                    ToolTipService.ToolTip="{ext:Locale Name=PlayCount}" />
-                                            </Border>
-                                            <Border
-                                                Padding="8,4"
-                                                Background="{ThemeResource ControlFillColorInputActiveBrush}"
-                                                CornerRadius="8">
-                                                <base:IconTextBlock
-                                                    VerticalAlignment="Center"
-                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                    IconBrush="{ThemeResource TextFillColorSecondaryBrush}"
-                                                    Symbol="Eye"
-                                                    Text="{x:Bind Source.OnlineCountText, Mode=OneWay}" />
-                                            </Border>
+                                Background="{ThemeResource SmokeFillColorDefaultBrush}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <danmaku:DanmakuBox x:Name="DanmakuBox" ViewModel="{x:Bind Source.Danmaku, Mode=OneWay}" />
+                            </Grid>
+
+                            <Grid
+                                Grid.Row="1"
+                                Background="{ThemeResource SmokeFillColorDefaultBrush}"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Button
+                                    Padding="8"
+                                    HorizontalAlignment="Stretch"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="OnVideoInfoButtonClick">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <imageex:ImageEx
+                                            Width="80"
+                                            Height="60"
+                                            CornerRadius="{StaticResource ControlCornerRadius}"
+                                            DecodePixelWidth="160"
+                                            Source="{x:Bind Source.Cover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+                                            Stretch="UniformToFill" />
+                                        <StackPanel
+                                            x:Name="DetailPanel"
+                                            Grid.Column="1"
+                                            Margin="12,0,0,0"
+                                            Spacing="4">
+                                            <base:TrimTextBlock
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                MaxLines="1"
+                                                Text="{x:Bind Source.UpName, Mode=OneWay}" />
+                                            <base:TrimTextBlock
+                                                FontSize="12"
+                                                MaxLines="1"
+                                                Text="{x:Bind Source.PublishRelativeTime, Mode=OneWay}" />
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <Border
+                                                    Padding="8,4"
+                                                    Background="{ThemeResource ControlFillColorInputActiveBrush}"
+                                                    CornerRadius="8">
+                                                    <base:IconTextBlock
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                        IconBrush="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                        Symbol="PlayCircle"
+                                                        Text="{x:Bind Source.PlayCount, Mode=OneWay, Converter={StaticResource CountConverter}}"
+                                                        ToolTipService.ToolTip="{ext:Locale Name=PlayCount}" />
+                                                </Border>
+                                                <Border
+                                                    Padding="8,4"
+                                                    Background="{ThemeResource ControlFillColorInputActiveBrush}"
+                                                    CornerRadius="8">
+                                                    <base:IconTextBlock
+                                                        VerticalAlignment="Center"
+                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                        IconBrush="{ThemeResource TextFillColorSecondaryBrush}"
+                                                        Symbol="Eye"
+                                                        Text="{x:Bind Source.OnlineCountText, Mode=OneWay}" />
+                                                </Border>
+                                            </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </Button>
+                                    </Grid>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </local:OverlayTransportControl.LeftElement>
                 </local:OverlayTransportControl>
@@ -194,7 +299,7 @@
                             Click="OnCommentButtonClick"
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Comments}">
-                            <ic:SymbolIcon FontSize="14" Symbol="Comment" />
+                            <ic:SymbolIcon FontSize="16" Symbol="Comment" />
                         </Button>
                         <Button
                             Margin="0,0,0,8"
@@ -202,7 +307,7 @@
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Parts}"
                             Visibility="{x:Bind Source.PlaylistSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <ic:SymbolIcon FontSize="14" Symbol="NavigationPlay" />
+                            <ic:SymbolIcon FontSize="16" Symbol="NavigationPlay" />
                         </Button>
                         <Button
                             Margin="0,0,0,8"
@@ -210,7 +315,7 @@
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Parts}"
                             Visibility="{x:Bind Source.PartSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <ic:SymbolIcon FontSize="14" Symbol="Grid" />
+                            <ic:SymbolIcon FontSize="16" Symbol="Grid" />
                         </Button>
                         <Button
                             Margin="0,0,0,8"
@@ -218,7 +323,7 @@
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=UgcSeason}"
                             Visibility="{x:Bind Source.SeasonSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <ic:SymbolIcon FontSize="14" Symbol="AppsList" />
+                            <ic:SymbolIcon FontSize="16" Symbol="AppsList" />
                         </Button>
                         <Button
                             Margin="0,0,0,8"
@@ -226,13 +331,13 @@
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=Recommend}"
                             Visibility="{x:Bind Source.RecommendSection, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                            <ic:SymbolIcon FontSize="14" Symbol="ListBarTreeOffset" />
+                            <ic:SymbolIcon FontSize="16" Symbol="Fire" />
                         </Button>
                         <Button
                             Click="OnAIButtonClick"
                             Style="{StaticResource SidePlayerButtonStyle}"
                             ToolTipService.ToolTip="{ext:Locale Name=AIService}">
-                            <ic:SymbolIcon FontSize="14" Symbol="Sparkle" />
+                            <ic:SymbolIcon FontSize="16" Symbol="Sparkle" />
                         </Button>
                     </StackPanel>
                 </StackPanel>
@@ -496,7 +601,23 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <Setter Target="DanmakuBox.IsTextBoxVisible" Value="False" />
                         <Setter Target="DetailPanel.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="SideControlVisibleState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="420" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="SideControlCollapsedState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SideContainer.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

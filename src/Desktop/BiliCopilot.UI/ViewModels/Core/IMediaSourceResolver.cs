@@ -48,4 +48,9 @@ public interface IMediaSourceResolver
     /// 因内部的一些操作需要重新加载播放数据时触发.
     /// </summary>
     public event EventHandler RequestReload;
+
+    /// <summary>
+    /// 因内部的一些操作需要清除播放数据时触发.
+    /// </summary>
+    public event EventHandler RequestClear;
 }

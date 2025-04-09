@@ -581,8 +581,8 @@
     </Style>
 
     <Style x:Key="SidePlayerButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="40" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -599,7 +599,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="CornerRadius" Value="22" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
