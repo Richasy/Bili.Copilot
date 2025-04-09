@@ -2,6 +2,7 @@
 
 
 using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Controls.Danmaku;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -13,6 +14,8 @@ public sealed class VideoUIProvider : IMediaUIProvider
     public VideoUIProvider(VideoSourceViewModel vm) => _sourceViewModel = vm;
 
     public UIElement GetUIElement() => new VideoPlayerOverlay(_sourceViewModel, _windowViewModel);
+
+    public UIElement? GetBackgroundElement() => new VideoDanmakuPanel { ViewModel = _sourceViewModel.Danmaku };
 
     public void SetWindowViewModel(MpvPlayerWindowViewModel vm) => _windowViewModel = vm;
 

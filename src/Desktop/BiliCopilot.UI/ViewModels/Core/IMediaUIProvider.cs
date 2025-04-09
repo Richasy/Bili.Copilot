@@ -20,6 +20,12 @@ public interface IMediaUIProvider
     public UIElement GetUIElement();
 
     /// <summary>
+    /// 获取背景元素.
+    /// </summary>
+    /// <returns>元素.</returns>
+    public UIElement? GetBackgroundElement();
+
+    /// <summary>
     /// 显示错误信息.
     /// </summary>
     /// <param name="title">标题.</param>

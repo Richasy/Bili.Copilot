@@ -16,21 +16,12 @@ public sealed partial class MpvPlayerWindowViewModel
 
     private void OnClientDataNotify(object? sender, MpvClientNotifyEventArgs e)
     {
-        _queue.TryEnqueue(() =>
+        _queue.TryEnqueue(async () =>
         {
             switch (e.Id)
             {
                 case MpvClientEventId.StateChanged:
-                    var state = (MpvPlayerState)e.Data;
-                    if (state != LastState)
-                    {
-                        _sourceResolver.HandlePlayerStateChanged(state);
-                    }
-
-                    LastState = (MpvPlayerState)e.Data;
-                    IsPlaying = LastState == MpvPlayerState.Playing;
-                    IsIdle = LastState == MpvPlayerState.Idle;
-                    IsRestartVisible = LastState == MpvPlayerState.End;
+                    HandleStateChanged((MpvPlayerState)e.Data);
                     break;
                 case MpvClientEventId.VolumeChanged:
                     var volume = (double)e.Data;
@@ -57,6 +48,12 @@ public sealed partial class MpvPlayerWindowViewModel
                     CurrentPosition = (double)e.Data;
                     IsProgressChanging = false;
                     _sourceResolver.HandleProgressChanged(CurrentPosition, Duration);
+                    if(!_isFirstPlayChecked && CurrentPosition >=1)
+                    {
+                        _isFirstPlayChecked = true;
+                        var state = await Client.GetPlayerStateAsync();
+                        HandleStateChanged(state);
+                    }
                     break;
                 case MpvClientEventId.FullScreenChanged:
                     IsFullScreen = (bool)e.Data;
@@ -126,4 +123,18 @@ public sealed partial class MpvPlayerWindowViewModel
 
     private async void OnRequestReload(object? sender, EventArgs e)
         => await LoadMediaAsync();
+
+    private void HandleStateChanged(MpvPlayerState state)
+    {
+        if (state != LastState)
+        {
+            _sourceResolver.HandlePlayerStateChanged(state);
+        }
+
+        LastState = state;
+        IsPlaying = LastState == MpvPlayerState.Playing;
+        IsIdle = LastState == MpvPlayerState.Idle;
+        IsRestartVisible = LastState == MpvPlayerState.End;
+        CheckBackdropVisible();
+    }
 }

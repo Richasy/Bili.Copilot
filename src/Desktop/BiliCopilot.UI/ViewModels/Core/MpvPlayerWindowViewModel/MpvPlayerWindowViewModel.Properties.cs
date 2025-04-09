@@ -18,6 +18,7 @@ public sealed partial class MpvPlayerWindowViewModel
     private readonly DispatcherQueue _queue;
     private readonly IMediaSourceResolver _sourceResolver;
     private readonly IMediaUIProvider? _uiProvider;
+    private bool _isFirstPlayChecked;
     private DispatcherQueueTimer? _tipTimer;
 
     /// <summary>

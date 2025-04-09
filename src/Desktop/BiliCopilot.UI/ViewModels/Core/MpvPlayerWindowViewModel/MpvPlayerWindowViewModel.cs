@@ -175,6 +175,12 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
             var element = _uiProvider.GetUIElement();
             IsControlVisible = true;
             Window.SetUIElement(element);
+
+            var background = _uiProvider.GetBackgroundElement();
+            if (background is not null)
+            {
+                Window.SetBackgroundElement(background);
+            }
         }
 
         Window.Show();
@@ -187,6 +193,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
             return;
         }
 
+        _isFirstPlayChecked = false;
         var (url, options) = _sourceResolver.GetSource();
         options.WindowHandle = Window.Handle;
         options.InitialVolume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100);
@@ -251,7 +258,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
     }
 
     private void CheckBackdropVisible()
-        => IsBackdropVisible = IsFileLoading || IsIdle || IsSourceLoading;
+        => IsBackdropVisible = IsFileLoading || (LastState is MpvPlayerState.Seeking or MpvPlayerState.Buffering && CurrentPosition <= 0.5) || IsIdle || IsSourceLoading;
 
     partial void OnIsFileLoadingChanged(bool value) => CheckBackdropVisible();
 
