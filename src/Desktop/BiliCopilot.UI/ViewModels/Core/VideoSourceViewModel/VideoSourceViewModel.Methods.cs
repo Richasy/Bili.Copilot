@@ -148,6 +148,7 @@ public sealed partial class VideoSourceViewModel
         BvId = default;
         FavoriteFolders = default;
         SelectedFormat = default;
+        ErrorMessage = string.Empty;
     }
 
     private VideoPart? FindInitialPart(string? initialPartId = default)

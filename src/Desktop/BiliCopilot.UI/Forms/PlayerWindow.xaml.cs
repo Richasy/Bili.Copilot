@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
@@ -47,55 +46,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     }
 
     /// <summary>
-    /// 打开视频.
-    /// </summary>
-    public void OpenVideo(VideoSnapshot snapshot)
-    {
-        Activate();
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            MainFrame.Navigate(typeof(WebPlayerPage), $"https://www.bilibili.com/video/av{snapshot.Video.Identifier.Id}");
-            return;
-        }
-
-        MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
-    }
-
-    /// <summary>
-    /// 打开视频.
-    /// </summary>
-    public void OpenVideo((List<VideoInformation> videos, VideoSnapshot snapshot) data)
-    {
-        Activate();
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            MainFrame.Navigate(typeof(WebPlayerPage), $"https://www.bilibili.com/video/av{data.snapshot.Video.Identifier.Id}");
-            return;
-        }
-
-        MainFrame.Navigate(typeof(VideoPlayerPage), data);
-    }
-
-    /// <summary>
-    /// 打开PGC内容.
-    /// </summary>
-    public void OpenPgc(MediaIdentifier pgc)
-    {
-        Activate();
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            var url = $"https://www.bilibili.com/bangumi/play/{pgc.Id.Replace("_", string.Empty)}";
-            MainFrame.Navigate(typeof(WebPlayerPage), url);
-            return;
-        }
-
-        MainFrame.Navigate(typeof(PgcPlayerPage), pgc);
-    }
-
-    /// <summary>
     /// 打开直播内容.
     /// </summary>
     public void OpenLive(MediaIdentifier room)
@@ -125,17 +75,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void EnterPlayerHostMode(PlayerDisplayMode mode)
     {
         TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            TitleBar.Title = vPage.ViewModel.Title;
-            vPage.EnterPlayerHostMode();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            TitleBar.Title = pPage.ViewModel.EpisodeTitle;
-            pPage.EnterPlayerHostMode();
-        }
-        else if (MainFrame.Content is LivePlayerPage lPage)
+        if (MainFrame.Content is LivePlayerPage lPage)
         {
             TitleBar.Title = lPage.ViewModel.Title;
             lPage.EnterPlayerHostMode();
@@ -155,15 +95,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         TitleBar.Visibility = Visibility.Visible;
         TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         TitleBar.IsBackButtonVisible = false;
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ExitPlayerHostMode();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            pPage.ExitPlayerHostMode();
-        }
-        else if (MainFrame.Content is LivePlayerPage lPage)
+        if (MainFrame.Content is LivePlayerPage lPage)
         {
             lPage.ExitPlayerHostMode();
         }
@@ -248,17 +180,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryBackToDefaultMode()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            return true;
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            return true;
-        }
-        else if (MainFrame.Content is LivePlayerPage lPage)
+        if (MainFrame.Content is LivePlayerPage lPage)
         {
             lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
             return true;
@@ -274,15 +196,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryTogglePlayPauseIfInPlayer()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (MainFrame.Content is LivePlayerPage lPage)
+        if (MainFrame.Content is LivePlayerPage lPage)
         {
             return lPage.ViewModel.Player.TryTogglePlayPause();
         }
@@ -296,43 +210,17 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryMarkRightArrowPressedTime()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.MarkRightArrowPressed();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.MarkRightArrowPressed();
-        }
-
         return false;
     }
 
     private bool TryCancelRightArrow()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.CancelRightArrow();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.CancelRightArrow();
-        }
-
         return false;
     }
 
     private void ClosePlayer()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ViewModel.CleanCommand.Execute(default);
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
-        {
-            pPage.ViewModel.CleanCommand.Execute(default);
-        }
-        else if (MainFrame.Content is LivePlayerPage lPage)
+        if (MainFrame.Content is LivePlayerPage lPage)
         {
             lPage.ViewModel.CleanCommand.Execute(default);
         }

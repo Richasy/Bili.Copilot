@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUIKernel.Share.ViewModels;
 
@@ -15,19 +14,8 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// </summary>
 public sealed partial class VideoPlayerInfoSectionDetailViewModel : ViewModelBase, IPlayerSectionDetailViewModel
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPlayerInfoSectionDetailViewModel"/> class.
-    /// </summary>
-    public VideoPlayerInfoSectionDetailViewModel(VideoPlayerPageViewModel pageVM)
-        => Page = pageVM;
-
     public VideoPlayerInfoSectionDetailViewModel(VideoSourceViewModel source)
         => Source = source;
-
-    /// <summary>
-    /// 视频播放页视图模型.
-    /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
 
     /// <summary>
     /// 视频源视图模型.

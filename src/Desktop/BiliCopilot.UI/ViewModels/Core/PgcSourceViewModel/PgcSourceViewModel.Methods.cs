@@ -5,18 +5,22 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models;
-using Richasy.BiliKernel.Models.Appearance;
 using Richasy.BiliKernel.Models.Media;
 
-namespace BiliCopilot.UI.ViewModels.View;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// PGC 播放器页面视图模型.
+/// PGC 源视图模型.
 /// </summary>
-public sealed partial class PgcPlayerPageViewModel
+public sealed partial class PgcSourceViewModel
 {
     private void InitializeView(PgcPlayerView view)
     {
+        if (view is null)
+        {
+            return;
+        }
+
         _view = view;
         _type = view.Information.GetExtensionIfNotNull<EntertainmentType>(SeasonExtensionDataId.PgcType);
         Cover = view.Information.Identifier.Cover.SourceUri;
@@ -82,40 +86,23 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void InitializeSections()
     {
-        if (Sections?.Count > 0)
+        if (_isSeasonInitialized)
         {
             return;
         }
 
-        var sections = new List<IPlayerSectionDetailViewModel>
-        {
-            new PgcPlayerInfoSectionDetailViewModel(this),
-        };
-
-        if (_view.Episodes?.Count > 1)
-        {
-            sections.Add(new PgcPlayerEpisodeSectionDetailViewModel(_view.Episodes, _episode.Identifier.Id, ChangeEpisode));
-        }
-
-        if (_view.Seasons?.Count > 1)
-        {
-            sections.Add(new PgcPlayerSeasonSectionDetailViewModel(_view.Seasons, _view.Information.Identifier.Id));
-        }
-
-        sections.Add(_comments);
-
-        Sections = sections;
-        SelectSection(Sections.First());
-        SectionInitialized?.Invoke(this, EventArgs.Empty);
+        EpisodeSection = _view.Episodes?.Count > 1 ? new PgcPlayerEpisodeSectionDetailViewModel(_view.Episodes, _episode.Identifier.Id, ChangeEpisode) : null;
+        SeasonSection = _view.Seasons?.Count > 1 ? new PgcPlayerSeasonSectionDetailViewModel(_view.Seasons, _view.Information.Identifier.Id) : null;
+        _isSeasonInitialized = true;
     }
 
     private void ClearView()
     {
-        IsPageLoadFailed = false;
+        ErrorMessage = string.Empty;
         _view = default;
         _videoSegments = default;
         _audioSegments = default;
-        _initialProgress = -1;
+        _initialProgress = 0;
         Cover = default;
         SeasonTitle = default;
         IsFollow = false;
@@ -135,9 +122,6 @@ public sealed partial class PgcPlayerPageViewModel
 
         Formats = default;
         SelectedFormat = default;
-
-        Sections = default;
-        SelectedSection = default;
     }
 
     private EpisodeInformation? FindInitialEpisode(string? initialEpisodeId)
@@ -161,29 +145,49 @@ public sealed partial class PgcPlayerPageViewModel
         return playEpisode ?? _view.Episodes.FirstOrDefault();
     }
 
-    private object? FindNextEpisode()
+    private object? FindPrevEpisode()
     {
-        if (Sections is null)
+        if (EpisodeSection is null)
         {
             return default;
         }
 
-        if (Sections.OfType<PgcPlayerEpisodeSectionDetailViewModel>().FirstOrDefault() is PgcPlayerEpisodeSectionDetailViewModel episodeSection)
+        var index = EpisodeSection.Episodes.ConvertAll(p => p.Data).IndexOf(_episode);
+        if (index > 0)
         {
-            var index = episodeSection.Episodes.Select(p => p.Data).ToList().IndexOf(_episode);
-            if (index < episodeSection.Episodes.Count - 1)
-            {
-                return episodeSection.Episodes.ElementAt(index + 1).Data;
-            }
+            return EpisodeSection.Episodes[index - 1].Data;
         }
 
         return default;
     }
 
-    private void InitializeNextEpisode()
+    private object? FindNextEpisode()
     {
+        if (EpisodeSection is null)
+        {
+            return default;
+        }
+
+        var index = EpisodeSection.Episodes.ConvertAll(p => p.Data).IndexOf(_episode);
+        if (index < EpisodeSection.Episodes.Count - 1)
+        {
+            return EpisodeSection.Episodes[index + 1].Data;
+        }
+
+        return default;
+    }
+
+    private void InitializeEpisodeNavigation()
+    {
+        if (_view is null || !_isSeasonInitialized)
+        {
+            return;
+        }
+
         var next = FindNextEpisode();
+        var prev = FindPrevEpisode();
         HasNextEpisode = next is not null;
+        HasPrevEpisode = prev is not null;
         if (next is EpisodeInformation part)
         {
             NextEpisodeTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextEpisodeTipTemplate), part.Identifier.Title);
@@ -191,6 +195,15 @@ public sealed partial class PgcPlayerPageViewModel
         else if (next is VideoInformation video)
         {
             NextEpisodeTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextVideoTipTemplate), video.Identifier.Title);
+        }
+
+        if (prev is EpisodeInformation part2)
+        {
+            PrevEpisodeTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayPrevEpisodeTipTemplate), part2.Identifier.Title);
+        }
+        else if (prev is VideoInformation video2)
+        {
+            PrevEpisodeTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayPrevVideoTipTemplate), video2.Identifier.Title);
         }
     }
 
@@ -211,32 +224,11 @@ public sealed partial class PgcPlayerPageViewModel
         }
     }
 
-    private void CalcPlayerHeight()
-    {
-        if (PlayerWidth <= 0 || Player.IsFullScreen || Player.IsCompactOverlay || _episode is null)
-        {
-            return;
-        }
-
-        var ratio = _episode.GetExtensionIfNotNull<MediaAspectRatio>(EpisodeExtensionDataId.AspectRatio);
-        if (ratio.Width == 0)
-        {
-            ratio = new MediaAspectRatio(16, 9);
-        }
-
-        PlayerHeight = (double)(PlayerWidth * ratio.Height / ratio.Width);
-    }
-
     private void ReloadEpisode()
     {
         if (_episode is null)
         {
             return;
-        }
-
-        if (Player.Position > 0)
-        {
-            _injectedProgress = Player.Position;
         }
 
         ChangeEpisode(_episode);

@@ -95,25 +95,13 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
 
         ActiveMainWindow();
-        if (pageType == typeof(VideoPlayerPage) && _overFrame.Content is VideoPlayerPage page)
-        {
-            page.ViewModel.InitializePageCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
-        else if (pageType == typeof(LivePlayerPage) && _overFrame.Content is LivePlayerPage livePage)
+        if (pageType == typeof(LivePlayerPage) && _overFrame.Content is LivePlayerPage livePage)
         {
             livePage.ViewModel.InitializePageCommand.Execute(parameter);
             IsOverlayOpen = true;
             return;
         }
-        else if (pageType == typeof(PgcPlayerPage) && _overFrame.Content is PgcPlayerPage pgcPage)
-        {
-            pgcPage.ViewModel.InitializePageCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
-        else if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
+        if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
         {
             webDavPage.ViewModel.InitializeCommand.Execute(parameter);
             IsOverlayOpen = true;

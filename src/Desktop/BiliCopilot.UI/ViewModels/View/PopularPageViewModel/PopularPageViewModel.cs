@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -173,7 +172,7 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         {
             var videos = await _service.GetCuratedPlaylistAsync();
             var firstSnapshot = new VideoSnapshot(videos.First());
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), (videos, firstSnapshot));
+            this.Get<AppViewModel>().OpenVideo(firstSnapshot, [.. videos]);
         }
         catch (Exception ex)
         {

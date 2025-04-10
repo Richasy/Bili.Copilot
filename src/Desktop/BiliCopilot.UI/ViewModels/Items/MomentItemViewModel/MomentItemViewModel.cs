@@ -153,7 +153,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
 
         var snapshot = new VideoSnapshot(vinfo, true);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
+        this.Get<AppViewModel>().OpenVideo(snapshot);
     }
 
     [RelayCommand]
@@ -207,11 +207,11 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             if (einfo.Identifier.Id == "0")
             {
                 // 出差番剧.
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
+                this.Get<AppViewModel>().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
             }
             else
             {
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
+                this.Get<AppViewModel>().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
             }
         }
         else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)

@@ -54,7 +54,7 @@ internal sealed partial class PlayerSectionTemplateSelector : DataTemplateSelect
         {
             return SeasonTemplate;
         }
-        else if (item is VideoPlayerInfoSectionDetailViewModel or PgcPlayerInfoSectionDetailViewModel)
+        else if (item is VideoPlayerInfoSectionDetailViewModel)
         {
             return InfoTemplate;
         }

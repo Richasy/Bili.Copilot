@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
@@ -22,7 +21,7 @@ public sealed partial class VideoSourceViewModel
     private readonly IPlayerService _service;
     private readonly IRelationshipService _relationshipService;
     private readonly IFavoriteService _favoriteService;
-    private readonly ILogger<VideoPlayerPageViewModel> _logger;
+    private readonly ILogger<VideoSourceViewModel> _logger;
 
     private VideoSnapshot _cachedSnapshot;
     private VideoPlayerView? _view;
@@ -62,12 +61,6 @@ public sealed partial class VideoSourceViewModel
 
     [ObservableProperty]
     public partial bool IsMyVideo{ get; set; }
-
-    [ObservableProperty]
-    public partial double PlayerWidth{ get; set; }
-
-    [ObservableProperty]
-    public partial double PlayerHeight{ get; set; }
 
     [ObservableProperty]
     public partial double PlayCount{ get; set; }
@@ -182,9 +175,6 @@ public sealed partial class VideoSourceViewModel
 
     [ObservableProperty]
     public partial bool IsAISectionPanelVisible { get; set; }
-
-    [ObservableProperty]
-    public partial bool IsInfoSectionPanelLoaded { get; set; }
 
     [ObservableProperty]
     public partial bool IsCommentSectionPanelLoaded { get; set; }

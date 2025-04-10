@@ -1,24 +1,26 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
 using Richasy.MpvKernel.WinUI;
-using Richasy.WinUIKernel.Share.Base;
 using System.ComponentModel;
 
 namespace BiliCopilot.UI.Controls.Core;
 
-public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIElement
+/// <summary>
+/// PGC 播放器覆盖层.
+/// </summary>
+public sealed partial class PgcPlayerOverlay : MpvPlayerControlBase, IMpvUIElement
 {
     private readonly DispatcherQueueTimer _controlTimer;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
 
-    public VideoSourceViewModel Source { get; }
+    public PgcSourceViewModel Source { get; }
 
-    public VideoPlayerOverlay(VideoSourceViewModel sourceVM, MpvPlayerWindowViewModel stateVM)
+    public PgcPlayerOverlay(PgcSourceViewModel sourceVM, MpvPlayerWindowViewModel stateVM)
     {
         InitializeComponent();
         _controlTimer = DispatcherQueue.CreateTimer();
@@ -53,11 +55,8 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         {
             Source.IsInfoSectionPanelVisible = false;
             Source.IsCommentSectionPanelVisible = false;
-            Source.IsPlaylistSectionPanelVisible = false;
-            Source.IsPartSectionPanelVisible = false;
             Source.IsSeasonSectionPanelVisible = false;
-            Source.IsRecommendSectionPanelVisible = false;
-            Source.IsAISectionPanelVisible = false;
+            Source.IsEpisodeSectionPanelVisible = false;
 
             if (!_controlTimer.IsRunning)
             {
@@ -88,19 +87,11 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         ViewModel.IsControlVisible = false;
     }
 
-    private void OnPlaylistButtonClick(object sender, RoutedEventArgs e)
+    private void OnEpisodeButtonClick(object sender, RoutedEventArgs e)
     {
-        Source.IsPlaylistSectionPanelLoaded = true;
-        Source.IsPlaylistSectionPanelVisible = true;
-        Source.PlaylistSection.TryFirstLoadCommand.Execute(default);
-        ViewModel.IsControlVisible = false;
-    }
-
-    private void OnPartButtonClick(object sender, RoutedEventArgs e)
-    {
-        Source.IsPartSectionPanelLoaded = true;
-        Source.IsPartSectionPanelVisible = true;
-        Source.PartSection.TryFirstLoadCommand.Execute(default);
+        Source.IsEpisodeSectionPanelLoaded = true;
+        Source.IsEpisodeSectionPanelVisible = true;
+        Source.EpisodeSection.TryFirstLoadCommand.Execute(default);
         ViewModel.IsControlVisible = false;
     }
 
@@ -109,22 +100,6 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         Source.IsSeasonSectionPanelLoaded = true;
         Source.IsSeasonSectionPanelVisible = true;
         Source.SeasonSection.TryFirstLoadCommand.Execute(default);
-        ViewModel.IsControlVisible = false;
-    }
-
-    private void OnRecommendButtonClick(object sender, RoutedEventArgs e)
-    {
-        Source.IsRecommendSectionPanelLoaded = true;
-        Source.IsRecommendSectionPanelVisible = true;
-        Source.RecommendSection.TryFirstLoadCommand.Execute(default);
-        ViewModel.IsControlVisible = false;
-    }
-
-    private void OnAIButtonClick(object sender, RoutedEventArgs e)
-    {
-        Source.IsAISectionPanelLoaded = true;
-        Source.IsAISectionPanelVisible = true;
-        Source.AI.InitializeCommand.Execute(default);
         ViewModel.IsControlVisible = false;
     }
 
@@ -138,11 +113,8 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
             if (!Source.IsInfoSectionPanelVisible
                 && !Source.IsCommentSectionPanelVisible
-                && !Source.IsPartSectionPanelVisible
-                && !Source.IsSeasonSectionPanelVisible
-                && !Source.IsAISectionPanelVisible
-                && !Source.IsPlaylistSectionPanelVisible
-                && !Source.IsRecommendSectionPanelVisible)
+                && !Source.IsEpisodeSectionPanelVisible
+                && !Source.IsSeasonSectionPanelVisible)
             {
                 ViewModel.IsControlVisible = true;
                 _controlTimer.Stop();
@@ -163,10 +135,8 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
     }
 
     private void OnNextButtonClick(object sender, EventArgs e)
-        => Source.PlayNextVideoCommand.Execute(default);
+        => Source.PlayNextEpisodeCommand.Execute(default);
 
     private void OnPrevButtonClick(object sender, EventArgs e)
-        => Source.PlayPrevVideoCommand.Execute(default);
+        => Source.PlayPrevEpisodeCommand.Execute(default);
 }
-
-public abstract class MpvPlayerControlBase : LayoutUserControlBase<MpvPlayerWindowViewModel>;

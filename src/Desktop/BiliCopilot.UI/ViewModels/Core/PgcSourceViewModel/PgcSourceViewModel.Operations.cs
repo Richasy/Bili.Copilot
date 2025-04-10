@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -16,12 +13,12 @@ using Windows.Storage.Streams;
 using Windows.System;
 using WinUIEx;
 
-namespace BiliCopilot.UI.ViewModels.View;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// PGC 播放器页面视图模型.
+/// PGC 源视图模型.
 /// </summary>
-public sealed partial class PgcPlayerPageViewModel
+public sealed partial class PgcSourceViewModel
 {
     [RelayCommand]
     private async Task ToggleLikeAsync()
@@ -32,7 +29,7 @@ public sealed partial class PgcPlayerPageViewModel
             var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
             await _service.ToggleVideoLikeAsync(aid, state);
             IsLiked = state;
-            ReloadEpisodeOpeartionCommand.Execute(default);
+            ReloadEpisodeOperationCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -53,7 +50,7 @@ public sealed partial class PgcPlayerPageViewModel
                 IsLiked = true;
             }
 
-            ReloadEpisodeOpeartionCommand.Execute(default);
+            ReloadEpisodeOperationCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -71,7 +68,7 @@ public sealed partial class PgcPlayerPageViewModel
             IsLiked = true;
             IsCoined = true;
             IsFavorited = true;
-            ReloadEpisodeOpeartionCommand.Execute(default);
+            ReloadEpisodeOperationCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -115,7 +112,7 @@ public sealed partial class PgcPlayerPageViewModel
             await _service.FavoriteVideoAsync(aid, selectedFolders, unselectedFolders);
             IsFavorited = selectedFolders.Count != 0;
             FavoriteFolders = default;
-            ReloadEpisodeOpeartionCommand.Execute(default);
+            ReloadEpisodeOperationCommand.Execute(default);
         }
         catch (Exception ex)
         {
@@ -168,41 +165,37 @@ public sealed partial class PgcPlayerPageViewModel
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
+    private async Task OpenInBrowserAsync()
     {
         var url = GetEpisodeUrl();
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
     }
 
     [RelayCommand]
-    private void OpenInNewWindow()
+    private void PlayPrevEpisode()
     {
-        if (Player.Position > 0)
+        var prevPart = FindPrevEpisode();
+        if (prevPart is null)
         {
-            ReportProgressCommand.Execute(Player.Position);
+            return;
         }
 
-        if (!Player.IsPaused)
+        if (prevPart is EpisodeInformation part)
         {
-            Player.TogglePlayPauseCommand.Execute(default);
+            ChangeEpisode(part);
         }
-
-        var identifier = new MediaIdentifier("ep_" + _episode.Identifier.Id, _episode.Identifier.Title, _episode.Identifier.Cover);
-        new PlayerWindow().OpenPgc(identifier);
+        else if (prevPart is VideoInformation video)
+        {
+            this.Get<AppViewModel>().OpenVideo(new VideoSnapshot(video));
+        }
     }
 
     [RelayCommand]
     private void PlayNextEpisode()
     {
-        if (IsPageLoading || Player.IsPlayerDataLoading)
-        {
-            return;
-        }
-
         var nextPart = FindNextEpisode();
         if (nextPart is null)
         {
-            Player.BackToDefaultModeCommand.Execute(default);
             return;
         }
 
@@ -212,16 +205,12 @@ public sealed partial class PgcPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video));
-        }
-        else
-        {
-            Player.BackToDefaultModeCommand.Execute(default);
+            this.Get<AppViewModel>().OpenVideo(new VideoSnapshot(video));
         }
     }
 
     [RelayCommand]
-    private async Task ReloadEpisodeOpeartionAsync()
+    private async Task ReloadEpisodeOperationAsync()
     {
         if (_episode is null)
         {
@@ -266,11 +255,7 @@ public sealed partial class PgcPlayerPageViewModel
 
     private void ChangeEpisode(EpisodeInformation episode)
     {
-        if (_initialProgress == 0)
-        {
-            _initialProgress = -1;
-        }
-
+        _initialProgress = 0;
         var isFirstSet = _episode is null;
         _episode = episode;
         if (isFirstSet)
@@ -284,19 +269,16 @@ public sealed partial class PgcPlayerPageViewModel
             _injectedProgress = null;
         }
 
-        Player.CancelNotification();
         EpisodeId = episode.Identifier.Id;
         EpisodeTitle = SeasonTitle + " - " + episode.Identifier.Title;
-        Player.Title = EpisodeTitle;
         var aid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
         var cid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
-        _comments.Initialize(aid, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
+        CommentSection.Initialize(aid, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
         Subtitle?.ResetData(aid, cid);
-        CalcPlayerHeight();
-        ReloadEpisodeOpeartionCommand.Execute(default);
+        ReloadEpisodeOperationCommand.Execute(default);
         InitializeDashMediaCommand.Execute(episode);
         Subtitle.InitializeCommand.Execute(default);
-        InitializeNextEpisode();
+        InitializeEpisodeNavigation();
     }
 
     [RelayCommand]
@@ -318,88 +300,6 @@ public sealed partial class PgcPlayerPageViewModel
 
         Danmaku?.UpdatePosition(progress);
         Subtitle?.UpdatePosition(progress);
-    }
-
-    private void PlayerStateChanged(PlayerState state)
-    {
-        if (_view is null)
-        {
-            return;
-        }
-
-        if (state == PlayerState.Playing)
-        {
-            Danmaku?.Resume();
-        }
-        else
-        {
-            if (state == PlayerState.Paused)
-            {
-                // 记录播放进度.
-                ReportProgressCommand.Execute(Player.Position);
-            }
-
-            Danmaku?.Pause();
-        }
-    }
-
-    private void PlayerSpeedChanged(double speed)
-    {
-        if (Danmaku is not null)
-        {
-            Danmaku.ExtraSpeed = speed;
-        }
-    }
-
-    private void PlayerMediaEnded()
-    {
-        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
-        {
-            // 清除弹幕.
-            Danmaku.ClearDanmaku();
-            Subtitle.ClearSubtitle();
-
-            ReportProgressCommand.Execute(Player.Duration);
-
-            var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if ((!autoNext || !HasNextEpisode) && !_isFormatChanging)
-            {
-                Player.BackToDefaultModeCommand.Execute(default);
-                return;
-            }
-
-            if (IsPageLoading || Player.IsPlayerDataLoading)
-            {
-                return;
-            }
-
-            var next = FindNextEpisode();
-            if (next is null)
-            {
-                return;
-            }
-
-            var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
-            if (withoutTip)
-            {
-                PlayNextEpisode();
-            }
-            else
-            {
-                string tip = default;
-                if (next is EpisodeInformation episode)
-                {
-                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextEpisodeNotificationTemplate), episode.Identifier.Title);
-                }
-                else if (next is VideoInformation video)
-                {
-                    tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), video.Identifier.Title);
-                }
-
-                var notification = new PlayerNotification(PlayNextEpisode, tip, 5);
-                Player.ShowNotification(notification);
-            }
-        });
     }
 
     private string GetSeasonUrl()

@@ -40,7 +40,7 @@ public sealed partial class AppViewModel : ViewModelBase
 
     public void OpenVideo(VideoSnapshot? snapshot, List<VideoInformation>? videos = default)
     {
-        var openedWindow = PlayerWindows.FirstOrDefault(p => p.Id == snapshot.Video.Identifier.Id);
+        var openedWindow = PlayerWindows.Find(p => p.Id == snapshot.Video.Identifier.Id);
         if (openedWindow is not null)
         {
             openedWindow.Window.Show();
@@ -55,6 +55,23 @@ public sealed partial class AppViewModel : ViewModelBase
         }
 
         var uiProvider = new VideoUIProvider(sourceVM);
+        var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
+        PlayerWindows.Add(windowVM);
+        windowVM.InitializeCommand.Execute(default);
+    }
+
+    public void OpenPgc(MediaIdentifier pgc)
+    {
+        var openedWindow = PlayerWindows.Find(p => p.Id == pgc.Id);
+        if (openedWindow is not null)
+        {
+            openedWindow.Window.Show();
+            return;
+        }
+
+        var sourceVM = this.Get<PgcSourceViewModel>();
+        sourceVM.InjectMedia(pgc);
+        var uiProvider = new PgcUIProvider(sourceVM);
         var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
         PlayerWindows.Add(windowVM);
         windowVM.InitializeCommand.Execute(default);

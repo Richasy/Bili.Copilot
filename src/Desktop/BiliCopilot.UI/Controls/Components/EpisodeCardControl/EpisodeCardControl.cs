@@ -31,23 +31,13 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
     protected override void OnControlUnloaded()
         => ContextRequested -= OnContextRequest;
 
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
-    }
-
-    private static MenuFlyoutItem CreateOpenInBroswerItem()
+    private static MenuFlyoutItem CreateOpenInBrowserItem()
     {
         return new MenuFlyoutItem()
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInBrowser),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Globe },
-            Tag = nameof(ViewModel.OpenInBroswerCommand),
+            Tag = nameof(ViewModel.OpenInBrowserCommand),
         };
     }
 
@@ -77,8 +67,7 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
     private void CreateContextFlyout()
     {
         var flyout = new MenuFlyout();
-        flyout.Items.Add(CreateOpenInNewWindowItem());
-        flyout.Items.Add(CreateOpenInBroswerItem());
+        flyout.Items.Add(CreateOpenInBrowserItem());
         flyout.Items.Add(CreatePinItem());
         ContextFlyout = flyout;
     }
@@ -94,11 +83,8 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
         {
             switch (item.Tag.ToString())
             {
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
-                    break;
-                case nameof(ViewModel.OpenInBroswerCommand):
-                    item.Command = ViewModel.OpenInBroswerCommand;
+                case nameof(ViewModel.OpenInBrowserCommand):
+                    item.Command = ViewModel.OpenInBrowserCommand;
                     break;
                 case nameof(ViewModel.PinCommand):
                     item.Command = ViewModel.PinCommand;

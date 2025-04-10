@@ -120,14 +120,13 @@ internal static class GlobalDependencies
             .AddTransient<DanmakuViewModel>()
             .AddTransient<SubtitleViewModel>()
             .AddTransient<AIViewModel>()
-            .AddTransient<VideoPlayerPageViewModel>()
             .AddTransient<LivePlayerPageViewModel>()
-            .AddTransient<PgcPlayerPageViewModel>()
             .AddTransient<WebDavPlayerPageViewModel>()
             .AddTransient<LiveChatSectionDetailViewModel>()
             .AddTransient<UserMomentDetailViewModel>()
             .AddTransient<DownloadViewModel>()
             .AddTransient<VideoSourceViewModel>()
+            .AddTransient<PgcSourceViewModel>()
             .AddNotificationViewModel()
             .Build();
 

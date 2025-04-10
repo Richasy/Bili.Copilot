@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
@@ -25,20 +24,6 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     [ObservableProperty]
     private VideoItemViewModel _selectedItem;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPlayerPlaylistSectionDetailViewModel"/> class.
-    /// </summary>
-    public VideoPlayerPlaylistSectionDetailViewModel(
-        VideoPlayerPageViewModel page,
-        IList<VideoInformation> list,
-        string videoId)
-    {
-        _videoId = videoId;
-        Page = page;
-        Items = list.Select(p => new VideoItemViewModel(p, VideoCardStyle.PlayerPlaylist)).ToList();
-        SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == _videoId);
-    }
-
     public VideoPlayerPlaylistSectionDetailViewModel(
         VideoSourceViewModel source,
         IList<VideoInformation> list,
@@ -52,11 +37,6 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
 
     /// <inheritdoc/>
     public string Title => ResourceToolkit.GetLocalizedString(StringNames.Playlist);
-
-    /// <summary>
-    /// 页面视图模型.
-    /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
 
     /// <summary>
     /// 视频源视图模型.

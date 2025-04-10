@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
@@ -17,86 +16,70 @@ using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
-public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceResolver
+/// <summary>
+/// PGC 源视图模型.
+/// </summary>
+public sealed partial class PgcSourceViewModel : ViewModelBase, IMediaSourceResolver
 {
-    public VideoSourceViewModel(
+    public PgcSourceViewModel(
         IPlayerService service,
-        IRelationshipService relationshipService,
         IFavoriteService favoriteService,
-        ILogger<VideoSourceViewModel> logger,
+        IEntertainmentDiscoveryService discoveryService,
+        ILogger<PgcSourceViewModel> logger,
         DanmakuViewModel danmaku,
         SubtitleViewModel subtitle,
         CommentMainViewModel comments,
-        DownloadViewModel download,
-        AIViewModel ai)
+        DownloadViewModel downloader)
     {
         _service = service;
-        _relationshipService = relationshipService;
         _favoriteService = favoriteService;
+        _discoveryService = discoveryService;
         _logger = logger;
-        CommentSection = comments;
         Danmaku = danmaku;
         Subtitle = subtitle;
-        Downloader = download;
-        AI = ai;
-        CurrentLoop = VideoLoopType.None;
-        Subtitle.SetInitializedCallback(SyncDownloadAndSubtitle);
+        Downloader = downloader;
+        CommentSection = comments;
     }
 
     public event EventHandler RequestReload;
 
     public event EventHandler RequestClear;
 
-    /// <summary>
-    /// 注入播放列表.
-    /// </summary>
-    public void InjectPlaylist(IList<VideoInformation> playlist)
-        => _playlist = playlist;
-
-    public void InjectSnapshot(VideoSnapshot snapshot)
-        => _cachedSnapshot = snapshot;
+    public void InjectMedia(MediaIdentifier identifier)
+        => _cachedMedia = identifier;
 
     public async Task InitializeAsync()
     {
         _isSeasonInitialized = false;
-        var video = _cachedSnapshot.Video;
-        IsPrivatePlay = _cachedSnapshot.IsPrivate;
         _videoUrl = string.Empty;
         _audioUrl = string.Empty;
-        Id = video.Identifier.Id;
+        Id = _cachedMedia?.Id ?? string.Empty;
         ErrorMessage = string.Empty;
         try
         {
             RequestClear?.Invoke(this, EventArgs.Empty);
-            if (_view is not null && _view.Information.Identifier.Id != video.Identifier.Id)
-            {
-                await ReportProgressAsync(_lastPosition);
-            }
 
             _initialProgress = 0;
             _lastPosition = 0;
             ClearView();
-            if (_playlist?.Any(p => p.Identifier.Id == video.Identifier.Id) == false)
-            {
-                _playlist = default;
-            }
-
-            var view = await _service.GetVideoPageDetailAsync(video.Identifier);
+            var id = _cachedMedia!.Value.Id;
+            var isEpisode = id.StartsWith("ep");
+            id = id[3..];
+            var seasonId = isEpisode ? default : id;
+            var episodeId = isEpisode ? id : default;
+            var view = await _service.GetPgcPageDetailAsync(seasonId, episodeId);
             InitializeView(view);
-            var initialPart = FindInitialPart(default) ?? throw new Exception("无法找到视频的分集信息.");
-            _part = initialPart;
-            CommentSection.Initialize(AvId, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
-            LoadInitialProgress();
+            var initialEpisode = FindInitialEpisode(episodeId);
+            ChangeEpisode(initialEpisode);
             InitializeSections();
-            InitializeLoops();
-            await ChangePartAsync(initialPart);
+            InitializeEpisodeNavigation();
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
                 ErrorMessage = ex.Message;
-                _logger.LogError(ex, $"尝试获取视频 {video.Identifier.Id} 详情时失败.");
+                _logger.LogError(ex, $"尝试获取剧集 {_cachedMedia!.Value.Id} 详情时失败.");
             }
         }
     }
@@ -168,27 +151,19 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
                 {
                     ReportProgressCommand.Execute(Convert.ToInt32(_lastPosition));
 
-                    // 单视频循环.
-                    if (CurrentLoop == VideoLoopType.Single)
-                    {
-                        _initialProgress = 0;
-                        RequestReload?.Invoke(this, EventArgs.Empty);
-                        return;
-                    }
-
                     var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
                     if (!autoNext)
                     {
                         return;
                     }
 
-                    var next = FindNextVideo();
+                    var next = FindNextEpisode();
                     if (next is null)
                     {
                         return;
                     }
 
-                    PlayNextVideoCommand.Execute(default);
+                    PlayNextEpisodeCommand.Execute(default);
                 }
             }
         }
@@ -199,8 +174,10 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         _lastPosition = position;
         if (position < duration && position > 1 && (Danmaku?.IsEmpty() ?? false))
         {
-            Danmaku?.ResetData(_view?.Information.Identifier.Id, _part?.Identifier.Id);
-            Danmaku?.LoadDanmakusCommand.Execute(Convert.ToInt32(duration));
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+            Danmaku.ResetData(aid, cid);
+            Danmaku.LoadDanmakusCommand.Execute(Convert.ToInt32(duration));
         }
 
         Danmaku?.UpdatePosition(Convert.ToInt32(position));
@@ -216,28 +193,22 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
     }
 
     [RelayCommand]
-    private async Task InitializeDashMediaAsync(VideoPart part)
+    private async Task InitializeDashMediaAsync(EpisodeInformation episode)
     {
         try
         {
             ErrorMessage = string.Empty;
-            var info = await _service.GetVideoPlayDetailAsync(_view.Information.Identifier, Convert.ToInt64(part.Identifier.Id));
-            if (info is null)
-            {
-                ErrorMessage = ResourceToolkit.GetLocalizedString(StringNames.RequestVideoFailed);
-                return;
-            }
-
+            var cid = episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid);
+            var seasonType = episode.GetExtensionIfNotNull<string>(EpisodeExtensionDataId.SeasonType);
+            var info = await _service.GetPgcPlayDetailAsync(cid.ToString(), episode.Identifier.Id, seasonType);
             InitializeDash(info);
-            var onlineCount = await _service.GetOnlineViewerAsync(_view.Information.Identifier.Id, part.Identifier.Id, CancellationToken.None);
-            OnlineCountText = onlineCount.Text;
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
                 ErrorMessage = ex.Message;
-                _logger.LogError(ex, $"尝试获取视频 {_view.Information.Identifier.Id} 的第 {part.Index} 分集时失败.");
+                _logger.LogError(ex, $"尝试获取视频 {_view.Information.Identifier.Id} 的第 {episode.Index} 分集时失败.");
             }
         }
     }
@@ -257,24 +228,8 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         var vSeg = _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString() && p.Codecs.Contains(preferCodec))
             ?? _videoSegments?.FirstOrDefault(p => p.Id == vm.Data.Quality.ToString());
         var aSeg = _audioSegments?.FirstOrDefault(p => p.Id == maxAudioQuality.ToString());
-
         var videoUrl = vSeg?.BaseUrl;
         var audioUrl = aSeg?.BaseUrl;
-
-        if (SettingsToolkit.ReadLocalSetting(SettingNames.PlayWithoutP2P, false))
-        {
-            if (vSeg?.BackupUrls is not null)
-            {
-                string[] videoUrls = [vSeg?.BaseUrl, .. vSeg?.BackupUrls];
-                videoUrl = Array.Find(videoUrls, p => !AppToolkit.IsP2PUrl(p)) ?? vSeg?.BaseUrl;
-            }
-
-            if (aSeg?.BackupUrls is not null)
-            {
-                string[] audioUrls = [aSeg?.BaseUrl, .. aSeg?.BackupUrls];
-                audioUrl = Array.Find(audioUrls, p => !AppToolkit.IsP2PUrl(p)) ?? aSeg?.BaseUrl;
-            }
-        }
 
         var isAutoPlay = !isFirstSet;
         if (isFirstSet)
@@ -286,7 +241,7 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
             _initialProgress = _lastPosition;
         }
 
-        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedVideoQuality, vm.Data.Quality);
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedPgcQuality, vm.Data.Quality);
 
         Danmaku.ClearAll();
         _videoUrl = videoUrl;
@@ -295,18 +250,10 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
     }
 
     [RelayCommand]
-    private void Clean()
-    {
-        ClearView();
-        Subtitle?.ClearAll();
-        Danmaku.ClearAll();
-    }
-
-    [RelayCommand]
-    private async Task ReportProgressAsync(double progress)
+    private async Task ReportProgressAsync(int progress)
     {
         var shouldReport = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldReportProgress, true);
-        if (!shouldReport || IsPrivatePlay || _view is null || _view.Information is null || progress == 0)
+        if (!shouldReport || _view is null || _episode is null || _view.Information is null || progress == 0)
         {
             return;
         }
@@ -314,14 +261,13 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         try
         {
             var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(2));
-            await _service.ReportVideoProgressAsync(AvId, _part.Identifier.Id, Convert.ToInt32(progress), cancellationToken.Token);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid);
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid);
+            await _service.ReportEpisodeProgressAsync(aid.ToString(), cid.ToString(), _episode.Identifier.Id, _view.Information.Identifier.Id, progress, cancellationToken.Token);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "尝试上报播放进度时失败.");
         }
     }
-
-    partial void OnCurrentLoopChanged(VideoLoopType value)
-        => InitializeVideoNavigation();
 }

@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Core\PgcPlayerOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Core\OverlayTransportControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -252,12 +255,6 @@
     <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -318,13 +315,7 @@
     <Page Update="Controls\Player\UpSectionControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

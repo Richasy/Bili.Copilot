@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -41,17 +40,11 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
 
     [RelayCommand]
     private void Play()
-    {
-        OpenInNewWindowCommand.Execute(default);
-    }
+        => this.Get<AppViewModel>().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
-    private Task OpenInBroswerAsync()
+    private Task OpenInBrowserAsync()
         => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-        => new PlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private void Pin()

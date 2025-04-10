@@ -36,10 +36,6 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
                 ViewModel.Source.InjectSnapshot(new VideoSnapshot(item.Data));
                 await ViewModel.Source.InitializeAsync();
             }
-            else if (ViewModel.Page != null)
-            {
-                ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
-            }
         }
     }
 

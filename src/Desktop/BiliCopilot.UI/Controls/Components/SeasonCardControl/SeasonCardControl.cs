@@ -56,23 +56,13 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
         }
     }
 
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
-    }
-
     private static MenuFlyoutItem CreateOpenInBroswerItem()
     {
         return new MenuFlyoutItem()
         {
             Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInBrowser),
             Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Globe },
-            Tag = nameof(ViewModel.OpenInBroswerCommand),
+            Tag = nameof(ViewModel.OpenInBrowserCommand),
         };
     }
 
@@ -152,7 +142,6 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
     private void CreateContextFlyout()
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
-        menuFlyout.Items.Add(CreateOpenInNewWindowItem());
         menuFlyout.Items.Add(CreateOpenInBroswerItem());
         if (ViewModel.Style != SeasonCardStyle.Favorite)
         {
@@ -182,11 +171,8 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
         {
             switch (item.Tag.ToString())
             {
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
-                    break;
-                case nameof(ViewModel.OpenInBroswerCommand):
-                    item.Command = ViewModel.OpenInBroswerCommand;
+                case nameof(ViewModel.OpenInBrowserCommand):
+                    item.Command = ViewModel.OpenInBrowserCommand;
                     break;
                 case nameof(ViewModel.FollowCommand):
                     item.Command = ViewModel.FollowCommand;

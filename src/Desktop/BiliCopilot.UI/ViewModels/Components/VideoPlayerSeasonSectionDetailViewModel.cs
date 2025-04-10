@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
@@ -34,21 +33,6 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
     [ObservableProperty]
     private VideoItemViewModel _selectedItem;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VideoPlayerSeasonSectionDetailViewModel"/> class.
-    /// </summary>
-    public VideoPlayerSeasonSectionDetailViewModel(
-        VideoPlayerPageViewModel page,
-        IList<VideoSeason> seasons,
-        string videoId)
-    {
-        Page = page;
-        Seasons = seasons.ToList();
-        _videoId = videoId;
-        var selectedSeason = Seasons.FirstOrDefault(p => p.Videos.Any(q => q.Identifier.Id == _videoId));
-        ChangeSeason(selectedSeason);
-    }
-
     public VideoPlayerSeasonSectionDetailViewModel(
         VideoSourceViewModel source,
         IList<VideoSeason> seasons,
@@ -63,11 +47,6 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
 
     /// <inheritdoc/>
     public string Title => ResourceToolkit.GetLocalizedString(StringNames.UgcSeason);
-
-    /// <summary>
-    /// 页面视图模型.
-    /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
 
     /// <summary>
     /// 视频源视图模型.

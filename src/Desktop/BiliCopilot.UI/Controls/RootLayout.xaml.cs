@@ -49,17 +49,7 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneCollapsed", false);
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            SecondaryTitleBar.Title = vPage.ViewModel.Title;
-            vPage.EnterPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            SecondaryTitleBar.Title = pPage.ViewModel.EpisodeTitle;
-            pPage.EnterPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        if (OverlayFrame.Content is LivePlayerPage lPage)
         {
             SecondaryTitleBar.Title = lPage.ViewModel.Title;
             lPage.EnterPlayerHostMode();
@@ -92,15 +82,7 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneVisible", false);
         VisualStateManager.GoToState(this, nameof(NormalState), false);
 
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ExitPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            pPage.ExitPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        if (OverlayFrame.Content is LivePlayerPage lPage)
         {
             lPage.ExitPlayerHostMode();
         }
@@ -125,17 +107,7 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         var isHandled = false;
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            isHandled = true;
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            isHandled = true;
-        }
-        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        if (OverlayFrame.Content is LivePlayerPage lPage)
         {
             lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
             isHandled = true;
@@ -160,15 +132,7 @@ public sealed partial class RootLayout : RootLayoutBase
             return false;
         }
 
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (OverlayFrame.Content is LivePlayerPage lPage)
+        if (OverlayFrame.Content is LivePlayerPage lPage)
         {
             return lPage.ViewModel.Player.TryTogglePlayPause();
         }
@@ -191,15 +155,6 @@ public sealed partial class RootLayout : RootLayoutBase
             return false;
         }
 
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.MarkRightArrowPressed();
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.MarkRightArrowPressed();
-        }
-
         return false;
     }
 
@@ -212,15 +167,6 @@ public sealed partial class RootLayout : RootLayoutBase
         if (!ViewModel.IsOverlayOpen)
         {
             return false;
-        }
-
-        if (OverlayFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.CancelRightArrow();
-        }
-        else if (OverlayFrame.Content is PgcPlayerPage pPage)
-        {
-            return pPage.CancelRightArrow();
         }
 
         return false;
