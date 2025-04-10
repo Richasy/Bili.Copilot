@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,12 +15,20 @@
     <Grid RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <TextBlock
+            Margin="16,12,16,0"
+            HorizontalAlignment="Left"
+            Style="{StaticResource BodyStrongTextBlockStyle}"
+            Text="{ext:Locale Name=UgcSeason}" />
+
         <ComboBox
             x:Name="SeasonComboBox"
-            Margin="12,8,12,0"
+            Grid.Row="1"
+            Margin="16,4,16,0"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.Seasons, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedSeason, Mode=OneWay}"
@@ -33,8 +42,8 @@
 
         <ItemsView
             x:Name="View"
-            Grid.Row="1"
-            Padding="12,0,12,12"
+            Grid.Row="2"
+            Padding="16,0,16,16"
             ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
             SelectionChanged="OnVideoSelectionChanged"
             SelectionMode="Single">

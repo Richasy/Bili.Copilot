@@ -37,6 +37,8 @@ public sealed partial class VideoSourceViewModel
     private string _videoUrl;
     private string _audioUrl;
 
+    public string Id { get; set; }
+
     [ObservableProperty]
     public partial Uri? Cover{ get; set; }
 
@@ -113,6 +115,15 @@ public sealed partial class VideoSourceViewModel
     public partial string? NextVideoTip{ get; set; }
 
     [ObservableProperty]
+    public partial bool HasPrevVideo { get; set; }
+
+    [ObservableProperty]
+    public partial string? PrevVideoTip { get; set; }
+
+    [ObservableProperty]
+    public partial bool CanVideoNavigate { get; set; }
+
+    [ObservableProperty]
     public partial bool IsPrivatePlay{ get; set; }
 
     [ObservableProperty]
@@ -171,6 +182,30 @@ public sealed partial class VideoSourceViewModel
 
     [ObservableProperty]
     public partial bool IsAISectionPanelVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsInfoSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsCommentSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPartSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPlaylistSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsRecommendSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsSeasonSectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsAISectionPanelLoaded { get; set; }
+
+    [ObservableProperty]
+    public partial string? ErrorMessage { get; set; }
 
     /// <summary>
     /// 区块加载完成.

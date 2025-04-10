@@ -2814,4 +2814,22 @@
   <data name="SideNavigationSettingDescription" xml:space="preserve">
     <value>开启或关闭导航区块</value>
   </data>
+  <data name="PlayPrevPartTipTemplate" xml:space="preserve">
+    <value>播放上一P：{0}</value>
+  </data>
+  <data name="PlayPrevVideoTipTemplate" xml:space="preserve">
+    <value>播放上一个视频：{0}</value>
+  </data>
+  <data name="PrevEpisode" xml:space="preserve">
+    <value>上一集</value>
+  </data>
+  <data name="PrevEpisodeNotificationTemplate" xml:space="preserve">
+    <value>准备播放上一集：{0}</value>
+  </data>
+  <data name="PrevPartTipTemplate" xml:space="preserve">
+    <value>上一个：{0}</value>
+  </data>
+  <data name="PrevVideoNotificationTemplate" xml:space="preserve">
+    <value>准备播放上一个视频：{0}</value>
+  </data>
 </root>

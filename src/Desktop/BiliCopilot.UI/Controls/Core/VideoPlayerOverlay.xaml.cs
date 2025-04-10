@@ -77,18 +77,21 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnVideoInfoButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(VideoInfoSec));
         Source.IsInfoSectionPanelVisible = true;
         ViewModel.IsControlVisible = false;
     }
 
     private void OnCommentButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(CommentSec));
         Source.IsCommentSectionPanelVisible = true;
         ViewModel.IsControlVisible = false;
     }
 
     private void OnPlaylistButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(PlaylistSec));
         Source.IsPlaylistSectionPanelVisible = true;
         Source.PlaylistSection.TryFirstLoadCommand.Execute(default);
         ViewModel.IsControlVisible = false;
@@ -96,6 +99,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnPartButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(PartSec));
         Source.IsPartSectionPanelVisible = true;
         Source.PartSection.TryFirstLoadCommand.Execute(default);
         ViewModel.IsControlVisible = false;
@@ -103,6 +107,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnSeasonButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(SeasonSec));
         Source.IsSeasonSectionPanelVisible = true;
         Source.SeasonSection.TryFirstLoadCommand.Execute(default);
         ViewModel.IsControlVisible = false;
@@ -110,6 +115,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnRecommendButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(RecommendSec));
         Source.IsRecommendSectionPanelVisible = true;
         Source.RecommendSection.TryFirstLoadCommand.Execute(default);
         ViewModel.IsControlVisible = false;
@@ -117,6 +123,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnAIButtonClick(object sender, RoutedEventArgs e)
     {
+        FindName(nameof(AISec));
         Source.IsAISectionPanelVisible = true;
         Source.AI.InitializeCommand.Execute(default);
         ViewModel.IsControlVisible = false;
@@ -155,6 +162,12 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
     }
+
+    private void OnNextButtonClick(object sender, EventArgs e)
+        => Source.PlayNextVideoCommand.Execute(default);
+
+    private void OnPrevButtonClick(object sender, EventArgs e)
+        => Source.PlayPrevVideoCommand.Execute(default);
 }
 
 public abstract class MpvPlayerControlBase : LayoutUserControlBase<MpvPlayerWindowViewModel>;

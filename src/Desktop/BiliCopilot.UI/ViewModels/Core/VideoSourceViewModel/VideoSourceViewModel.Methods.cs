@@ -193,6 +193,61 @@ public sealed partial class VideoSourceViewModel
         }
     }
 
+    private object? FindPrevVideo()
+    {
+        var isListLoop = CurrentLoop == VideoLoopType.List;
+
+        // 1. 先检查分P列表中是否有下一个视频.
+        if (PartSection != null)
+        {
+            var index = PartSection.Parts.ToList().IndexOf(_part);
+            if (index > 0)
+            {
+                return PartSection.Parts[index - 1];
+            }
+
+            if (_playlist is null && isListLoop && SeasonSection is null)
+            {
+                return PartSection.Parts.Last();
+            }
+        }
+
+        // 2. 检查播放列表中是否有下一个视频.
+        if (_playlist is not null)
+        {
+            var index = _playlist.ToList().IndexOf(_view.Information);
+            if (index > 0)
+            {
+                return _playlist[index - 1];
+            }
+
+            if (isListLoop)
+            {
+                return _playlist.Last();
+            }
+            else if (SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true))
+            {
+                return default;
+            }
+        }
+
+        // 3. 检查合集中是否有下一个视频.
+        if (SeasonSection != null)
+        {
+            var index = SeasonSection.Items.ToList().IndexOf(SeasonSection.SelectedItem);
+            if (index > 0)
+            {
+                return SeasonSection.Items[index - 1].Data;
+            }
+            else if (isListLoop)
+            {
+                return SeasonSection.Items.Last().Data;
+            }
+        }
+
+        return default;
+    }
+
     private object? FindNextVideo()
     {
         var isListLoop = CurrentLoop == VideoLoopType.List;
@@ -255,7 +310,7 @@ public sealed partial class VideoSourceViewModel
         return default;
     }
 
-    private void InitializeNextVideo()
+    private void InitializeVideoNavigation()
     {
         if (_view is null || !_isSeasonInitialized)
         {
@@ -263,7 +318,10 @@ public sealed partial class VideoSourceViewModel
         }
 
         var next = FindNextVideo();
+        var prev = FindPrevVideo();
         HasNextVideo = next is not null;
+        HasPrevVideo = prev is not null;
+        CanVideoNavigate = HasNextVideo || HasPrevVideo;
         if (next is VideoPart part)
         {
             NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextPartTipTemplate), part.Identifier.Title);
@@ -271,6 +329,15 @@ public sealed partial class VideoSourceViewModel
         else if (next is VideoInformation video)
         {
             NextVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayNextVideoTipTemplate), video.Identifier.Title);
+        }
+
+        if (prev is VideoPart part2)
+        {
+            PrevVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayPrevPartTipTemplate), part2.Identifier.Title);
+        }
+        else if (prev is VideoInformation video2)
+        {
+            PrevVideoTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.PlayPrevVideoTipTemplate), video2.Identifier.Title);
         }
     }
 

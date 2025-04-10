@@ -11,6 +11,11 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public interface IMediaSourceResolver
 {
     /// <summary>
+    /// 获取媒体源的 ID.
+    /// </summary>
+    public string Id { get; }
+
+    /// <summary>
     /// 初始化.
     /// </summary>
     /// <returns><see cref="Task"/>.</returns>

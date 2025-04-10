@@ -12,12 +12,61 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
     public static readonly DependencyProperty LeftElementProperty =
         DependencyProperty.Register(nameof(LeftElement), typeof(object), typeof(OverlayTransportControl), new PropertyMetadata(default));
 
+    public static readonly DependencyProperty IsNextButtonEnabledProperty =
+        DependencyProperty.Register(nameof(IsNextButtonEnabled), typeof(bool), typeof(OverlayTransportControl), new PropertyMetadata(default));
+
+    public static readonly DependencyProperty IsPrevButtonEnabledProperty =
+        DependencyProperty.Register(nameof(IsPrevButtonEnabled), typeof(bool), typeof(OverlayTransportControl), new PropertyMetadata(default));
+
+    public static readonly DependencyProperty IsNavigateButtonVisibleProperty =
+        DependencyProperty.Register(nameof(IsNavigateButtonVisible), typeof(bool), typeof(OverlayTransportControl), new PropertyMetadata(default));
+
+    public static readonly DependencyProperty NextButtonTipProperty =
+        DependencyProperty.Register(nameof(NextButtonTip), typeof(string), typeof(OverlayTransportControl), new PropertyMetadata(default));
+
+    public static readonly DependencyProperty PrevButtonTipProperty =
+        DependencyProperty.Register(nameof(PrevButtonTip), typeof(string), typeof(OverlayTransportControl), new PropertyMetadata(default));
+
     public OverlayTransportControl() => InitializeComponent();
+
+    public event EventHandler PrevButtonClick;
+
+    public event EventHandler NextButtonClick;
 
     public object LeftElement
     {
         get => (object)GetValue(LeftElementProperty);
         set => SetValue(LeftElementProperty, value);
+    }
+
+    public bool IsNextButtonEnabled
+    {
+        get => (bool)GetValue(IsNextButtonEnabledProperty);
+        set => SetValue(IsNextButtonEnabledProperty, value);
+    }
+
+    public bool IsPrevButtonEnabled
+    {
+        get => (bool)GetValue(IsPrevButtonEnabledProperty);
+        set => SetValue(IsPrevButtonEnabledProperty, value);
+    }
+
+    public bool IsNavigateButtonVisible
+    {
+        get => (bool)GetValue(IsNavigateButtonVisibleProperty);
+        set => SetValue(IsNavigateButtonVisibleProperty, value);
+    }
+
+    public string NextButtonTip
+    {
+        get => (string)GetValue(NextButtonTipProperty);
+        set => SetValue(NextButtonTipProperty, value);
+    }
+
+    public string PrevButtonTip
+    {
+        get => (string)GetValue(PrevButtonTipProperty);
+        set => SetValue(PrevButtonTipProperty, value);
     }
 
     private FluentIcons.Common.Symbol GetPlayPauseSymbol(MpvPlayerState state)
@@ -133,4 +182,10 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
 
     private async void OnFullScreenButtonClick(object sender, RoutedEventArgs e)
         => await ViewModel.Client.SetFullScreenState(!ViewModel.IsFullScreen);
+
+    private void OnPrevButtonClick(object sender, RoutedEventArgs e)
+        => PrevButtonClick?.Invoke(sender, EventArgs.Empty);
+
+    private void OnNextButtonClick(object sender, RoutedEventArgs e)
+        => NextButtonClick?.Invoke(sender, EventArgs.Empty);
 }

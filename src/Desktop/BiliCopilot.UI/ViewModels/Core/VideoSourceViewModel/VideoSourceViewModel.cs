@@ -62,6 +62,10 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         _isSeasonInitialized = false;
         var video = _cachedSnapshot.Video;
         IsPrivatePlay = _cachedSnapshot.IsPrivate;
+        _videoUrl = string.Empty;
+        _audioUrl = string.Empty;
+        Id = video.Identifier.Id;
+        ErrorMessage = string.Empty;
         try
         {
             RequestClear?.Invoke(this, EventArgs.Empty);
@@ -92,6 +96,7 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         {
             if (ex is not TaskCanceledException)
             {
+                ErrorMessage = ex.Message;
                 _logger.LogError(ex, $"尝试获取视频 {video.Identifier.Id} 详情时失败.");
             }
         }
@@ -173,7 +178,10 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
                     }
 
                     var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-                    // TODO: 返回默认显示模式.
+                    if (!autoNext)
+                    {
+                        return;
+                    }
 
                     var next = FindNextVideo();
                     if (next is null)
@@ -232,10 +240,11 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
     {
         try
         {
+            ErrorMessage = string.Empty;
             var info = await _service.GetVideoPlayDetailAsync(_view.Information.Identifier, Convert.ToInt64(part.Identifier.Id));
             if (info is null)
             {
-                // TODO: 显示错误提示.
+                ErrorMessage = ResourceToolkit.GetLocalizedString(StringNames.RequestVideoFailed);
                 return;
             }
 
@@ -293,7 +302,10 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
         }
 
         // 切换清晰度时，如果播放器已经加载了媒体，那么就保持当前的播放进度.
-        _initialProgress = _lastPosition;
+        if (!string.IsNullOrEmpty(_videoUrl) || !string.IsNullOrEmpty(_audioUrl))
+        {
+            _initialProgress = _lastPosition;
+        }
 
         SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedVideoQuality, vm.Data.Quality);
 
@@ -332,5 +344,5 @@ public sealed partial class VideoSourceViewModel : ViewModelBase, IMediaSourceRe
     }
 
     partial void OnCurrentLoopChanged(VideoLoopType value)
-        => InitializeNextVideo();
+        => InitializeVideoNavigation();
 }

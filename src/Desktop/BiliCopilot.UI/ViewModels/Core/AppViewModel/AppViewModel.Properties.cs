@@ -27,7 +27,12 @@ public sealed partial class AppViewModel : ViewModelBase
     /// <summary>
     /// 已创建的窗口列表.
     /// </summary>
-    public List<Window> Windows { get; } = new();
+    public List<Window> Windows { get; } = [];
+
+    /// <summary>
+    /// 播放器窗口列表.
+    /// </summary>
+    public List<MpvPlayerWindowViewModel> PlayerWindows { get; } = [];
 
     /// <summary>
     /// BBDown 路径.

@@ -184,6 +184,29 @@ public sealed partial class VideoSourceViewModel
         => Launcher.LaunchUriAsync(new Uri(GetWebLink())).AsTask();
 
     [RelayCommand]
+    private async Task PlayPrevVideo()
+    {
+        var prevPart = FindPrevVideo();
+        if (prevPart is null)
+        {
+            return;
+        }
+
+        _initialProgress = 0;
+
+        if (prevPart is VideoPart part)
+        {
+            RequestClear?.Invoke(this, EventArgs.Empty);
+            await ChangePartAsync(part);
+        }
+        else if (prevPart is VideoInformation video)
+        {
+            InjectSnapshot(new VideoSnapshot(video, IsPrivatePlay));
+            await InitializeAsync();
+        }
+    }
+
+    [RelayCommand]
     private async Task PlayNextVideo()
     {
         var nextPart = FindNextVideo();
@@ -243,7 +266,7 @@ public sealed partial class VideoSourceViewModel
         Subtitle?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);
         await InitializeDashMediaAsync(part);
         Subtitle?.InitializeCommand.Execute(default);
-        InitializeNextVideo();
+        InitializeVideoNavigation();
         PartSection?.UpdateSelectedPartCommand.Execute(part);
     }
 }

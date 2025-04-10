@@ -47,7 +47,11 @@
                 <Button
                     x:Name="PrevButton"
                     Margin="0,0,8,0"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Click="OnPrevButtonClick"
+                    IsEnabled="{x:Bind IsPrevButtonEnabled, Mode=OneWay}"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind PrevButtonTip, Mode=OneWay}"
+                    Visibility="{x:Bind IsNavigateButtonVisible, Mode=OneWay}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"
@@ -95,7 +99,11 @@
                 <Button
                     x:Name="NextButton"
                     Margin="8,0,0,0"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Click="OnNextButtonClick"
+                    IsEnabled="{x:Bind IsNextButtonEnabled, Mode=OneWay}"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind NextButtonTip, Mode=OneWay}"
+                    Visibility="{x:Bind IsNavigateButtonVisible, Mode=OneWay}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"

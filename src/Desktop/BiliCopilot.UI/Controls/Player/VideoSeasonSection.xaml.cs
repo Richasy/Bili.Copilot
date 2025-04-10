@@ -49,7 +49,7 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
 
     private async Task CheckSelectedItemAsync()
     {
-        await Task.Delay(100);
+        await Task.Delay(500);
         if (ViewModel?.SelectedItem is null)
         {
             return;

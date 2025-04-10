@@ -112,6 +112,7 @@ public sealed partial class MpvPlayerWindowViewModel
 
     private void OnWindowClosing(AppWindow sender, AppWindowClosingEventArgs args)
     {
+        this.Get<AppViewModel>().PlayerWindows.Remove(this);
         _tipTimer.Stop();
         _tipTimer.Tick -= OnTipTimerTick;
         _tipTimer = default;

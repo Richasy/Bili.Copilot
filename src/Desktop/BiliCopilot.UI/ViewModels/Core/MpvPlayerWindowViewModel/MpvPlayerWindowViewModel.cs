@@ -31,6 +31,8 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         _tipTimer.Tick += OnTipTimerTick;
     }
 
+    public string Id => _sourceResolver.Id;
+
     [RelayCommand]
     private async Task InitializeAsync()
     {

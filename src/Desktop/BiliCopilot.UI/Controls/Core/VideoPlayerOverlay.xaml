@@ -112,6 +112,21 @@
             VerticalAlignment="Center"
             Text="{ext:Locale Name=LoadingAndWait}"
             Visibility="{x:Bind ViewModel.IsSourceLoading, Mode=OneWay}" />
+        <Border
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource SystemFillColorCriticalBrush}"
+            BorderThickness="1"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Visibility="{x:Bind Source.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <base:TrimTextBlock
+                MaxWidth="320"
+                FontSize="12"
+                IsTextSelectionEnabled="True"
+                MaxLines="5"
+                Text="{x:Bind Source.ErrorMessage, Mode=OneWay}" />
+        </Border>
         <Grid Visibility="{x:Bind ViewModel.IsSourceLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
@@ -183,6 +198,13 @@
                 <local:OverlayTransportControl
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
+                    IsNavigateButtonVisible="{x:Bind Source.CanVideoNavigate, Mode=OneWay}"
+                    IsNextButtonEnabled="{x:Bind Source.HasNextVideo, Mode=OneWay}"
+                    IsPrevButtonEnabled="{x:Bind Source.HasPrevVideo, Mode=OneWay}"
+                    NextButtonClick="OnNextButtonClick"
+                    NextButtonTip="{x:Bind Source.NextVideoTip, Mode=OneWay}"
+                    PrevButtonClick="OnPrevButtonClick"
+                    PrevButtonTip="{x:Bind Source.PrevVideoTip, Mode=OneWay}"
                     ViewModel="{x:Bind ViewModel, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.IsControlVisible, Mode=OneWay}">
                     <animations:Implicit.ShowAnimations>
@@ -355,7 +377,7 @@
             Visibility="{x:Bind Source.IsInfoSectionPanelVisible, Mode=OneWay}">
             <player:VideoInfoSection
                 x:Name="VideoInfoSec"
-                x:Load="{x:Bind Source.IsInfoSectionPanelVisible, Mode=OneWay}"
+                x:Load="False"
                 ViewModel="{x:Bind Source, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -390,7 +412,7 @@
             Visibility="{x:Bind Source.IsRecommendSectionPanelVisible, Mode=OneWay}">
             <player:VideoRecommendSection
                 x:Name="RecommendSec"
-                x:Load="{x:Bind Source.IsRecommendSectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsRecommendSectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.RecommendSection, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -425,7 +447,7 @@
             Visibility="{x:Bind Source.IsPartSectionPanelVisible, Mode=OneWay}">
             <player:VideoPartsSection
                 x:Name="PartSec"
-                x:Load="{x:Bind Source.IsPartSectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsPartSectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.PartSection, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -460,7 +482,7 @@
             Visibility="{x:Bind Source.IsSeasonSectionPanelVisible, Mode=OneWay}">
             <player:VideoSeasonSection
                 x:Name="SeasonSec"
-                x:Load="{x:Bind Source.IsSeasonSectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsSeasonSectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.SeasonSection, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -495,7 +517,7 @@
             Visibility="{x:Bind Source.IsPlaylistSectionPanelVisible, Mode=OneWay}">
             <player:VideoPlaylistSection
                 x:Name="PlaylistSec"
-                x:Load="{x:Bind Source.IsPlaylistSectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsPlaylistSectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.PlaylistSection, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -530,7 +552,7 @@
             Visibility="{x:Bind Source.IsCommentSectionPanelVisible, Mode=OneWay}">
             <comment:CommentMainPanel
                 x:Name="CommentSec"
-                x:Load="{x:Bind Source.IsCommentSectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsCommentSectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.CommentSection, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
@@ -565,7 +587,7 @@
             Visibility="{x:Bind Source.IsAISectionPanelVisible, Mode=OneWay}">
             <player:VideoAISection
                 x:Name="AISec"
-                x:Load="{x:Bind Source.IsAISectionPanelVisible, Mode=OneWay}"
+                x:Load="{x:Bind Source.IsAISectionPanelLoaded, Mode=OneWay}"
                 ViewModel="{x:Bind Source.AI, Mode=OneWay}" />
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation
