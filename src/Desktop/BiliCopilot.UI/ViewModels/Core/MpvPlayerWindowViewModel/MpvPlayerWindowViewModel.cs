@@ -153,6 +153,7 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         Window.UINotify += OnUINotify;
         MoveAndResize();
         var wnd = Window.GetWindow();
+        wnd.SetIcon("Assets/logo.ico");
         wnd.TitleBar.ExtendsContentIntoTitleBar = true;
         wnd.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         wnd.TitleBar.ButtonForegroundColor = Colors.Transparent;

@@ -1,32 +1,31 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Bili.User;
 using Richasy.BiliKernel.Models.Media;
+using Richasy.MpvKernel.Core.Enums;
+using Richasy.MpvKernel.Core.Models;
+using Richasy.WinUIKernel.Share.ViewModels;
 
-namespace BiliCopilot.UI.ViewModels.View;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// 直播播放页视图模型.
+/// 直播源视图模型.
 /// </summary>
-public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
+public sealed partial class LiveSourceViewModel : ViewModelBase, IMediaSourceResolver
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LivePlayerPageViewModel"/> class.
-    /// </summary>
-    public LivePlayerPageViewModel(
+    public LiveSourceViewModel(
         IPlayerService service,
         IDanmakuService danmakuService,
         IRelationshipService relationshipService,
-        ILogger<LivePlayerPageViewModel> logger,
+        ILogger<LiveSourceViewModel> logger,
         DanmakuViewModel danmaku)
     {
         _service = service;
@@ -35,82 +34,93 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         _logger = logger;
         Chat = new LiveChatSectionDetailViewModel(_service, this);
         Danmaku = danmaku;
-        Player.IsLive = true;
-        Player.SetStateAction(PlayerStateChanged);
-        Player.SetProgressAction(PlayerProgressChanged);
-        Player.SetReloadAction(ReloadFormat);
-        Player.SetWindowStateChangeAction(ScrollMessagesToBottom);
     }
 
-    /// <inheritdoc/>
-    protected override string GetPageKey()
-        => nameof(LivePlayerPage);
+    public event EventHandler RequestReload;
 
-    /// <inheritdoc/>
-    protected override double GetDefaultNavColumnWidth()
-        => 300d;
+    public event EventHandler RequestClear;
 
-    [RelayCommand]
-    private async Task InitializePageAsync(MediaIdentifier live)
+    public void InjectMedia(MediaIdentifier identifier)
+        => _cachedMedia = identifier;
+
+    public async Task InitializeAsync()
     {
-        if (IsPageLoading)
-        {
-            CancelPageLoad();
-        }
-
-        IsPageLoading = true;
+        _liveUrl = string.Empty;
+        Id = _cachedMedia?.Id ?? string.Empty;
+        ErrorMessage = string.Empty;
         try
         {
-            Player.IsSeparatorWindowPlayer = IsSeparatorWindowPlayer;
+            RequestClear?.Invoke(this, EventArgs.Empty);
             ClearView();
             Danmaku.ResetData();
-            _pageLoadCancellationTokenSource = new CancellationTokenSource();
-            var view = await _service.GetLivePageDetailAsync(live, _pageLoadCancellationTokenSource.Token);
+            var view = await _service.GetLivePageDetailAsync(_cachedMedia!.Value);
             InitializeView(view);
             LoadRelationshipCommand.Execute(default);
-            ViewInitialized?.Invoke(this, EventArgs.Empty);
             await ChangeFormatAsync(default);
-            await Chat.StartAsync(live.Id, DisplayDanmaku, SendDanmakuAsync);
+            await Chat.StartAsync(_cachedMedia!.Value.Id, DisplayDanmaku, SendDanmakuAsync);
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
-                IsPageLoadFailed = true;
-                _logger.LogError(ex, $"尝试获取直播 {live.Id} 详情时失败.");
+                ErrorMessage = ex.Message;
+                _logger.LogError(ex, $"尝试获取直播 {_cachedMedia?.Id} 详情时失败.");
             }
-            else
-            {
-                return;
-            }
-        }
-        finally
-        {
-            IsPageLoading = false;
         }
     }
 
-    [RelayCommand]
-    private void CancelPageLoad()
+    public (string url, MpvPlayOptions options) GetSource()
     {
-        if (_pageLoadCancellationTokenSource is not null)
+        if (_view is null)
         {
-            _pageLoadCancellationTokenSource.Cancel();
-            _pageLoadCancellationTokenSource.Dispose();
-            _pageLoadCancellationTokenSource = null;
-            IsPageLoading = false;
+            return (string.Empty, default);
+        }
+
+        var options = new MpvPlayOptions();
+        var headers = new Dictionary<string, string>();
+        var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
+        var referer = LiveReferer;
+        var userAgent = LiveUserAgent;
+        headers.Add("Cookie", cookies);
+        headers.Add("Referer", referer);
+        options.HttpHeaders = headers;
+        options.UserAgent = userAgent;
+        options.EnableCookies = true;
+        options.EnableYtdl = false;
+
+        return (_liveUrl, options);
+    }
+
+    public string GetTitle()
+        => _view.Information.Identifier.Title;
+
+    public void HandlePlayerStateChanged(MpvPlayerState state)
+    {
+        if (_view == null)
+        {
+            return;
+        }
+
+        if (state == MpvPlayerState.Playing)
+        {
+            Danmaku?.Resume();
+        }
+        else if (state == MpvPlayerState.Paused)
+        {
+            Danmaku?.Pause();
         }
     }
 
-    [RelayCommand]
-    private void CancelDashLoad()
+    public void HandleProgressChanged(double position, double duration)
     {
-        if (_playLoadCancellationTokenSource is not null)
+        Duration = Convert.ToInt32((DateTimeOffset.Now - StartTime).TotalSeconds);
+    }
+
+    public void HandleSpeedChanged(double speed)
+    {
+        if (Danmaku is not null)
         {
-            _playLoadCancellationTokenSource.Cancel();
-            _playLoadCancellationTokenSource.Dispose();
-            _playLoadCancellationTokenSource = null;
-            IsMediaLoading = false;
+            Danmaku.ExtraSpeed = speed;
         }
     }
 
@@ -119,12 +129,10 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
     {
         try
         {
-            IsMediaLoading = true;
             Lines = default;
             SelectedLine = default;
             Formats = default;
             SelectedFormat = default;
-            _playLoadCancellationTokenSource = new CancellationTokenSource();
             var quality = 0;
             if (vm is not null)
             {
@@ -137,29 +145,21 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
             }
 
             var isAudioOnly = SettingsToolkit.ReadLocalSetting(SettingNames.IsLiveAudioOnly, false);
-            var info = await _service.GetLivePlayDetailAsync(_view.Information.Identifier, quality, isAudioOnly, _playLoadCancellationTokenSource.Token)
+            var info = await _service.GetLivePlayDetailAsync(_view.Information.Identifier, quality, isAudioOnly)
                 ?? throw new Exception("直播播放信息为空");
             InitializeLiveMedia(info);
 
             // 我们更偏好 http_hls 的直播源，其格式为 m3u8.
-            var preferLine = Lines.FirstOrDefault(p => p.Urls.FirstOrDefault()?.Protocol == "http_hls") ?? Lines.FirstOrDefault();
-            await ChangeLineAsync(preferLine);
+            var preferLine = Lines.Find(p => p.Urls.FirstOrDefault()?.Protocol == "http_hls") ?? Lines.FirstOrDefault();
+            ChangeLine(preferLine);
         }
         catch (Exception ex)
         {
             if (ex is not TaskCanceledException)
             {
+                ErrorMessage = ex.Message;
                 _logger.LogError(ex, $"尝试获取直播 {_view.Information.Identifier.Id} 的播放详情时失败.");
-                IsMediaLoadFailed = true;
             }
-            else
-            {
-                return;
-            }
-        }
-        finally
-        {
-            IsMediaLoading = false;
         }
     }
 
@@ -170,7 +170,7 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
         IsFollow = relationship != Richasy.BiliKernel.Models.User.UserRelationStatus.Unknown && relationship != Richasy.BiliKernel.Models.User.UserRelationStatus.Unfollow;
     }
 
-    private async Task ChangeLineAsync(LiveLineInformation line)
+    private void ChangeLine(LiveLineInformation line)
     {
         if (line is null || line == SelectedLine)
         {
@@ -186,8 +186,8 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
             autoPlay = true;
         }
 
-        await Player.SetPlayDataAsync(url, default, autoPlay);
-        Player.InitializeSmtc(_view.Information.Identifier.Cover.SourceUri.ToString(), Title, UpName);
+        _liveUrl = url;
+        RequestReload?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]
@@ -195,9 +195,5 @@ public sealed partial class LivePlayerPageViewModel : PlayerPageViewModelBase
     {
         ClearView();
         await Chat?.CloseAsync();
-        await Player?.CloseAsync();
     }
-
-    partial void OnPlayerWidthChanged(double value)
-        => CalcPlayerHeight();
 }

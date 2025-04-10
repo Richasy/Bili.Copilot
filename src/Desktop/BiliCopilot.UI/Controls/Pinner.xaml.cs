@@ -34,10 +34,20 @@ public sealed partial class Pinner : PinnerBase
             var user = new UserProfile(item.Id, item.Title, new BiliImage(new Uri(item.Cover)));
             navVM.NavigateToOver(typeof(UserSpacePage), user);
         }
+        else if(item.Type == Models.Constants.PinContentType.Video)
+        {
+            var snapshot = new VideoSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
+            this.Get<AppViewModel>().OpenVideo(snapshot);
+        }
+        else if(item.Type == Models.Constants.PinContentType.Pgc)
+        {
+            var identifier = new MediaIdentifier(item.Id, item.Title, default);
+            this.Get<AppViewModel>().OpenPgc(identifier);
+        }
         else if (item.Type == Models.Constants.PinContentType.Live)
         {
             var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(LivePlayerPage), identifier);
+            this.Get<AppViewModel>().OpenLive(identifier);
         }
         else if (item.Type == Models.Constants.PinContentType.Article)
         {

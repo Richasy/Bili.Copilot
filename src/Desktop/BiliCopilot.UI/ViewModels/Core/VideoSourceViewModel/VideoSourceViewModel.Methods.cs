@@ -120,7 +120,6 @@ public sealed partial class VideoSourceViewModel
         RecommendSection = _view.Recommends is not null ? new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends) : default;
 
         _isSeasonInitialized = true;
-        SectionInitialized?.Invoke(this, EventArgs.Empty);
     }
 
     private void ClearView()

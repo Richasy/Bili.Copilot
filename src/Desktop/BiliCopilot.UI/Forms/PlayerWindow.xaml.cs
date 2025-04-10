@@ -59,7 +59,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
             return;
         }
 
-        MainFrame.Navigate(typeof(LivePlayerPage), room);
+        //MainFrame.Navigate(typeof(LivePlayerPage), room);
     }
 
     /// <summary>
@@ -75,12 +75,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void EnterPlayerHostMode(PlayerDisplayMode mode)
     {
         TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
-        if (MainFrame.Content is LivePlayerPage lPage)
-        {
-            TitleBar.Title = lPage.ViewModel.Title;
-            lPage.EnterPlayerHostMode();
-        }
-        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             TitleBar.Title = wPage.ViewModel.Title;
             wPage.EnterPlayerHostMode();
@@ -95,11 +90,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         TitleBar.Visibility = Visibility.Visible;
         TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         TitleBar.IsBackButtonVisible = false;
-        if (MainFrame.Content is LivePlayerPage lPage)
-        {
-            lPage.ExitPlayerHostMode();
-        }
-        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ExitPlayerHostMode();
         }
@@ -180,12 +171,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryBackToDefaultMode()
     {
-        if (MainFrame.Content is LivePlayerPage lPage)
-        {
-            lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            return true;
-        }
-        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
             return true;
@@ -196,11 +182,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryTogglePlayPauseIfInPlayer()
     {
-        if (MainFrame.Content is LivePlayerPage lPage)
-        {
-            return lPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             return wPage.ViewModel.Player.TryTogglePlayPause();
         }
@@ -220,11 +202,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private void ClosePlayer()
     {
-        if (MainFrame.Content is LivePlayerPage lPage)
-        {
-            lPage.ViewModel.CleanCommand.Execute(default);
-        }
-        else if (MainFrame.Content is WebDavPlayerPage wPage)
+        if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ViewModel.CleanCommand.Execute(default);
         }

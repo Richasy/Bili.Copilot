@@ -77,6 +77,23 @@ public sealed partial class AppViewModel : ViewModelBase
         windowVM.InitializeCommand.Execute(default);
     }
 
+    public void OpenLive(MediaIdentifier live)
+    {
+        var openedWindow = PlayerWindows.Find(p => p.Id == live.Id);
+        if (openedWindow is not null)
+        {
+            openedWindow.Window.Show();
+            return;
+        }
+
+        var sourceVM = this.Get<LiveSourceViewModel>();
+        sourceVM.InjectMedia(live);
+        var uiProvider = new LiveUIProvider(sourceVM);
+        var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
+        PlayerWindows.Add(windowVM);
+        windowVM.InitializeCommand.Execute(default);
+    }
+
     [RelayCommand]
     private static void Restart()
     {

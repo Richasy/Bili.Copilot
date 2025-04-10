@@ -89,6 +89,7 @@
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
     <None Remove="Controls\Components\UserCardControl.xaml" />
     <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
+    <None Remove="Controls\Core\LivePlayerOverlay.xaml" />
     <None Remove="Controls\Core\OverlayTransportControl.xaml" />
     <None Remove="Controls\Core\PgcPlayerOverlay.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
@@ -151,7 +152,6 @@
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
     <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
-    <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
     <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
@@ -269,7 +269,6 @@
     <None Remove="Pages\Overlay\FavoritesPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
-    <None Remove="Pages\Overlay\LivePlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
@@ -1205,11 +1204,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <CustomAdditionalCompileInputs Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
   </ItemGroup>
   <ItemGroup>
@@ -1234,6 +1228,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\LivePlayerOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Core\PgcPlayerOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

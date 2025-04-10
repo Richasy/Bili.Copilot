@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -40,10 +40,10 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     /// </summary>
     public LiveChatSectionDetailViewModel(
         IPlayerService service,
-        LivePlayerPageViewModel pageVM)
+        LiveSourceViewModel source)
     {
         _service = service;
-        Page = pageVM;
+        Source = source;
         _logger = this.Get<ILogger<LiveChatSectionDetailViewModel>>();
         IsEmpty = true;
     }
@@ -61,7 +61,7 @@ public sealed partial class LiveChatSectionDetailViewModel : ViewModelBase
     /// <summary>
     /// 页面.
     /// </summary>
-    public LivePlayerPageViewModel Page { get; }
+    public LiveSourceViewModel Source { get; }
 
     /// <summary>
     /// 开始监听.

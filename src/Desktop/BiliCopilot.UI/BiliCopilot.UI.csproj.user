@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Core\LivePlayerOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Core\PgcPlayerOverlay.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -313,9 +316,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

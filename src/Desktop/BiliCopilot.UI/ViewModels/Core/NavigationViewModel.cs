@@ -95,12 +95,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
 
         ActiveMainWindow();
-        if (pageType == typeof(LivePlayerPage) && _overFrame.Content is LivePlayerPage livePage)
-        {
-            livePage.ViewModel.InitializePageCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
         if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
         {
             webDavPage.ViewModel.InitializeCommand.Execute(parameter);

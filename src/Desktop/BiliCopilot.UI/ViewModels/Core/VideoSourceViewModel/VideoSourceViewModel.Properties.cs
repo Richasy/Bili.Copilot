@@ -198,11 +198,6 @@ public sealed partial class VideoSourceViewModel
     public partial string? ErrorMessage { get; set; }
 
     /// <summary>
-    /// 区块加载完成.
-    /// </summary>
-    public event EventHandler SectionInitialized;
-
-    /// <summary>
     /// 弹幕视图模型.
     /// </summary>
     public DanmakuViewModel Danmaku { get; }

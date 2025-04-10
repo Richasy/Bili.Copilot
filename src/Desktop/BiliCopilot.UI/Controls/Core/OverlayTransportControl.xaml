@@ -62,7 +62,8 @@
                     Margin="0,0,8,0"
                     Click="OnBackwardButtonClick"
                     Style="{StaticResource BasicPlayerIconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=Backward10s}">
+                    ToolTipService.ToolTip="{ext:Locale Name=Backward10s}"
+                    Visibility="{x:Bind IsSkipButtonsVisible, Mode=OneWay}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"
@@ -93,7 +94,8 @@
                     Margin="8,0,0,0"
                     Click="OnForwardButtonClick"
                     Style="{StaticResource BasicPlayerIconButtonStyle}"
-                    ToolTipService.ToolTip="{ext:Locale Name=Forward30s}">
+                    ToolTipService.ToolTip="{ext:Locale Name=Forward30s}"
+                    Visibility="{x:Bind IsSkipButtonsVisible, Mode=OneWay}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"
@@ -215,7 +217,8 @@
         <Grid
             Grid.Row="1"
             Margin="16,0,16,20"
-            ColumnSpacing="12">
+            ColumnSpacing="12"
+            Visibility="{x:Bind ProgressBarVisible, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
@@ -237,7 +240,6 @@
                 Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay}" />
             <Slider
                 x:Name="ProgressSlider"
-                Grid.Column="1"
                 Maximum="{x:Bind ViewModel.Duration, Mode=OneWay}"
                 ValueChanged="OnProgressValueChanged"
                 Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}"

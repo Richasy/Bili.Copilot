@@ -28,6 +28,12 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
     public static readonly DependencyProperty PrevButtonTipProperty =
         DependencyProperty.Register(nameof(PrevButtonTip), typeof(string), typeof(OverlayTransportControl), new PropertyMetadata(default));
 
+    public static readonly DependencyProperty ProgressBarVisibleProperty =
+        DependencyProperty.Register(nameof(ProgressBarVisible), typeof(bool), typeof(OverlayTransportControl), new PropertyMetadata(true));
+
+    public static readonly DependencyProperty IsSkipButtonsVisibleProperty =
+        DependencyProperty.Register(nameof(IsSkipButtonsVisible), typeof(bool), typeof(OverlayTransportControl), new PropertyMetadata(true));
+    
     public OverlayTransportControl() => InitializeComponent();
 
     public event EventHandler PrevButtonClick;
@@ -68,6 +74,18 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
     {
         get => (string)GetValue(PrevButtonTipProperty);
         set => SetValue(PrevButtonTipProperty, value);
+    }
+
+    public bool ProgressBarVisible
+    {
+        get => (bool)GetValue(ProgressBarVisibleProperty);
+        set => SetValue(ProgressBarVisibleProperty, value);
+    }
+
+    public bool IsSkipButtonsVisible
+    {
+        get => (bool)GetValue(IsSkipButtonsVisibleProperty);
+        set => SetValue(IsSkipButtonsVisibleProperty, value);
     }
 
     private FluentIcons.Common.Symbol GetPlayPauseSymbol(MpvPlayerState state)

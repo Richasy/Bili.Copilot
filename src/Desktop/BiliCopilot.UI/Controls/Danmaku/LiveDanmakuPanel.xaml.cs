@@ -131,6 +131,11 @@ public sealed partial class LiveDanmakuPanel : DanmakuControlBase
     {
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
+            if (RootGrid is null)
+            {
+                return;
+            }
+
             _danmakuController?.Close();
             _danmakuController = new DanmakuFrostMaster(RootGrid, this.Get<ILogger<DanmakuFrostMaster>>());
             ResetDanmakuStyle();

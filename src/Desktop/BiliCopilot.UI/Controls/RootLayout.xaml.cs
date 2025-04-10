@@ -49,12 +49,7 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneCollapsed", false);
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
-        if (OverlayFrame.Content is LivePlayerPage lPage)
-        {
-            SecondaryTitleBar.Title = lPage.ViewModel.Title;
-            lPage.EnterPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
             SecondaryTitleBar.Title = wPage.ViewModel.Title;
             wPage.EnterPlayerHostMode();
@@ -82,11 +77,7 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneVisible", false);
         VisualStateManager.GoToState(this, nameof(NormalState), false);
 
-        if (OverlayFrame.Content is LivePlayerPage lPage)
-        {
-            lPage.ExitPlayerHostMode();
-        }
-        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ExitPlayerHostMode();
         }
@@ -107,12 +98,7 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         var isHandled = false;
-        if (OverlayFrame.Content is LivePlayerPage lPage)
-        {
-            lPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            isHandled = true;
-        }
-        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
             isHandled = true;
@@ -132,11 +118,7 @@ public sealed partial class RootLayout : RootLayoutBase
             return false;
         }
 
-        if (OverlayFrame.Content is LivePlayerPage lPage)
-        {
-            return lPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (OverlayFrame.Content is WebDavPlayerPage wPage)
+        if (OverlayFrame.Content is WebDavPlayerPage wPage)
         {
             return wPage.ViewModel.Player.TryTogglePlayPause();
         }

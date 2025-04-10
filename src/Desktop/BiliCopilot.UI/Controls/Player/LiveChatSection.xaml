@@ -19,7 +19,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <local:LiveInfoSection ViewModel="{x:Bind ViewModel.Page, Mode=OneWay}" />
+        <local:LiveInfoSection ViewModel="{x:Bind ViewModel.Source, Mode=OneWay}" />
         <base:EmptyHolder
             Grid.Row="1"
             Description="{ext:Locale Name=NoMessage}"

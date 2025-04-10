@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
@@ -14,12 +13,12 @@ using Windows.Storage.Streams;
 using Windows.System;
 using WinUIEx;
 
-namespace BiliCopilot.UI.ViewModels.View;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// 直播播放页视图模型.
+/// 直播源视图模型.
 /// </summary>
-public sealed partial class LivePlayerPageViewModel
+public sealed partial class LiveSourceViewModel
 {
     [RelayCommand]
     private async Task ToggleFollowAsync()
@@ -77,7 +76,7 @@ public sealed partial class LivePlayerPageViewModel
     }
 
     [RelayCommand]
-    private async Task OpenInBroswerAsync()
+    private async Task OpenInBrowserAsync()
     {
         var url = $"https://live.bilibili.com/{_view.Information.Identifier.Id}";
         await Launcher.LaunchUriAsync(new Uri(url)).AsTask();
@@ -95,29 +94,6 @@ public sealed partial class LivePlayerPageViewModel
     {
         var pinItem = new PinItem(_view.Information.Identifier.Id, _view.Information.Identifier.Title, _view.Information.Identifier.Cover.Uri.ToString(), PinContentType.Live);
         this.Get<PinnerViewModel>().AddItemCommand.Execute(pinItem);
-    }
-
-    private void PlayerProgressChanged(int progress, int duration)
-    {
-        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
-        {
-            Duration = Convert.ToInt32((DateTimeOffset.Now - StartTime).TotalSeconds);
-        });
-    }
-
-    private void PlayerStateChanged(PlayerState state)
-    {
-        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
-        {
-            if (state == PlayerState.Playing)
-            {
-                Danmaku?.Resume();
-            }
-            else if (state == PlayerState.Paused)
-            {
-                Danmaku?.Pause();
-            }
-        });
     }
 
     private void DisplayDanmaku(string text)
