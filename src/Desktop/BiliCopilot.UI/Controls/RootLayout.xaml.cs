@@ -44,10 +44,6 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         MainTitleBar.Visibility = Visibility.Collapsed;
-        SecondaryTitleBar.Visibility = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay ? Visibility.Visible : Visibility.Collapsed;
-        SecondaryTitleBar.IsBackButtonVisible = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
-        SecondaryTitleBar.IsBackEnabled = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
-        SecondaryTitleBar.BackIcon = mode == PlayerDisplayMode.FullWindow ? FluentIcons.Common.Symbol.WindowAd : FluentIcons.Common.Symbol.ContractDownLeft;
         this.Get<AppViewModel>().ActivatedWindow.AppWindow.TitleBar.PreferredHeightOption = Microsoft.UI.Windowing.TitleBarHeightOption.Standard;
         NavView.IsPaneOpen = false;
         VisualStateManager.GoToState(NavView, "PaneCollapsed", false);

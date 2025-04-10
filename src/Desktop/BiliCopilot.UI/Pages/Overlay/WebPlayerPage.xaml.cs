@@ -99,11 +99,10 @@ public sealed partial class WebPlayerPage : LayoutPageBase
         HideLoading();
         var scriptFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/WebPlayer.js"));
         var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        var isFullWindow = preferDisplayMode is PlayerDisplayMode.FullWindow or PlayerDisplayMode.NewWindow;
         var isFullScreen = preferDisplayMode == PlayerDisplayMode.FullScreen;
         var isMiniView = preferDisplayMode == PlayerDisplayMode.CompactOverlay;
         var script = await FileIO.ReadTextAsync(scriptFile, Windows.Storage.Streams.UnicodeEncoding.Utf8);
-        script = script.Replace("`isFullWindow`", isFullWindow.ToString().ToLower())
+        script = script.Replace("`isFullWindow`", "false")
             .Replace("`isFullScreen`", isFullScreen.ToString().ToLower())
             .Replace("`isMiniView`", isMiniView.ToString().ToLower());
         await MainView.CoreWebView2.ExecuteScriptAsync(script);

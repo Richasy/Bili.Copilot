@@ -24,9 +24,6 @@ public sealed partial class SettingsPageViewModel
     private bool _isTopNavShown;
 
     [ObservableProperty]
-    private bool _isAutoPlayWhenLoaded;
-
-    [ObservableProperty]
     private bool _isAutoPlayNextRecommendVideo;
 
     [ObservableProperty]
@@ -42,9 +39,6 @@ public sealed partial class SettingsPageViewModel
     private bool _endWithPlaylist;
 
     [ObservableProperty]
-    private bool _isMpvCustomOptionVisible;
-
-    [ObservableProperty]
     private PreferCodecType _preferCodec;
 
     [ObservableProperty]
@@ -54,25 +48,13 @@ public sealed partial class SettingsPageViewModel
     private PreferDecodeType _preferDecode;
 
     [ObservableProperty]
-    private PlayerType _playerType;
-
-    [ObservableProperty]
     private ExternalPlayerType _externalPlayerType;
 
     [ObservableProperty]
     private MTCBehavior _mTCBehavior;
 
     [ObservableProperty]
-    private bool _isExternalPlayerType;
-
-    [ObservableProperty]
-    private bool _isIslandPlayerType;
-
-    [ObservableProperty]
     private double _singleFastForwardAndRewindSpan;
-
-    [ObservableProperty]
-    private bool _playerSpeedEnhancement;
 
     [ObservableProperty]
     private bool _globalPlayerSpeed;
@@ -151,12 +133,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private List<PreferDecodeType> _preferDecodeCollection;
-
-    [ObservableProperty]
-    private List<PlayerType> _playerTypeCollection;
-
-    [ObservableProperty]
-    private List<ExternalPlayerType> _externalPlayerTypeCollection;
 
     [ObservableProperty]
     private List<MTCBehavior> _mTCBehaviorCollection;

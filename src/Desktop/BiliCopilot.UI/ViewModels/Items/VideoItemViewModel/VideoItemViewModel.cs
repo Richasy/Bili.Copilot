@@ -65,27 +65,11 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 
     [RelayCommand]
     private void Play()
-    {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-        {
-            OpenInNewWindowCommand.Execute(default);
-            return;
-        }
-
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUri().ToString());
-            return;
-        }
-
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data));
-    }
+        => this.Get<AppViewModel>().OpenVideo(new(Data));
 
     [RelayCommand]
     private void PlayInPrivate()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data, true));
+        => this.Get<AppViewModel>().OpenVideo(new(Data, true));
 
     [RelayCommand]
     private void ShowUserSpace()
@@ -159,10 +143,6 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     [RelayCommand]
     private async Task OpenInBroswerAsync()
         => await Windows.System.Launcher.LaunchUriAsync(GetWebUri()).AsTask();
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-        => this.Get<AppViewModel>().OpenVideo(new(Data));
 
     [RelayCommand]
     private void CopyUri()

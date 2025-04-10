@@ -203,6 +203,16 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
         options.InitialVolume = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerVolume, 100d);
         options.InitialSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerSpeed, 1d);
         Window.GetWindow().Title = _sourceResolver.GetTitle();
+        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
+        if (preferDisplayMode == PlayerDisplayMode.FullScreen)
+        {
+            await Client.SetFullScreenState(true);
+        }
+        else if (preferDisplayMode == PlayerDisplayMode.CompactOverlay)
+        {
+            await Client.SetCompactOverlayState(true);
+        }
+
         await Client.PlayAsync(url, options);
     }
 
@@ -234,6 +244,11 @@ public sealed partial class MpvPlayerWindowViewModel : ViewModelBase
 
     private void SaveCurrentWindowStats()
     {
+        if (IsFullScreen || IsCompactOverlay)
+        {
+            return;
+        }
+
         var wnd = Window.GetWindow();
         var scaleFactor = PInvoke.GetDpiForWindow(new(Win32Interop.GetWindowFromWindowId(wnd.Id))) / 96d;
         var left = wnd.Position.X;

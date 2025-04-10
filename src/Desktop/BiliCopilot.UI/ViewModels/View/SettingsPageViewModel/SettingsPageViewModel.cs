@@ -37,7 +37,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         AppTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         CheckTheme();
         IsTopNavShown = SettingsToolkit.ReadLocalSetting(SettingNames.IsTopNavBarShown, true);
-        IsAutoPlayWhenLoaded = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         IsAutoPlayNextRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
         AutoPlayNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, false);
         PlayNextWithoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
@@ -45,7 +44,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         SingleFastForwardAndRewindSpan = SettingsToolkit.ReadLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, 15d);
         IsCopyScreenshot = SettingsToolkit.ReadLocalSetting(SettingNames.CopyAfterScreenshot, true);
         IsOpenScreenshotFile = SettingsToolkit.ReadLocalSetting(SettingNames.OpenAfterScreenshot, true);
-        PlayerSpeedEnhancement = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false);
         GlobalPlayerSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
         HideWhenCloseWindow = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
         AutoLoadHistory = SettingsToolkit.ReadLocalSetting(SettingNames.AutoLoadHistory, true);
@@ -56,9 +54,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         PreferCodecCollection = Enum.GetValues<PreferCodecType>().ToList();
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
         PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
-        PlayerTypeCollection = Enum.GetValues<PlayerType>().Where(p => p != PlayerType.Mpv).ToList();
         MTCBehaviorCollection = Enum.GetValues<MTCBehavior>().ToList();
-        ExternalPlayerTypeCollection = Enum.GetValues<ExternalPlayerType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
@@ -79,25 +75,14 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
             PreferDecode = PreferDecodeType.Auto;
         }
 
-        // 移除 MPV 播放器.
-        if (SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.Mpv)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        }
-
-        PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
         MTCBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic);
-        ExternalPlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.ExternalPlayer, ExternalPlayerType.Mpv);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
         DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
         UseExternalBBDown = SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
         OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
         WithoutCredentialWhenGenDownloadCommand = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
-        IsExternalPlayerType = PlayerType == PlayerType.External;
-        IsIslandPlayerType = PlayerType == PlayerType.Island;
         FilterAISubtitle = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         IsAIStreamingResponse = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
-        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
         if (string.IsNullOrEmpty(DefaultDownloadPath))
         {
             DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
@@ -215,9 +200,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnAutoLoadHistoryChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.AutoLoadHistory, value);
 
-    partial void OnIsAutoPlayWhenLoadedChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.ShouldAutoPlay, value);
-
     partial void OnDefaultPlayerDisplayModeChanged(PlayerDisplayMode value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.DefaultPlayerDisplayMode, value);
 
@@ -227,14 +209,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnPreferDecodeChanged(PreferDecodeType value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
-        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
-    }
-
-    partial void OnPlayerTypeChanged(PlayerType value)
-    {
-        IsExternalPlayerType = value == PlayerType.External;
-        IsIslandPlayerType = value == PlayerType.Island;
-        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, value);
     }
 
     partial void OnExternalPlayerTypeChanged(ExternalPlayerType value)
@@ -248,9 +222,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnIsOpenScreenshotFileChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.OpenAfterScreenshot, value);
-
-    partial void OnPlayerSpeedEnhancementChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.IsPlayerSpeedEnhancement, value);
 
     partial void OnGlobalPlayerSpeedChanged(bool value)
     {

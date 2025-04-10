@@ -53,22 +53,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
     [RelayCommand]
     private void Play()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-        {
-            OpenInNewWindowCommand.Execute(default);
-            return;
-        }
-
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        var useWebPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayerWhenLive, false);
-        if (preferPlayer == PlayerType.Web || useWebPlayer)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
-            return;
-        }
-
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), Data.Identifier);
+        OpenInNewWindowCommand.Execute(default);
     }
 
     [RelayCommand]

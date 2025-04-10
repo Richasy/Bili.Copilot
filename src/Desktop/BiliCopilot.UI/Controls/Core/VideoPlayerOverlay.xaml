@@ -150,10 +150,11 @@
                     <base:AppTitleBar.IconElement>
                         <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                     </base:AppTitleBar.IconElement>
-                    <base:AppTitleBar.Footer>
+                    <base:AppTitleBar.Header>
                         <ComboBox
                             x:Name="FormatComboBox"
                             MinWidth="120"
+                            Margin="0,0,12,0"
                             VerticalAlignment="Center"
                             ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
                             SelectedItem="{x:Bind Source.SelectedFormat, Mode=OneWay}"
@@ -164,7 +165,7 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                    </base:AppTitleBar.Footer>
+                    </base:AppTitleBar.Header>
                 </base:AppTitleBar>
                 <animations:Implicit.ShowAnimations>
                     <animations:OpacityAnimation

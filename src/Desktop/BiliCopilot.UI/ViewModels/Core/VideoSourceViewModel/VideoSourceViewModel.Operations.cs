@@ -255,11 +255,7 @@ public sealed partial class VideoSourceViewModel
     [RelayCommand]
     private async Task ChangePartAsync(VideoPart part)
     {
-        if (_initialProgress == 0)
-        {
-            _initialProgress = -1;
-        }
-
+        _initialProgress = 0;
         _part = part;
         AI.InjectVideoAsync(_view, part);
         Danmaku?.ResetData(_view.Information.Identifier.Id, part.Identifier.Id);

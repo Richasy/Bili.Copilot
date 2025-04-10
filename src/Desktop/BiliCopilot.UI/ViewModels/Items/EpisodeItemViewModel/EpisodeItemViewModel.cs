@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
@@ -43,22 +42,7 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
     [RelayCommand]
     private void Play()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-        {
-            OpenInNewWindowCommand.Execute(default);
-            return;
-        }
-
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
-            return;
-        }
-
-        var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), id);
+        OpenInNewWindowCommand.Execute(default);
     }
 
     [RelayCommand]

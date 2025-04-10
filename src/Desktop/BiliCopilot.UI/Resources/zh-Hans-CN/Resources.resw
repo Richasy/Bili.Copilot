@@ -2814,11 +2814,20 @@
   <data name="SideNavigationSettingDescription" xml:space="preserve">
     <value>开启或关闭导航区块</value>
   </data>
+  <data name="Backward10s" xml:space="preserve">
+    <value>快退10秒</value>
+  </data>
+  <data name="Forward30s" xml:space="preserve">
+    <value>快进30秒</value>
+  </data>
   <data name="PlayPrevPartTipTemplate" xml:space="preserve">
     <value>播放上一P：{0}</value>
   </data>
   <data name="PlayPrevVideoTipTemplate" xml:space="preserve">
     <value>播放上一个视频：{0}</value>
+  </data>
+  <data name="PlaySpeed" xml:space="preserve">
+    <value>播放速度</value>
   </data>
   <data name="PrevEpisode" xml:space="preserve">
     <value>上一集</value>

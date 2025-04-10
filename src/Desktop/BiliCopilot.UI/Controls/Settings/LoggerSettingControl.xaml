@@ -11,23 +11,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <base:SettingsExpander Description="{ext:Locale Name=LoggerModuleDescription}" Header="{ext:Locale Name=LoggerModule}">
+    <base:SettingsCard Description="{ext:Locale Name=LoggerModuleDescription}" Header="{ext:Locale Name=LoggerModule}">
         <Button
             x:Name="OpenLoggerFolderButton"
             MinWidth="120"
             Click="OnOpenLoggerFolderButtonClickAsync"
             Content="{ext:Locale Name=OpenFolder}" />
-        <base:SettingsExpander.HeaderIcon>
+        <base:SettingsCard.HeaderIcon>
             <ic:SymbolIcon Symbol="Channel" />
-        </base:SettingsExpander.HeaderIcon>
-        <base:SettingsExpander.Items>
-            <base:SettingsCard Header="{ext:Locale Name=CleanLogger}">
-                <Button
-                    x:Name="CleanLoggerButton"
-                    MinWidth="120"
-                    Click="OnCleanLoggerButtonClickAsync"
-                    Content="{ext:Locale Name=Clean}" />
-            </base:SettingsCard>
-        </base:SettingsExpander.Items>
-    </base:SettingsExpander>
+        </base:SettingsCard.HeaderIcon>
+    </base:SettingsCard>
 </local:SettingsPageControlBase>

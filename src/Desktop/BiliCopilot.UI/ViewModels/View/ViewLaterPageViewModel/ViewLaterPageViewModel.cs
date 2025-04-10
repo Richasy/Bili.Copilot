@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -116,25 +115,13 @@ public sealed partial class ViewLaterPageViewModel : ViewModelBase
         if (Videos.Count == 1)
         {
             var video = Videos.First();
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                this.Get<AppViewModel>().OpenVideo(new(video.Data));
-                return;
-            }
-
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video.Data));
+            this.Get<AppViewModel>().OpenVideo(new(video.Data));
         }
         else
         {
             var videos = Videos.Select(p => p.Data).ToList();
             var snapshot = new VideoSnapshot(Videos.First().Data);
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                this.Get<AppViewModel>().OpenVideo(snapshot, videos);
-                return;
-            }
-
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), (videos, snapshot));
+            this.Get<AppViewModel>().OpenVideo(snapshot, videos);
         }
     }
 

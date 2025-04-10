@@ -61,7 +61,8 @@
                     x:Name="BackwardButton"
                     Margin="0,0,8,0"
                     Click="OnBackwardButtonClick"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Backward10s}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"
@@ -72,7 +73,8 @@
                         x:Name="PlayPauseButton"
                         Click="OnPlayPauseButtonClick"
                         IsEnabled="{x:Bind IsPlayPauseEnabled(ViewModel.LastState), Mode=OneWay}"
-                        Style="{StaticResource PrimaryPlayerButtonStyle}">
+                        Style="{StaticResource PrimaryPlayerButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=PlayPause}">
                         <ic:SymbolIcon
                             FontSize="22"
                             IconVariant="Filled"
@@ -90,7 +92,8 @@
                     x:Name="ForwardButton"
                     Margin="8,0,0,0"
                     Click="OnForwardButtonClick"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=Forward30s}">
                     <ic:SymbolIcon
                         FontSize="16"
                         IconVariant="Filled"
@@ -127,7 +130,8 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Symbol="Speaker2" />
+                        Symbol="Speaker2"
+                        ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}" />
                     <Slider
                         Width="120"
                         VerticalAlignment="Center"
@@ -144,6 +148,7 @@
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
                     Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}"
                     Visibility="Collapsed">
                     <ic:SymbolIcon FontSize="14" Symbol="Speaker2" />
                     <Button.Flyout>
@@ -165,7 +170,8 @@
                     x:Name="SpeedButton"
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=PlaySpeed}">
                     <TextBlock FontSize="14" Text="{x:Bind GetSpeedText(ViewModel.Speed), Mode=OneWay}" />
                     <Button.Flyout>
                         <Flyout Placement="Top">
@@ -189,7 +195,8 @@
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
                     Click="OnCompactOverlayButtonClick"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind GetCompactOverlayTip(ViewModel.IsCompactOverlay), Mode=OneWay}">
                     <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetCompactOverlaySymbol(ViewModel.IsCompactOverlay), Mode=OneWay}" />
                 </Button>
                 <Button
@@ -197,7 +204,8 @@
                     Margin="0,0,8,0"
                     VerticalAlignment="Center"
                     Click="OnFullScreenButtonClick"
-                    Style="{StaticResource BasicPlayerIconButtonStyle}">
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind GetFullScreenTip(ViewModel.IsFullScreen), Mode=OneWay}">
                     <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetFullScreenSymbol(ViewModel.IsFullScreen), Mode=OneWay}" />
                 </Button>
             </StackPanel>

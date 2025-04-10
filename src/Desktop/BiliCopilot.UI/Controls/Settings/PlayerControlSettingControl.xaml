@@ -60,12 +60,6 @@
             <base:SettingsCard Description="{ext:Locale Name=GlobalPlaybackRateDescription}" Header="{ext:Locale Name=GlobalPlaybackRate}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.GlobalPlayerSpeed, Mode=TwoWay}" />
             </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=PlaybackRateEnhancementDescription}" Header="{ext:Locale Name=PlaybackRateEnhancement}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerSpeedEnhancement, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=BottomProgressVisibleDescription}" Header="{ext:Locale Name=BottomProgressVisible}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.BottomProgressVisible, Mode=TwoWay}" />
-            </base:SettingsCard>
         </base:SettingsExpander.Items>
     </base:SettingsExpander>
 </local:SettingsPageControlBase>

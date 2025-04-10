@@ -94,10 +94,6 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
                 {
                     ToggleCompactOverlayCommand.Execute(default);
                 }
-                else if (!IsFullWindow && defaultDisplay == PlayerDisplayMode.FullWindow)
-                {
-                    ToggleFullWindowCommand.Execute(default);
-                }
             }
         }
 

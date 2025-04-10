@@ -21,14 +21,8 @@ internal sealed partial class DisplayModeConverter : IValueConverter
                 case PlayerDisplayMode.FullScreen:
                     result = ResourceToolkit.GetLocalizedString(StringNames.FullScreenMode);
                     break;
-                case PlayerDisplayMode.FullWindow:
-                    result = ResourceToolkit.GetLocalizedString(StringNames.FullWindowMode);
-                    break;
                 case PlayerDisplayMode.CompactOverlay:
                     result = ResourceToolkit.GetLocalizedString(StringNames.CompactOverlayMode);
-                    break;
-                case PlayerDisplayMode.NewWindow:
-                    result = ResourceToolkit.GetLocalizedString(StringNames.NewWindow);
                     break;
             }
         }

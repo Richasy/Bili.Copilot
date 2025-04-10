@@ -14,14 +14,6 @@ public sealed partial class PlayerPresenter : PlayerPresenterBase
     /// Initializes a new instance of the <see cref="PlayerPresenter"/> class.
     /// </summary>
     public PlayerPresenter() => InitializeComponent();
-
-    protected override async void OnControlLoaded()
-    {
-        if(ViewModel is MpvPlayerViewModel vm)
-        {
-            await vm.InitializeAsync();
-        }
-    }
 }
 
 /// <summary>

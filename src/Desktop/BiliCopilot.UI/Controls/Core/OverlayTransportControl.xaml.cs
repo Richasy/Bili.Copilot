@@ -1,5 +1,6 @@
 // Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Toolkits;
 using Richasy.MpvKernel.Core.Enums;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -188,4 +189,10 @@ public sealed partial class OverlayTransportControl : MpvPlayerControlBase
 
     private void OnNextButtonClick(object sender, RoutedEventArgs e)
         => NextButtonClick?.Invoke(sender, EventArgs.Empty);
+
+    private string GetCompactOverlayTip(bool isCompactOverlay)
+        => isCompactOverlay ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.ExitCompactOverlay) : ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.EnterCompactOverlay);
+
+    private string GetFullScreenTip(bool isFullScreen)
+        => isFullScreen ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.ExitFullScreen) : ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.EnterFullScreen);
 }

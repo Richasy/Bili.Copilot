@@ -129,7 +129,7 @@ public sealed partial class VideoSourceViewModel
         _part = default;
         _videoSegments = default;
         _audioSegments = default;
-        _initialProgress = -1;
+        _initialProgress = 0;
         Tags = default;
         UpAvatar = default;
         IsFollow = false;

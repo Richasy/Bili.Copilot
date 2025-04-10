@@ -139,11 +139,6 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             window.SetWindowPresenter(AppWindowPresenterKind.Overlapped);
         }
-
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullWindow);
-        }
     }
 
     [RelayCommand]

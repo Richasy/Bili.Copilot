@@ -114,65 +114,28 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
-            {
-                var snapshot = new VideoSnapshot(vinfo);
-                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
-            }
+            OpenInNewWindowCommand.Execute(default);
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
-            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
+            var hasEpid = einfo.Identifier.Id != "0";
+            if (hasEpid)
             {
-                var hasEpid = einfo.Identifier.Id != "0";
-                if (hasEpid)
-                {
-                    var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
-                }
-                else
-                {
-                    // 出差番剧，使用网页打开.
-                    OpenInBroswerCommand.Execute(default);
-                }
+                OpenInNewWindowCommand.Execute(default);
+            }
+            else
+            {
+                // 出差番剧，使用网页打开.
+                OpenInBroswerCommand.Execute(default);
             }
         }
-        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo && !TryOpenInNewWindowIfPreferred())
+        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), linfo.Identifier);
+            OpenInNewWindowCommand.Execute(default);
         }
         else if (FindInnerContent<IEnumerable<BiliImage>>() is not IEnumerable<BiliImage>)
         {
             OpenInBroswerCommand.Execute(default);
-        }
-
-        bool TryOpenInNewWindowIfPreferred()
-        {
-            var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                OpenInNewWindowCommand.Execute(default);
-                return true;
-            }
-
-            return false;
-        }
-
-        bool TryOpenInWebPlayerIfPreferred()
-        {
-            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-            if (preferPlayer == PlayerType.Web)
-            {
-                var webUrl = GetMediaUrl();
-                if (webUrl is not null)
-                {
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), webUrl);
-                }
-
-                return true;
-            }
-
-            return false;
         }
     }
 
