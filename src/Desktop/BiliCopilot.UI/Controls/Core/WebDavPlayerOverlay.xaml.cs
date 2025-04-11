@@ -16,6 +16,7 @@ public sealed partial class WebDavPlayerOverlay : MpvPlayerControlBase, IMpvUIEl
     private readonly DispatcherQueueTimer _controlTimer;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
+    private bool _isTouch;
 
     public WebDavSourceViewModel Source { get; }
 
@@ -38,7 +39,7 @@ public sealed partial class WebDavPlayerOverlay : MpvPlayerControlBase, IMpvUIEl
 
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI)
+        if (_isTouch || _isPointerOnUI)
         {
             return;
         }
@@ -77,9 +78,21 @@ public sealed partial class WebDavPlayerOverlay : MpvPlayerControlBase, IMpvUIEl
 
             if (!Source.IsPlaylistSectionPanelVisible)
             {
-                ViewModel.IsControlVisible = true;
+                if (args.Pointer.PointerDeviceType is Microsoft.UI.Input.PointerDeviceType.Touch or Microsoft.UI.Input.PointerDeviceType.Pen)
+                {
+                    _isTouch = true;
+                }
+                else
+                {
+                    _isTouch = false;
+                    ViewModel.IsControlVisible = true;
+                }
+
                 _controlTimer.Stop();
-                _controlTimer.Start();
+                if (!_isTouch)
+                {
+                    _controlTimer.Start();
+                }
             }
         }
     }

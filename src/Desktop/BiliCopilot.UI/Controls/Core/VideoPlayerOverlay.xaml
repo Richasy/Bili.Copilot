@@ -145,7 +145,6 @@
                     x:Name="HeaderBar"
                     Title="{x:Bind Source.Title, Mode=OneWay}"
                     Height="48"
-                    VerticalAlignment="Top"
                     TitleMaxWidth="300">
                     <base:AppTitleBar.IconElement>
                         <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
@@ -169,8 +168,19 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+                            <Button
+                                Height="32"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                Click="OnCloseButtonClick"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Visibility="{x:Bind ViewModel.IsFullScreen, Mode=OneWay}">
+                                <base:IconTextBlock
+                                    IconBrush="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                    Symbol="Dismiss"
+                                    Text="{ext:Locale Name=CloseWindow}" />
+                            </Button>
                         </StackPanel>
-
                     </base:AppTitleBar.Footer>
                 </base:AppTitleBar>
                 <animations:Implicit.ShowAnimations>

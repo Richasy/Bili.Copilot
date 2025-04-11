@@ -15,6 +15,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
     private readonly DispatcherQueueTimer _controlTimer;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
+    private bool _isTouch;
 
     public VideoSourceViewModel Source { get; }
 
@@ -49,7 +50,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
+        if (_isTouch || _isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
         {
             return;
         }
@@ -160,9 +161,21 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
                 && !Source.IsPlaylistSectionPanelVisible
                 && !Source.IsRecommendSectionPanelVisible)
             {
-                ViewModel.IsControlVisible = true;
+                if (args.Pointer.PointerDeviceType is Microsoft.UI.Input.PointerDeviceType.Touch or Microsoft.UI.Input.PointerDeviceType.Pen)
+                {
+                    _isTouch = true;
+                }
+                else
+                {
+                    _isTouch = false;
+                    ViewModel.IsControlVisible = true;
+                }
+
                 _controlTimer.Stop();
-                _controlTimer.Start();
+                if (!_isTouch)
+                {
+                    _controlTimer.Start();
+                }
             }
         }
     }
@@ -184,6 +197,12 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
 
     private void OnPrevButtonClick(object sender, EventArgs e)
         => Source.PlayPrevVideoCommand.Execute(default);
+
+    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.CloseWindowCommand.Execute(default);
+        ViewModel.Window.Close();
+    }
 }
 
 public abstract class MpvPlayerControlBase : LayoutUserControlBase<MpvPlayerWindowViewModel>;

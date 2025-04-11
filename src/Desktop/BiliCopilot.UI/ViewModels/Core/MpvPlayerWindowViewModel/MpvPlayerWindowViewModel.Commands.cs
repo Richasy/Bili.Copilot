@@ -101,4 +101,15 @@ public sealed partial class MpvPlayerWindowViewModel
     [RelayCommand]
     private async Task ToggleFullScreenAsync()
         => await Client.SetFullScreenState(!IsFullScreen);
+
+    [RelayCommand]
+    private void CloseWindow()
+    {
+        this.Get<AppViewModel>().PlayerWindows.Remove(this);
+        _tipTimer.Stop();
+        _tipTimer.Tick -= OnTipTimerTick;
+        _tipTimer = default;
+        Window.GetWindow().Closing -= OnWindowClosing;
+        SaveCurrentWindowStats();
+    }
 }

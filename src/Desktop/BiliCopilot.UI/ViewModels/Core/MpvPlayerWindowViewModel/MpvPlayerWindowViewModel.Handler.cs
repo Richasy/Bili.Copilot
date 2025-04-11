@@ -49,7 +49,7 @@ public sealed partial class MpvPlayerWindowViewModel
                     CurrentPosition = (double)e.Data;
                     IsProgressChanging = false;
                     _sourceResolver.HandleProgressChanged(CurrentPosition, Duration);
-                    if(!_isFirstPlayChecked && CurrentPosition >=1)
+                    if (!_isFirstPlayChecked && CurrentPosition >= 1)
                     {
                         _isFirstPlayChecked = true;
                         var state = await Client.GetPlayerStateAsync();
@@ -111,14 +111,7 @@ public sealed partial class MpvPlayerWindowViewModel
     }
 
     private void OnWindowClosing(AppWindow sender, AppWindowClosingEventArgs args)
-    {
-        this.Get<AppViewModel>().PlayerWindows.Remove(this);
-        _tipTimer.Stop();
-        _tipTimer.Tick -= OnTipTimerTick;
-        _tipTimer = default;
-        Window.GetWindow().Closing -= OnWindowClosing;
-        SaveCurrentWindowStats();
-    }
+        => CloseWindow();
 
     private void OnTipTimerTick(DispatcherQueueTimer sender, object args)
         => IsVolumeChanging = false;

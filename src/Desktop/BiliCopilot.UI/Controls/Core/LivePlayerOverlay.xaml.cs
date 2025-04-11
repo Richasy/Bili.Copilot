@@ -14,6 +14,7 @@ public sealed partial class LivePlayerOverlay : MpvPlayerControlBase, IMpvUIElem
     private readonly DispatcherQueueTimer _controlTimer;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
+    private bool _isTouch;
 
     public LiveSourceViewModel Source { get; }
 
@@ -36,7 +37,7 @@ public sealed partial class LivePlayerOverlay : MpvPlayerControlBase, IMpvUIElem
 
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen)
+        if (_isTouch || _isPointerOnUI || FormatComboBox.IsDropDownOpen)
         {
             return;
         }
@@ -86,9 +87,21 @@ public sealed partial class LivePlayerOverlay : MpvPlayerControlBase, IMpvUIElem
 
             if (!Source.IsChatSectionPanelVisible)
             {
-                ViewModel.IsControlVisible = true;
+                if (args.Pointer.PointerDeviceType is Microsoft.UI.Input.PointerDeviceType.Touch or Microsoft.UI.Input.PointerDeviceType.Pen)
+                {
+                    _isTouch = true;
+                }
+                else
+                {
+                    _isTouch = false;
+                    ViewModel.IsControlVisible = true;
+                }
+
                 _controlTimer.Stop();
-                _controlTimer.Start();
+                if (!_isTouch)
+                {
+                    _controlTimer.Start();
+                }
             }
         }
     }

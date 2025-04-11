@@ -17,6 +17,7 @@ public sealed partial class PgcPlayerOverlay : MpvPlayerControlBase, IMpvUIEleme
     private readonly DispatcherQueueTimer _controlTimer;
     private Point _lastCursorPoint;
     private bool _isPointerOnUI;
+    private bool _isTouch;
 
     public PgcSourceViewModel Source { get; }
 
@@ -39,7 +40,7 @@ public sealed partial class PgcPlayerOverlay : MpvPlayerControlBase, IMpvUIEleme
 
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
+        if (_isTouch || _isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
         {
             return;
         }
@@ -116,9 +117,21 @@ public sealed partial class PgcPlayerOverlay : MpvPlayerControlBase, IMpvUIEleme
                 && !Source.IsEpisodeSectionPanelVisible
                 && !Source.IsSeasonSectionPanelVisible)
             {
-                ViewModel.IsControlVisible = true;
+                if (args.Pointer.PointerDeviceType is Microsoft.UI.Input.PointerDeviceType.Touch or Microsoft.UI.Input.PointerDeviceType.Pen)
+                {
+                    _isTouch = true;
+                }
+                else
+                {
+                    _isTouch = false;
+                    ViewModel.IsControlVisible = true;
+                }
+
                 _controlTimer.Stop();
-                _controlTimer.Start();
+                if (!_isTouch)
+                {
+                    _controlTimer.Start();
+                }
             }
         }
     }

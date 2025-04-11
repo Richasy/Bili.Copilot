@@ -2844,4 +2844,7 @@
   <data name="PlayPrevEpisodeTipTemplate" xml:space="preserve">
     <value>播放上一集：{0}</value>
   </data>
+  <data name="CloseWindow" xml:space="preserve">
+    <value>关闭窗口</value>
+  </data>
 </root>
