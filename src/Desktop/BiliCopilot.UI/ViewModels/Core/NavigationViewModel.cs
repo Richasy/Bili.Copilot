@@ -95,12 +95,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
 
         ActiveMainWindow();
-        if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
-        {
-            webDavPage.ViewModel.InitializeCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
 
         _overFrame.Navigate(pageType, parameter, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
         IsOverlayOpen = true;

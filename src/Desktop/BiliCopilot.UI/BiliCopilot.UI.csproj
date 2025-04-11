@@ -97,6 +97,7 @@
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
     <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
     <None Remove="Controls\Core\VideoPlayerOverlay.xaml" />
+    <None Remove="Controls\Core\WebDavPlayerOverlay.xaml" />
     <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
     <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
@@ -203,7 +204,6 @@
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoSeasonSection.xaml" />
     <None Remove="Controls\Player\VideoStatControl.xaml" />
-    <None Remove="Controls\Player\WebDavNextButton.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
     <None Remove="Controls\Popular\PopularMainHeader.xaml" />
     <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
@@ -248,7 +248,6 @@
     <None Remove="Controls\WebDav\WebDavConfigDialog.xaml" />
     <None Remove="Controls\WebDav\WebDavPageBody.xaml" />
     <None Remove="Controls\WebDav\WebDavPageHeader.xaml" />
-    <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
     <None Remove="Controls\WebDav\WebDavPlayerSideBody.xaml" />
     <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
@@ -272,7 +271,6 @@
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
-    <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
     <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
@@ -1228,6 +1226,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\WebDavPlayerOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Core\LivePlayerOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1336,9 +1337,6 @@
     <Page Update="Controls\Player\VideoInfoSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Player\WebDavNextButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Controls\Settings\LayoutSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1385,12 +1383,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\WebDav\WebDavPageBody.xaml">

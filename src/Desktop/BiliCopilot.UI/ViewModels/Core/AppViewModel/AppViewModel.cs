@@ -16,6 +16,7 @@ using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using WebDav;
 using Windows.Storage;
 using Windows.System;
 using WinUIEx;
@@ -89,6 +90,22 @@ public sealed partial class AppViewModel : ViewModelBase
         var sourceVM = this.Get<LiveSourceViewModel>();
         sourceVM.InjectMedia(live);
         var uiProvider = new LiveUIProvider(sourceVM);
+        var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
+        PlayerWindows.Add(windowVM);
+        windowVM.InitializeCommand.Execute(default);
+    }
+
+    public void OpenWebDav(WebDavResource video, List<WebDavResource>? items = null)
+    {
+        var openedWindow = PlayerWindows.Find(p => p.Id == video.Uri);
+        if (openedWindow is not null)
+        {
+            openedWindow.Window.Show();
+            return;
+        }
+        var sourceVM = this.Get<WebDavSourceViewModel>();
+        sourceVM.InjectPlaylist(video, items);
+        var uiProvider = new WebDavUIProvider(sourceVM);
         var windowVM = new MpvPlayerWindowViewModel(sourceVM, uiProvider);
         PlayerWindows.Add(windowVM);
         windowVM.InitializeCommand.Execute(default);

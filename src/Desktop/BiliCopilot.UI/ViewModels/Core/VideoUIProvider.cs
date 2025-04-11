@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-
 using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Controls.Danmaku;
 

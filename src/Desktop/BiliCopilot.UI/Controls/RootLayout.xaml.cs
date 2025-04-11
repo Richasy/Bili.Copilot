@@ -49,12 +49,6 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneCollapsed", false);
         VisualStateManager.GoToState(this, nameof(PlayerState), false);
 
-        if (OverlayFrame.Content is WebDavPlayerPage wPage)
-        {
-            SecondaryTitleBar.Title = wPage.ViewModel.Title;
-            wPage.EnterPlayerHostMode();
-        }
-
         MainTitleBar.DelayUpdateAsync(100);
         SecondaryTitleBar.DelayUpdateAsync(500);
     }
@@ -77,11 +71,6 @@ public sealed partial class RootLayout : RootLayoutBase
         VisualStateManager.GoToState(NavView, "PaneVisible", false);
         VisualStateManager.GoToState(this, nameof(NormalState), false);
 
-        if (OverlayFrame.Content is WebDavPlayerPage wPage)
-        {
-            wPage.ExitPlayerHostMode();
-        }
-
         MainTitleBar.DelayUpdateAsync(500);
         SecondaryTitleBar.DelayUpdateAsync(100);
     }
@@ -98,12 +87,6 @@ public sealed partial class RootLayout : RootLayoutBase
         }
 
         var isHandled = false;
-        if (OverlayFrame.Content is WebDavPlayerPage wPage)
-        {
-            wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            isHandled = true;
-        }
-
         return isHandled;
     }
 
@@ -116,11 +99,6 @@ public sealed partial class RootLayout : RootLayoutBase
         if (!ViewModel.IsOverlayOpen)
         {
             return false;
-        }
-
-        if (OverlayFrame.Content is WebDavPlayerPage wPage)
-        {
-            return wPage.ViewModel.Player.TryTogglePlayPause();
         }
 
         return false;

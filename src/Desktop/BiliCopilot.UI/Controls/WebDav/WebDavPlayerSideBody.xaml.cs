@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 
 namespace BiliCopilot.UI.Controls.WebDav;
 
@@ -36,7 +36,7 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
     }
 
     /// <inheritdoc/>
-    protected override void OnViewModelChanged(WebDavPlayerPageViewModel? oldValue, WebDavPlayerPageViewModel? newValue)
+    protected override void OnViewModelChanged(WebDavSourceViewModel? oldValue, WebDavSourceViewModel? newValue)
     {
         if (oldValue is not null)
         {
@@ -59,7 +59,7 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
         var item = sender.SelectedItem as WebDavStorageItemViewModel;
         if (item is not null && ViewModel.Current != item)
         {
-            ViewModel.InitializeCommand.Execute(item.Data);
+            ViewModel.InjectPlaylist(item.Data);
         }
     }
 

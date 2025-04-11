@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -84,7 +83,7 @@ public sealed partial class WebDavStorageItemViewModel : ViewModelBase<WebDavRes
         else
         {
             var videoList = pageVM.Items.Where(p => p.FileType == WebDavFileType.Video).Select(p => p.Data).ToList() ?? new List<WebDavResource>();
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebDavPlayerPage), (videoList, Data));
+            this.Get<AppViewModel>().OpenWebDav(Data, videoList);
         }
     }
 

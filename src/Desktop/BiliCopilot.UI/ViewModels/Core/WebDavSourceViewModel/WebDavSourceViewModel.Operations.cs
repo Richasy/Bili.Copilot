@@ -1,22 +1,20 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
+using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUIKernel.Share.Base;
 using Windows.ApplicationModel.DataTransfer;
 using WinUIEx;
 
-namespace BiliCopilot.UI.ViewModels.View;
+namespace BiliCopilot.UI.ViewModels.Core;
 
 /// <summary>
-/// WebDav 播放页面视图模型.
+/// WEB DAV 源视图模型.
 /// </summary>
-public sealed partial class WebDavPlayerPageViewModel
+public sealed partial class WebDavSourceViewModel
 {
     private string GetVideoUrl()
     {
@@ -56,32 +54,45 @@ public sealed partial class WebDavPlayerPageViewModel
     }
 
     [RelayCommand]
-    private void PlayNextVideo()
+    private async Task PlayPrevVideoAsync()
     {
-        if (Player.IsPlayerDataLoading)
+        var prev = FindPrevVideo();
+        if (prev is null)
         {
             return;
         }
 
-        var next = FindNextVideo();
-        if (next is null)
-        {
-            Player.BackToDefaultModeCommand.Execute(default);
-            return;
-        }
-
-        InitializeCommand.Execute(next.Data);
+        _initialProgress = 0;
+        _cachedVideo = prev.Data;
+        await InitializeAsync();
     }
 
     [RelayCommand]
-    private void OpenInNewWindow()
+    private async Task PlayNextVideoAsync()
     {
-        if (!Player.IsPaused)
+        var next = FindNextVideo();
+        if (next is null)
         {
-            Player.TogglePlayPauseCommand.Execute(default);
+            return;
         }
 
-        new PlayerWindow().OpenWebDav(Current.Data, Playlist.Select(p => p.Data).ToList());
+        _initialProgress = 0;
+        _cachedVideo = next.Data;
+        await InitializeAsync();
+    }
+
+    private WebDavStorageItemViewModel? FindPrevVideo()
+    {
+        if (Playlist is not null)
+        {
+            var index = Playlist.ToList().IndexOf(Current);
+            if (index > 0)
+            {
+                return Playlist[index - 1];
+            }
+        }
+
+        return default;
     }
 
     private WebDavStorageItemViewModel? FindNextVideo()
@@ -96,36 +107,5 @@ public sealed partial class WebDavPlayerPageViewModel
         }
 
         return default;
-    }
-
-    private void PlayerMediaEnded()
-    {
-        this.Get<Microsoft.UI.Dispatching.DispatcherQueue>().TryEnqueue(() =>
-        {
-            var autoNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-            if (!autoNext || !HasNextVideo)
-            {
-                Player.BackToDefaultModeCommand.Execute(default);
-                return;
-            }
-
-            var next = FindNextVideo();
-            if (next is null)
-            {
-                return;
-            }
-
-            var withoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
-            if (withoutTip)
-            {
-                PlayNextVideo();
-            }
-            else
-            {
-                var tip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.NextVideoNotificationTemplate), next.Data.DisplayName);
-                var notification = new PlayerNotification(PlayNextVideo, tip, 5);
-                Player.ShowNotification(notification);
-            }
-        });
     }
 }

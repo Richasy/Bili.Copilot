@@ -68,18 +68,13 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     public void OpenWebDav(WebDavResource resource, IList<WebDavResource> playlist)
     {
         Activate();
-        MainFrame.Navigate(typeof(WebDavPlayerPage), (playlist, resource));
+        //MainFrame.Navigate(typeof(WebDavPlayerPage), (playlist, resource));
     }
 
     /// <inheritdoc/>
     public void EnterPlayerHostMode(PlayerDisplayMode mode)
     {
         TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
-        if (MainFrame.Content is WebDavPlayerPage wPage)
-        {
-            TitleBar.Title = wPage.ViewModel.Title;
-            wPage.EnterPlayerHostMode();
-        }
 
         TitleBar.DelayUpdateAsync(100);
     }
@@ -90,10 +85,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         TitleBar.Visibility = Visibility.Visible;
         TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         TitleBar.IsBackButtonVisible = false;
-        if (MainFrame.Content is WebDavPlayerPage wPage)
-        {
-            wPage.ExitPlayerHostMode();
-        }
 
         TitleBar.DelayUpdateAsync(100);
     }
@@ -171,22 +162,11 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private bool TryBackToDefaultMode()
     {
-        if (MainFrame.Content is WebDavPlayerPage wPage)
-        {
-            wPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            return true;
-        }
-
         return false;
     }
 
     private bool TryTogglePlayPauseIfInPlayer()
     {
-        if (MainFrame.Content is WebDavPlayerPage wPage)
-        {
-            return wPage.ViewModel.Player.TryTogglePlayPause();
-        }
-
         return false;
     }
 
@@ -202,10 +182,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 
     private void ClosePlayer()
     {
-        if (MainFrame.Content is WebDavPlayerPage wPage)
-        {
-            wPage.ViewModel.CleanCommand.Execute(default);
-        }
     }
 
     private void OnWindowKeyDown(object? sender, PlayerKeyboardEventArgs e)

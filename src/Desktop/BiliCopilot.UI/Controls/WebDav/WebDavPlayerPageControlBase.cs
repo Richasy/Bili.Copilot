@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.ViewModels.View;
+using BiliCopilot.UI.ViewModels.Core;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.WebDav;
@@ -8,6 +8,4 @@ namespace BiliCopilot.UI.Controls.WebDav;
 /// <summary>
 /// WebDav 播放器控件基类.
 /// </summary>
-public abstract class WebDavPlayerPageControlBase : LayoutUserControlBase<WebDavPlayerPageViewModel>
-{
-}
+public abstract class WebDavPlayerPageControlBase : LayoutUserControlBase<WebDavSourceViewModel>;
