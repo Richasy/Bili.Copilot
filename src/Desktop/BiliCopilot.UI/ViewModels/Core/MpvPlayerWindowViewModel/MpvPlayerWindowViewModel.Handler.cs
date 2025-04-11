@@ -49,9 +49,11 @@ public sealed partial class MpvPlayerWindowViewModel
                     CurrentPosition = (double)e.Data;
                     IsProgressChanging = false;
                     _sourceResolver.HandleProgressChanged(CurrentPosition, Duration);
-                    if (!_isFirstPlayChecked && CurrentPosition >= 1)
+                    if (_waitDelayUpdateState || (!_isFirstPlayChecked && CurrentPosition >= 1))
                     {
+                        _waitDelayUpdateState = false;
                         _isFirstPlayChecked = true;
+                        await Task.Delay(500);
                         var state = await Client.GetPlayerStateAsync();
                         HandleStateChanged(state);
                     }
@@ -93,6 +95,7 @@ public sealed partial class MpvPlayerWindowViewModel
                 case MpvUIEventId.PreviewPositionChanged:
                     IsProgressChanging = true;
                     PreviewPosition = (double)e.Data;
+                    _waitDelayUpdateState = PreviewPosition < 1;
                     break;
                 case MpvUIEventId.VolumeChanged:
                     IsVolumeChanging = true;

@@ -20,6 +20,7 @@ public sealed partial class MpvPlayerWindowViewModel
     private readonly IMediaUIProvider? _uiProvider;
     private bool _isFirstPlayChecked;
     private DispatcherQueueTimer? _tipTimer;
+    private bool _waitDelayUpdateState;
 
     /// <summary>
     /// 播放客户端.
