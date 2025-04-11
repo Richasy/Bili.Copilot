@@ -151,19 +151,25 @@
                         <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                     </base:AppTitleBar.IconElement>
                     <base:AppTitleBar.Footer>
-                        <ComboBox
-                            x:Name="FormatComboBox"
-                            MinWidth="120"
-                            VerticalAlignment="Center"
-                            ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
-                            SelectedItem="{x:Bind Source.SelectedFormat, Mode=OneWay}"
-                            SelectionChanged="OnFormatChanged">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="items:PlayerFormatItemViewModel">
-                                    <TextBlock Text="{x:Bind Data.Description}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <StackPanel Orientation="Horizontal">
+                            <player:SubtitleButton
+                                x:Name="SubtitleButton"
+                                VerticalAlignment="Center"
+                                ViewModel="{x:Bind Source.Subtitle, Mode=OneWay}" />
+                            <ComboBox
+                                x:Name="FormatComboBox"
+                                MinWidth="120"
+                                VerticalAlignment="Center"
+                                ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
+                                SelectedItem="{x:Bind Source.SelectedFormat, Mode=OneWay}"
+                                SelectionChanged="OnFormatChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="items:PlayerFormatItemViewModel">
+                                        <TextBlock Text="{x:Bind Data.Description}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
                     </base:AppTitleBar.Footer>
                 </base:AppTitleBar>
                 <animations:Implicit.ShowAnimations>

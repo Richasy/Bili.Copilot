@@ -240,6 +240,7 @@
                 Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay}" />
             <Slider
                 x:Name="ProgressSlider"
+                Grid.Column="1"
                 Maximum="{x:Bind ViewModel.Duration, Mode=OneWay}"
                 ValueChanged="OnProgressValueChanged"
                 Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}"

@@ -14,6 +14,8 @@ public sealed partial class SubtitleButton : SubtitleControlBase
     /// </summary>
     public SubtitleButton() => InitializeComponent();
 
+    public bool IsFlyoutOpened => SubtitleFlyout.IsOpen;
+
     private void OnMetaChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var meta = sender.SelectedItem as SubtitleMeta;

@@ -151,19 +151,26 @@
                         <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
                     </base:AppTitleBar.IconElement>
                     <base:AppTitleBar.Footer>
-                        <ComboBox
-                            x:Name="FormatComboBox"
-                            MinWidth="120"
-                            VerticalAlignment="Center"
-                            ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
-                            SelectedItem="{x:Bind Source.SelectedFormat, Mode=OneWay}"
-                            SelectionChanged="OnFormatChanged">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="items:PlayerFormatItemViewModel">
-                                    <TextBlock Text="{x:Bind Data.Description}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                        <StackPanel Orientation="Horizontal">
+                            <player:SubtitleButton
+                                x:Name="SubtitleButton"
+                                VerticalAlignment="Center"
+                                ViewModel="{x:Bind Source.Subtitle, Mode=OneWay}" />
+                            <ComboBox
+                                x:Name="FormatComboBox"
+                                MinWidth="120"
+                                VerticalAlignment="Center"
+                                ItemsSource="{x:Bind Source.Formats, Mode=OneWay}"
+                                SelectedItem="{x:Bind Source.SelectedFormat, Mode=OneWay}"
+                                SelectionChanged="OnFormatChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="items:PlayerFormatItemViewModel">
+                                        <TextBlock Text="{x:Bind Data.Description}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
                     </base:AppTitleBar.Footer>
                 </base:AppTitleBar>
                 <animations:Implicit.ShowAnimations>
@@ -195,6 +202,12 @@
                 Text="{ext:Locale Name=LoadingAndWait}"
                 Visibility="{x:Bind ViewModel.IsFileLoading, Mode=OneWay}" />
             <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsFileLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <player:SubtitlePresenter
+                    x:Name="SubtitlePresenter"
+                    Margin="0,0,0,12"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    ViewModel="{x:Bind Source.Subtitle, Mode=OneWay}" />
                 <local:OverlayTransportControl
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
@@ -249,6 +262,7 @@
                                 <Button
                                     Padding="8"
                                     HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Click="OnVideoInfoButtonClick">
@@ -258,8 +272,8 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <imageex:ImageEx
-                                            Width="80"
-                                            Height="60"
+                                            Width="90"
+                                            HorizontalAlignment="Left"
                                             CornerRadius="{StaticResource ControlCornerRadius}"
                                             DecodePixelWidth="160"
                                             Source="{x:Bind Source.Cover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
@@ -310,6 +324,7 @@
                         </Grid>
                     </local:OverlayTransportControl.LeftElement>
                 </local:OverlayTransportControl>
+
                 <StackPanel
                     x:Name="SideContainer"
                     Margin="0,0,20,100"

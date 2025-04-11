@@ -27,6 +27,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
         Source = sourceVM;
         ViewModel = stateVM;
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        SizeChanged += OnSizeChanged;
     }
 
     protected override void OnPointerEntered(PointerRoutedEventArgs e)
@@ -35,9 +36,20 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
     protected override void OnPointerExited(PointerRoutedEventArgs e)
         => _isPointerOnUI = false;
 
+    protected override void OnControlLoaded()
+        => SubtitlePresenter.ArrangeSubtitleSize(ActualWidth);
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (e.NewSize.Width > 0 && e.NewSize.Height > 0 && SubtitlePresenter != null)
+        {
+            SubtitlePresenter.ArrangeSubtitleSize(e.NewSize.Width);
+        }
+    }
+
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || DanmakuBox.IsTextBoxFocused)
+        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
         {
             return;
         }
@@ -63,6 +75,10 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
             {
                 _controlTimer.Start();
             }
+        }
+        else if (e.PropertyName == nameof(ViewModel.IsFileLoading) && !ViewModel.IsFileLoading)
+        {
+            SubtitlePresenter.ArrangeSubtitleSize(ActualWidth);
         }
     }
 
@@ -159,6 +175,7 @@ public sealed partial class VideoPlayerOverlay : MpvPlayerControlBase, IMpvUIEle
             _controlTimer.Tick -= OnControlTimerTick;
         }
 
+        SizeChanged -= OnSizeChanged;
         ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
     }
 

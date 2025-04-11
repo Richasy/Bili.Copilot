@@ -39,7 +39,7 @@ public sealed partial class PgcPlayerOverlay : MpvPlayerControlBase, IMpvUIEleme
 
     private void OnControlTimerTick(DispatcherQueueTimer sender, object args)
     {
-        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || DanmakuBox.IsTextBoxFocused)
+        if (_isPointerOnUI || FormatComboBox.IsDropDownOpen || SubtitleButton.IsFlyoutOpened || DanmakuBox.IsTextBoxFocused)
         {
             return;
         }

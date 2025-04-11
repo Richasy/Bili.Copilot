@@ -12,14 +12,17 @@
     xmlns:subtitle="using:Richasy.BiliKernel.Models.Subtitle"
     mc:Ignorable="d">
 
-    <Grid Margin="8,0,0,0" Visibility="{x:Bind ViewModel.IsAvailable, Mode=OneWay}">
+    <Grid Margin="0,0,8,0" Visibility="{x:Bind ViewModel.IsAvailable, Mode=OneWay}">
         <Button
             VerticalAlignment="Center"
             Style="{StaticResource CircleIconButtonStyle}"
             ToolTipService.ToolTip="{ext:Locale Name=Subtitle}">
             <ic:SymbolIcon FontSize="14" Symbol="ClosedCaption" />
             <Button.Flyout>
-                <Flyout FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}" Opened="OnFlyoutOpened">
+                <Flyout
+                    x:Name="SubtitleFlyout"
+                    FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}"
+                    Opened="OnFlyoutOpened">
                     <StackPanel Width="200" Spacing="4">
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
