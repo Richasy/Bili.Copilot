@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Connectors.DeepSeek.Models;
+using Richasy.AgentKernel;
 using Richasy.AgentKernel.Connectors.Ali.Models;
 using Richasy.AgentKernel.Connectors.Anthropic.Models;
 using Richasy.AgentKernel.Connectors.Azure.Models;
@@ -21,9 +22,8 @@ using Richasy.AgentKernel.Connectors.Volcano.Models;
 using Richasy.AgentKernel.Connectors.XAI.Models;
 using Richasy.AgentKernel.Connectors.ZhiPu.Models;
 using Richasy.AgentKernel.Models;
-using Richasy.AgentKernel;
-using System.Diagnostics.CodeAnalysis;
 using Richasy.WinUIKernel.Share.Toolkits;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BiliCopilot.UI.Extensions;
 

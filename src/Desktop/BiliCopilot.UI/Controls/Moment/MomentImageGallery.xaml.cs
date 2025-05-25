@@ -31,6 +31,9 @@ public sealed partial class MomentImageGallery : LayoutUserControlBase
         set => SetValue(ItemsSourceProperty, value);
     }
 
+    protected override void OnControlUnloaded()
+        => ImageRepeater.ItemsSource = default;
+
     private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
         e.Handled = true;

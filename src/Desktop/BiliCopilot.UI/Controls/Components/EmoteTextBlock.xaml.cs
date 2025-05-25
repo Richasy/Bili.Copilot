@@ -49,6 +49,9 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
         set => SetValue(TextProperty, value);
     }
 
+    protected override void OnControlUnloaded()
+        => Gallery.ItemsSource = default;
+
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var instance = d as EmoteTextBlock;

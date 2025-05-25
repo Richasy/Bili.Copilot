@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.ViewLater;
 
 /// <summary>
@@ -13,9 +11,6 @@ public sealed partial class ViewLaterBody : ViewLaterPageControlBase
     /// Initializes a new instance of the <see cref="ViewLaterBody"/> class.
     /// </summary>
     public ViewLaterBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -30,6 +25,7 @@ public sealed partial class ViewLaterBody : ViewLaterPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        VideoRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnVideoListUpdatedAsync;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;

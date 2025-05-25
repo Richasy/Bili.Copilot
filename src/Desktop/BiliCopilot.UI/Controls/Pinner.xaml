@@ -86,6 +86,7 @@
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
                 <ItemsRepeater
+                    x:Name="Repeater"
                     MinWidth="320"
                     ItemTemplate="{StaticResource PinTemplate}"
                     ItemsSource="{x:Bind ViewModel.Items}">

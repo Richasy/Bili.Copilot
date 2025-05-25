@@ -62,7 +62,10 @@
                         FontSize="12"
                         IsEnabled="{x:Bind ViewModel.IsWebDavEnabled, Mode=OneWay}" />
                 </StackPanel>
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.WebDavConfigs}" Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                <ItemsRepeater
+                    x:Name="ConfigRepeater"
+                    ItemsSource="{x:Bind ViewModel.WebDavConfigs}"
+                    Visibility="{x:Bind ViewModel.IsWebDavEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="models:WebDavConfig">
                             <base:SettingsCard

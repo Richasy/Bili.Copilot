@@ -23,7 +23,7 @@
             Grid.Row="1"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Rooms, Mode=OneWay}">
+                <ItemsRepeater x:Name="LiveRepeater" ItemsSource="{x:Bind ViewModel.Rooms, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:LiveItemViewModel">
                             <components:LiveCardControl Style="{StaticResource PartitionLiveCardStyle}" ViewModel="{x:Bind}" />

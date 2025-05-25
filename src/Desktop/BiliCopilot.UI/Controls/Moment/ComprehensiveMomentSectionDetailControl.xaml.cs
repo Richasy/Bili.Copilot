@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.Moment;
 
 /// <summary>
@@ -13,7 +11,4 @@ public sealed partial class ComprehensiveMomentSectionDetailControl : Comprehens
     /// Initializes a new instance of the <see cref="ComprehensiveMomentSectionDetailControl"/> class.
     /// </summary>
     public ComprehensiveMomentSectionDetailControl() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 }

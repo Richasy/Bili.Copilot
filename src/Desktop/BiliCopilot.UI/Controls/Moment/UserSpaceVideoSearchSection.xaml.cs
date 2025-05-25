@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.Moment;
 
 /// <summary>
@@ -13,9 +11,6 @@ public sealed partial class UserSpaceVideoSearchSection : UserSpacePageControlBa
     /// Initializes a new instance of the <see cref="UserSpaceVideoSearchSection"/> class.
     /// </summary>
     public UserSpaceVideoSearchSection() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -30,6 +25,7 @@ public sealed partial class UserSpaceVideoSearchSection : UserSpacePageControlBa
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        VideoRepeater.ItemsSource = null;
         ViewModel.SearchUpdated -= OnSearchUpdatedAsync;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;

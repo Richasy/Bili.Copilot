@@ -17,6 +17,9 @@ public sealed partial class WebDavSettingControl : SettingsPageControlBase
     /// </summary>
     public WebDavSettingControl() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => ConfigRepeater.ItemsSource = null;
+
     private async void OnEditButtonClickAsync(object sender, RoutedEventArgs e)
     {
         var config = (sender as FrameworkElement).DataContext as WebDavConfig;

@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.Users;
 
 /// <summary>
@@ -13,9 +11,6 @@ public sealed partial class FollowsMainBody : FollowsPageControlBase
     /// Initializes a new instance of the <see cref="FollowsMainBody"/> class.
     /// </summary>
     public FollowsMainBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -30,6 +25,7 @@ public sealed partial class FollowsMainBody : FollowsPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        UserRepeater.ItemsSource = null;
         ViewModel.UserListUpdated -= OnUserListUpdatedAsync;
         UserScrollView.ViewChanged -= OnViewChanged;
         UserScrollView.SizeChanged -= OnScrollViewSizeChanged;

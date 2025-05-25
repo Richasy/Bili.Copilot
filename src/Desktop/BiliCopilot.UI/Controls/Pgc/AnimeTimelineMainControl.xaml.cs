@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.Pgc;
 
 /// <summary>
@@ -14,6 +12,6 @@ public sealed partial class AnimeTimelineMainControl : AnimeTimelineControlBase
     /// </summary>
     public AnimeTimelineMainControl() => InitializeComponent();
 
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
+    protected override void OnControlUnloaded()
+        => SeasonRepeater.ItemsSource = default;
 }

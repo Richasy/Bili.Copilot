@@ -63,7 +63,10 @@
                                     <Setter Property="Padding" Value="8" />
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <ItemsRepeater MinWidth="300" ItemsSource="{x:Bind ViewModel.MorePrompts, Mode=OneWay}">
+                            <ItemsRepeater
+                                x:Name="PromptRepeater"
+                                MinWidth="300"
+                                ItemsSource="{x:Bind ViewModel.MorePrompts, Mode=OneWay}">
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="items:AIQuickItemViewModel">
                                         <Button

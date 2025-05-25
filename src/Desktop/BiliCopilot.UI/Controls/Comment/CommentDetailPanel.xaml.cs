@@ -16,9 +16,6 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
     public CommentDetailPanel() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         CommentScrollView.ViewChanged += OnViewChanged;

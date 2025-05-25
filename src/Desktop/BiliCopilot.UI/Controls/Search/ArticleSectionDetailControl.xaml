@@ -15,7 +15,10 @@
     <Grid>
         <ScrollViewer x:Name="ArticleScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource ArticleLayout}">
+                <ItemsRepeater
+                    x:Name="ArticleRepeater"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Layout="{StaticResource ArticleLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:ArticleItemViewModel">
                             <components:ArticleCardControl Style="{StaticResource SearchArticleCardStyle}" ViewModel="{x:Bind}" />

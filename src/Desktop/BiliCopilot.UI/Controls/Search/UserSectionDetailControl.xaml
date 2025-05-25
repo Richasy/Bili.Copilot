@@ -15,7 +15,10 @@
     <Grid>
         <ScrollViewer x:Name="UserScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource UserLayout}">
+                <ItemsRepeater
+                    x:Name="UserRepeater"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Layout="{StaticResource UserLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:UserItemViewModel">
                             <components:UserCardControl ViewModel="{x:Bind}" />

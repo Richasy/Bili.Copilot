@@ -16,9 +16,6 @@ public sealed partial class LiveSectionDetailControl : LiveSectionDetailControlB
     public LiveSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
@@ -31,6 +28,7 @@ public sealed partial class LiveSectionDetailControl : LiveSectionDetailControlB
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        LiveRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
         LiveScrollView.ViewChanged -= OnViewChanged;
         LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;

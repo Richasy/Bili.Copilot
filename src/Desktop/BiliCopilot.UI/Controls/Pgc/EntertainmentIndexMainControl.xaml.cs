@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Pgc;
 
@@ -14,9 +13,6 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
     /// Initializes a new instance of the <see cref="EntertainmentIndexMainControl"/> class.
     /// </summary>
     public EntertainmentIndexMainControl() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -40,6 +36,7 @@ public sealed partial class EntertainmentIndexMainControl : EntertainmentIndexCo
             ViewModel.ItemsUpdated -= OnItemsUpdatedAsync;
         }
 
+        SeasonRepeater.ItemsSource = null;
         SeasonScrollView.ViewChanged -= OnViewChanged;
         SeasonScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }

@@ -18,7 +18,10 @@
             Grid.Row="1"
             Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" Layout="{StaticResource ArticleLayout}">
+                <ItemsRepeater
+                    x:Name="ArticleRepeater"
+                    ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}"
+                    Layout="{StaticResource ArticleLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:ArticleItemViewModel">
                             <components:ArticleCardControl Style="{StaticResource PartitionArticleCardStyle}" ViewModel="{x:Bind}" />

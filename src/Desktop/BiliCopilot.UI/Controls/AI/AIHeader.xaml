@@ -85,6 +85,7 @@
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
                         <ItemsRepeater
+                            x:Name="ServiceRepeater"
                             Width="240"
                             ItemTemplate="{StaticResource ServiceItemTemplate}"
                             ItemsSource="{x:Bind ViewModel.Services, Mode=OneWay}">

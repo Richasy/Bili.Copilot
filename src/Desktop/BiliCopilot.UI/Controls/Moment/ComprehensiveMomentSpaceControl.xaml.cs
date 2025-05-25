@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.Moment;
 
 /// <summary>
@@ -13,9 +11,6 @@ public sealed partial class ComprehensiveMomentSpaceControl : UserMomentDetailCo
     /// Initializes a new instance of the <see cref="ComprehensiveMomentSpaceControl"/> class.
     /// </summary>
     public ComprehensiveMomentSpaceControl() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

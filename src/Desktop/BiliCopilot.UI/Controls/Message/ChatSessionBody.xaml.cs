@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Message;
 
@@ -14,9 +13,6 @@ public sealed partial class ChatSessionBody : ChatMessageControlBase
     /// Initializes a new instance of the <see cref="ChatSessionBody"/> class.
     /// </summary>
     public ChatSessionBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

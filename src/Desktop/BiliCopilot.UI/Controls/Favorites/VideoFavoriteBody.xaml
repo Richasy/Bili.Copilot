@@ -15,7 +15,10 @@
     <Grid>
         <ScrollViewer x:Name="VideoScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource VideoLayout}">
+                <ItemsRepeater
+                    x:Name="VideoRepeater"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Layout="{StaticResource VideoLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:VideoItemViewModel">
                             <components:VideoCardControl Style="{StaticResource FavoriteVideoCardStyle}" ViewModel="{x:Bind}" />

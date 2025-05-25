@@ -3,7 +3,6 @@
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Article;
 
@@ -16,9 +15,6 @@ public sealed partial class ArticlePartitionMainHeader : ArticlePartitionDetailC
     /// Initializes a new instance of the <see cref="ArticlePartitionMainHeader"/> class.
     /// </summary>
     public ArticlePartitionMainHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

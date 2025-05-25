@@ -48,11 +48,11 @@
             ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=FavoriteTip}"
             Target="{x:Bind Btn}">
-            <ScrollView
+            <ScrollViewer
                 MaxHeight="360"
                 Margin="0,8"
-                Style="{StaticResource PageScrollViewStyle}">
-                <ItemsRepeater ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                Style="{StaticResource PageScrollViewerStyle}">
+                <ItemsRepeater x:Name="FavoriteRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:PlayerFavoriteFolderViewModel">
                             <ToggleButton
@@ -83,7 +83,7 @@
                         <StackLayout Spacing="8" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
-            </ScrollView>
+            </ScrollViewer>
         </TeachingTip>
     </Grid>
 </base:LayoutUserControlBase>

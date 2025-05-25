@@ -17,6 +17,9 @@ public sealed partial class AIFooter : AIControlBase
     /// </summary>
     public AIFooter() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => PromptRepeater.ItemsSource = null;
+
     private void OnMorePromptButtonClick(object sender, RoutedEventArgs e)
         => FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
 

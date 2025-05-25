@@ -15,7 +15,10 @@
     <Grid>
         <ScrollViewer x:Name="LiveScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource LiveLayout}">
+                <ItemsRepeater
+                    x:Name="LiveRepeater"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Layout="{StaticResource LiveLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:LiveItemViewModel">
                             <components:LiveCardControl Style="{StaticResource SearchLiveCardStyle}" ViewModel="{x:Bind}" />

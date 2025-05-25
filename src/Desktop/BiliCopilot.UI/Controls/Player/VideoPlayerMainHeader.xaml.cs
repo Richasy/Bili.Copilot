@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.AI;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
 
@@ -14,9 +13,6 @@ public sealed partial class VideoPlayerMainHeader : VideoPlayerPageControlBase
     /// Initializes a new instance of the <see cref="VideoPlayerMainHeader"/> class.
     /// </summary>
     public VideoPlayerMainHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     private void OnAIOpened(object sender, object e)
     {
