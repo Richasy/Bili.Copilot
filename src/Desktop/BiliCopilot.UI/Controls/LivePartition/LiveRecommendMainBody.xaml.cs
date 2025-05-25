@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using Richasy.WinUIKernel.Share.Base;
-
 namespace BiliCopilot.UI.Controls.LivePartition;
 
 /// <summary>
@@ -13,9 +11,6 @@ public sealed partial class LiveRecommendMainBody : LivePartitionPageControlBase
     /// Initializes a new instance of the <see cref="LiveRecommendMainBody"/> class.
     /// </summary>
     public LiveRecommendMainBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -30,6 +25,7 @@ public sealed partial class LiveRecommendMainBody : LivePartitionPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        LiveRepeater.ItemsSource = null;
         ViewModel.RecommendUpdated -= OnLiveListUpdatedAsync;
         LiveScrollView.ViewChanged -= OnViewChanged;
         LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;

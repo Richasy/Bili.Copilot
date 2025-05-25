@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Pgc;
 
@@ -14,9 +13,6 @@ public sealed partial class CinemaSideHeader : CinemaPageControlBase
     /// Initializes a new instance of the <see cref="CinemaSideHeader"/> class.
     /// </summary>
     public CinemaSideHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

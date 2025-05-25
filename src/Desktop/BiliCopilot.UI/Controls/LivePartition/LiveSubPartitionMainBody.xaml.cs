@@ -16,9 +16,6 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBa
     public LiveSubPartitionMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         LiveScrollView.ViewChanged += OnViewChanged;
@@ -28,6 +25,7 @@ public sealed partial class LiveSubPartitionMainBody : LiveSubPartitionControlBa
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        LiveRepeater.ItemsSource = null;
         LiveScrollView.ViewChanged -= OnViewChanged;
         LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;
         if (ViewModel is not null)

@@ -19,9 +19,6 @@ public sealed partial class SearchPage : SearchPageBase
     public SearchPage() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         if (e.NavigationMode == NavigationMode.Back)

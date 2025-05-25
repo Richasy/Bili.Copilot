@@ -11,4 +11,7 @@ public sealed partial class EntertainmentIndexSideControl : EntertainmentIndexCo
     /// Initializes a new instance of the <see cref="EntertainmentIndexSideControl"/> class.
     /// </summary>
     public EntertainmentIndexSideControl() => InitializeComponent();
+
+    protected override void OnControlUnloaded()
+        => FilterRepeater.ItemsSource = default;
 }

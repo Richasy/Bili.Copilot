@@ -16,9 +16,6 @@ public sealed partial class UserSectionDetailControl : UserSectionDetailControlB
     public UserSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
@@ -31,6 +28,7 @@ public sealed partial class UserSectionDetailControl : UserSectionDetailControlB
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        UserRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
         UserScrollView.ViewChanged -= OnViewChanged;
         UserScrollView.SizeChanged -= OnScrollViewSizeChanged;

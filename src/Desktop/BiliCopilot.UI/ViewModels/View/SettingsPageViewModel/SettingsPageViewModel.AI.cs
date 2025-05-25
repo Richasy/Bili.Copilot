@@ -1,4 +1,6 @@
-﻿using Richasy.AgentKernel;
+﻿// Copyright (c) Bili Copilot. All rights reserved.
+
+using Richasy.AgentKernel;
 using Richasy.WinUIKernel.AI.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.View;

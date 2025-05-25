@@ -16,7 +16,10 @@
     <Grid>
         <ScrollViewer x:Name="MessageScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater MaxWidth="1000" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                <ItemsRepeater
+                    x:Name="MessageRepeater"
+                    MaxWidth="1000"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:NotifyMessageItemViewModel">
                             <local:NotifyMessageCardControl ViewModel="{x:Bind}" />

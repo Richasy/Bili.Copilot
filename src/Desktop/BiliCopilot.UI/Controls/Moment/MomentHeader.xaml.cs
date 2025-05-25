@@ -19,9 +19,6 @@ public sealed partial class MomentHeader : MomentHeaderBase
     public MomentHeader() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         Selector.SelectionChanged += OnSelectorChanged;

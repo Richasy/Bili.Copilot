@@ -14,9 +14,6 @@ public sealed partial class PopularRankParitionItemControl : PopularRankParition
     /// Initializes a new instance of the <see cref="PopularRankParitionItemControl"/> class.
     /// </summary>
     public PopularRankParitionItemControl() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 }
 
 /// <summary>

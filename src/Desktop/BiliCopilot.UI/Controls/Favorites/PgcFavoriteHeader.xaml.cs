@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.ViewModels.Components;
 using Richasy.BiliKernel.Models;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Favorites;
 
@@ -15,9 +14,6 @@ public sealed partial class PgcFavoriteHeader : PgcFavoriteControlBase
     /// Initializes a new instance of the <see cref="PgcFavoriteHeader"/> class.
     /// </summary>
     public PgcFavoriteHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

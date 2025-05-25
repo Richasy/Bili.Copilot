@@ -72,7 +72,10 @@
                     RadiusX="4"
                     RadiusY="4" />
             </Grid>
-            <ItemsRepeater HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Colors, Mode=OneWay}">
+            <ItemsRepeater
+                x:Name="ColorRepeater"
+                HorizontalAlignment="Stretch"
+                ItemsSource="{x:Bind ViewModel.Colors, Mode=OneWay}">
                 <ItemsRepeater.Layout>
                     <UniformGridLayout
                         ItemsStretch="Fill"

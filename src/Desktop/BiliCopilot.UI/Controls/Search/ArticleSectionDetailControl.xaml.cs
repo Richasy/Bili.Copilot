@@ -16,9 +16,6 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
     public ArticleSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
@@ -31,6 +28,7 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        ArticleRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
         ArticleScrollView.ViewChanged -= OnViewChanged;
         ArticleScrollView.SizeChanged -= OnScrollViewSizeChanged;

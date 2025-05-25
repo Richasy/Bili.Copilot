@@ -14,6 +14,9 @@ public sealed partial class AIHeader : AIControlBase
     /// </summary>
     public AIHeader() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => ServiceRepeater.ItemsSource = null;
+
     private void OnServiceItemClick(object sender, RoutedEventArgs e)
     {
         var context = (sender as FrameworkElement).DataContext as ChatServiceItemViewModel;

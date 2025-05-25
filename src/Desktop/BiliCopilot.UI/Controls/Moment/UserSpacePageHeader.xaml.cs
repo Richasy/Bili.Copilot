@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Moment;
 
@@ -14,9 +13,6 @@ public sealed partial class UserSpacePageHeader : UserSpacePageControlBase
     /// Initializes a new instance of the <see cref="UserSpacePageHeader"/> class.
     /// </summary>
     public UserSpacePageHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

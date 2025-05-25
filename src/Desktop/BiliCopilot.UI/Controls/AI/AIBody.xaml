@@ -161,6 +161,7 @@
                     </Grid>
                 </StackPanel>
                 <ItemsRepeater
+                    x:Name="QuickItemsRepeater"
                     Grid.Row="2"
                     VerticalAlignment="Top"
                     ItemTemplate="{StaticResource QuickItemTemplate}"

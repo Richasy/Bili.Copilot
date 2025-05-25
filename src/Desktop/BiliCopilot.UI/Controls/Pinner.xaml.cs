@@ -25,6 +25,9 @@ public sealed partial class Pinner : PinnerBase
     protected override void OnControlLoaded()
         => ViewModel.InitializeCommand.Execute(default);
 
+    protected override void OnControlUnloaded()
+        => Repeater.ItemsSource = null;
+
     private void OnItemClick(object sender, RoutedEventArgs e)
     {
         var item = (sender as FrameworkElement)?.DataContext as PinItem;

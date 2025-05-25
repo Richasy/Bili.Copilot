@@ -16,9 +16,6 @@ public sealed partial class VideoSectionDetailControl : VideoSectionDetailContro
     public VideoSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
@@ -31,6 +28,7 @@ public sealed partial class VideoSectionDetailControl : VideoSectionDetailContro
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        VideoRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;

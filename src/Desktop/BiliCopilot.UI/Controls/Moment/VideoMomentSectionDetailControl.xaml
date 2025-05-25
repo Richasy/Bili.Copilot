@@ -15,7 +15,10 @@
     <Grid>
         <ScrollViewer x:Name="VideoScrollView" Style="{StaticResource PageScrollViewerStyle}">
             <Grid Margin="16,12">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}" Layout="{StaticResource MomentLayout}">
+                <ItemsRepeater
+                    x:Name="MomentRepeater"
+                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                    Layout="{StaticResource MomentLayout}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:MomentItemViewModel">
                             <components:MomentCardControl Style="{StaticResource VideoMomentCardStyle}" ViewModel="{x:Bind}" />

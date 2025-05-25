@@ -16,9 +16,6 @@ public sealed partial class ArticleHistorySection : ArticleHistorySectionBase
     public ArticleHistorySection() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ArticleScrollView.ViewChanged += OnViewChanged;
@@ -39,6 +36,7 @@ public sealed partial class ArticleHistorySection : ArticleHistorySectionBase
             ViewModel.ListUpdated -= OnArticleListUpdatedAsync;
         }
 
+        ArticleRepeater.ItemsSource = null;
         ArticleScrollView.ViewChanged -= OnViewChanged;
         ArticleScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }

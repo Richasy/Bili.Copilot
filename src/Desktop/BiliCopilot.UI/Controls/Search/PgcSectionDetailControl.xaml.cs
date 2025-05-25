@@ -16,9 +16,6 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     public PgcSectionDetailControl() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
@@ -31,6 +28,7 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        SeasonRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
         PgcScrollView.ViewChanged -= OnViewChanged;
         PgcScrollView.SizeChanged -= OnScrollViewSizeChanged;

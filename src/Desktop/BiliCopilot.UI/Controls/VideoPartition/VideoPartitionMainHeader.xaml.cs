@@ -3,7 +3,6 @@
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.VideoPartition;
 
@@ -16,9 +15,6 @@ public sealed partial class VideoPartitionMainHeader : VideoPartitionDetailContr
     /// Initializes a new instance of the <see cref="VideoPartitionMainHeader"/> class.
     /// </summary>
     public VideoPartitionMainHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

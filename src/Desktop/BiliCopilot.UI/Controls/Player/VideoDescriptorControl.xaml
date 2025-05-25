@@ -22,7 +22,7 @@
             ToggleFollowCommand="{x:Bind ViewModel.ToggleFollowCommand, Mode=OneWay}"
             UserName="{x:Bind ViewModel.UpName, Mode=OneWay}" />
         <local:VideoStatControl Margin="8,0,0,8" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
+        <ItemsRepeater x:Name="TagRepeater" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="app:BiliTag">
                     <Button

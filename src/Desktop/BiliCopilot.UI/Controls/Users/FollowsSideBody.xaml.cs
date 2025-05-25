@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using Richasy.BiliKernel.Models.User;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Users;
 
@@ -14,9 +13,6 @@ public sealed partial class FollowsSideBody : FollowsPageControlBase
     /// Initializes a new instance of the <see cref="FollowsSideBody"/> class.
     /// </summary>
     public FollowsSideBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

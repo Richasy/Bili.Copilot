@@ -4,7 +4,6 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.History;
 
@@ -17,9 +16,6 @@ public sealed partial class HistoryHeader : HistoryPageControlBase
     /// Initializes a new instance of the <see cref="HistoryHeader"/> class.
     /// </summary>
     public HistoryHeader() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()

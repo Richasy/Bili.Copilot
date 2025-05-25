@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Favorites;
 
@@ -14,9 +13,6 @@ public sealed partial class UgcFavoriteBody : UgcFavoriteControlBase
     /// Initializes a new instance of the <see cref="UgcFavoriteBody"/> class.
     /// </summary>
     public UgcFavoriteBody() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -39,6 +35,7 @@ public sealed partial class UgcFavoriteBody : UgcFavoriteControlBase
             ViewModel.ListUpdated -= OnVideoListUpdatedAsync;
         }
 
+        VideoRepeater.ItemsSource = null;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }

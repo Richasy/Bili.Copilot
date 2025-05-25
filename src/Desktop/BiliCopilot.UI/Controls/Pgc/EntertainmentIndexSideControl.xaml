@@ -12,7 +12,10 @@
 
     <Grid>
         <ScrollView Style="{StaticResource PageScrollViewStyle}">
-            <ItemsRepeater Margin="12" ItemsSource="{x:Bind ViewModel.Filters, Mode=OneWay}">
+            <ItemsRepeater
+                x:Name="FilterRepeater"
+                Margin="12"
+                ItemsSource="{x:Bind ViewModel.Filters, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="items:IndexFilterViewModel">
                         <components:IndexFilterItemControl ViewModel="{x:Bind}" />

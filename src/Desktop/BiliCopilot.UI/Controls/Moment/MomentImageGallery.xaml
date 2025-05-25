@@ -12,7 +12,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ItemsRepeater ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+        <ItemsRepeater x:Name="ImageRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="appearance:BiliImage">
                     <Grid

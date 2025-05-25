@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
-using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Popular;
 
@@ -16,9 +15,6 @@ public sealed partial class PopularMainBody : PopularPageControlBase
     public PopularMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         ViewModel.VideoListUpdated += OnVideoListUpdatedAsync;
@@ -31,6 +27,7 @@ public sealed partial class PopularMainBody : PopularPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        VideoRepeater.ItemsSource = null;
         ViewModel.VideoListUpdated -= OnVideoListUpdatedAsync;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;

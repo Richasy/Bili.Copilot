@@ -16,9 +16,6 @@ public sealed partial class VideoHistorySection : VideoHistorySectionBase
     public VideoHistorySection() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override ControlBindings? ControlBindings => Bindings is null ? null : new ControlBindings(Bindings.Initialize, Bindings.StopTracking);
-
-    /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
         VideoScrollView.ViewChanged += OnViewChanged;
@@ -39,6 +36,7 @@ public sealed partial class VideoHistorySection : VideoHistorySectionBase
             ViewModel.ListUpdated -= OnVideoListUpdatedAsync;
         }
 
+        VideoRepeater.ItemsSource = null;
         VideoScrollView.ViewChanged -= OnViewChanged;
         VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
