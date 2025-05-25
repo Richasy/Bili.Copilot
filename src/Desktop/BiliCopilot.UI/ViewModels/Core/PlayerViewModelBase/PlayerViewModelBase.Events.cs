@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
-using Microsoft.Windows.BadgeNotifications;
 using Windows.Media;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -33,21 +32,6 @@ public abstract partial class PlayerViewModelBase
     /// </summary>
     protected virtual void UpdateState(PlayerState state)
     {
-        if (!_isClosed)
-        {
-            var glyph = state == PlayerState.Playing
-                ? BadgeNotificationGlyph.Playing
-                : state == PlayerState.Paused
-                    ? BadgeNotificationGlyph.Paused
-                    : state is PlayerState.Opening or PlayerState.Buffering or PlayerState.Decoding
-                        ? BadgeNotificationGlyph.Activity
-                        : state is PlayerState.Failed
-                            ? BadgeNotificationGlyph.Error
-                            : BadgeNotificationGlyph.None;
-
-            BadgeNotificationManager.Current.SetBadgeAsGlyph(glyph);
-        }
-
         _dispatcherQueue.TryEnqueue(async () =>
         {
             if (_isClosed || this.Get<AppViewModel>().IsClosed)

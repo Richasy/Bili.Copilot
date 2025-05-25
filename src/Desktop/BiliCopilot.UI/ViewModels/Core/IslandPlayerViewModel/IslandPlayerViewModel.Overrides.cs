@@ -67,38 +67,47 @@ public sealed partial class IslandPlayerViewModel
     /// <inheritdoc/>
     protected override async Task OnLoadPlayDataAsync()
     {
-        if (!_autoPlay)
-        {
-            Player.Client.SetOption("pause", "yes");
-        }
-        else
-        {
-            Player.Client.SetOption("pause", "no");
-        }
-
         if (IsWebDav)
         {
             LoadWebDavAuthorization();
         }
 
         UpdateState(Models.Constants.PlayerState.None);
-        Player.Client.SetOption("start", Position.ToString());
 
         try
         {
-            if (!string.IsNullOrEmpty(_videoUrl) && !Player.IsDisposed)
+            var fileUrl = string.IsNullOrEmpty(_videoUrl) ? _audioUrl : _videoUrl;
+            if (Player?.IsDisposed != false || string.IsNullOrEmpty(fileUrl))
             {
-                await Player.Client.ExecuteAsync(["loadfile", _videoUrl, "replace"]);
+                _logger.LogWarning("播放器已被释放或播放地址为空，无法加载播放数据.");
+                return;
+            }
 
-                if (!string.IsNullOrEmpty(_audioUrl))
-                {
-                    await WaitUntilAddAudioAsync(_audioUrl);
-                }
-            }
-            else if (!string.IsNullOrEmpty(_audioUrl) && !Player.IsDisposed)
+            List<string> commandArgs = ["loadfile", $"\"{fileUrl}\"", "replace", "0"];
+            List<string> commandOptions = [];
+            if (!_autoPlay)
             {
-                await Player.Client.ExecuteAsync(["loadfile", _audioUrl, "replace"]);
+                commandOptions.Add("pause=yes");
             }
+
+            if (Position > 0)
+            {
+                commandOptions.Add($"start={Position}.0");
+            }
+
+            var speed = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d);
+            if (Math.Abs(speed - 1) >= 0.1)
+            {
+                commandOptions.Add($"speed={Math.Round(speed, 2)}");
+            }
+
+            if (!string.IsNullOrEmpty(_videoUrl) && !string.IsNullOrEmpty(_audioUrl))
+            {
+                commandOptions.Add($"audio-file=\"{_audioUrl}\"");
+            }
+
+            commandArgs.Add(string.Join(',', commandOptions));
+            await Player.Client.ExecuteAsync([.. commandArgs]);
 
             if (!IsLive && !IsWebDav)
             {
@@ -109,7 +118,6 @@ public sealed partial class IslandPlayerViewModel
                     IsPaused = true;
                 }
 
-                SetSpeedCommand.Execute(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PlayerSpeed, 1d));
                 Duration = Convert.ToInt32(Player.Duration!.Value.TotalSeconds);
             }
         }

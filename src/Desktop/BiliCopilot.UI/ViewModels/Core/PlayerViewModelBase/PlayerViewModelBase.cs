@@ -6,7 +6,6 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
-using Microsoft.Windows.BadgeNotifications;
 using Richasy.WinUIKernel.Share.ViewModels;
 using Windows.Media;
 using Windows.Storage.Streams;
@@ -188,9 +187,7 @@ public abstract partial class PlayerViewModelBase : ViewModelBase
             _smtc = default;
         }
 
-        BadgeNotificationManager.Current.ClearBadge();
         ReleaseDisplay();
-
         return OnCloseAsync();
     }
 

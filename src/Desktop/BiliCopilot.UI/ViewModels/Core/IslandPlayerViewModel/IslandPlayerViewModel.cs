@@ -4,7 +4,6 @@ using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using Microsoft.Extensions.Logging;
 using Mpv.Core;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
@@ -151,43 +150,6 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
         if (e.Message.Contains("mpv_render_context_render() not being called or stuck"))
         {
             await Player.TerminateAsync();
-        }
-    }
-
-    private async Task WaitUntilAddAudioAsync(string audioUrl)
-    {
-        const int maxRetryCount = 3;
-        var retryCount = 0;
-        var isAudioAdded = false;
-        do
-        {
-            if (retryCount >= maxRetryCount)
-            {
-                break;
-            }
-
-            try
-            {
-                if (Player.IsDisposed)
-                {
-                    return;
-                }
-
-                await Player.Client.ExecuteAsync(["audio-add", audioUrl]);
-                isAudioAdded = true;
-            }
-            catch (Exception)
-            {
-                retryCount++;
-                await Task.Delay(300);
-            }
-        }
-        while (!isAudioAdded);
-
-        if (!isAudioAdded)
-        {
-            UpdateState(PlayerState.Failed);
-            _logger.LogError("尝试播放音频失败.");
         }
     }
 
