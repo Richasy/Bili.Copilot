@@ -4,6 +4,9 @@ using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+#if !DEBUG
+using Microsoft.Extensions.Logging;
+#endif
 using Mpv.Core;
 using Mpv.Core.Args;
 using Mpv.Core.Enums.Client;
