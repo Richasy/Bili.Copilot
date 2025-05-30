@@ -29,6 +29,7 @@ public sealed partial class ComprehensiveSideBody : ComprehensiveSectionControlB
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        SectionView.ItemsSource = default;
         if (ViewModel is not null)
         {
             ViewModel.Initialized -= OnInitialized;

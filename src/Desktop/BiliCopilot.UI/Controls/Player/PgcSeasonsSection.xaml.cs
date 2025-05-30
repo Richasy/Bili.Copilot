@@ -25,6 +25,9 @@ public sealed partial class PgcSeasonsSection : PgcSeasonsSectionBase
         }
     }
 
+    protected override void OnControlUnloaded()
+        => View.ItemsSource = default;
+
     private void OnSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         if (IsLoaded && sender.SelectedItem is SeasonItemViewModel season && season != ViewModel.SelectedItem)

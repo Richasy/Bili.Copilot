@@ -19,18 +19,21 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
     public VideoSeasonSection() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override async void OnControlLoaded()
-        => await CheckSelectedItemAsync();
+    protected override void OnControlLoaded()
+        => CheckSelectedItem();
+
+    protected override void OnControlUnloaded()
+        => View.ItemsSource = default;
 
     /// <inheritdoc/>
-    protected override async void OnViewModelChanged(VideoPlayerSeasonSectionDetailViewModel? oldValue, VideoPlayerSeasonSectionDetailViewModel? newValue)
-        => await CheckSelectedItemAsync();
+    protected override void OnViewModelChanged(VideoPlayerSeasonSectionDetailViewModel? oldValue, VideoPlayerSeasonSectionDetailViewModel? newValue)
+        => CheckSelectedItem();
 
-    private async void OnSeasonChangedAsync(object sender, SelectionChangedEventArgs e)
+    private void OnSeasonChanged(object sender, SelectionChangedEventArgs e)
     {
         var season = SeasonComboBox.SelectedItem as VideoSeason;
         ViewModel.ChangeSeasonCommand.Execute(season);
-        await CheckSelectedItemAsync();
+        CheckSelectedItem();
     }
 
     private void OnVideoSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
@@ -43,9 +46,8 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
         }
     }
 
-    private async Task CheckSelectedItemAsync()
+    private void CheckSelectedItem()
     {
-        await Task.Delay(100);
         if (ViewModel.SelectedItem is null)
         {
             return;
@@ -53,7 +55,6 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
 
         var index = ViewModel.Items.ToList().IndexOf(ViewModel.SelectedItem);
         View.Select(index);
-        View.StartBringItemIntoView(index, new BringIntoViewOptions { VerticalAlignmentRatio = 0.5 });
     }
 }
 

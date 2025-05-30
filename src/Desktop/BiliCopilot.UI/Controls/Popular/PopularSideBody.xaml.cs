@@ -25,6 +25,7 @@ public sealed partial class PopularSideBody : PopularPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        SectionView.ItemsSource = default;
         ViewModel.SectionInitialized -= OnSectionInitialized;
         SectionView.SelectionChanged -= OnSectionSelectionChanged;
     }

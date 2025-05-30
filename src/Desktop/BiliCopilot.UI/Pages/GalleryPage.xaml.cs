@@ -41,6 +41,9 @@ public sealed partial class GalleryPage : GalleryPageBase
         ImageView.Select(index);
     }
 
+    protected override void OnPageUnloaded()
+        => ImageView.ItemsSource = default;
+
     private void OnScrollViewTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         => ViewModel.IsMenuHide = !ViewModel.IsMenuHide;
 

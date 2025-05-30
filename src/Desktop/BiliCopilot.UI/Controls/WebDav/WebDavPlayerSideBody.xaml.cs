@@ -29,6 +29,7 @@ public sealed partial class WebDavPlayerSideBody : WebDavPlayerPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        View.ItemsSource = default;
         if (ViewModel is not null)
         {
             ViewModel.VideoSelectionChanged -= OnViewModelVideoSelectionChangedAsync;

@@ -17,6 +17,9 @@ public sealed partial class AppSearchBox : AppSearchBoxBase
     /// </summary>
     public AppSearchBox() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => HotSearchView.ItemsSource = null;
+
     private void OnKeywordChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)

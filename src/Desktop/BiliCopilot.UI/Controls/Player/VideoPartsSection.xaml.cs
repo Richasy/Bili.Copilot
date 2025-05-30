@@ -31,6 +31,7 @@ public sealed partial class VideoPartsSection : VideoPartsSectionBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        View.ItemsSource = default;
         if (ViewModel is not null)
         {
             ViewModel.PartChanged -= OnPartChanged;

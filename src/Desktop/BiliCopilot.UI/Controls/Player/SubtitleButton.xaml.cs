@@ -14,6 +14,9 @@ public sealed partial class SubtitleButton : SubtitleControlBase
     /// </summary>
     public SubtitleButton() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => SubtitleView.ItemsSource = default;
+
     private void OnMetaChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var meta = sender.SelectedItem as SubtitleMeta;

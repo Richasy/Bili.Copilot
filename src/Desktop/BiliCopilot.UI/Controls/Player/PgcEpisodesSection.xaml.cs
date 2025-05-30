@@ -28,6 +28,12 @@ public sealed partial class PgcEpisodesSection : PgcEpisodesSectionBase
         InitializeLayoutAsync();
     }
 
+    protected override void OnControlUnloaded()
+    {
+        DefaultView.ItemsSource = default;
+        IndexView.ItemsSource = default;
+    }
+
     private void OnEpisodeSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         if (IsLoaded && sender.SelectedItem is EpisodeItemViewModel episode && episode != ViewModel.SelectedEpisode)

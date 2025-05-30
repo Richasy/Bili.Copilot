@@ -29,6 +29,12 @@ public sealed partial class EmotePanel : EmotePanelBase
         PackageView.Select(0);
     }
 
+    protected override void OnControlUnloaded()
+    {
+        PackageView.ItemsSource = null;
+        EmoteView.ItemsSource = null;
+    }
+
     private void OnPackageChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
     {
         var package = sender.SelectedItem as EmotePackage;

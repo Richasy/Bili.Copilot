@@ -21,6 +21,9 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
     protected override async void OnControlLoaded()
         => await CheckSelectedItemAsync();
 
+    protected override void OnControlUnloaded()
+        => View.ItemsSource = default;
+
     /// <inheritdoc/>
     protected override async void OnViewModelChanged(VideoPlayerPlaylistSectionDetailViewModel? oldValue, VideoPlayerPlaylistSectionDetailViewModel? newValue)
         => await CheckSelectedItemAsync();
