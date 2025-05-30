@@ -42,6 +42,7 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 240)

@@ -42,6 +42,7 @@ public sealed partial class ArticleSectionDetailControl : ArticleSectionDetailCo
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             if (ArticleScrollView.ExtentHeight - ArticleScrollView.ViewportHeight - ArticleScrollView.VerticalOffset <= 240)

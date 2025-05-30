@@ -65,6 +65,7 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             if (LiveScrollView.ExtentHeight - LiveScrollView.ViewportHeight - LiveScrollView.VerticalOffset <= 240)

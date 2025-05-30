@@ -41,6 +41,7 @@ public sealed partial class PopularMainBody : PopularPageControlBase
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
         if ((ViewModel.SelectedSection is PopularSectionItemViewModel secItem && secItem.Type == Models.Constants.PopularSectionType.Rank)
             || ViewModel.SelectedSection is PopularRankPartitionViewModel)
         {
