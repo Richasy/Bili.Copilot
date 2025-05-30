@@ -23,7 +23,10 @@ public sealed partial class LivePartitionSubSideBody : LivePartitionPageControlB
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
-        => ViewModel.MainSectionChanged -= OnSectionChanged;
+    {
+        PartitionView.ItemsSource = default;
+        ViewModel.MainSectionChanged -= OnSectionChanged;
+    }
 
     private void OnSectionChanged(object? sender, EventArgs e)
         => CheckPartitionSelection();

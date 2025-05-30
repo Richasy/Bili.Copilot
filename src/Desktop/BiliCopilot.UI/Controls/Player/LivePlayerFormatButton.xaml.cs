@@ -14,6 +14,9 @@ public sealed partial class LivePlayerFormatButton : LivePlayerPageControlBase
     /// </summary>
     public LivePlayerFormatButton() => InitializeComponent();
 
+    protected override void OnControlUnloaded()
+        => FormatView.ItemsSource = default;
+
     private void OnFlyoutOpened(object sender, object e)
     {
         var index = ViewModel.Formats.ToList().IndexOf(ViewModel.SelectedFormat);

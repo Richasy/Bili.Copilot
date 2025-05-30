@@ -25,6 +25,7 @@ public sealed partial class FollowsSideBody : FollowsPageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        GroupView.ItemsSource = default;
         GroupView.SelectionChanged -= OnGroupSelectionChanged;
         ViewModel.GroupInitialized -= OnGroupInitialized;
     }

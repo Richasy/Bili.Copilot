@@ -27,6 +27,7 @@ public sealed partial class MessagePageSideBody : MessagePageControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        SectionView.ItemsSource = default;
         ViewModel.SectionInitialized -= OnSectionInitialized;
         ViewModel.ChatSessionsUpdated -= OnChatSessionsUpdatedAsync;
         SectionView.SelectionChanged -= OnSectionSelectionChanged;

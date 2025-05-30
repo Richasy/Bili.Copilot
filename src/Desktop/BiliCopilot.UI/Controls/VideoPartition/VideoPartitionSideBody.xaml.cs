@@ -25,7 +25,10 @@ public sealed partial class VideoPartitionSideBody : VideoPartitionSideBodyBase
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
-        => ViewModel.PartitionInitialized -= OnPartitionInitialized;
+    {
+        PartitionView.ItemsSource = default;
+        ViewModel.PartitionInitialized -= OnPartitionInitialized;
+    }
 
     private void OnPartitionInitialized(object? sender, EventArgs e)
         => CheckPartitionSelection();

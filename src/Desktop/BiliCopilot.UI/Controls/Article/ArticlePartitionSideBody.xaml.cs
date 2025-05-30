@@ -25,7 +25,10 @@ public sealed partial class ArticlePartitionSideBody : ArticlePartitionSideBodyB
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
-        => ViewModel.PartitionInitialized -= OnPartitionInitialized;
+    {
+        PartitionView.ItemsSource = default;
+        ViewModel.PartitionInitialized -= OnPartitionInitialized;
+    }
 
     private void OnPartitionInitialized(object? sender, EventArgs e)
         => CheckPartitionSelection();

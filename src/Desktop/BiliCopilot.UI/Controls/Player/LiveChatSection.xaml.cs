@@ -18,6 +18,7 @@ public sealed partial class LiveChatSection : LiveChatSectionBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        View.ItemsSource = default;
         if (ViewModel is not null)
         {
             ViewModel.ScrollToBottomRequested -= OnScrollToBottomRequested;

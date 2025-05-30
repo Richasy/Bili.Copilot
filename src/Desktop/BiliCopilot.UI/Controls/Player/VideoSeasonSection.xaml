@@ -23,7 +23,7 @@
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.Seasons, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.SelectedSeason, Mode=OneWay}"
-            SelectionChanged="OnSeasonChangedAsync">
+            SelectionChanged="OnSeasonChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="media:VideoSeason">
                     <TextBlock Text="{x:Bind Title}" />

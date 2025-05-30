@@ -26,6 +26,7 @@ public sealed partial class AnimeTimelineSideControl : AnimeTimelineControlBase
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
+        TimelineView.ItemsSource = default;
         TimelineView.SelectionChanged -= OnTimelineSelectionChanged;
         ViewModel.TimelineInitialized -= OnTimelineInitialized;
     }
