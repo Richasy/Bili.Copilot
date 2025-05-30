@@ -64,6 +64,7 @@ public sealed partial class VideoPartitionMainBody : VideoPartitionDetailControl
 
     private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
     {
+        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 240)
