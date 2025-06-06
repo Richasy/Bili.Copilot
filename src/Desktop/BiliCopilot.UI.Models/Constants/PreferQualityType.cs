@@ -23,6 +23,21 @@ public enum PreferQualityType
     HD,
 
     /// <summary>
+    /// 准高清（720P）优先.
+    /// </summary>
+    HDReady,
+
+    /// <summary>
+    /// 标清（480P）优先.
+    /// </summary>
+    SD,
+
+    /// <summary>
+    /// 流畅（320P）优先.
+    /// </summary>
+    Smooth,
+
+    /// <summary>
     /// 自动（延续上一次播放设置）.
     /// </summary>
     Auto,

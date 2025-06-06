@@ -100,6 +100,18 @@ public sealed partial class VideoPlayerPageViewModel
             var hdFormats = availableFormats.Where(p => p.Data.Quality == 116 || p.Data.Quality == 80).ToList();
             selectedFormat = hdFormats.OrderByDescending(p => p.Data.Quality).FirstOrDefault();
         }
+        else if (preferFormatSetting == PreferQualityType.HDReady)
+        {
+            selectedFormat = availableFormats.Find(p => p.Data.Quality == 64);
+        }
+        else if (preferFormatSetting == PreferQualityType.SD)
+        {
+            selectedFormat = availableFormats.Find(p => p.Data.Quality == 32);
+        }
+        else if (preferFormatSetting == PreferQualityType.Smooth)
+        {
+            selectedFormat = availableFormats.Find(p => p.Data.Quality == 16);
+        }
 
         if (selectedFormat is null)
         {
