@@ -1515,6 +1515,15 @@
   <data name="PreferHighQuality" xml:space="preserve">
     <value>画质优先</value>
   </data>
+  <data name="PreferHDReady" xml:space="preserve">
+    <value>准高清（720P）优先</value>
+  </data>
+  <data name="PreferSD" xml:space="preserve">
+    <value>标清（480P）优先</value>
+  </data>
+  <data name="PreferSmooth" xml:space="preserve">
+    <value>流畅（360P）优先</value>
+  </data>
   <data name="PreferHighQualityDescription" xml:space="preserve">
     <value>优先播放最高清画质的视频源</value>
   </data>
