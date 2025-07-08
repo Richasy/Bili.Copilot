@@ -28,6 +28,9 @@ namespace Danmaku.Core
         private volatile bool _isClosing;
         private volatile int _lastIndex;
         private volatile uint _lastTimeMs;
+        private volatile bool _isTopEnabled;
+        private volatile bool _isBottomEnabled;
+        private volatile bool _isRollingEnabled;
 
         public bool DebugMode
         {
@@ -59,6 +62,24 @@ namespace Danmaku.Core
             Windows.System.Threading.ThreadPool.RunAsync(Updater_DoWork).AsTask();
 
             Logger.Log("DanmakuFrostMaster is created");
+        }
+
+        public void SetDanmakuEnabledType(bool? isRollingEnabled, bool? isTopEnabled, bool? isBottomEnabled)
+        {
+            if (isRollingEnabled.HasValue)
+            {
+                _isRollingEnabled = isRollingEnabled.Value;
+            }
+
+            if (isTopEnabled.HasValue)
+            {
+                _isTopEnabled = isTopEnabled.Value;
+            }
+
+            if (isBottomEnabled.HasValue)
+            {
+                _isBottomEnabled = isBottomEnabled.Value;
+            }
         }
 
         public void SetAutoControlDensity(bool value)
@@ -137,6 +158,12 @@ namespace Danmaku.Core
 
             lock (_updateTimeQueue)
             {
+                if (_updateTimeQueue.LastOrDefault() == currentMs)
+                {
+                    // Avoid duplicate updates
+                    return;
+                }
+
                 _updateTimeQueue.Enqueue(currentMs);
             }
             _updateEvent.Set();
@@ -338,15 +365,25 @@ namespace Danmaku.Core
 
                             if (!skip && !_isClosing)
                             {
-                                uint layerId = _danmakuList[_lastIndex].Mode switch
+                                var shouldShow = _danmakuList[_lastIndex].Mode switch
                                 {
-                                    DanmakuMode.Bottom => DanmakuDefaultLayerDef.BottomLayerId,
-                                    DanmakuMode.Top => DanmakuDefaultLayerDef.TopLayerId,
-                                    DanmakuMode.ReverseRolling => DanmakuDefaultLayerDef.ReverseRollingLayerId,
-                                    DanmakuMode.Advanced => DanmakuDefaultLayerDef.AdvancedLayerId,
-                                    _ => DanmakuDefaultLayerDef.RollingLayerId,
+                                    DanmakuMode.Bottom => _isBottomEnabled,
+                                    DanmakuMode.Top => _isTopEnabled,
+                                    _ => _isRollingEnabled
                                 };
-                                _render.RenderDanmakuItem(layerId, _danmakuList[_lastIndex]);
+
+                                if (shouldShow)
+                                {
+                                    uint layerId = _danmakuList[_lastIndex].Mode switch
+                                    {
+                                        DanmakuMode.Bottom => DanmakuDefaultLayerDef.BottomLayerId,
+                                        DanmakuMode.Top => DanmakuDefaultLayerDef.TopLayerId,
+                                        DanmakuMode.ReverseRolling => DanmakuDefaultLayerDef.ReverseRollingLayerId,
+                                        DanmakuMode.Advanced => DanmakuDefaultLayerDef.AdvancedLayerId,
+                                        _ => DanmakuDefaultLayerDef.RollingLayerId,
+                                    };
+                                    _render.RenderDanmakuItem(layerId, _danmakuList[_lastIndex]);
+                                }
                             }
 
                             _lastIndex++;

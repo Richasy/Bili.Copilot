@@ -355,6 +355,8 @@
     <PackageReference Include="Richasy.BiliKernel.Services.Moment" />
     <PackageReference Include="Richasy.BiliKernel.Services.Search" />
     <PackageReference Include="Richasy.BiliKernel.Services.User" />
+    <PackageReference Include="Richasy.MpvKernel.Core" />
+    <PackageReference Include="Richasy.MpvKernel.WinUI" />
     <PackageReference Include="Richasy.WinUIKernel.AI" />
     <PackageReference Include="RichasyKernel.Core" />
     <PackageReference Include="Roman-Numerals" />
@@ -368,7 +370,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
     <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
-    <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
