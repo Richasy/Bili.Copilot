@@ -23,14 +23,14 @@ public enum PreferDecodeType
     NVDEC,
 
     /// <summary>
-    /// DXVA2硬解.
-    /// </summary>
-    DXVA2,
-
-    /// <summary>
     /// Vulkan硬解.
     /// </summary>
     Vulkan,
+
+    /// <summary>
+    /// 软件解码.
+    /// </summary>
+    Software,
 
     /// <summary>
     /// 自定义.

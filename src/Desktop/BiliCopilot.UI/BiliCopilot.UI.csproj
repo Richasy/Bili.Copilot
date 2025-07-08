@@ -36,6 +36,7 @@
     <Content Remove="Assets\WebPlayer.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\basic-mpv.conf" />
     <None Remove="Assets\qq_group_dark.jpg" />
     <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
@@ -253,7 +254,6 @@
     <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
-    <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
@@ -1452,9 +1452,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Forms\PlayerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Styles\TrayResources.xaml">

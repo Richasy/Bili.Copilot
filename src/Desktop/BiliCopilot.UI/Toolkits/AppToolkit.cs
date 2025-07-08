@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using Richasy.WinUIKernel.Share.Toolkits;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -114,6 +115,41 @@ internal sealed partial class AppToolkit : SharedAppToolkit
     {
         var uri = new Uri(url);
         return P2PRegex().IsMatch(uri.Host);
+    }
+
+    public static async Task<string> EnsureMpvConfigExistAsync()
+    {
+        var localFolder = ApplicationData.Current.LocalFolder;
+        var destPath = Path.Combine(localFolder.Path, "mpv.conf");
+        if (!File.Exists(destPath))
+        {
+            var defaultConfig = await StorageFile.GetFileFromApplicationUriAsync(new("ms-appx:///Assets/basic-mpv.conf"));
+            await defaultConfig.CopyAsync(localFolder, "mpv.conf", NameCollisionOption.ReplaceExisting).AsTask();
+        }
+
+        return destPath;
+    }
+
+    public static string? GetSystemProxy()
+    {
+        Windows.Win32.Networking.WinHttp.WINHTTP_CURRENT_USER_IE_PROXY_CONFIG proxyConfig = default;
+        if (PInvoke.WinHttpGetIEProxyConfigForCurrentUser(ref proxyConfig) &&
+            proxyConfig.lpszProxy.Length > 0)
+        {
+            unsafe
+            {
+                var p = new string(proxyConfig.lpszProxy);
+                if (!p.Contains("://", StringComparison.OrdinalIgnoreCase))
+                {
+                    // 如果没有协议头，添加 http:// 前缀
+                    p = "http://" + p;
+                }
+
+                return p;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>

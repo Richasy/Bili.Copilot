@@ -67,7 +67,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
         => 360d;
 
     [RelayCommand]
-    private async Task InitializePageAsync(VideoSnapshot snapshot)
+    private async Task InitializePageAsync(MediaSnapshot snapshot)
     {
         if (IsPageLoading)
         {
@@ -76,7 +76,7 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
 
         IsAIOverlayOpened = false;
         IsPageLoading = true;
-        var video = snapshot.Video;
+        var video = snapshot.Media;
         IsPrivatePlay = snapshot.IsPrivate;
         try
         {

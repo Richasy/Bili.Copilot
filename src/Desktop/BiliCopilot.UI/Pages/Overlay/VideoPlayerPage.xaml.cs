@@ -77,11 +77,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
             ViewModel.IsSeparatorWindowPlayer = true;
         }
 
-        if (e.Parameter is VideoSnapshot video)
+        if (e.Parameter is MediaSnapshot video)
         {
             ViewModel.InitializePageCommand.Execute(video);
         }
-        else if (e.Parameter is (IList<VideoInformation> list, VideoSnapshot v))
+        else if (e.Parameter is (IList<MediaSnapshot> list, MediaSnapshot v))
         {
             ViewModel.InjectPlaylist(list);
             ViewModel.InitializePageCommand.Execute(v);

@@ -2814,4 +2814,46 @@
   <data name="SideNavigationSettingDescription" xml:space="preserve">
     <value>开启或关闭导航区块</value>
   </data>
+  <data name="BackwardTemplate" xml:space="preserve">
+    <value>后退{0}秒</value>
+  </data>
+  <data name="ForwardTemplate" xml:space="preserve">
+    <value>前进{0}秒</value>
+  </data>
+  <data name="MpvError" xml:space="preserve">
+    <value>播放器错误</value>
+  </data>
+  <data name="MpvErrorAudioFailed" xml:space="preserve">
+    <value>尝试加载音频输出时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorGeneric" xml:space="preserve">
+    <value>有些不明所以的错误发生了，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorLoadingFailed" xml:space="preserve">
+    <value>尝试加载文件时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorNoMemory" xml:space="preserve">
+    <value>没有多余的内存可供分配，换句话说，爆内存了，重启电脑试试</value>
+  </data>
+  <data name="MpvErrorNotingToPlay" xml:space="preserve">
+    <value>看上去没什么可供播放的内容</value>
+  </data>
+  <data name="MpvErrorUninitialized" xml:space="preserve">
+    <value>MPV 初始化失败，可能是写了无法解析的配置，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorUnknownFormat" xml:space="preserve">
+    <value>未知格式，无法播放</value>
+  </data>
+  <data name="MpvErrorUnsupported" xml:space="preserve">
+    <value>由于某些原因，暂不支持播放</value>
+  </data>
+  <data name="MpvErrorVideoFailed" xml:space="preserve">
+    <value>尝试加载视频输出时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvExtraSetting" xml:space="preserve">
+    <value>MPV 附加设置</value>
+  </data>
+  <data name="MpvExtraSettingDescription" xml:space="preserve">
+    <value>内置 MPV 的一些附加参数设置</value>
+  </data>
 </root>

@@ -1,4 +1,6 @@
 ﻿IsZoomed
+SetFocus
+SetForegroundWindow
 SetWindowsHookEx
 UnhookWindowsHookEx
 GetModuleHandle
@@ -22,3 +24,4 @@ SetWindowRgn
 CreateRectRgn
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT
+WinHttpGetIEProxyConfigForCurrentUser
