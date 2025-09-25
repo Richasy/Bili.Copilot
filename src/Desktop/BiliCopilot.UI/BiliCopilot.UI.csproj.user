@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\OverlayFrame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\MainFrame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\UserCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>

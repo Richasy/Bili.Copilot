@@ -30,7 +30,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="48" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -41,12 +41,12 @@
             IsBackButtonVisible="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}"
             IsBackEnabled="True">
             <base:AppTitleBar.IconElement>
-                <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
+                <ImageIcon Source="Assets/StoreLogo.png" />
             </base:AppTitleBar.IconElement>
 
             <base:AppTitleBar.Header>
                 <StackPanel
-                    Margin="12,0,0,0"
+                    Margin="8,0,0,0"
                     VerticalAlignment="Center"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="{StaticResource ControlCornerRadius}"
@@ -103,7 +103,6 @@
         <NavigationView
             x:Name="NavView"
             Grid.Row="1"
-            BackRequested="OnNavViewBackRequested"
             FooterMenuItemsSource="{x:Bind ViewModel.FooterItems, Mode=OneWay}"
             ItemInvoked="OnNavViewItemInvoked"
             MenuItemTemplate="{StaticResource AppNavItemTemplate}"
@@ -112,29 +111,9 @@
             Style="{StaticResource MainNavigationViewStyle}">
             <Grid x:Name="MainGrid">
                 <Grid Visibility="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
-                    <Frame x:Name="MainFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-                    <Grid x:Name="OverlayGrid" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}">
-                        <Frame x:Name="OverlayFrame" />
-                    </Grid>
-                    <animations:Implicit.ShowAnimations>
-                        <animations:OpacityAnimation
-                            From="0"
-                            To="1"
-                            Duration="0:0:0.26" />
-                    </animations:Implicit.ShowAnimations>
+                    <local:MainFrame x:Name="MainFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <local:OverlayFrame x:Name="OverlayFrame" Visibility="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}" />
                 </Grid>
-                <components:ShimmerLayout
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    IsActive="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay}"
-                    Visibility="{x:Bind _appViewModel.IsInitialLoading, Mode=OneWay}">
-                    <animations:Implicit.HideAnimations>
-                        <animations:OpacityAnimation
-                            From="1"
-                            To="0"
-                            Duration="0:0:0.26" />
-                    </animations:Implicit.HideAnimations>
-                </components:ShimmerLayout>
             </Grid>
         </NavigationView>
 

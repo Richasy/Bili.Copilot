@@ -121,6 +121,7 @@
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\MainFrame.xaml" />
     <None Remove="Controls\Message\ChatMessageBox.xaml" />
     <None Remove="Controls\Message\ChatMessageHeader.xaml" />
     <None Remove="Controls\Message\ChatMessageItemControl.xaml" />
@@ -150,6 +151,7 @@
     <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
     <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
     <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
+    <None Remove="Controls\OverlayFrame.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -318,7 +320,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
@@ -1285,6 +1286,12 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\OverlayFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\MainFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Components\UserCardControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

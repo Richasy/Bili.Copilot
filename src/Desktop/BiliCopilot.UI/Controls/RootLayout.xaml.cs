@@ -30,6 +30,9 @@ public sealed partial class RootLayout : RootLayoutBase
     /// <returns><see cref="AppTitleBar"/>.</returns>
     public AppTitleBar GetMainTitleBar() => MainTitleBar;
 
+    public void TryFocusSearchBox()
+        => SearchBox.Focus(FocusState.Programmatic);
+
     /// <summary>
     /// 准备隐藏除播放器外的其它控件.
     /// </summary>
@@ -229,7 +232,7 @@ public sealed partial class RootLayout : RootLayoutBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        ViewModel.Initialize(MainFrame, OverlayFrame);
+        ViewModel.Initialize(NavView, MainFrame, OverlayFrame);
         var selectedItem = ViewModel.MenuItems.FirstOrDefault(p => p.IsSelected);
         if (selectedItem is not null)
         {
@@ -237,9 +240,6 @@ public sealed partial class RootLayout : RootLayoutBase
             selectedItem.NavigateCommand.Execute(default);
         }
     }
-
-    private void OnNavViewBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        => OnBackRequested(default, default);
 
     private void OnNavViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {

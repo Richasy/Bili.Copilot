@@ -481,6 +481,9 @@ dotnet_diagnostic.CA1012.severity = none
 # CA1030: 在适用处使用事件
 dotnet_diagnostic.CA1030.severity = none
 
+# IL2067: Target parameter argument does not satisfy 'DynamicallyAccessedMembersAttribute' in call to target method. The parameter of method does not have matching annotations.
+dotnet_diagnostic.IL2067.severity = none
+
 [*.{cs,vb}]
 dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
