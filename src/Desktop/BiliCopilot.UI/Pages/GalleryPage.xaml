@@ -7,6 +7,7 @@
     xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -205,9 +206,10 @@
                 <ItemsView.ItemTemplate>
                     <DataTemplate x:DataType="appearance:BiliImage">
                         <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                            <components:VideoCoverImage
+                            <controls:BasicCoverImage
                                 Width="100"
                                 Height="80"
+                                DecodeWidth="600"
                                 Source="{x:Bind Uri}" />
                         </ItemContainer>
                     </DataTemplate>

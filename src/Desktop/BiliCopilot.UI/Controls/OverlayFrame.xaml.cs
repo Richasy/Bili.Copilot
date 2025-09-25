@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.ViewModels.View;
+using CommunityToolkit.WinUI.Animations;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls;
@@ -72,6 +73,29 @@ public sealed partial class OverlayFrame : LayoutUserControlBase
                 {
                     mainFramePage.SetParameter(parameter);
                 }
+
+                var showOpacityAnimation = new OpacityAnimation
+                {
+                    Duration = TimeSpan.FromMilliseconds(200),
+                    From = 0,
+                    To = 1,
+                };
+                var hideOpacityAnimation = new OpacityAnimation
+                {
+                    Duration = TimeSpan.FromMilliseconds(100),
+                    From = 1,
+                    To = 0,
+                };
+                var showSet = new ImplicitAnimationSet
+                {
+                    showOpacityAnimation
+                };
+                var hideSet = new ImplicitAnimationSet
+                {
+                    hideOpacityAnimation
+                };
+                Implicit.SetShowAnimations(element, showSet);
+                Implicit.SetHideAnimations(element, hideSet);
 
                 RootGrid.Children.Add(element);
             }

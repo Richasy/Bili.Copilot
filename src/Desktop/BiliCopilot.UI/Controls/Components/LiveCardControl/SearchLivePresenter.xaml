@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -16,7 +17,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="82" />
         </Grid.RowDefinitions>
-        <local:VideoCoverImage CornerRadius="4,4,0,0" Source="{x:Bind ViewModel.Cover, Mode=OneWay}" />
+        <controls:BasicCoverImage
+            CornerRadius="4,4,0,0"
+            DecodeWidth="600"
+            Source="{x:Bind ViewModel.Cover, Mode=OneWay}" />
         <Border
             Margin="8"
             Padding="4"
