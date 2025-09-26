@@ -159,7 +159,7 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
 
     private void OnImageTapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        var image = (sender as Image).DataContext as BiliImage;
+        var image = (sender as FrameworkElement).DataContext as BiliImage;
         if (image is not null)
         {
             new GalleryWindow(image, [.. Text.Pictures]).Activate();

@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Components"
@@ -37,16 +38,14 @@
             Visibility="Collapsed">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="appearance:BiliImage">
-                    <Grid
-                        Width="120"
-                        Height="120"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
-                        <Image
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
+                    <Grid>
+                        <controls:BasicCoverImage
+                            Width="120"
+                            Height="120"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             DataContext="{x:Bind}"
-                            Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
-                            Stretch="UniformToFill"
+                            DecodeWidth="200"
+                            Source="{x:Bind Uri}"
                             Tapped="OnImageTapped" />
                     </Grid>
                 </DataTemplate>

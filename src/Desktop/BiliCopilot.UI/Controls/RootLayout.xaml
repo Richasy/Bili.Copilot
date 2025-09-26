@@ -41,7 +41,7 @@
             IsBackButtonVisible="{x:Bind ViewModel.IsOverlayOpen, Mode=OneWay}"
             IsBackEnabled="True">
             <base:AppTitleBar.IconElement>
-                <ImageIcon Source="Assets/StoreLogo.png" />
+                <ImageIcon Source="ms-appx:///Assets/StoreLogo.png" />
             </base:AppTitleBar.IconElement>
 
             <base:AppTitleBar.Header>

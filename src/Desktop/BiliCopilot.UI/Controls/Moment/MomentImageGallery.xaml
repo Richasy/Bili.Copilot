@@ -6,6 +6,7 @@
     xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Controls.Moment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,15 +16,15 @@
         <ItemsRepeater x:Name="ImageRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
             <ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="appearance:BiliImage">
-                    <Grid
-                        Width="120"
-                        Height="120"
-                        CornerRadius="{StaticResource ControlCornerRadius}">
-                        <Image
+                    <Grid>
+                        <controls:BasicCoverImage
+                            Width="120"
+                            Height="120"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Source="{x:Bind Uri, Converter={StaticResource BitmapConverter}}"
-                            Stretch="UniformToFill"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DecodeWidth="300"
+                            Source="{x:Bind Uri}"
                             Tag="{x:Bind}"
                             Tapped="OnImageTapped" />
                     </Grid>

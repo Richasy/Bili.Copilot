@@ -29,12 +29,13 @@
                 x:Name="UserButton"
                 Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
                 Style="{StaticResource AvatarButtonStyle}">
-                <PersonPicture
+                <controls:BasicCoverImage
                     Width="36"
                     Height="36"
                     VerticalAlignment="Center"
-                    DisplayName="{x:Bind ViewModel.Author, Mode=OneWay}"
-                    ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+                    CornerRadius="18"
+                    DecodeWidth="100"
+                    Source="{x:Bind ViewModel.Avatar, Mode=OneWay}" />
             </Button>
             <StackPanel
                 Grid.Column="1"

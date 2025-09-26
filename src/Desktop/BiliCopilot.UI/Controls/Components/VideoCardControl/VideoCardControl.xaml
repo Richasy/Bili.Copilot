@@ -722,7 +722,7 @@
                                         VerticalAlignment="Center"
                                         CornerRadius="16"
                                         DecodeWidth="64"
-                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}"
                                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 </Grid>
                             </Button>
@@ -909,7 +909,7 @@
                                         VerticalAlignment="Center"
                                         CornerRadius="16"
                                         DecodeWidth="64"
-                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}"
                                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 </Grid>
                             </Button>

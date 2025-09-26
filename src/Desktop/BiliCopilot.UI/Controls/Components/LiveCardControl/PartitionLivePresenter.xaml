@@ -32,13 +32,14 @@
                 VerticalAlignment="Center"
                 Fill="Black"
                 Opacity="0.7" />
-            <PersonPicture
+            <controls:BasicCoverImage
                 Width="32"
                 Height="32"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                DisplayName="{x:Bind ViewModel.Author, Mode=OneWay}"
-                ProfilePicture="{x:Bind ViewModel.Avatar, Converter={StaticResource BitmapConverter}, Mode=OneWay}"
+                CornerRadius="16"
+                DecodeWidth="100"
+                Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind ViewModel.Author, Mode=OneWay}" />
         </Grid>
 

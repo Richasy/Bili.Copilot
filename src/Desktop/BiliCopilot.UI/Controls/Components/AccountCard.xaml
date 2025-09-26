@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Components.AccountCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Controls.Components"
@@ -16,11 +17,11 @@
         </Grid.ColumnDefinitions>
 
         <Grid VerticalAlignment="Top">
-            <PersonPicture
+            <controls:BasicCoverImage
                 Width="48"
                 Height="48"
-                DisplayName="{x:Bind ViewModel.MyProfile.User.Name, Mode=OneWay}"
-                ProfilePicture="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+                DecodeWidth="100"
+                Source="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay}" />
             <Image
                 Width="16"
                 HorizontalAlignment="Right"

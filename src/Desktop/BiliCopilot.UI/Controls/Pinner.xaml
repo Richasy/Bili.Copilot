@@ -30,11 +30,13 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <PersonPicture
+                    <local:BasicCoverImage
                         Width="42"
                         Height="42"
                         VerticalAlignment="Center"
-                        ProfilePicture="{x:Bind Cover, Converter={StaticResource BitmapConverter}}" />
+                        CornerRadius="21"
+                        DecodeWidth="100"
+                        Source="{x:Bind Cover}" />
                     <base:TrimTextBlock
                         x:Name="TitleBlock"
                         Grid.Column="1"

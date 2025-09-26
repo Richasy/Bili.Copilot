@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -23,12 +24,13 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <PersonPicture
+            <controls:BasicCoverImage
                 Width="44"
                 Height="44"
                 VerticalAlignment="Center"
-                DisplayName="{x:Bind UserName, Mode=OneWay}"
-                ProfilePicture="{x:Bind Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+                CornerRadius="22"
+                DecodeWidth="100"
+                Source="{x:Bind Avatar, Mode=OneWay}" />
             <StackPanel
                 Grid.Column="1"
                 VerticalAlignment="Center"

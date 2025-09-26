@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comp="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:converters="using:BiliCopilot.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -37,11 +38,12 @@
                 Command="{x:Bind ViewModel.ShowUserSpaceCommand, Mode=OneWay}"
                 Style="{StaticResource AvatarButtonStyle}">
                 <Grid>
-                    <PersonPicture
+                    <controls:BasicCoverImage
                         Width="40"
                         Height="40"
-                        DisplayName="{x:Bind ViewModel.UserName, Mode=OneWay}"
-                        ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}" />
+                        CornerRadius="20"
+                        DecodeWidth="80"
+                        Source="{x:Bind ViewModel.Avatar, Mode=OneWay}" />
                     <Image
                         Width="16"
                         HorizontalAlignment="Right"

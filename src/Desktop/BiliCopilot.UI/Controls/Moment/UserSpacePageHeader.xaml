@@ -4,12 +4,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Moment"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:CommunityToolkit.Labs.WinUI"
     mc:Ignorable="d">
 
     <Grid Padding="16,0">
@@ -44,11 +44,13 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Grid>
-                                        <PersonPicture
+                                        <controls:BasicCoverImage
                                             Width="48"
                                             Height="48"
                                             VerticalAlignment="Top"
-                                            ProfilePicture="{x:Bind ViewModel.Card.Profile.User.Avatar.SourceUri, Converter={StaticResource BitmapConverter}, Mode=OneWay}" />
+                                            CornerRadius="24"
+                                            DecodeWidth="100"
+                                            Source="{x:Bind ViewModel.Card.Profile.User.Avatar.SourceUri, Mode=OneWay}" />
                                         <Image
                                             Width="16"
                                             HorizontalAlignment="Right"
