@@ -56,39 +56,39 @@
 
             <UniformGridLayout
                 x:Key="VideoLayout"
-                ItemsStretch="Fill"
-                MinColumnSpacing="16"
-                MinItemHeight="240"
-                MinItemWidth="200"
-                MinRowSpacing="16" />
+                ItemsStretch="Uniform"
+                MinColumnSpacing="20"
+                MinItemHeight="238"
+                MinItemWidth="232"
+                MinRowSpacing="20" />
 
             <UniformGridLayout
                 x:Key="PgcLayout"
-                ItemsStretch="Fill"
-                MinColumnSpacing="16"
-                MinItemHeight="266"
+                ItemsStretch="Uniform"
+                MinColumnSpacing="20"
+                MinItemHeight="280"
                 MinItemWidth="148"
-                MinRowSpacing="16" />
+                MinRowSpacing="24" />
 
             <UniformGridLayout
                 x:Key="LiveLayout"
-                ItemsStretch="Fill"
-                MinColumnSpacing="16"
+                ItemsStretch="Uniform"
+                MinColumnSpacing="20"
                 MinItemHeight="200"
-                MinItemWidth="200"
-                MinRowSpacing="16" />
+                MinItemWidth="220"
+                MinRowSpacing="20" />
 
             <UniformGridLayout
                 x:Key="ArticleLayout"
-                ItemsStretch="Fill"
-                MinColumnSpacing="16"
-                MinItemHeight="200"
-                MinItemWidth="200"
-                MinRowSpacing="16" />
+                ItemsStretch="Uniform"
+                MinColumnSpacing="20"
+                MinItemHeight="220"
+                MinItemWidth="220"
+                MinRowSpacing="20" />
 
             <UniformGridLayout
                 x:Key="UserLayout"
-                ItemsStretch="Fill"
+                ItemsStretch="Uniform"
                 MinColumnSpacing="16"
                 MinItemHeight="84"
                 MinItemWidth="220"
@@ -96,11 +96,11 @@
 
             <UniformGridLayout
                 x:Key="MomentLayout"
-                ItemsStretch="Fill"
-                MinColumnSpacing="16"
-                MinItemHeight="292"
-                MinItemWidth="240"
-                MinRowSpacing="16" />
+                ItemsStretch="Uniform"
+                MinColumnSpacing="20"
+                MinItemHeight="280"
+                MinItemWidth="260"
+                MinRowSpacing="20" />
 
             <SolidColorBrush x:Key="AnthropicColor" Color="#F1F0E8" />
             <SolidColorBrush x:Key="AzureOpenAIColor" Color="#FFFFFF" />

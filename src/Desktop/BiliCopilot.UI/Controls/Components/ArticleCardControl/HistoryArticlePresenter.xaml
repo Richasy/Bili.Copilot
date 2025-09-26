@@ -14,7 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="102" />
+            <RowDefinition Height="116" />
         </Grid.RowDefinitions>
         <controls:BasicCoverImage
             CornerRadius="4,4,0,0"
@@ -22,8 +22,8 @@
             Source="{x:Bind ViewModel.Cover, Mode=OneWay}" />
         <Grid
             Grid.Row="1"
-            Padding="12,8,12,12"
-            RowSpacing="6">
+            Padding="16,12,16,16"
+            RowSpacing="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

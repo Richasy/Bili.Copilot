@@ -15,7 +15,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -50,8 +50,8 @@
                             </Border>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -60,10 +60,9 @@
                                 <base:TrimTextBlock
                                     HorizontalAlignment="Left"
                                     FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                     MaxLines="1"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
-
                                 <base:TrimTextBlock
                                     Grid.Row="1"
                                     HorizontalAlignment="Left"
@@ -120,7 +119,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -155,8 +154,8 @@
                             </Border>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -222,7 +221,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -242,13 +241,14 @@
                                         VerticalAlignment="Center"
                                         Fill="Black"
                                         Opacity="0.7" />
-                                    <PersonPicture
+                                    <controls:BasicCoverImage
                                         Width="32"
                                         Height="32"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        CornerRadius="16"
+                                        DecodeWidth="64"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar}"
                                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 </Grid>
                             </Button>
@@ -268,8 +268,8 @@
                             </Border>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -349,7 +349,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -371,8 +371,8 @@
                             </Border>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -478,7 +478,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -500,8 +500,8 @@
                             </Border>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -681,7 +681,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -715,20 +715,21 @@
                                         VerticalAlignment="Center"
                                         Fill="Black"
                                         Opacity="0.7" />
-                                    <PersonPicture
+                                    <controls:BasicCoverImage
                                         Width="32"
                                         Height="32"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        CornerRadius="16"
+                                        DecodeWidth="64"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
                                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 </Grid>
                             </Button>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -791,7 +792,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -799,8 +800,8 @@
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -867,7 +868,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -901,20 +902,21 @@
                                         VerticalAlignment="Center"
                                         Fill="Black"
                                         Opacity="0.7" />
-                                    <PersonPicture
+                                    <controls:BasicCoverImage
                                         Width="32"
                                         Height="32"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        DisplayName="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}"
-                                        ProfilePicture="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
+                                        CornerRadius="16"
+                                        DecodeWidth="64"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Avatar, Converter={StaticResource BitmapConverter}}"
                                         ToolTipService.ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Author}" />
                                 </Grid>
                             </Button>
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />
@@ -977,7 +979,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="102" />
+                                <RowDefinition Height="116" />
                             </Grid.RowDefinitions>
                             <controls:BasicCoverImage
                                 CornerRadius="4,4,0,0"
@@ -985,8 +987,8 @@
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Grid
                                 Grid.Row="1"
-                                Padding="12,8,12,12"
-                                RowSpacing="6">
+                                Padding="16,12,16,16"
+                                RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition />

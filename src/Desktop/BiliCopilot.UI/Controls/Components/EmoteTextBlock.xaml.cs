@@ -50,7 +50,7 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
     }
 
     protected override void OnControlUnloaded()
-        => Gallery.ItemsSource = default;
+        => Gallery?.ItemsSource = default;
 
     private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
