@@ -11,7 +11,4 @@ public sealed partial class AIBody : AIControlBase
     /// Initializes a new instance of the <see cref="AIBody"/> class.
     /// </summary>
     public AIBody() => InitializeComponent();
-
-    protected override void OnControlUnloaded()
-        => QuickItemsRepeater.ItemsSource = null;
 }

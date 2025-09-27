@@ -90,9 +90,6 @@ public sealed partial class FavoriteButton : LayoutUserControlBase
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    protected override void OnControlUnloaded()
-        => FavoriteRepeater.ItemsSource = default;
-
     private void OnFavoriteButtonClick(object sender, RoutedEventArgs e)
     {
         InitializeCommand?.Execute(default);

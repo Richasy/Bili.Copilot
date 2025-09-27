@@ -135,7 +135,7 @@ public sealed partial class DanmakuViewModel : ViewModelBase
         {
             try
             {
-                var danmakus = await _danmakuService.GetSegmentDanmakusAsync(_aid, _cid, i + 1);
+                var danmakus = await _danmakuService.GetSegmentDanmakusWithGrpcAsync(_aid, _cid, i + 1);
                 totalDanmakus.AddRange(danmakus);
             }
             catch (Exception ex)

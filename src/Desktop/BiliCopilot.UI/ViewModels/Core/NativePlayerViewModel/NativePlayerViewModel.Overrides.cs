@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.Graphics.Canvas;
 using Richasy.BiliKernel.Bili.Authorization;
@@ -159,7 +160,7 @@ public sealed partial class NativePlayerViewModel
     {
         var httpClient = new HttpClient();
         httpClient.DefaultRequestHeaders.Add("Referer", "https://www.bilibili.com/");
-        httpClient.DefaultRequestHeaders.Add("User-Agent", VideoUserAgent);
+        httpClient.DefaultRequestHeaders.Add("User-Agent", InternalHttpExtensions.VideoUserAgent);
         httpClient.DefaultRequestHeaders.Add("Cookie", this.Get<IBiliCookiesResolver>().GetCookieString());
         return httpClient;
     }

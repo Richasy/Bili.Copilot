@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
 using Richasy.BiliKernel.Bili.Authorization;
 using System.Diagnostics;
@@ -73,8 +74,8 @@ public abstract partial class PlayerViewModelBase
             IsWebDav
             ? $"--http-header-fields=\\\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}\\\""
             : IsLive
-                ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{LiveReferer}\\\" --user-agent \\\"{LiveUserAgent}\\\""
-                : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{VideoReferer}\\\" --user-agent=\\\"{VideoUserAgent}\\\"";
+                ? $"--cookies --no-ytdl --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{InternalHttpExtensions.LiveReferer}\\\" --user-agent \\\"{InternalHttpExtensions.LiveUserAgent}\\\""
+                : $"--cookies --http-header-fields=\\\"Cookie:{this.Get<IBiliCookiesResolver>().GetCookieString()}\\\" --http-header-fields=\\\"Referer:{InternalHttpExtensions.VideoReferer}\\\" --user-agent=\\\"{InternalHttpExtensions.VideoUserAgent}\\\"";
         var exeName = isMpv ? "mpv" : "mpvnet";
         if (!string.IsNullOrEmpty(_extraOptions))
         {

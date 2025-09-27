@@ -6,6 +6,7 @@ using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Richasy.AgentKernel;
 using Richasy.BiliKernel;
@@ -130,7 +131,7 @@ internal static class GlobalDependencies
             .AddNotificationViewModel()
             .Build();
 
-        Kernel.InitializeShareKernel();
+        Kernel.InitializeShareKernel(Kernel.Get<ILogger<App>>());
         Kernel.InitializeAIKernel();
     }
 

@@ -80,7 +80,7 @@
             Source="{x:Bind ViewModel.VideoCover, Mode=OneWay}" />
         <Border
             Grid.Row="1"
-            Margin="4"
+            Margin="8"
             Padding="4"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"

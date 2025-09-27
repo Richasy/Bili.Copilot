@@ -14,9 +14,6 @@ public sealed partial class DanmakuSendOptions : DanmakuControlBase
     /// </summary>
     public DanmakuSendOptions() => InitializeComponent();
 
-    protected override void OnControlUnloaded()
-        => ColorRepeater.ItemsSource = null;
-
     private void OnSizeItemClick(object sender, RoutedEventArgs e)
         => ViewModel.IsStandardSize = (sender as FrameworkElement).Tag.ToString() == "Standard";
 

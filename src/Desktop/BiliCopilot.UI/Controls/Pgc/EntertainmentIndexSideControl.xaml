@@ -8,23 +8,24 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollView Style="{StaticResource PageScrollViewStyle}">
-            <ItemsRepeater
+        <ScrollView Padding="12,0" Style="{StaticResource PageScrollViewStyle}">
+            <repeater:AppRepeater
                 x:Name="FilterRepeater"
-                Margin="12"
+                Margin="0,12"
                 ItemsSource="{x:Bind ViewModel.Filters, Mode=OneWay}">
-                <ItemsRepeater.ItemTemplate>
+                <repeater:AppRepeater.ItemTemplate>
                     <DataTemplate x:DataType="items:IndexFilterViewModel">
                         <components:IndexFilterItemControl ViewModel="{x:Bind}" />
                     </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-                <ItemsRepeater.Layout>
+                </repeater:AppRepeater.ItemTemplate>
+                <repeater:AppRepeater.Layout>
                     <StackLayout Spacing="8" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+                </repeater:AppRepeater.Layout>
+            </repeater:AppRepeater>
         </ScrollView>
     </Grid>
 </local:EntertainmentIndexControlBase>

@@ -27,7 +27,7 @@
             DecodeWidth="600"
             Source="{x:Bind ViewModel.Cover, Mode=OneWay}" />
         <Border
-            Margin="4"
+            Margin="8"
             Padding="4"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"

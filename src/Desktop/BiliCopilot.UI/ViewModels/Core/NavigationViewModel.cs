@@ -319,7 +319,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
 
     private void CheckSubPageStatus()
     {
-        var overPageType = _overFrame.Content?.GetType();
+        var overPageType = _overFrame.GetCurrentContent()?.GetType();
         IsFavoritesPage = IsOverlayOpen && overPageType == typeof(FavoritesPage);
         IsHistoryPage = IsOverlayOpen && overPageType == typeof(HistoryPage);
         IsViewLaterPage = IsOverlayOpen && overPageType == typeof(ViewLaterPage);

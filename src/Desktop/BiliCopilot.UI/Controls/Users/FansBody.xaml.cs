@@ -16,54 +16,16 @@ public sealed partial class FansBody : FansPageControlBase
     protected override void OnControlLoaded()
     {
         ViewModel.UserListUpdated += OnVideoListUpdatedAsync;
-        UserScrollView.ViewChanged += OnViewChanged;
-        UserScrollView.SizeChanged += OnScrollViewSizeChanged;
-
-        CheckVideoCount();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        UserRepeater.ItemsSource = null;
         ViewModel.UserListUpdated -= OnVideoListUpdatedAsync;
-        UserScrollView.ViewChanged -= OnViewChanged;
-        UserScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckVideoCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (UserScrollView.ExtentHeight - UserScrollView.ViewportHeight - UserScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadUsersCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100)
-        {
-            CheckVideoCount();
-        }
-    }
-
-    private void CheckVideoCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (UserScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadUsersCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }

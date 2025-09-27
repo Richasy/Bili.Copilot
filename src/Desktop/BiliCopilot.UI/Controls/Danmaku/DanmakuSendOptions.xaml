@@ -9,6 +9,7 @@
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -72,19 +73,19 @@
                     RadiusX="4"
                     RadiusY="4" />
             </Grid>
-            <ItemsRepeater
+            <repeater:AppRepeater
                 x:Name="ColorRepeater"
                 HorizontalAlignment="Stretch"
                 ItemsSource="{x:Bind ViewModel.Colors, Mode=OneWay}">
-                <ItemsRepeater.Layout>
+                <repeater:AppRepeater.Layout>
                     <UniformGridLayout
                         ItemsStretch="Fill"
                         MinColumnSpacing="8"
                         MinItemHeight="32"
                         MinItemWidth="32"
                         MinRowSpacing="8" />
-                </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
+                </repeater:AppRepeater.Layout>
+                <repeater:AppRepeater.ItemTemplate>
                     <DataTemplate x:DataType="Color">
                         <Rectangle
                             HorizontalAlignment="Stretch"
@@ -95,8 +96,8 @@
                             RadiusY="4"
                             Tapped="OnColorItemTapped" />
                     </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
+                </repeater:AppRepeater.ItemTemplate>
+            </repeater:AppRepeater>
         </StackPanel>
     </StackPanel>
 </local:DanmakuControlBase>

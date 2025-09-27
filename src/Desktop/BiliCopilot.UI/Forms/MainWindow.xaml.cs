@@ -4,15 +4,16 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.System;
-using Windows.UI.WindowManagement;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;
 
@@ -104,14 +105,10 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         }
 
         MoveAndResize();
-        var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
-        if (isMaximized)
-        {
-            (AppWindow.Presenter as OverlappedPresenter).Maximize();
-        }
-
+        this.Get<ILogger<App>>().LogInformation($"App version: {this.Get<IAppToolkit>().GetPackageVersion()}");
         var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         this.Get<AppViewModel>().ChangeThemeCommand.Execute(localTheme);
+        AppWindow.Changed += OnWindowChanged;
         _isFirstActivated = false;
     }
 
@@ -191,13 +188,30 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         }
     }
 
-    private RectInt32 GetRenderRect(RectInt32 workArea)
+    private RectInt32 GetRenderRect(DisplayArea area)
     {
-        var scaleFactor = this.GetDpiForWindow() / 96d;
+        var workArea = area.WorkArea;
+        var scaleFactor = HwndExtensions.GetDpiForWindow(this.GetWindowHandle()) / 96d;
         var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowWidth, 1120d);
         var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowHeight, 740d);
         var width = Convert.ToInt32(previousWidth * scaleFactor);
         var height = Convert.ToInt32(previousHeight * scaleFactor);
+
+        // 如果宽高比为 16 : 9，则计算出窗口实际宽度。
+        double maxPageWidth;
+        if (area.OuterBounds.Width * 9 == area.OuterBounds.Height * 16)
+        {
+            var maxWindowWidth = area.OuterBounds.Width / scaleFactor;
+            maxPageWidth = maxWindowWidth - 74;
+        }
+        else
+        {
+            // 取当前高度的 16 : 9 比例宽度。
+            var maxWindowWidth = area.OuterBounds.Height * 16 / 9 / scaleFactor;
+            maxPageWidth = maxWindowWidth - 74;
+        }
+
+        App.Current.Resources["MaxPageWidth"] = maxPageWidth;
 
         // Ensure the window is not larger than the work area.
         if (height > workArea.Height - 20)
@@ -207,7 +221,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
         var lastPoint = GetSavedWindowPosition();
         var isZeroPoint = lastPoint.X == 0 && lastPoint.Y == 0;
-        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y;
+        var isValidPosition = lastPoint.X >= workArea.X && lastPoint.Y >= workArea.Y && lastPoint.X + width <= workArea.X + workArea.Width && lastPoint.Y + height <= workArea.Y + workArea.Height;
         var left = isZeroPoint || !isValidPosition
             ? (workArea.Width - width) / 2d
             : lastPoint.X;
@@ -222,8 +236,13 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         var lastPoint = GetSavedWindowPosition();
         var displayArea = DisplayArea.GetFromPoint(lastPoint, DisplayAreaFallback.Primary)
             ?? DisplayArea.Primary;
-        var rect = GetRenderRect(displayArea.WorkArea);
+        var rect = GetRenderRect(displayArea);
         AppWindow.MoveAndResize(rect);
+        var isMaximized = SettingsToolkit.ReadLocalSetting(SettingNames.IsMainWindowMaximized, false);
+        if (isMaximized)
+        {
+            (AppWindow.Presenter as OverlappedPresenter)?.Maximize();
+        }
     }
 
     private void SaveCurrentWindowStats()
@@ -243,6 +262,19 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
                 SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowHeight, Height);
                 SettingsToolkit.WriteLocalSetting(SettingNames.MainWindowWidth, Width);
             }
+        }
+    }
+
+    private void OnWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)
+    {
+        if (args.DidSizeChange || args.DidPositionChange)
+        {
+            SaveCurrentWindowStats();
+        }
+
+        if (args.DidVisibilityChange && !sender.IsVisible)
+        {
+            // this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
         }
     }
 

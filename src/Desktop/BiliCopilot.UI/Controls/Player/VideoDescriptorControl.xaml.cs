@@ -15,9 +15,6 @@ public sealed partial class VideoDescriptorControl : VideoPlayerPageControlBase
     /// </summary>
     public VideoDescriptorControl() => InitializeComponent();
 
-    protected override void OnControlUnloaded()
-        => TagRepeater.ItemsSource = null;
-
     private void OnTagButtonClick(object sender, RoutedEventArgs e)
     {
         var data = (sender as FrameworkElement).DataContext as BiliTag;

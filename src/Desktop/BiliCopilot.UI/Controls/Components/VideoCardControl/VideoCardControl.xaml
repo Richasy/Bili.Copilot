@@ -22,7 +22,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
@@ -35,7 +35,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RecommendReason}" />
                             </Border>
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -126,7 +126,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
@@ -139,7 +139,7 @@
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.RecommendReason}" />
                             </Border>
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -253,7 +253,7 @@
                                 </Grid>
                             </Button>
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -356,7 +356,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -485,7 +485,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -600,7 +600,7 @@
                             DecodeWidth="600"
                             Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                         <Border
-                            Margin="4"
+                            Margin="8"
                             Padding="4"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
@@ -688,7 +688,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
@@ -875,7 +875,7 @@
                                 DecodeWidth="600"
                                 Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Cover}" />
                             <Border
-                                Margin="4"
+                                Margin="8"
                                 Padding="4"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"

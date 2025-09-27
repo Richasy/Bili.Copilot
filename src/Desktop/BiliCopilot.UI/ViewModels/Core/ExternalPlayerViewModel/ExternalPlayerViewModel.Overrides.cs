@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -67,14 +68,14 @@ public sealed partial class ExternalPlayerViewModel
     {
         UpdateState(PlayerState.None);
         var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
-        var referer = IsLive ? LiveReferer : VideoReferer;
+        var referer = IsLive ? InternalHttpExtensions.LiveReferer : InternalHttpExtensions.VideoReferer;
         var token = this.Get<IBiliTokenResolver>().GetToken().AccessToken;
         var httpParams =
             IsWebDav ?
             $"--http-header-fields=\"Authorization: Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_webDavConfig.UserName}:{_webDavConfig.Password}"))}\""
             : IsLive
-                ? $"--cookies --no-ytdl --user-agent=\"{LiveUserAgent}\" --http-header-fields=\"Cookie: {cookies}\" --http-header-fields=\"Referer: {LiveReferer}\""
-                : $"--cookies --user-agent=\"{VideoUserAgent}\" --http-header-fields=\"Cookie: {cookies}\" --http-header-fields=\"Referer: {VideoReferer}\"";
+                ? $"--cookies --no-ytdl --user-agent=\"{InternalHttpExtensions.LiveUserAgent}\" --http-header-fields=\"Cookie: {cookies}\" --http-header-fields=\"Referer: {InternalHttpExtensions.LiveReferer}\""
+                : $"--cookies --user-agent=\"{InternalHttpExtensions.VideoUserAgent}\" --http-header-fields=\"Cookie: {cookies}\" --http-header-fields=\"Referer: {InternalHttpExtensions.VideoReferer}\"";
         var externalPlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.ExternalPlayer, ExternalPlayerType.Mpv);
         var externalPlayer = externalPlayerType switch
         {

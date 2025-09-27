@@ -37,6 +37,7 @@
             </ResourceDictionary.ThemeDictionaries>
 
             <x:Double x:Key="WindowNarrowMinWidth">850</x:Double>
+            <x:Double x:Key="MaxPageWidth">1920</x:Double>
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityReverseConverter" IsReverse="True" />

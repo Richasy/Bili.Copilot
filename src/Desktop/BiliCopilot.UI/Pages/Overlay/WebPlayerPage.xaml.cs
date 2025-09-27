@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -17,7 +18,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 public sealed partial class WebPlayerPage : LayoutPageBase
 {
     private const string BewlyVersion = "0.32.0";
-    private const string UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 Edg/118.0.2048.1";
+    private const string UserAgent = InternalHttpExtensions.VideoUserAgent;
     private string _url;
     private bool _isInitialized;
 

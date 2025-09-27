@@ -60,18 +60,18 @@
     <PackageVersion Include="Richasy.AgentKernel.Connectors.Youdao" Version="0.0.7-preview9" />
     <PackageVersion Include="Richasy.AgentKernel.Connectors.ZhiPu" Version="0.0.7-preview9" />
     <PackageVersion Include="Richasy.BiliKernel.Abstractions" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Authorizers.TV" Version="0.0.1-preview5" />
+    <PackageVersion Include="Richasy.BiliKernel.Authorizers.TV" Version="0.0.2-preview1" />
     <PackageVersion Include="Richasy.BiliKernel.Core" Version="0.0.1-preview1" />
-    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUICookies" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUIQRCode" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUIToken" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.Article" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.Comment" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.Media" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.Moment" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.Search" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.BiliKernel.Services.User" Version="0.0.1-preview5" />
-    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.10-preview3" />
+    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUICookies" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUIQRCode" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Resolvers.WinUIToken" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.Article" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.Comment" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.Media" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.Moment" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.Search" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.BiliKernel.Services.User" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.10-preview4" />
     <PackageVersion Include="RichasyKernel.Core" Version="0.0.1" />
     <PackageVersion Include="Roman-Numerals" Version="2.0.1" />
     <PackageVersion Include="Serilog" Version="4.3.1-dev-02385" />

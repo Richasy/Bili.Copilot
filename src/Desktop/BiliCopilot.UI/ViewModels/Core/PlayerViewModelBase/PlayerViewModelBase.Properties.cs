@@ -19,26 +19,6 @@ namespace BiliCopilot.UI.ViewModels.Core;
 #pragma warning disable SA1600 // Elements should be documented
 public abstract partial class PlayerViewModelBase
 {
-    /// <summary>
-    /// 视频用户代理.
-    /// </summary>
-    protected const string VideoUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69";
-
-    /// <summary>
-    /// 直播用户代理.
-    /// </summary>
-    protected const string LiveUserAgent = "Mozilla/5.0 BiliDroid/1.12.0 (bbcallen@gmail.com)";
-
-    /// <summary>
-    /// 视频来源.
-    /// </summary>
-    protected const string VideoReferer = "https://www.bilibili.com";
-
-    /// <summary>
-    /// 直播来源.
-    /// </summary>
-    protected const string LiveReferer = "https://live.bilibili.com";
-
     protected readonly ILogger<PlayerViewModelBase> _logger;
     protected readonly DispatcherQueue _dispatcherQueue;
 

@@ -14,6 +14,9 @@ public sealed partial class BasicCoverImage : ImageExBase
     protected override string GetCacheSubFolder()
         => "ImageCache";
 
+    protected override HttpClient? GetCustomHttpClient()
+        => InternalHttpExtensions.ImageClient;
+
     /// <inheritdoc/>
     protected override void DrawImage(CanvasBitmap canvasBitmap)
     {

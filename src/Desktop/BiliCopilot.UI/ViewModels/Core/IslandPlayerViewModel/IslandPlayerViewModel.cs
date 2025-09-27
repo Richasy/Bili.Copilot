@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Core;
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
@@ -70,8 +71,8 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
         if (!IsWebDav)
         {
             var cookies = this.Get<IBiliCookiesResolver>().GetCookieString();
-            var referer = IsLive ? LiveReferer : VideoReferer;
-            var userAgent = IsLive ? LiveUserAgent : VideoUserAgent;
+            var referer = IsLive ? InternalHttpExtensions.LiveReferer : InternalHttpExtensions.VideoReferer;
+            var userAgent = IsLive ? InternalHttpExtensions.LiveUserAgent : InternalHttpExtensions.VideoUserAgent;
             var cookieStr = $"Cookie: {cookies}";
             var refererStr = $"Referer: {referer}";
 

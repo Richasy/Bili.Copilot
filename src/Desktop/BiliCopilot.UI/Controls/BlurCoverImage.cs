@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Richasy.WinUI.Share.Effects;
@@ -36,6 +37,9 @@ public sealed partial class BlurCoverImage : ImageExBase
         get => (double)GetValue(OffsetProperty);
         set => SetValue(OffsetProperty, value);
     }
+
+    protected override HttpClient? GetCustomHttpClient()
+        => InternalHttpExtensions.ImageClient;
 
     /// <inheritdoc/>
     protected override void DrawImage(CanvasBitmap canvasBitmap)

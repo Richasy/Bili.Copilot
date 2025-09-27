@@ -115,6 +115,7 @@
     <None Remove="Controls\History\HistoryVideoSearchSection.xaml" />
     <None Remove="Controls\History\LiveHistorySection.xaml" />
     <None Remove="Controls\History\VideoHistorySection.xaml" />
+    <None Remove="Controls\IncrementVerticalScrollControl.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
@@ -1286,6 +1287,9 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\IncrementVerticalScrollControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\OverlayFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

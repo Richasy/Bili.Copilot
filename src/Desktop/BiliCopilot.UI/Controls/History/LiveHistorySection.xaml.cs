@@ -16,29 +16,12 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
     public LiveHistorySection() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        LiveScrollView.ViewChanged += OnViewChanged;
-        LiveScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        CheckLiveCount();
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)
         {
             ViewModel.ListUpdated -= OnLiveListUpdatedAsync;
         }
-
-        LiveRepeater.ItemsSource = null;
-        LiveScrollView.ViewChanged -= OnViewChanged;
-        LiveScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -59,39 +42,7 @@ public sealed partial class LiveHistorySection : LiveHistorySectionBase
 
     private async void OnLiveListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckLiveCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (LiveScrollView.ExtentHeight - LiveScrollView.ViewportHeight - LiveScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100 && ViewModel is not null)
-        {
-            CheckLiveCount();
-        }
-    }
-
-    private void CheckLiveCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (LiveScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }
 
