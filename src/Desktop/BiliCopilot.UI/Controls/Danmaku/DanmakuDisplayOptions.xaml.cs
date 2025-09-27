@@ -7,8 +7,31 @@ namespace BiliCopilot.UI.Controls.Danmaku;
 /// </summary>
 public sealed partial class DanmakuDisplayOptions : DanmakuControlBase
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DanmakuDisplayOptions"/> class.
-    /// </summary>
     public DanmakuDisplayOptions() => InitializeComponent();
+
+    protected override void OnControlLoaded()
+    {
+        DanmakuRefreshRateBox.SelectedIndex = ViewModel.DanmakuRefreshRate == 60 ? 0 : 1;
+        //DanmakuRendererBox.SelectedIndex = ViewModel.ForceSoftwareRenderer ? 1 : 0;
+    }
+
+    private void OnRefreshRateChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!IsLoaded)
+        {
+            return;
+        }
+
+        ViewModel.DanmakuRefreshRate = DanmakuRefreshRateBox.SelectedIndex == 0 ? 60 : 90;
+    }
+
+    //private void OnRendererChanged(object sender, SelectionChangedEventArgs e)
+    //{
+    //    if (!IsLoaded)
+    //    {
+    //        return;
+    //    }
+
+    //    ViewModel.ForceSoftwareRenderer = DanmakuRendererBox.SelectedIndex == 1;
+    //}
 }

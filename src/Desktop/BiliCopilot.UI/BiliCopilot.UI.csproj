@@ -99,9 +99,7 @@
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
     <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
-    <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
-    <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
     <None Remove="Controls\Danmaku\LiveDanmakuPanel.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
@@ -1153,16 +1151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

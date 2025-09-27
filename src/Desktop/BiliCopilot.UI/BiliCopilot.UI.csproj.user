@@ -288,12 +288,6 @@
     <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
       <SubType>Designer</SubType>
     </Page>

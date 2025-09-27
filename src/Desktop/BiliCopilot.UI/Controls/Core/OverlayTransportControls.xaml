@@ -12,7 +12,7 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:CommunityToolkit.WinUI"
+    xmlns:triggers="using:CommunityToolkit.WinUI" xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     mc:Ignorable="d">
 
     <Grid
@@ -459,7 +459,7 @@
                                         <Setter Property="Padding" Value="12,10" />
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
-                                <!--<danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />-->
+                                <danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
                             </Flyout>
                         </Button.Flyout>
                     </Button>

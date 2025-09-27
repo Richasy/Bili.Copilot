@@ -2943,4 +2943,22 @@
   <data name="SubtitleDelaySecondsDescription" xml:space="preserve">
     <value>正数为延迟，负数为提前</value>
   </data>
+  <data name="DanmakuOutlineSize" xml:space="preserve">
+    <value>弹幕描边大小</value>
+  </data>
+  <data name="DanmakuRefreshRate" xml:space="preserve">
+    <value>弹幕刷新率</value>
+  </data>
+  <data name="QuickRefreshRate" xml:space="preserve">
+    <value>快速刷新</value>
+  </data>
+  <data name="StandardRefreshRate" xml:space="preserve">
+    <value>标准刷新</value>
+  </data>
+  <data name="EnabledDanmakuMode" xml:space="preserve">
+    <value>启用的弹幕类型</value>
+  </data>
+  <data name="RollingDanmaku" xml:space="preserve">
+    <value>滚动</value>
+  </data>
 </root>

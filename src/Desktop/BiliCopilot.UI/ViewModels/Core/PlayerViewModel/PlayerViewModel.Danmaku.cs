@@ -3,6 +3,8 @@
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Models.Danmaku;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -11,7 +13,8 @@ public sealed partial class PlayerViewModel
     [RelayCommand]
     private async Task InitializeDanmakuAsync()
     {
-        IsDanmakuEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuEnabled, false);
+        SettingsToolkit.DeleteLocalSetting(Models.Constants.SettingNames.IsDanmakuEnabled);
+        IsDanmakuEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuEnabled, true);
         IsDanmakuControlVisible = IsDanmakuEnabled;
         if (!IsDanmakuEnabled)
         {
@@ -19,11 +22,29 @@ public sealed partial class PlayerViewModel
         }
 
         IsDanmakuLoading = true;
-        
+        // 使用限流器，最多同时请求 6 个分段弹幕.
+        var semaphore = new SemaphoreSlim(6, 6);
+        var danmakus = new List<DanmakuInformation>();
         try
         {
-            // TODO: 初始化弹幕.
-            await Task.CompletedTask;
+            if (_snapshot.Type == Models.Constants.BiliMediaType.Video)
+            {
+                var connector = Connector as VideoConnectorViewModel;
+                var aid = connector._view.Information.Identifier.Id;
+                var cid = connector._part.Identifier.Id;
+                var totalMinutes = Math.Ceiling(TimeSpan.FromSeconds(connector._view.Information.Duration ?? 0).TotalMinutes);
+                var tasks = new List<Task>();
+                var segmentCount = Convert.ToInt32(Math.Ceiling(totalMinutes / 6.0)); // 6 minutes per segment
+                for (var i = 0; i < segmentCount; i++)
+                {
+                    var index = i + 1;
+                    tasks.Add(Task.Run(async () => await GetDanmakuAsync(index, aid, cid)));
+                }
+
+                await Task.WhenAll(tasks);
+            }
+
+            Danmaku.Initialize(danmakus);
             IsDanmakuLoading = false;
         }
         catch (Exception ex)
@@ -31,6 +52,28 @@ public sealed partial class PlayerViewModel
             logger.LogError(ex, "Failed to initialize danmaku.");
             IsDanmakuLoading = false;
             IsDanmakuControlVisible = false;
+        }
+
+        async Task GetDanmakuAsync(int index, string aid, string cid)
+        {
+            try
+            {
+                await semaphore.WaitAsync();
+                var danmaku = await this.Get<IDanmakuService>().GetSegmentDanmakusWithGrpcAsync(aid, cid, index);
+                lock (danmakus)
+                {
+                    if (danmaku?.Count > 0)
+                    {
+                        danmakus.AddRange(danmaku);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"获取弹幕分片失败： {index}");
+            }
+
+            semaphore.Release();
         }
     }
 

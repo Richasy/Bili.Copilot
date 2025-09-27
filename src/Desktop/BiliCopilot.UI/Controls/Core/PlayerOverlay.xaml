@@ -6,6 +6,7 @@
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
@@ -120,13 +121,13 @@
     </UserControl.Resources>
 
     <Grid x:Name="RootGrid">
-        <!--<danmaku:VideoDanmakuPanel
+        <danmaku:VideoDanmakuPanel
             x:Name="DanmakuPanel"
             Margin="4"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:Load="{x:Bind ViewModel.IsDanmakuControlVisible, Mode=OneWay}"
-            ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />-->
+            ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
         <Rectangle
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"

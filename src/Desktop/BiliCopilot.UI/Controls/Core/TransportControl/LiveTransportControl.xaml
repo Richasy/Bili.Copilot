@@ -90,7 +90,7 @@
                         <ic:SymbolIcon FontSize="14" Symbol="ContentSettings" />
                         <Button.Flyout>
                             <Flyout Closed="OnDisplayFlyoutClosed" FlyoutPresenterStyle="{StaticResource TransportButtonFlyoutPresenterStyle}">
-                                <danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+                                <danmaku:DanmakuDisplayOptions />
                             </Flyout>
                         </Button.Flyout>
                     </Button>

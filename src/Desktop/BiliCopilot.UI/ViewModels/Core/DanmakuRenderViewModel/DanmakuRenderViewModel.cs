@@ -1,6 +1,6 @@
 ﻿using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
-using Danmaku.Core;
+using Richasy.BiliKernel.Models.Danmaku;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
 
@@ -8,34 +8,15 @@ namespace BiliCopilot.UI.ViewModels.Core;
 
 public sealed partial class DanmakuRenderViewModel : ViewModelBase
 {
-    public async Task InitializeAsync(string? localDanmakuPath, List<DanmakuItem> danmakus, Func<double> getDelayFunc, Action<double> writeDelayAction)
+    public void Initialize(IList<DanmakuInformation> danmakus)
     {
-        _localDanmakuPath = localDanmakuPath;
         _cachedDanmakus = danmakus;
-        _getDelayFunc = getDelayFunc;
-        _writeDelayAction = writeDelayAction;
-        if (!string.IsNullOrEmpty(_localDanmakuPath))
-        {
-            _localDanmakuXml = await File.ReadAllTextAsync(_localDanmakuPath);
-        }
-        else
-        {
-            _localDanmakuXml = null;
-        }
-
         ResetData();
         Redraw();
     }
 
-    public string? GetLocalDanmakuXml()
-    {
-        return _localDanmakuXml;
-    }
-
-    public List<DanmakuItem> GetCachedDanmakus()
-    {
-        return _cachedDanmakus is null ? new List<DanmakuItem>() : _cachedDanmakus;
-    }
+    public IList<DanmakuInformation> GetCachedDanmakus()
+        => _cachedDanmakus is null ? [] : _cachedDanmakus;
 
     /// <summary>
     /// 重置数据.
@@ -119,7 +100,6 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
         IsBottomEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsBottomDanmakuEnabled, true);
         DanmakuRefreshRate = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuRefreshRate, 60);
         ForceSoftwareRenderer = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuForceSoftwareRenderer, false);
-        DanmakuDelay = _getDelayFunc?.Invoke() ?? 0d;
         IsDanmakuLimit = true;
         ResetStyle();
     }
@@ -195,10 +175,4 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
 
     partial void OnForceSoftwareRendererChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuForceSoftwareRenderer, value);
-
-    partial void OnDanmakuDelayChanged(double value)
-    {
-        _writeDelayAction?.Invoke(value);
-        Redraw();
-    }
 }

@@ -90,24 +90,24 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase, IParameterPage
         => ViewModel.CleanCommand.Execute(default);
 
     private DanmakuControlBase CreateDanmakuPanel()
-        => new VideoDanmakuPanel() { ViewModel = ViewModel.Danmaku };
+        => new VideoDanmakuPanel();
 
     private FrameworkElement CreateTransportControl()
     {
         var leftPanel = new PgcPlayerTransportLeftPanel() { ViewModel = ViewModel };
-        var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
+        //var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
         var rightPanel = new StackPanel() { Orientation = Orientation.Horizontal };
         var formatButton = new PgcPlayerFormatButton() { ViewModel = ViewModel };
         var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
         rightPanel.Children.Add(formatButton);
         rightPanel.Children.Add(subtitleButton);
-        danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
-        danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
+        //danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
+        //danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
         return new VideoTransportControl()
         {
             LeftContent = leftPanel,
             RightContent = rightPanel,
-            MiddleContent = danmakuBox,
+            //MiddleContent = danmakuBox,
             ViewModel = ViewModel.Player,
             VerticalAlignment = VerticalAlignment.Bottom,
             HorizontalAlignment = HorizontalAlignment.Stretch,

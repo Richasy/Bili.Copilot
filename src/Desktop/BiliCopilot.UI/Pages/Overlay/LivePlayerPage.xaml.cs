@@ -58,7 +58,7 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase, IParameterPage
         => ViewModel.CleanCommand.Execute(default);
 
     private DanmakuControlBase CreateDanmakuControl()
-        => new LiveDanmakuPanel { ViewModel = ViewModel.Danmaku };
+        => new LiveDanmakuPanel();
 
     private FrameworkElement CreateTransportControl()
         => new LiveTransportControl { MaxWidth = 640, Margin = new Thickness(12), HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom, ViewModel = ViewModel };

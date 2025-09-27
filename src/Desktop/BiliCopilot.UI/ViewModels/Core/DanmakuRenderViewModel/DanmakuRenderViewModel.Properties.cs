@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Danmaku.Core;
+using Richasy.BiliKernel.Models.Danmaku;
 using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -9,11 +9,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 public sealed partial class DanmakuRenderViewModel
 {
     private int _position;
-    private string? _localDanmakuPath;
-    private string? _localDanmakuXml;
-    private List<DanmakuItem>? _cachedDanmakus;
-    private Func<double>? _getDelayFunc;
-    private Action<double>? _writeDelayAction;
+    private IList<DanmakuInformation>? _cachedDanmakus;
 
     [ObservableProperty]
     public partial bool IsShowDanmaku { get; set; }
@@ -47,9 +43,6 @@ public sealed partial class DanmakuRenderViewModel
 
     [ObservableProperty]
     public partial double ExtraSpeed { get; set; } = 1;
-
-    [ObservableProperty]
-    public partial double DanmakuDelay { get; set; }
 
     [ObservableProperty]
     public partial bool IsRollingEnabled { get; set; }
