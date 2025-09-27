@@ -18,16 +18,16 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 播放器窗口.
 /// </summary>
-public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWindow
+public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITipWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
     private bool _isFirstActivated = true;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlayerWindow"/> class.
+    /// Initializes a new instance of the <see cref="OldPlayerWindow"/> class.
     /// </summary>
-    public PlayerWindow()
+    public OldPlayerWindow()
     {
         InitializeComponent();
         SetTitleBar(TitleBar);
@@ -44,7 +44,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     /// <summary>
     /// 打开视频.
     /// </summary>
-    public void OpenVideo(VideoSnapshot snapshot)
+    public void OpenVideo(MediaSnapshot snapshot)
     {
         Activate();
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
@@ -60,7 +60,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
     /// <summary>
     /// 打开视频.
     /// </summary>
-    public void OpenVideo((List<VideoInformation> videos, VideoSnapshot snapshot) data)
+    public void OpenVideo((List<VideoInformation> videos, MediaSnapshot snapshot) data)
     {
         Activate();
         var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);

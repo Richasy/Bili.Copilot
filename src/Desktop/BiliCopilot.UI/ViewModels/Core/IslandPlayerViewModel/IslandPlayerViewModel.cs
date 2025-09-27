@@ -202,11 +202,6 @@ public sealed partial class IslandPlayerViewModel : PlayerViewModelBase
                 Player.Client.SetOption("hwdec", "vulkan");
                 Player.Client.SetOption("gpu-context", "winvk");
                 break;
-            case PreferDecodeType.DXVA2:
-                Player.Client.SetOption("vo", "gpu");
-                Player.Client.SetOption("hwdec", "dxva2");
-                Player.Client.SetOption("gpu-context", "d3d11");
-                break;
             default:
                 break;
         }

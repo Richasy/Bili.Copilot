@@ -5,7 +5,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// 外部播放器控件.
 /// </summary>
-public sealed partial class ExternalTransportControl : PlayerControlBase
+public sealed partial class ExternalTransportControl : OldPlayerControlBase
 {
     /// <summary>
     /// <see cref="LeftContent"/> 的依赖属性.

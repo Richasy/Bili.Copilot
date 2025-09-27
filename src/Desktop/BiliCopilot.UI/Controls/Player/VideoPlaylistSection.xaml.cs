@@ -34,7 +34,7 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
         if (item is not null && ViewModel.SelectedItem != item)
         {
             ViewModel.SelectedItem = item;
-            ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
+            ViewModel.Page.InitializePageCommand.Execute(new MediaSnapshot(item.Data));
         }
     }
 

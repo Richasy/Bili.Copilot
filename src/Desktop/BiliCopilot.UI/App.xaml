@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Richasy.WinUIKernel.Share.Converters"
     xmlns:local="using:BiliCopilot.UI"
-    xmlns:localConverters="using:BiliCopilot.UI.Converters">
+    xmlns:localConverters="using:BiliCopilot.UI.Converters"
+    xmlns:media="using:Microsoft.UI.Xaml.Media">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,13 +26,24 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ShimmerLayout/ShimmerLayout.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
+                <ResourceDictionary x:Key="Dark">
+                    <media:AcrylicBrush
+                        x:Key="AcrylicInAppFillColorCustomBrush"
+                        FallbackColor="#2C2C2C"
+                        TintColor="#2C2C2C"
+                        TintOpacity="0.65" />
                     <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
+                    <media:AcrylicBrush
+                        x:Key="AcrylicInAppFillColorCustomBrush"
+                        FallbackColor="#FCFCFC"
+                        TintColor="#F9F9F9"
+                        TintOpacity="0.65" />
                     <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_light.jpg" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="AcrylicInAppFillColorCustomBrush" Color="{ThemeResource SystemColorWindowColor}" />
                     <BitmapImage x:Key="QQGroup" UriSource="ms-appx:///Assets/qq_group_dark.jpg" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
@@ -54,6 +66,7 @@
             <localConverters:DurationConverter x:Key="DurationConverter" />
             <localConverters:ColorTextConverter x:Key="ColorTextConverter" />
             <localConverters:ColorToBrushConverter x:Key="BrushConverter" />
+            <localConverters:PlayerPositionConverter x:Key="PlayerPositionConverter" />
 
             <UniformGridLayout
                 x:Key="VideoLayout"

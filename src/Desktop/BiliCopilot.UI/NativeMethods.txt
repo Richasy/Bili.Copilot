@@ -28,3 +28,7 @@ ClientToScreen
 GetForegroundWindow
 GetClientRect
 GetCursorPos
+SetForegroundWindow
+SetFocus
+GetWindowLong
+IsIconic

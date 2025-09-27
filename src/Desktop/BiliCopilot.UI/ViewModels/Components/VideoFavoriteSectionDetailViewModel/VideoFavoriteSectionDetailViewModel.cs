@@ -112,18 +112,18 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
             var video = Items.First();
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(new VideoSnapshot(video.Data));
+                new OldPlayerWindow().OpenVideo(new MediaSnapshot(video.Data));
                 return;
             }
 
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video.Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new MediaSnapshot(video.Data));
         }
         else
         {
-            var data = (Items.Select(p => p.Data).ToList(), new VideoSnapshot(Items.First().Data));
+            var data = (Items.Select(p => p.Data).ToList(), new MediaSnapshot(Items.First().Data));
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(data);
+                new OldPlayerWindow().OpenVideo(data);
                 return;
             }
 

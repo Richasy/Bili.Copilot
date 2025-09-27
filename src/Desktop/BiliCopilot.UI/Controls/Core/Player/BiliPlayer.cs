@@ -12,7 +12,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// MPV 播放器.
 /// </summary>
-public sealed partial class BiliPlayer : PlayerControlBase
+public sealed partial class BiliPlayer : OldPlayerControlBase
 {
     private Rect _transportControlTriggerRect;
     private DispatcherTimer? _cursorTimer;

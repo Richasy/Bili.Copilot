@@ -18,6 +18,24 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Core\PlayerOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\NextTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\ChapterPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\CacheBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\OverlayTransportControls.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\PlayerInteractivePanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\IncrementVerticalScrollControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -138,7 +156,7 @@
     <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Forms\PlayerWindow.xaml">
+    <Page Update="Forms\OldPlayerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\TrayResources.xaml">

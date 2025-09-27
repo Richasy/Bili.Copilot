@@ -77,7 +77,7 @@ public sealed partial class LiveItemViewModel : ViewModelBase<LiveInformation>
 
     [RelayCommand]
     private void OpenInNewWindow()
-        => new PlayerWindow().OpenLive(Data.Identifier);
+        => new OldPlayerWindow().OpenLive(Data.Identifier);
 
     [RelayCommand]
     private async Task RemoveHistoryAsync()

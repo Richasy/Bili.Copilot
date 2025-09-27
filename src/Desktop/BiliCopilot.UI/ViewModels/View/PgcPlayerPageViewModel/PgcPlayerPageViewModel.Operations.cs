@@ -188,7 +188,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
 
         var identifier = new MediaIdentifier("ep_" + _episode.Identifier.Id, _episode.Identifier.Title, _episode.Identifier.Cover);
-        new PlayerWindow().OpenPgc(identifier);
+        new OldPlayerWindow().OpenPgc(identifier);
     }
 
     [RelayCommand]
@@ -212,7 +212,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new MediaSnapshot(video));
         }
         else
         {

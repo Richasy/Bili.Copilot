@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using Richasy.WinUIKernel.Share.Toolkits;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -151,6 +152,19 @@ internal sealed partial class AppToolkit : SharedAppToolkit
 
     public static bool NotModifierKeyPressed()
         => !IsCtrlPressed() && !IsShiftPressed() && !IsAltPressed();
+
+    public static async Task<string> EnsureMpvConfigExistAsync()
+    {
+        var localFolder = ApplicationData.Current.LocalFolder;
+        var destPath = Path.Combine(localFolder.Path, "mpv.conf");
+        if (!File.Exists(destPath))
+        {
+            var defaultConfig = await StorageFile.GetFileFromApplicationUriAsync(new("ms-appx:///Assets/basic-mpv.conf"));
+            await defaultConfig.CopyAsync(localFolder, "mpv.conf", NameCollisionOption.ReplaceExisting).AsTask();
+        }
+
+        return destPath;
+    }
 
     /// <summary>
     /// 获取WebDav服务器地址.

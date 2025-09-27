@@ -7,7 +7,7 @@ namespace BiliCopilot.UI.Controls.Core;
 /// <summary>
 /// 视频播放器控件.
 /// </summary>
-public sealed partial class VideoTransportControl : PlayerControlBase
+public sealed partial class VideoTransportControl : OldPlayerControlBase
 {
     /// <summary>
     /// <see cref="LeftContent"/> 的依赖属性.

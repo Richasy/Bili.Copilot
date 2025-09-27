@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PlayerControlBase
+    x:Class="BiliCopilot.UI.Controls.Core.OverlayTransportControls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:community="using:CommunityToolkit.WinUI.Controls"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="RootGrid"
+        Height="160"
+        HorizontalAlignment="Stretch"
+        SizeChanged="OnSizeChanged">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Offset="0.0" Color="#00000000" />
+                    <GradientStop Offset="1" Color="#FF000000" />
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Padding="16,0,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftColumn" />
+                <ColumnDefinition x:Name="MiddleColumn" Width="Auto" />
+                <ColumnDefinition x:Name="RightColumn" />
+            </Grid.ColumnDefinitions>
+            <!--  左侧自定义元素  -->
+            <Grid
+                x:Name="LeftHolderGrid"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+            <ContentPresenter
+                x:Name="LeftPresenter"
+                Height="80"
+                Margin="0,0,24,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Content="{x:Bind LeftElement, Mode=OneWay}" />
+
+            <!--  核心播放控制  -->
+            <UserControl
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        x:Name="PrevButton"
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.PlayPreviousCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.IsPrevButtonEnabled, Mode=OneWay}"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.PrevButtonToolTip, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsVideoNavigationAvailable, Mode=OneWay}">
+                        <ic:SymbolIcon
+                            FontSize="16"
+                            IconVariant="Filled"
+                            Symbol="Previous" />
+                    </Button>
+                    <Button
+                        x:Name="BackwardButton"
+                        Margin="0,0,8,0"
+                        Command="{x:Bind ViewModel.SkipBackwardCommand, Mode=OneWay}"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.BackwardTip, Mode=OneWay}"
+                        Visibility="{x:Bind IsSkipButtonsVisible, Mode=OneWay}">
+                        <ic:SymbolIcon
+                            FontSize="16"
+                            IconVariant="Filled"
+                            Symbol="ArrowStepBack" />
+                    </Button>
+                    <Grid>
+                        <Button
+                            x:Name="PlayPauseButton"
+                            Click="OnPlayPauseButtonClick"
+                            IsEnabled="{x:Bind IsPlayPauseEnabled(ViewModel.Player.PlaybackState), Mode=OneWay}"
+                            Style="{StaticResource PrimaryPlayerButtonStyle}"
+                            ToolTipService.ToolTip="{x:Bind GetPlayPauseTip(ViewModel.Player.IsPlaying), Mode=OneWay}">
+                            <ic:SymbolIcon
+                                FontSize="22"
+                                IconVariant="Filled"
+                                Symbol="{x:Bind GetPlayPauseSymbol(ViewModel.Player.PlaybackState), Mode=OneWay}" />
+                        </Button>
+                        <ProgressRing
+                            Width="52"
+                            Height="52"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            BorderThickness="4"
+                            IsActive="{x:Bind IsLoading(ViewModel.Player.PlaybackState, ViewModel.Player.IsLoading), Mode=OneWay}" />
+                    </Grid>
+                    <Button
+                        x:Name="ForwardButton"
+                        Margin="8,0,0,0"
+                        Command="{x:Bind ViewModel.SkipForwardCommand, Mode=OneWay}"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.ForwardTip, Mode=OneWay}"
+                        Visibility="{x:Bind IsSkipButtonsVisible, Mode=OneWay}">
+                        <ic:SymbolIcon
+                            FontSize="16"
+                            IconVariant="Filled"
+                            Symbol="ArrowStepOver" />
+                    </Button>
+                    <Button
+                        x:Name="NextButton"
+                        Margin="8,0,0,0"
+                        Command="{x:Bind ViewModel.PlayNextCommand, Mode=OneWay}"
+                        IsEnabled="{x:Bind ViewModel.IsNextButtonEnabled, Mode=OneWay}"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.NextButtonToolTip, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsVideoNavigationAvailable, Mode=OneWay}">
+                        <ic:SymbolIcon
+                            FontSize="16"
+                            IconVariant="Filled"
+                            Symbol="Next" />
+                    </Button>
+                </StackPanel>
+            </UserControl>
+
+            <!--  右侧附加控制  -->
+            <StackPanel
+                x:Name="RightPanel"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                SizeChanged="OnRightPanelSizeChanged">
+                <StackPanel
+                    x:Name="FullVolumeContainer"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <Button
+                        Width="32"
+                        Height="32"
+                        Command="{x:Bind ViewModel.ToggleMuteStateCommand, Mode=OneWay}"
+                        CornerRadius="16"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}">
+                        <Grid>
+                            <ic:SymbolIcon
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                RequestedTheme="Dark"
+                                Symbol="Speaker2"
+                                ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}"
+                                Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                            <ic:SymbolIcon
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                RequestedTheme="Dark"
+                                Symbol="SpeakerMute"
+                                ToolTipService.ToolTip="{ext:Locale Name=Mute}"
+                                Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay}" />
+                        </Grid>
+                    </Button>
+                    <Slider
+                        Width="80"
+                        VerticalAlignment="Center"
+                        IsEnabled="{x:Bind ViewModel.IsMute, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                        LargeChange="10"
+                        Maximum="{x:Bind ViewModel.MaxVolume, Mode=OneWay}"
+                        Minimum="0"
+                        SmallChange="1"
+                        TickFrequency="1"
+                        ValueChanged="OnVolumeValueChanged"
+                        Value="{x:Bind ViewModel.Player.Volume, Mode=OneWay}" />
+                </StackPanel>
+                <Button
+                    x:Name="SlimVolumeButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=CurrentVolume}"
+                    Visibility="Collapsed">
+                    <Grid>
+                        <ic:SymbolIcon
+                            FontSize="14"
+                            Symbol="Speaker2"
+                            Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                        <ic:SymbolIcon
+                            FontSize="14"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Symbol="SpeakerMute"
+                            Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay}" />
+                    </Grid>
+
+                    <Button.Flyout>
+                        <Flyout
+                            Closed="OnFlyoutClosed"
+                            Opened="OnDisplayFlyoutOpened"
+                            Placement="Top">
+                            <StackPanel Width="200" Spacing="8">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{ext:Locale Name=CurrentVolume}" />
+                                    <HyperlinkButton
+                                        Grid.Column="1"
+                                        Padding="4,2"
+                                        VerticalAlignment="Center"
+                                        Command="{x:Bind ViewModel.ToggleMuteStateCommand, Mode=OneWay}">
+                                        <Grid>
+                                            <TextBlock
+                                                FontSize="12"
+                                                Text="{ext:Locale Name=Mute}"
+                                                Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                                            <TextBlock
+                                                FontSize="12"
+                                                Text="{ext:Locale Name=Unmute}"
+                                                Visibility="{x:Bind ViewModel.IsMute, Mode=OneWay}" />
+                                        </Grid>
+                                    </HyperlinkButton>
+                                </Grid>
+                                <Slider
+                                    VerticalAlignment="Center"
+                                    IsEnabled="{x:Bind ViewModel.IsMute, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                                    LargeChange="10"
+                                    Maximum="{x:Bind ViewModel.MaxVolume, Mode=OneWay}"
+                                    Minimum="0"
+                                    SmallChange="1"
+                                    TickFrequency="1"
+                                    ValueChanged="OnVolumeValueChanged"
+                                    Value="{x:Bind ViewModel.Player.Volume, Mode=OneWay}" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button
+                    x:Name="SpeedButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind GetSpeedText(ViewModel.Player.PlaybackRate), Mode=OneWay}">
+                    <ic:SymbolIcon FontSize="14" Symbol="TopSpeed" />
+                    <Button.Flyout>
+                        <Flyout
+                            Closed="OnFlyoutClosed"
+                            Opened="OnDisplayFlyoutOpened"
+                            Placement="Top">
+                            <StackPanel Spacing="12">
+                                <Grid
+                                    MinHeight="28"
+                                    Padding="4,0,4,4"
+                                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <ToggleButton
+                                        x:Name="HalfSpeedButton"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="0.5x"
+                                        Tag="0.5" />
+                                    <ToggleButton
+                                        x:Name="DefaultSpeedButton"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="1.0x"
+                                        Tag="1.0" />
+                                    <ToggleButton
+                                        x:Name="OneTwoFiveSpeedButton"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="1.25x"
+                                        Tag="1.25" />
+                                    <ToggleButton
+                                        x:Name="OneHalfSpeedButton"
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="1.5x"
+                                        Tag="1.5" />
+                                    <ToggleButton
+                                        x:Name="DoubleSpeedButton"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="2.0x"
+                                        Tag="2.0" />
+                                    <ToggleButton
+                                        x:Name="TripleSpeedButton"
+                                        Grid.Column="5"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Click="OnQuickSpeedButtonClick"
+                                        Content="3.0x"
+                                        Tag="3.0" />
+                                </Grid>
+                                <Slider
+                                    Width="350"
+                                    Margin="0,0,0,-6"
+                                    VerticalAlignment="Center"
+                                    LargeChange="0.5"
+                                    Maximum="3"
+                                    Minimum="0.1"
+                                    SmallChange="0.05"
+                                    StepFrequency="0.05"
+                                    ValueChanged="OnSpeedValueChanged"
+                                    Value="{x:Bind ViewModel.Player.PlaybackRate, Mode=OneWay}" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Grid Visibility="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}">
+                    <Button
+                        x:Name="SubtitleButton"
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=Subtitle}"
+                        Visibility="{x:Bind ViewModel.IsSubtitleEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                        <ic:SymbolIcon FontSize="14" Symbol="Subtitles" />
+                        <Button.Flyout>
+                            <Flyout
+                                Closed="OnFlyoutClosed"
+                                Opened="OnSubtitleFlyoutOpened"
+                                ShouldConstrainToRootBounds="False">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+
+                                <Grid Width="280">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Margin="16,12" ColumnSpacing="8">
+                                        <TextBlock
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontWeight="SemiBold"
+                                            Text="{ext:Locale Name=Subtitle}" />
+                                    </Grid>
+                                    <ScrollView
+                                        Grid.Row="1"
+                                        MaxHeight="400"
+                                        Padding="16,0"
+                                        HorizontalScrollMode="Disabled"
+                                        VerticalScrollBarVisibility="Auto">
+                                        <Grid Margin="0,0,0,12">
+                                            <ItemsRepeater x:Name="SubtitleRepeater" ItemsSource="{x:Bind ViewModel.Subtitles, Mode=OneWay}">
+                                                <ItemsRepeater.ItemTemplate>
+                                                    <DataTemplate x:DataType="items:SubtitleItemViewModel">
+                                                        <base:AppToggleCard
+                                                            MinWidth="200"
+                                                            MaxWidth="280"
+                                                            HorizontalAlignment="Stretch"
+                                                            BorderBrush="Transparent"
+                                                            BorderThickness="2"
+                                                            Command="{x:Bind ActiveCommand, Mode=OneWay}"
+                                                            IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                                                            IsEnableCheck="False">
+                                                            <StackPanel>
+                                                                <base:TrimTextBlock MaxLines="1" Text="{x:Bind Name, Mode=OneWay}" />
+                                                            </StackPanel>
+                                                        </base:AppToggleCard>
+                                                    </DataTemplate>
+                                                </ItemsRepeater.ItemTemplate>
+                                                <ItemsRepeater.Layout>
+                                                    <StackLayout Spacing="8" />
+                                                </ItemsRepeater.Layout>
+                                            </ItemsRepeater>
+                                        </Grid>
+                                    </ScrollView>
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="6"
+                    Visibility="{x:Bind ViewModel.IsDanmakuControlVisible, Mode=OneWay}">
+                    <ToggleButton
+                        x:Name="DanmakuToggleButton"
+                        Margin="0,0,8,0"
+                        AutomationProperties.Name="{ext:Locale Name=DanmakuSwitch}"
+                        Content="弹"
+                        FontSize="12"
+                        FontWeight="Black"
+                        IsChecked="{x:Bind ViewModel.Danmaku.IsShowDanmaku, Mode=TwoWay}"
+                        IsEnabled="{x:Bind ViewModel.IsDanmakuLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                        Style="{StaticResource TogglePlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuSwitch}" />
+                    <Button
+                        x:Name="DanmakuOptionButton"
+                        Margin="0,0,8,0"
+                        AutomationProperties.Name="{ext:Locale Name=DanmakuDisplaySettings}"
+                        IsEnabled="{x:Bind ViewModel.IsDanmakuLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                        Style="{StaticResource BasicPlayerIconButtonStyle}"
+                        ToolTipService.ToolTip="{ext:Locale Name=DanmakuDisplaySettings}">
+                        <ic:SymbolIcon FontSize="14" Symbol="ContentSettings" />
+                        <Button.Flyout>
+                            <Flyout
+                                Closed="OnDisplayFlyoutClosed"
+                                Opened="OnDisplayFlyoutOpened"
+                                ShouldConstrainToRootBounds="False">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="Padding" Value="12,10" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <!--<danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />-->
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </StackPanel>
+                <Button
+                    x:Name="CompactOverlayButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind GetCompactOverlayTip(ViewModel.Player.IsCompactOverlay), Mode=OneWay}">
+                    <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetCompactOverlaySymbol(ViewModel.Player.IsCompactOverlay), Mode=OneWay}" />
+                </Button>
+                <Button
+                    x:Name="FullScreenButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.ToggleFullScreenCommand, Mode=OneWay}"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind GetFullScreenTip(ViewModel.Player.IsFullScreen), Mode=OneWay}">
+                    <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetFullScreenSymbol(ViewModel.Player.IsFullScreen), Mode=OneWay}" />
+                </Button>
+                <Button
+                    x:Name="OverflowButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=MoreOptions}"
+                    Visibility="Collapsed">
+                    <ic:SymbolIcon FontSize="14" Symbol="MoreVertical" />
+                    <Button.Flyout>
+                        <MenuFlyout
+                            Closed="OnFlyoutClosed"
+                            Opened="OnDisplayFlyoutOpened"
+                            ShouldConstrainToRootBounds="False">
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}" Text="{x:Bind GetCompactOverlayTip(ViewModel.Player.IsCompactOverlay), Mode=OneWay}">
+                                <MenuFlyoutItem.Icon>
+                                    <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetCompactOverlaySymbol(ViewModel.Player.IsCompactOverlay), Mode=OneWay}" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Command="{x:Bind ViewModel.ToggleFullScreenCommand, Mode=OneWay}" Text="{x:Bind GetFullScreenTip(ViewModel.Player.IsFullScreen), Mode=OneWay}">
+                                <MenuFlyoutItem.Icon>
+                                    <ic:SymbolIcon FontSize="14" Symbol="{x:Bind GetFullScreenSymbol(ViewModel.Player.IsFullScreen), Mode=OneWay}" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!--  底部进度条  -->
+        <Grid
+            Grid.Row="1"
+            Margin="16,-32,16,12"
+            ColumnSpacing="12"
+            Visibility="{x:Bind ProgressBarVisible, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="60" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                IsTextScaleFactorEnabled="False"
+                RequestedTheme="Dark"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind GetTimeText(ViewModel.Player.Position), Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <TextBlock
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                IsTextScaleFactorEnabled="False"
+                RequestedTheme="Dark"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind GetTimeText(ViewModel.PreviewPosition), Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay}" />
+            <local:CacheBar
+                Grid.Column="1"
+                Height="4"
+                HorizontalAlignment="Stretch"
+                ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            <Slider
+                x:Name="ProgressSlider"
+                Grid.Column="1"
+                Background="#55FFFFFF"
+                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
+                Style="{StaticResource PlayerSliderStyle}"
+                ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"
+                ValueChanged="OnProgressValueChanged"
+                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+            <local:ChapterPanel
+                x:Name="ChapterPanel"
+                Grid.Column="1"
+                Margin="0,0,4,0"
+                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsChapterVisible, Mode=OneWay}" />
+            <Slider
+                x:Name="ProgressSliderFake"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
+                Style="{StaticResource PlayerSliderStyle}"
+                ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"
+                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay}"
+                Value="{x:Bind ViewModel.PreviewPosition, Mode=OneWay}" />
+            <TextBlock
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                IsTextScaleFactorEnabled="False"
+                RequestedTheme="Dark"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind GetTimeText(ViewModel.Player.Duration), Mode=OneWay}" />
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState" />
+                <VisualState x:Name="BelowWideState">
+                    <VisualState.Setters>
+                        <Setter Target="FullVolumeContainer.Visibility" Value="Collapsed" />
+                        <Setter Target="SlimVolumeButton.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MediumState">
+                    <VisualState.Setters>
+                        <Setter Target="LeftPresenter.Visibility" Value="Collapsed" />
+                        <Setter Target="LeftColumn.Width" Value="Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.Setters>
+                        <Setter Target="FullVolumeContainer.Visibility" Value="Collapsed" />
+                        <Setter Target="ChapterPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="SlimVolumeButton.Visibility" Value="Visible" />
+                        <Setter Target="BackwardButton.Visibility" Value="Collapsed" />
+                        <Setter Target="ForwardButton.Visibility" Value="Visible" />
+                        <Setter Target="PrevButton.Visibility" Value="Collapsed" />
+                        <Setter Target="NextButton.Visibility" Value="Visible" />
+                        <Setter Target="DanmakuToggleButton.Visibility" Value="Collapsed" />
+                        <Setter Target="DanmakuOptionButton.Visibility" Value="Collapsed" />
+                        <Setter Target="LeftPresenter.Visibility" Value="Collapsed" />
+                        <Setter Target="CompactOverlayButton.Visibility" Value="Collapsed" />
+                        <Setter Target="FullScreenButton.Visibility" Value="Collapsed" />
+                        <Setter Target="OverflowButton.Visibility" Value="Visible" />
+                        <Setter Target="LeftColumn.Width" Value="Auto" />
+                        <Setter Target="RootGrid.Height" Value="120" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:PlayerControlBase>

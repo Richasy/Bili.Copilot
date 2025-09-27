@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
+using BiliCopilot.UI.Resolvers;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Core;
@@ -128,6 +129,9 @@ internal static class GlobalDependencies
             .AddTransient<LiveChatSectionDetailViewModel>()
             .AddTransient<UserMomentDetailViewModel>()
             .AddTransient<DownloadViewModel>()
+            .AddTransient<VideoMediaSourceResolver>()
+            .AddTransient<VideoMediaHistoryResolver>()
+            .AddTransient<PlayerViewModel>()
             .AddNotificationViewModel()
             .Build();
 

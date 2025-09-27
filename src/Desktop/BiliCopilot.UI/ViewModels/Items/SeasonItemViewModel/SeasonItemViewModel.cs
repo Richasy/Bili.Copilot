@@ -72,7 +72,7 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
 
     [RelayCommand]
     private void OpenInNewWindow()
-        => new PlayerWindow().OpenPgc(new MediaIdentifier("ss_" + Data.Identifier.Id, default, default));
+        => new OldPlayerWindow().OpenPgc(new MediaIdentifier("ss_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private async Task FollowAsync()

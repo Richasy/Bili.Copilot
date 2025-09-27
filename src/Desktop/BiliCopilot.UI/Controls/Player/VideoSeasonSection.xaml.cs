@@ -42,7 +42,7 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
         if (item is not null && ViewModel.SelectedItem != item)
         {
             ViewModel.SelectedItem = item;
-            ViewModel.Page.InitializePageCommand.Execute(new VideoSnapshot(item.Data));
+            ViewModel.Page.InitializePageCommand.Execute(new MediaSnapshot(item.Data));
         }
     }
 

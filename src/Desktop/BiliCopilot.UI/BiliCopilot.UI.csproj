@@ -89,6 +89,12 @@
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
     <None Remove="Controls\Components\UserCardControl.xaml" />
     <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
+    <None Remove="Controls\Core\CacheBar.xaml" />
+    <None Remove="Controls\Core\ChapterPanel.xaml" />
+    <None Remove="Controls\Core\NextTip.xaml" />
+    <None Remove="Controls\Core\OverlayTransportControls.xaml" />
+    <None Remove="Controls\Core\PlayerInteractivePanel.xaml" />
+    <None Remove="Controls\Core\PlayerOverlay.xaml" />
     <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
     <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
     <None Remove="Controls\Core\Player\PlayerResources.xaml" />
@@ -256,7 +262,6 @@
     <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
-    <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
@@ -357,6 +362,10 @@
     <PackageReference Include="Richasy.BiliKernel.Services.Moment" />
     <PackageReference Include="Richasy.BiliKernel.Services.Search" />
     <PackageReference Include="Richasy.BiliKernel.Services.User" />
+    <PackageReference Include="Richasy.MpvKernel" />
+    <PackageReference Include="Richasy.MpvKernel.Core" />
+    <PackageReference Include="Richasy.MpvKernel.Player" />
+    <PackageReference Include="Richasy.MpvKernel.WinUI" />
     <PackageReference Include="Richasy.WinUIKernel.AI" />
     <PackageReference Include="RichasyKernel.Core" />
     <PackageReference Include="Roman-Numerals" />
@@ -1287,6 +1296,24 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Core\PlayerOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\NextTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\ChapterPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\CacheBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\OverlayTransportControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\PlayerInteractivePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\IncrementVerticalScrollControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1464,7 +1491,7 @@
     <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Forms\PlayerWindow.xaml">
+    <Page Update="Forms\OldPlayerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Styles\TrayResources.xaml">

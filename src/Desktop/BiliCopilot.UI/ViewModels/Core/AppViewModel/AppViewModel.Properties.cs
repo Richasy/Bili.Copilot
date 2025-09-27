@@ -26,6 +26,8 @@ public sealed partial class AppViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isUpdateShown;
 
+    public List<PlayerViewModel> Players { get; } = [];
+
     /// <summary>
     /// 已创建的窗口列表.
     /// </summary>

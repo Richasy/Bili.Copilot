@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:PlayerControlBase
+<local:OldPlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Core.ExternalTransportControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -82,4 +82,4 @@
             </Grid>
         </Grid>
     </Grid>
-</local:PlayerControlBase>
+</local:OldPlayerControlBase>

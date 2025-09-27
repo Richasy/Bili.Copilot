@@ -44,7 +44,7 @@ public sealed partial class Pinner : PinnerBase
         }
         else if (item.Type == Models.Constants.PinContentType.Video)
         {
-            var snapshot = new VideoSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
+            var snapshot = new MediaSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
             navVM.NavigateToOver(typeof(VideoPlayerPage), snapshot);
         }
         else if (item.Type == Models.Constants.PinContentType.Live)

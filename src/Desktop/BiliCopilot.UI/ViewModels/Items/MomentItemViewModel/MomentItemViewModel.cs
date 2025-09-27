@@ -116,7 +116,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         {
             if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
             {
-                var snapshot = new VideoSnapshot(vinfo);
+                var snapshot = new MediaSnapshot(vinfo);
                 this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
             }
         }
@@ -189,7 +189,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             return;
         }
 
-        var snapshot = new VideoSnapshot(vinfo, true);
+        var snapshot = new MediaSnapshot(vinfo, true);
         this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
     }
 
@@ -237,23 +237,23 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            new PlayerWindow().OpenVideo(new VideoSnapshot(vinfo));
+            new OldPlayerWindow().OpenVideo(new MediaSnapshot(vinfo));
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
             if (einfo.Identifier.Id == "0")
             {
                 // 出差番剧.
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
+                new OldPlayerWindow().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
             }
             else
             {
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
+                new OldPlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
             }
         }
         else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
         {
-            new PlayerWindow().OpenLive(linfo.Identifier);
+            new OldPlayerWindow().OpenLive(linfo.Identifier);
         }
     }
 

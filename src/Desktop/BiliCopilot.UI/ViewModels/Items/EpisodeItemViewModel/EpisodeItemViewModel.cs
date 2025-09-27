@@ -67,7 +67,7 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
 
     [RelayCommand]
     private void OpenInNewWindow()
-        => new PlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
+        => new OldPlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private void Pin()

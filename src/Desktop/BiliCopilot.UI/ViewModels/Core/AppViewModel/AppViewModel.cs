@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
@@ -85,6 +86,11 @@ public sealed partial class AppViewModel : ViewModelBase
         foreach (var window in Windows)
         {
             (window.Content as FrameworkElement).RequestedTheme = theme;
+        }
+
+        foreach (var player in Players)
+        {
+            player.UpdateTheme(theme);
         }
     }
 
@@ -183,6 +189,14 @@ public sealed partial class AppViewModel : ViewModelBase
                 await firstWindow.ShowTipAsync(data.Item1, data.Item2);
             }
         }
+    }
+
+    [RelayCommand]
+    private async Task OpenPlayerAsync(MediaSnapshot snapshot)
+    {
+        var playerVM = this.Get<PlayerViewModel>();
+        this.Get<AppViewModel>().Players.Add(playerVM);
+        await playerVM.InitializeAsync(snapshot);
     }
 
     [RelayCommand]

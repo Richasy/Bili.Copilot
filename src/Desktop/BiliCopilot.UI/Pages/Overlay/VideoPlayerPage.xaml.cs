@@ -29,11 +29,11 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase, IParameterPag
 
     public void SetParameter(object? parameter)
     {
-        if (parameter is VideoSnapshot video)
+        if (parameter is MediaSnapshot video)
         {
             ViewModel.InitializePageCommand.Execute(video);
         }
-        else if (parameter is (IList<VideoInformation> list, VideoSnapshot v))
+        else if (parameter is (IList<VideoInformation> list, MediaSnapshot v))
         {
             ViewModel.InjectPlaylist(list);
             ViewModel.InitializePageCommand.Execute(v);

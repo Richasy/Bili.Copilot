@@ -81,7 +81,7 @@ public sealed partial class WebDavPlayerPageViewModel
             Player.TogglePlayPauseCommand.Execute(default);
         }
 
-        new PlayerWindow().OpenWebDav(Current.Data, Playlist.Select(p => p.Data).ToList());
+        new OldPlayerWindow().OpenWebDav(Current.Data, Playlist.Select(p => p.Data).ToList());
     }
 
     private WebDavStorageItemViewModel? FindNextVideo()

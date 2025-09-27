@@ -222,7 +222,7 @@ public sealed partial class VideoPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            InitializePageCommand.Execute(new VideoSnapshot(video, IsPrivatePlay));
+            InitializePageCommand.Execute(new MediaSnapshot(video, IsPrivatePlay));
         }
         else
         {
@@ -250,7 +250,7 @@ public sealed partial class VideoPlayerPageViewModel
             Player.TogglePlayPauseCommand.Execute(default);
         }
 
-        new PlayerWindow().OpenVideo(new VideoSnapshot(_view.Information, IsPrivatePlay));
+        new OldPlayerWindow().OpenVideo(new MediaSnapshot(_view.Information, IsPrivatePlay));
     }
 
     [RelayCommand]

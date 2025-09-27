@@ -119,18 +119,18 @@ public sealed partial class ViewLaterPageViewModel : ViewModelBase
             var video = Videos.First();
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(new VideoSnapshot(video.Data));
+                new OldPlayerWindow().OpenVideo(new MediaSnapshot(video.Data));
                 return;
             }
 
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(video.Data));
+            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new MediaSnapshot(video.Data));
         }
         else
         {
-            var data = (Videos.Select(p => p.Data).ToList(), new VideoSnapshot(Videos.First().Data));
+            var data = (Videos.Select(p => p.Data).ToList(), new MediaSnapshot(Videos.First().Data));
             if (preferDisplayMode == PlayerDisplayMode.NewWindow)
             {
-                new PlayerWindow().OpenVideo(data);
+                new OldPlayerWindow().OpenVideo(data);
                 return;
             }
 
