@@ -103,10 +103,7 @@ public partial class App : Application
 
     private void OnInstanceActivated(object? sender, AppActivationArguments e)
     {
-        _dispatcherQueue.TryEnqueue(() =>
-        {
-            GetMainWindow()?.Activate();
-        });
+        _dispatcherQueue.TryEnqueue(() => GetMainWindow()?.Activate());
     }
 
     private void InitializeTrayIcon()
@@ -145,14 +142,15 @@ public partial class App : Application
 
     private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogError(e.Exception, "Unhandled exception occurred.");
+        this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
+        this.Get<ILogger<App>>().LogError(e.Exception, "Unhandled exception occurred.");
         e.Handled = true;
 
         // 一旦出现布局循环检测异常，就删除上次选中的功能页，然后重启应用.
         if (e.Message.Contains("Layout cycle detected"))
         {
             SettingsToolkit.DeleteLocalSetting(Models.Constants.SettingNames.LastSelectedFeaturePage);
-            GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().RestartCommand.Execute(default);
+            this.Get<AppViewModel>().RestartCommand.Execute(default);
         }
     }
 

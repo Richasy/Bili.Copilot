@@ -50,6 +50,7 @@
                 Style="{StaticResource AvatarButtonStyle}">
                 <Grid>
                     <controls:BasicCoverImage
+                        x:Name="Avatar"
                         Width="48"
                         Height="48"
                         x:Load="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"

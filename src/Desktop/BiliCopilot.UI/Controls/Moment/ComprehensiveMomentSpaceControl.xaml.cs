@@ -15,11 +15,7 @@ public sealed partial class ComprehensiveMomentSpaceControl : UserMomentDetailCo
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        MomentScrollView.ViewChanged += OnViewChanged;
-        MomentScrollView.SizeChanged += OnScrollViewSizeChanged;
-
         ViewModel.ListUpdated += OnListUpdatedAsync;
-        CheckMomentCount();
     }
 
     /// <inheritdoc/>
@@ -29,44 +25,10 @@ public sealed partial class ComprehensiveMomentSpaceControl : UserMomentDetailCo
         {
             ViewModel.ListUpdated -= OnListUpdatedAsync;
         }
-
-        MomentScrollView.ViewChanged -= OnViewChanged;
-        MomentScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckMomentCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MomentScrollView.ExtentHeight - MomentScrollView.ViewportHeight - MomentScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100)
-        {
-            CheckMomentCount();
-        }
-    }
-
-    private void CheckMomentCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MomentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }

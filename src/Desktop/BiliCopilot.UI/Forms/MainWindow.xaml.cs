@@ -5,16 +5,13 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.Logging;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using Windows.Graphics;
-using Windows.System;
-using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;
@@ -29,6 +26,8 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
     private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
     private bool _shouldExit;
+    private bool _isActivated;
+    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _cursorTimer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -47,6 +46,10 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         _inputActivationListener.InputActivationChanged += OnInputActivationChanged;
         Activated += OnActivated;
         Closed += OnClosed;
+
+        _cursorTimer = DispatcherQueue.CreateTimer();
+        _cursorTimer.Interval = TimeSpan.FromMilliseconds(100);
+        _cursorTimer.Tick += OnCursorTimerTick;
     }
 
     /// <inheritdoc/>
@@ -80,15 +83,13 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         var isDeactivated = sender.State == InputActivationState.Deactivated;
         if (isDeactivated)
         {
-            GlobalHook.KeyDown -= OnWindowKeyDown;
-            GlobalHook.KeyUp -= OnWindowKeyUp;
-            GlobalHook.Stop();
+            _isActivated = false;
+            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
         }
         else
         {
-            GlobalHook.Start();
-            GlobalHook.KeyDown += OnWindowKeyDown;
-            GlobalHook.KeyUp += OnWindowKeyUp;
+            _isActivated = true;
+            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
         }
     }
 
@@ -112,12 +113,20 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         _isFirstActivated = false;
     }
 
+    internal void UnregisterEventHandlers()
+    {
+        Activated -= OnActivated;
+        Closed -= OnClosed;
+        AppWindow.Changed -= OnWindowChanged;
+    }
+
     private async void OnClosed(object sender, WindowEventArgs e)
     {
         if (!_shouldExit)
         {
             e.Handled = true;
             this.Get<AppViewModel>().IsClosed = true;
+            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
             RootLayout.ViewModel.Back();
             foreach (var item in this.Get<AppViewModel>().Windows)
             {
@@ -140,51 +149,18 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
                 await this.Get<SettingsPageViewModel>().CheckSaveServicesAsync();
             }
 
-            GlobalHook.Stop();
+            UnregisterEventHandlers();
             SaveCurrentWindowStats();
             App.Current?.Exit();
             Environment.Exit(0);
         }
     }
 
-    private void OnWindowKeyDown(object? sender, PlayerKeyboardEventArgs e)
+    private void OnWindowKeyUp(InputKeyboardSource sender, KeyEventArgs args)
     {
-        if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause)
+        if (args.VirtualKey == Windows.System.VirtualKey.F && AppToolkit.IsOnlyCtrlPressed())
         {
-            if (e.Key == VirtualKey.Space)
-            {
-                var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
-                if (focusEle is TextBox)
-                {
-                    return;
-                }
-            }
-
-            e.Handled = RootLayout.TryTogglePlayPauseIfInPlayer();
-        }
-        else if (e.Key == VirtualKey.Right)
-        {
-            var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
-            if (focusEle is TextBox)
-            {
-                return;
-            }
-
-            e.Handled = RootLayout.TryMarkRightArrowPressedTime();
-        }
-    }
-
-    private void OnWindowKeyUp(object? sender, PlayerKeyboardEventArgs e)
-    {
-        if (e.Key == VirtualKey.Right)
-        {
-            var focusEle = FocusManager.GetFocusedElement(RootLayout.XamlRoot);
-            if (focusEle is TextBox)
-            {
-                return;
-            }
-
-            e.Handled = RootLayout.TryCancelRightArrow();
+            RootLayout.TryFocusSearchBox();
         }
     }
 
@@ -274,7 +250,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
         if (args.DidVisibilityChange && !sender.IsVisible)
         {
-            // this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
+            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
         }
     }
 
@@ -295,75 +271,65 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
             }
         }
     }
-}
 
-internal static class GlobalHook
-{
-    private const int WM_KEYDOWN = 0x0100;
-    private const int WM_KEYUP = 0x0101;
-
-    private static readonly HOOKPROC _procKeyboard = HookKeyboardCallback;
-    private static UnhookWindowsHookExSafeHandle _keyboardHookID = new();
-    public static event EventHandler<PlayerKeyboardEventArgs> KeyDown;
-    public static event EventHandler<PlayerKeyboardEventArgs> KeyUp;
-
-    public static void Start()
+    private void OnRootLayoutLoaded(object sender, RoutedEventArgs e)
     {
-        _keyboardHookID = SetHook(_procKeyboard, WINDOWS_HOOK_ID.WH_KEYBOARD_LL);
+        var keyboardSource = InputKeyboardSource.GetForIsland(RootLayout.XamlRoot?.ContentIsland);
+        keyboardSource.KeyUp += OnWindowKeyUp;
     }
 
-    public static void Stop()
+    private bool IsCursorInWindow()
     {
-        PInvoke.UnhookWindowsHookEx(new HHOOK(_keyboardHookID.DangerousGetHandle()));
-    }
-
-    private static UnhookWindowsHookExSafeHandle SetHook(HOOKPROC proc, WINDOWS_HOOK_ID hookId)
-    {
-        using var curProcess = Process.GetCurrentProcess();
-        using var curModule = curProcess.MainModule;
-        return PInvoke.SetWindowsHookEx(hookId, proc, PInvoke.GetModuleHandle(curModule.ModuleName), 0);
-    }
-
-    private static LRESULT HookKeyboardCallback(int nCode, WPARAM wParam, LPARAM lParam)
-    {
-        if (nCode >= 0 && wParam.Value == WM_KEYDOWN)
+        var isSuccess = PInvoke.GetCursorPos(out var point);
+        if (!isSuccess)
         {
-            var vkCode = Marshal.ReadInt32(lParam);
-            var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
-            var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
-            KeyDown?.Invoke(null, args);
-            if (args.Handled)
-            {
-                return new LRESULT(1);
-            }
-        }
-        else if (nCode >= 0 && wParam.Value == WM_KEYUP)
-        {
-            var vkCode = Marshal.ReadInt32(lParam);
-            var isCtrlPressed = (PInvoke.GetKeyState((int)VirtualKey.Control) & 0x8000) != 0;
-            var args = new PlayerKeyboardEventArgs(vkCode, isCtrlPressed);
-            KeyUp?.Invoke(null, args);
-            if (args.Handled)
-            {
-                return new LRESULT(1);
-            }
+            return false;
         }
 
-        return PInvoke.CallNextHookEx(HHOOK.Null, nCode, wParam, lParam);
-    }
-}
+        if (AppWindow is null || !AppWindow.IsVisible)
+        {
+            return false;
+        }
 
-internal sealed class PlayerKeyboardEventArgs
-{
-    public PlayerKeyboardEventArgs(int keyCode, bool isControlPressed)
+        var handle = this.GetWindowHandle();
+        isSuccess = PInvoke.GetClientRect(new(handle), out var clientRect);
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        var lt = new System.Drawing.Point(clientRect.X, clientRect.Y);
+        isSuccess = PInvoke.ClientToScreen(new(handle), ref lt);
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        var rb = new System.Drawing.Point(clientRect.X + clientRect.Width, clientRect.Y + clientRect.Height);
+        isSuccess = PInvoke.ClientToScreen(new(handle), ref rb);
+        if (!isSuccess)
+        {
+            return false;
+        }
+
+        return point.X >= lt.X && point.X <= rb.X && point.Y >= lt.Y && point.Y <= rb.Y;
+    }
+
+    private bool IsForegroundWindow()
     {
-        Key = (VirtualKey)keyCode;
-        IsControlPressed = isControlPressed;
+        var handle = PInvoke.GetForegroundWindow();
+        return handle.Equals(new(this.GetWindowHandle()));
     }
 
-    internal VirtualKey Key { get; }
-
-    internal bool IsControlPressed { get; }
-
-    internal bool Handled { get; set; }
+    private void OnCursorTimerTick(DispatcherQueueTimer sender, object args)
+    {
+        if (!IsCursorInWindow() || !_isActivated || !IsForegroundWindow())
+        {
+            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
+        }
+        else
+        {
+            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
+        }
+    }
 }

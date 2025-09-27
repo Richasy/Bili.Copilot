@@ -19,15 +19,7 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        CommentScrollView.ViewChanged += OnViewChanged;
-        CommentScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
         CheckSortType();
-        CheckCommentCount();
     }
 
     /// <inheritdoc/>
@@ -38,9 +30,6 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
             ViewModel.ListUpdated -= OnCommentListUpdatedAsync;
             ViewModel.Initialized -= OnInitialized;
         }
-
-        CommentScrollView.ViewChanged -= OnViewChanged;
-        CommentScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -63,42 +52,11 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
 
     private async void OnCommentListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckCommentCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (CommentScrollView.ExtentHeight - CommentScrollView.ViewportHeight - CommentScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 
     private void OnInitialized(object? sender, EventArgs e)
         => CheckSortType();
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100)
-        {
-            CheckCommentCount();
-        }
-    }
-
-    private void CheckCommentCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (CommentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
 
     private void CheckSortType()
     {

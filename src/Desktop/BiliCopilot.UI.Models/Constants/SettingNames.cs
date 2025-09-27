@@ -104,4 +104,5 @@ public enum SettingNames
     IsAIStreamingResponse,
     UseWebPlayerWhenLive,
     ShowSearchRecommend,
+    ScrollAccelerate,
 }

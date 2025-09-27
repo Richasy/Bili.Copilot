@@ -15,29 +15,12 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
     public ComprehensiveMainBody() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        MomentScrollView.ViewChanged += OnViewChanged;
-        MomentScrollView.SizeChanged += OnScrollViewSizeChanged;
-
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        CheckMomentCount();
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)
         {
             ViewModel.ListUpdated -= OnListUpdatedAsync;
         }
-
-        MomentScrollView.ViewChanged -= OnViewChanged;
-        MomentScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -58,38 +41,6 @@ public sealed partial class ComprehensiveMainBody : MomentUperSectionControlBase
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckMomentCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MomentScrollView.ExtentHeight - MomentScrollView.ViewportHeight - MomentScrollView.VerticalOffset <= 240)
-            {
-                ViewModel?.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100)
-        {
-            CheckMomentCount();
-        }
-    }
-
-    private void CheckMomentCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MomentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel?.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }

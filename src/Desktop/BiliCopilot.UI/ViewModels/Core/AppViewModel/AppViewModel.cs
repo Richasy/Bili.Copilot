@@ -6,7 +6,7 @@ using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
-using Microsoft.Windows.BadgeNotifications;
+using Microsoft.Win32;
 using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUIKernel.Share.Base;
@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32.UI.WindowsAndMessaging;
 using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
@@ -60,10 +61,12 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Launch()
+    private async Task LaunchAsync()
     {
+        await LoadOriginalWheelLinesAsync();
+
         // 清除所有之前的badges.
-        BadgeNotificationManager.Current.ClearBadge();
+        //BadgeNotificationManager.Current.ClearBadge();
         if (_tokenResolver.GetToken() is not null)
         {
             IsInitialLoading = true;
@@ -268,6 +271,102 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             _logger.LogError(ex, "检查GPU类型时失败");
         }
+    }
+
+    [RelayCommand]
+    private async Task UseQuickWheelScrollAsync()
+    {
+        if (_isWheelLinesChanged || !SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true))
+        {
+            return;
+        }
+
+        _isWheelLinesChanged = true;
+        await SetWheelLinesAsync(12);
+    }
+
+    [RelayCommand]
+    private async Task RestoreOriginalWheelScrollAsync()
+    {
+        if (_isWheelLinesChanged && _originalWheelLines != null)
+        {
+            _isWheelLinesChanged = false;
+            await SetWheelLinesAsync(_originalWheelLines.Value);
+        }
+
+        _isWheelLinesChanged = false;
+    }
+
+    private async Task LoadOriginalWheelLinesAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                unsafe
+                {
+                    uint lines = 0;
+                    var ok = PInvoke.SystemParametersInfo(
+                        SYSTEM_PARAMETERS_INFO_ACTION.SPI_GETWHEELSCROLLLINES,
+                        0u,
+                        &lines,
+                        0);
+
+                    if (ok)
+                    {
+                        _originalWheelLines = lines == 12 ? 3 : (int)lines;
+                        return;
+                    }
+
+                    this.Get<ILogger<AppViewModel>>().LogWarning("Get wheel lines via SPI failed, fallback to registry.");
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Get wheel lines via SPI exception.");
+            }
+
+            try
+            {
+                using var reg = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", false);
+                var value = reg?.GetValue("WheelScrollLines")?.ToString();
+                if (uint.TryParse(value, out var regLines))
+                {
+                    _originalWheelLines = regLines == 12 ? 3 : (int)regLines;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Read wheel lines from registry failed.");
+            }
+        });
+    }
+
+    private async Task SetWheelLinesAsync(int lines)
+    {
+        if (_originalWheelLines == null)
+        {
+            return;
+        }
+
+        await Task.Run(() =>
+        {
+            try
+            {
+                unsafe
+                {
+                    var result = PInvoke.SystemParametersInfo(SYSTEM_PARAMETERS_INFO_ACTION.SPI_SETWHEELSCROLLLINES, (uint)lines, null, SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_UPDATEINIFILE | SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_SENDCHANGE);
+                    if (!result)
+                    {
+                        this.Get<ILogger<AppViewModel>>().LogWarning("Set wheel lines failed.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Set wheel lines exception.");
+            }
+        });
     }
 
     partial void OnIsInitialLoadingChanged(bool value)

@@ -12,6 +12,11 @@ namespace BiliCopilot.UI.Toolkits;
 /// </summary>
 internal sealed partial class AppToolkit : SharedAppToolkit
 {
+    private const int VK_LCONTROL = 0xA2; // 左Ctrl键
+    private const int VK_RCONTROL = 0xA3; // 右Ctrl键
+    private const int VK_SHIFT = 0x10; // Shift键
+    private const int VK_MENU = 0x12; // Alt键
+
     public AppToolkit(ISettingsToolkit settings) : base(settings)
     {
     }
@@ -115,6 +120,37 @@ internal sealed partial class AppToolkit : SharedAppToolkit
         var uri = new Uri(url);
         return P2PRegex().IsMatch(uri.Host);
     }
+
+    public static bool IsCtrlPressed()
+    {
+        var leftCtrlState = PInvoke.GetAsyncKeyState(VK_LCONTROL);
+        var rightCtrlState = PInvoke.GetAsyncKeyState(VK_RCONTROL);
+        return (leftCtrlState & 0x8000) != 0 || (rightCtrlState & 0x8000) != 0;
+    }
+
+    public static bool IsShiftPressed()
+    {
+        var shiftState = PInvoke.GetAsyncKeyState(VK_SHIFT);
+        return (shiftState & 0x8000) != 0;
+    }
+
+    public static bool IsAltPressed()
+    {
+        var altState = PInvoke.GetAsyncKeyState(VK_MENU);
+        return (altState & 0x8000) != 0;
+    }
+
+    public static bool IsOnlyCtrlPressed()
+        => IsCtrlPressed() && !IsShiftPressed() && !IsAltPressed();
+
+    public static bool IsOnlyShiftPressed()
+        => !IsCtrlPressed() && IsShiftPressed() && !IsAltPressed();
+
+    public static bool IsOnlyAltPressed()
+        => !IsCtrlPressed() && !IsShiftPressed() && IsAltPressed();
+
+    public static bool NotModifierKeyPressed()
+        => !IsCtrlPressed() && !IsShiftPressed() && !IsAltPressed();
 
     /// <summary>
     /// 获取WebDav服务器地址.

@@ -5,14 +5,12 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
-using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUIKernel.Share.Base;
 using WebDav;
 using Windows.Graphics;
-using Windows.System;
 using WinUIEx;
 
 namespace BiliCopilot.UI.Forms;
@@ -24,7 +22,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
-    private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
 
     /// <summary>
@@ -40,8 +37,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         MinWidth = WindowMinWidth;
         MinHeight = WindowMinHeight;
         this.Get<AppViewModel>().Windows.Add(this);
-        _inputActivationListener = InputActivationListener.GetForWindowId(AppWindow.Id);
-        _inputActivationListener.InputActivationChanged += OnInputActivationChanged;
         Activated += OnActivated;
         Closed += OnClosed;
     }
@@ -227,25 +222,7 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         Closed -= OnClosed;
 
         GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
-        GlobalHook.Stop();
         SaveCurrentWindowStats();
-    }
-
-    private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
-    {
-        var isDeactivated = sender.State == InputActivationState.Deactivated;
-        if (isDeactivated)
-        {
-            GlobalHook.KeyDown -= OnWindowKeyDown;
-            GlobalHook.KeyUp -= OnWindowKeyUp;
-            GlobalHook.Stop();
-        }
-        else
-        {
-            GlobalHook.Start();
-            GlobalHook.KeyDown += OnWindowKeyDown;
-            GlobalHook.KeyUp += OnWindowKeyUp;
-        }
     }
 
     private bool TryBackToDefaultMode()
@@ -341,35 +318,6 @@ public sealed partial class PlayerWindow : WindowBase, IPlayerHostWindow, ITipWi
         else if (MainFrame.Content is WebDavPlayerPage wPage)
         {
             wPage.ViewModel.CleanCommand.Execute(default);
-        }
-    }
-
-    private void OnWindowKeyDown(object? sender, PlayerKeyboardEventArgs e)
-    {
-        if (e.Key == VirtualKey.Space || e.Key == VirtualKey.Pause)
-        {
-            if (e.Key == VirtualKey.Space)
-            {
-                var focusEle = FocusManager.GetFocusedElement(MainFrame.XamlRoot);
-                if (focusEle is TextBox)
-                {
-                    return;
-                }
-            }
-
-            e.Handled = TryTogglePlayPauseIfInPlayer();
-        }
-        else if (e.Key == VirtualKey.Right)
-        {
-            e.Handled = TryMarkRightArrowPressedTime();
-        }
-    }
-
-    private void OnWindowKeyUp(object? sender, PlayerKeyboardEventArgs e)
-    {
-        if (e.Key == VirtualKey.Right)
-        {
-            e.Handled = TryCancelRightArrow();
         }
     }
 
