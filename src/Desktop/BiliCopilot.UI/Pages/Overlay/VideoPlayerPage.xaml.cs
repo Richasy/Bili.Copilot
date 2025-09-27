@@ -14,7 +14,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// 视频播放界面.
 /// </summary>
-public sealed partial class VideoPlayerPage : VideoPlayerPageBase
+public sealed partial class VideoPlayerPage : VideoPlayerPageBase, IParameterPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerPage"/> class.
@@ -25,6 +25,19 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         BiliPlayer.InjectDanmakuControlFunc(CreateDanmakuPanel);
         BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
         BiliPlayer.InjectSubtitleControlFunc(CreateSubtitleControl);
+    }
+
+    public void SetParameter(object? parameter)
+    {
+        if (parameter is VideoSnapshot video)
+        {
+            ViewModel.InitializePageCommand.Execute(video);
+        }
+        else if (parameter is (IList<VideoInformation> list, VideoSnapshot v))
+        {
+            ViewModel.InjectPlaylist(list);
+            ViewModel.InitializePageCommand.Execute(v);
+        }
     }
 
     /// <summary>
@@ -76,20 +89,13 @@ public sealed partial class VideoPlayerPage : VideoPlayerPageBase
         {
             ViewModel.IsSeparatorWindowPlayer = true;
         }
-
-        if (e.Parameter is VideoSnapshot video)
-        {
-            ViewModel.InitializePageCommand.Execute(video);
-        }
-        else if (e.Parameter is (IList<VideoInformation> list, VideoSnapshot v))
-        {
-            ViewModel.InjectPlaylist(list);
-            ViewModel.InitializePageCommand.Execute(v);
-        }
     }
 
     /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        => ViewModel.CleanCommand.Execute(default);
+
+    protected override void OnPageUnloaded()
         => ViewModel.CleanCommand.Execute(default);
 
     private DanmakuControlBase CreateDanmakuPanel()

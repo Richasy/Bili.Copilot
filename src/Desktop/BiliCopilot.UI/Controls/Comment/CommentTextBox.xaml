@@ -87,15 +87,20 @@
             ToolTipService.ToolTip="{ext:Locale Name=Emote}">
             <ic:SymbolIcon FontSize="14" Symbol="Emoji" />
             <Button.Flyout>
-                <Flyout Closed="OnFlyoutClosed" ShouldConstrainToRootBounds="False">
+                <Flyout
+                    Closed="OnFlyoutClosed"
+                    Opened="OnFlyoutOpened"
+                    ShouldConstrainToRootBounds="False">
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="Padding" Value="4,8" />
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
                     <components:EmotePanel
+                        x:Name="EmotePanel"
                         Width="320"
                         Height="420"
+                        x:Load="{x:Bind IsEmoteFlyoutOpened, Mode=OneWay}"
                         ItemClick="OnItemClick" />
                 </Flyout>
             </Button.Flyout>

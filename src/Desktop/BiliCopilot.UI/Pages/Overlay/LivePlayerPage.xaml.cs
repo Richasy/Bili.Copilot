@@ -12,7 +12,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// 直播播放页面.
 /// </summary>
-public sealed partial class LivePlayerPage : LivePlayerPageBase
+public sealed partial class LivePlayerPage : LivePlayerPageBase, IParameterPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LivePlayerPage"/> class.
@@ -36,17 +36,20 @@ public sealed partial class LivePlayerPage : LivePlayerPageBase
     public void ExitPlayerHostMode()
         => VisualStateManager.GoToState(this, "DefaultState", false);
 
+    public void SetParameter(object? parameter)
+    {
+        if (parameter is MediaIdentifier live)
+        {
+            ViewModel.InitializePageCommand.Execute(live);
+        }
+    }
+
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         if (Frame.Tag is string tag && tag == "PlayerWindow")
         {
             ViewModel.IsSeparatorWindowPlayer = true;
-        }
-
-        if (e.Parameter is MediaIdentifier live)
-        {
-            ViewModel.InitializePageCommand.Execute(live);
         }
     }
 

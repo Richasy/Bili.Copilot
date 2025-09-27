@@ -21,17 +21,19 @@
             IsActive="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
         <Button Style="{StaticResource AvatarButtonStyle}">
             <controls:BasicCoverImage
+                x:Name="Avatar"
                 Width="28"
                 Height="28"
+                x:Load="{x:Bind ViewModel.IsInitializing, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                 CornerRadius="14"
                 DecodeWidth="56"
                 Source="{x:Bind ViewModel.MyProfile.User.Avatar.Uri, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.MyProfile, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
             <Button.Flyout>
                 <MenuFlyout
+                    Closed="OnFlyoutClosed"
                     Opened="OnFlyoutOpened"
-                    Placement="BottomEdgeAlignedRight"
-                    ShouldConstrainToRootBounds="False">
+                    Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem>
                         <MenuFlyoutItem.Template>
                             <ControlTemplate>

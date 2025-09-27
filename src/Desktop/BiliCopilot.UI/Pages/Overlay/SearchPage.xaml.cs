@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.View;
-using Microsoft.UI.Xaml.Navigation;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Pages.Overlay;
@@ -9,7 +8,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// 搜索页面.
 /// </summary>
-public sealed partial class SearchPage : SearchPageBase
+public sealed partial class SearchPage : SearchPageBase, IParameterPage
 {
     private string _keyword = string.Empty;
 
@@ -18,23 +17,13 @@ public sealed partial class SearchPage : SearchPageBase
     /// </summary>
     public SearchPage() => InitializeComponent();
 
-    /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    public void SetParameter(object? parameter)
     {
-        if (e.NavigationMode == NavigationMode.Back)
-        {
-            return;
-        }
-
-        if (e.Parameter is string keyword)
+        if (parameter is string keyword)
         {
             _keyword = keyword;
         }
     }
-
-    /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
-        => _keyword = string.Empty;
 
     /// <inheritdoc/>
     protected override void OnPageLoaded()
@@ -43,6 +32,11 @@ public sealed partial class SearchPage : SearchPageBase
         {
             ViewModel.SearchCommand.Execute(_keyword);
         }
+    }
+
+    protected override void OnPageUnloaded()
+    {
+        _keyword = string.Empty;
     }
 }
 

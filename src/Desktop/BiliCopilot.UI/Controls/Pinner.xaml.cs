@@ -70,6 +70,16 @@ public sealed partial class Pinner : PinnerBase
             ItemsFlyout.Hide();
         }
     }
+
+    private void OnFlyoutOpened(object sender, object e)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => ViewModel.IsFlyoutOpened = true);
+    }
+
+    private void OnFlyoutClosed(object sender, object e)
+    {
+        ViewModel.IsFlyoutOpened = false;
+    }
 }
 
 /// <summary>

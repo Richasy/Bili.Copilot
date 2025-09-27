@@ -36,6 +36,12 @@ public sealed partial class CommentTextBox : LayoutUserControlBase
         DependencyProperty.Register(nameof(ResetSelectedCommand), typeof(ICommand), typeof(CommentTextBox), new PropertyMetadata(default));
 
     /// <summary>
+    /// <see cref="IsEmoteFlyoutOpened"/> 的依赖属性.
+    /// </summary>
+    public static readonly DependencyProperty IsEmoteFlyoutOpenedProperty =
+        DependencyProperty.Register(nameof(IsEmoteFlyoutOpened), typeof(bool), typeof(CommentTextBox), new PropertyMetadata(default));
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="CommentTextBox"/> class.
     /// </summary>
     public CommentTextBox()
@@ -79,6 +85,15 @@ public sealed partial class CommentTextBox : LayoutUserControlBase
         set => SetValue(ResetSelectedCommandProperty, value);
     }
 
+    /// <summary>
+    /// 表情面板是否打开.
+    /// </summary>
+    public bool IsEmoteFlyoutOpened
+    {
+        get => (bool)GetValue(IsEmoteFlyoutOpenedProperty);
+        set => SetValue(IsEmoteFlyoutOpenedProperty, value);
+    }
+
     private async void OnReplySubmittedAsync(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
         if (string.IsNullOrEmpty(Text))
@@ -97,5 +112,13 @@ public sealed partial class CommentTextBox : LayoutUserControlBase
         => Text += e;
 
     private void OnFlyoutClosed(object sender, object e)
-        => ReplyBox.Focus(FocusState.Programmatic);
+    {
+        IsEmoteFlyoutOpened = false;
+        ReplyBox.Focus(FocusState.Programmatic);
+    }
+
+    private void OnFlyoutOpened(object sender, object e)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => IsEmoteFlyoutOpened = true);
+    }
 }

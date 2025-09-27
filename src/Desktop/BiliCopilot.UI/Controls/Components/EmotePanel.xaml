@@ -31,6 +31,7 @@
                         <controls:BasicCoverImage
                             Width="28"
                             Height="28"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
                             DecodeWidth="60"
                             Source="{x:Bind Icon.Uri}" />
                     </ItemContainer>
@@ -58,6 +59,7 @@
                             <controls:BasicCoverImage
                                 Width="32"
                                 Height="32"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
                                 DecodeWidth="100"
                                 Source="{x:Bind Image.Uri}"
                                 Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityConverter}}" />

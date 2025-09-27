@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.View;
-using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.Article;
 using Richasy.WinUIKernel.Share.Base;
 
@@ -10,17 +9,16 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// 文章阅读页面.
 /// </summary>
-public sealed partial class ArticleReaderPage : ArticleReaderPageBase
+public sealed partial class ArticleReaderPage : ArticleReaderPageBase, IParameterPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ArticleReaderPage"/> class.
     /// </summary>
     public ArticleReaderPage() => InitializeComponent();
 
-    /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    public void SetParameter(object? parameter)
     {
-        if (e.Parameter is ArticleIdentifier article)
+        if (parameter is ArticleIdentifier article)
         {
             ViewModel.InitializeCommand.Execute(article);
             Reader.Initialized += OnInitializedAsync;
@@ -28,8 +26,7 @@ public sealed partial class ArticleReaderPage : ArticleReaderPageBase
         }
     }
 
-    /// <inheritdoc/>
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnPageUnloaded()
     {
         Reader.ClearContent();
         Reader.Initialized -= OnInitializedAsync;

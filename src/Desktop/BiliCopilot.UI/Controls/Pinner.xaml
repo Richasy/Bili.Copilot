@@ -80,6 +80,8 @@
         <Button.Flyout>
             <Flyout
                 x:Name="ItemsFlyout"
+                Closed="OnFlyoutClosed"
+                Opened="OnFlyoutOpened"
                 Placement="Bottom"
                 ShouldConstrainToRootBounds="False">
                 <Flyout.FlyoutPresenterStyle>
@@ -90,6 +92,7 @@
                 <ItemsRepeater
                     x:Name="Repeater"
                     MinWidth="320"
+                    x:Load="{x:Bind ViewModel.IsFlyoutOpened, Mode=OneWay}"
                     ItemTemplate="{StaticResource PinTemplate}"
                     ItemsSource="{x:Bind ViewModel.Items}">
                     <ItemsRepeater.Layout>

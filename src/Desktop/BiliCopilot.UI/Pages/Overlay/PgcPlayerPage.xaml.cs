@@ -13,7 +13,7 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// PGC 播放器页面.
 /// </summary>
-public sealed partial class PgcPlayerPage : PgcPlayerPageBase
+public sealed partial class PgcPlayerPage : PgcPlayerPageBase, IParameterPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerPage"/> class.
@@ -37,6 +37,14 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
     /// </summary>
     public void ExitPlayerHostMode()
         => VisualStateManager.GoToState(this, "DefaultState", false);
+
+    public void SetParameter(object? parameter)
+    {
+        if (parameter is MediaIdentifier id)
+        {
+            ViewModel.InitializePageCommand.Execute(id);
+        }
+    }
 
     /// <summary>
     /// 标记右箭头按下.
@@ -74,11 +82,6 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase
         if (Frame.Tag is string tag && tag == "PlayerWindow")
         {
             ViewModel.IsSeparatorWindowPlayer = true;
-        }
-
-        if (e.Parameter is MediaIdentifier id)
-        {
-            ViewModel.InitializePageCommand.Execute(id);
         }
     }
 

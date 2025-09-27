@@ -35,4 +35,7 @@ public sealed partial class AccountViewModel
 
     [ObservableProperty]
     private string _introduce;
+
+    [ObservableProperty]
+    public partial bool IsFlyoutOpened { get; set; }
 }

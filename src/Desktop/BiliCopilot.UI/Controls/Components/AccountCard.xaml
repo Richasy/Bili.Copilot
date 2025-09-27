@@ -18,10 +18,13 @@
 
         <Grid VerticalAlignment="Top">
             <controls:BasicCoverImage
+                x:Name="Avatar"
                 Width="48"
                 Height="48"
+                x:Load="{x:Bind ViewModel.IsFlyoutOpened, Mode=OneWay}"
+                CornerRadius="24"
                 DecodeWidth="100"
-                Source="{x:Bind ViewModel.MyProfile.User.Avatar.SourceUri, Mode=OneWay}" />
+                Source="{x:Bind ViewModel.MyProfile.User.Avatar.Uri, Mode=OneWay}" />
             <Image
                 Width="16"
                 HorizontalAlignment="Right"

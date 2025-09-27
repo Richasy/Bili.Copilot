@@ -52,6 +52,7 @@
                     <controls:BasicCoverImage
                         Width="48"
                         Height="48"
+                        x:Load="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                         CornerRadius="24"
                         DecodeWidth="100"
                         Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"

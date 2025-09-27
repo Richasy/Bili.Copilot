@@ -118,25 +118,25 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
 
         ActiveMainWindow();
-        if (pageType == typeof(VideoPlayerPage) && _overFrame.Content is VideoPlayerPage page)
+        if (pageType == typeof(VideoPlayerPage) && _overFrame.GetCurrentContent() is VideoPlayerPage page)
         {
             page.ViewModel.InitializePageCommand.Execute(parameter);
             IsOverlayOpen = true;
             return;
         }
-        else if (pageType == typeof(LivePlayerPage) && _overFrame.Content is LivePlayerPage livePage)
+        else if (pageType == typeof(LivePlayerPage) && _overFrame.GetCurrentContent() is LivePlayerPage livePage)
         {
             livePage.ViewModel.InitializePageCommand.Execute(parameter);
             IsOverlayOpen = true;
             return;
         }
-        else if (pageType == typeof(PgcPlayerPage) && _overFrame.Content is PgcPlayerPage pgcPage)
+        else if (pageType == typeof(PgcPlayerPage) && _overFrame.GetCurrentContent() is PgcPlayerPage pgcPage)
         {
             pgcPage.ViewModel.InitializePageCommand.Execute(parameter);
             IsOverlayOpen = true;
             return;
         }
-        else if (pageType == typeof(WebDavPlayerPage) && _overFrame.Content is WebDavPlayerPage webDavPage)
+        else if (pageType == typeof(WebDavPlayerPage) && _overFrame.GetCurrentContent() is WebDavPlayerPage webDavPage)
         {
             webDavPage.ViewModel.InitializeCommand.Execute(parameter);
             IsOverlayOpen = true;
@@ -168,7 +168,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     /// </summary>
     public void Search(string keyword)
     {
-        if (_overFrame is not null && _overFrame.Content is SearchPage page)
+        if (_overFrame is not null && _overFrame.GetCurrentContent() is SearchPage page)
         {
             page.ViewModel.SearchCommand.Execute(keyword);
             return;
@@ -191,11 +191,11 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     /// </summary>
     public void SearchInRegion(string keyword)
     {
-        if (_overFrame.Content is UserSpacePage usp)
+        if (_overFrame.GetCurrentContent() is UserSpacePage usp)
         {
             usp.ViewModel.SearchCommand.Execute(keyword);
         }
-        else if (_overFrame.Content is HistoryPage hp)
+        else if (_overFrame.GetCurrentContent() is HistoryPage hp)
         {
             hp.ViewModel.SearchCommand.Execute(keyword);
         }
