@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPlayerPageControlBase
+<local:VideoPlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Player.VideoOperationControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -34,7 +34,7 @@
                 ItemsSource="{x:Bind ViewModel.FavoriteFolders, Mode=OneWay}"
                 Tip="{x:Bind ViewModel.FavoriteCount, Mode=OneWay, Converter={StaticResource CountConverter}}" />
         </StackPanel>
-        <ComboBox
+        <!--<ComboBox
             x:Name="LoopComboBox"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind ViewModel.LoopTypes, Mode=OneWay}"
@@ -45,7 +45,7 @@
                     <TextBlock Text="{x:Bind Converter={StaticResource LoopTypeConverter}}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-        </ComboBox>
+        </ComboBox>-->
         <local:DownloadButton ViewModel="{x:Bind ViewModel.Downloader, Mode=OneWay}" />
         <StackPanel Spacing="4">
             <TextBlock
@@ -64,4 +64,4 @@
             </TextBlock>
         </StackPanel>
     </StackPanel>
-</local:VideoPlayerPageControlBase>
+</local:VideoPlayerControlBase>

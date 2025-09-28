@@ -28,6 +28,7 @@
             <base:EmptyHolder
                 Title="{ext:Locale Name=NoAIModel}"
                 Grid.Row="2"
+                VerticalAlignment="Center"
                 Description="{ext:Locale Name=NoAIModelDescription}"
                 Emoji="&#x1F916;"
                 Visibility="{x:Bind ViewModel.IsNoModel, Mode=OneWay}" />
@@ -39,6 +40,7 @@
         </Grid>
         <base:EmptyHolder
             Title="{ext:Locale Name=NoAIService}"
+            VerticalAlignment="Center"
             Description="{ext:Locale Name=NoAIServiceDescription}"
             Emoji="&#x1F916;"
             Visibility="{x:Bind ViewModel.IsNoService, Mode=OneWay}" />

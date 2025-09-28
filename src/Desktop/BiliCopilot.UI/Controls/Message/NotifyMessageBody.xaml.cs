@@ -15,29 +15,12 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
     public NotifyMessageBody() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        MessageScrollView.ViewChanged += OnViewChanged;
-        MessageScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        CheckMessageCount();
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)
         {
             ViewModel.ListUpdated -= OnMessageListUpdatedAsync;
         }
-
-        MessageRepeater.ItemsSource = null;
-        MessageScrollView.ViewChanged -= OnViewChanged;
-        MessageScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -54,42 +37,11 @@ public sealed partial class NotifyMessageBody : NotifyMessageControlBase
         }
 
         newValue.ListUpdated += OnMessageListUpdatedAsync;
-        MessageScrollView?.ChangeView(0, 0, default);
+        View?.ResetScrollPosition();
     }
 
     private async void OnMessageListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckMessageCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MessageScrollView.ExtentHeight - MessageScrollView.ViewportHeight - MessageScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100 && ViewModel is not null)
-        {
-            CheckMessageCount();
-        }
-    }
-
-    private void CheckMessageCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (MessageScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }

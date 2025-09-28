@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
@@ -12,7 +13,7 @@ namespace BiliCopilot.UI.ViewModels.Core;
 /// </summary>
 public sealed partial class DownloadViewModel
 {
-    private const string VideoUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69";
+    private const string VideoUserAgent = InternalHttpExtensions.VideoUserAgent;
     private readonly ILogger<DownloadViewModel> _logger;
     private readonly IBiliTokenResolver _tokenResolver;
     private readonly IBiliCookiesResolver _cookiesResolver;

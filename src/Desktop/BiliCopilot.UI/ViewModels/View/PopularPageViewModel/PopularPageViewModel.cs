@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -121,6 +120,11 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
             return;
         }
 
+        if (SelectedSection is PopularSectionItemViewModel section2 && section2.Type == PopularSectionType.Rank && Videos.Count > 0)
+        {
+            return;
+        }
+
         IsVideoLoading = true;
         if (SelectedSection is PopularSectionItemViewModel section)
         {
@@ -172,8 +176,8 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         try
         {
             var videos = await _service.GetCuratedPlaylistAsync();
-            var firstSnapshot = new VideoSnapshot(videos.First());
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), (videos, firstSnapshot));
+            var firstSnapshot = new MediaSnapshot(videos[0]) { Playlist = videos.ToList().ConvertAll(p => new MediaSnapshot(p)) };
+            this.Get<AppViewModel>().OpenPlayerCommand.Execute(firstSnapshot);
         }
         catch (Exception ex)
         {

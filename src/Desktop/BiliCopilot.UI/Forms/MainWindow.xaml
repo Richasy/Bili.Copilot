@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid PointerPressed="OnPointerPressed">
-        <controls:RootLayout x:Name="RootLayout" />
+        <controls:RootLayout x:Name="RootLayout" Loaded="OnRootLayoutLoaded" />
         <Grid x:Name="TipContainer" Visibility="Collapsed" />
     </Grid>
 </base:WindowBase>

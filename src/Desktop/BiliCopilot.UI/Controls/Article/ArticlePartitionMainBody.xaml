@@ -5,34 +5,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Article"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer
-            x:Name="ArticleScrollView"
-            Grid.Row="1"
-            Style="{StaticResource PageScrollViewerStyle}">
-            <Grid Margin="16,12">
-                <ItemsRepeater
-                    x:Name="ArticleRepeater"
-                    ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}"
-                    Layout="{StaticResource ArticleLayout}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="items:ArticleItemViewModel">
-                            <components:ArticleCardControl Style="{StaticResource PartitionArticleCardStyle}" ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-            </Grid>
-        </ScrollViewer>
-        <base:LoadingWidget
-            Grid.Row="1"
-            Text="{ext:Locale Name=LoadingAndWait}"
-            Visibility="{x:Bind ViewModel.IsArticleLoading, Mode=OneWay}" />
+        <controls:IncrementVerticalScrollControl x:Name="View" LoadMoreCommand="{x:Bind ViewModel.LoadArticlesCommand, Mode=OneWay}">
+            <controls:IncrementVerticalScrollControl.Element>
+                <Grid Margin="0,16">
+                    <repeater:AppRepeater
+                        x:Name="ArticleRepeater"
+                        ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}"
+                        Layout="{StaticResource ArticleLayout}">
+                        <repeater:AppRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:ArticleItemViewModel">
+                                <components:ArticleCardControl Style="{StaticResource PartitionArticleCardStyle}" ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </repeater:AppRepeater.ItemTemplate>
+                    </repeater:AppRepeater>
+                </Grid>
+            </controls:IncrementVerticalScrollControl.Element>
+        </controls:IncrementVerticalScrollControl>
+        <base:LoadingWidget Text="{ext:Locale Name=LoadingAndWait}" Visibility="{x:Bind ViewModel.IsArticleLoading, Mode=OneWay}" />
     </Grid>
 </local:ArticlePartitionDetailControlBase>

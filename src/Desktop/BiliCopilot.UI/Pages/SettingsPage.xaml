@@ -37,11 +37,11 @@
             Height="1"
             HorizontalAlignment="Stretch"
             Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
-        <ScrollViewer
+        <ScrollView
             x:Name="GenericContainer"
             Grid.Row="2"
             Padding="16,0"
-            Style="{StaticResource PageScrollViewerStyle}">
+            Style="{StaticResource PageScrollViewStyle}">
             <StackPanel Margin="0,12" Spacing="4">
                 <StackPanel.ChildrenTransitions>
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
@@ -52,14 +52,16 @@
                     Text="{ext:Locale Name=Player}" />
                 <settings:PlayerControlSettingControl />
                 <settings:PlayerBehaviorSettingControl />
+                <settings:MpvExtraSettingControl />
+                <settings:ScreenshotSettingControl />
                 <settings:DownloadSettingControl />
-                <settings:WebDavSettingControl />
                 <TextBlock
                     Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     Text="{ext:Locale Name=Generic}" />
                 <settings:ThemeSettingControl />
                 <settings:LayoutSettingSection />
+                <settings:CacheSettingControl />
                 <settings:NavigationSettingControl />
                 <settings:SearchRecommendSettingSection />
                 <!--<settings:CloseBehaviorSettingControl />-->
@@ -111,12 +113,12 @@
                         NavigateUri="https://bili.richasy.net" />
                 </StackPanel>
             </StackPanel>
-        </ScrollViewer>
-        <ScrollViewer
+        </ScrollView>
+        <ScrollView
             x:Name="AIContainer"
             Grid.Row="2"
             Padding="16,0"
-            Style="{StaticResource PageScrollViewerStyle}"
+            Style="{StaticResource PageScrollViewStyle}"
             Visibility="Collapsed">
             <StackPanel Margin="0,12">
                 <StackPanel.ChildrenTransitions>
@@ -145,6 +147,6 @@
                     </StackPanel.ChildrenTransitions>
                 </StackPanel>
             </StackPanel>
-        </ScrollViewer>
+        </ScrollView>
     </Grid>
 </local:SettingsPageBase>

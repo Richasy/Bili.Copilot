@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.CacheSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <base:SettingsCard
+        x:Name="Exp"
+        Description="{x:Bind ViewModel.TotalImageCacheSize, Mode=OneWay}"
+        Header="{ext:Locale Name=ImageCache}">
+        <base:SettingsCard.HeaderIcon>
+            <ic:SymbolIcon Symbol="SaveImage" />
+        </base:SettingsCard.HeaderIcon>
+        <Button
+            MinWidth="120"
+            Command="{x:Bind ViewModel.ClearCacheCommand}"
+            Content="{ext:Locale Name=ClearCache}"
+            IsEnabled="{x:Bind ViewModel.IsTotalImageCacheClearEnabled, Mode=OneWay}" />
+    </base:SettingsCard>
+</local:SettingsPageControlBase>

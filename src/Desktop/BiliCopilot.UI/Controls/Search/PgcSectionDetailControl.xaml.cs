@@ -19,56 +19,17 @@ public sealed partial class PgcSectionDetailControl : PgcSectionDetailControlBas
     protected override void OnControlLoaded()
     {
         ViewModel.ListUpdated += OnListUpdatedAsync;
-        PgcScrollView.ViewChanged += OnViewChanged;
-        PgcScrollView.SizeChanged += OnScrollViewSizeChanged;
-
-        CheckPgcCount();
     }
 
     /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
-        SeasonRepeater.ItemsSource = null;
         ViewModel.ListUpdated -= OnListUpdatedAsync;
-        PgcScrollView.ViewChanged -= OnViewChanged;
-        PgcScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     private async void OnListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckPgcCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (PgcScrollView.ExtentHeight - PgcScrollView.ViewportHeight - PgcScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100)
-        {
-            CheckPgcCount();
-        }
-    }
-
-    private void CheckPgcCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (PgcScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }
 

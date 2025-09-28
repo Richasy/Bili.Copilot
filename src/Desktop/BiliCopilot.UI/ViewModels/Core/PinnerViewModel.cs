@@ -29,6 +29,9 @@ public sealed partial class PinnerViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isLoading;
 
+    [ObservableProperty]
+    private bool _isFlyoutOpened;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PinnerViewModel"/> class.
     /// </summary>

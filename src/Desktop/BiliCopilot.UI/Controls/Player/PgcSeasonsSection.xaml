@@ -8,33 +8,31 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ItemsView
-            x:Name="View"
-            Padding="12"
-            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-            SelectionChanged="OnSelectionChanged"
-            SelectionMode="Single">
-            <ItemsView.ItemTemplate>
-                <DataTemplate x:DataType="items:SeasonItemViewModel">
-                    <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                        <components:SeasonCardControl
-                            Margin="8"
-                            Style="{StaticResource PlayerSeasonCardStyle}"
-                            ViewModel="{x:Bind}" />
-                    </ItemContainer>
-                </DataTemplate>
-            </ItemsView.ItemTemplate>
-            <ItemsView.Layout>
-                <UniformGridLayout
-                    ItemsStretch="Fill"
-                    MinColumnSpacing="8"
-                    MinItemHeight="224"
-                    MinItemWidth="112"
-                    MinRowSpacing="8" />
-            </ItemsView.Layout>
-        </ItemsView>
+        <ScrollView x:Name="View" Padding="12,0">
+            <repeater:AppRepeater Margin="0,8,0,12" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                <repeater:AppRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="items:SeasonItemViewModel">
+                        <ItemContainer Style="{StaticResource AppItemContainerStyle}">
+                            <components:SeasonCardControl
+                                Margin="8"
+                                Style="{StaticResource PlayerSeasonCardStyle}"
+                                ViewModel="{x:Bind}" />
+                        </ItemContainer>
+                    </DataTemplate>
+                </repeater:AppRepeater.ItemTemplate>
+                <repeater:AppRepeater.Layout>
+                    <UniformGridLayout
+                        ItemsStretch="Fill"
+                        MinColumnSpacing="8"
+                        MinItemHeight="252"
+                        MinItemWidth="112"
+                        MinRowSpacing="8" />
+                </repeater:AppRepeater.Layout>
+            </repeater:AppRepeater>
+        </ScrollView>
     </Grid>
 </local:PgcSeasonsSectionBase>

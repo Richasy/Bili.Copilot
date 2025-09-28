@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PlayerControlBase
+    x:Class="BiliCopilot.UI.Controls.Core.PlayerOverlay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
+    xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
+    xmlns:local="using:BiliCopilot.UI.Controls.Core"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:BiliCopilot.UI.Controls.Player"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style
+            x:Key="DropDownFlyoutStyle"
+            BasedOn="{StaticResource DefaultFlyoutPresenterStyle}"
+            TargetType="FlyoutPresenter">
+            <Setter Property="Padding" Value="0,4" />
+            <Setter Property="MaxWidth" Value="9999" />
+            <Setter Property="MinWidth" Value="0" />
+        </Style>
+        <Style
+            x:Key="LeftEdgeButtonStyle"
+            BasedOn="{StaticResource DefaultButtonStyle}"
+            TargetType="Button">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Margin" Value="4,2,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <DataTemplate x:Key="VideoWidgetTemplate" x:DataType="core:VideoConnectorViewModel">
+            <player:VideoPlayerWidget ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VideoPanelTemplate" x:DataType="core:VideoConnectorViewModel">
+            <player:VideoPlayerPanel ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PgcWidgetTemplate" x:DataType="core:PgcConnectorViewModel">
+            <player:PgcPlayerWidget ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PgcPanelTemplate" x:DataType="core:PgcConnectorViewModel">
+            <player:PgcPlayerPanel ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:PlayerComponentTemplateSelector
+            x:Key="WidgetSelector"
+            PgcTemplate="{StaticResource PgcWidgetTemplate}"
+            VideoTemplate="{StaticResource VideoWidgetTemplate}" />
+        <ext:PlayerComponentTemplateSelector
+            x:Key="PanelSelector"
+            PgcTemplate="{StaticResource PgcPanelTemplate}"
+            VideoTemplate="{StaticResource VideoPanelTemplate}" />
+        <Style
+            x:Key="ItemButtonStyle"
+            BasedOn="{StaticResource DefaultButtonStyle}"
+            TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="4,0" />
+            <Setter Property="AutomationProperties.AutomationControlType" Value="ListItem" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="RootGrid">
+        <danmaku:VideoDanmakuPanel
+            x:Name="DanmakuPanel"
+            Margin="4"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            x:Load="{x:Bind ViewModel.IsDanmakuControlVisible, Mode=OneWay}"
+            ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+        <Rectangle
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="Black"
+            Visibility="{x:Bind ViewModel.IsBlackBackgroundVisible, Mode=OneWay}" />
+        <local:PlayerInteractivePanel ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+        <Rectangle
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="Transparent"
+            Visibility="{x:Bind ViewModel.IsWindowDeactivated, Mode=OneWay}" />
+        <base:LoadingWidget
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{ext:Locale Name=Connecting}"
+            Visibility="{x:Bind ViewModel.IsConnecting, Mode=OneWay}" />
+        <Grid Visibility="{x:Bind ViewModel.IsConnecting, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <base:LoadingWidget
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{ext:Locale Name=Loading}"
+                Visibility="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay}" />
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <local:OverlayTransportControls
+                    x:Name="TransportControls"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsControlsVisible, Mode=OneWay}">
+                    <local:OverlayTransportControls.LeftElement>
+                        <ContentControl
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{x:Bind ViewModel.Connector, Mode=OneWay}"
+                            ContentTemplateSelector="{StaticResource WidgetSelector}"
+                            IsTabStop="False" />
+                    </local:OverlayTransportControls.LeftElement>
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation
+                            From="0.0"
+                            To="1.0"
+                            Duration="0:0:0.2" />
+                        <animations:TranslationAnimation
+                            From="0,80,0"
+                            To="0,0,0"
+                            Duration="0:0:0.25" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation
+                            From="1.0"
+                            To="0.0"
+                            Duration="0:0:0.2" />
+                        <animations:TranslationAnimation
+                            From="0,0,0"
+                            To="0,80,0"
+                            Duration="0:0:0.25" />
+                    </animations:Implicit.HideAnimations>
+                </local:OverlayTransportControls>
+                <local:NextTip
+                    x:Name="NextTip"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+            </Grid>
+            <Grid
+                x:Name="TestRect"
+                Height="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Background="#01000000"
+                Visibility="Collapsed">
+                <!--  必须要有动画触发刷新才会隐藏光标  -->
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,80,0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation
+                        From="1.0"
+                        To="0.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,0,0"
+                        To="0,80,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.HideAnimations>
+            </Grid>
+            <base:EmptyHolder
+                Title="{ext:Locale Name=MpvError}"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Description="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                Emoji="&#x1F494;"
+                Visibility="{x:Bind ViewModel.ErrorMessage, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
+                <!--<base:EmptyHolder.ActionElement>
+                    <HyperlinkButton
+                        HorizontalAlignment="Stretch"
+                        Command="{x:Bind ViewModel.ReloadCurrentSourceCommand, Mode=OneWay}"
+                        Content="{ext:Locale Name=Reload}" />
+                </base:EmptyHolder.ActionElement>-->
+            </base:EmptyHolder>
+            <base:EmptyHolder
+                Title="{ext:Locale Name=PlayEnd}"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Description="{ext:Locale Name=PlayEndDescription}"
+                Emoji="&#x1F973;"
+                Visibility="{x:Bind ViewModel.IsEnd, Mode=OneWay}" />
+            <controls:OverlayPanel
+                Grid.RowSpan="2"
+                IsShow="{x:Bind ViewModel.IsExtraPanelVisible, Mode=TwoWay}"
+                PanelAlignment="Left">
+                <controls:OverlayPanel.Element>
+                    <ContentControl
+                        Content="{x:Bind ViewModel.Connector, Mode=OneWay}"
+                        ContentTemplateSelector="{StaticResource PanelSelector}"
+                        IsTabStop="False"
+                        Style="{StaticResource AppContentControlStyle}" />
+                </controls:OverlayPanel.Element>
+            </controls:OverlayPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,12,0,0"
+                Padding="20,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Background="{ThemeResource AcrylicInAppFillColorCustomBrush}"
+                CornerRadius="20"
+                Orientation="Horizontal"
+                Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay}">
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GetTimeText(ViewModel.Player.Position), Mode=OneWay}" />
+                <TextBlock
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="/" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GetTimeText(ViewModel.Player.Duration), Mode=OneWay}" />
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,-40,0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation
+                        From="1.0"
+                        To="0.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,0,0"
+                        To="0,-40,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.HideAnimations>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,12,0,0"
+                Padding="20,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Background="{ThemeResource AcrylicInAppFillColorCustomBrush}"
+                CornerRadius="20"
+                Orientation="Horizontal"
+                Spacing="12"
+                Visibility="{x:Bind ViewModel.IsSpeedChanging, Mode=OneWay}">
+                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=PlaySpeed}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                    Text="{x:Bind GetSpeedText(ViewModel.Player.PlaybackRate), Mode=OneWay}" />
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,-40,0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation
+                        From="1.0"
+                        To="0.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,0,0"
+                        To="0,-40,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.HideAnimations>
+            </StackPanel>
+
+            <Grid
+                Grid.Row="1"
+                Width="48"
+                Height="200"
+                Margin="12,0,0,0"
+                Padding="12,16"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Background="{ThemeResource AcrylicInAppFillColorCustomBrush}"
+                CornerRadius="24"
+                RowSpacing="8"
+                Visibility="{x:Bind ViewModel.IsVolumeChanging, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid
+                    x:Name="VolumeContainer"
+                    Width="4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Background="{ThemeResource ProgressBarBackgroundThemeBrush}"
+                    CornerRadius="2">
+                    <Border
+                        x:Name="VolumeThumb"
+                        Width="4"
+                        VerticalAlignment="Bottom"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        CornerRadius="2" />
+                </Grid>
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind GetVolumeText(ViewModel.Player.Volume), Mode=OneWay}" />
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="-40,0,0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation
+                        From="1.0"
+                        To="0.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,0,0"
+                        To="-40,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.HideAnimations>
+            </Grid>
+            <Grid
+                Grid.Row="1"
+                VerticalAlignment="Bottom"
+                Visibility="{x:Bind local:PlayerOverlay.IsBottomProgressShouldDisplay(ViewModel.Player.IsCompactOverlay, ViewModel.Player.IsFullScreen, ViewModel.Player.IsLoading, ViewModel.Player.PlaybackState), Mode=OneWay}">
+                <ProgressBar
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    IsIndeterminate="{x:Bind local:PlayerOverlay.IsLoading(ViewModel.Player.PlaybackState, ViewModel.Player.IsLoading), Mode=OneWay}"
+                    Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
+                    ShowPaused="{x:Bind local:PlayerOverlay.IsPaused(ViewModel.Player.PlaybackState), Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsBottomProgressBarVisible, Mode=OneWay}"
+                    Value="{x:Bind ViewModel.Player.Position, Mode=OneWay}" />
+            </Grid>
+            <Grid Height="60" Visibility="{x:Bind ViewModel.IsControlsVisible, Mode=OneWay}">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.0" Color="#FF000000" />
+                            <GradientStop Offset="1" Color="#00000000" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <base:AppTitleBar
+                    x:Name="HeaderBar"
+                    Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+                    Height="44"
+                    VerticalAlignment="Top"
+                    x:FieldModifier="public"
+                    AutoUpdateTitleBarButtonColor="False"
+                    IsBackButtonVisible="False"
+                    SizeChanged="OnHeaderBarSizeChanged"
+                    TitleForeground="White"
+                    TitleMaxWidth="480">
+                    <base:AppTitleBar.LeftEdgeElement>
+                        <Grid>
+                            <Grid Visibility="{x:Bind ViewModel.Player.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+                                <Button
+                                    Command="{x:Bind ViewModel.BackCommand, Mode=OneWay}"
+                                    Style="{StaticResource LeftEdgeButtonStyle}"
+                                    ToolTipService.ToolTip="{ext:Locale Name=Back}"
+                                    Visibility="{x:Bind ViewModel.UseIntegrationOperation, Mode=OneWay}">
+                                    <ic:SymbolIcon FontSize="14" Symbol="ArrowLeft" />
+                                </Button>
+                            </Grid>
+                            <Button
+                                Command="{x:Bind ViewModel.ToggleCompactOverlayCommand, Mode=OneWay}"
+                                Style="{StaticResource LeftEdgeButtonStyle}"
+                                ToolTipService.ToolTip="{ext:Locale Name=ExitCompactOverlay}"
+                                Visibility="{x:Bind ViewModel.Player.IsCompactOverlay, Mode=OneWay}">
+                                <ic:SymbolIcon FontSize="14" Symbol="ContractDownLeft" />
+                            </Button>
+                        </Grid>
+                    </base:AppTitleBar.LeftEdgeElement>
+                    <base:AppTitleBar.IconElement>
+                        <ImageIcon Source="ms-appx:///Assets/logo.png" />
+                    </base:AppTitleBar.IconElement>
+                    <base:AppTitleBar.Footer>
+                        <StackPanel x:Name="FooterContainer" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="White"
+                                Text="{x:Bind ViewModel.CacheSpeedText, Mode=OneWay}"
+                                Visibility="{x:Bind ViewModel.CacheSpeedText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <DropDownButton
+                                x:Name="SourceSelector"
+                                Margin="12,0,0,0"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Center"
+                                x:Load="{x:Bind ViewModel.IsSourceSelectable, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        Symbol="PlayCircle" />
+                                    <base:TrimTextBlock
+                                        MaxWidth="220"
+                                        VerticalAlignment="Center"
+                                        MaxLines="1"
+                                        Text="{x:Bind ViewModel.SelectedSource.Name, Mode=OneWay}" />
+                                </StackPanel>
+
+                                <DropDownButton.Flyout>
+                                    <Flyout
+                                        x:Name="SourceFlyout"
+                                        FlyoutPresenterStyle="{StaticResource DropDownFlyoutStyle}"
+                                        Placement="Bottom">
+                                        <ItemsRepeater
+                                            x:Name="SourceListView"
+                                            MaxWidth="360"
+                                            ItemsSource="{x:Bind ViewModel.Sources, Mode=OneWay}">
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="items:SourceItemViewModel">
+                                                    <Button
+                                                        Click="OnSourceItemClick"
+                                                        DataContext="{x:Bind}"
+                                                        Style="{StaticResource ItemButtonStyle}">
+                                                        <Grid>
+                                                            <Rectangle
+                                                                HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Stretch"
+                                                                Fill="{ThemeResource ControlFillColorDefaultBrush}"
+                                                                RadiusX="4"
+                                                                RadiusY="4"
+                                                                Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                            <Grid Margin="0,8">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="4" />
+                                                                    <ColumnDefinition />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Rectangle
+                                                                    Width="4"
+                                                                    Height="20"
+                                                                    VerticalAlignment="Center"
+                                                                    Fill="{ThemeResource AccentFillColorDefaultBrush}"
+                                                                    RadiusX="2"
+                                                                    RadiusY="2"
+                                                                    Visibility="{x:Bind IsSelected, Mode=OneWay}" />
+                                                                <Grid Grid.Column="1" Margin="12,0">
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition />
+                                                                        <RowDefinition Height="Auto" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <base:TrimTextBlock MaxLines="2" Text="{x:Bind Name, Mode=OneWay}" />
+                                                                    <!--<base:TrimTextBlock
+                                                                        Grid.Row="1"
+                                                                        Margin="0,4,0,0"
+                                                                        FontSize="12"
+                                                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                        MaxLines="1"
+                                                                        Text="{x:Bind Subtitle, Mode=OneWay}"
+                                                                        Visibility="{x:Bind Subtitle, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />-->
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Spacing="4" />
+                                            </ItemsRepeater.Layout>
+                                        </ItemsRepeater>
+                                    </Flyout>
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
+                            <Button
+                                Width="32"
+                                Height="32"
+                                Margin="8,0,0,0"
+                                Padding="0"
+                                VerticalAlignment="Center"
+                                Command="{x:Bind ViewModel.ToggleTopMostCommand, Mode=OneWay}"
+                                ToolTipService.ToolTip="{ext:Locale Name=TopWindow}"
+                                Visibility="{x:Bind local:PlayerOverlay.IsTopMostButtonVisible(ViewModel.Player.IsFullScreen, ViewModel.Player.IsCompactOverlay), Mode=OneWay}">
+                                <Grid>
+                                    <ic:SymbolIcon
+                                        FontSize="14"
+                                        Symbol="Pin"
+                                        Visibility="{x:Bind ViewModel.IsTopMost, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                                    <ic:SymbolIcon
+                                        FontSize="14"
+                                        Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                        IconVariant="Filled"
+                                        Symbol="Pin"
+                                        Visibility="{x:Bind ViewModel.IsTopMost, Mode=OneWay}" />
+                                </Grid>
+                            </Button>
+                            <Button
+                                x:Name="HeaderSettingButton"
+                                Width="32"
+                                Height="32"
+                                Margin="8,0,0,0"
+                                Padding="0"
+                                VerticalAlignment="Center"
+                                ToolTipService.ToolTip="{ext:Locale Name=Settings}">
+                                <ic:SymbolIcon FontSize="14" Symbol="Settings" />
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem
+                                            MinWidth="140"
+                                            MinHeight="40"
+                                            Click="OnSubtitleSettingItemClick"
+                                            IsEnabled="{x:Bind ViewModel.Player.IsPlaybackInitialized, Mode=OneWay}"
+                                            Text="{ext:Locale Name=SubtitleSetting}" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                            <Button
+                                Height="32"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                Click="OnCloseButtonClick"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Visibility="{x:Bind ViewModel.Player.IsFullScreen, Mode=OneWay}">
+                                <base:IconTextBlock
+                                    IconBrush="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                    Symbol="Dismiss"
+                                    Text="{ext:Locale Name=CloseWindow}" />
+                            </Button>
+                        </StackPanel>
+                    </base:AppTitleBar.Footer>
+                </base:AppTitleBar>
+                <TeachingTip
+                    IsLightDismissEnabled="True"
+                    IsOpen="{x:Bind ViewModel.IsSubtitleSettingsVisible, Mode=TwoWay}"
+                    PreferredPlacement="Bottom"
+                    Target="{x:Bind HeaderSettingButton}">
+                    <StackPanel Width="280" Spacing="8">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Text="{ext:Locale Name=SubtitleSetting}" />
+                        <Grid ColumnSpacing="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBlock VerticalAlignment="Center" Text="{ext:Locale Name=SubtitleEnabled}" />
+                                <ic:SymbolIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                    IconVariant="Filled"
+                                    Symbol="Info"
+                                    ToolTipService.ToolTip="{ext:Locale Name=SubtitleEnabledDescription}" />
+                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                MinWidth="0"
+                                MinHeight="0"
+                                Margin="0"
+                                Padding="0"
+                                VerticalAlignment="Center"
+                                IsOn="{x:Bind ViewModel.IsSubtitleEnabled, Mode=TwoWay}"
+                                OffContent=""
+                                OnContent="" />
+                        </Grid>
+                        <base:TrimTextBlock
+                            HorizontalAlignment="Left"
+                            FontSize="12"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            MaxLines="2"
+                            Text="{ext:Locale Name=SubtitlePositionTip}" />
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{ext:Locale Name=SubtitlePosition}" />
+                            <Border
+                                Grid.Column="1"
+                                Padding="4"
+                                VerticalAlignment="Center"
+                                BorderBrush="{ThemeResource TextFillColorTertiaryBrush}"
+                                BorderThickness="2"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Grid>
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{ext:Locale Name=HorizontalScreen}"
+                                        TextLineBounds="Tight"
+                                        Visibility="{x:Bind ViewModel.IsVerticalScreen, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{ext:Locale Name=VerticalScreen}"
+                                        TextLineBounds="Tight"
+                                        Visibility="{x:Bind ViewModel.IsVerticalScreen, Mode=OneWay}" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <Slider
+                            x:Name="SubtitlePositionSlider"
+                            Margin="0,-8,0,0"
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}"
+                            Maximum="150"
+                            Minimum="0"
+                            ValueChanged="OnSubtitlePositionChanged"
+                            Value="{x:Bind ViewModel.SubtitlePosition, Mode=OneWay}" />
+                        <Border
+                            Width="200"
+                            Height="2"
+                            Margin="0,4"
+                            HorizontalAlignment="Center"
+                            Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+                            CornerRadius="2" />
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="{ext:Locale Name=SubtitleFontSize}"
+                                ToolTipService.ToolTip="{ext:Locale Name=SubtitleFontSizeDescription}" />
+                            <Border
+                                Grid.Column="1"
+                                Padding="4"
+                                VerticalAlignment="Center"
+                                BorderBrush="{ThemeResource TextFillColorTertiaryBrush}"
+                                BorderThickness="2"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Grid>
+                                    <TextBlock
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Text="{x:Bind ViewModel.SubtitleFontSize, Mode=OneWay}"
+                                        TextLineBounds="Tight" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <Slider
+                            x:Name="SubtitleFontSizeSlider"
+                            Margin="0,-8,0,0"
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}"
+                            Maximum="150"
+                            Minimum="1"
+                            ValueChanged="OnSubtitleFontSizeChanged"
+                            Value="{x:Bind ViewModel.SubtitleFontSize, Mode=OneWay}" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{ext:Locale Name=SubtitleFontFamily}"
+                            ToolTipService.ToolTip="{ext:Locale Name=SubtitleFontFamilyDescription}" />
+                        <ComboBox
+                            x:Name="SubtitleFontComboBox"
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}"
+                            ItemsSource="{x:Bind ViewModel.Fonts, Mode=OneWay}"
+                            SelectedItem="{x:Bind ViewModel.SubtitleFontFamily, Mode=OneWay}"
+                            SelectionChanged="OnSubtitleFontChanged"
+                            SelectionChangedTrigger="Committed" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="{ext:Locale Name=SubtitleDelaySeconds}"
+                            ToolTipService.ToolTip="{ext:Locale Name=SubtitleDelaySecondsDescription}" />
+                        <NumberBox
+                            HorizontalAlignment="Stretch"
+                            IsEnabled="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}"
+                            Maximum="99"
+                            Minimum="-99"
+                            SpinButtonPlacementMode="Inline"
+                            ValueChanged="OnSubtitleDelayChanged"
+                            Value="{x:Bind ViewModel.SubtitleDelaySeconds, Mode=OneWay}" />
+                        <Border
+                            Width="200"
+                            Height="2"
+                            Margin="0,4"
+                            HorizontalAlignment="Center"
+                            Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+                            CornerRadius="2" />
+                    </StackPanel>
+                </TeachingTip>
+                <animations:Implicit.ShowAnimations>
+                    <animations:OpacityAnimation
+                        From="0.0"
+                        To="1.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,-40,0"
+                        To="0,0,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.ShowAnimations>
+                <animations:Implicit.HideAnimations>
+                    <animations:OpacityAnimation
+                        From="1.0"
+                        To="0.0"
+                        Duration="0:0:0.2" />
+                    <animations:TranslationAnimation
+                        From="0,0,0"
+                        To="0,-40,0"
+                        Duration="0:0:0.25" />
+                </animations:Implicit.HideAnimations>
+            </Grid>
+
+            <Grid
+                x:Name="TipContainer"
+                Grid.RowSpan="2"
+                Visibility="Collapsed" />
+        </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="DefaultState" />
+                <VisualState x:Name="NarrowState">
+                    <VisualState.Setters>
+                        <Setter Target="FooterContainer.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</local:PlayerControlBase>

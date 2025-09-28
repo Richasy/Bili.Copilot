@@ -23,18 +23,6 @@
             <ic:SymbolIcon Symbol="VideoPlayPause" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
-            <base:SettingsCard Description="{ext:Locale Name=MTCBehaviorDescription}" Header="{ext:Locale Name=MTCBehavior}">
-                <ComboBox
-                    MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.MTCBehaviorCollection, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.MTCBehavior, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="constants:MTCBehavior">
-                            <TextBlock Text="{x:Bind Converter={StaticResource MTCConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=PreferCodecDescription}" Header="{ext:Locale Name=PreferCodec}">
                 <ComboBox
                     MinWidth="120"
@@ -47,21 +35,44 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=SingleFastForwardAndRewindSpanDescription}" Header="{ext:Locale Name=SingleFastForwardAndRewindSpan}">
+            <base:SettingsCard
+                x:Name="StepForward"
+                Description="{ext:Locale Name=StepForwardSecondsDescription}"
+                Header="{ext:Locale Name=StepForwardSeconds}">
                 <NumberBox
+                    x:Name="StepForwardBox"
                     MinWidth="120"
-                    LargeChange="50"
-                    Maximum="300"
-                    Minimum="3"
-                    SmallChange="10"
+                    Minimum="1"
                     SpinButtonPlacementMode="Compact"
-                    Value="{x:Bind ViewModel.SingleFastForwardAndRewindSpan, Mode=TwoWay}" />
+                    ValueChanged="OnStepForwardValueChanged" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="StepBackward"
+                Description="{ext:Locale Name=StepBackwardSecondsDescription}"
+                Header="{ext:Locale Name=StepBackwardSeconds}">
+                <NumberBox
+                    x:Name="StepBackwardBox"
+                    MinWidth="120"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="OnStepBackwardValueChanged" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="TempSpeed"
+                Description="{ext:Locale Name=TemporaryPlaybackRateDescription}"
+                Header="{ext:Locale Name=TemporaryPlaybackRate}">
+                <Slider
+                    x:Name="TempSpeedSlider"
+                    MinWidth="160"
+                    LargeChange="1"
+                    Maximum="4.0"
+                    Minimum="1.1"
+                    SmallChange="0.1"
+                    StepFrequency="0.1"
+                    ValueChanged="OnTempSpeedChanged" />
             </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=GlobalPlaybackRateDescription}" Header="{ext:Locale Name=GlobalPlaybackRate}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.GlobalPlayerSpeed, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=PlaybackRateEnhancementDescription}" Header="{ext:Locale Name=PlaybackRateEnhancement}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayerSpeedEnhancement, Mode=TwoWay}" />
             </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=BottomProgressVisibleDescription}" Header="{ext:Locale Name=BottomProgressVisible}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.BottomProgressVisible, Mode=TwoWay}" />

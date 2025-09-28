@@ -40,7 +40,7 @@ namespace Danmaku.Core
         private volatile bool _noOverlapSubtitle = false;
         private volatile int _maxDanmakuSize = 0;
         private volatile int _rollingDensity = -1;
-        private volatile int _danmakuFontSizeOffset = (int)DanmakuFontSize.Normal;
+        private double _danmakuFontSizeScale = 1d;
         private volatile float _rollingAreaRatio = 0.8f;
         private volatile float _rollingSpeed = DefaultRollingSpeed; // 1 to 10
         private volatile bool _isPaused;
@@ -48,6 +48,7 @@ namespace Danmaku.Core
         private double _textOpacity = 1.0;
         private Color _borderColor = Colors.Blue;
         private string _defaultFontFamilyName = DefaultFontFamilyName;
+        private double _outlineSize = 0d;
 
         public float CanvasWidth
         {
@@ -104,6 +105,14 @@ namespace Danmaku.Core
             _rollingDensity = value;
         }
 
+        public void SetOutlineSize(double value)
+        {
+            if (value >= 0)
+            {
+                _outlineSize = value;
+            }
+        }
+
         public void SetRollingAreaRatio(int value)
         {
             if (value > 0 && value <= 10 && _renderLayerList != null)
@@ -134,12 +143,9 @@ namespace Danmaku.Core
             _textBold = value;
         }
 
-        public void SetDanmakuFontSizeOffset(DanmakuFontSize value)
+        public void SetDanmakuFontSizeOffset(double value)
         {
-            if (value >= DanmakuFontSize.Smallest && value <= DanmakuFontSize.Largest)
-            {
-                _danmakuFontSizeOffset = (int)value;
-            }
+            _danmakuFontSizeScale = value;
         }
 
         public void SetDefaultFontFamilyName(string value)
@@ -155,6 +161,22 @@ namespace Danmaku.Core
         public void SetNoOverlapSubtitle(bool value)
         {
             _noOverlapSubtitle = value;
+        }
+
+        public void SetRefreshRate(int fps)
+        {
+            if (_canvas != null && fps > 0 && fps <= 120)
+            {
+                _canvas.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / fps);
+            }
+        }
+
+        public void SetForceSoftwareRenderer(bool force)
+        {
+            if (_canvas != null)
+            {
+                _canvas.ForceSoftwareRenderer = force;
+            }
         }
 
         /// <exception cref="System.ArgumentOutOfRangeException">layerId >= max layer count</exception>
@@ -204,6 +226,7 @@ namespace Danmaku.Core
                     textFormat.VerticalAlignment = CanvasVerticalAlignment.Center;
                     textFormat.TrimmingGranularity = CanvasTextTrimmingGranularity.None;
                     textFormat.TrimmingSign = CanvasTrimmingSign.None;
+                    textFormat.Options = CanvasDrawTextOptions.EnableColorFont;
                     if (renderItem.Mode == DanmakuMode.Top || renderItem.Mode == DanmakuMode.Bottom || renderItem.Mode == DanmakuMode.Subtitle)
                     {
                         textFormat.WordWrapping = CanvasWordWrapping.Wrap;
@@ -212,9 +235,7 @@ namespace Danmaku.Core
                     textFormat.FontSize = renderItem.FontSize;
                     if (!danmakuItem.KeepDefinedFontSize)
                     {
-                        int fontSizeOffset = _danmakuFontSizeOffset;
-                        textFormat.FontSize += (fontSizeOffset - 3) * (fontSizeOffset > 3 ? 6 : 3);
-
+                        textFormat.FontSize = (float)(renderItem.FontSize * _danmakuFontSizeScale);
                         if (CanvasWidth < StandardCanvasWidth)
                         {
                             textFormat.FontSize = textFormat.FontSize * CanvasWidth / StandardCanvasWidth;
@@ -226,7 +247,10 @@ namespace Danmaku.Core
                         }
                     }
                     textFormat.FontSize = (int)Math.Max(textFormat.FontSize, 2f);
-                    textFormat.FontSize = textFormat.FontSize * _scale;
+                    if (CanvasWidth > StandardCanvasWidth)
+                    {
+                        textFormat.FontSize = textFormat.FontSize * _scale;
+                    }
 
                     if (!string.IsNullOrWhiteSpace(renderItem.FontFamilyName))
                     {
@@ -243,6 +267,11 @@ namespace Danmaku.Core
 
                     string danmakuText = renderItem.Text;
 
+                    if (CanvasWidth < 1)
+                    {
+                        return;
+                    }
+
                     // Measure text size
                     using (CanvasRenderTarget tempRenderTarget = new CanvasRenderTarget(_device, 0, 0, _dpi))
                     {
@@ -253,6 +282,7 @@ namespace Danmaku.Core
                                 // Leave padding space for border
                                 renderItem.Width = (float)textLayout.LayoutBounds.Width + 8f;
                                 renderItem.Height = (float)textLayout.LayoutBounds.Height;
+                                textLayout.Options = CanvasDrawTextOptions.EnableColorFont;
                                 if (renderItem.HasOutline)
                                 {
                                     renderItem.Height += renderItem.OutlineSize;
@@ -276,6 +306,7 @@ namespace Danmaku.Core
                     {
                         using (CanvasTextLayout textLayout = new CanvasTextLayout(drawingSession, danmakuText, textFormat, renderItem.Width, renderItem.Height))
                         {
+                            textLayout.Options = CanvasDrawTextOptions.EnableColorFont;
                             // Calculate initial position
                             switch (renderItem.Mode)
                             {
@@ -436,9 +467,11 @@ namespace Danmaku.Core
                                     Color outlineColor = renderItem.TextColor.R + renderItem.TextColor.G + renderItem.TextColor.B < 0x20 ? Colors.White : renderItem.OutlineColor;
                                     outlineColor.A = renderItem.TextColor.A;
 
-                                    drawingSession.DrawGeometry(geometry, 0, 0, outlineColor, renderItem.OutlineSize);
+                                    drawingSession.DrawGeometry(geometry, 0, 0, outlineColor, (float)_outlineSize);
                                 }
-                                drawingSession.FillGeometry(geometry, 0, 0, renderItem.TextColor);
+
+                                drawingSession.FillGeometry(geometry, 0, 0, Colors.Transparent);
+                                drawingSession.DrawTextLayout(textLayout, 0, 0, renderItem.TextColor);
                             }
                         }
                     }
@@ -604,7 +637,16 @@ namespace Danmaku.Core
                 return;
             }
 
-            var hasItem = _renderLayerList.SelectMany(x => x.RenderList).Any();
+            bool hasItem = false;
+            try
+            {
+                hasItem = _renderLayerList.SelectMany(x => x.RenderList).Any();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Error checking render items: {ex.Message}", Windows.Foundation.Diagnostics.LoggingLevel.Error);
+            }
+
             if (!hasItem)
             {
                 return;
@@ -729,50 +771,48 @@ namespace Danmaku.Core
                     CanvasSpriteSortMode spriteSortMode = !_renderLayerList[layerId].RequireStrictRenderOrder ? CanvasSpriteSortMode.Bitmap : CanvasSpriteSortMode.None;
                     using (CanvasSpriteBatch spriteBatch = args.DrawingSession.CreateSpriteBatch(spriteSortMode))
                     {
-                        lock (renderList)
+                        var renderListSnapshot = renderList.ToArray();
+                        // First come first render
+                        for (int i = 0; i < renderListSnapshot.Count(); i++)
                         {
-                            // First come first render
-                            for (int i = 0; i < renderList.Count; i++)
+                            if (_isStopped)
                             {
-                                if (_isStopped)
-                                {
-                                    return;
-                                }
+                                return;
+                            }
 
-                                DanmakuRenderItem renderItem = renderList[i];
-                                totalCount++;
+                            DanmakuRenderItem renderItem = renderListSnapshot[i];
+                            totalCount++;
 
-                                if (!renderItem.IsFirstRenderTimeSet)
-                                {
-                                    // Wait for Update event for this item before rendering
-                                    continue;
-                                }
+                            if (!renderItem.IsFirstRenderTimeSet)
+                            {
+                                // Wait for Update event for this item before rendering
+                                continue;
+                            }
 
-                                switch (renderItem.Mode)
-                                {
-                                    case DanmakuMode.Rolling:
-                                    case DanmakuMode.ReverseRolling:
-                                        {
-                                            spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.StartY));
+                            switch (renderItem.Mode)
+                            {
+                                case DanmakuMode.Rolling:
+                                case DanmakuMode.ReverseRolling:
+                                    {
+                                        spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.StartY));
 
-                                            break;
-                                        }
-                                    case DanmakuMode.Bottom:
-                                        {
-                                            float y = Math.Max((_noOverlapSubtitle ? Math.Max(CanvasHeight - 100f, CanvasHeight * 0.8f) : CanvasHeight) - renderItem.Height - renderItem.StartY, 0);
-                                            y -= renderItem.MarginBottom;
+                                        break;
+                                    }
+                                case DanmakuMode.Bottom:
+                                    {
+                                        float y = Math.Max((_noOverlapSubtitle ? Math.Max(CanvasHeight - 100f, CanvasHeight * 0.8f) : CanvasHeight) - renderItem.Height - renderItem.StartY, 0);
+                                        y -= renderItem.MarginBottom;
 
-                                            spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, y));
+                                        spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, y));
 
-                                            break;
-                                        }
-                                    case DanmakuMode.Top:
-                                        {
-                                            spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.StartY));
+                                        break;
+                                    }
+                                case DanmakuMode.Top:
+                                    {
+                                        spriteBatch.Draw(renderItem.RenderTarget, new Vector2(renderItem.X, renderItem.StartY));
 
-                                            break;
-                                        }
-                                }
+                                        break;
+                                    }
                             }
                         }
                     }
@@ -1001,7 +1041,7 @@ namespace Danmaku.Core
                 }
                 else if (LayerId == DanmakuDefaultLayerDef.TopLayerId)
                 {
-                    YSlotManager.UpdateLength((uint)(newLength * 0.75));
+                    YSlotManager.UpdateLength((uint)(newLength * Math.Min(rollingLayerAreaRatio, 0.75)));
                 }
                 else if (LayerId == DanmakuDefaultLayerDef.BottomLayerId)
                 {

@@ -11,6 +11,7 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.LivePartition"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid Padding="16,0" ColumnSpacing="8">
@@ -39,20 +40,20 @@
                     Visibility="{x:Bind ViewModel.IsFollowRoomsEmpty, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
                     <FlyoutBase.AttachedFlyout>
                         <Flyout Placement="Bottom">
-                            <ItemsRepeater
+                            <repeater:AppRepeater
                                 x:Name="FollowRoomsRepeater"
                                 MinWidth="280"
                                 Margin="4,0"
                                 ItemsSource="{x:Bind ViewModel.FollowRooms, Mode=OneWay}">
-                                <ItemsRepeater.ItemTemplate>
+                                <repeater:AppRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="items:LiveItemViewModel">
                                         <components:LiveCardControl Style="{StaticResource FollowLiveCardStyle}" ViewModel="{x:Bind}" />
                                     </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                                <ItemsRepeater.Layout>
+                                </repeater:AppRepeater.ItemTemplate>
+                                <repeater:AppRepeater.Layout>
                                     <StackLayout Spacing="8" />
-                                </ItemsRepeater.Layout>
-                            </ItemsRepeater>
+                                </repeater:AppRepeater.Layout>
+                            </repeater:AppRepeater>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
                 </HyperlinkButton>

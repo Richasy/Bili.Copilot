@@ -295,7 +295,7 @@
     <value>底部</value>
   </data>
   <data name="BottomDanmaku" xml:space="preserve">
-    <value>底部弹幕</value>
+    <value>底部</value>
   </data>
   <data name="BottomProgressVisible" xml:space="preserve">
     <value>显示底部进度条</value>
@@ -2041,7 +2041,7 @@
     <value>置顶</value>
   </data>
   <data name="TopDanmaku" xml:space="preserve">
-    <value>置顶弹幕</value>
+    <value>顶部</value>
   </data>
   <data name="Topic" xml:space="preserve">
     <value>专题</value>
@@ -2813,5 +2813,311 @@
   </data>
   <data name="SideNavigationSettingDescription" xml:space="preserve">
     <value>开启或关闭导航区块</value>
+  </data>
+  <data name="ChapterIndexTemplate" xml:space="preserve">
+    <value>章节 {0}</value>
+  </data>
+  <data name="BackwardTemplate" xml:space="preserve">
+    <value>后退{0}秒</value>
+  </data>
+  <data name="ForwardTemplate" xml:space="preserve">
+    <value>前进{0}秒</value>
+  </data>
+  <data name="MpvError" xml:space="preserve">
+    <value>播放器错误</value>
+  </data>
+  <data name="MpvErrorAudioFailed" xml:space="preserve">
+    <value>尝试加载音频输出时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorDiscInitFailed" xml:space="preserve">
+    <value>MPV 暂不支持加载此光盘</value>
+  </data>
+  <data name="MpvErrorGeneric" xml:space="preserve">
+    <value>有些不明所以的错误发生了，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorLoadingFailed" xml:space="preserve">
+    <value>尝试加载文件时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorNoMemory" xml:space="preserve">
+    <value>没有多余的内存可供分配，换句话说，爆内存了，重启电脑试试</value>
+  </data>
+  <data name="MpvErrorNotingToPlay" xml:space="preserve">
+    <value>看上去没什么可供播放的内容</value>
+  </data>
+  <data name="MpvErrorPassthroughFormatUnsupported" xml:space="preserve">
+    <value>无法支持当前的音频直通格式</value>
+  </data>
+  <data name="MpvErrorUninitialized" xml:space="preserve">
+    <value>MPV 初始化失败，可能是写了无法解析的配置，请查看日志以了解详情</value>
+  </data>
+  <data name="MpvErrorUnknownFormat" xml:space="preserve">
+    <value>未知格式，无法播放</value>
+  </data>
+  <data name="MpvErrorUnsupported" xml:space="preserve">
+    <value>由于某些原因，暂不支持播放</value>
+  </data>
+  <data name="MpvErrorVideoFailed" xml:space="preserve">
+    <value>尝试加载视频输出时发生错误，请查看日志以了解详情</value>
+  </data>
+  <data name="SeekFailed" xml:space="preserve">
+    <value>进度跳转发生异常，无法建立和服务器的有效连接</value>
+  </data>
+  <data name="PrevVideoTemplate" xml:space="preserve">
+    <value>播放上一个：{0}</value>
+  </data>
+  <data name="NextVideoTemplate" xml:space="preserve">
+    <value>播放下一个：{0}</value>
+  </data>
+  <data name="CancelCutBlackArea" xml:space="preserve">
+    <value>还原黑边</value>
+  </data>
+  <data name="CutBlackArea" xml:space="preserve">
+    <value>去除黑边</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="Mute" xml:space="preserve">
+    <value>静音</value>
+  </data>
+  <data name="Unmute" xml:space="preserve">
+    <value>取消静音</value>
+  </data>
+  <data name="Connecting" xml:space="preserve">
+    <value>连接中，请稍候...</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>加载中，请稍候...</value>
+  </data>
+  <data name="PlayEnd" xml:space="preserve">
+    <value>播放结束</value>
+  </data>
+  <data name="PlayEndDescription" xml:space="preserve">
+    <value>视频播放结束啦~</value>
+  </data>
+  <data name="PlaySpeed" xml:space="preserve">
+    <value>播放速度</value>
+  </data>
+  <data name="TopWindow" xml:space="preserve">
+    <value>置顶窗口</value>
+  </data>
+  <data name="SubtitleSetting" xml:space="preserve">
+    <value>字幕设置</value>
+  </data>
+  <data name="CloseWindow" xml:space="preserve">
+    <value>关闭窗口</value>
+  </data>
+  <data name="SubtitleEnabled" xml:space="preserve">
+    <value>启用字幕</value>
+  </data>
+  <data name="SubtitleEnabledDescription" xml:space="preserve">
+    <value>在当前播放窗口中启用字幕功能，关闭后将取消字幕显示（不会延续到下一个播放窗口）</value>
+  </data>
+  <data name="SubtitlePosition" xml:space="preserve">
+    <value>字幕位置</value>
+  </data>
+  <data name="SubtitlePositionTip" xml:space="preserve">
+    <value>横屏与竖屏使用不同的字幕位置配置，将根据当前窗口横纵比自动切换</value>
+  </data>
+  <data name="HorizontalScreen" xml:space="preserve">
+    <value>横屏</value>
+  </data>
+  <data name="VerticalScreen" xml:space="preserve">
+    <value>竖屏</value>
+  </data>
+  <data name="SubtitleFontFamily" xml:space="preserve">
+    <value>文本字幕字体</value>
+  </data>
+  <data name="SubtitleFontFamilyDescription" xml:space="preserve">
+    <value>--sub-font，适用于文本字幕</value>
+  </data>
+  <data name="SubtitleFontSize" xml:space="preserve">
+    <value>文本字幕字号</value>
+  </data>
+  <data name="SubtitleFontSizeDescription" xml:space="preserve">
+    <value>--sub-font-size，适用于文本字幕</value>
+  </data>
+  <data name="SubtitleDelaySeconds" xml:space="preserve">
+    <value>字幕延迟秒数</value>
+  </data>
+  <data name="SubtitleDelaySecondsDescription" xml:space="preserve">
+    <value>正数为延迟，负数为提前</value>
+  </data>
+  <data name="DanmakuOutlineSize" xml:space="preserve">
+    <value>弹幕描边大小</value>
+  </data>
+  <data name="DanmakuRefreshRate" xml:space="preserve">
+    <value>弹幕刷新率</value>
+  </data>
+  <data name="QuickRefreshRate" xml:space="preserve">
+    <value>快速刷新</value>
+  </data>
+  <data name="StandardRefreshRate" xml:space="preserve">
+    <value>标准刷新</value>
+  </data>
+  <data name="EnabledDanmakuMode" xml:space="preserve">
+    <value>启用的弹幕类型</value>
+  </data>
+  <data name="RollingDanmaku" xml:space="preserve">
+    <value>滚动</value>
+  </data>
+  <data name="DanmakuCountTemplate" xml:space="preserve">
+    <value>已加载 {0} 条弹幕</value>
+  </data>
+  <data name="DanmakuEmpty" xml:space="preserve">
+    <value>无弹幕</value>
+  </data>
+  <data name="DownloadAudio" xml:space="preserve">
+    <value>下载音频</value>
+  </data>
+  <data name="ScreenshotPostBehavior" xml:space="preserve">
+    <value>截图后行为</value>
+  </data>
+  <data name="ScreenshotPostBehaviorDescription" xml:space="preserve">
+    <value>截图后处理图片的方式</value>
+  </data>
+  <data name="ScreenshotSetting" xml:space="preserve">
+    <value>截图设置</value>
+  </data>
+  <data name="ScreenshotSettingDescription" xml:space="preserve">
+    <value>调整视频截图保存文件夹和截图后行为</value>
+  </data>
+  <data name="OpenImage" xml:space="preserve">
+    <value>打开图片</value>
+  </data>
+  <data name="Unset" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="PickFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="CopyImage" xml:space="preserve">
+    <value>复制图片</value>
+  </data>
+  <data name="InternalLibMpv" xml:space="preserve">
+    <value>内置 libmpv</value>
+  </data>
+  <data name="FirstOpenMpvConfigTip" xml:space="preserve">
+    <value>你可以在打开的编辑器中编辑配置文件来自定义播放体验，但由于应用使用 libmpv，故而部分配置（比如 OSD）并不会生效。</value>
+  </data>
+  <data name="ClearCacheTip" xml:space="preserve">
+    <value>清空本地图片缓存后，所有在线图片都会重新从服务端请求并再次缓存</value>
+  </data>
+  <data name="NoCache" xml:space="preserve">
+    <value>没有缓存</value>
+  </data>
+  <data name="HideMainWindowOnPlay" xml:space="preserve">
+    <value>播放时隐藏主窗口</value>
+  </data>
+  <data name="HideMainWindowOnPlayDescription" xml:space="preserve">
+    <value>播放窗口的初始位置将与主窗口一致</value>
+  </data>
+  <data name="UseIntegrationBehavior" xml:space="preserve">
+    <value>使用单窗口一体化操作</value>
+  </data>
+  <data name="UseIntegrationBehaviorDescription" xml:space="preserve">
+    <value>仅单播放窗口时，关闭播放窗口视作关闭应用，点击返回按钮才显示主窗口</value>
+  </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>日志级别</value>
+  </data>
+  <data name="LogLevelDescription" xml:space="preserve">
+    <value>选择记录日志的详细程度</value>
+  </data>
+  <data name="Warn" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Verb" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="MpvExtraSetting" xml:space="preserve">
+    <value>MPV 附加设置</value>
+  </data>
+  <data name="MpvExtraSettingDescription" xml:space="preserve">
+    <value>内置 MPV 的一些附加参数设置</value>
+  </data>
+  <data name="AudioExclusive" xml:space="preserve">
+    <value>音频独占</value>
+  </data>
+  <data name="AudioChannel" xml:space="preserve">
+    <value>声道布局</value>
+  </data>
+  <data name="BuiltInProfileSwitch" xml:space="preserve">
+    <value>内置配置切换</value>
+  </data>
+  <data name="Fast" xml:space="preserve">
+    <value>快速</value>
+  </data>
+  <data name="HrSeekSetting" xml:space="preserve">
+    <value>精确跳转选项</value>
+  </data>
+  <data name="MaxCacheSize" xml:space="preserve">
+    <value>最大缓冲大小（MB）</value>
+  </data>
+  <data name="MaxCacheSeconds" xml:space="preserve">
+    <value>最大缓冲秒数</value>
+  </data>
+  <data name="CacheOnDisk" xml:space="preserve">
+    <value>将缓存写入硬盘</value>
+  </data>
+  <data name="CacheDirectory" xml:space="preserve">
+    <value>缓存文件夹</value>
+  </data>
+  <data name="ReselectFolder" xml:space="preserve">
+    <value>重新选择文件夹</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>恢复默认</value>
+  </data>
+  <data name="MaxVolume" xml:space="preserve">
+    <value>最大音量</value>
+  </data>
+  <data name="ImageCache" xml:space="preserve">
+    <value>图片缓存</value>
+  </data>
+  <data name="ImageCacheDescription" xml:space="preserve">
+    <value>查看或清除当前图片缓存</value>
+  </data>
+  <data name="AudioChannelLayout" xml:space="preserve">
+    <value>声道布局</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="D3D12Decode" xml:space="preserve">
+    <value>D3D12 硬解</value>
+  </data>
+  <data name="Stereo" xml:space="preserve">
+    <value>立体声</value>
+  </data>
+  <data name="Mono" xml:space="preserve">
+    <value>单声道</value>
+  </data>
+  <data name="StepForwardSeconds" xml:space="preserve">
+    <value>跳进秒数</value>
+  </data>
+  <data name="StepForwardSecondsDescription" xml:space="preserve">
+    <value>单次跳进的时长（秒）</value>
+  </data>
+  <data name="StepBackwardSeconds" xml:space="preserve">
+    <value>后退秒数</value>
+  </data>
+  <data name="StepBackwardSecondsDescription" xml:space="preserve">
+    <value>单次后退的时长（秒）</value>
+  </data>
+  <data name="TemporaryPlaybackRate" xml:space="preserve">
+    <value>临时播放倍速</value>
+  </data>
+  <data name="TemporaryPlaybackRateDescription" xml:space="preserve">
+    <value>在播放界面长按屏幕或者长按方向键的临时倍速值</value>
+  </data>
+  <data name="SendDanmaku" xml:space="preserve">
+    <value>发送弹幕</value>
   </data>
 </root>

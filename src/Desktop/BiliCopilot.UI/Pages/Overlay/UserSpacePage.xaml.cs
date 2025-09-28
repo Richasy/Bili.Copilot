@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.View;
-using Microsoft.UI.Xaml.Navigation;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUIKernel.Share.Base;
 
@@ -10,17 +9,16 @@ namespace BiliCopilot.UI.Pages.Overlay;
 /// <summary>
 /// 用户空间页面.
 /// </summary>
-public sealed partial class UserSpacePage : UserSpacePageBase
+public sealed partial class UserSpacePage : UserSpacePageBase, IParameterPage
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserSpacePage"/> class.
     /// </summary>
     public UserSpacePage() => InitializeComponent();
 
-    /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    public void SetParameter(object? parameter)
     {
-        if (e.Parameter is UserProfile profile)
+        if (parameter is UserProfile profile)
         {
             ViewModel.InitializeCommand.Execute(profile);
         }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
@@ -19,27 +18,7 @@ public sealed partial class PgcEpisodesSection : PgcEpisodesSectionBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
-        if (ViewModel.SelectedEpisode is EpisodeItemViewModel part)
-        {
-            DefaultView.Select(ViewModel.Episodes.ToList().IndexOf(part));
-            IndexView.Select(ViewModel.Episodes.ToList().IndexOf(part));
-        }
-
         InitializeLayoutAsync();
-    }
-
-    protected override void OnControlUnloaded()
-    {
-        DefaultView.ItemsSource = default;
-        IndexView.ItemsSource = default;
-    }
-
-    private void OnEpisodeSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
-    {
-        if (IsLoaded && sender.SelectedItem is EpisodeItemViewModel episode && episode != ViewModel.SelectedEpisode)
-        {
-            ViewModel.SelectEpisodeCommand.Execute(episode);
-        }
     }
 
     private async void OnIndexToggledAsync(object sender, RoutedEventArgs e)
@@ -51,13 +30,33 @@ public sealed partial class PgcEpisodesSection : PgcEpisodesSectionBase
     private async void InitializeLayoutAsync()
     {
         await Task.Delay(100);
+        var selectedItem = ViewModel.Episodes.Find(p => p.IsSelected);
+        if (selectedItem is null)
+        {
+            return;
+        }
+
+        var index = ViewModel.Episodes.ToList().IndexOf(selectedItem);
+        var actualOffset = 0d;
         if (ViewModel.OnlyIndex)
         {
-            IndexView.StartBringItemIntoView(ViewModel.Episodes.ToList().IndexOf(ViewModel.SelectedEpisode), new BringIntoViewOptions { VerticalAlignmentRatio = 0.5 });
+            var offset = 40 * (index / 7);
+            actualOffset = offset - IndexView.ViewportHeight;
+
+            if (actualOffset > 0)
+            {
+                IndexView.ScrollTo(0, actualOffset);
+            }
         }
         else
         {
-            DefaultView.StartBringItemIntoView(ViewModel.Episodes.ToList().IndexOf(ViewModel.SelectedEpisode), new BringIntoViewOptions { VerticalAlignmentRatio = 0.5 });
+            var offset = 86 * index;
+            actualOffset = offset - DefaultView.ViewportHeight;
+
+            if (actualOffset > 0)
+            {
+                DefaultView.ScrollTo(0, actualOffset + (DefaultView.ViewportHeight / 2));
+            }
         }
     }
 }

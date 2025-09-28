@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUIKernel.Share.ViewModels;
 
 namespace BiliCopilot.UI.ViewModels.Components;
@@ -21,21 +21,21 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     [ObservableProperty]
     private List<VideoItemViewModel> _items;
 
-    [ObservableProperty]
-    private VideoItemViewModel _selectedItem;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerPlaylistSectionDetailViewModel"/> class.
     /// </summary>
     public VideoPlayerPlaylistSectionDetailViewModel(
-        VideoPlayerPageViewModel page,
-        IList<VideoInformation> list,
+        VideoConnectorViewModel page,
+        IList<MediaSnapshot> list,
         string videoId)
     {
         _videoId = videoId;
         Page = page;
-        Items = list.Select(p => new VideoItemViewModel(p, VideoCardStyle.PlayerPlaylist)).ToList();
-        SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == _videoId);
+        Items = [.. list.Select(p => new VideoItemViewModel(p.Video, VideoCardStyle.PlayerPlaylist, playAction: Play))];
+        foreach (var item in Items)
+        {
+            item.IsSelected = item.Data.Identifier.Id == videoId;
+        }
     }
 
     /// <inheritdoc/>
@@ -44,9 +44,24 @@ public sealed partial class VideoPlayerPlaylistSectionDetailViewModel : ViewMode
     /// <summary>
     /// 页面视图模型.
     /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
+    public VideoConnectorViewModel Page { get; }
 
     [RelayCommand]
     private static Task TryFirstLoadAsync()
         => Task.CompletedTask;
+
+    private void Play(VideoItemViewModel vm)
+    {
+        if (vm.Data.Identifier.Id == _videoId)
+        {
+            return;
+        }
+
+        var snapshot = new MediaSnapshot(vm.Data, Page.IsPrivatePlay)
+        {
+            Playlist = Items.ConvertAll(p => new MediaSnapshot(p.Data)),
+        };
+
+        Page.Parent.InitializeCommand.Execute(snapshot);
+    }
 }

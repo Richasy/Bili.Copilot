@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
@@ -13,20 +14,22 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer x:Name="VideoScrollView" Style="{StaticResource PageScrollViewerStyle}">
-            <Grid Margin="16,12">
-                <ItemsRepeater
-                    x:Name="VideoRepeater"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-                    Layout="{StaticResource VideoLayout}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="items:VideoItemViewModel">
-                            <components:VideoCardControl Style="{StaticResource FavoriteVideoCardStyle}" ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-            </Grid>
-        </ScrollViewer>
+        <controls:IncrementVerticalScrollControl x:Name="View" LoadMoreCommand="{x:Bind ViewModel.LoadItemsCommand, Mode=OneWay}">
+            <controls:IncrementVerticalScrollControl.Element>
+                <Grid Margin="0,16">
+                    <ItemsRepeater
+                        x:Name="VideoRepeater"
+                        ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                        Layout="{StaticResource VideoLayout}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:VideoItemViewModel">
+                                <components:VideoCardControl Style="{StaticResource FavoriteVideoCardStyle}" ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </Grid>
+            </controls:IncrementVerticalScrollControl.Element>
+        </controls:IncrementVerticalScrollControl>
 
         <base:EmptyHolder
             Description="{ext:Locale Name=NoFavoriteVideos}"

@@ -5,28 +5,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Search"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer x:Name="UserScrollView" Style="{StaticResource PageScrollViewerStyle}">
-            <Grid Margin="16,12">
-                <ItemsRepeater
-                    x:Name="UserRepeater"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-                    Layout="{StaticResource UserLayout}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="items:UserItemViewModel">
-                            <components:UserCardControl ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-            </Grid>
-        </ScrollViewer>
+        <controls:IncrementVerticalScrollControl x:Name="View" LoadMoreCommand="{x:Bind ViewModel.LoadItemsCommand, Mode=OneWay}">
+            <controls:IncrementVerticalScrollControl.Element>
+                <Grid Margin="0,16">
+                    <repeater:AppRepeater
+                        x:Name="UserRepeater"
+                        ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
+                        Layout="{StaticResource UserLayout}">
+                        <repeater:AppRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:UserItemViewModel">
+                                <components:UserCardControl ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </repeater:AppRepeater.ItemTemplate>
+                    </repeater:AppRepeater>
+                </Grid>
+            </controls:IncrementVerticalScrollControl.Element>
+        </controls:IncrementVerticalScrollControl>
 
         <base:EmptyHolder
             Description="{ext:Locale Name=NoUsers}"

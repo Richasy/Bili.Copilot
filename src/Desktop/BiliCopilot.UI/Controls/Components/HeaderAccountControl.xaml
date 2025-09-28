@@ -3,6 +3,7 @@
     x:Class="BiliCopilot.UI.Controls.Components.HeaderAccountControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
@@ -19,17 +20,20 @@
             VerticalAlignment="Center"
             IsActive="{x:Bind ViewModel.IsInitializing, Mode=OneWay}" />
         <Button Style="{StaticResource AvatarButtonStyle}">
-            <PersonPicture
+            <controls:BasicCoverImage
+                x:Name="Avatar"
                 Width="28"
                 Height="28"
-                DisplayName="{x:Bind ViewModel.MyProfile.User.Name, Mode=OneWay}"
-                ProfilePicture="{x:Bind ViewModel.MyProfile.User.Avatar.Uri, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+                x:Load="{x:Bind ViewModel.IsInitializing, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                CornerRadius="14"
+                DecodeWidth="56"
+                Source="{x:Bind ViewModel.MyProfile.User.Avatar.Uri, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.MyProfile, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
             <Button.Flyout>
                 <MenuFlyout
+                    Closed="OnFlyoutClosed"
                     Opened="OnFlyoutOpened"
-                    Placement="BottomEdgeAlignedRight"
-                    ShouldConstrainToRootBounds="False">
+                    Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem>
                         <MenuFlyoutItem.Template>
                             <ControlTemplate>

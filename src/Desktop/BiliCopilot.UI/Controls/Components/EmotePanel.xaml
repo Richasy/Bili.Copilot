@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:appearance="using:Richasy.BiliKernel.Models.Appearance"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BiliCopilot.UI.Controls.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -27,10 +28,12 @@
                         Height="40"
                         Background="Transparent"
                         Style="{StaticResource AppItemContainerStyle}">
-                        <Image
+                        <controls:BasicCoverImage
                             Width="28"
-                            Source="{x:Bind Icon.Uri, Converter={StaticResource BitmapConverter}}"
-                            Stretch="Uniform" />
+                            Height="28"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            DecodeWidth="60"
+                            Source="{x:Bind Icon.Uri}" />
                     </ItemContainer>
                 </DataTemplate>
             </ItemsView.ItemTemplate>
@@ -53,10 +56,12 @@
                 <DataTemplate x:DataType="appearance:Emote">
                     <ItemContainer Background="Transparent" Style="{StaticResource AppItemContainerStyle}">
                         <Grid>
-                            <Image
+                            <controls:BasicCoverImage
                                 Width="32"
-                                Source="{x:Bind Image.Uri, Converter={StaticResource BitmapConverter}}"
-                                Stretch="Uniform"
+                                Height="32"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                DecodeWidth="100"
+                                Source="{x:Bind Image.Uri}"
                                 Visibility="{x:Bind Image, Converter={StaticResource ObjectToVisibilityConverter}}" />
                             <TextBlock
                                 FontSize="12"

@@ -15,18 +15,25 @@
         <Button
             x:Name="OpenLoggerFolderButton"
             MinWidth="120"
-            Click="OnOpenLoggerFolderButtonClickAsync"
+            Click="OnOpenLoggerFolderButtonClick"
             Content="{ext:Locale Name=OpenFolder}" />
         <base:SettingsExpander.HeaderIcon>
             <ic:SymbolIcon Symbol="Channel" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
-            <base:SettingsCard Header="{ext:Locale Name=CleanLogger}">
-                <Button
-                    x:Name="CleanLoggerButton"
+            <base:SettingsCard
+                x:Name="Card"
+                Description="{ext:Locale Name=LogLevelDescription}"
+                Header="{ext:Locale Name=LogLevel}">
+                <ComboBox
+                    x:Name="LevelComboBox"
                     MinWidth="120"
-                    Click="OnCleanLoggerButtonClickAsync"
-                    Content="{ext:Locale Name=Clean}" />
+                    SelectionChanged="OnLevelChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=Error}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Warn}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Info}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Verb}" />
+                </ComboBox>
             </base:SettingsCard>
         </base:SettingsExpander.Items>
     </base:SettingsExpander>

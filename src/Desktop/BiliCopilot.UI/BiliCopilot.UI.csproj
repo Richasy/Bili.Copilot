@@ -13,29 +13,29 @@
     <Nullable>enable</Nullable>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;IL2067;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
+  <ItemGroup>
+  	<RdXmlFile Include="rd.xml" />
+  </ItemGroup>
   <ItemGroup>
   	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net9.0-windows10.0.22621\Assets\**\*">
   		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   	</None>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Assets\basic-mpv.conf" />
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
     <Content Remove="Assets\bbdown\x64\BBDown.exe" />
-    <Content Remove="Assets\BewlyBewly.zip" />
-    <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
-    <Content Remove="Assets\DashVideoTemplate.xml" />
-    <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
     <Content Remove="Assets\ffmpeg\arm64\ffmpeg.exe" />
     <Content Remove="Assets\ffmpeg\x64\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
-    <Content Remove="Assets\WebPlayer.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\mpv.png" />
     <None Remove="Assets\qq_group_dark.jpg" />
     <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
@@ -72,7 +72,6 @@
     <None Remove="Controls\Components\IndexFilterItemControl.xaml" />
     <None Remove="Controls\Components\IndexSeasonPresenter.xaml" />
     <None Remove="Controls\Components\LiveCardControl\LiveCardControl.xaml" />
-    <None Remove="Controls\Components\LiveDanmakuItemControl.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml" />
     <None Remove="Controls\Components\MomentEpisodePresenter.xaml" />
     <None Remove="Controls\Components\MomentCardControl\MomentCardControl.xaml" />
@@ -89,14 +88,14 @@
     <None Remove="Controls\Components\TopNavigationItem.xaml" />
     <None Remove="Controls\Components\UserCardControl.xaml" />
     <None Remove="Controls\Components\VideoMomentPresenter.xaml" />
-    <None Remove="Controls\Core\Player\BiliPlayer.xaml" />
-    <None Remove="Controls\Core\Player\PlayerPresenter.xaml" />
-    <None Remove="Controls\Core\Player\PlayerResources.xaml" />
-    <None Remove="Controls\Core\TransportControl\ExternalTransportControl.xaml" />
-    <None Remove="Controls\Danmaku\DanmakuBox.xaml" />
+    <None Remove="Controls\Core\CacheBar.xaml" />
+    <None Remove="Controls\Core\ChapterPanel.xaml" />
+    <None Remove="Controls\Core\NextTip.xaml" />
+    <None Remove="Controls\Core\OverlayTransportControls.xaml" />
+    <None Remove="Controls\Core\PlayerInteractivePanel.xaml" />
+    <None Remove="Controls\Core\PlayerOverlay.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
-    <None Remove="Controls\Danmaku\DanmakuSendOptions.xaml" />
-    <None Remove="Controls\Danmaku\LiveDanmakuPanel.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuSendDialog.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
@@ -115,12 +114,14 @@
     <None Remove="Controls\History\HistoryVideoSearchSection.xaml" />
     <None Remove="Controls\History\LiveHistorySection.xaml" />
     <None Remove="Controls\History\VideoHistorySection.xaml" />
+    <None Remove="Controls\IncrementVerticalScrollControl.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainHeader.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionMainSideBody.xaml" />
     <None Remove="Controls\LivePartition\LivePartitionSubSideBody.xaml" />
     <None Remove="Controls\LivePartition\LiveRecommendMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionMainBody.xaml" />
     <None Remove="Controls\LivePartition\LiveSubPartitionSelector.xaml" />
+    <None Remove="Controls\MainFrame.xaml" />
     <None Remove="Controls\Message\ChatMessageBox.xaml" />
     <None Remove="Controls\Message\ChatMessageHeader.xaml" />
     <None Remove="Controls\Message\ChatMessageItemControl.xaml" />
@@ -148,8 +149,8 @@
     <None Remove="Controls\Moment\VideoMomentSectionDetailControl.xaml" />
     <None Remove="Controls\Moment\VideoMomentSpaceControl.xaml" />
     <None Remove="Controls\Core\PlayerNotificationControl.xaml" />
-    <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
-    <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
+    <None Remove="Controls\OverlayFrame.xaml" />
+    <None Remove="Controls\OverlayPanel.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -170,23 +171,16 @@
     <None Remove="Controls\Player\DownloadButton.xaml" />
     <None Remove="Controls\Player\FavoriteButton.xaml" />
     <None Remove="Controls\Player\LikeButton.xaml" />
-    <None Remove="Controls\Player\LiveChatSection.xaml" />
-    <None Remove="Controls\Player\LiveInfoSection.xaml" />
-    <None Remove="Controls\Player\LivePlayerFormatButton.xaml" />
-    <None Remove="Controls\Player\LivePlayerMainHeader.xaml" />
     <None Remove="Controls\Player\PgcDescriptorControl.xaml" />
     <None Remove="Controls\Player\PgcEpisodesSection.xaml" />
     <None Remove="Controls\Player\PgcInfoSection.xaml" />
     <None Remove="Controls\Player\PgcOperationControl.xaml" />
-    <None Remove="Controls\Player\PgcPlayerFormatButton.xaml" />
-    <None Remove="Controls\Player\PgcPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerPanel.xaml" />
     <None Remove="Controls\Player\PgcPlayerSideBody.xaml" />
     <None Remove="Controls\Player\PgcPlayerSideHeader.xaml" />
-    <None Remove="Controls\Player\PgcPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\PgcPlayerWidget.xaml" />
     <None Remove="Controls\Player\PgcSeasonsSection.xaml" />
     <None Remove="Controls\Player\PgcStatControl.xaml" />
-    <None Remove="Controls\Player\SubtitleButton.xaml" />
-    <None Remove="Controls\Player\SubtitlePresenter.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
     <None Remove="Controls\Player\VideoAISection.xaml" />
     <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
@@ -194,16 +188,14 @@
     <None Remove="Controls\Player\VideoInfoSection.xaml" />
     <None Remove="Controls\Player\VideoOperationControl.xaml" />
     <None Remove="Controls\Player\VideoPartsSection.xaml" />
-    <None Remove="Controls\Player\VideoPlayerFormatButton.xaml" />
-    <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerPanel.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
-    <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\VideoPlayerWidget.xaml" />
     <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoSeasonSection.xaml" />
     <None Remove="Controls\Player\VideoStatControl.xaml" />
-    <None Remove="Controls\Player\WebDavNextButton.xaml" />
     <None Remove="Controls\Popular\PopularMainBody.xaml" />
     <None Remove="Controls\Popular\PopularMainHeader.xaml" />
     <None Remove="Controls\Popular\PopularRankParitionItemControl.xaml" />
@@ -222,17 +214,19 @@
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\Settings\AboutSettingControl.xaml" />
     <None Remove="Controls\Settings\AIResponseSettingControl.xaml" />
+    <None Remove="Controls\Settings\CacheSettingControl.xaml" />
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
     <None Remove="Controls\Settings\LayoutSettingSection.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
+    <None Remove="Controls\Settings\MpvExtraSettingControl.xaml" />
     <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
+    <None Remove="Controls\Settings\ScreenshotSettingControl.xaml" />
     <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
-    <None Remove="Controls\Settings\WebDavSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
     <None Remove="Controls\Users\FansHeader.xaml" />
     <None Remove="Controls\Users\FollowsMainBody.xaml" />
@@ -245,15 +239,8 @@
     <None Remove="Controls\VideoPartition\VideoPartitionSideHeader.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterBody.xaml" />
     <None Remove="Controls\ViewLater\ViewLaterHeader.xaml" />
-    <None Remove="Controls\WebDav\WebDavConfigDialog.xaml" />
-    <None Remove="Controls\WebDav\WebDavPageBody.xaml" />
-    <None Remove="Controls\WebDav\WebDavPageHeader.xaml" />
-    <None Remove="Controls\WebDav\WebDavPlayerMainHeader.xaml" />
-    <None Remove="Controls\WebDav\WebDavPlayerSideBody.xaml" />
-    <None Remove="Controls\WebDav\WebDavStorageItemControl.xaml" />
     <None Remove="Controls\Markdown\MarkdownTextBlock.xaml" />
     <None Remove="Forms\GalleryWindow.xaml" />
-    <None Remove="Forms\PlayerWindow.xaml" />
     <None Remove="Forms\StartupWindow.xaml" />
     <None Remove="Forms\WebSignInWindow.xaml" />
     <None Remove="Pages\AnimePage.xaml" />
@@ -269,19 +256,13 @@
     <None Remove="Pages\Overlay\FavoritesPage.xaml" />
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
-    <None Remove="Pages\Overlay\LivePlayerPage.xaml" />
-    <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
-    <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
-    <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
-    <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
     <None Remove="Pages\PopularPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StartupPage.xaml" />
     <None Remove="Pages\VideoPartitionPage.xaml" />
-    <None Remove="Pages\WebDavPage.xaml" />
     <None Remove="Styles\Overrides.xaml" />
     <None Remove="Styles\TrayResources.xaml" />
     <None Remove="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml" />
@@ -318,7 +299,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.CsWinRT" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
     <PackageReference Include="Microsoft.Graphics.Win2D" />
@@ -355,6 +335,10 @@
     <PackageReference Include="Richasy.BiliKernel.Services.Moment" />
     <PackageReference Include="Richasy.BiliKernel.Services.Search" />
     <PackageReference Include="Richasy.BiliKernel.Services.User" />
+    <PackageReference Include="Richasy.MpvKernel" />
+    <PackageReference Include="Richasy.MpvKernel.Core" />
+    <PackageReference Include="Richasy.MpvKernel.Player" />
+    <PackageReference Include="Richasy.MpvKernel.WinUI" />
     <PackageReference Include="Richasy.WinUIKernel.AI" />
     <PackageReference Include="RichasyKernel.Core" />
     <PackageReference Include="Roman-Numerals" />
@@ -366,9 +350,7 @@
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\Beta\Connectors.WebDav\Connectors.WebDav.csproj" />
     <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
-    <ProjectReference Include="..\..\Libs\mpv-winui\src\Mpv.Core\Mpv.Core.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -1001,12 +983,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64'">
-    <None Update="Assets\libmpv\x64\libmpv-2.dll">
+    <None Update="Assets\libmpv\x64\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'ARM64'">
-    <None Update="Assets\libmpv\arm64\libmpv-2.dll">
+    <None Update="Assets\libmpv\arm64\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -1036,37 +1018,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\LiveChatSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\LiveInfoSection.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1096,16 +1048,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1116,42 +1058,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\SubtitlePresenter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\SubtitleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\TransportControl\VideoTransportControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1162,11 +1074,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoDanmakuPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1197,11 +1104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1241,21 +1143,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\Player\MpvPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1267,24 +1154,63 @@
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
+    <None Update="Assets\basic-mpv.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Page Update="Controls\Danmaku\DanmakuSendDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <None Update="Assets\BewlyBewly.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\DashVideoTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\WebPlayer.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Page Update="Controls\Settings\CacheSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\MpvExtraSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\ScreenshotSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\OverlayPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\PlayerOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\NextTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\ChapterPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\CacheBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\OverlayTransportControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Core\PlayerInteractivePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\IncrementVerticalScrollControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\OverlayFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\MainFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Components\UserCardControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1378,25 +1304,16 @@
     <Page Update="Controls\Player\VideoInfoSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Player\WebDavNextButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="Controls\Settings\LayoutSettingSection.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\Components\TopNavigationItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="ViewModels\Items\CommentItemViewModel\CommentLikeButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
@@ -1421,39 +1338,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Pages\WebDavPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Forms\PlayerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Styles\TrayResources.xaml">

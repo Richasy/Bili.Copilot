@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+using Richasy.MpvKernel;
+using Richasy.MpvKernel.Core.Enums;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -13,6 +13,10 @@ namespace BiliCopilot.UI.ViewModels.View;
 public sealed partial class SettingsPageViewModel
 {
     private bool _isInitialized;
+    private string? _initialCustomLibMpvPath;
+
+    [ObservableProperty]
+    public partial bool IsRestartTipShown { get; set; }
 
     [ObservableProperty]
     private ElementTheme _appTheme;
@@ -24,16 +28,10 @@ public sealed partial class SettingsPageViewModel
     private bool _isTopNavShown;
 
     [ObservableProperty]
-    private bool _isAutoPlayWhenLoaded;
-
-    [ObservableProperty]
     private bool _isAutoPlayNextRecommendVideo;
 
     [ObservableProperty]
     private PlayerDisplayMode _defaultPlayerDisplayMode;
-
-    [ObservableProperty]
-    private bool _autoPlayNext;
 
     [ObservableProperty]
     private bool _playNextWithoutTip;
@@ -54,22 +52,7 @@ public sealed partial class SettingsPageViewModel
     private PreferDecodeType _preferDecode;
 
     [ObservableProperty]
-    private PlayerType _playerType;
-
-    [ObservableProperty]
-    private ExternalPlayerType _externalPlayerType;
-
-    [ObservableProperty]
     private MTCBehavior _mTCBehavior;
-
-    [ObservableProperty]
-    private bool _isExternalPlayerType;
-
-    [ObservableProperty]
-    private bool _isIslandPlayerType;
-
-    [ObservableProperty]
-    private double _singleFastForwardAndRewindSpan;
 
     [ObservableProperty]
     private bool _playerSpeedEnhancement;
@@ -91,9 +74,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private bool _hideWhenCloseWindow;
-
-    [ObservableProperty]
-    private bool _autoLoadHistory;
 
     [ObservableProperty]
     private bool _isNotificationEnabled;
@@ -138,9 +118,6 @@ public sealed partial class SettingsPageViewModel
     private bool _isWebDavEmpty;
 
     [ObservableProperty]
-    private WebDavConfig _selectedWebDav;
-
-    [ObservableProperty]
     private List<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]
@@ -151,9 +128,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private List<PreferDecodeType> _preferDecodeCollection;
-
-    [ObservableProperty]
-    private List<PlayerType> _playerTypeCollection;
 
     [ObservableProperty]
     private List<ExternalPlayerType> _externalPlayerTypeCollection;
@@ -188,8 +162,75 @@ public sealed partial class SettingsPageViewModel
     [ObservableProperty]
     private bool _isArticleNavVisible;
 
-    /// <summary>
-    /// WebDav 配置.
-    /// </summary>
-    public ObservableCollection<WebDavConfig> WebDavConfigs { get; } = new();
+    [ObservableProperty]
+    public partial ScreenshotAction ScreenshotAction { get; set; }
+
+    [ObservableProperty]
+    public partial string? ScreenshotFolderPath { get; set; }
+
+    [ObservableProperty]
+    public partial double TempPlaybackRate { get; set; }
+
+    [ObservableProperty]
+    public partial bool ScrollAccelerate { get; set; }
+
+    [ObservableProperty]
+    public partial bool CacheOnDisk { get; set; }
+
+    [ObservableProperty]
+    public partial string? CacheDirDescription { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasCustomCacheDir { get; set; }
+
+    [ObservableProperty]
+    public partial bool AudioExclusiveEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial string? CustomLibMpvPath { get; set; }
+
+    [ObservableProperty]
+    public partial bool CanResetLibMpvPath { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsMpvExtraSettingExpanded { get; set; }
+
+    [ObservableProperty]
+    public partial double MaxVolume { get; set; }
+
+    [ObservableProperty]
+    public partial HrSeekType HrSeek { get; set; }
+
+    [ObservableProperty]
+    public partial double MaxCacheSize { get; set; }
+
+    [ObservableProperty]
+    public partial double MaxCacheSeconds { get; set; }
+
+    [ObservableProperty]
+    public partial bool UseIntegrationWhenSinglePlayWindow { get; set; }
+
+    [ObservableProperty]
+    public partial MpvBuiltInProfile MpvBuiltInProfile { get; set; }
+
+    [ObservableProperty]
+    public partial string TotalImageCacheSize { get; set; }
+
+    [ObservableProperty]
+    public partial AudioChannelLayoutType PreferAudioChannelLayout { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsTotalImageCacheClearEnabled { get; set; }
+
+    [ObservableProperty]
+    public partial double StepForwardSecond { get; set; }
+
+    [ObservableProperty]
+    public partial double StepBackwardSecond { get; set; }
+
+    [ObservableProperty]
+    public partial MpvLogLevel LogLevel { get; set; }
+
+    [ObservableProperty]
+    public partial bool HideMainWindowOnPlay { get; set; }
 }

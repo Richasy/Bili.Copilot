@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 
 namespace BiliCopilot.UI.Controls.Player;
 
 /// <summary>
 /// PGC播放页侧边栏头部.
 /// </summary>
-public sealed partial class PgcPlayerSideHeader : PgcPlayerPageControlBase
+public sealed partial class PgcPlayerSideHeader : PgcPlayerControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerSideHeader"/> class.
@@ -39,7 +39,7 @@ public sealed partial class PgcPlayerSideHeader : PgcPlayerPageControlBase
     }
 
     /// <inheritdoc/>
-    protected override void OnViewModelChanged(PgcPlayerPageViewModel? oldValue, PgcPlayerPageViewModel? newValue)
+    protected override void OnViewModelChanged(PgcConnectorViewModel? oldValue, PgcConnectorViewModel? newValue)
     {
         if (oldValue is not null)
         {

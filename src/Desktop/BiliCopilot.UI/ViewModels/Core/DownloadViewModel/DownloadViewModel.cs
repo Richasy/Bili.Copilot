@@ -125,6 +125,13 @@ public sealed partial class DownloadViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void DownloadAudioOnly()
+    {
+        var command = $"{GetBasicCommand(false)} --audio-only \"{_currentUrl}\"";
+        LaunchDownloadProcess(command);
+    }
+
+    [RelayCommand]
     private void DownloadSubtitle()
     {
         var isAISubtitleFiltered = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);

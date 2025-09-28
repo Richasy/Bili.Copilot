@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -28,6 +27,7 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
 {
     private readonly Action<VideoItemViewModel>? _removeAction;
     private readonly VideoFavoriteFolder? _favFolder;
+    private readonly Action<VideoItemViewModel>? _playAction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoItemViewModel"/> class.
@@ -36,11 +36,13 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         VideoInformation info,
         VideoCardStyle style,
         Action<VideoItemViewModel> removeAction = default,
-        VideoFavoriteFolder? favFolder = default)
+        VideoFavoriteFolder? favFolder = default,
+        Action<VideoItemViewModel>? playAction = default)
         : base(info)
     {
         _removeAction = removeAction;
         _favFolder = favFolder;
+        _playAction = playAction;
         var primaryLan = ApplicationLanguages.Languages[0];
         Style = style;
         Title = info.Identifier.Title;
@@ -67,26 +69,26 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     [RelayCommand]
     private void Play()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        if (_playAction is not null)
         {
-            OpenInNewWindowCommand.Execute(default);
+            _playAction(this);
             return;
         }
 
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUri().ToString());
-            return;
-        }
-
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data));
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(Data));
     }
 
     [RelayCommand]
     private void PlayInPrivate()
-        => this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new VideoSnapshot(Data, true));
+    {
+        if (_playAction is not null)
+        {
+            _playAction(this);
+            return;
+        }
+
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(Data, true));
+    }
 
     [RelayCommand]
     private void ShowUserSpace()
@@ -160,10 +162,6 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
     [RelayCommand]
     private async Task OpenInBroswerAsync()
         => await Windows.System.Launcher.LaunchUriAsync(GetWebUri()).AsTask();
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-        => new PlayerWindow().OpenVideo(new VideoSnapshot(Data));
 
     [RelayCommand]
     private void CopyUri()

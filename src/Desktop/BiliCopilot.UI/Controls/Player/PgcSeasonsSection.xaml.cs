@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
@@ -15,26 +14,6 @@ public sealed partial class PgcSeasonsSection : PgcSeasonsSectionBase
     /// Initializes a new instance of the <see cref="PgcSeasonsSection"/> class.
     /// </summary>
     public PgcSeasonsSection() => InitializeComponent();
-
-    /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        if (ViewModel.SelectedItem is SeasonItemViewModel part)
-        {
-            View.Select(ViewModel.Items.ToList().IndexOf(part));
-        }
-    }
-
-    protected override void OnControlUnloaded()
-        => View.ItemsSource = default;
-
-    private void OnSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
-    {
-        if (IsLoaded && sender.SelectedItem is SeasonItemViewModel season && season != ViewModel.SelectedItem)
-        {
-            season.PlayCommand.Execute(default);
-        }
-    }
 }
 
 /// <summary>

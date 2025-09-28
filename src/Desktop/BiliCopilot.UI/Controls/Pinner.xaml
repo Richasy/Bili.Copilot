@@ -30,11 +30,13 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <PersonPicture
+                    <local:BasicCoverImage
                         Width="42"
                         Height="42"
                         VerticalAlignment="Center"
-                        ProfilePicture="{x:Bind Cover, Converter={StaticResource BitmapConverter}}" />
+                        CornerRadius="21"
+                        DecodeWidth="100"
+                        Source="{x:Bind Cover}" />
                     <base:TrimTextBlock
                         x:Name="TitleBlock"
                         Grid.Column="1"
@@ -78,6 +80,8 @@
         <Button.Flyout>
             <Flyout
                 x:Name="ItemsFlyout"
+                Closed="OnFlyoutClosed"
+                Opened="OnFlyoutOpened"
                 Placement="Bottom"
                 ShouldConstrainToRootBounds="False">
                 <Flyout.FlyoutPresenterStyle>
@@ -88,6 +92,7 @@
                 <ItemsRepeater
                     x:Name="Repeater"
                     MinWidth="320"
+                    x:Load="{x:Bind ViewModel.IsFlyoutOpened, Mode=OneWay}"
                     ItemTemplate="{StaticResource PinTemplate}"
                     ItemsSource="{x:Bind ViewModel.Items}">
                     <ItemsRepeater.Layout>

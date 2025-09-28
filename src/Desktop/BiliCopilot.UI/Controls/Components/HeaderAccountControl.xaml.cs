@@ -20,7 +20,15 @@ public sealed partial class HeaderAccountControl : HeaderAccountControlBase
         => ViewModel.InitializeCommand.Execute(default);
 
     private void OnFlyoutOpened(object sender, object e)
-        => ViewModel.UpdateCommunityInformationCommand.Execute(default);
+    {
+        ViewModel.UpdateCommunityInformationCommand.Execute(default);
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => ViewModel.IsFlyoutOpened = true);
+    }
+
+    private void OnFlyoutClosed(object sender, object e)
+    {
+        ViewModel.IsFlyoutOpened = false;
+    }
 }
 
 /// <summary>

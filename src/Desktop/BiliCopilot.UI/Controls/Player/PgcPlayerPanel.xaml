@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:PgcPlayerControlBase
+    x:Class="BiliCopilot.UI.Controls.Player.PgcPlayerPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BiliCopilot.UI.Controls.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Width="360">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Rectangle
+            Height="12"
+            HorizontalAlignment="Stretch"
+            Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+        <Grid Grid.Row="1" Padding="0,4,0,8">
+            <local:PgcPlayerSideHeader ViewModel="{x:Bind ViewModel}" />
+        </Grid>
+        <Border
+            Grid.Row="2"
+            Height="1"
+            HorizontalAlignment="Stretch"
+            Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+        <Grid Grid.Row="3">
+            <local:PgcPlayerSideBody ViewModel="{x:Bind ViewModel}" />
+        </Grid>
+    </Grid>
+</local:PgcPlayerControlBase>

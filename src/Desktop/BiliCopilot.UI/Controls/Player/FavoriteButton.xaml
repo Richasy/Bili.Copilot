@@ -10,6 +10,7 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
@@ -48,12 +49,12 @@
             ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=FavoriteTip}"
             Target="{x:Bind Btn}">
-            <ScrollViewer
+            <ScrollView
                 MaxHeight="360"
                 Margin="0,8"
-                Style="{StaticResource PageScrollViewerStyle}">
-                <ItemsRepeater x:Name="FavoriteRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
+                Style="{StaticResource PageScrollViewStyle}">
+                <repeater:AppRepeater x:Name="FavoriteRepeater" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                    <repeater:AppRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:PlayerFavoriteFolderViewModel">
                             <ToggleButton
                                 Padding="16,12"
@@ -78,12 +79,12 @@
                                 </Grid>
                             </ToggleButton>
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
+                    </repeater:AppRepeater.ItemTemplate>
+                    <repeater:AppRepeater.Layout>
                         <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
+                    </repeater:AppRepeater.Layout>
+                </repeater:AppRepeater>
+            </ScrollView>
         </TeachingTip>
     </Grid>
 </base:LayoutUserControlBase>

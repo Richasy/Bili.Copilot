@@ -15,29 +15,12 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
     public VideoFavoriteBody() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        VideoScrollView.ViewChanged += OnViewChanged;
-        VideoScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        CheckVideoCount();
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)
         {
             ViewModel.ListUpdated -= OnVideoListUpdatedAsync;
         }
-
-        VideoRepeater.ItemsSource = null;
-        VideoScrollView.ViewChanged -= OnViewChanged;
-        VideoScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -58,38 +41,6 @@ public sealed partial class VideoFavoriteBody : VideoFavoriteControlBase
 
     private async void OnVideoListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckVideoCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        Richasy.WinUIKernel.Share.WinUIKernelShareExtensions.IsCardAnimationEnabled = !args.IsIntermediate;
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (VideoScrollView.ExtentHeight - VideoScrollView.ViewportHeight - VideoScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100 && ViewModel is not null)
-        {
-            CheckVideoCount();
-        }
-    }
-
-    private void CheckVideoCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (VideoScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }

@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 
 namespace BiliCopilot.UI.Controls.Player;
 
 /// <summary>
 /// 视频播放页侧边栏头部.
 /// </summary>
-public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
+public sealed partial class VideoPlayerSideHeader : VideoPlayerControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerSideHeader"/> class.
@@ -39,7 +39,7 @@ public sealed partial class VideoPlayerSideHeader : VideoPlayerPageControlBase
     }
 
     /// <inheritdoc/>
-    protected override void OnViewModelChanged(VideoPlayerPageViewModel? oldValue, VideoPlayerPageViewModel? newValue)
+    protected override void OnViewModelChanged(VideoConnectorViewModel? oldValue, VideoConnectorViewModel? newValue)
     {
         if (oldValue is not null)
         {

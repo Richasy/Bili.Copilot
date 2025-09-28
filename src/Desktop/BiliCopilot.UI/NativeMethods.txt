@@ -22,3 +22,13 @@ SetWindowRgn
 CreateRectRgn
 Windows.Win32.UI.WindowsAndMessaging.MOUSEHOOKSTRUCT
 Windows.Win32.UI.WindowsAndMessaging.KBDLLHOOKSTRUCT
+SystemParametersInfo
+GetAsyncKeyState
+ClientToScreen
+GetForegroundWindow
+GetClientRect
+GetCursorPos
+SetForegroundWindow
+SetFocus
+GetWindowLong
+IsIconic

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Core;
-using Richasy.WinUIKernel.Share.Base;
+using Richasy.MpvKernel;
 using Windows.Storage;
 using Windows.System;
 
@@ -19,17 +16,39 @@ public sealed partial class LoggerSettingControl : SettingsPageControlBase
     /// </summary>
     public LoggerSettingControl() => InitializeComponent();
 
-    private async void OnOpenLoggerFolderButtonClickAsync(object sender, RoutedEventArgs e)
+    private static string LoggerFolder => Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logger");
+
+    private async void OnOpenLoggerFolderButtonClick(object sender, RoutedEventArgs e)
     {
-        var folder = await StorageFolder.GetFolderFromPathAsync(App.LoggerFolder).AsTask();
+        var folder = await StorageFolder.GetFolderFromPathAsync(LoggerFolder).AsTask();
         _ = await Launcher.LaunchFolderAsync(folder).AsTask();
     }
 
-    private async void OnCleanLoggerButtonClickAsync(object sender, RoutedEventArgs e)
+    protected override void OnControlLoaded()
     {
-        var folder = await StorageFolder.GetFolderFromPathAsync(App.LoggerFolder).AsTask();
-        await folder.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask();
-        _ = await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logger", CreationCollisionOption.OpenIfExists).AsTask();
-        this.Get<AppViewModel>().ShowTipCommand.Execute((ResourceToolkit.GetLocalizedString(StringNames.LogEmptied), InfoType.Success));
+        var index = ViewModel.LogLevel switch
+        {
+            MpvLogLevel.V => 3,
+            MpvLogLevel.Info => 2,
+            MpvLogLevel.Warn => 1,
+            MpvLogLevel.Error => 0,
+            _ => 0
+        };
+        LevelComboBox.SelectedIndex = index;
+    }
+
+    private void OnLevelChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var index = LevelComboBox.SelectedIndex;
+        if (index >= 0 && IsLoaded)
+        {
+            ViewModel.LogLevel = index switch
+            {
+                3 => MpvLogLevel.V,
+                2 => MpvLogLevel.Info,
+                1 => MpvLogLevel.Warn,
+                _ => MpvLogLevel.Error
+            };
+        }
     }
 }

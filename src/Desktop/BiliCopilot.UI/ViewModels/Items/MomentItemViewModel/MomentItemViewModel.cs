@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages.Overlay;
@@ -110,69 +109,35 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         => _showMomentAction?.Invoke(this);
 
     [RelayCommand]
-    private void Activate()
+    private async Task ActivateAsync()
     {
         if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
         {
-            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
-            {
-                var snapshot = new VideoSnapshot(vinfo);
-                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
-            }
+            var snapshot = new MediaSnapshot(vinfo);
+            this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
         {
-            if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
+            var hasEpid = einfo.Identifier.Id != "0";
+            if (hasEpid)
             {
-                var hasEpid = einfo.Identifier.Id != "0";
-                if (hasEpid)
-                {
-                    var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
-                }
-                else
-                {
-                    // 出差番剧，使用网页打开.
-                    OpenInBroswerCommand.Execute(default);
-                }
+                var identifier = new MediaIdentifier(einfo.Identifier.Id, string.Empty, default);
+                var snapshot = new MediaSnapshot(default, new EpisodeInformation(identifier));
+                this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
+            }
+            else
+            {
+                // 出差番剧，使用网页打开.
+                OpenInBroswerCommand.Execute(default);
             }
         }
-        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo && !TryOpenInNewWindowIfPreferred())
+        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(LivePlayerPage), linfo.Identifier);
+            await Launcher.LaunchUriAsync(new Uri($"https://live.bilibili.com/{linfo.Identifier.Id}"));
         }
         else if (FindInnerContent<IEnumerable<BiliImage>>() is not IEnumerable<BiliImage>)
         {
             OpenInBroswerCommand.Execute(default);
-        }
-
-        bool TryOpenInNewWindowIfPreferred()
-        {
-            var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                OpenInNewWindowCommand.Execute(default);
-                return true;
-            }
-
-            return false;
-        }
-
-        bool TryOpenInWebPlayerIfPreferred()
-        {
-            var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-            if (preferPlayer == PlayerType.Web)
-            {
-                var webUrl = GetMediaUrl();
-                if (webUrl is not null)
-                {
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), webUrl);
-                }
-
-                return true;
-            }
-
-            return false;
         }
     }
 
@@ -189,8 +154,8 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             return;
         }
 
-        var snapshot = new VideoSnapshot(vinfo, true);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
+        var snapshot = new MediaSnapshot(vinfo, true);
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
     }
 
     [RelayCommand]
@@ -230,31 +195,6 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
     {
         var url = GetMediaUrl() ?? $"https://t.bilibili.com/{Data.Id}";
         await Launcher.LaunchUriAsync(new Uri(url));
-    }
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-    {
-        if (FindInnerContent<VideoInformation>() is VideoInformation vinfo)
-        {
-            new PlayerWindow().OpenVideo(new VideoSnapshot(vinfo));
-        }
-        else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
-        {
-            if (einfo.Identifier.Id == "0")
-            {
-                // 出差番剧.
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ss_{einfo.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.SeasonId)}", default, default));
-            }
-            else
-            {
-                new PlayerWindow().OpenPgc(new MediaIdentifier($"ep_{einfo.Identifier.Id}", default, default));
-            }
-        }
-        else if (FindInnerContent<LiveInformation>() is LiveInformation linfo)
-        {
-            new PlayerWindow().OpenLive(linfo.Identifier);
-        }
     }
 
     [RelayCommand]

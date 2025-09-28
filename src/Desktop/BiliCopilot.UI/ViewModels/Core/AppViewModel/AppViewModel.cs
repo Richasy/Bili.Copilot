@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Windowing;
-using Microsoft.Windows.BadgeNotifications;
-using Mpv.Core;
+using Microsoft.Win32;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -16,7 +15,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
-using WinUIEx;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -48,10 +47,6 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         var architecture = RuntimeInformation.ProcessArchitecture;
         var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
-        var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/libmpv/{identifier}/libmpv-2.dll")).AsTask();
-        var libPath = libFile.Path;
-        Resolver.SetCustomMpvPath(libPath);
-
         var bbdownFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/BBDown/{identifier}/BBDown.exe")).AsTask();
         BBDownPath = bbdownFile.Path;
 
@@ -60,10 +55,12 @@ public sealed partial class AppViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Launch()
+    private async Task LaunchAsync()
     {
+        await LoadOriginalWheelLinesAsync();
+
         // 清除所有之前的badges.
-        BadgeNotificationManager.Current.ClearBadge();
+        //BadgeNotificationManager.Current.ClearBadge();
         if (_tokenResolver.GetToken() is not null)
         {
             IsInitialLoading = true;
@@ -83,81 +80,10 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             (window.Content as FrameworkElement).RequestedTheme = theme;
         }
-    }
 
-    [RelayCommand]
-    private void MakeCurrentWindowEnterFullScreen()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.FullScreen);
-        if (window is IPlayerHostWindow hostWindow)
+        foreach (var player in Players)
         {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullScreen);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitFullScreen()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowEnterOverlap()
-    {
-        var window = ActivatedWindow;
-        if (window.AppWindow.Presenter is not OverlappedPresenter)
-        {
-            window.SetWindowPresenter(AppWindowPresenterKind.Overlapped);
-        }
-
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullWindow);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitOverlap()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowEnterCompactOverlay()
-    {
-        var window = ActivatedWindow;
-        (window as WindowBase).MinHeight = 320;
-        (window as WindowBase).MinWidth = 560;
-        window.SetWindowPresenter(AppWindowPresenterKind.CompactOverlay);
-        window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.CompactOverlay);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitCompactOverlay()
-    {
-        var window = ActivatedWindow;
-        (window as WindowBase).MinHeight = 480;
-        (window as WindowBase).MinWidth = 640;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        window.AppWindow.TitleBar.PreferredHeightOption = window is MainWindow ? TitleBarHeightOption.Tall : TitleBarHeightOption.Standard;
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
+            player.UpdateTheme(theme);
         }
     }
 
@@ -180,6 +106,14 @@ public sealed partial class AppViewModel : ViewModelBase
                 await firstWindow.ShowTipAsync(data.Item1, data.Item2);
             }
         }
+    }
+
+    [RelayCommand]
+    private async Task OpenPlayerAsync(MediaSnapshot snapshot)
+    {
+        var playerVM = this.Get<PlayerViewModel>();
+        this.Get<AppViewModel>().Players.Add(playerVM);
+        await playerVM.InitializeAsync(snapshot);
     }
 
     [RelayCommand]
@@ -268,6 +202,102 @@ public sealed partial class AppViewModel : ViewModelBase
         {
             _logger.LogError(ex, "检查GPU类型时失败");
         }
+    }
+
+    [RelayCommand]
+    private async Task UseQuickWheelScrollAsync()
+    {
+        if (_isWheelLinesChanged || !SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true))
+        {
+            return;
+        }
+
+        _isWheelLinesChanged = true;
+        await SetWheelLinesAsync(12);
+    }
+
+    [RelayCommand]
+    private async Task RestoreOriginalWheelScrollAsync()
+    {
+        if (_isWheelLinesChanged && _originalWheelLines != null)
+        {
+            _isWheelLinesChanged = false;
+            await SetWheelLinesAsync(_originalWheelLines.Value);
+        }
+
+        _isWheelLinesChanged = false;
+    }
+
+    private async Task LoadOriginalWheelLinesAsync()
+    {
+        await Task.Run(() =>
+        {
+            try
+            {
+                unsafe
+                {
+                    uint lines = 0;
+                    var ok = PInvoke.SystemParametersInfo(
+                        SYSTEM_PARAMETERS_INFO_ACTION.SPI_GETWHEELSCROLLLINES,
+                        0u,
+                        &lines,
+                        0);
+
+                    if (ok)
+                    {
+                        _originalWheelLines = lines == 12 ? 3 : (int)lines;
+                        return;
+                    }
+
+                    this.Get<ILogger<AppViewModel>>().LogWarning("Get wheel lines via SPI failed, fallback to registry.");
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Get wheel lines via SPI exception.");
+            }
+
+            try
+            {
+                using var reg = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", false);
+                var value = reg?.GetValue("WheelScrollLines")?.ToString();
+                if (uint.TryParse(value, out var regLines))
+                {
+                    _originalWheelLines = regLines == 12 ? 3 : (int)regLines;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Read wheel lines from registry failed.");
+            }
+        });
+    }
+
+    private async Task SetWheelLinesAsync(int lines)
+    {
+        if (_originalWheelLines == null)
+        {
+            return;
+        }
+
+        await Task.Run(() =>
+        {
+            try
+            {
+                unsafe
+                {
+                    var result = PInvoke.SystemParametersInfo(SYSTEM_PARAMETERS_INFO_ACTION.SPI_SETWHEELSCROLLLINES, (uint)lines, null, SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_UPDATEINIFILE | SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_SENDCHANGE);
+                    if (!result)
+                    {
+                        this.Get<ILogger<AppViewModel>>().LogWarning("Set wheel lines failed.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Get<ILogger<AppViewModel>>().LogError(ex, "Set wheel lines exception.");
+            }
+        });
     }
 
     partial void OnIsInitialLoadingChanged(bool value)

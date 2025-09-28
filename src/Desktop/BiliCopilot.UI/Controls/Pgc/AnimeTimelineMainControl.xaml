@@ -5,28 +5,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Pgc"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer x:Name="SeasonScrollView" Style="{StaticResource PageScrollViewerStyle}">
-            <Grid Margin="16,12">
-                <ItemsRepeater
+        <ScrollView
+            x:Name="View"
+            Padding="16,0"
+            Style="{StaticResource PageScrollViewStyle}">
+            <Grid Margin="0,16">
+                <repeater:AppRepeater
                     x:Name="SeasonRepeater"
                     ItemsSource="{x:Bind ViewModel.SelectedTimeline.Items, Mode=OneWay}"
                     Layout="{StaticResource PgcLayout}">
-                    <ItemsRepeater.ItemTemplate>
+                    <repeater:AppRepeater.ItemTemplate>
                         <DataTemplate x:DataType="items:SeasonItemViewModel">
                             <components:SeasonCardControl Style="{StaticResource TimelineSeasonCardStyle}" ViewModel="{x:Bind}" />
                         </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+                    </repeater:AppRepeater.ItemTemplate>
+                </repeater:AppRepeater>
             </Grid>
-        </ScrollViewer>
+        </ScrollView>
 
         <base:EmptyHolder
             Description="{ext:Locale Name=TimelineHasNoVideo}"

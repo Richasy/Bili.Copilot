@@ -10,17 +10,26 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Name="DefaultTemplate" x:DataType="items:EpisodeItemViewModel">
-            <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                <components:EpisodeCardControl Style="{StaticResource PlayerEpisodeCardStyle}" ViewModel="{x:Bind}" />
-            </ItemContainer>
+            <components:EpisodeCardControl Style="{StaticResource PlayerEpisodeCardStyle}" ViewModel="{x:Bind}" />
         </DataTemplate>
         <DataTemplate x:Name="IndexTemplate" x:DataType="items:EpisodeItemViewModel">
-            <ItemContainer Style="{StaticResource AppItemContainerStyle}" ToolTipService.ToolTip="{x:Bind Title}">
-                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+            <base:AppToggleCard
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                BorderBrush="Transparent"
+                BorderThickness="2"
+                Command="{x:Bind PlayCommand}"
+                IsChecked="{x:Bind IsSelected, Mode=OneWay}"
+                IsEnableCheck="False">
+                <Grid>
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -28,7 +37,7 @@
                         FontWeight="Bold"
                         Text="{x:Bind Index}" />
                 </Grid>
-            </ItemContainer>
+            </base:AppToggleCard>
         </DataTemplate>
         <StackLayout x:Name="DefaultLayout" Spacing="8" />
         <UniformGridLayout
@@ -54,24 +63,26 @@
             Toggled="OnIndexToggledAsync" />
 
         <Grid Grid.Row="1">
-            <ItemsView
+            <ScrollView
                 x:Name="DefaultView"
-                Padding="12,0,12,12"
-                ItemTemplate="{StaticResource DefaultTemplate}"
-                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
-                Layout="{StaticResource DefaultLayout}"
-                SelectionChanged="OnEpisodeSelectionChanged"
-                SelectionMode="Single"
-                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-            <ItemsView
+                Padding="12,0"
+                x:Load="{x:Bind ViewModel.OnlyIndex, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}">
+                <repeater:AppRepeater
+                    Margin="0,0,0,12"
+                    ItemTemplate="{StaticResource DefaultTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                    Layout="{StaticResource DefaultLayout}" />
+            </ScrollView>
+            <ScrollView
                 x:Name="IndexView"
-                Padding="12,0,12,12"
-                ItemTemplate="{StaticResource IndexTemplate}"
-                ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
-                Layout="{StaticResource IndexLayout}"
-                SelectionChanged="OnEpisodeSelectionChanged"
-                SelectionMode="Single"
-                Visibility="{x:Bind ViewModel.OnlyIndex, Mode=OneWay}" />
+                Padding="12,0"
+                x:Load="{x:Bind ViewModel.OnlyIndex, Mode=OneWay}">
+                <repeater:AppRepeater
+                    Margin="0,0,0,12"
+                    ItemTemplate="{StaticResource IndexTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}"
+                    Layout="{StaticResource IndexLayout}" />
+            </ScrollView>
         </Grid>
     </Grid>
 </local:PgcEpisodesSectionBase>

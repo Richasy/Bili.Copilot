@@ -20,7 +20,19 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:EpisodeCardControl">
-                    <local:PlayerEpisodePresenter ViewModel="{TemplateBinding ViewModel}" />
+                    <base:AppToggleCard
+                        x:Name="RootCard"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        BorderBrush="Transparent"
+                        BorderThickness="2"
+                        IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.IsSelected}"
+                        IsEnableCheck="False">
+                        <local:PlayerEpisodePresenter ViewModel="{TemplateBinding ViewModel}" />
+                    </base:AppToggleCard>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -6,31 +6,35 @@
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Message"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer x:Name="MessageScrollView" Style="{StaticResource PageScrollViewerStyle}">
-            <Grid Margin="16,12">
-                <ItemsRepeater
-                    x:Name="MessageRepeater"
-                    MaxWidth="1000"
-                    ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="items:NotifyMessageItemViewModel">
-                            <local:NotifyMessageCardControl ViewModel="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </Grid>
-        </ScrollViewer>
+        <controls:IncrementVerticalScrollControl x:Name="View" LoadMoreCommand="{x:Bind ViewModel.LoadItemsCommand, Mode=OneWay}">
+            <controls:IncrementVerticalScrollControl.Element>
+                <Grid Margin="0,16">
+                    <repeater:AppRepeater
+                        x:Name="MessageRepeater"
+                        MaxWidth="1000"
+                        ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                        <repeater:AppRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="items:NotifyMessageItemViewModel">
+                                <local:NotifyMessageCardControl ViewModel="{x:Bind}" />
+                            </DataTemplate>
+                        </repeater:AppRepeater.ItemTemplate>
+                        <repeater:AppRepeater.Layout>
+                            <StackLayout Spacing="8" />
+                        </repeater:AppRepeater.Layout>
+                    </repeater:AppRepeater>
+                </Grid>
+            </controls:IncrementVerticalScrollControl.Element>
+        </controls:IncrementVerticalScrollControl>
 
         <base:EmptyHolder
             Description="{ext:Locale Name=NoMessage}"

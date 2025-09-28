@@ -18,6 +18,60 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Danmaku\DanmakuSendDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\CacheSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\MpvExtraSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ScreenshotSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\OverlayPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\PlayerOverlay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\NextTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\ChapterPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\CacheBar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\OverlayTransportControls.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Core\PlayerInteractivePanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\IncrementVerticalScrollControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\OverlayFrame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\MainFrame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Components\UserCardControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -54,22 +108,13 @@
     <Page Update="Controls\Player\VideoInfoSection.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\WebDavNextButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Settings\LayoutSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\TopNavigationItem.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
@@ -97,39 +142,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\WebDavPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Forms\PlayerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\TrayResources.xaml">
@@ -163,9 +175,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Forms\GalleryWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
@@ -204,24 +213,6 @@
     <Page Update="Controls\Settings\ThemeSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LiveChatSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LiveInfoSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\PgcSeasonsSection.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -237,40 +228,13 @@
     <Page Update="Controls\Player\PgcDescriptorControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\SubtitlePresenter.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\SubtitleButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Danmaku\DanmakuBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Danmaku\DanmakuSendOptions.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\VideoPlaylistSection.xaml">
@@ -289,9 +253,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\FavoriteButton.xaml">
@@ -313,15 +274,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

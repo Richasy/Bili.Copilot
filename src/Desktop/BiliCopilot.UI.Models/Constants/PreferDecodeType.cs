@@ -18,19 +18,24 @@ public enum PreferDecodeType
     D3D11,
 
     /// <summary>
+    /// D3D12硬解.
+    /// </summary>
+    D3D12,
+
+    /// <summary>
     /// NVDEC硬解.
     /// </summary>
     NVDEC,
 
     /// <summary>
-    /// DXVA2硬解.
-    /// </summary>
-    DXVA2,
-
-    /// <summary>
     /// Vulkan硬解.
     /// </summary>
     Vulkan,
+
+    /// <summary>
+    /// 软件解码.
+    /// </summary>
+    Software,
 
     /// <summary>
     /// 自定义.

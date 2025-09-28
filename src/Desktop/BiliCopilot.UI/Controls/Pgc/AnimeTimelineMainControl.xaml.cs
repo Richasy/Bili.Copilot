@@ -11,7 +11,4 @@ public sealed partial class AnimeTimelineMainControl : AnimeTimelineControlBase
     /// Initializes a new instance of the <see cref="AnimeTimelineMainControl"/> class.
     /// </summary>
     public AnimeTimelineMainControl() => InitializeComponent();
-
-    protected override void OnControlUnloaded()
-        => SeasonRepeater.ItemsSource = default;
 }

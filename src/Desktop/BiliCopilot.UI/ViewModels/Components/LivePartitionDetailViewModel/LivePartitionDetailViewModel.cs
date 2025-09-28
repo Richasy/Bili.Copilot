@@ -36,15 +36,23 @@ public sealed partial class LivePartitionDetailViewModel : ViewModelBase<Partiti
         }
 
         IsLiveLoading = true;
-        var (lives, tags, nextPageNumber) = await _service.GetPartitionLiveListAsync(Data.Data);
-        if (tags is not null)
+        try
         {
-            Children = [.. tags];
+            var (lives, tags, nextPageNumber) = await _service.GetPartitionLiveListAsync(Data.Data);
+            if (tags is not null)
+            {
+                Children = [.. tags];
+            }
+
+            TryAddRooms(lives);
+            CurrentTag = tags.First();
+            _childPartitionOffsetCache[tags.First()] = nextPageNumber;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"尝试加载 {Data.Data.Name} 分区视频时出错.");
         }
 
-        TryAddRooms(lives);
-        CurrentTag = tags.First();
-        _childPartitionOffsetCache[tags.First()] = nextPageNumber;
         IsLiveLoading = false;
         Initialized?.Invoke(this, EventArgs.Empty);
     }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:VideoPlayerPageControlBase
+<local:VideoPlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Player.VideoStatControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:comp="using:BiliCopilot.UI.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <StackPanel Orientation="Horizontal" Spacing="12">
@@ -39,4 +40,4 @@
             Symbol="Eye"
             Text="{x:Bind ViewModel.OnlineCountText, Mode=OneWay}" />
     </StackPanel>
-</local:VideoPlayerPageControlBase>
+</local:VideoPlayerControlBase>

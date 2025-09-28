@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<local:PgcPlayerPageControlBase
+<local:PgcPlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Player.PgcPlayerSideHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -20,4 +20,4 @@
             <SelectorBar x:Name="Selector" HorizontalAlignment="Left" />
         </ScrollViewer>
     </Grid>
-</local:PgcPlayerPageControlBase>
+</local:PgcPlayerControlBase>

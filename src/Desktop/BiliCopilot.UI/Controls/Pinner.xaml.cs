@@ -8,6 +8,7 @@ using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUIKernel.Share.Base;
+using Windows.System;
 
 namespace BiliCopilot.UI.Controls;
 
@@ -28,7 +29,7 @@ public sealed partial class Pinner : PinnerBase
     protected override void OnControlUnloaded()
         => Repeater.ItemsSource = null;
 
-    private void OnItemClick(object sender, RoutedEventArgs e)
+    private async void OnItemClick(object sender, RoutedEventArgs e)
     {
         var item = (sender as FrameworkElement)?.DataContext as PinItem;
         var navVM = this.Get<NavigationViewModel>();
@@ -39,18 +40,29 @@ public sealed partial class Pinner : PinnerBase
         }
         else if (item.Type == Models.Constants.PinContentType.Pgc)
         {
-            var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(PgcPlayerPage), identifier);
+            MediaSnapshot? snapshot = default;
+            if (item.Id.StartsWith("ss", StringComparison.OrdinalIgnoreCase))
+            {
+                snapshot = new MediaSnapshot(new SeasonInformation(new MediaIdentifier(item.Id[3..], item.Title, default)), default);
+            }
+            else if (item.Id.StartsWith("ep", StringComparison.OrdinalIgnoreCase))
+            {
+                snapshot = new MediaSnapshot(default, new EpisodeInformation(new MediaIdentifier(item.Id[3..], item.Title, default), default));
+            }
+
+            if (snapshot != null)
+            {
+                this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
+            }
         }
         else if (item.Type == Models.Constants.PinContentType.Video)
         {
-            var snapshot = new VideoSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
-            navVM.NavigateToOver(typeof(VideoPlayerPage), snapshot);
+            var snapshot = new MediaSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
+            this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
         }
         else if (item.Type == Models.Constants.PinContentType.Live)
         {
-            var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(LivePlayerPage), identifier);
+            await Launcher.LaunchUriAsync(new Uri($"https://live.bilibili.com/{item.Id}"));
         }
         else if (item.Type == Models.Constants.PinContentType.Article)
         {
@@ -69,6 +81,16 @@ public sealed partial class Pinner : PinnerBase
         {
             ItemsFlyout.Hide();
         }
+    }
+
+    private void OnFlyoutOpened(object sender, object e)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () => ViewModel.IsFlyoutOpened = true);
+    }
+
+    private void OnFlyoutClosed(object sender, object e)
+    {
+        ViewModel.IsFlyoutOpened = false;
     }
 }
 

@@ -5,7 +5,7 @@ namespace BiliCopilot.UI.Controls.Player;
 /// <summary>
 /// PGC 播放器页面统计控件.
 /// </summary>
-public sealed partial class PgcStatControl : PgcPlayerPageControlBase
+public sealed partial class PgcStatControl : PgcPlayerControlBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcStatControl"/> class.

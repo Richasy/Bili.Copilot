@@ -28,6 +28,9 @@ namespace Danmaku.Core
         private volatile bool _isClosing;
         private volatile int _lastIndex;
         private volatile uint _lastTimeMs;
+        private volatile bool _isTopEnabled;
+        private volatile bool _isBottomEnabled;
+        private volatile bool _isRollingEnabled;
 
         public bool DebugMode
         {
@@ -38,7 +41,7 @@ namespace Danmaku.Core
         /// <summary>
         /// Must be called in UI thread
         /// </summary>
-        public DanmakuFrostMaster(Grid rootGrid, ILogger<DanmakuFrostMaster> logger = default)
+        public DanmakuFrostMaster(Grid rootGrid, int refreshRate = 60, bool useSoftwareRender = false, ILogger<DanmakuFrostMaster> logger = default)
         {
             rootGrid?.Children.Clear();
             if (rootGrid.XamlRoot is null)
@@ -49,6 +52,9 @@ namespace Danmaku.Core
             var canvas = new CanvasAnimatedControl();
             canvas.UseSharedDevice = true;
             canvas.DpiScale = (float)rootGrid.XamlRoot.RasterizationScale;
+            canvas.IsFixedTimeStep = true;
+            canvas.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / refreshRate);
+            canvas.ForceSoftwareRenderer = useSoftwareRender;
             canvas.ClearColor = Colors.Transparent;
             canvas.Background = new SolidColorBrush(Colors.Transparent);
             rootGrid.Children.Add(canvas);
@@ -59,6 +65,24 @@ namespace Danmaku.Core
             Windows.System.Threading.ThreadPool.RunAsync(Updater_DoWork).AsTask();
 
             Logger.Log("DanmakuFrostMaster is created");
+        }
+
+        public void SetDanmakuEnabledType(bool? isRollingEnabled, bool? isTopEnabled, bool? isBottomEnabled)
+        {
+            if (isRollingEnabled.HasValue)
+            {
+                _isRollingEnabled = isRollingEnabled.Value;
+            }
+
+            if (isTopEnabled.HasValue)
+            {
+                _isTopEnabled = isTopEnabled.Value;
+            }
+
+            if (isBottomEnabled.HasValue)
+            {
+                _isBottomEnabled = isBottomEnabled.Value;
+            }
         }
 
         public void SetAutoControlDensity(bool value)
@@ -94,6 +118,11 @@ namespace Danmaku.Core
             _render?.SetRollingSpeed(value);
         }
 
+        public void SetOutlineSize(double value)
+        {
+            _render?.SetOutlineSize(value);
+        }
+
         /// <param name="value">in [0,1]</param>
         public void SetOpacity(double value)
         {
@@ -105,7 +134,7 @@ namespace Danmaku.Core
             _render?.SetIsTextBold(value);
         }
 
-        public void SetDanmakuFontSizeOffset(DanmakuFontSize value)
+        public void SetDanmakuFontSizeOffset(double value)
         {
             _render?.SetDanmakuFontSizeOffset(value);
         }
@@ -128,6 +157,16 @@ namespace Danmaku.Core
             _render?.SetNoOverlapSubtitle(value);
         }
 
+        public void SetRefreshRate(int refreshRate)
+        {
+            _render?.SetRefreshRate(refreshRate);
+        }
+
+        public void ForceSoftwareRenderer(bool value)
+        {
+            _render?.SetForceSoftwareRenderer(value);
+        }
+
         public void UpdateTime(uint currentMs)
         {
             if (_render is null)
@@ -137,6 +176,12 @@ namespace Danmaku.Core
 
             lock (_updateTimeQueue)
             {
+                if (_updateTimeQueue.LastOrDefault() == currentMs)
+                {
+                    // Avoid duplicate updates
+                    return;
+                }
+
                 _updateTimeQueue.Enqueue(currentMs);
             }
             _updateEvent.Set();
@@ -274,7 +319,7 @@ namespace Danmaku.Core
             else
             {
                 var items = danmakuList.Where(p => !_danmakuList.Any(v => v.Id == p.Id));
-                _danmakuList.AddRange(items);
+                _danmakuList = items.ToList();
             }
         }
 
@@ -338,15 +383,26 @@ namespace Danmaku.Core
 
                             if (!skip && !_isClosing)
                             {
-                                uint layerId = _danmakuList[_lastIndex].Mode switch
+                                var shouldShow = _danmakuList[_lastIndex].Mode switch
                                 {
-                                    DanmakuMode.Bottom => DanmakuDefaultLayerDef.BottomLayerId,
-                                    DanmakuMode.Top => DanmakuDefaultLayerDef.TopLayerId,
-                                    DanmakuMode.ReverseRolling => DanmakuDefaultLayerDef.ReverseRollingLayerId,
-                                    DanmakuMode.Advanced => DanmakuDefaultLayerDef.AdvancedLayerId,
-                                    _ => DanmakuDefaultLayerDef.RollingLayerId,
+                                    DanmakuMode.Bottom => _isBottomEnabled,
+                                    DanmakuMode.Top => _isTopEnabled,
+                                    _ => _isRollingEnabled
                                 };
-                                _render.RenderDanmakuItem(layerId, _danmakuList[_lastIndex]);
+
+                                if (shouldShow)
+                                {
+                                    uint layerId = _danmakuList[_lastIndex].Mode switch
+                                    {
+                                        DanmakuMode.Bottom => DanmakuDefaultLayerDef.BottomLayerId,
+                                        DanmakuMode.Top => DanmakuDefaultLayerDef.TopLayerId,
+                                        DanmakuMode.ReverseRolling => DanmakuDefaultLayerDef.ReverseRollingLayerId,
+                                        DanmakuMode.Advanced => DanmakuDefaultLayerDef.AdvancedLayerId,
+                                        _ => DanmakuDefaultLayerDef.RollingLayerId,
+                                    };
+
+                                    _render.RenderDanmakuItem(layerId, _danmakuList[_lastIndex]);
+                                }
                             }
 
                             _lastIndex++;

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:local="using:BiliCopilot.UI.Controls.Moment"
@@ -24,12 +25,13 @@
                 FontSize="16"
                 Symbol="BubbleMultiple"
                 Visibility="{x:Bind ViewModel.IsTotal, Mode=OneWay}" />
-            <PersonPicture
+            <controls:BasicCoverImage
                 Width="28"
                 Height="28"
                 VerticalAlignment="Center"
-                DisplayName="{x:Bind ViewModel.Name, Mode=OneWay}"
-                ProfilePicture="{x:Bind ViewModel.Avatar, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
+                CornerRadius="14"
+                DecodeWidth="100"
+                Source="{x:Bind ViewModel.Avatar, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsTotal, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
         </Grid>
 

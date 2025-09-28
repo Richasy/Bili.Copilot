@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
@@ -26,11 +24,12 @@ namespace BiliCopilot.UI.ViewModels.Items;
 public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformation>
 {
     private readonly Action<SeasonItemViewModel>? _removeAction;
+    private readonly Action<SeasonItemViewModel>? _playAction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SeasonItemViewModel"/> class.
     /// </summary>
-    public SeasonItemViewModel(SeasonInformation data, SeasonCardStyle style, PgcFavoriteStatus? favStatus = default, Action<SeasonItemViewModel>? removeAction = default)
+    public SeasonItemViewModel(SeasonInformation data, SeasonCardStyle style, PgcFavoriteStatus? favStatus = default, Action<SeasonItemViewModel>? removeAction = default, Action<SeasonItemViewModel>? playAction = default)
         : base(data)
     {
         Title = data.Identifier.Title;
@@ -43,36 +42,25 @@ public sealed partial class SeasonItemViewModel : ViewModelBase<SeasonInformatio
         InWatching = favStatus == PgcFavoriteStatus.Watching;
         InWatched = favStatus == PgcFavoriteStatus.Watched;
         _removeAction = removeAction;
+        _playAction = playAction;
     }
 
     [RelayCommand]
     private void Play()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        if (_playAction != null)
         {
-            OpenInNewWindowCommand.Execute(default);
+            _playAction(this);
             return;
         }
 
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
-            return;
-        }
-
-        var identifier = new MediaIdentifier("ss_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
+        var snapshot = new MediaSnapshot(Data, default);
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
     }
 
     [RelayCommand]
     private Task OpenInBroswerAsync()
         => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-        => new PlayerWindow().OpenPgc(new MediaIdentifier("ss_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private async Task FollowAsync()

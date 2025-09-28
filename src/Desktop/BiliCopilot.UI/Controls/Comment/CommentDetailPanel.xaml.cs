@@ -16,28 +16,12 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
     public CommentDetailPanel() => InitializeComponent();
 
     /// <inheritdoc/>
-    protected override void OnControlLoaded()
-    {
-        CommentScrollView.ViewChanged += OnViewChanged;
-        CommentScrollView.SizeChanged += OnScrollViewSizeChanged;
-        if (ViewModel is null)
-        {
-            return;
-        }
-
-        CheckCommentCount();
-    }
-
-    /// <inheritdoc/>
     protected override void OnControlUnloaded()
     {
         if (ViewModel is not null)
         {
             ViewModel.ListUpdated -= OnCommentListUpdatedAsync;
         }
-
-        CommentScrollView.ViewChanged -= OnViewChanged;
-        CommentScrollView.SizeChanged -= OnScrollViewSizeChanged;
     }
 
     /// <inheritdoc/>
@@ -58,38 +42,7 @@ public sealed partial class CommentDetailPanel : CommentDetailPanelBase
 
     private async void OnCommentListUpdatedAsync(object? sender, EventArgs e)
     {
-        await Task.Delay(500);
-        CheckCommentCount();
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs args)
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (CommentScrollView.ExtentHeight - CommentScrollView.ViewportHeight - CommentScrollView.VerticalOffset <= 240)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
-    }
-
-    private void OnScrollViewSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        if (e.NewSize.Width > 100 && ViewModel is not null)
-        {
-            CheckCommentCount();
-        }
-    }
-
-    private void CheckCommentCount()
-    {
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            if (CommentScrollView.ScrollableHeight <= 240 && ViewModel is not null)
-            {
-                ViewModel.LoadItemsCommand.Execute(default);
-            }
-        });
+        await View.DelayCheckItemsAsync();
     }
 }
 

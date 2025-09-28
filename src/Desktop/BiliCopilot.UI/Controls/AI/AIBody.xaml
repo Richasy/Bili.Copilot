@@ -5,12 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
     xmlns:components="using:BiliCopilot.UI.Controls.Components"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.AI"
     xmlns:markdown="using:BiliCopilot.UI.Controls.Markdown"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -61,17 +63,16 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid
+                    <controls:BasicCoverImage
+                        x:Name="SourceCover"
+                        Width="100"
+                        Height="76"
                         Margin="0,0,12,0"
+                        VerticalAlignment="Center"
+                        x:Load="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource ObjectToBoolConverter}}"
                         CornerRadius="{StaticResource ControlCornerRadius}"
-                        Visibility="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
-                        <Image
-                            Width="100"
-                            Height="76"
-                            VerticalAlignment="Center"
-                            Source="{x:Bind ViewModel.SourceCover, Mode=OneWay, Converter={StaticResource BitmapConverter}}"
-                            Stretch="UniformToFill" />
-                    </Grid>
+                        DecodeWidth="200"
+                        Source="{x:Bind ViewModel.SourceCover, Mode=OneWay}" />
                     <StackPanel
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -160,17 +161,17 @@
                         </Border>
                     </Grid>
                 </StackPanel>
-                <ItemsRepeater
+                <repeater:AppRepeater
                     x:Name="QuickItemsRepeater"
                     Grid.Row="2"
                     VerticalAlignment="Top"
                     ItemTemplate="{StaticResource QuickItemTemplate}"
                     ItemsSource="{x:Bind ViewModel.QuickItems, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.IsQuickItemsVisible, Mode=OneWay}">
-                    <ItemsRepeater.Layout>
+                    <repeater:AppRepeater.Layout>
                         <StackLayout Spacing="8" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
+                    </repeater:AppRepeater.Layout>
+                </repeater:AppRepeater>
             </Grid>
         </ScrollView>
     </Grid>
