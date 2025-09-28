@@ -980,12 +980,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64'">
-    <None Update="Assets\libmpv\x64\libmpv-2.dll">
+    <None Update="Assets\libmpv\x64\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'ARM64'">
-    <None Update="Assets\libmpv\arm64\libmpv-2.dll">
+    <None Update="Assets\libmpv\arm64\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

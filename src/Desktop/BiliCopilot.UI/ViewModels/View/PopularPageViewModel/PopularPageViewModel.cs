@@ -120,6 +120,11 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
             return;
         }
 
+        if (SelectedSection is PopularSectionItemViewModel section2 && section2.Type == PopularSectionType.Rank && Videos.Count > 0)
+        {
+            return;
+        }
+
         IsVideoLoading = true;
         if (SelectedSection is PopularSectionItemViewModel section)
         {

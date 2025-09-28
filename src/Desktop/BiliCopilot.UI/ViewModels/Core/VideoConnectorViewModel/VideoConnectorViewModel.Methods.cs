@@ -132,7 +132,7 @@ public sealed partial class VideoConnectorViewModel
             var index = _snapshot.Playlist.Select(p => p.Video).ToList().IndexOf(_snapshot.Video);
             if (index > 0)
             {
-                return _snapshot.Playlist[index - 1];
+                return _snapshot.Playlist[index - 1].Video;
             }
 
             if (SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true))
@@ -173,7 +173,7 @@ public sealed partial class VideoConnectorViewModel
             var index = _snapshot.Playlist.ConvertAll(p => p.Video).IndexOf(_snapshot.Video);
             if (index < _snapshot.Playlist.Count - 1)
             {
-                return _snapshot.Playlist[index + 1];
+                return _snapshot.Playlist[index + 1].Video;
             }
 
             if (SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true))

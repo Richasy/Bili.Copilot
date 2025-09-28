@@ -415,6 +415,7 @@ public sealed partial class PlayerViewModel
     private async void OnWindowDestroying(AppWindow sender, object args)
     {
         var hideMainWindowOnPlay = SettingsToolkit.ReadLocalSetting(SettingNames.HideMainWindowOnPlay, true);
+        this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
         if (hideMainWindowOnPlay && !UseIntegrationOperation)
         {
             ShowMainWindow();
@@ -422,7 +423,8 @@ public sealed partial class PlayerViewModel
 
         await DisposeAsync();
 
-        if (UseIntegrationOperation)
+        var isMainWindowVisible = this.Get<AppViewModel>().Windows.Find(p => p is MainWindow)?.AppWindow.IsVisible == true;
+        if (UseIntegrationOperation && !isMainWindowVisible)
         {
             var mainWnd = this.Get<Core.AppViewModel>().Windows.Find(p => p is MainWindow);
             mainWnd?.Close();
