@@ -7,9 +7,11 @@ using BiliCopilot.UI.Resolvers;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Humanizer;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
+using Richasy.BiliKernel.Bili.Media;
 using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core;
 using Richasy.MpvKernel.Core.Enums;
@@ -799,27 +801,99 @@ public sealed partial class PlayerViewModel
 
     private async Task LoadSourcesAsync()
     {
-        if (_sourceResolver is VideoMediaSourceResolver videoResolver)
+        try
         {
-            var sources = await videoResolver.GetSourcesAsync();
-            IsSourceSelectable = sources?.Count > 1;
-            Sources.Clear();
-            if (sources != null)
+            if (_sourceResolver is VideoMediaSourceResolver videoResolver)
             {
-                var currentSource = videoResolver.GetCurrentFormat();
-                foreach (var source in sources)
+                var sources = await videoResolver.GetSourcesAsync();
+                IsSourceSelectable = sources?.Count > 1;
+                Sources.Clear();
+                if (sources != null)
                 {
-                    var vm = new SourceItemViewModel(source, SelectSourceAsync);
-                    if (currentSource != null)
+                    var currentSource = videoResolver.GetCurrentFormat();
+                    foreach (var source in sources)
                     {
-                        vm.IsSelected = source.Quality == currentSource.Quality;
+                        var vm = new SourceItemViewModel(source, SelectSourceAsync);
+                        if (currentSource != null)
+                        {
+                            vm.IsSelected = source.Quality == currentSource.Quality;
+                        }
+
+                        Sources.Add(vm);
                     }
 
-                    Sources.Add(vm);
+                    SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
                 }
-
-                SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
             }
         }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "加载清晰度列表失败");
+        }
+    }
+
+    private async Task LoadSubtitlesAsync()
+    {
+        try
+        {
+            if (!IsSubtitleEnabled)
+            {
+                return;
+            }
+
+            var service = this.Get<ISubtitleService>();
+            if (Connector is VideoConnectorViewModel videoVM)
+            {
+                var aid = videoVM._view.Information.Identifier.Id;
+                var cid = videoVM._part.Identifier.Id;
+                var metas = await service.GetSubtitleMetasAsync(aid, cid);
+                Subtitles.Clear();
+                if (metas?.Count > 0)
+                {
+                    foreach (var item in metas)
+                    {
+                        var vm = new SubtitleItemViewModel(item, SelectSubtitleAsync, DeselectSubtitleAsync);
+                        Subtitles.Add(vm);
+                    }
+                }
+
+                if (Subtitles.Count > 0 && Subtitles.Any(p => !p.IsAI))
+                {
+                    var firstNonAi = Subtitles.First(p => !p.IsAI);
+                    firstNonAi.SelectCommand.Execute(default);
+                }
+
+                IsSubtitleEmpty = Subtitles.Count == 0;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "加载字幕列表失败");
+        }
+    }
+
+    private async Task SelectSubtitleAsync(SubtitleItemViewModel vm)
+    {
+        foreach (var item in Subtitles)
+        {
+            item.IsSelected = item.Data.Equals(vm.Data);
+        }
+
+        if (string.IsNullOrEmpty(vm._srtFilePath))
+        {
+            return;
+        }
+
+        await Client!.SetExternalSubtitleTrackAsync(vm._srtFilePath);
+    }
+
+    private async Task DeselectSubtitleAsync(SubtitleItemViewModel vm)
+    {
+        foreach (var item in Subtitles)
+        {
+            item.IsSelected = false;
+        }
+
+        await Client!.SetSubtitleTrackAsync(default);
     }
 }

@@ -207,6 +207,7 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         CheckCompactOverlay();
         ProgressChanged?.Invoke(this, 0);
         await LoadSourcesAsync();
+        await LoadSubtitlesAsync();
         if (Window.IsClosed)
         {
             return;

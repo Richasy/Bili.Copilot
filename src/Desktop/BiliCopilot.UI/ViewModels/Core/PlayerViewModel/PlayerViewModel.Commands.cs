@@ -450,8 +450,7 @@ public sealed partial class PlayerViewModel
             var selected = Subtitles.FirstOrDefault(p => p.IsSelected);
             if (selected != null)
             {
-                // TODO: 更新字幕.
-                // await Client!.SetSubtitleTrackAsync(selected.Data.Id);
+                Subtitles.FirstOrDefault(p => p.IsSelected)?.SelectCommand.Execute(default);
             }
         }
         else
