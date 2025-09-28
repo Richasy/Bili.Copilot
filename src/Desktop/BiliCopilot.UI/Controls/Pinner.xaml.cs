@@ -8,6 +8,7 @@ using Richasy.BiliKernel.Models.Article;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.BiliKernel.Models.User;
 using Richasy.WinUIKernel.Share.Base;
+using Windows.System;
 
 namespace BiliCopilot.UI.Controls;
 
@@ -28,7 +29,7 @@ public sealed partial class Pinner : PinnerBase
     protected override void OnControlUnloaded()
         => Repeater.ItemsSource = null;
 
-    private void OnItemClick(object sender, RoutedEventArgs e)
+    private async void OnItemClick(object sender, RoutedEventArgs e)
     {
         var item = (sender as FrameworkElement)?.DataContext as PinItem;
         var navVM = this.Get<NavigationViewModel>();
@@ -61,8 +62,7 @@ public sealed partial class Pinner : PinnerBase
         }
         else if (item.Type == Models.Constants.PinContentType.Live)
         {
-            var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(LivePlayerPage), identifier);
+            await Launcher.LaunchUriAsync(new Uri($"https://live.bilibili.com/{item.Id}"));
         }
         else if (item.Type == Models.Constants.PinContentType.Article)
         {

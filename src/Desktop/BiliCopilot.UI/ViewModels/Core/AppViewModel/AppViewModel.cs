@@ -6,9 +6,7 @@ using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Windowing;
 using Microsoft.Win32;
-using Mpv.Core;
 using Richasy.BiliKernel.Bili.Authorization;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -18,7 +16,6 @@ using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
 using Windows.Win32.UI.WindowsAndMessaging;
-using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -50,10 +47,6 @@ public sealed partial class AppViewModel : ViewModelBase
     {
         var architecture = RuntimeInformation.ProcessArchitecture;
         var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
-        var libFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/libmpv/{identifier}/libmpv-2.dll")).AsTask();
-        var libPath = libFile.Path;
-        Resolver.SetCustomMpvPath(libPath);
-
         var bbdownFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/BBDown/{identifier}/BBDown.exe")).AsTask();
         BBDownPath = bbdownFile.Path;
 
@@ -91,82 +84,6 @@ public sealed partial class AppViewModel : ViewModelBase
         foreach (var player in Players)
         {
             player.UpdateTheme(theme);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowEnterFullScreen()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.FullScreen);
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullScreen);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitFullScreen()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowEnterOverlap()
-    {
-        var window = ActivatedWindow;
-        if (window.AppWindow.Presenter is not OverlappedPresenter)
-        {
-            window.SetWindowPresenter(AppWindowPresenterKind.Overlapped);
-        }
-
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.FullWindow);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitOverlap()
-    {
-        var window = ActivatedWindow;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowEnterCompactOverlay()
-    {
-        var window = ActivatedWindow;
-        (window as WindowBase).MinHeight = 320;
-        (window as WindowBase).MinWidth = 560;
-        window.SetWindowPresenter(AppWindowPresenterKind.CompactOverlay);
-        window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.EnterPlayerHostMode(PlayerDisplayMode.CompactOverlay);
-        }
-    }
-
-    [RelayCommand]
-    private void MakeCurrentWindowExitCompactOverlay()
-    {
-        var window = ActivatedWindow;
-        (window as WindowBase).MinHeight = 480;
-        (window as WindowBase).MinWidth = 640;
-        window.SetWindowPresenter(AppWindowPresenterKind.Default);
-        window.AppWindow.TitleBar.PreferredHeightOption = window is MainWindow ? TitleBarHeightOption.Tall : TitleBarHeightOption.Standard;
-        if (window is IPlayerHostWindow hostWindow)
-        {
-            hostWindow.ExitPlayerHostMode();
         }
     }
 

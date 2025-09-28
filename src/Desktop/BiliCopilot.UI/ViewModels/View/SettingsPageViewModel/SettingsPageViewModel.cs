@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.AI;
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
@@ -56,7 +55,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         PreferCodecCollection = Enum.GetValues<PreferCodecType>().ToList();
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
         PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
-        PlayerTypeCollection = Enum.GetValues<PlayerType>().Where(p => p != PlayerType.Mpv).ToList();
         MTCBehaviorCollection = Enum.GetValues<MTCBehavior>().ToList();
         ExternalPlayerTypeCollection = Enum.GetValues<ExternalPlayerType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
@@ -79,25 +77,14 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
             PreferDecode = PreferDecodeType.Auto;
         }
 
-        // 移除 MPV 播放器.
-        if (SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island) == PlayerType.Mpv)
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        }
-
-        PlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
         MTCBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic);
-        ExternalPlayerType = SettingsToolkit.ReadLocalSetting(SettingNames.ExternalPlayer, ExternalPlayerType.Mpv);
         BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
         DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
         UseExternalBBDown = SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
         OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
         WithoutCredentialWhenGenDownloadCommand = SettingsToolkit.ReadLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, false);
-        IsExternalPlayerType = PlayerType == PlayerType.External;
-        IsIslandPlayerType = PlayerType == PlayerType.Island;
         FilterAISubtitle = SettingsToolkit.ReadLocalSetting(SettingNames.FilterAISubtitle, true);
         IsAIStreamingResponse = SettingsToolkit.ReadLocalSetting(SettingNames.IsAIStreamingResponse, true);
-        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
         if (string.IsNullOrEmpty(DefaultDownloadPath))
         {
             DefaultDownloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos), "Bili Downloads");
@@ -111,8 +98,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = this.Get<IAppToolkit>().GetPackageVersion();
-
-        InitializeWebDavConfigCommand.Execute(default);
 
         _isInitialized = true;
     }
@@ -227,18 +212,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnPreferDecodeChanged(PreferDecodeType value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
-        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom && PlayerType == PlayerType.Island;
     }
-
-    partial void OnPlayerTypeChanged(PlayerType value)
-    {
-        IsExternalPlayerType = value == PlayerType.External;
-        IsIslandPlayerType = value == PlayerType.Island;
-        SettingsToolkit.WriteLocalSetting(SettingNames.PlayerType, value);
-    }
-
-    partial void OnExternalPlayerTypeChanged(ExternalPlayerType value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.ExternalPlayer, value);
 
     partial void OnSingleFastForwardAndRewindSpanChanged(double value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, value);
@@ -300,24 +274,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnWithoutCredentialWhenGenDownloadCommandChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.WithoutCredentialWhenGenDownloadCommand, value);
-
-    partial void OnIsWebDavEnabledChanged(bool value)
-    {
-        SettingsToolkit.WriteLocalSetting(SettingNames.IsWebDavEnabled, value);
-        this.Get<NavigationViewModel>().CheckWebDavItemCommand.Execute(default);
-    }
-
-    partial void OnSelectedWebDavChanged(WebDavConfig value)
-    {
-        if (value is null)
-        {
-            SettingsToolkit.DeleteLocalSetting(SettingNames.SelectedWebDavConfigId);
-        }
-        else
-        {
-            SettingsToolkit.WriteLocalSetting(SettingNames.SelectedWebDavConfigId, value.Id);
-        }
-    }
 
     partial void OnFilterAISubtitleChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.FilterAISubtitle, value);

@@ -9,7 +9,6 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Richasy.WinUIKernel.Share.ViewModels;
 using System.Collections.ObjectModel;
@@ -118,19 +117,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
 
         ActiveMainWindow();
-        if (pageType == typeof(LivePlayerPage) && _overFrame.GetCurrentContent() is LivePlayerPage livePage)
-        {
-            livePage.ViewModel.InitializePageCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
-        else if (pageType == typeof(WebDavPlayerPage) && _overFrame.GetCurrentContent() is WebDavPlayerPage webDavPage)
-        {
-            webDavPage.ViewModel.InitializeCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
-
         _overFrame.NavigateTo(pageType, parameter);
         IsOverlayOpen = true;
         CheckSubPageStatus();
@@ -235,21 +221,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
         }
     }
 
-    [RelayCommand]
-    private void CheckWebDavItem()
-    {
-        var isWebDavEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
-        var exist = FooterItems.Any(p => p.PageKey == typeof(WebDavPage).FullName);
-        if (isWebDavEnabled && !exist)
-        {
-            FooterItems.Insert(0, GetItem<WebDavPage>(StringNames.WebDav, FluentIcons.Common.Symbol.CloudDatabase));
-        }
-        else if (!isWebDavEnabled && exist)
-        {
-            FooterItems.Remove(FooterItems.First(p => p.PageKey == typeof(WebDavPage).FullName));
-        }
-    }
-
     private IReadOnlyList<AppNavigationItemViewModel> GetMenuItems()
     {
         var lastSelectedPage = SettingsToolkit.ReadLocalSetting(SettingNames.LastSelectedFeaturePage, typeof(PopularPage).FullName);
@@ -285,12 +256,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             GetItem<MessagePage>(StringNames.Message, FluentIcons.Common.Symbol.Chat),
             GetItem<SettingsPage>(StringNames.Settings, FluentIcons.Common.Symbol.Settings),
         };
-
-        var isWebDavEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsWebDavEnabled, false);
-        if (isWebDavEnabled)
-        {
-            list.Insert(0, GetItem<WebDavPage>(StringNames.WebDav, FluentIcons.Common.Symbol.CloudDatabase));
-        }
 
         return list;
     }

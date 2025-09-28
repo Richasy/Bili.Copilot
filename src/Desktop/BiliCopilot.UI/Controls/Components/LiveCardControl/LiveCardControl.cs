@@ -66,26 +66,6 @@ public sealed partial class LiveCardControl : LayoutControlBase<LiveItemViewMode
         };
     }
 
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
-    }
-
-    private static MenuFlyoutItem CreateOpenInBroswerItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInBrowser),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.Globe },
-            Tag = nameof(ViewModel.OpenInBroswerCommand),
-        };
-    }
-
     private static MenuFlyoutItem CreatePinItem()
     {
         return new MenuFlyoutItem()
@@ -123,8 +103,6 @@ public sealed partial class LiveCardControl : LayoutControlBase<LiveItemViewMode
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
         menuFlyout.Items.Add(CreateEnterUserSpaceItem());
-        menuFlyout.Items.Add(CreateOpenInNewWindowItem());
-        menuFlyout.Items.Add(CreateOpenInBroswerItem());
         menuFlyout.Items.Add(CreatePinItem());
 
         if (ViewModel?.Style == LiveCardStyle.History)
@@ -151,12 +129,6 @@ public sealed partial class LiveCardControl : LayoutControlBase<LiveItemViewMode
                     break;
                 case nameof(ViewModel.RemoveHistoryCommand):
                     item.Command = ViewModel.RemoveHistoryCommand;
-                    break;
-                case nameof(ViewModel.OpenInBroswerCommand):
-                    item.Command = ViewModel.OpenInBroswerCommand;
-                    break;
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
                     break;
                 case nameof(ViewModel.PinCommand):
                     item.Command = ViewModel.PinCommand;

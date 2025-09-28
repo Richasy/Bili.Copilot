@@ -19,7 +19,7 @@ namespace BiliCopilot.UI.Forms;
 /// <summary>
 /// 主窗口.
 /// </summary>
-public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWindow
+public sealed partial class MainWindow : WindowBase, ITipWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
@@ -51,14 +51,6 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         _cursorTimer.Interval = TimeSpan.FromMilliseconds(100);
         _cursorTimer.Tick += OnCursorTimerTick;
     }
-
-    /// <inheritdoc/>
-    public void EnterPlayerHostMode(PlayerDisplayMode mode)
-    { }
-
-    /// <inheritdoc/>
-    public void ExitPlayerHostMode()
-    { }
 
     /// <inheritdoc/>
     public async Task ShowTipAsync(string text, InfoType type = InfoType.Error)
@@ -106,6 +98,7 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         }
 
         MoveAndResize();
+        _cursorTimer.Start();
         this.Get<ILogger<App>>().LogInformation($"App version: {this.Get<IAppToolkit>().GetPackageVersion()}");
         var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         this.Get<AppViewModel>().ChangeThemeCommand.Execute(localTheme);

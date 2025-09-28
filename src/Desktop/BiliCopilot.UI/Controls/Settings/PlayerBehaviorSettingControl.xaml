@@ -14,7 +14,6 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:PreferQualityTypeConverter x:Key="PreferQualityConverter" />
-        <converters:PlayerTypeConverter x:Key="PlayerTypeConverter" />
         <converters:ExternalPlayerTypeConverter x:Key="ExternalPlayerTypeConverter" />
         <converters:DisplayModeConverter x:Key="DisplayModeConverter" />
         <converters:PreferDecodeTypeConverter x:Key="PreferDecodeConverter" />
@@ -25,18 +24,6 @@
             <ic:SymbolIcon Symbol="Replay" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
-            <base:SettingsCard Description="{ext:Locale Name=PlayerTypeDescription}" Header="{ext:Locale Name=PlayerType}">
-                <ComboBox
-                    MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.PlayerTypeCollection, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.PlayerType, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="constants:PlayerType">
-                            <TextBlock Text="{x:Bind Converter={StaticResource PlayerTypeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </base:SettingsCard>
             <base:SettingsCard
                 Description="{ext:Locale Name=PreferDecodeDescription}"
                 Header="{ext:Locale Name=PreferDecode}"
@@ -60,21 +47,6 @@
                     MinWidth="120"
                     Command="{x:Bind ViewModel.OpenMpvConfigCommand, Mode=OneWay}"
                     Content="{ext:Locale Name=OpenConfig}" />
-            </base:SettingsCard>
-            <base:SettingsCard
-                Description="{ext:Locale Name=ExternalPlayerTypeDescription}"
-                Header="{ext:Locale Name=ExternalPlayerType}"
-                Visibility="{x:Bind ViewModel.IsExternalPlayerType, Mode=OneWay}">
-                <ComboBox
-                    MinWidth="120"
-                    ItemsSource="{x:Bind ViewModel.ExternalPlayerTypeCollection, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.ExternalPlayerType, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="constants:ExternalPlayerType">
-                            <TextBlock Text="{x:Bind Converter={StaticResource ExternalPlayerTypeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
             </base:SettingsCard>
             <base:SettingsCard Header="{ext:Locale Name=PreferQuality}">
                 <ComboBox

@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -52,12 +50,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private PreferDecodeType _preferDecode;
-
-    [ObservableProperty]
-    private PlayerType _playerType;
-
-    [ObservableProperty]
-    private ExternalPlayerType _externalPlayerType;
 
     [ObservableProperty]
     private MTCBehavior _mTCBehavior;
@@ -138,9 +130,6 @@ public sealed partial class SettingsPageViewModel
     private bool _isWebDavEmpty;
 
     [ObservableProperty]
-    private WebDavConfig _selectedWebDav;
-
-    [ObservableProperty]
     private List<PlayerDisplayMode> _playerDisplayModeCollection;
 
     [ObservableProperty]
@@ -151,9 +140,6 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private List<PreferDecodeType> _preferDecodeCollection;
-
-    [ObservableProperty]
-    private List<PlayerType> _playerTypeCollection;
 
     [ObservableProperty]
     private List<ExternalPlayerType> _externalPlayerTypeCollection;
@@ -187,9 +173,4 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     private bool _isArticleNavVisible;
-
-    /// <summary>
-    /// WebDav 配置.
-    /// </summary>
-    public ObservableCollection<WebDavConfig> WebDavConfigs { get; } = new();
 }

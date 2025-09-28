@@ -55,16 +55,6 @@ public sealed partial class MomentCardControl : LayoutControlBase<MomentItemView
         }
     }
 
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
-    }
-
     private static MenuFlyoutItem CreatePrivatePlayItem()
     {
         return new MenuFlyoutItem()
@@ -144,7 +134,6 @@ public sealed partial class MomentCardControl : LayoutControlBase<MomentItemView
         if (ViewModel.Style == MomentCardStyle.Video)
         {
             menuFlyout.Items.Add(CreatePrivatePlayItem());
-            menuFlyout.Items.Add(CreateOpenInNewWindowItem());
             menuFlyout.Items.Add(CreateOpenInBroswerItem());
             menuFlyout.Items.Add(CreateUserSpaceItem());
             menuFlyout.Items.Add(CreateAddViewLaterItem());
@@ -184,9 +173,6 @@ public sealed partial class MomentCardControl : LayoutControlBase<MomentItemView
                     break;
                 case nameof(ViewModel.CopyUrlCommand):
                     item.Command = ViewModel.CopyUrlCommand;
-                    break;
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
                     break;
                 case nameof(ViewModel.PinCommand):
                     item.Command = ViewModel.PinCommand;

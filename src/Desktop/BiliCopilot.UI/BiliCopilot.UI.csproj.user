@@ -96,22 +96,13 @@
     <Page Update="Controls\Player\VideoInfoSection.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\WebDavNextButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Settings\LayoutSettingSection.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\TopNavigationItem.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Core\Player\BiliPlayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Components\MomentCardControl\MomentItemOperationPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\WebPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\History\HistoryVideoSearchSection.xaml">
@@ -139,39 +130,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Components\ChatModelCardControl\ChatModelCardControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Core\TransportControl\ExternalTransportControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerSideBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPlayerMainHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\WebDavPlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageBody.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavPageHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavStorageItemControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\WebDavPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Settings\WebDavSettingControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\WebDav\WebDavConfigDialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Forms\OldPlayerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\TrayResources.xaml">
@@ -205,9 +163,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Forms\GalleryWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Core\Player\PlayerPresenter.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Moment\ComprehensiveMomentSpaceControl.xaml">
@@ -247,21 +202,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LiveChatSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Components\LiveDanmakuItemControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LivePlayerFormatButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LiveInfoSection.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\LivePlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\PgcSeasonsSection.xaml">
@@ -325,9 +265,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\LivePlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

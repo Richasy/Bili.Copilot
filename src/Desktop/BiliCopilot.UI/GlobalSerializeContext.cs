@@ -13,8 +13,6 @@ namespace BiliCopilot.UI;
 [JsonSerializable(typeof(ChatClientConfiguration))]
 [JsonSerializable(typeof(PinItem))]
 [JsonSerializable(typeof(List<PinItem>))]
-[JsonSerializable(typeof(WebDavConfig))]
-[JsonSerializable(typeof(List<WebDavConfig>))]
 internal sealed partial class GlobalSerializeContext : JsonSerializerContext
 {
 }

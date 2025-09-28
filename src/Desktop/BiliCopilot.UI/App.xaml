@@ -21,7 +21,6 @@
                 <ResourceDictionary Source="ms-appx:///Controls/Components/EpisodeCardControl/EpisodeCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/MomentCardControl/MomentCardControl.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ChatModelCardControl/ChatModelCardControl.xaml" />
-                <ResourceDictionary Source="ms-appx:///Controls/Core/Player/PlayerResources.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Markdown/MarkdownTextBlock.xaml" />
                 <ResourceDictionary Source="ms-appx:///Controls/Components/ShimmerLayout/ShimmerLayout.xaml" />
             </ResourceDictionary.MergedDictionaries>
