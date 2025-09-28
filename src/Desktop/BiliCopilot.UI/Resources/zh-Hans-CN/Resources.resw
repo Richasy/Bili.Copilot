@@ -295,7 +295,7 @@
     <value>底部</value>
   </data>
   <data name="BottomDanmaku" xml:space="preserve">
-    <value>底部弹幕</value>
+    <value>底部</value>
   </data>
   <data name="BottomProgressVisible" xml:space="preserve">
     <value>显示底部进度条</value>
@@ -2041,7 +2041,7 @@
     <value>置顶</value>
   </data>
   <data name="TopDanmaku" xml:space="preserve">
-    <value>置顶弹幕</value>
+    <value>顶部</value>
   </data>
   <data name="Topic" xml:space="preserve">
     <value>专题</value>

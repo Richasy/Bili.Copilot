@@ -114,6 +114,7 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         await InitializeInternalAsync();
         if (Connector != null)
         {
+            System.Diagnostics.Debug.WriteLine($"Player initialized with connector: {Connector.GetType().Name}");
             await Connector.InitializeAsync(_snapshot, default);
             if (Window.IsClosed)
             {
@@ -242,52 +243,6 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
     /// </summary>
     public void Close()
         => Window?.Close();
-
-    private async Task ReloadCurrentSourceAsync()
-    {
-        if (Player.Duration < 1 || _isTlsFailed)
-        {
-            await Player.ReplayAsync(_prevPosition);
-        }
-        else
-        {
-            var currentSource = Sources.FirstOrDefault(p => p.IsSelected);
-            if (currentSource != null)
-            {
-                await SelectSourceAsync(currentSource);
-            }
-        }
-    }
-
-    private async Task SelectSubtitleAsync(SubtitleItemViewModel subtitle, bool useToggle = true)
-    {
-        if (subtitle is null)
-        {
-            return;
-        }
-
-        if (Subtitles.Count == 0)
-        {
-            IsSubtitleEmpty = true;
-            return;
-        }
-
-        foreach (var item in Subtitles)
-        {
-            if (item.Equals(subtitle))
-            {
-                item.IsSelected = !useToggle || !item.IsSelected;
-            }
-            else
-            {
-                item.IsSelected = false;
-            }
-        }
-
-        var selected = Subtitles.FirstOrDefault(s => s.IsSelected);
-        // TODO: Set subtitle.
-        await Task.CompletedTask;
-    }
 
     private void ShowPlayerWindow()
     {

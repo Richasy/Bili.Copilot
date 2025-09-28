@@ -127,7 +127,6 @@ public enum SettingNames
     PreferAudioChannelLayout,
     PreferDecodeType,
     CustomLibmpvPath,
-    ShowTipWhenMediaEnd,
     SubtitleFontSize,
     ScreenshotAction,
     CustomScreenshotFolderPath,

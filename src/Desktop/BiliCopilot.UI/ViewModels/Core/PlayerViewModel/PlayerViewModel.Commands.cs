@@ -236,6 +236,12 @@ public sealed partial class PlayerViewModel
         await Client!.PauseAsync();
         await Client!.StopAsync();
         await Task.Delay(500);
+        if (IsConnecting || (DateTimeOffset.Now - _lastPlayNextOrPrevTime) < TimeSpan.FromSeconds(1))
+        {
+            return;
+        }
+
+        _lastPlayNextOrPrevTime = DateTimeOffset.Now;
         await Connector!.PlayNextAsync();
     }
 
@@ -245,6 +251,12 @@ public sealed partial class PlayerViewModel
         await Client!.PauseAsync();
         await Client!.StopAsync();
         await Task.Delay(500);
+        if (IsConnecting || (DateTimeOffset.Now - _lastPlayNextOrPrevTime) < TimeSpan.FromSeconds(1))
+        {
+            return;
+        }
+
+        _lastPlayNextOrPrevTime = DateTimeOffset.Now;
         await Connector!.PlayPreviousAsync();
     }
 

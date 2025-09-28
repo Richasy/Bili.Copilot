@@ -448,7 +448,7 @@ public sealed partial class PlayerViewModel
             if (Player.Duration > 5)
             {
                 IsEnd = false;
-                var isShowTip = SettingsToolkit.ReadLocalSetting(SettingNames.ShowTipWhenMediaEnd, false);
+                var isShowTip = !SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
                 var endSec = isShowTip ? 2 : 0.1;
                 if (Math.Abs(Player.Position - Player.Duration) < endSec)
                 {
@@ -468,7 +468,7 @@ public sealed partial class PlayerViewModel
 
                     // 因为使用了 keep-open，所以视作播放结束.
                     var autoPlayNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, true);
-                    if (autoPlayNext && IsNextButtonEnabled)
+                    if (autoPlayNext && IsNextButtonEnabled && !IsConnecting)
                     {
                         if (isShowTip)
                         {
@@ -809,7 +809,6 @@ public sealed partial class PlayerViewModel
             if (_sourceResolver is VideoMediaSourceResolver videoResolver)
             {
                 var sources = await videoResolver.GetSourcesAsync();
-                ((VideoConnectorViewModel)Connector).InitializeDownloader(sources);
                 IsSourceSelectable = sources?.Count > 1;
                 Sources.Clear();
                 if (sources != null)
@@ -828,11 +827,12 @@ public sealed partial class PlayerViewModel
 
                     SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
                 }
+
+                ((VideoConnectorViewModel)Connector).InitializeDownloader(sources);
             }
             else if (_sourceResolver is PgcMediaSourceResolver pgcResolver)
             {
                 var sources = await pgcResolver.GetSourcesAsync();
-                ((PgcConnectorViewModel)Connector).InitializeDownloader(sources);
                 IsSourceSelectable = sources?.Count > 1;
                 Sources.Clear();
                 if (sources != null)
@@ -851,6 +851,8 @@ public sealed partial class PlayerViewModel
 
                     SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
                 }
+
+                ((PgcConnectorViewModel)Connector).InitializeDownloader(sources);
             }
         }
         catch (Exception ex)

@@ -1,0 +1,6 @@
+﻿<Directives>
+	<Application>
+		<Assembly Name="BiliCopilot.UI" Dynamic="Required All">
+		</Assembly>
+	</Application>
+</Directives>

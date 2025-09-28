@@ -18,6 +18,9 @@
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>
   <ItemGroup>
+  	<RdXmlFile Include="rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
   	<None Update="$(UserProfile)\.nuget\packages\richasy.winuikernel.ai\*\contentFiles\any\net9.0-windows10.0.22621\Assets\**\*">
   		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   	</None>

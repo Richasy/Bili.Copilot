@@ -32,6 +32,7 @@ public sealed partial class PlayerViewModel
     private double _horizontalSubtitlePosition = 100;
     private bool _isRightKeyTripleSpeed;
     private DispatcherQueueTimer? _rightKeyLongPressTimer;
+    private DateTimeOffset _lastPlayNextOrPrevTime = DateTimeOffset.MinValue;
 
     private const int RightKeyLongPressDelay = 500;
     private bool _isRightKeyDown;

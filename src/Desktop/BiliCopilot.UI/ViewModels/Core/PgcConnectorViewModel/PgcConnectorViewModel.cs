@@ -84,6 +84,7 @@ public sealed partial class PgcConnectorViewModel : ViewModelBase, IPlayerConnec
         try
         {
             _view = await service.GetPgcPageDetailAsync(_snapshot.Season?.Identifier.Id, _snapshot.Episode?.Identifier.Id);
+            System.Diagnostics.Debug.WriteLine($"Pgc Page Detail: {_view}");
             _episode = FindInitialEpisode(_snapshot.Episode?.Identifier.Id);
             EpisodeTitle = _episode.Identifier.Title;
             EpisodeId = _episode.Identifier.Id;

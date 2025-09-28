@@ -82,6 +82,12 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="ShowNextTip"
+                Description="{ext:Locale Name=PlayNextWithoutTipDescription}"
+                Header="{ext:Locale Name=PlayNextWithoutTip}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayNextWithoutTip, Mode=TwoWay}" />
+            </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=AutoNextRelatedVideoDescription}" Header="{ext:Locale Name=AutoNextRelatedVideo}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayNextRecommendVideo, Mode=TwoWay}" />
             </base:SettingsCard>
