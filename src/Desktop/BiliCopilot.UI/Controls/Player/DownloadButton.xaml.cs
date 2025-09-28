@@ -105,9 +105,16 @@ public sealed partial class DownloadButton : DownloadButtonBase
             Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.DownloadDanmaku),
             Command = ViewModel.DownloadDanmakuCommand,
         };
+        var downloadAudioItem = new MenuFlyoutItem
+        {
+            MinWidth = this.ActualWidth,
+            Text = ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.DownloadAudio),
+            Command = ViewModel.DownloadAudioOnlyCommand,
+        };
 
         DownloadFlyout.Items.Add(downloadCoverItem);
         DownloadFlyout.Items.Add(downloadDanmakuItem);
+        DownloadFlyout.Items.Add(downloadAudioItem);
 
         if (ViewModel.HasAvailableSubtitle)
         {

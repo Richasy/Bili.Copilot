@@ -809,11 +809,35 @@ public sealed partial class PlayerViewModel
             if (_sourceResolver is VideoMediaSourceResolver videoResolver)
             {
                 var sources = await videoResolver.GetSourcesAsync();
+                ((VideoConnectorViewModel)Connector).InitializeDownloader(sources);
                 IsSourceSelectable = sources?.Count > 1;
                 Sources.Clear();
                 if (sources != null)
                 {
                     var currentSource = videoResolver.GetCurrentFormat();
+                    foreach (var source in sources)
+                    {
+                        var vm = new SourceItemViewModel(source, SelectSourceAsync);
+                        if (currentSource != null)
+                        {
+                            vm.IsSelected = source.Quality == currentSource.Quality;
+                        }
+
+                        Sources.Add(vm);
+                    }
+
+                    SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
+                }
+            }
+            else if (_sourceResolver is PgcMediaSourceResolver pgcResolver)
+            {
+                var sources = await pgcResolver.GetSourcesAsync();
+                ((PgcConnectorViewModel)Connector).InitializeDownloader(sources);
+                IsSourceSelectable = sources?.Count > 1;
+                Sources.Clear();
+                if (sources != null)
+                {
+                    var currentSource = pgcResolver.GetCurrentFormat();
                     foreach (var source in sources)
                     {
                         var vm = new SourceItemViewModel(source, SelectSourceAsync);

@@ -2967,4 +2967,7 @@
   <data name="DanmakuEmpty" xml:space="preserve">
     <value>无弹幕</value>
   </data>
+  <data name="DownloadAudio" xml:space="preserve">
+    <value>下载音频</value>
+  </data>
 </root>

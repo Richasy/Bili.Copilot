@@ -39,6 +39,16 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
         IsLoading = false;
     }
 
+    public void InitializeDownloader(List<PlayerFormatInformation> formats)
+    {
+        Downloader.Clear();
+        Downloader.InitializeMetas(
+            GetWebLink(),
+            formats.AsReadOnly(),
+            _view.Parts?.Count > 1 ? _view.Parts.AsReadOnly() : default,
+            _view.Parts.IndexOf(_part) + 1);
+    }
+
     public async Task PlayNextAsync()
     {
         if (IsLoading)

@@ -37,6 +37,17 @@ public sealed partial class PgcConnectorViewModel : ViewModelBase, IPlayerConnec
         IsLoading = false;
     }
 
+    public void InitializeDownloader(List<PlayerFormatInformation> formats)
+    {
+        Downloader.Clear();
+        Downloader.InitializeMetas(
+            GetEpisodeUrl(),
+            GetSeasonUrl(),
+            formats.AsReadOnly(),
+            _view.Episodes?.Count > 1 ? _view.Episodes.AsReadOnly() : default,
+            _view.Episodes.IndexOf(_episode));
+    }
+
     public async Task PlayNextAsync()
     {
         var next = FindNextEpisode();
