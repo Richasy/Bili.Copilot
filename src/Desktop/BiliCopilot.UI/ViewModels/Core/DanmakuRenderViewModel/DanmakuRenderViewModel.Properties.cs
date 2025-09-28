@@ -104,4 +104,9 @@ public sealed partial class DanmakuRenderViewModel
     /// 请求重置样式.
     /// </summary>
     public event EventHandler RequestResetStyle;
+
+    /// <summary>
+    /// 请求添加单条弹幕.
+    /// </summary>
+    public event EventHandler<string> RequestAddSingleDanmaku;
 }

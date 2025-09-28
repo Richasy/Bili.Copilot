@@ -95,7 +95,7 @@
     <None Remove="Controls\Core\PlayerInteractivePanel.xaml" />
     <None Remove="Controls\Core\PlayerOverlay.xaml" />
     <None Remove="Controls\Danmaku\DanmakuDisplayOptions.xaml" />
-    <None Remove="Controls\Danmaku\LiveDanmakuPanel.xaml" />
+    <None Remove="Controls\Danmaku\DanmakuSendDialog.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainBody.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageMainHeader.xaml" />
     <None Remove="Controls\Favorites\FavoritesPageSideBody.xaml" />
@@ -1018,11 +1018,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\TransportControl\LiveTransportControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1162,6 +1157,9 @@
     <None Update="Assets\basic-mpv.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Danmaku\DanmakuSendDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Settings\CacheSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

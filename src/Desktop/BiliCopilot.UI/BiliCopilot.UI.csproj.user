@@ -18,6 +18,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Danmaku\DanmakuSendDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Settings\CacheSettingControl.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -208,9 +211,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Settings\ThemeSettingControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Danmaku\LiveDanmakuPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\PgcSeasonsSection.xaml">

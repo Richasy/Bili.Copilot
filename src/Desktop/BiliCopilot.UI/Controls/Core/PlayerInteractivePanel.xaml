@@ -48,6 +48,14 @@
                     <ic:SymbolIcon Symbol="ScanTable" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.SendDanmakuCommand, Mode=OneWay}"
+                Style="{StaticResource ContextMenuFlyoutItemStyle}"
+                Text="{ext:Locale Name=SendDanmaku}">
+                <MenuFlyoutItem.Icon>
+                    <ic:SymbolIcon Symbol="TextBulletList" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
         </MenuFlyout>
     </FlyoutBase.AttachedFlyout>
 

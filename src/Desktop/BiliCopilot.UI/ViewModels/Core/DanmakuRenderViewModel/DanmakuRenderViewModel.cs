@@ -85,6 +85,9 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
     public void ResetStyle()
         => RequestResetStyle?.Invoke(this, EventArgs.Empty);
 
+    public void AddDanmaku(string text)
+        => RequestAddSingleDanmaku?.Invoke(this, text);
+
     private void ResetOptions()
     {
         IsShowDanmaku = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsShowDanmaku, true);

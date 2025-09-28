@@ -3117,4 +3117,7 @@
   <data name="TemporaryPlaybackRateDescription" xml:space="preserve">
     <value>在播放界面长按屏幕或者长按方向键的临时倍速值</value>
   </data>
+  <data name="SendDanmaku" xml:space="preserve">
+    <value>发送弹幕</value>
+  </data>
 </root>

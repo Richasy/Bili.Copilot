@@ -5,6 +5,7 @@ using BiliCopilot.UI.ViewModels.Core;
 using Danmaku.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
+using Richasy.BiliKernel.Models;
 
 namespace BiliCopilot.UI.Controls.Danmaku;
 
@@ -41,6 +42,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             ViewModel.RequestResetStyle -= OnRequestResetStyle;
             ViewModel.ExtraSpeedChanged -= OnExtraSpeedChanged;
             ViewModel.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            ViewModel.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
         }
 
         _danmakuController?.Close();
@@ -58,6 +60,7 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
             oldValue.RequestResetStyle -= OnRequestResetStyle;
             oldValue.ExtraSpeedChanged -= OnExtraSpeedChanged;
             oldValue.RequestRedrawDanmaku -= OnRedrawDanmaku;
+            oldValue.RequestAddSingleDanmaku -= OnRequestAddSingleDanmaku;
         }
 
         if (newValue is null)
@@ -72,7 +75,27 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         newValue.RequestResetStyle += OnRequestResetStyle;
         newValue.ExtraSpeedChanged += OnExtraSpeedChanged;
         newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
+        newValue.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
         ResetDanmakuStyle();
+    }
+
+    private void OnRequestAddSingleDanmaku(object? sender, string e)
+    {
+        var location = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuLocation, DanmakuLocation.Scroll);
+        var color = AppToolkit.HexToColor(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuColor, Microsoft.UI.Colors.White.ToString()));
+        var isStandardSize = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsDanmakuStandardSize, true);
+        var model = new DanmakuItem
+        {
+            StartMs = Convert.ToUInt32(_lastProgress * 1000),
+            Mode = (DanmakuMode)((int)location),
+            TextColor = color,
+            BaseFontSize = isStandardSize ? 20 : 24,
+            Text = e,
+            HasOutline = true,
+            HasBorder = true
+        };
+
+        _danmakuController?.AddRealtimeDanmaku(model, true);
     }
 
     private void OnRequestClearDanmaku(object? sender, EventArgs e)

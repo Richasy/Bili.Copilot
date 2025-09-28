@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Controls.Danmaku;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
@@ -571,5 +572,41 @@ public sealed partial class PlayerViewModel
 
             throw;
         }
+    }
+
+    [RelayCommand]
+    private async Task SendDanmakuAsync()
+    {
+        if (Player is null || IsConnecting || IsDanmakuLoading)
+        {
+            return;
+        }
+
+        try
+        {
+            await Client.PauseAsync();
+            var dialog = new DanmakuSendDialog(DanmakuSend, () => IsPopupVisible = true)
+            {
+                XamlRoot = Window!.XamlRoot,
+            };
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                var input = dialog.GetInputText();
+                if (!string.IsNullOrEmpty(input))
+                {
+                    await DanmakuSend.SendDanmakuAsync(input, Convert.ToInt32(Player.Position));
+                    Danmaku.AddDanmaku(input);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Send danmaku failed");
+            Window.ShowTip(ex.Message, InfoType.Error);
+        }
+
+        IsPopupVisible = false;
+        await Client.ResumeAsync();
     }
 }

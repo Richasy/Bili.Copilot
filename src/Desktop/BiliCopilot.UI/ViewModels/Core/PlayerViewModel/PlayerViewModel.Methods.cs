@@ -12,6 +12,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Richasy.BiliKernel.Bili.Media;
+using Richasy.BiliKernel.Models.Media;
 using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core;
 using Richasy.MpvKernel.Core.Enums;
@@ -828,7 +829,9 @@ public sealed partial class PlayerViewModel
                     SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
                 }
 
-                ((VideoConnectorViewModel)Connector).InitializeDownloader(sources);
+                var c = ((VideoConnectorViewModel)Connector);
+                DanmakuSend.ResetData(c._view.Information.Identifier.Id, c._part.Identifier.Id);
+                c.InitializeDownloader(sources);
             }
             else if (_sourceResolver is PgcMediaSourceResolver pgcResolver)
             {
@@ -852,7 +855,11 @@ public sealed partial class PlayerViewModel
                     SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
                 }
 
-                ((PgcConnectorViewModel)Connector).InitializeDownloader(sources);
+                var c = ((PgcConnectorViewModel)Connector);
+                var aid = c._episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+                var cid = c._episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+                DanmakuSend.ResetData(aid.ToString(), cid.ToString());
+                c.InitializeDownloader(sources);
             }
         }
         catch (Exception ex)
