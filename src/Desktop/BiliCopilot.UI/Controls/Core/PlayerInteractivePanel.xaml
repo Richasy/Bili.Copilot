@@ -32,11 +32,14 @@
             x:Name="ContextMenu"
             Closed="OnFlyoutClosed"
             Opened="OnFlyoutOpened">
-            <!--<local:PlayerFlyoutRowBar
-            x:Name="RowBar"
-            RowBarButtonClick="OnRowBarButtonClick"
-            ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-            <MenuFlyoutSeparator />-->
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.TakeScreenshotCommand, Mode=OneWay}"
+                Style="{StaticResource ContextMenuFlyoutItemStyle}"
+                Text="{ext:Locale Name=Screenshot}">
+                <MenuFlyoutItem.Icon>
+                    <ic:SymbolIcon Symbol="Screenshot" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.TogglePanscanCommand, Mode=OneWay}"
                 Style="{StaticResource ContextMenuFlyoutItemStyle}"

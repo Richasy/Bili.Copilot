@@ -66,7 +66,6 @@ public enum SettingNames
     PlayWithoutP2P,
     DefaultPlayerDisplayMode,
     PreferCodec,
-    IsBottomProgressVisible,
     PreferDecode,
     PlayerType,
     GalleryWindowPositionLeft,
@@ -138,4 +137,5 @@ public enum SettingNames
     StepForwardSecond,
     IsDanmakuEnabled,
     UseExternalMpv,
+    FirstOpenMpvEditor,
 }

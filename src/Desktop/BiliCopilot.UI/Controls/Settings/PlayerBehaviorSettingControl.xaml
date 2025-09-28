@@ -25,9 +25,19 @@
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
             <base:SettingsCard
-                Description="{ext:Locale Name=PreferDecodeDescription}"
-                Header="{ext:Locale Name=PreferDecode}"
-                Visibility="{x:Bind ViewModel.IsIslandPlayerType, Mode=OneWay}">
+                x:Name="HideMain"
+                Description="{ext:Locale Name=HideMainWindowOnPlayDescription}"
+                Header="{ext:Locale Name=HideMainWindowOnPlay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.HideMainWindowOnPlay, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="Integration"
+                Description="{ext:Locale Name=UseIntegrationBehaviorDescription}"
+                Header="{ext:Locale Name=UseIntegrationBehavior}"
+                Visibility="{x:Bind ViewModel.HideMainWindowOnPlay, Mode=OneWay}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.UseIntegrationWhenSinglePlayWindow, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard Description="{ext:Locale Name=PreferDecodeDescription}" Header="{ext:Locale Name=PreferDecode}">
                 <ComboBox
                     MinWidth="120"
                     ItemsSource="{x:Bind ViewModel.PreferDecodeCollection, Mode=OneWay}"
@@ -45,7 +55,7 @@
                 Visibility="{x:Bind ViewModel.IsMpvCustomOptionVisible, Mode=OneWay}">
                 <Button
                     MinWidth="120"
-                    Command="{x:Bind ViewModel.OpenMpvConfigCommand, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.OpenMpvConfigInEditorCommand, Mode=OneWay}"
                     Content="{ext:Locale Name=OpenConfig}" />
             </base:SettingsCard>
             <base:SettingsCard Header="{ext:Locale Name=PreferQuality}">
@@ -72,31 +82,10 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=UseWebPlayerWhenLiveDescription}" Header="{ext:Locale Name=UseWebPlayerWhenLive}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.UseWebPlayerWhenLive, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard Header="{ext:Locale Name=AutoPlayWhenLoaded}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayWhenLoaded, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard Header="{ext:Locale Name=AutoLoadHistoryWhenLoaded}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoLoadHistory, Mode=TwoWay}" />
-            </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=AutoNextRelatedVideoDescription}" Header="{ext:Locale Name=AutoNextRelatedVideo}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.IsAutoPlayNextRecommendVideo, Mode=TwoWay}" />
             </base:SettingsCard>
-            <base:SettingsCard Description="{ext:Locale Name=ContinuousPlayDescription}" Header="{ext:Locale Name=ContinuousPlay}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.AutoPlayNext, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard
-                Description="{ext:Locale Name=PlayNextWithoutTipDescription}"
-                Header="{ext:Locale Name=PlayNextWithoutTip}"
-                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
-                <ToggleSwitch IsOn="{x:Bind ViewModel.PlayNextWithoutTip, Mode=TwoWay}" />
-            </base:SettingsCard>
-            <base:SettingsCard
-                Description="{ext:Locale Name=StopWhenEndOfPlaylistDescription}"
-                Header="{ext:Locale Name=StopWhenEndOfPlaylist}"
-                Visibility="{x:Bind ViewModel.AutoPlayNext, Mode=OneWay}">
+            <base:SettingsCard Description="{ext:Locale Name=StopWhenEndOfPlaylistDescription}" Header="{ext:Locale Name=StopWhenEndOfPlaylist}">
                 <ToggleSwitch IsOn="{x:Bind ViewModel.EndWithPlaylist, Mode=TwoWay}" />
             </base:SettingsCard>
             <base:SettingsCard Description="{ext:Locale Name=NoP2PDescription}" Header="{ext:Locale Name=NoP2P}">

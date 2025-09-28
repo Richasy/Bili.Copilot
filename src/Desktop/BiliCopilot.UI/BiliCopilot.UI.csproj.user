@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Settings\CacheSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\MpvExtraSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Settings\ScreenshotSettingControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Player\PgcPlayerPanel.xaml">
       <SubType>Designer</SubType>
     </Page>

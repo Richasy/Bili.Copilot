@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:SettingsPageControlBase
+    x:Class="BiliCopilot.UI.Controls.Settings.MpvExtraSettingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ext="using:BiliCopilot.UI.Extensions"
+    xmlns:ic="using:FluentIcons.WinUI"
+    xmlns:local="using:BiliCopilot.UI.Controls.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <base:SettingsExpander
+        x:Name="Exp"
+        Description="{ext:Locale Name=MpvExtraSettingDescription}"
+        Header="{ext:Locale Name=MpvExtraSetting}"
+        IsEnabled="{x:Bind ViewModel.IsMpvCustomOptionVisible, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+        IsExpanded="{x:Bind ViewModel.IsMpvExtraSettingExpanded, Mode=TwoWay}">
+        <base:SettingsExpander.HeaderIcon>
+            <ImageIcon Source="ms-appx:///Assets/mpv.png" />
+        </base:SettingsExpander.HeaderIcon>
+        <base:SettingsExpander.Items>
+            <base:SettingsCard
+                x:Name="AudioExclusive"
+                Description="--audio-exclusive"
+                Header="{ext:Locale Name=AudioExclusive}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.AudioExclusiveEnabled, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="AudioChannel"
+                Description="--audio-channels"
+                Header="{ext:Locale Name=AudioChannelLayout}">
+                <ComboBox
+                    x:Name="AudioChannelLayoutComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnAudioChannelLayoutChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=Auto}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Stereo}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Mono}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Custom}" />
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="Profile"
+                Description="--profile"
+                Header="{ext:Locale Name=BuiltInProfileSwitch}">
+                <ComboBox
+                    x:Name="ProfileComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnProfileChanged">
+                    <ComboBoxItem Content="{ext:Locale Name=HighQuality}" />
+                    <ComboBoxItem Content="{ext:Locale Name=Fast}" />
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="Seek"
+                Description="--hr-seek"
+                Header="{ext:Locale Name=HrSeekSetting}">
+                <ComboBox
+                    x:Name="HrSeekComboBox"
+                    MinWidth="120"
+                    SelectionChanged="OnHrSeekChanged">
+                    <ComboBoxItem Content="No" />
+                    <ComboBoxItem Content="Absolute" />
+                    <ComboBoxItem Content="Default" />
+                    <ComboBoxItem Content="Yes" />
+                </ComboBox>
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="CacheSize"
+                Description="--demuxer-max-bytes"
+                Header="{ext:Locale Name=MaxCacheSize}">
+                <NumberBox
+                    x:Name="CacheSizeBox"
+                    MinWidth="120"
+                    Maximum="4096"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="OnCacheSizeChanged" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="CacheSec"
+                Description="--demuxer-readahead-secs"
+                Header="{ext:Locale Name=MaxCacheSeconds}">
+                <NumberBox
+                    x:Name="CacheSecondsBox"
+                    MinWidth="120"
+                    Maximum="1200"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="OnCacheSecondsChanged" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="CacheOnDisk"
+                Description="--cache-on-disk"
+                Header="{ext:Locale Name=CacheOnDisk}">
+                <ToggleSwitch IsOn="{x:Bind ViewModel.CacheOnDisk, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="CacheDir"
+                Description="{x:Bind ViewModel.CacheDirDescription, Mode=OneWay}"
+                Header="{ext:Locale Name=CacheDirectory}"
+                IsEnabled="{x:Bind ViewModel.CacheOnDisk, Mode=OneWay}">
+                <Grid>
+                    <Button
+                        MinWidth="120"
+                        Click="OnCacheDirButtonClick"
+                        Content="{ext:Locale Name=PickFolder}"
+                        Visibility="{x:Bind ViewModel.HasCustomCacheDir, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="{x:Bind ViewModel.HasCustomCacheDir, Mode=OneWay}">
+                        <Button
+                            MinWidth="120"
+                            Click="OnCacheDirButtonClick"
+                            Content="{ext:Locale Name=ReselectFolder}" />
+                        <Button
+                            Click="OnRemoveCacheDirButtonClick"
+                            Style="{StaticResource SmallIconButtonStyle}"
+                            ToolTipService.ToolTip="{ext:Locale Name=RestoreDefault}">
+                            <ic:SymbolIcon
+                                FontSize="14"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                Symbol="ArrowUndo" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="MaxVolume"
+                Description="--volume-max"
+                Header="{ext:Locale Name=MaxVolume}">
+                <NumberBox
+                    x:Name="MaxVolumeBox"
+                    MinWidth="120"
+                    Maximum="1000"
+                    Minimum="100"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="OnMaxVolumeChanged" />
+            </base:SettingsCard>
+        </base:SettingsExpander.Items>
+    </base:SettingsExpander>
+</local:SettingsPageControlBase>

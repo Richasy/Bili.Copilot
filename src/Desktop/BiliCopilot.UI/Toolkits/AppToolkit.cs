@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Models.Constants;
 using Richasy.WinUIKernel.Share.Toolkits;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Windows.Storage;
@@ -175,4 +176,27 @@ internal sealed partial class AppToolkit : SharedAppToolkit
 
     [GeneratedRegex(@"(mcdn.bilivideo.(cn|com)|szbdyd.com)")]
     private static partial Regex P2PRegex();
+
+    public static async Task OpenAndSelectFileInExplorerAsync(string path, bool isDirectory)
+    {
+        if ((isDirectory && !Directory.Exists(path)) || (!isDirectory && !File.Exists(path)))
+        {
+            return;
+        }
+
+        var arguments = $"/select,\"{path}\"";
+        var processStartInfo = new ProcessStartInfo
+        {
+            FileName = "explorer.exe",
+            Arguments = arguments,
+            UseShellExecute = true,
+            CreateNoWindow = true,
+        };
+
+        using var process = Process.Start(processStartInfo);
+        if (process != null)
+        {
+            await process.WaitForExitAsync();
+        }
+    }
 }

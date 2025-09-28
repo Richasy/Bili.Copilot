@@ -40,7 +40,7 @@ public sealed partial class PgcEpisodesSection : PgcEpisodesSectionBase
         var actualOffset = 0d;
         if (ViewModel.OnlyIndex)
         {
-            var offset = 40 * (index / 5);
+            var offset = 40 * (index / 7);
             actualOffset = offset - IndexView.ViewportHeight;
 
             if (actualOffset > 0)
@@ -55,7 +55,7 @@ public sealed partial class PgcEpisodesSection : PgcEpisodesSectionBase
 
             if (actualOffset > 0)
             {
-                DefaultView.ScrollTo(0, actualOffset);
+                DefaultView.ScrollTo(0, actualOffset + (DefaultView.ViewportHeight / 2));
             }
         }
     }

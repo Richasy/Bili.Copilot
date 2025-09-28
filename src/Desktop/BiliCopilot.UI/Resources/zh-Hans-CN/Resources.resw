@@ -2970,4 +2970,151 @@
   <data name="DownloadAudio" xml:space="preserve">
     <value>下载音频</value>
   </data>
+  <data name="ScreenshotPostBehavior" xml:space="preserve">
+    <value>截图后行为</value>
+  </data>
+  <data name="ScreenshotPostBehaviorDescription" xml:space="preserve">
+    <value>截图后处理图片的方式</value>
+  </data>
+  <data name="ScreenshotSetting" xml:space="preserve">
+    <value>截图设置</value>
+  </data>
+  <data name="ScreenshotSettingDescription" xml:space="preserve">
+    <value>调整视频截图保存文件夹和截图后行为</value>
+  </data>
+  <data name="OpenImage" xml:space="preserve">
+    <value>打开图片</value>
+  </data>
+  <data name="Unset" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="PickFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="CopyImage" xml:space="preserve">
+    <value>复制图片</value>
+  </data>
+  <data name="InternalLibMpv" xml:space="preserve">
+    <value>内置 libmpv</value>
+  </data>
+  <data name="FirstOpenMpvConfigTip" xml:space="preserve">
+    <value>你可以在打开的编辑器中编辑配置文件来自定义播放体验，但由于应用使用 libmpv，故而部分配置（比如 OSD）并不会生效。</value>
+  </data>
+  <data name="ClearCacheTip" xml:space="preserve">
+    <value>清空本地图片缓存后，所有在线图片都会重新从服务端请求并再次缓存</value>
+  </data>
+  <data name="NoCache" xml:space="preserve">
+    <value>没有缓存</value>
+  </data>
+  <data name="HideMainWindowOnPlay" xml:space="preserve">
+    <value>播放时隐藏主窗口</value>
+  </data>
+  <data name="HideMainWindowOnPlayDescription" xml:space="preserve">
+    <value>播放窗口的初始位置将与主窗口一致</value>
+  </data>
+  <data name="UseIntegrationBehavior" xml:space="preserve">
+    <value>使用单窗口一体化操作</value>
+  </data>
+  <data name="UseIntegrationBehaviorDescription" xml:space="preserve">
+    <value>仅单播放窗口时，关闭播放窗口视作关闭应用，点击返回按钮才显示主窗口</value>
+  </data>
+  <data name="LogLevel" xml:space="preserve">
+    <value>日志级别</value>
+  </data>
+  <data name="LogLevelDescription" xml:space="preserve">
+    <value>选择记录日志的详细程度</value>
+  </data>
+  <data name="Warn" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Verb" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="MpvExtraSetting" xml:space="preserve">
+    <value>MPV 附加设置</value>
+  </data>
+  <data name="MpvExtraSettingDescription" xml:space="preserve">
+    <value>内置 MPV 的一些附加参数设置</value>
+  </data>
+  <data name="AudioExclusive" xml:space="preserve">
+    <value>音频独占</value>
+  </data>
+  <data name="AudioChannel" xml:space="preserve">
+    <value>声道布局</value>
+  </data>
+  <data name="BuiltInProfileSwitch" xml:space="preserve">
+    <value>内置配置切换</value>
+  </data>
+  <data name="Fast" xml:space="preserve">
+    <value>快速</value>
+  </data>
+  <data name="HrSeekSetting" xml:space="preserve">
+    <value>精确跳转选项</value>
+  </data>
+  <data name="MaxCacheSize" xml:space="preserve">
+    <value>最大缓冲大小（MB）</value>
+  </data>
+  <data name="MaxCacheSeconds" xml:space="preserve">
+    <value>最大缓冲秒数</value>
+  </data>
+  <data name="CacheOnDisk" xml:space="preserve">
+    <value>将缓存写入硬盘</value>
+  </data>
+  <data name="CacheDirectory" xml:space="preserve">
+    <value>缓存文件夹</value>
+  </data>
+  <data name="ReselectFolder" xml:space="preserve">
+    <value>重新选择文件夹</value>
+  </data>
+  <data name="RestoreDefault" xml:space="preserve">
+    <value>恢复默认</value>
+  </data>
+  <data name="MaxVolume" xml:space="preserve">
+    <value>最大音量</value>
+  </data>
+  <data name="ImageCache" xml:space="preserve">
+    <value>图片缓存</value>
+  </data>
+  <data name="ImageCacheDescription" xml:space="preserve">
+    <value>查看或清除当前图片缓存</value>
+  </data>
+  <data name="AudioChannelLayout" xml:space="preserve">
+    <value>声道布局</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="D3D12Decode" xml:space="preserve">
+    <value>D3D12 硬解</value>
+  </data>
+  <data name="Stereo" xml:space="preserve">
+    <value>立体声</value>
+  </data>
+  <data name="Mono" xml:space="preserve">
+    <value>单声道</value>
+  </data>
+  <data name="StepForwardSeconds" xml:space="preserve">
+    <value>跳进秒数</value>
+  </data>
+  <data name="StepForwardSecondsDescription" xml:space="preserve">
+    <value>单次跳进的时长（秒）</value>
+  </data>
+  <data name="StepBackwardSeconds" xml:space="preserve">
+    <value>后退秒数</value>
+  </data>
+  <data name="StepBackwardSecondsDescription" xml:space="preserve">
+    <value>单次后退的时长（秒）</value>
+  </data>
+  <data name="TemporaryPlaybackRate" xml:space="preserve">
+    <value>临时播放倍速</value>
+  </data>
+  <data name="TemporaryPlaybackRateDescription" xml:space="preserve">
+    <value>在播放界面长按屏幕或者长按方向键的临时倍速值</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
         var actualOffset = offset - View.ViewportHeight;
         if (actualOffset > 0)
         {
-            View.ScrollTo(0, actualOffset);
+            View.ScrollTo(0, actualOffset + (View.ViewportHeight / 2));
         }
     }
 }

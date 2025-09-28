@@ -6,7 +6,13 @@ using BiliCopilot.UI.Pages;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
+using Humanizer;
+using Microsoft.Extensions.Logging;
+using Richasy.MpvKernel;
+using Richasy.MpvKernel.Core.Enums;
 using Richasy.WinUIKernel.AI.ViewModels;
+using Richasy.WinUIKernel.Share;
+using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
 using Windows.Storage;
 using Windows.System;
@@ -19,35 +25,27 @@ namespace BiliCopilot.UI.ViewModels.View;
 public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 {
     [RelayCommand]
-    private static async Task OpenMpvConfigAsync()
-    {
-        var mpvConfig = await ApplicationData.Current.LocalFolder.CreateFileAsync("mpv.conf", CreationCollisionOption.OpenIfExists).AsTask();
-        await Launcher.LaunchFileAsync(mpvConfig);
-    }
-
-    [RelayCommand]
-    private void Initialize()
+    private async Task InitializeAsync()
     {
         if (_isInitialized)
         {
+            await LoadCacheSizeAsync();
             return;
         }
 
         AppTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         CheckTheme();
+        LogLevel = SettingsToolkit.ReadLocalSetting(SettingNames.MpvLogLevel, MpvLogLevel.Warn);
+        HideMainWindowOnPlay = SettingsToolkit.ReadLocalSetting(SettingNames.HideMainWindowOnPlay, true);
         IsTopNavShown = SettingsToolkit.ReadLocalSetting(SettingNames.IsTopNavBarShown, true);
-        IsAutoPlayWhenLoaded = SettingsToolkit.ReadLocalSetting(SettingNames.ShouldAutoPlay, true);
         IsAutoPlayNextRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
-        AutoPlayNext = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNext, false);
         PlayNextWithoutTip = SettingsToolkit.ReadLocalSetting(SettingNames.PlayNextWithoutTip, false);
         EndWithPlaylist = SettingsToolkit.ReadLocalSetting(SettingNames.EndWithPlaylist, true);
-        SingleFastForwardAndRewindSpan = SettingsToolkit.ReadLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, 15d);
         IsCopyScreenshot = SettingsToolkit.ReadLocalSetting(SettingNames.CopyAfterScreenshot, true);
         IsOpenScreenshotFile = SettingsToolkit.ReadLocalSetting(SettingNames.OpenAfterScreenshot, true);
         PlayerSpeedEnhancement = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedEnhancement, false);
         GlobalPlayerSpeed = SettingsToolkit.ReadLocalSetting(SettingNames.IsPlayerSpeedShare, true);
         HideWhenCloseWindow = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
-        AutoLoadHistory = SettingsToolkit.ReadLocalSetting(SettingNames.AutoLoadHistory, true);
         IsNotificationEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsNotificationEnabled, true);
         IsVideoMomentNotificationEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.IsVideoMomentNotificationEnabled, true);
         NoP2P = SettingsToolkit.ReadLocalSetting(SettingNames.PlayWithoutP2P, false);
@@ -56,7 +54,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         PreferQualityCollection = Enum.GetValues<PreferQualityType>().ToList();
         PreferDecodeCollection = Enum.GetValues<PreferDecodeType>().ToList();
         MTCBehaviorCollection = Enum.GetValues<MTCBehavior>().ToList();
-        ExternalPlayerTypeCollection = Enum.GetValues<ExternalPlayerType>().ToList();
         DefaultPlayerDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
         PreferCodec = SettingsToolkit.ReadLocalSetting(SettingNames.PreferCodec, PreferCodecType.H264);
         PreferQuality = SettingsToolkit.ReadLocalSetting(SettingNames.PreferQuality, PreferQualityType.Auto);
@@ -67,6 +64,22 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         IsAnimeNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(AnimePage).Name}Visible", true);
         IsCinemaNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(CinemaPage).Name}Visible", true);
         IsArticleNavVisible = this.Get<ISettingsToolkit>().ReadLocalSetting($"Is{typeof(ArticlePartitionPage).Name}Visible", true);
+        StepBackwardSecond = SettingsToolkit.ReadLocalSetting(SettingNames.StepBackwardSecond, 10d);
+        StepForwardSecond = SettingsToolkit.ReadLocalSetting(SettingNames.StepForwardSecond, 30d);
+        PreferAudioChannelLayout = SettingsToolkit.ReadLocalSetting(SettingNames.PreferAudioChannelLayout, Richasy.MpvKernel.Core.Enums.AudioChannelLayoutType.Auto);
+        MpvBuiltInProfile = SettingsToolkit.ReadLocalSetting(SettingNames.MpvBuiltInProfile, MpvBuiltInProfile.HighQuality);
+        UseIntegrationWhenSinglePlayWindow = SettingsToolkit.ReadLocalSetting(SettingNames.UseIntegrationWhenSinglePlayWindow, true);
+        MaxCacheSize = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSize, 300d); // Default to 300 MB
+        MaxCacheSeconds = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSeconds, 300d); // Default to 300 seconds
+        HrSeek = SettingsToolkit.ReadLocalSetting(SettingNames.HrSeek, HrSeekType.Default);
+        MaxVolume = SettingsToolkit.ReadLocalSetting(SettingNames.MaxVolume, 100d);
+        AudioExclusiveEnabled = SettingsToolkit.ReadLocalSetting(SettingNames.AudioExclusiveEnabled, false);
+        CacheOnDisk = SettingsToolkit.ReadLocalSetting(SettingNames.CacheOnDisk, false);
+        var cacheDir = SettingsToolkit.ReadLocalSetting(SettingNames.CacheDir, string.Empty);
+        HasCustomCacheDir = !string.IsNullOrEmpty(cacheDir);
+        CacheDirDescription = string.IsNullOrEmpty(cacheDir) ? "--demuxer-cache-dir" : cacheDir;
+        ScrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
+        TempPlaybackRate = SettingsToolkit.ReadLocalSetting(SettingNames.TempPlaybackRate, 3.0);
         try
         {
             PreferDecode = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
@@ -78,7 +91,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         }
 
         MTCBehavior = SettingsToolkit.ReadLocalSetting(SettingNames.MTCBehavior, MTCBehavior.Automatic);
-        BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressVisible, true);
+        BottomProgressVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsBottomProgressBarVisible, true);
         DefaultDownloadPath = SettingsToolkit.ReadLocalSetting(SettingNames.DownloadFolder, string.Empty);
         UseExternalBBDown = SettingsToolkit.ReadLocalSetting(SettingNames.UseExternalBBDown, false);
         OnlyCopyCommandWhenDownload = SettingsToolkit.ReadLocalSetting(SettingNames.OnlyCopyCommandWhenDownload, false);
@@ -95,11 +108,137 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         UseWebPlayerWhenLive = SettingsToolkit.ReadLocalSetting(SettingNames.UseWebPlayerWhenLive, false);
         ShowSearchRecommend = SettingsToolkit.ReadLocalSetting(SettingNames.ShowSearchRecommend, false);
 
+        ScreenshotAction = SettingsToolkit.ReadLocalSetting(SettingNames.ScreenshotAction, ScreenshotAction.Open);
+        var customScreenshotFolderPath = SettingsToolkit.ReadLocalSetting(SettingNames.CustomScreenshotFolderPath, string.Empty);
+        if (string.IsNullOrEmpty(customScreenshotFolderPath) || !Directory.Exists(customScreenshotFolderPath))
+        {
+            ScreenshotFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "Bili screenshots");
+        }
+        else
+        {
+            ScreenshotFolderPath = customScreenshotFolderPath;
+        }
+
         var copyrightTemplate = ResourceToolkit.GetLocalizedString(StringNames.Copyright);
         Copyright = string.Format(copyrightTemplate, 2024);
         PackageVersion = this.Get<IAppToolkit>().GetPackageVersion();
+        CheckMpvConfigVisible();
+        LoadCustomLibmpvSettings();
 
         _isInitialized = true;
+    }
+
+    [RelayCommand]
+    private async Task OpenMpvConfigInEditorAsync()
+    {
+        try
+        {
+            var path = await AppToolkit.EnsureMpvConfigExistAsync();
+            var file = await StorageFile.GetFileFromPathAsync(path).AsTask();
+            var isSuccess = await Launcher.LaunchFileAsync(file).AsTask();
+            if (!isSuccess)
+            {
+                await AppToolkit.OpenAndSelectFileInExplorerAsync(file.Path, false);
+            }
+
+            var isFirstOpen = SettingsToolkit.ReadLocalSetting(SettingNames.FirstOpenMpvEditor, true);
+            if (isFirstOpen)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = ResourceToolkit.GetLocalizedString(StringNames.Tip),
+                    Content = ResourceToolkit.GetLocalizedString(StringNames.FirstOpenMpvConfigTip),
+                    CloseButtonText = ResourceToolkit.GetLocalizedString(StringNames.Confirm),
+                    DefaultButton = ContentDialogButton.Close,
+                    XamlRoot = this.Get<IXamlRootProvider>().XamlRoot,
+                };
+
+                await dialog.ShowAsync();
+                SettingsToolkit.WriteLocalSetting(SettingNames.FirstOpenMpvEditor, false);
+            }
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<SettingsPageViewModel>>().LogError(ex, "打开MPV配置文件失败");
+            this.Get<AppViewModel>().ShowTipCommand.Execute((ex.Message, InfoType.Error));
+        }
+    }
+
+    [RelayCommand]
+    private async Task ClearCacheAsync()
+    {
+        var dialog = new ContentDialog
+        {
+            Title = ResourceToolkit.GetLocalizedString(StringNames.ClearCache),
+            Content = ResourceToolkit.GetLocalizedString(StringNames.ClearCacheTip),
+            PrimaryButtonText = ResourceToolkit.GetLocalizedString(StringNames.Confirm),
+            CloseButtonText = ResourceToolkit.GetLocalizedString(StringNames.Cancel),
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = this.Get<IXamlRootProvider>().XamlRoot,
+        };
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            var cacheFolder = await Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalCacheFolder.CreateFolderAsync("ImageExCache", CreationCollisionOption.OpenIfExists);
+            await cacheFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            await LoadCacheSizeAsync();
+        }
+    }
+
+    private async Task LoadCacheSizeAsync()
+    {
+        var cacheFolder = await Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalCacheFolder.CreateFolderAsync("ImageExCache", CreationCollisionOption.OpenIfExists);
+        var size = Directory.GetFiles(cacheFolder.Path, "*.*", SearchOption.AllDirectories)
+            .Sum(file => new FileInfo(file).Length);
+        IsTotalImageCacheClearEnabled = size > 0;
+        if (size == 0)
+        {
+            TotalImageCacheSize = ResourceToolkit.GetLocalizedString(StringNames.NoCache);
+        }
+        else
+        {
+            TotalImageCacheSize = size.Bits().Humanize();
+        }
+    }
+
+    private void LoadCustomLibmpvSettings()
+    {
+        var customLibmpvPath = SettingsToolkit.ReadLocalSetting(SettingNames.CustomLibmpvPath, string.Empty);
+        var isValidMpvPath = !string.IsNullOrEmpty(customLibmpvPath) && File.Exists(customLibmpvPath);
+        if (!isValidMpvPath && !string.IsNullOrEmpty(customLibmpvPath))
+        {
+            SettingsToolkit.DeleteLocalSetting(SettingNames.CustomLibmpvPath);
+        }
+
+        _initialCustomLibMpvPath = isValidMpvPath ? customLibmpvPath : ResourceToolkit.GetLocalizedString(StringNames.InternalLibMpv);
+        CustomLibMpvPath = _initialCustomLibMpvPath;
+        CanResetLibMpvPath = isValidMpvPath;
+    }
+
+    private void CheckRestartTip()
+        => IsRestartTipShown = CustomLibMpvPath != _initialCustomLibMpvPath;
+
+    [RelayCommand]
+    private async Task SelectLibMpvFileAsync()
+    {
+        var file = await this.Get<IFileToolkit>().PickFileAsync(".dll", this.Get<AppViewModel>().ActivatedWindow);
+        if (file is not null)
+        {
+            CustomLibMpvPath = file.Path;
+            SettingsToolkit.WriteLocalSetting(SettingNames.CustomLibmpvPath, CustomLibMpvPath);
+            CanResetLibMpvPath = true;
+        }
+
+        CheckRestartTip();
+    }
+
+    [RelayCommand]
+    private void ResetLibMpvPath()
+    {
+        CustomLibMpvPath = ResourceToolkit.GetLocalizedString(StringNames.InternalLibMpv);
+        SettingsToolkit.DeleteLocalSetting(SettingNames.CustomLibmpvPath);
+        CanResetLibMpvPath = false;
+        CheckRestartTip();
     }
 
     [RelayCommand]
@@ -171,6 +310,26 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         { XamlRoot = this.Get<AppViewModel>().ActivatedWindow.Content.XamlRoot }.ShowAsync();
     }
 
+    [RelayCommand]
+    private async Task PickScreenshotFolderAsync()
+    {
+        var folder = await this.Get<IFileToolkit>().PickFolderAsync(this.Get<AppViewModel>().ActivatedWindow);
+        if (folder != null)
+        {
+            SettingsToolkit.WriteLocalSetting(SettingNames.CustomScreenshotFolderPath, folder.Path);
+            ScreenshotFolderPath = folder.Path;
+        }
+    }
+
+    private void CheckMpvConfigVisible()
+    {
+        IsMpvCustomOptionVisible = PreferDecode == PreferDecodeType.Custom;
+        if (IsMpvCustomOptionVisible)
+        {
+            IsMpvExtraSettingExpanded = false;
+        }
+    }
+
     private void CheckTheme()
     {
         AppThemeText = AppTheme switch
@@ -194,14 +353,35 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         this.Get<AppViewModel>().ChangeThemeCommand.Execute(value);
     }
 
-    partial void OnAutoPlayNextChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.AutoPlayNext, value);
+    partial void OnLogLevelChanged(MpvLogLevel value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MpvLogLevel, value);
 
-    partial void OnAutoLoadHistoryChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.AutoLoadHistory, value);
+    partial void OnHideMainWindowOnPlayChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.HideMainWindowOnPlay, value);
 
-    partial void OnIsAutoPlayWhenLoadedChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.ShouldAutoPlay, value);
+    partial void OnStepBackwardSecondChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.StepBackwardSecond, value);
+
+    partial void OnStepForwardSecondChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.StepForwardSecond, value);
+
+    partial void OnMaxCacheSizeChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MaxCacheSize, value);
+
+    partial void OnMaxCacheSecondsChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MaxCacheSeconds, value);
+
+    partial void OnMpvBuiltInProfileChanged(MpvBuiltInProfile value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MpvBuiltInProfile, value);
+
+    partial void OnHrSeekChanged(HrSeekType value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.HrSeek, value);
+
+    partial void OnUseIntegrationWhenSinglePlayWindowChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.UseIntegrationWhenSinglePlayWindow, value);
+
+    partial void OnPreferAudioChannelLayoutChanged(AudioChannelLayoutType value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.PreferAudioChannelLayout, value);
 
     partial void OnDefaultPlayerDisplayModeChanged(PlayerDisplayMode value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.DefaultPlayerDisplayMode, value);
@@ -212,10 +392,8 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnPreferDecodeChanged(PreferDecodeType value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.PreferDecode, value);
+        CheckMpvConfigVisible();
     }
-
-    partial void OnSingleFastForwardAndRewindSpanChanged(double value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.SingleFastForwardAndRewindSpan, value);
 
     partial void OnIsCopyScreenshotChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.CopyAfterScreenshot, value);
@@ -252,7 +430,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         => SettingsToolkit.WriteLocalSetting(SettingNames.IsVideoMomentNotificationEnabled, value);
 
     partial void OnBottomProgressVisibleChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(SettingNames.IsBottomProgressVisible, value);
+        => SettingsToolkit.WriteLocalSetting(SettingNames.IsBottomProgressBarVisible, value);
 
     partial void OnNoP2PChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.PlayWithoutP2P, value);
@@ -319,4 +497,35 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnIsArticleNavVisibleChanged(bool value)
         => WriteNavVisibleSetting(typeof(ArticlePartitionPage), value);
+
+    partial void OnScreenshotActionChanged(ScreenshotAction value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.ScreenshotAction, value);
+
+    partial void OnScreenshotFolderPathChanged(string? value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.CustomScreenshotFolderPath, value ?? string.Empty);
+
+    partial void OnMaxVolumeChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.MaxVolume, value);
+
+    partial void OnAudioExclusiveEnabledChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.AudioExclusiveEnabled, value);
+
+    partial void OnCacheOnDiskChanged(bool value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.CacheOnDisk, value);
+
+    partial void OnScrollAccelerateChanged(bool value)
+    {
+        SettingsToolkit.WriteLocalSetting(SettingNames.ScrollAccelerate, value);
+        if (value)
+        {
+            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
+        }
+        else
+        {
+            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
+        }
+    }
+
+    partial void OnTempPlaybackRateChanged(double value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.TempPlaybackRate, value);
 }

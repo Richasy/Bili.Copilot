@@ -23,19 +23,16 @@
   	</None>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Assets\basic-mpv.conf" />
     <Content Remove="Assets\bbdown\arm64\BBDown.exe" />
     <Content Remove="Assets\bbdown\x64\BBDown.exe" />
-    <Content Remove="Assets\BewlyBewly.zip" />
-    <Content Remove="Assets\DashAudioWithoutVideoTemplate.xml" />
-    <Content Remove="Assets\DashVideoTemplate.xml" />
-    <Content Remove="Assets\DashVideoWithoutAudioTemplate.xml" />
     <Content Remove="Assets\ffmpeg\arm64\ffmpeg.exe" />
     <Content Remove="Assets\ffmpeg\x64\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
-    <Content Remove="Assets\WebPlayer.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\mpv.png" />
     <None Remove="Assets\qq_group_dark.jpg" />
     <None Remove="Assets\qq_group_light.jpg" />
     <None Remove="Assets\Reader\Dark.css" />
@@ -214,14 +211,17 @@
     <None Remove="Controls\Search\VideoSectionDetailControl.xaml" />
     <None Remove="Controls\Settings\AboutSettingControl.xaml" />
     <None Remove="Controls\Settings\AIResponseSettingControl.xaml" />
+    <None Remove="Controls\Settings\CacheSettingControl.xaml" />
     <None Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\DownloadSettingControl.xaml" />
     <None Remove="Controls\Settings\LayoutSettingSection.xaml" />
     <None Remove="Controls\Settings\LoggerSettingControl.xaml" />
+    <None Remove="Controls\Settings\MpvExtraSettingControl.xaml" />
     <None Remove="Controls\Settings\NotificationSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerBehaviorSettingControl.xaml" />
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
+    <None Remove="Controls\Settings\ScreenshotSettingControl.xaml" />
     <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
@@ -1156,21 +1156,18 @@
     <Resource Remove="Controls\Settings\CloseBehaviorSettingControl.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Assets\BewlyBewly.zip">
+    <None Update="Assets\basic-mpv.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\DashAudioWithoutVideoTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\DashVideoTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\DashVideoWithoutAudioTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\WebPlayer.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Page Update="Controls\Settings\CacheSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\MpvExtraSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Settings\ScreenshotSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Player\PgcPlayerPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

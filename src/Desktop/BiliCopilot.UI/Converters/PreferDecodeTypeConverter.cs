@@ -18,6 +18,8 @@ internal sealed partial class PreferDecodeTypeConverter : IValueConverter
             PreferDecodeType.NVDEC => ResourceToolkit.GetLocalizedString(StringNames.NVDECDecode),
             PreferDecodeType.Vulkan => ResourceToolkit.GetLocalizedString(StringNames.VulkanDecode),
             PreferDecodeType.Custom => ResourceToolkit.GetLocalizedString(StringNames.Custom),
+            PreferDecodeType.Software => ResourceToolkit.GetLocalizedString(StringNames.SoftwareDecode),
+            PreferDecodeType.D3D12 => ResourceToolkit.GetLocalizedString(StringNames.D3D12Decode),
             _ => string.Empty,
         };
     }
