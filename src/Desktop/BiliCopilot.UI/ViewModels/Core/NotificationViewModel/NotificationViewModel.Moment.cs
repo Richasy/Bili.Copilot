@@ -58,7 +58,7 @@ public sealed partial class NotificationViewModel
                 {
                     title = vinfo.Identifier.Title;
                     cover = vinfo.Identifier.Cover.Uri.ToString();
-                    pageType = typeof(VideoPlayerPage).FullName;
+                    pageType = "video";
                     arguments = JsonSerializer.Serialize(vinfo.Identifier, GlobalSerializeContext.Default.MediaIdentifier);
                 }
                 else if (moment.Data is EpisodeInformation einfo)

@@ -288,19 +288,7 @@
     <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\SubtitlePresenter.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\SubtitleButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\VideoPlaylistSection.xaml">
@@ -319,9 +307,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\FavoriteButton.xaml">
@@ -349,9 +334,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Message\MessagePageMainBody.xaml">

@@ -167,9 +167,10 @@ public partial class App : Application
             _dispatcherQueue.TryEnqueue(() =>
             {
                 var identifier = JsonSerializer.Deserialize(argsStr, GlobalSerializeContext.Default.MediaIdentifier);
-                var obj = type.Contains("VideoPlayer") ? (object)new MediaSnapshot(new VideoInformation(identifier, default)) : identifier;
-                var pageType = Type.GetType(type);
-                GlobalDependencies.Kernel.GetRequiredService<NavigationViewModel>().NavigateToOver(pageType, obj);
+                if (type == "video")
+                {
+                    this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(new VideoInformation(identifier, default)));
+                }
             });
         }
     }

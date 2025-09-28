@@ -54,7 +54,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
             return;
         }
 
-        MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
+        //MainFrame.Navigate(typeof(VideoPlayerPage), snapshot);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
             return;
         }
 
-        MainFrame.Navigate(typeof(VideoPlayerPage), data);
+        //MainFrame.Navigate(typeof(VideoPlayerPage), data);
     }
 
     /// <summary>
@@ -122,12 +122,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
         TitleBar.Visibility = mode == PlayerDisplayMode.FullScreen ? Visibility.Collapsed : Visibility.Visible;
         TitleBar.IsBackButtonVisible = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
         TitleBar.IsBackEnabled = mode == PlayerDisplayMode.FullWindow || mode == PlayerDisplayMode.CompactOverlay;
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            TitleBar.Title = vPage.ViewModel.Title;
-            vPage.EnterPlayerHostMode();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             TitleBar.Title = pPage.ViewModel.EpisodeTitle;
             pPage.EnterPlayerHostMode();
@@ -152,11 +147,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
         TitleBar.Visibility = Visibility.Visible;
         TitleBar.Title = ResourceToolkit.GetLocalizedString(StringNames.AppName);
         TitleBar.IsBackButtonVisible = false;
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ExitPlayerHostMode();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             pPage.ExitPlayerHostMode();
         }
@@ -227,12 +218,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
 
     private bool TryBackToDefaultMode()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
-            return true;
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             pPage.ViewModel.Player.BackToDefaultModeCommand.Execute(default);
             return true;
@@ -253,11 +239,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
 
     private bool TryTogglePlayPauseIfInPlayer()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.ViewModel.Player.TryTogglePlayPause();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             return pPage.ViewModel.Player.TryTogglePlayPause();
         }
@@ -275,11 +257,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
 
     private bool TryMarkRightArrowPressedTime()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.MarkRightArrowPressed();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             return pPage.MarkRightArrowPressed();
         }
@@ -289,11 +267,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
 
     private bool TryCancelRightArrow()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            return vPage.CancelRightArrow();
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             return pPage.CancelRightArrow();
         }
@@ -303,11 +277,7 @@ public sealed partial class OldPlayerWindow : WindowBase, IPlayerHostWindow, ITi
 
     private void ClosePlayer()
     {
-        if (MainFrame.Content is VideoPlayerPage vPage)
-        {
-            vPage.ViewModel.CleanCommand.Execute(default);
-        }
-        else if (MainFrame.Content is PgcPlayerPage pPage)
+        if (MainFrame.Content is PgcPlayerPage pPage)
         {
             pPage.ViewModel.CleanCommand.Execute(default);
         }

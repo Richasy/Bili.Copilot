@@ -193,8 +193,6 @@
     <None Remove="Controls\Player\PgcPlayerTransportLeftPanel.xaml" />
     <None Remove="Controls\Player\PgcSeasonsSection.xaml" />
     <None Remove="Controls\Player\PgcStatControl.xaml" />
-    <None Remove="Controls\Player\SubtitleButton.xaml" />
-    <None Remove="Controls\Player\SubtitlePresenter.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
     <None Remove="Controls\Player\VideoAISection.xaml" />
     <None Remove="Controls\Player\VideoDanmakuPanel.xaml" />
@@ -202,12 +200,9 @@
     <None Remove="Controls\Player\VideoInfoSection.xaml" />
     <None Remove="Controls\Player\VideoOperationControl.xaml" />
     <None Remove="Controls\Player\VideoPartsSection.xaml" />
-    <None Remove="Controls\Player\VideoPlayerFormatButton.xaml" />
-    <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
     <None Remove="Controls\Player\VideoPlayerPanel.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
-    <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
     <None Remove="Controls\Player\VideoPlayerWidget.xaml" />
     <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
@@ -282,7 +277,6 @@
     <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
-    <None Remove="Pages\Overlay\VideoPlayerPage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
     <None Remove="Pages\Overlay\WebDavPlayerPage.xaml" />
     <None Remove="Pages\Overlay\WebPlayerPage.xaml" />
@@ -1133,22 +1127,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Player\SubtitlePresenter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\SubtitleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Mpv\PlayerNotificationControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerTransportLeftPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1164,11 +1143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoDanmakuPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerFormatButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1199,11 +1173,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\VideoPlayerSideHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\VideoPlayerMainHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1249,11 +1218,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Overlay\VideoPlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

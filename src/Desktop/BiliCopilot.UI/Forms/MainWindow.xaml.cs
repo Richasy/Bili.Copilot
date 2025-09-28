@@ -54,11 +54,11 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
 
     /// <inheritdoc/>
     public void EnterPlayerHostMode(PlayerDisplayMode mode)
-        => RootLayout.PrepareFullPlayerPresenter(mode);
+    { }
 
     /// <inheritdoc/>
     public void ExitPlayerHostMode()
-        => RootLayout.ExitFullPlayerPresenter();
+    { }
 
     /// <inheritdoc/>
     public async Task ShowTipAsync(string text, InfoType type = InfoType.Error)
@@ -260,11 +260,6 @@ public sealed partial class MainWindow : WindowBase, IPlayerHostWindow, ITipWind
         if (point.Properties.IsXButton1Pressed || point.Properties.IsXButton2Pressed)
         {
             e.Handled = true;
-            if (RootLayout.TryBackToDefaultIfPlayerHostMode())
-            {
-                return;
-            }
-
             if (RootLayout.ViewModel.IsOverlayOpen)
             {
                 RootLayout.ViewModel.Back();

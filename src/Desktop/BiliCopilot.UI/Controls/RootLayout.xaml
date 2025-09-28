@@ -87,19 +87,6 @@
             </base:AppTitleBar.Footer>
         </base:AppTitleBar>
 
-        <base:AppTitleBar
-            x:Name="SecondaryTitleBar"
-            Title="{ext:Locale Name=AppName}"
-            BackRequested="OnVideoBackRequested"
-            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-            BorderThickness="0,0,0,1"
-            IsBackButtonVisible="False"
-            Visibility="Collapsed">
-            <base:AppTitleBar.IconElement>
-                <BitmapIcon ShowAsMonochrome="False" UriSource="Assets/StoreLogo.png" />
-            </base:AppTitleBar.IconElement>
-        </base:AppTitleBar>
-
         <NavigationView
             x:Name="NavView"
             Grid.Row="1"

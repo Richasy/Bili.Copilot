@@ -45,7 +45,7 @@ public sealed partial class Pinner : PinnerBase
         else if (item.Type == Models.Constants.PinContentType.Video)
         {
             var snapshot = new MediaSnapshot(new VideoInformation(new MediaIdentifier(item.Id, item.Title, default), default));
-            navVM.NavigateToOver(typeof(VideoPlayerPage), snapshot);
+            this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
         }
         else if (item.Type == Models.Constants.PinContentType.Live)
         {

@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
-using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
-using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
@@ -105,30 +101,19 @@ public sealed partial class VideoFavoriteSectionDetailViewModel : ViewModelBase<
     [RelayCommand]
     private void PlayCurrentList()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-
-        if (Items.Count == 1)
+        var playlist = Items.ToList().ConvertAll(p => new MediaSnapshot(p.Data));
+        if (playlist.Count == 0)
         {
-            var video = Items.First();
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                new OldPlayerWindow().OpenVideo(new MediaSnapshot(video.Data));
-                return;
-            }
-
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new MediaSnapshot(video.Data));
+            return;
         }
-        else
+
+        var snapshot = new MediaSnapshot(Items.First().Data);
+        if (playlist.Count > 1)
         {
-            var data = (Items.Select(p => p.Data).ToList(), new MediaSnapshot(Items.First().Data));
-            if (preferDisplayMode == PlayerDisplayMode.NewWindow)
-            {
-                new OldPlayerWindow().OpenVideo(data);
-                return;
-            }
-
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), data);
+            snapshot.Playlist = playlist;
         }
+
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
     }
 
     private void RemoveVideo(VideoItemViewModel vm)

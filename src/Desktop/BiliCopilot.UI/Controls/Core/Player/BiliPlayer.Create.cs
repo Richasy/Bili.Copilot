@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Danmaku;
-using BiliCopilot.UI.Controls.Player;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using Microsoft.UI;
@@ -23,13 +22,11 @@ public sealed partial class BiliPlayer
 {
     private Func<DanmakuControlBase> _createDanmakuControlFunc;
     private Func<FrameworkElement> _createTransportControlFunc;
-    private Func<SubtitlePresenter> _createSubtitleControlFunc;
 
     private CursorGrid _overlayContainer;
     private Panel _operationContainer;
     private DanmakuControlBase _danmakuControl;
     private FrameworkElement _transportControl;
-    private SubtitlePresenter _subtitlePresenter;
     private ProgressBar _progressBar;
     private Rectangle _interactionControl;
     private StackPanel _notificationContainer;
@@ -48,12 +45,6 @@ public sealed partial class BiliPlayer
     /// </summary>
     public void InjectTransportControlFunc(Func<FrameworkElement> createTransportControlFunc)
         => _createTransportControlFunc = createTransportControlFunc;
-
-    /// <summary>
-    /// 注入字幕控件创建函数.
-    /// </summary>
-    public void InjectSubtitleControlFunc(Func<SubtitlePresenter> createSubtitleControlFunc)
-        => _createSubtitleControlFunc = createSubtitleControlFunc;
 
     private void CreateOverlayContainer()
     {
@@ -130,13 +121,6 @@ public sealed partial class BiliPlayer
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Bottom,
             };
-
-            _subtitlePresenter = _createSubtitleControlFunc?.Invoke() ?? default;
-            if (_subtitlePresenter is not null)
-            {
-                _subtitlePresenter.HorizontalAlignment = HorizontalAlignment.Stretch;
-                _operationContainer.Children.Add(_subtitlePresenter);
-            }
 
             _transportControl = _createTransportControlFunc?.Invoke() ?? default;
             if (_transportControl is not null)
@@ -262,11 +246,6 @@ public sealed partial class BiliPlayer
             if (_loadingWidget != null)
             {
                 _loadingWidget.Visibility = ViewModel.IsPlayerDataLoading ? Visibility.Visible : Visibility.Collapsed;
-            }
-
-            if (!ViewModel.IsPlayerDataLoading)
-            {
-                DispatcherQueue.TryEnqueue(ArrangeSubtitleSize);
             }
         }
         else if (e.PropertyName == nameof(ViewModel.IsDanmakuInputFocused))

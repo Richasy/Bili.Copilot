@@ -102,7 +102,6 @@ public sealed partial class BiliPlayer : OldPlayerControlBase
         SetTransportVisibility(true);
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            ArrangeSubtitleSize();
             MeasureTransportTriggerRect();
             SetTransportVisibility(false);
         });
@@ -148,11 +147,6 @@ public sealed partial class BiliPlayer : OldPlayerControlBase
         newValue.RequestShowNotification += OnRequestShowNotification;
         newValue.RequestCancelNotification += OnRequestCancelNotification;
         newValue.Initialized += OnViewModelInitialized;
-
-        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
-        {
-            ArrangeSubtitleSize();
-        });
     }
 
     private void HookRootPointerEvents()
@@ -325,6 +319,5 @@ public sealed partial class BiliPlayer : OldPlayerControlBase
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         MeasureTransportTriggerRect();
-        ArrangeSubtitleSize();
     }
 }

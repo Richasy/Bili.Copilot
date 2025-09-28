@@ -23,7 +23,6 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase, IParameterPage
         InitializeComponent();
         BiliPlayer.InjectDanmakuControlFunc(CreateDanmakuPanel);
         BiliPlayer.InjectTransportControlFunc(CreateTransportControl);
-        BiliPlayer.InjectSubtitleControlFunc(CreateSubtitleControl);
     }
 
     /// <summary>
@@ -98,9 +97,7 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase, IParameterPage
         //var danmakuBox = new DanmakuBox() { ViewModel = ViewModel.Danmaku };
         var rightPanel = new StackPanel() { Orientation = Orientation.Horizontal };
         var formatButton = new PgcPlayerFormatButton() { ViewModel = ViewModel };
-        var subtitleButton = new SubtitleButton() { ViewModel = ViewModel.Subtitle };
         rightPanel.Children.Add(formatButton);
-        rightPanel.Children.Add(subtitleButton);
         //danmakuBox.InputGotFocus += OnDanmakuInputGotFocus;
         //danmakuBox.InputLostFocus += OnDanmakuInputLostFocus;
         return new VideoTransportControl()
@@ -121,15 +118,6 @@ public sealed partial class PgcPlayerPage : PgcPlayerPageBase, IParameterPage
 
     private void OnDanmakuInputLostFocus(object? sender, EventArgs e)
         => ViewModel.Player.IsDanmakuInputFocused = false;
-
-    private SubtitlePresenter CreateSubtitleControl()
-    {
-        return new SubtitlePresenter
-        {
-            Margin = new Thickness(0, 0, 0, 16),
-            ViewModel = ViewModel.Subtitle,
-        };
-    }
 }
 
 /// <summary>

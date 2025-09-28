@@ -3,7 +3,6 @@
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
@@ -212,7 +211,7 @@ public sealed partial class PgcPlayerPageViewModel
         }
         else if (nextPart is VideoInformation video)
         {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), new MediaSnapshot(video));
+            this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(video));
         }
         else
         {
