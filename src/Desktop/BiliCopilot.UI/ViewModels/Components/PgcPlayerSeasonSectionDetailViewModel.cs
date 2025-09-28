@@ -15,21 +15,26 @@ namespace BiliCopilot.UI.ViewModels.Components;
 /// </summary>
 public sealed partial class PgcPlayerSeasonSectionDetailViewModel : ViewModelBase, IPlayerSectionDetailViewModel
 {
-    [ObservableProperty]
-    private List<SeasonItemViewModel>? _items;
+    private readonly Action<SeasonItemViewModel> _action;
 
     [ObservableProperty]
-    private SeasonItemViewModel? _selectedItem;
+    private List<SeasonItemViewModel>? _items;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PgcPlayerSeasonSectionDetailViewModel"/> class.
     /// </summary>
     public PgcPlayerSeasonSectionDetailViewModel(
         IList<SeasonInformation> items,
-        string seasonId)
+        string seasonId,
+        Action<SeasonItemViewModel> action)
     {
-        Items = items.Select(p => new SeasonItemViewModel(p, SeasonCardStyle.Player)).ToList();
-        SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == seasonId);
+        Items = [.. items.Select(p => new SeasonItemViewModel(p, SeasonCardStyle.Player, playAction: OpenSeason))];
+        foreach (var item in Items)
+        {
+            item.IsSelected = item.Data.Identifier.Id == seasonId;
+        }
+
+        _action = action;
     }
 
     /// <inheritdoc/>
@@ -38,4 +43,14 @@ public sealed partial class PgcPlayerSeasonSectionDetailViewModel : ViewModelBas
     [RelayCommand]
     private static Task TryFirstLoadAsync()
         => Task.CompletedTask;
+
+    private void OpenSeason(SeasonItemViewModel item)
+    {
+        if (item.IsSelected)
+        {
+            return;
+        }
+
+        _action?.Invoke(item);
+    }
 }

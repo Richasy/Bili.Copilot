@@ -18,6 +18,12 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Player\PgcPlayerPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\OverlayPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -273,19 +279,10 @@
     <Page Update="Controls\Player\PgcDescriptorControl.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Danmaku\DanmakuDisplayOptions.xaml">
@@ -328,9 +325,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\Player\UpSectionControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">

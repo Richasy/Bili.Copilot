@@ -22,10 +22,28 @@ public sealed class MediaSnapshot
         IsPrivate = isPrivate;
     }
 
+    public MediaSnapshot(SeasonInformation? season, EpisodeInformation? episode)
+    {
+        Season = season;
+        Episode = episode;
+        Type = BiliMediaType.Pgc;
+        IsPrivate = false;
+    }
+
     /// <summary>
     /// 视频信息.
     /// </summary>
-    public VideoInformation Video { get; }
+    public VideoInformation? Video { get; }
+
+    /// <summary>
+    /// 电视剧.
+    /// </summary>
+    public SeasonInformation? Season { get; set; }
+
+    /// <summary>
+    /// 剧集.
+    /// </summary>
+    public EpisodeInformation? Episode { get; set; }
 
     /// <summary>
     /// 无痕播放（不上报历史记录）.

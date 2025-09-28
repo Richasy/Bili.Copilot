@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -19,7 +20,7 @@ public abstract class SeasonCardPresenter : LayoutUserControlBase<SeasonItemView
 /// </summary>
 public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemViewModel>
 {
-    private CardControl _rootCard;
+    private ButtonBase _rootCard;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SeasonCardControl"/> class.
@@ -29,13 +30,10 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
-        _rootCard = GetTemplateChild("RootCard") as CardControl;
+        _rootCard = GetTemplateChild("RootCard") as ButtonBase;
         if (ViewModel is not null)
         {
-            if (_rootCard is not null)
-            {
-                _rootCard.Command = ViewModel.PlayCommand;
-            }
+            _rootCard?.Command = ViewModel.PlayCommand;
         }
     }
 
@@ -54,16 +52,6 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
         {
             _rootCard.Command = newValue?.PlayCommand;
         }
-    }
-
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
     }
 
     private static MenuFlyoutItem CreateOpenInBroswerItem()
@@ -152,7 +140,6 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
     private void CreateContextFlyout()
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
-        menuFlyout.Items.Add(CreateOpenInNewWindowItem());
         menuFlyout.Items.Add(CreateOpenInBroswerItem());
         if (ViewModel.Style != SeasonCardStyle.Favorite)
         {
@@ -182,9 +169,6 @@ public sealed partial class SeasonCardControl : LayoutControlBase<SeasonItemView
         {
             switch (item.Tag.ToString())
             {
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
-                    break;
                 case nameof(ViewModel.OpenInBroswerCommand):
                     item.Command = ViewModel.OpenInBroswerCommand;
                     break;

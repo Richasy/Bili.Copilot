@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -65,11 +64,11 @@ public sealed partial class NotificationViewModel
                 {
                     title = einfo.Identifier.Title;
                     cover = einfo.Identifier.Cover.Uri.ToString();
-                    pageType = typeof(PgcPlayerPage).FullName;
+                    pageType = "episode";
                     var hasEpid = einfo.Identifier.Id != "0";
                     if (hasEpid)
                     {
-                        var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
+                        var identifier = new MediaIdentifier(einfo.Identifier.Id, default, default);
                         arguments = JsonSerializer.Serialize(identifier, GlobalSerializeContext.Default.MediaIdentifier);
                     }
                     else

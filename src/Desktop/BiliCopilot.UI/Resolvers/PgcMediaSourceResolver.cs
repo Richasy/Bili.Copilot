@@ -4,7 +4,6 @@ using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
-using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Authorization;
@@ -16,18 +15,18 @@ using Richasy.MpvKernel.Player.Models;
 
 namespace BiliCopilot.UI.Resolvers;
 
-internal sealed partial class VideoMediaSourceResolver(IPlayerService playerService, IBiliCookiesResolver cookiesResolver, ILogger<VideoMediaSourceResolver> logger) : MediaSourceResolverBase
+internal sealed partial class PgcMediaSourceResolver(IPlayerService playerService, IBiliCookiesResolver cookiesResolver, ILogger<PgcMediaSourceResolver> logger) : MediaSourceResolverBase
 {
     private MediaSnapshot _snapshot;
-    private VideoPart _part;
+    private EpisodeInformation _episode;
     private TaskCompletionSource<bool>? _initTask;
     private CancellationTokenSource? _initCts;
     private DashMediaInformation? _playbackInfo;
 
-    public void Initialize(MediaSnapshot snapshot, VideoPart part)
+    public void Initialize(MediaSnapshot snapshot, EpisodeInformation episode)
     {
         _snapshot = snapshot;
-        _part = part;
+        _episode = episode;
         _playbackInfo = default;
         _initTask?.TrySetCanceled();
         _initCts?.Cancel();
@@ -41,12 +40,7 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
     internal PlayerFormatInformation? GetCurrentFormat()
     {
         var preferFormatSetting = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.PreferQuality, PreferQualityType.Auto);
-        var availableFormats = _playbackInfo.Formats.ToList().ConvertAll(p => new SourceItemViewModel(p, default));
-        if (_snapshot.Video.Publisher?.User?.Id != this.Get<AccountViewModel>().MyProfile.User.Id)
-        {
-            availableFormats = [.. availableFormats.Where(p => p.IsEnabled)];
-        }
-
+        var availableFormats = _playbackInfo.Formats.ToList().ConvertAll(p => new SourceItemViewModel(p, default)).Where(p => p.IsEnabled).ToList();
         SourceItemViewModel? selectedFormat = default;
         if (_snapshot.PreferQuality > 0)
         {
@@ -94,6 +88,9 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
             { "Cookie", cookies },
             { "Referer", referer },
         };
+
+        var id = _snapshot.Episode?.Identifier.Id ?? _snapshot.Season?.Identifier.Id;
+        var title = _snapshot.Episode?.Identifier.Title ?? _snapshot.Season?.Identifier.Title;
         var options = new MpvPlayOptions
         {
             WindowHandle = WindowHandle,
@@ -102,7 +99,7 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
             UserAgent = userAgent,
             HttpHeaders = headers,
             EnableCookies = true,
-            MediaName = _snapshot.Video.Identifier.Title,
+            MediaName = title,
         };
 
         await LoadMediaInfoAsync();
@@ -122,7 +119,7 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
             fileUrl = audioUrl;
         }
 
-        return new MpvMediaSource(fileUrl, _snapshot.Video.Identifier.Id, _snapshot.Video.Identifier.Title, options);
+        return new MpvMediaSource(fileUrl, id, title, options);
     }
 
     public async Task<List<PlayerFormatInformation>?> GetSourcesAsync()
@@ -133,7 +130,7 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
 
     internal async Task LoadMediaInfoAsync()
     {
-        if (_snapshot is null || _part is null)
+        if (_snapshot is null || _episode is null)
         {
             throw new InvalidOperationException("必须先初始化媒体信息.");
         }
@@ -160,11 +157,13 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
         _initCts = new CancellationTokenSource();
         try
         {
-            _playbackInfo = await playerService.GetVideoPlayDetailAsync(_snapshot.Video.Identifier, Convert.ToInt64(_part.Identifier.Id), _initCts.Token);
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid);
+            var seasonType = _episode.GetExtensionIfNotNull<string>(EpisodeExtensionDataId.SeasonType);
+            _playbackInfo = await playerService.GetPgcPlayDetailAsync(cid.ToString(), _episode.Identifier.Id, seasonType);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"获取 {_snapshot.Video.Identifier.Title} 播放信息失败");
+            logger.LogError(ex, $"获取 {_episode.Identifier.Title} 播放信息失败");
             _initTask.TrySetException(new InvalidOperationException("获取 Dash 播放信息失败."));
             return;
         }
@@ -206,7 +205,7 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
             }
         }
 
-        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedVideoQuality, selectedFormat.Quality);
+        SettingsToolkit.WriteLocalSetting(SettingNames.LastSelectedPgcQuality, selectedFormat.Quality);
         return (videoUrl, audioUrl);
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -53,4 +54,7 @@ public sealed partial class SeasonItemViewModel
     /// 样式.
     /// </summary>
     public SeasonCardStyle Style { get; init; }
+
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; }
 }

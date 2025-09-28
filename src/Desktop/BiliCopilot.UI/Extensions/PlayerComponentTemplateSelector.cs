@@ -18,6 +18,10 @@ internal sealed partial class PlayerComponentTemplateSelector : DataTemplateSele
         {
             return VideoTemplate;
         }
+        else if (item is PgcConnectorViewModel)
+        {
+            return PgcTemplate;
+        }
 
         return default;
     }

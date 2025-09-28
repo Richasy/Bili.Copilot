@@ -44,8 +44,20 @@
         <DataTemplate x:Key="VideoPanelTemplate" x:DataType="core:VideoConnectorViewModel">
             <player:VideoPlayerPanel ViewModel="{x:Bind}" />
         </DataTemplate>
-        <ext:PlayerComponentTemplateSelector x:Key="WidgetSelector" VideoTemplate="{StaticResource VideoWidgetTemplate}" />
-        <ext:PlayerComponentTemplateSelector x:Key="PanelSelector" VideoTemplate="{StaticResource VideoPanelTemplate}" />
+        <DataTemplate x:Key="PgcWidgetTemplate" x:DataType="core:PgcConnectorViewModel">
+            <player:PgcPlayerWidget ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PgcPanelTemplate" x:DataType="core:PgcConnectorViewModel">
+            <player:PgcPlayerPanel ViewModel="{x:Bind}" />
+        </DataTemplate>
+        <ext:PlayerComponentTemplateSelector
+            x:Key="WidgetSelector"
+            PgcTemplate="{StaticResource PgcWidgetTemplate}"
+            VideoTemplate="{StaticResource VideoWidgetTemplate}" />
+        <ext:PlayerComponentTemplateSelector
+            x:Key="PanelSelector"
+            PgcTemplate="{StaticResource PgcPanelTemplate}"
+            VideoTemplate="{StaticResource VideoPanelTemplate}" />
         <Style
             x:Key="ItemButtonStyle"
             BasedOn="{StaticResource DefaultButtonStyle}"

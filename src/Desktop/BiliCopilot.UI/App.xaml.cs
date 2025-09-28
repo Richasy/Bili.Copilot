@@ -171,6 +171,10 @@ public partial class App : Application
                 {
                     this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(new VideoInformation(identifier, default)));
                 }
+                else if (type == "episode")
+                {
+                    this.Get<AppViewModel>().OpenPlayerCommand.Execute(new MediaSnapshot(default, new EpisodeInformation(identifier)));
+                }
             });
         }
     }

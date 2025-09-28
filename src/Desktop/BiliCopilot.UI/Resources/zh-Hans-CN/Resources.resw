@@ -2961,4 +2961,10 @@
   <data name="RollingDanmaku" xml:space="preserve">
     <value>滚动</value>
   </data>
+  <data name="DanmakuCountTemplate" xml:space="preserve">
+    <value>已加载 {0} 条弹幕</value>
+  </data>
+  <data name="DanmakuEmpty" xml:space="preserve">
+    <value>无弹幕</value>
+  </data>
 </root>

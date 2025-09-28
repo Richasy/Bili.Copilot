@@ -110,6 +110,7 @@ public sealed partial class VideoConnectorViewModel
         AvId = default;
         BvId = default;
         FavoriteFolders = default;
+        SelectedSection = default;
         Sections?.Clear();
     }
 

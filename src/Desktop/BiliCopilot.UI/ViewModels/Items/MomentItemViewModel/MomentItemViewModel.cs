@@ -127,8 +127,9 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
                 var hasEpid = einfo.Identifier.Id != "0";
                 if (hasEpid)
                 {
-                    var identifier = new MediaIdentifier("ep_" + einfo.Identifier.Id, default, default);
-                    this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), identifier);
+                    var identifier = new MediaIdentifier(einfo.Identifier.Id, string.Empty, default);
+                    var snapshot = new MediaSnapshot(default, new EpisodeInformation(identifier));
+                    this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
                 }
                 else
                 {

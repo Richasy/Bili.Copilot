@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUIKernel.Share.Base;
 
@@ -18,10 +19,22 @@ public abstract class EpisodeCardPresenter : LayoutUserControlBase<EpisodeItemVi
 /// </summary>
 public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemViewModel>
 {
+    private ButtonBase _rootCard;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="EpisodeCardControl"/> class.
     /// </summary>
     public EpisodeCardControl() => DefaultStyleKey = typeof(EpisodeCardControl);
+
+    /// <inheritdoc/>
+    protected override void OnApplyTemplate()
+    {
+        _rootCard = GetTemplateChild("RootCard") as ButtonBase;
+        if (ViewModel is not null)
+        {
+            _rootCard?.Command = ViewModel.PlayCommand;
+        }
+    }
 
     /// <inheritdoc/>
     protected override void OnControlLoaded()
@@ -31,14 +44,10 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
     protected override void OnControlUnloaded()
         => ContextRequested -= OnContextRequest;
 
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
+    /// <inheritdoc/>
+    protected override void OnViewModelChanged(EpisodeItemViewModel? oldValue, EpisodeItemViewModel? newValue)
     {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
+        _rootCard?.Command = newValue?.PlayCommand;
     }
 
     private static MenuFlyoutItem CreateOpenInBroswerItem()
@@ -77,7 +86,6 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
     private void CreateContextFlyout()
     {
         var flyout = new MenuFlyout();
-        flyout.Items.Add(CreateOpenInNewWindowItem());
         flyout.Items.Add(CreateOpenInBroswerItem());
         flyout.Items.Add(CreatePinItem());
         ContextFlyout = flyout;
@@ -94,9 +102,6 @@ public sealed partial class EpisodeCardControl : LayoutControlBase<EpisodeItemVi
         {
             switch (item.Tag.ToString())
             {
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
-                    break;
                 case nameof(ViewModel.OpenInBroswerCommand):
                     item.Command = ViewModel.OpenInBroswerCommand;
                     break;

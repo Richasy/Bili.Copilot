@@ -10,16 +10,16 @@ using Richasy.MpvKernel.Player;
 
 namespace BiliCopilot.UI.Resolvers;
 
-internal sealed partial class VideoMediaHistoryResolver(IPlayerService playerService, ILogger<VideoMediaHistoryResolver> logger) : IMpvMediaHistoryResolver
+internal sealed partial class PgcMediaHistoryResolver(IPlayerService playerService, ILogger<PgcMediaHistoryResolver> logger) : IMpvMediaHistoryResolver
 {
-    private VideoPlayerView _view;
-    private VideoPart _part;
+    private PgcPlayerView _view;
+    private EpisodeInformation _episode;
     private MediaSnapshot _snapshot;
 
-    public void Initialize(VideoPlayerView view, VideoPart part, MediaSnapshot snapshot)
+    public void Initialize(PgcPlayerView view, EpisodeInformation episode, MediaSnapshot snapshot)
     {
         _view = view;
-        _part = part;
+        _episode = episode;
         _snapshot = snapshot;
     }
 
@@ -31,7 +31,12 @@ internal sealed partial class VideoMediaHistoryResolver(IPlayerService playerSer
         }
 
         var progress = _view.Progress?.Progress ?? 0d;
-        return Task.FromResult(progress >= _view.Information.Duration - 5 ? 0d : progress);
+        if (_view.Progress?.Cid != _episode.Identifier.Id)
+        {
+            return Task.FromResult(0d);
+        }
+
+        return Task.FromResult(progress >= _episode.Duration - 5 ? 0d : progress);
     }
 
     public async Task SaveHistoryAsync(double position, double duration, MpvPlayerState state, bool isExiting = false)
@@ -45,11 +50,13 @@ internal sealed partial class VideoMediaHistoryResolver(IPlayerService playerSer
         try
         {
             var ct = new CancellationTokenSource(TimeSpan.FromSeconds(4));
-            await playerService.ReportVideoProgressAsync(_view.Information.Identifier.Id, _part.Identifier.Id, Convert.ToInt32(position), ct.Token);
+            var aid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid);
+            var cid = _episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid);
+            await playerService.ReportEpisodeProgressAsync(aid.ToString(), cid.ToString(), _episode.Identifier.Id, _view.Information.Identifier.Id, Convert.ToInt32(position), ct.Token);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"上报 {_view.Information.Identifier.Id} 进度时失败");
+            logger.LogError(ex, $"上报 {_view.Information.Identifier.Title} 进度时失败");
         }
     }
 }

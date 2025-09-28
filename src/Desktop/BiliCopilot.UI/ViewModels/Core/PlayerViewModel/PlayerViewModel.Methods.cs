@@ -40,6 +40,7 @@ public sealed partial class PlayerViewModel
             Connector = _snapshot.Type switch
             {
                 BiliMediaType.Video => new VideoConnectorViewModel(this),
+                BiliMediaType.Pgc => new PgcConnectorViewModel(this),
                 _ => default,
             };
 

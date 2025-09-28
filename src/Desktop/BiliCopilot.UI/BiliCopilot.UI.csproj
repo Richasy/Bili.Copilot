@@ -186,11 +186,10 @@
     <None Remove="Controls\Player\PgcEpisodesSection.xaml" />
     <None Remove="Controls\Player\PgcInfoSection.xaml" />
     <None Remove="Controls\Player\PgcOperationControl.xaml" />
-    <None Remove="Controls\Player\PgcPlayerFormatButton.xaml" />
-    <None Remove="Controls\Player\PgcPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\PgcPlayerPanel.xaml" />
     <None Remove="Controls\Player\PgcPlayerSideBody.xaml" />
     <None Remove="Controls\Player\PgcPlayerSideHeader.xaml" />
-    <None Remove="Controls\Player\PgcPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\PgcPlayerWidget.xaml" />
     <None Remove="Controls\Player\PgcSeasonsSection.xaml" />
     <None Remove="Controls\Player\PgcStatControl.xaml" />
     <None Remove="Controls\Player\UpSectionControl.xaml" />
@@ -274,7 +273,6 @@
     <None Remove="Pages\Overlay\FollowsPage.xaml" />
     <None Remove="Pages\Overlay\HistoryPage.xaml" />
     <None Remove="Pages\Overlay\LivePlayerPage.xaml" />
-    <None Remove="Pages\Overlay\PgcPlayerPage.xaml" />
     <None Remove="Pages\Overlay\SearchPage.xaml" />
     <None Remove="Pages\Overlay\UserSpacePage.xaml" />
     <None Remove="Pages\Overlay\ViewLaterPage.xaml" />
@@ -1102,27 +1100,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerTransportLeftPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerFormatButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Controls\Player\PgcPlayerSideBody.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Player\PgcPlayerSideHeader.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\Player\PgcPlayerMainHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -1212,11 +1195,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Overlay\PgcPlayerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\Overlay\LivePlayerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1251,6 +1229,12 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Player\PgcPlayerPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\PgcPlayerWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\OverlayPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

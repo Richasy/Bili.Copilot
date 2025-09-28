@@ -39,8 +39,20 @@ public sealed partial class Pinner : PinnerBase
         }
         else if (item.Type == Models.Constants.PinContentType.Pgc)
         {
-            var identifier = new MediaIdentifier(item.Id, item.Title, default);
-            navVM.NavigateToOver(typeof(PgcPlayerPage), identifier);
+            MediaSnapshot? snapshot = default;
+            if (item.Id.StartsWith("ss", StringComparison.OrdinalIgnoreCase))
+            {
+                snapshot = new MediaSnapshot(new SeasonInformation(new MediaIdentifier(item.Id[3..], item.Title, default)), default);
+            }
+            else if (item.Id.StartsWith("ep", StringComparison.OrdinalIgnoreCase))
+            {
+                snapshot = new MediaSnapshot(default, new EpisodeInformation(new MediaIdentifier(item.Id[3..], item.Title, default), default));
+            }
+
+            if (snapshot != null)
+            {
+                this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
+            }
         }
         else if (item.Type == Models.Constants.PinContentType.Video)
         {

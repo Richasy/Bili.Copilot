@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
-using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using CommunityToolkit.Mvvm.Input;
@@ -20,10 +18,12 @@ namespace BiliCopilot.UI.ViewModels.Items;
 [GeneratedBindableCustomProperty]
 public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformation>
 {
+    private readonly Action<EpisodeItemViewModel>? _playAction;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="EpisodeItemViewModel"/> class.
     /// </summary>
-    public EpisodeItemViewModel(EpisodeInformation data, EpisodeCardStyle style)
+    public EpisodeItemViewModel(EpisodeInformation data, EpisodeCardStyle style, Action<EpisodeItemViewModel>? playAction = default)
         : base(data)
     {
         Title = data.Identifier.Title;
@@ -38,36 +38,25 @@ public sealed partial class EpisodeItemViewModel : ViewModelBase<EpisodeInformat
         IsPreview = data.GetExtensionIfNotNull<bool>(EpisodeExtensionDataId.IsPreview);
         HighlightText = data.GetExtensionIfNotNull<string>(EpisodeExtensionDataId.RecommendReason);
         Index = data.Index;
+        _playAction = playAction;
     }
 
     [RelayCommand]
     private void Play()
     {
-        var preferDisplayMode = SettingsToolkit.ReadLocalSetting(SettingNames.DefaultPlayerDisplayMode, PlayerDisplayMode.Default);
-        if (preferDisplayMode == PlayerDisplayMode.NewWindow)
+        if (_playAction is not null)
         {
-            OpenInNewWindowCommand.Execute(default);
+            _playAction(this);
             return;
         }
 
-        var preferPlayer = SettingsToolkit.ReadLocalSetting(SettingNames.PlayerType, PlayerType.Island);
-        if (preferPlayer == PlayerType.Web)
-        {
-            this.Get<NavigationViewModel>().NavigateToOver(typeof(WebPlayerPage), GetWebUrl());
-            return;
-        }
-
-        var id = new MediaIdentifier("ep_" + Data.Identifier.Id, default, default);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(PgcPlayerPage), id);
+        var snapshot = new MediaSnapshot(default, Data);
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
     }
 
     [RelayCommand]
     private Task OpenInBroswerAsync()
         => Launcher.LaunchUriAsync(new Uri(GetWebUrl())).AsTask();
-
-    [RelayCommand]
-    private void OpenInNewWindow()
-        => new OldPlayerWindow().OpenPgc(new MediaIdentifier("ep_" + Data.Identifier.Id, default, default));
 
     [RelayCommand]
     private void Pin()

@@ -28,6 +28,7 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
     {
         _snapshot = snapshot;
         ClearView();
+        IsLoading = true;
         await LoadItemDetailAsync();
         var prev = FindPrevVideo();
         var next = FindNextVideo();
@@ -35,6 +36,7 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
         var nextName = next is VideoPart part2 ? part2.Identifier.Title : next is VideoInformation video2 ? video2.Identifier.Title : default;
         var initArgs = new PlaylistInitializedEventArgs(prev != null, next != null, prevName, nextName);
         PlaylistInitialized?.Invoke(this, initArgs);
+        IsLoading = false;
     }
 
     public async Task PlayNextAsync()

@@ -21,9 +21,6 @@ public sealed partial class PgcPlayerEpisodeSectionDetailViewModel : ViewModelBa
     private List<EpisodeItemViewModel>? _episodes;
 
     [ObservableProperty]
-    private EpisodeItemViewModel? _selectedEpisode;
-
-    [ObservableProperty]
     private bool _onlyIndex;
 
     /// <summary>
@@ -35,8 +32,12 @@ public sealed partial class PgcPlayerEpisodeSectionDetailViewModel : ViewModelBa
         Action<EpisodeInformation> action)
     {
         _episodeSelectedAction = action;
-        Episodes = episodes.Select(p => new EpisodeItemViewModel(p, EpisodeCardStyle.Player)).ToList();
-        SelectedEpisode = Episodes.FirstOrDefault(p => p.Data.Identifier.Id == epid);
+        Episodes = [.. episodes.Select(p => new EpisodeItemViewModel(p, EpisodeCardStyle.Player, PlayEpisode))];
+        foreach (var item in Episodes)
+        {
+            item.IsSelected = item.Data.Identifier.Id == epid;
+        }
+
         OnlyIndex = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsPgcPlayerPartsOnlyIndex, false);
     }
 
@@ -47,10 +48,13 @@ public sealed partial class PgcPlayerEpisodeSectionDetailViewModel : ViewModelBa
     private static Task TryFirstLoadAsync()
         => Task.CompletedTask;
 
-    [RelayCommand]
-    private void SelectEpisode(EpisodeItemViewModel episode)
+    private void PlayEpisode(EpisodeItemViewModel episode)
     {
-        SelectedEpisode = episode;
+        foreach (var item in Episodes ?? [])
+        {
+            item.IsSelected = item.Data.Identifier.Id == episode.Data.Identifier.Id;
+        }
+
         _episodeSelectedAction?.Invoke(episode.Data);
     }
 

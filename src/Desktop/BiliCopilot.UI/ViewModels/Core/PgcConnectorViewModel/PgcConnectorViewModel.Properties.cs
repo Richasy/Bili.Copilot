@@ -4,12 +4,12 @@ using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Richasy.BiliKernel.Models.Base;
+using Richasy.BiliKernel.Models;
 using Richasy.BiliKernel.Models.Media;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
-public sealed partial class VideoConnectorViewModel
+public sealed partial class PgcConnectorViewModel
 {
     public event EventHandler<PlaylistInitializedEventArgs> PlaylistInitialized;
     public event EventHandler<MediaSnapshot> NewMediaRequest;
@@ -18,8 +18,9 @@ public sealed partial class VideoConnectorViewModel
 
     private readonly CommentMainViewModel _comments;
     private MediaSnapshot _snapshot;
-    internal VideoPlayerView _view;
-    internal VideoPart? _part;
+    internal PgcPlayerView _view;
+    internal EpisodeInformation? _episode;
+    private EntertainmentType _type;
 
     /// <summary>
     /// 区块加载完成.
@@ -30,28 +31,25 @@ public sealed partial class VideoConnectorViewModel
     public partial Uri? Cover { get; set; }
 
     [ObservableProperty]
+    public partial bool IsLoading { get; set; }
+
+    [ObservableProperty]
     public partial string? Title { get; set; }
 
     [ObservableProperty]
-    public partial string? Subtitle { get; set; }
+    public partial string? SeasonTitle { get; set; }
+
+    [ObservableProperty]
+    public partial string? EpisodeTitle { get; set; }
 
     [ObservableProperty]
     public partial string? Description { get; set; }
 
     [ObservableProperty]
-    public partial bool IsLoading { get; set; }
+    public partial string? Subtitle { get; set; }
 
     [ObservableProperty]
-    public partial bool IsMyVideo { get; set; }
-
-    [ObservableProperty]
-    public partial string? UpName { get; set; }
-
-    [ObservableProperty]
-    public partial Uri? UpAvatar { get; set; }
-
-    [ObservableProperty]
-    public partial string? PublishRelativeTime { get; set; }
+    public partial string? Alias { get; set; }
 
     [ObservableProperty]
     public partial bool IsFollow { get; set; }
@@ -75,13 +73,16 @@ public sealed partial class VideoConnectorViewModel
     public partial double FavoriteCount { get; set; }
 
     [ObservableProperty]
+    public partial double FollowCount { get; set; }
+
+    [ObservableProperty]
     public partial string? OnlineCountText { get; set; }
 
     [ObservableProperty]
-    public partial string? AvId { get; set; }
+    public partial string? SeasonId { get; set; }
 
     [ObservableProperty]
-    public partial string? BvId { get; set; }
+    public partial string? EpisodeId { get; set; }
 
     [ObservableProperty]
     public partial bool IsLiked { get; set; }
@@ -96,38 +97,18 @@ public sealed partial class VideoConnectorViewModel
     public partial bool IsCoinAlsoLike { get; set; }
 
     [ObservableProperty]
-    public partial bool IsPrivatePlay { get; set; }
-
-    [ObservableProperty]
-    public partial bool IsInteractionVideo { get; set; }
-
-    [ObservableProperty]
-    public partial List<BiliTag>? Tags { get; set; }
-
-    [ObservableProperty]
-    public partial List<PlayerFavoriteFolderViewModel>? FavoriteFolders { get; set; }
-
-    [ObservableProperty]
     public partial IPlayerSectionDetailViewModel? SelectedSection { get; set; }
 
     [ObservableProperty]
-    public partial List<IPlayerSectionDetailViewModel>? Sections { get; set; }
+    public partial List<IPlayerSectionDetailViewModel> Sections { get; set; }
 
     [ObservableProperty]
-    public partial bool IsAISectionPanelVisible { get; set; }
-
-    [ObservableProperty]
-    public partial bool IsAISectionPanelLoaded { get; set; }
+    public partial List<PlayerFavoriteFolderViewModel>? FavoriteFolders { get; set; }
 
     /// <summary>
     /// 下载视图模型.
     /// </summary>
     public DownloadViewModel Downloader { get; }
-
-    /// <summary>
-    /// AI 视图模型.
-    /// </summary>
-    public AIViewModel AI { get; }
 
     /// <summary>
     /// 播放视图模型.

@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Richasy.BiliKernel.Bili.Media;
 using Richasy.BiliKernel.Models.Danmaku;
+using Richasy.BiliKernel.Models.Media;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -32,6 +33,7 @@ public sealed partial class PlayerViewModel
                 var connector = Connector as VideoConnectorViewModel;
                 var aid = connector._view.Information.Identifier.Id;
                 var cid = connector._part.Identifier.Id;
+                Danmaku.Title = connector._view.Information.Identifier.Title;
                 var totalMinutes = Math.Ceiling(TimeSpan.FromSeconds(connector._view.Information.Duration ?? 0).TotalMinutes);
                 var tasks = new List<Task>();
                 var segmentCount = Convert.ToInt32(Math.Ceiling(totalMinutes / 6.0)); // 6 minutes per segment
@@ -43,7 +45,27 @@ public sealed partial class PlayerViewModel
 
                 await Task.WhenAll(tasks);
             }
+            else if (_snapshot.Type == Models.Constants.BiliMediaType.Pgc)
+            {
+                var connector = Connector as PgcConnectorViewModel;
+                var aid = connector._episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Aid).ToString();
+                var cid = connector._episode.GetExtensionIfNotNull<long>(EpisodeExtensionDataId.Cid).ToString();
+                var totalMinutes = Math.Ceiling(TimeSpan.FromSeconds(connector._episode.Duration ?? 0).TotalMinutes);
+                var tasks = new List<Task>();
+                var segmentCount = Convert.ToInt32(Math.Ceiling(totalMinutes / 6.0)); // 6 minutes per segment
+                for (var i = 0; i < segmentCount; i++)
+                {
+                    var index = i + 1;
+                    tasks.Add(Task.Run(async () => await GetDanmakuAsync(index, aid, cid)));
+                }
 
+                Danmaku.Title = $"{connector.SeasonTitle} - {connector.EpisodeTitle}";
+                await Task.WhenAll(tasks);
+            }
+
+            Danmaku.DanmakuCountText = danmakus.Count > 0
+                ? string.Format(ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.DanmakuCountTemplate), danmakus.Count.ToString("N0"))
+                : ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.DanmakuEmpty);
             Danmaku.Initialize(danmakus);
             IsDanmakuLoading = false;
         }

@@ -124,12 +124,6 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
             IsOverlayOpen = true;
             return;
         }
-        else if (pageType == typeof(PgcPlayerPage) && _overFrame.GetCurrentContent() is PgcPlayerPage pgcPage)
-        {
-            pgcPage.ViewModel.InitializePageCommand.Execute(parameter);
-            IsOverlayOpen = true;
-            return;
-        }
         else if (pageType == typeof(WebDavPlayerPage) && _overFrame.GetCurrentContent() is WebDavPlayerPage webDavPage)
         {
             webDavPage.ViewModel.InitializeCommand.Execute(parameter);

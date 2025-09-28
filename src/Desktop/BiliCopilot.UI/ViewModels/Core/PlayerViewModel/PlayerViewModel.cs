@@ -93,7 +93,6 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         IsNextTipShownInThisMedia = false;
         Danmaku.ClearAll();
         Chapters.Clear();
-        Title = snapshot.Video.Identifier.Title;
         IsChapterVisible = SettingsToolkit.ReadLocalSetting(SettingNames.IsChapterVisible, true);
         UseIntegrationOperation = SettingsToolkit.ReadLocalSetting(SettingNames.HideMainWindowOnPlay, true)
             && SettingsToolkit.ReadLocalSetting(SettingNames.UseIntegrationWhenSinglePlayWindow, true);
@@ -122,6 +121,13 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
             }
         }
 
+        Title = Connector switch
+        {
+            VideoConnectorViewModel videoVM => videoVM.Title,
+            PgcConnectorViewModel pgcVM => pgcVM.Title,
+            _ => string.Empty
+        };
+
         // TODO: 创建源处理器
         switch (_snapshot.Type)
         {
@@ -134,6 +140,12 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
                 }
                 break;
             case BiliMediaType.Pgc:
+                {
+                    var resolver = this.Get<PgcMediaSourceResolver>();
+                    var connector = Connector as PgcConnectorViewModel;
+                    resolver.Initialize(_snapshot, connector._episode);
+                    _sourceResolver = resolver;
+                }
                 break;
             case BiliMediaType.Live:
                 break;
@@ -160,6 +172,12 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
                 }
                 break;
             case BiliMediaType.Pgc:
+                {
+                    var resolver = this.Get<PgcMediaHistoryResolver>();
+                    var connector = Connector as PgcConnectorViewModel;
+                    resolver.Initialize(connector._view, connector._episode, _snapshot);
+                    _historyResolver = resolver;
+                }
                 break;
             case BiliMediaType.Live:
                 break;

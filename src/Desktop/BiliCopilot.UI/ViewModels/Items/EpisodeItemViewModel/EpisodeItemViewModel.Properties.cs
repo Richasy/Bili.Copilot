@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -68,4 +69,7 @@ public sealed partial class EpisodeItemViewModel
     /// 卡片样式.
     /// </summary>
     public EpisodeCardStyle Style { get; init; }
+
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; }
 }
