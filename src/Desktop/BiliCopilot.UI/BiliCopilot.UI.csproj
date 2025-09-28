@@ -13,7 +13,7 @@
     <Nullable>enable</Nullable>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
+    <NoWarn>$(NoWarn);CS1591;NU1903;NU1902;IL2059;IL2067;NU1900;MVVMTK0046;MVVMTK0045;MVVMTK0047;MVVMTK0048;AD0001;IL3000;IL2072;IL2075;IL2091;IL3050;IL2026</NoWarn>
     <MvvmToolkitEnableINotifyPropertyChangingSupport>false</MvvmToolkitEnableINotifyPropertyChangingSupport>
     <AllowUnsafe>True</AllowUnsafe>
   </PropertyGroup>

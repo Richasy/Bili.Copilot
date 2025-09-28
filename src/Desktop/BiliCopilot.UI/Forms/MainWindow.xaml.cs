@@ -25,7 +25,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     private const int WindowMinHeight = 480;
     private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
-    private bool _shouldExit;
     private bool _isActivated;
     private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _cursorTimer;
 
@@ -115,38 +114,23 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
     private async void OnClosed(object sender, WindowEventArgs e)
     {
-        if (!_shouldExit)
+        this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
+        this.Get<AppViewModel>().IsClosed = true;
+        RootLayout.ViewModel.Back();
+        foreach (var item in this.Get<AppViewModel>().Windows)
         {
-            e.Handled = true;
-            this.Get<AppViewModel>().IsClosed = true;
-            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-            RootLayout.ViewModel.Back();
-            foreach (var item in this.Get<AppViewModel>().Windows)
+            if (item is not MainWindow)
             {
-                if (item is not MainWindow)
-                {
-                    item.Close();
-                }
+                item.Close();
             }
-
-            _shouldExit = true;
-            this.Hide();
-
-            var hideWhenClose = SettingsToolkit.ReadLocalSetting(SettingNames.HideWhenCloseWindow, false);
-            if (!hideWhenClose)
-            {
-                Activated -= OnActivated;
-                Closed -= OnClosed;
-
-                GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
-                await this.Get<SettingsPageViewModel>().CheckSaveServicesAsync();
-            }
-
-            UnregisterEventHandlers();
-            SaveCurrentWindowStats();
-            App.Current?.Exit();
-            Environment.Exit(0);
         }
+
+        GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
+        await this.Get<SettingsPageViewModel>().CheckSaveServicesAsync();
+        UnregisterEventHandlers();
+        SaveCurrentWindowStats();
+        App.Current?.Exit();
+        Environment.Exit(0);
     }
 
     private void OnWindowKeyUp(InputKeyboardSource sender, KeyEventArgs args)

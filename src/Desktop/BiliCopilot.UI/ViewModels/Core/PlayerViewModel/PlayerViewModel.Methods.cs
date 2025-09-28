@@ -425,7 +425,8 @@ public sealed partial class PlayerViewModel
         await DisposeAsync();
 
         var isMainWindowVisible = this.Get<AppViewModel>().Windows.Find(p => p is MainWindow)?.AppWindow.IsVisible == true;
-        if (UseIntegrationOperation && !isMainWindowVisible)
+        var hasMultiplePlayers = this.Get<AppViewModel>().Players.Count > 1;
+        if (UseIntegrationOperation && !isMainWindowVisible && !hasMultiplePlayers)
         {
             var mainWnd = this.Get<Core.AppViewModel>().Windows.Find(p => p is MainWindow);
             mainWnd?.Close();

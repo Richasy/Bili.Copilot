@@ -124,7 +124,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         PackageVersion = this.Get<IAppToolkit>().GetPackageVersion();
         CheckMpvConfigVisible();
         LoadCustomLibmpvSettings();
-
+        await LoadCacheSizeAsync();
         _isInitialized = true;
     }
 

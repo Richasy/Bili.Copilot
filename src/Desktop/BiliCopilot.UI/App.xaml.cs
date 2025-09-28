@@ -67,11 +67,6 @@ public partial class App : Application
             instance.Activated += OnInstanceActivated;
             GlobalDependencies.Initialize();
             GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().LaunchCommand.Execute(default);
-            var mainWindow = GetMainWindow();
-            if (mainWindow is not null)
-            {
-                mainWindow.Closed += OnMainWindowClosed;
-            }
         }
         else
         {
@@ -82,24 +77,6 @@ public partial class App : Application
 
     private static MainWindow? GetMainWindow()
         => GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Find(p => p is MainWindow) as MainWindow;
-
-    private void OnMainWindowClosed(object sender, WindowEventArgs args)
-    {
-        var hideWhenClose = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.HideWhenCloseWindow, false);
-        if (hideWhenClose)
-        {
-            if (TrayIcon is null)
-            {
-                InitializeTrayIcon();
-            }
-
-            GetMainWindow()?.Hide();
-        }
-        else
-        {
-            ExitApp();
-        }
-    }
 
     private void OnInstanceActivated(object? sender, AppActivationArguments e)
     {
