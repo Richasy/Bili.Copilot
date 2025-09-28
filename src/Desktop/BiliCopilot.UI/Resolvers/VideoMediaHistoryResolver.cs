@@ -31,7 +31,7 @@ internal sealed partial class VideoMediaHistoryResolver(IPlayerService playerSer
         }
 
         var progress = _view.Progress?.Progress ?? 0d;
-        return Task.FromResult(progress < _view.Information.Duration - 5 ? 0d : progress);
+        return Task.FromResult(progress >= _view.Information.Duration - 5 ? 0d : progress);
     }
 
     public async Task SaveHistoryAsync(double position, double duration, MpvPlayerState state, bool isExiting = false)

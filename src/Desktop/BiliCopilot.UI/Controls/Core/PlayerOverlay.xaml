@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:base="using:Richasy.WinUIKernel.Share.Base"
+    xmlns:controls="using:BiliCopilot.UI.Controls"
+    xmlns:core="using:BiliCopilot.UI.ViewModels.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
@@ -12,6 +14,7 @@
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:BiliCopilot.UI.Controls.Player"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -35,76 +38,14 @@
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
-        <!--<DataTemplate x:Key="EmbyWidgetTemplate" x:DataType="components:EmbyPlayerConnectorViewModel">
-            <emby:EmbyPlayerWidget ViewModel="{x:Bind}" />
+        <DataTemplate x:Key="VideoWidgetTemplate" x:DataType="core:VideoConnectorViewModel">
+            <player:VideoPlayerWidget ViewModel="{x:Bind}" />
         </DataTemplate>
-        <DataTemplate x:Key="EmbyPanelTemplate" x:DataType="components:EmbyPlayerConnectorViewModel">
-            <emby:EmbyPlayerPanel ViewModel="{x:Bind}" />
+        <DataTemplate x:Key="VideoPanelTemplate" x:DataType="core:VideoConnectorViewModel">
+            <player:VideoPlayerPanel ViewModel="{x:Bind}" />
         </DataTemplate>
-        <DataTemplate x:Key="EmbyHeaderTemplate" x:DataType="components:EmbyPlayerConnectorViewModel">
-            <emby:EmbyPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="JellyfinWidgetTemplate" x:DataType="components:JellyfinPlayerConnectorViewModel">
-            <jellyfin:JellyfinPlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="JellyfinPanelTemplate" x:DataType="components:JellyfinPlayerConnectorViewModel">
-            <jellyfin:JellyfinPlayerPanel ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="JellyfinHeaderTemplate" x:DataType="components:JellyfinPlayerConnectorViewModel">
-            <jellyfin:JellyfinPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="LocalHeaderTemplate" x:DataType="components:LocalPlayerConnectorViewModel">
-            <localControls:LocalPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="LocalWidgetTemplate" x:DataType="components:LocalPlayerConnectorViewModel">
-            <localControls:LocalPlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="WebDavHeaderTemplate" x:DataType="components:WebDavPlayerConnectorViewModel">
-            <webdav:WebDavPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="WebDavWidgetTemplate" x:DataType="components:WebDavPlayerConnectorViewModel">
-            <webdav:WebDavPlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="SmbWidgetTemplate" x:DataType="components:SmbPlayerConnectorViewModel">
-            <smb:SmbPlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="SmbHeaderTemplate" x:DataType="components:SmbPlayerConnectorViewModel">
-            <smb:SmbPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="OneOneFiveWidgetTemplate" x:DataType="components:OneOneFivePlayerConnectorViewModel">
-            <oneonefive:OneOneFivePlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="OneOneFiveHeaderTemplate" x:DataType="components:OneOneFivePlayerConnectorViewModel">
-            <oneonefive:OneOneFivePlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="AlistWidgetTemplate" x:DataType="components:AlistPlayerConnectorViewModel">
-            <alist:AlistPlayerWidget ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <DataTemplate x:Key="AlistHeaderTemplate" x:DataType="components:AlistPlayerConnectorViewModel">
-            <alist:AlistPlaylistSelector ViewModel="{x:Bind}" />
-        </DataTemplate>
-        <ext:PlayerWidgetTemplateSelector
-        x:Key="WidgetTemplateSelector"
-        AlistTemplate="{StaticResource AlistWidgetTemplate}"
-        EmbyTemplate="{StaticResource EmbyWidgetTemplate}"
-        JellyfinTemplate="{StaticResource JellyfinWidgetTemplate}"
-        LocalTemplate="{StaticResource LocalWidgetTemplate}"
-        OneOneFiveTemplate="{StaticResource OneOneFiveWidgetTemplate}"
-        SmbTemplate="{StaticResource SmbWidgetTemplate}"
-        WebDavTemplate="{StaticResource WebDavWidgetTemplate}" />
-        <ext:PlayerWidgetTemplateSelector
-        x:Key="PanelTemplateSelector"
-        EmbyTemplate="{StaticResource EmbyPanelTemplate}"
-        JellyfinTemplate="{StaticResource JellyfinPanelTemplate}" />
-        <ext:PlayerWidgetTemplateSelector
-        x:Key="HeaderTemplateSelector"
-        AlistTemplate="{StaticResource AlistHeaderTemplate}"
-        EmbyTemplate="{StaticResource EmbyHeaderTemplate}"
-        JellyfinTemplate="{StaticResource JellyfinHeaderTemplate}"
-        LocalTemplate="{StaticResource LocalHeaderTemplate}"
-        OneOneFiveTemplate="{StaticResource OneOneFiveHeaderTemplate}"
-        SmbTemplate="{StaticResource SmbHeaderTemplate}"
-        WebDavTemplate="{StaticResource WebDavHeaderTemplate}" />-->
+        <ext:PlayerComponentTemplateSelector x:Key="WidgetSelector" VideoTemplate="{StaticResource VideoWidgetTemplate}" />
+        <ext:PlayerComponentTemplateSelector x:Key="PanelSelector" VideoTemplate="{StaticResource VideoPanelTemplate}" />
         <Style
             x:Key="ItemButtonStyle"
             BasedOn="{StaticResource DefaultButtonStyle}"
@@ -170,6 +111,7 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             Content="{x:Bind ViewModel.Connector, Mode=OneWay}"
+                            ContentTemplateSelector="{StaticResource WidgetSelector}"
                             IsTabStop="False" />
                     </local:OverlayTransportControls.LeftElement>
                     <animations:Implicit.ShowAnimations>
@@ -251,17 +193,18 @@
                 Description="{ext:Locale Name=PlayEndDescription}"
                 Emoji="&#x1F973;"
                 Visibility="{x:Bind ViewModel.IsEnd, Mode=OneWay}" />
-            <!--<controls:OverlayPanel
+            <controls:OverlayPanel
                 Grid.RowSpan="2"
                 IsShow="{x:Bind ViewModel.IsExtraPanelVisible, Mode=TwoWay}"
                 PanelAlignment="Left">
                 <controls:OverlayPanel.Element>
                     <ContentControl
                         Content="{x:Bind ViewModel.Connector, Mode=OneWay}"
-                        ContentTemplateSelector="{StaticResource PanelTemplateSelector}"
-                        IsTabStop="False" />
+                        ContentTemplateSelector="{StaticResource PanelSelector}"
+                        IsTabStop="False"
+                        Style="{StaticResource AppContentControlStyle}" />
                 </controls:OverlayPanel.Element>
-            </controls:OverlayPanel>-->
+            </controls:OverlayPanel>
             <StackPanel
                 Grid.Row="1"
                 Margin="0,12,0,0"
@@ -458,12 +401,6 @@
                                 Foreground="White"
                                 Text="{x:Bind ViewModel.CacheSpeedText, Mode=OneWay}"
                                 Visibility="{x:Bind ViewModel.CacheSpeedText, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
-                            <ContentControl
-                                Margin="12,0,0,0"
-                                VerticalAlignment="Center"
-                                Content="{x:Bind ViewModel.Connector, Mode=OneWay}"
-                                IsTabStop="False"
-                                Visibility="{x:Bind ViewModel.Connector, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}" />
                             <DropDownButton
                                 x:Name="SourceSelector"
                                 Margin="12,0,0,0"

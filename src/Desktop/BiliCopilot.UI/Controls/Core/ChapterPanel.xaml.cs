@@ -33,7 +33,7 @@ public sealed partial class ChapterPanel : PlayerControlBase
     }
 
     protected override void OnControlUnloaded()
-        => ViewModel.ChapterInitialized -= OnChapterInitialized;
+        => ViewModel?.ChapterInitialized -= OnChapterInitialized;
 
     private void OnChapterInitialized(object? sender, EventArgs e)
     {

@@ -157,6 +157,7 @@
     <None Remove="Controls\Core\TransportControl\LiveTransportControl.xaml" />
     <None Remove="Controls\Core\TransportControl\VideoTransportControl.xaml" />
     <None Remove="Controls\OverlayFrame.xaml" />
+    <None Remove="Controls\OverlayPanel.xaml" />
     <None Remove="Controls\Pgc\AnimeMainHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeSideHeader.xaml" />
     <None Remove="Controls\Pgc\AnimeTimelineMainControl.xaml" />
@@ -203,9 +204,11 @@
     <None Remove="Controls\Player\VideoPartsSection.xaml" />
     <None Remove="Controls\Player\VideoPlayerFormatButton.xaml" />
     <None Remove="Controls\Player\VideoPlayerMainHeader.xaml" />
+    <None Remove="Controls\Player\VideoPlayerPanel.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideBody.xaml" />
     <None Remove="Controls\Player\VideoPlayerSideHeader.xaml" />
     <None Remove="Controls\Player\VideoPlayerTransportLeftPanel.xaml" />
+    <None Remove="Controls\Player\VideoPlayerWidget.xaml" />
     <None Remove="Controls\Player\VideoPlaylistSection.xaml" />
     <None Remove="Controls\Player\VideoRecommendSection.xaml" />
     <None Remove="Controls\Player\VideoSeasonSection.xaml" />
@@ -1284,6 +1287,15 @@
     <None Update="Assets\WebPlayer.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\OverlayPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Core\PlayerOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

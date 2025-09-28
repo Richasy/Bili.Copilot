@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Components;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -15,67 +16,95 @@ namespace BiliCopilot.UI.ViewModels.Core;
 
 public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConnectorViewModel
 {
+    public VideoConnectorViewModel(PlayerViewModel parent)
+    {
+        Parent = parent;
+        _comments = this.Get<CommentMainViewModel>();
+        Downloader = this.Get<DownloadViewModel>();
+        AI = this.Get<AIViewModel>();
+    }
+
     public async Task InitializeAsync(MediaSnapshot snapshot, IMpvMediaSourceResolver sourceResolver)
     {
-        Playlist.Clear();
         _snapshot = snapshot;
-        if (snapshot.Playlist?.Count > 0)
-        {
-            foreach (var item in snapshot.Playlist)
-            {
-                var vm = new PlaylistMediaViewModel(snapshot, PlayItem);
-                vm.IsPlaying = item.Video.Identifier.Id == vm.Data.Video.Identifier.Id;
-                Playlist.Add(vm);
-            }
-
-            var index = GetCurrentIndex();
-            var prev = index <= 0 ? null : Playlist[index - 1];
-            var next = index >= Playlist.Count - 1 ? null : Playlist[index + 1];
-            var initArgs = new PlaylistInitializedEventArgs(prev != null, next != null, prev?.Name, next?.Name);
-            PlaylistInitialized?.Invoke(this, initArgs);
-        }
-
-        IsPlaylistAvailable = Playlist.Count > 1;
+        ClearView();
         await LoadItemDetailAsync();
+        var prev = FindPrevVideo();
+        var next = FindNextVideo();
+        var prevName = prev is VideoPart part ? part.Identifier.Title : prev is VideoInformation video ? video.Identifier.Title : default;
+        var nextName = next is VideoPart part2 ? part2.Identifier.Title : next is VideoInformation video2 ? video2.Identifier.Title : default;
+        var initArgs = new PlaylistInitializedEventArgs(prev != null, next != null, prevName, nextName);
+        PlaylistInitialized?.Invoke(this, initArgs);
     }
 
-    public Task PlayNextAsync()
+    public async Task PlayNextAsync()
     {
-        var index = GetCurrentIndex();
-        if (index < Playlist.Count - 1)
+        if (IsLoading)
         {
-            var next = Playlist[index + 1];
-            PlayItem(next);
+            return;
         }
 
-        return Task.CompletedTask;
+        var next = FindNextVideo();
+        if (next is null)
+        {
+            return;
+        }
+
+        if (next is VideoPart part)
+        {
+            _snapshot.PreferPart = part;
+            Parent.InitializeCommand.Execute(_snapshot);
+            return;
+        }
+        else if (next is VideoInformation video)
+        {
+            Parent.InitializeCommand.Execute(new MediaSnapshot(video, IsPrivatePlay) { Playlist = _snapshot.Playlist, Type = BiliMediaType.Video });
+        }
+
+        await Task.CompletedTask;
     }
 
-    public Task PlayPreviousAsync()
+    public async Task PlayPreviousAsync()
     {
-        var index = GetCurrentIndex();
-        if (index > 0)
+        if (IsLoading)
         {
-            var next = Playlist[index - 1];
-            PlayItem(next);
+            return;
         }
 
-        return Task.CompletedTask;
+        var next = FindPrevVideo();
+        if (next is null)
+        {
+            return;
+        }
+
+        if (next is VideoPart part)
+        {
+            _snapshot.PreferPart = part;
+            Parent.InitializeCommand.Execute(_snapshot);
+            return;
+        }
+        else if (next is VideoInformation video)
+        {
+            Parent.InitializeCommand.Execute(new MediaSnapshot(video, IsPrivatePlay) { Playlist = _snapshot.Playlist, Type = BiliMediaType.Video });
+        }
+
+        await Task.CompletedTask;
     }
 
     [RelayCommand]
     private void OpenPanel()
         => RequestOpenExtraPanel?.Invoke(this, EventArgs.Empty);
 
-    internal int GetCurrentIndex()
+    [RelayCommand]
+    private void SelectSection(IPlayerSectionDetailViewModel section)
     {
-        var item = Playlist.FirstOrDefault(i => i.IsPlaying);
-        if (item is not null)
+        if (section is null || section == SelectedSection)
         {
-            return Playlist.IndexOf(item);
+            return;
         }
 
-        return 0;
+        SelectedSection = section;
+        SelectedSection.TryFirstLoadCommand.Execute(default);
     }
 
     private void PlayItem(PlaylistMediaViewModel vm)
@@ -94,8 +123,11 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
         try
         {
             _view = await service.GetVideoPageDetailAsync(_snapshot.Video.Identifier);
-            _part = FindInitialPart(default);
+            _part = FindInitialPart(_snapshot.PreferPart?.Identifier.Id);
             UpdateProperties();
+            InitializeView(_view);
+            _comments?.Initialize(_view.Information.Identifier.Id, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
+            InitializeSections();
         }
         catch (Exception ex)
         {
@@ -107,7 +139,7 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
     {
         if (_view.Parts?.Count == 1)
         {
-            return _view.Parts.First();
+            return _view.Parts[0];
         }
 
         VideoPart? part = default;
@@ -132,7 +164,8 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
     private void UpdateProperties()
     {
         Title = _view.Information.Identifier.Title;
-        Subtitle = _view.Information.Publisher.User.Name;
+        Subtitle = string.IsNullOrEmpty(_view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description)) ? _view.Information.Publisher.User.Name : _view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description);
+        Description = _view.Information.GetExtensionIfNotNull<string>(VideoExtensionDataId.Description) ?? string.Empty;
         Cover = _view.Information.Identifier.Cover?.Uri;
         var args = new PlayerInformationUpdatedEventArgs(Title, Subtitle, Cover);
         PropertiesUpdated?.Invoke(this, args);

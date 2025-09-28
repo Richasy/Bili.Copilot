@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BiliCopilot.UI.ViewModels.Items;
 
@@ -88,4 +89,7 @@ public sealed partial class VideoItemViewModel
     /// 用户信息是否有效.
     /// </summary>
     public bool IsUserValid { get; init; }
+
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; }
 }

@@ -9,6 +9,7 @@
     xmlns:local="using:BiliCopilot.UI.Controls.Player"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Richasy.BiliKernel.Models.Media"
+    xmlns:repeater="using:Richasy.WinUIKernel.Share.Base.Repeater"
     mc:Ignorable="d">
 
     <Grid RowSpacing="8">
@@ -31,23 +32,19 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 
-        <ItemsView
-            x:Name="View"
-            Grid.Row="1"
-            Padding="12,0,12,12"
-            ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}"
-            SelectionChanged="OnVideoSelectionChanged"
-            SelectionMode="Single">
-            <ItemsView.ItemTemplate>
-                <DataTemplate x:DataType="items:VideoItemViewModel">
-                    <ItemContainer Style="{StaticResource AppItemContainerStyle}">
-                        <components:VideoCardControl Style="{StaticResource PlayerSeasonVideoCardStyle}" ViewModel="{x:Bind}" />
-                    </ItemContainer>
-                </DataTemplate>
-            </ItemsView.ItemTemplate>
-            <ItemsView.Layout>
-                <StackLayout Spacing="8" />
-            </ItemsView.Layout>
-        </ItemsView>
+        <ScrollView x:Name="View" Grid.Row="1">
+            <repeater:AppRepeater Margin="12,0,12,12" ItemsSource="{x:Bind ViewModel.Items, Mode=OneWay}">
+                <repeater:AppRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="items:VideoItemViewModel">
+                        <ItemContainer Style="{StaticResource AppItemContainerStyle}">
+                            <components:VideoCardControl Style="{StaticResource PlayerSeasonVideoCardStyle}" ViewModel="{x:Bind}" />
+                        </ItemContainer>
+                    </DataTemplate>
+                </repeater:AppRepeater.ItemTemplate>
+                <repeater:AppRepeater.Layout>
+                    <StackLayout Spacing="8" />
+                </repeater:AppRepeater.Layout>
+            </repeater:AppRepeater>
+        </ScrollView>
     </Grid>
 </local:VideoSeasonSectionBase>

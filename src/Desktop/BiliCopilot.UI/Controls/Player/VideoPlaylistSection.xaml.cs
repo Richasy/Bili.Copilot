@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
 using Richasy.WinUIKernel.Share.Base;
 
 namespace BiliCopilot.UI.Controls.Player;
@@ -21,34 +19,26 @@ public sealed partial class VideoPlaylistSection : VideoPlaylistSectionBase
     protected override async void OnControlLoaded()
         => await CheckSelectedItemAsync();
 
-    protected override void OnControlUnloaded()
-        => View.ItemsSource = default;
-
     /// <inheritdoc/>
     protected override async void OnViewModelChanged(VideoPlayerPlaylistSectionDetailViewModel? oldValue, VideoPlayerPlaylistSectionDetailViewModel? newValue)
         => await CheckSelectedItemAsync();
 
-    private void OnVideoSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
-    {
-        var item = sender.SelectedItem as VideoItemViewModel;
-        if (item is not null && ViewModel.SelectedItem != item)
-        {
-            ViewModel.SelectedItem = item;
-            ViewModel.Page.InitializePageCommand.Execute(new MediaSnapshot(item.Data));
-        }
-    }
-
     private async Task CheckSelectedItemAsync()
     {
-        await Task.Delay(100);
-        if (ViewModel.SelectedItem is null)
+        await Task.Delay(200);
+        var selectedItem = ViewModel.Items.Find(p => p.IsSelected);
+        if (selectedItem is null)
         {
             return;
         }
 
-        var index = ViewModel.Items.ToList().IndexOf(ViewModel.SelectedItem);
-        View.Select(index);
-        View.StartBringItemIntoView(index, new BringIntoViewOptions { VerticalAlignmentRatio = 0.5 });
+        var index = ViewModel.Items.ToList().IndexOf(selectedItem);
+        var offset = 98 * index;
+        var actualOffset = offset - View.ViewportHeight;
+        if (actualOffset > 0)
+        {
+            View.ScrollTo(0, actualOffset);
+        }
     }
 }
 

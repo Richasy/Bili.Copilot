@@ -172,7 +172,7 @@ public sealed partial class PopularPageViewModel : LayoutPageViewModelBase
         try
         {
             var videos = await _service.GetCuratedPlaylistAsync();
-            var firstSnapshot = new MediaSnapshot(videos.First());
+            var firstSnapshot = new MediaSnapshot(videos[0]) { Type = BiliMediaType.Video, Playlist = videos.ToList().ConvertAll(p => new MediaSnapshot(p)) };
             this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), (videos, firstSnapshot));
         }
         catch (Exception ex)

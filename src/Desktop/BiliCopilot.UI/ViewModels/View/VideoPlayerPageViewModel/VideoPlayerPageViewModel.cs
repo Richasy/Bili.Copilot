@@ -270,6 +270,30 @@ public sealed partial class VideoPlayerPageViewModel : PlayerPageViewModelBase
 
         SelectedSection = section;
         SelectedSection.TryFirstLoadCommand.Execute(default);
+
+        if (SelectedSection is VideoPlayerAISectionDetailViewModel aivm)
+        {
+            if (AI.Services is null)
+            {
+                AI.InitializeCommand.Execute(default);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(AI.FinalResult))
+                {
+                    var finalResult = AI.FinalResult;
+                    AI.FinalResult = string.Empty;
+                    AI.FinalResult = finalResult;
+                }
+
+                if (!string.IsNullOrEmpty(AI.RequestText))
+                {
+                    var requestText = AI.RequestText;
+                    AI.RequestText = string.Empty;
+                    AI.RequestText = requestText;
+                }
+            }
+        }
     }
 
     [RelayCommand]

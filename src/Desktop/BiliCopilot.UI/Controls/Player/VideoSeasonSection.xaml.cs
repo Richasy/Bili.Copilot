@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
-using BiliCopilot.UI.Models;
 using BiliCopilot.UI.ViewModels.Components;
-using BiliCopilot.UI.ViewModels.Items;
 using Richasy.BiliKernel.Models.Media;
 using Richasy.WinUIKernel.Share.Base;
 
@@ -18,43 +16,29 @@ public sealed partial class VideoSeasonSection : VideoSeasonSectionBase
     /// </summary>
     public VideoSeasonSection() => InitializeComponent();
 
-    /// <inheritdoc/>
-    protected override void OnControlLoaded()
-        => CheckSelectedItem();
-
-    protected override void OnControlUnloaded()
-        => View.ItemsSource = default;
-
-    /// <inheritdoc/>
-    protected override void OnViewModelChanged(VideoPlayerSeasonSectionDetailViewModel? oldValue, VideoPlayerSeasonSectionDetailViewModel? newValue)
-        => CheckSelectedItem();
-
-    private void OnSeasonChanged(object sender, SelectionChangedEventArgs e)
+    private async void OnSeasonChanged(object sender, SelectionChangedEventArgs e)
     {
         var season = SeasonComboBox.SelectedItem as VideoSeason;
         ViewModel.ChangeSeasonCommand.Execute(season);
-        CheckSelectedItem();
+        await CheckSelectedItemAsync();
     }
 
-    private void OnVideoSelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args)
+    private async Task CheckSelectedItemAsync()
     {
-        var item = sender.SelectedItem as VideoItemViewModel;
-        if (item is not null && ViewModel.SelectedItem != item)
-        {
-            ViewModel.SelectedItem = item;
-            ViewModel.Page.InitializePageCommand.Execute(new MediaSnapshot(item.Data));
-        }
-    }
-
-    private void CheckSelectedItem()
-    {
-        if (ViewModel.SelectedItem is null)
+        await Task.Delay(200);
+        var selectedItem = ViewModel.Items.Find(p => p.IsSelected);
+        if (selectedItem is null)
         {
             return;
         }
 
-        var index = ViewModel.Items.ToList().IndexOf(ViewModel.SelectedItem);
-        View.Select(index);
+        var index = ViewModel.Items.ToList().IndexOf(selectedItem);
+        var offset = 86 * index;
+        var actualOffset = offset - View.ViewportHeight;
+        if (actualOffset > 0)
+        {
+            View.ScrollTo(0, actualOffset);
+        }
     }
 }
 

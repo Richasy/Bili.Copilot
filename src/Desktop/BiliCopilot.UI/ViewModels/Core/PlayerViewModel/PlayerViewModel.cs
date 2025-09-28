@@ -100,6 +100,18 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         BackwardTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.BackwardTemplate), SettingsToolkit.ReadLocalSetting(SettingNames.StepBackwardSecond, 10d));
         ForwardTip = string.Format(ResourceToolkit.GetLocalizedString(StringNames.ForwardTemplate), SettingsToolkit.ReadLocalSetting(SettingNames.StepForwardSecond, 30d));
         RequestHideNextTip?.Invoke(this, EventArgs.Empty);
+        if (Client != null)
+        {
+            try
+            {
+                await Client.PauseAsync();
+                await Client.StopAsync();
+            }
+            catch
+            {
+            }
+        }
+
         await InitializeInternalAsync();
         if (Connector != null)
         {
@@ -194,6 +206,7 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         CheckFullScreen();
         CheckCompactOverlay();
         ProgressChanged?.Invoke(this, 0);
+        await LoadSourcesAsync();
         if (Window.IsClosed)
         {
             return;
@@ -344,7 +357,13 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         var selected = Sources.FirstOrDefault(s => s.IsSelected);
         SelectedSource = selected;
         _continuePosition = Player?.Position;
-        // TODO: 调整源.
+        if (_sourceResolver is VideoMediaSourceResolver videoResolver)
+        {
+            _snapshot.PreferQuality = selected.Data.Quality;
+            videoResolver.ResetSnapshot(_snapshot);
+            await Player.ReplayAsync(Player.Position);
+        }
+
         await Task.CompletedTask;
     }
 

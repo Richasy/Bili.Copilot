@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Richasy.WinUIKernel.Share.Base;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -14,7 +15,7 @@ namespace BiliCopilot.UI.Controls.Components;
 /// </summary>
 public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewModel>
 {
-    private CardControl _rootCard;
+    private ButtonBase _rootCard;
     private Button _userButton;
 
     /// <summary>
@@ -25,7 +26,7 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
-        _rootCard = GetTemplateChild("RootCard") as CardControl;
+        _rootCard = GetTemplateChild("RootCard") as ButtonBase;
         _userButton = GetTemplateChild("UserButton") as Button;
         if (ViewModel is not null)
         {
@@ -61,16 +62,6 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
         {
             _userButton.Command = newValue?.ShowUserSpaceCommand;
         }
-    }
-
-    private static MenuFlyoutItem CreateOpenInNewWindowItem()
-    {
-        return new MenuFlyoutItem()
-        {
-            Text = ResourceToolkit.GetLocalizedString(StringNames.OpenInNewWindow),
-            Icon = new FluentIcons.WinUI.SymbolIcon { Symbol = FluentIcons.Common.Symbol.WindowPlay },
-            Tag = nameof(ViewModel.OpenInNewWindowCommand),
-        };
     }
 
     private static MenuFlyoutItem CreatePrivatePlayItem()
@@ -175,7 +166,6 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
     {
         var menuFlyout = new MenuFlyout() { ShouldConstrainToRootBounds = false };
         menuFlyout.Items.Add(CreatePrivatePlayItem());
-        menuFlyout.Items.Add(CreateOpenInNewWindowItem());
         if (ViewModel.Style != VideoCardStyle.Moment && ViewModel.IsUserValid)
         {
             menuFlyout.Items.Add(CreateUserSpaceItem());
@@ -239,9 +229,6 @@ public sealed partial class VideoCardControl : LayoutControlBase<VideoItemViewMo
                     break;
                 case nameof(ViewModel.CopyUriCommand):
                     item.Command = ViewModel.CopyUriCommand;
-                    break;
-                case nameof(ViewModel.OpenInNewWindowCommand):
-                    item.Command = ViewModel.OpenInNewWindowCommand;
                     break;
                 case nameof(ViewModel.PinCommand):
                     item.Command = ViewModel.PinCommand;

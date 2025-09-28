@@ -3,6 +3,7 @@
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Resolvers;
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using Humanizer;
@@ -36,7 +37,7 @@ public sealed partial class PlayerViewModel
         {
             Connector = _snapshot.Type switch
             {
-                BiliMediaType.Video => new VideoConnectorViewModel(),
+                BiliMediaType.Video => new VideoConnectorViewModel(this),
                 _ => default,
             };
 
@@ -793,6 +794,32 @@ public sealed partial class PlayerViewModel
             }
 
             ChapterInitialized?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    private async Task LoadSourcesAsync()
+    {
+        if (_sourceResolver is VideoMediaSourceResolver videoResolver)
+        {
+            var sources = await videoResolver.GetSourcesAsync();
+            IsSourceSelectable = sources?.Count > 1;
+            Sources.Clear();
+            if (sources != null)
+            {
+                var currentSource = videoResolver.GetCurrentFormat();
+                foreach (var source in sources)
+                {
+                    var vm = new SourceItemViewModel(source, SelectSourceAsync);
+                    if (currentSource != null)
+                    {
+                        vm.IsSelected = source.Quality == currentSource.Quality;
+                    }
+
+                    Sources.Add(vm);
+                }
+
+                SelectedSource = Sources.FirstOrDefault(p => p.IsSelected);
+            }
         }
     }
 }

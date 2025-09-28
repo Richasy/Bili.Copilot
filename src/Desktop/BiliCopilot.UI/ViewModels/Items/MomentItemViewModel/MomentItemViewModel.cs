@@ -117,7 +117,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
             if (!TryOpenInNewWindowIfPreferred() && !TryOpenInWebPlayerIfPreferred())
             {
                 var snapshot = new MediaSnapshot(vinfo);
-                this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
+                this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
             }
         }
         else if (FindInnerContent<EpisodeInformation>() is EpisodeInformation einfo)
@@ -190,7 +190,7 @@ public sealed partial class MomentItemViewModel : ViewModelBase<MomentInformatio
         }
 
         var snapshot = new MediaSnapshot(vinfo, true);
-        this.Get<NavigationViewModel>().NavigateToOver(typeof(VideoPlayerPage), snapshot);
+        this.Get<AppViewModel>().OpenPlayerCommand.Execute(snapshot);
     }
 
     [RelayCommand]

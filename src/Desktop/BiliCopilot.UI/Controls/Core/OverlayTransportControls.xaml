@@ -7,12 +7,13 @@
     xmlns:community="using:CommunityToolkit.WinUI.Controls"
     xmlns:controls="using:BiliCopilot.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
     xmlns:ext="using:BiliCopilot.UI.Extensions"
     xmlns:ic="using:FluentIcons.WinUI"
     xmlns:items="using:BiliCopilot.UI.ViewModels.Items"
     xmlns:local="using:BiliCopilot.UI.Controls.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:CommunityToolkit.WinUI" xmlns:danmaku="using:BiliCopilot.UI.Controls.Danmaku"
+    xmlns:triggers="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
     <Grid

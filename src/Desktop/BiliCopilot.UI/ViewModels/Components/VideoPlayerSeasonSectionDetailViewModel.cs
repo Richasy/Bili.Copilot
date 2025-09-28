@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Media;
@@ -30,21 +31,18 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
     [ObservableProperty]
     private VideoSeason _selectedSeason;
 
-    [ObservableProperty]
-    private VideoItemViewModel _selectedItem;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerSeasonSectionDetailViewModel"/> class.
     /// </summary>
     public VideoPlayerSeasonSectionDetailViewModel(
-        VideoPlayerPageViewModel page,
+        VideoConnectorViewModel page,
         IList<VideoSeason> seasons,
         string videoId)
     {
         Page = page;
-        Seasons = seasons.ToList();
+        Seasons = [.. seasons];
         _videoId = videoId;
-        var selectedSeason = Seasons.FirstOrDefault(p => p.Videos.Any(q => q.Identifier.Id == _videoId));
+        var selectedSeason = Seasons.Find(p => p.Videos.Any(q => q.Identifier.Id == _videoId));
         ChangeSeason(selectedSeason);
     }
 
@@ -54,7 +52,7 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
     /// <summary>
     /// 页面视图模型.
     /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
+    public VideoConnectorViewModel Page { get; }
 
     [RelayCommand]
     private static Task TryFirstLoadAsync()
@@ -69,7 +67,21 @@ public sealed partial class VideoPlayerSeasonSectionDetailViewModel : ViewModelB
         }
 
         SelectedSeason = season;
-        Items = season.Videos.Select(p => new VideoItemViewModel(p, Models.Constants.VideoCardStyle.PlayerSeason)).ToList();
-        SelectedItem = Items.FirstOrDefault(p => p.Data.Identifier.Id == _videoId);
+        Items = [.. season.Videos.Select(p => new VideoItemViewModel(p, Models.Constants.VideoCardStyle.PlayerSeason, playAction: Play))];
+        foreach (var item in Items)
+        {
+            item.IsSelected = item.Data.Identifier.Id == _videoId;
+        }
+    }
+
+    private void Play(VideoItemViewModel vm)
+    {
+        if (vm.Data.Identifier.Id == _videoId)
+        {
+            return;
+        }
+
+        var snapshot = new MediaSnapshot(vm.Data, Page.IsPrivatePlay);
+        Page.Parent.InitializeCommand.Execute(snapshot);
     }
 }

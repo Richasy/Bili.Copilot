@@ -18,6 +18,7 @@ public sealed class MediaSnapshot
         bool isPrivate = false)
     {
         Video = video;
+        Type = BiliMediaType.Video;
         IsPrivate = isPrivate;
     }
 
@@ -40,6 +41,16 @@ public sealed class MediaSnapshot
     /// 偏好的清晰度.
     /// </summary>
     public int? PreferQuality { get; set; }
+
+    /// <summary>
+    /// 偏好的起始位置（秒）.
+    /// </summary>
+    public double? StartPosition { get; set; }
+
+    /// <summary>
+    /// 偏好的分P.
+    /// </summary>
+    public VideoPart? PreferPart { get; set; }
 
     /// <summary>
     /// 播放列表.

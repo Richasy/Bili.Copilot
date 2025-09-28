@@ -2,8 +2,8 @@
 
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
+using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.Items;
-using BiliCopilot.UI.ViewModels.View;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.WinUIKernel.Share.ViewModels;
 
@@ -17,13 +17,13 @@ public sealed partial class VideoPlayerInfoSectionDetailViewModel : ViewModelBas
     /// <summary>
     /// Initializes a new instance of the <see cref="VideoPlayerInfoSectionDetailViewModel"/> class.
     /// </summary>
-    public VideoPlayerInfoSectionDetailViewModel(VideoPlayerPageViewModel pageVM)
+    public VideoPlayerInfoSectionDetailViewModel(VideoConnectorViewModel pageVM)
         => Page = pageVM;
 
     /// <summary>
     /// 视频播放页视图模型.
     /// </summary>
-    public VideoPlayerPageViewModel Page { get; }
+    public VideoConnectorViewModel Page { get; }
 
     /// <inheritdoc/>
     public string Title { get; } = ResourceToolkit.GetLocalizedString(StringNames.Information);

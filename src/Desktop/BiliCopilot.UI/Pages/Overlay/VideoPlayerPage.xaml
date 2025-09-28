@@ -106,7 +106,7 @@
                     x:Name="SideHeader"
                     Grid.Column="2"
                     Margin="-6,0,0,0">
-                    <player:VideoPlayerSideHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <!--<player:VideoPlayerSideHeader ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />-->
                 </Grid>
 
                 <Grid
@@ -114,7 +114,7 @@
                     Grid.Row="2"
                     Grid.Column="2"
                     Margin="-6,0,0,0">
-                    <player:VideoPlayerSideBody ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                    <!--<player:VideoPlayerSideBody ViewModel="{x:Bind ViewModel, Mode=OneWay}" Visibility="{x:Bind ViewModel.IsNavColumnManualHide, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />-->
                 </Grid>
 
                 <!--  右侧分栏大小控制器  -->

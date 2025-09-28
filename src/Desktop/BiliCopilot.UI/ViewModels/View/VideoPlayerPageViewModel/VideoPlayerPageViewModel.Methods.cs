@@ -117,30 +117,27 @@ public sealed partial class VideoPlayerPageViewModel
             return;
         }
 
-        var sections = new List<IPlayerSectionDetailViewModel>
-        {
-            new VideoPlayerInfoSectionDetailViewModel(this),
-        };
+        var sections = new List<IPlayerSectionDetailViewModel>();
 
-        if (_view.Seasons is not null)
-        {
-            sections.Insert(0, new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
-        }
+        //if (_view.Seasons is not null)
+        //{
+        //    sections.Insert(0, new VideoPlayerSeasonSectionDetailViewModel(this, _view.Seasons, AvId));
+        //}
 
-        if (_view.Parts?.Count > 1)
-        {
-            sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePart));
-        }
+        //if (_view.Parts?.Count > 1)
+        //{
+        //    sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, ChangePart));
+        //}
 
-        if (_playlist is not null)
-        {
-            sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
-        }
+        //if (_playlist is not null)
+        //{
+        //    sections.Insert(0, new VideoPlayerPlaylistSectionDetailViewModel(this, _playlist, AvId));
+        //}
 
-        if (_view.Recommends is not null)
-        {
-            sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
-        }
+        //if (_view.Recommends is not null)
+        //{
+        //    sections.Add(new VideoPlayerRecommendSectionDetailViewModel(_view.Recommends));
+        //}
 
         sections.Add(_comments);
         sections.Add(new VideoPlayerAISectionDetailViewModel(AI));
@@ -274,7 +271,8 @@ public sealed partial class VideoPlayerPageViewModel
         // 3. 检查合集中是否有下一个视频.
         if (Sections.OfType<VideoPlayerSeasonSectionDetailViewModel>().FirstOrDefault() is VideoPlayerSeasonSectionDetailViewModel seasonSection)
         {
-            var index = seasonSection.Items.ToList().IndexOf(seasonSection.SelectedItem);
+            var selectedItem = seasonSection.Items.Find(p => p.IsSelected);
+            var index = seasonSection.Items.ToList().IndexOf(selectedItem);
             if (index < seasonSection.Items.Count - 1)
             {
                 return seasonSection.Items.ElementAt(index + 1).Data;

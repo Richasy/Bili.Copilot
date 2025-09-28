@@ -18,6 +18,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\OverlayPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\Player\VideoPlayerWidget.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Core\PlayerOverlay.xaml">
       <SubType>Designer</SubType>
     </Page>
