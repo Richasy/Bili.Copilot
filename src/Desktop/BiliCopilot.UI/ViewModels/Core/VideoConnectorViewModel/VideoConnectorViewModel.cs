@@ -140,6 +140,7 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
             InitializeView(_view);
             _comments?.Initialize(_view.Information.Identifier.Id, Richasy.BiliKernel.Models.CommentTargetType.Video, Richasy.BiliKernel.Models.CommentSortType.Hot);
             InitializeSections();
+            AI.InjectVideoAsync(_view, _part);
         }
         catch (Exception ex)
         {

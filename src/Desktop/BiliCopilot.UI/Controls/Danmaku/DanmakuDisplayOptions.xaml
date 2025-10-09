@@ -14,6 +14,14 @@
         Width="240"
         Padding="8,4"
         Spacing="12">
+        <ComboBox
+            x:Name="RendererComboBox"
+            HorizontalAlignment="Stretch"
+            Header="{ext:Locale Name=DanmakuRenderer}"
+            SelectionChanged="OnRendererChanged">
+            <ComboBoxItem Content="DirectX" />
+            <ComboBoxItem Content="Win2D" />
+        </ComboBox>
         <Slider
             x:Name="OpacitySlider"
             Header="{ext:Locale Name=DanmakuOpacity}"
@@ -55,22 +63,6 @@
             Header="{ext:Locale Name=DanmakuFont}"
             ItemsSource="{x:Bind ViewModel.Fonts, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.DanmakuFontFamily, Mode=TwoWay}" />
-        <ComboBox
-            x:Name="DanmakuRefreshRateBox"
-            HorizontalAlignment="Stretch"
-            Header="{ext:Locale Name=DanmakuRefreshRate}"
-            SelectionChanged="OnRefreshRateChanged">
-            <ComboBoxItem Content="{ext:Locale Name=StandardRefreshRate}" />
-            <ComboBoxItem Content="{ext:Locale Name=QuickRefreshRate}" />
-        </ComboBox>
-        <!--<ComboBox
-            x:Name="DanmakuRendererBox"
-            HorizontalAlignment="Stretch"
-            Header="{ext:Locale Name=DanmakuRenderer}"
-            SelectionChanged="OnRendererChanged">
-            <ComboBoxItem Content="{ext:Locale Name=HardwareRenderer}" />
-            <ComboBoxItem Content="{ext:Locale Name=SoftwareRenderer}" />
-        </ComboBox>-->
         <StackPanel Spacing="8">
             <TextBlock HorizontalAlignment="Left" Text="{ext:Locale Name=EnabledDanmakuMode}" />
             <Grid

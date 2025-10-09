@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
+
 namespace BiliCopilot.UI.Controls.Danmaku;
 
 /// <summary>
@@ -11,27 +14,22 @@ public sealed partial class DanmakuDisplayOptions : DanmakuControlBase
 
     protected override void OnControlLoaded()
     {
-        DanmakuRefreshRateBox.SelectedIndex = ViewModel.DanmakuRefreshRate == 60 ? 0 : 1;
-        //DanmakuRendererBox.SelectedIndex = ViewModel.ForceSoftwareRenderer ? 1 : 0;
+        var renderer = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuRenderer, DanmakuRendererType.Win2D);
+        RendererComboBox.SelectedIndex = renderer == DanmakuRendererType.DirectX ? 0 : 1;
     }
 
-    private void OnRefreshRateChanged(object sender, SelectionChangedEventArgs e)
+    private void OnRendererChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!IsLoaded)
+        var index = RendererComboBox.SelectedIndex;
+        if (index < 0)
         {
             return;
         }
 
-        ViewModel.DanmakuRefreshRate = DanmakuRefreshRateBox.SelectedIndex == 0 ? 60 : 90;
+        var renderer = index == 0 ? DanmakuRendererType.DirectX : DanmakuRendererType.Win2D;
+        if (ViewModel.Renderer != renderer)
+        {
+            ViewModel.Renderer = renderer;
+        }
     }
-
-    //private void OnRendererChanged(object sender, SelectionChangedEventArgs e)
-    //{
-    //    if (!IsLoaded)
-    //    {
-    //        return;
-    //    }
-
-    //    ViewModel.ForceSoftwareRenderer = DanmakuRendererBox.SelectedIndex == 1;
-    //}
 }

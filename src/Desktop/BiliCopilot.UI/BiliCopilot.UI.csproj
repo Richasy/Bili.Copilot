@@ -290,6 +290,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
     <PackageReference Include="ComputeSharp.D2D1.WinUI" />
+    <PackageReference Include="Danmaku.Core" />
+    <PackageReference Include="Danmaku.Legacy" />
+    <PackageReference Include="Danmaku.Share" />
     <PackageReference Include="FluentIcons.WinUI" />
     <PackageReference Include="H.NotifyIcon.WinUI" />
     <PackageReference Include="HtmlAgilityPack" />
@@ -350,7 +353,6 @@
     <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\Danmaku.Core\Danmaku.Core.csproj" />
     <ProjectReference Include="..\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj" />
   </ItemGroup>
   <ItemGroup>

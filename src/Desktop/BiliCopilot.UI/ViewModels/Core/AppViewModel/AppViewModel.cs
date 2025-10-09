@@ -66,6 +66,8 @@ public sealed partial class AppViewModel : ViewModelBase
             IsInitialLoading = true;
             new MainWindow().Activate();
             InitializeExternalCommand.Execute(default);
+            // 提前加载字体.
+            _ = await this.Get<IFontToolkit>().GetFontsAsync();
         }
         else
         {
