@@ -267,8 +267,15 @@ public sealed partial class PlayerWindow : IAsyncDisposable
         }
     }
 
-    private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
+    private async void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
     {
+        // 延迟处理，避免打断正常的用户操作.
+        await Task.Delay(400);
+        if (IsClosed)
+        {
+            return;
+        }
+
         if (sender.State != InputActivationState.Deactivated)
         {
             ResetFocus();

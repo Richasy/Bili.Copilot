@@ -3120,4 +3120,7 @@
   <data name="SendDanmaku" xml:space="preserve">
     <value>发送弹幕</value>
   </data>
+  <data name="DanmakuRenderer" xml:space="preserve">
+    <value>弹幕渲染引擎</value>
+  </data>
 </root>

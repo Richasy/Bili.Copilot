@@ -19,6 +19,11 @@ public sealed partial class CommentMainPanel : CommentMainPanelBase
     /// <inheritdoc/>
     protected override void OnControlLoaded()
     {
+        if (ViewModel is null)
+        {
+            return;
+        }
+
         CheckSortType();
     }
 

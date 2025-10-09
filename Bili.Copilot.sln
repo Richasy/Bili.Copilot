@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.0.11018.127 d18.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI", "src\Desktop\BiliCopilot.UI\BiliCopilot.UI.csproj", "{1E60B137-A0B8-4FC6-86AA-EFE98E5D8135}"
@@ -12,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.Models", "src\Desktop\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj", "{E8FA9083-C203-42CA-9D28-1D1D045E770B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.ResourceGenerator", "src\Desktop\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj", "{31E36098-D978-48FF-AE52-AD37BDF4CB6B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Danmaku.Core", "src\Libs\Danmaku.Core\Danmaku.Core.csproj", "{015533ED-9DBC-4B08-9C71-7E766CE8C83A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,30 +111,6 @@ Global
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x64.Build.0 = Release|Any CPU
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x86.ActiveCfg = Release|Any CPU
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x86.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|x64.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Debug|x86.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|Any CPU.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|Any CPU.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|ARM64.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|ARM64.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|x64.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|x64.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|x86.ActiveCfg = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Publish|x86.Build.0 = Debug|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|ARM64.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|x64.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|x64.Build.0 = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|x86.ActiveCfg = Release|Any CPU
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,7 +119,6 @@ Global
 		{1E60B137-A0B8-4FC6-86AA-EFE98E5D8135} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
 		{E8FA9083-C203-42CA-9D28-1D1D045E770B} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
-		{015533ED-9DBC-4B08-9C71-7E766CE8C83A} = {4AAF05CF-97F6-469D-BCB4-23802A4A0C6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A195D36-BD13-472D-B17E-5070E06D82C8}

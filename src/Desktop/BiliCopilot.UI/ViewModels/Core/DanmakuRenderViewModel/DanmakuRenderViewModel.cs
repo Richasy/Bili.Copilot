@@ -1,4 +1,5 @@
-﻿using BiliCopilot.UI.Toolkits;
+﻿using BiliCopilot.UI.Models.Constants;
+using BiliCopilot.UI.Toolkits;
 using CommunityToolkit.Mvvm.Input;
 using Richasy.BiliKernel.Models.Danmaku;
 using Richasy.WinUIKernel.Share.Toolkits;
@@ -8,6 +9,12 @@ namespace BiliCopilot.UI.ViewModels.Core;
 
 public sealed partial class DanmakuRenderViewModel : ViewModelBase
 {
+    public DanmakuRenderViewModel()
+    {
+        Renderer = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuRenderer, DanmakuRendererType.Win2D);
+        ReloadFontsCommand.Execute(default);
+    }
+
     public void Initialize(IList<DanmakuInformation> danmakus)
     {
         _cachedDanmakus = danmakus;
@@ -23,7 +30,6 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
     /// </summary>
     public void ResetData()
     {
-        ReloadFontsCommand.Execute(default);
         ResetOptions();
     }
 
@@ -101,8 +107,6 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
         IsRollingEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsRollingDanmakuEnabled, true);
         IsTopEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsTopDanmakuEnabled, true);
         IsBottomEnabled = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.IsBottomDanmakuEnabled, true);
-        DanmakuRefreshRate = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuRefreshRate, 60);
-        ForceSoftwareRenderer = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuForceSoftwareRenderer, false);
         IsDanmakuLimit = true;
         ResetStyle();
     }
@@ -173,9 +177,6 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
     partial void OnOutlineSizeChanged(double value)
         => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuOutlineSize, value);
 
-    partial void OnDanmakuRefreshRateChanged(int value)
-        => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuRefreshRate, value);
-
-    partial void OnForceSoftwareRendererChanged(bool value)
-        => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuForceSoftwareRenderer, value);
+    partial void OnRendererChanged(DanmakuRendererType value)
+        => SettingsToolkit.WriteLocalSetting(Models.Constants.SettingNames.DanmakuRenderer, value);
 }

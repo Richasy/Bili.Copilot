@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Richasy.BiliKernel.Models.Danmaku;
 using System.Collections.ObjectModel;
@@ -60,13 +61,10 @@ public sealed partial class DanmakuRenderViewModel
     public partial string? DanmakuCountText { get; set; }
 
     [ObservableProperty]
-    public partial int DanmakuRefreshRate { get; set; }
-
-    [ObservableProperty]
-    public partial bool ForceSoftwareRenderer { get; set; }
-
-    [ObservableProperty]
     public partial string? Title { get; set; }
+
+    [ObservableProperty]
+    public partial DanmakuRendererType Renderer { get; set; }
 
     public ObservableCollection<string> Fonts { get; } = [];
 

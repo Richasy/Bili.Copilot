@@ -137,4 +137,5 @@ public enum SettingNames
     IsDanmakuEnabled,
     UseExternalMpv,
     FirstOpenMpvEditor,
+    DanmakuRenderer,
 }
