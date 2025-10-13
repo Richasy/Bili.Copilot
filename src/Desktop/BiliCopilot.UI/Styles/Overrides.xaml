@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -47,6 +47,15 @@
     <Style x:Key="PageScrollViewStyle" TargetType="ScrollView">
         <Setter Property="HorizontalScrollMode" Value="Disabled" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style x:Key="HiddenButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="UseSystemFocusVisuals" Value="False" />
+        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+        <Setter Property="IsTabStop" Value="False" />
     </Style>
 
     <Style x:Key="PageProgressRingStyle" TargetType="ProgressRing">
