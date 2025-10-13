@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:DownloadButtonBase
     x:Class="BiliCopilot.UI.Controls.Player.DownloadButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -26,14 +26,13 @@
                 <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{ext:Locale Name=DownloadVideoTip}" />
             </StackPanel>
             <DropDownButton.Flyout>
-                <MenuFlyout x:Name="DownloadFlyout" ShouldConstrainToRootBounds="False" />
+                <MenuFlyout x:Name="DownloadFlyout" />
             </DropDownButton.Flyout>
         </DropDownButton>
         <TeachingTip
             x:Name="SelectionTip"
             IsLightDismissEnabled="True"
             PreferredPlacement="Top"
-            ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=DownloadSelectPartTip}"
             Target="{x:Bind Btn}">
             <AutoSuggestBox

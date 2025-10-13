@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <base:LayoutUserControlBase
     x:Class="BiliCopilot.UI.Controls.Player.LikeButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -43,7 +43,6 @@
             ActionButtonContent="{ext:Locale Name=Triple}"
             IsLightDismissEnabled="True"
             PreferredPlacement="Top"
-            ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=TripleTip}"
             Target="{x:Bind Btn}" />
     </Grid>

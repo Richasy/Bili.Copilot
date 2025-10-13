@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <base:LayoutUserControlBase
     x:Class="BiliCopilot.UI.Controls.Player.FavoriteButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -45,8 +45,7 @@
             ActionButtonClick="OnConfirmButtonClick"
             ActionButtonContent="{ext:Locale Name=Confirm}"
             IsLightDismissEnabled="True"
-            PreferredPlacement="Left"
-            ShouldConstrainToRootBounds="False"
+            PreferredPlacement="Right"
             Subtitle="{ext:Locale Name=FavoriteTip}"
             Target="{x:Bind Btn}">
             <ScrollView

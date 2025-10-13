@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:CommentMainPanelBase
     x:Class="BiliCopilot.UI.Controls.Comment.CommentOverlayPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -38,7 +38,7 @@
                 BorderThickness="1"
                 CornerRadius="{StaticResource OverlayCornerRadius}" />
             <Grid>
-                <comment:CommentMainPanel Width="360" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+                <comment:CommentMainPanel Width="400" ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             </Grid>
             <animations:Implicit.ShowAnimations>
                 <animations:TranslationAnimation

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <base:LayoutUserControlBase
     x:Class="BiliCopilot.UI.Controls.Player.CoinButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -46,7 +46,6 @@
             CloseButtonContent="{ext:Locale Name=TwoCoin}"
             IsLightDismissEnabled="True"
             PreferredPlacement="Top"
-            ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=CoinTip}"
             Target="{x:Bind Btn}">
             <TeachingTip.Content>

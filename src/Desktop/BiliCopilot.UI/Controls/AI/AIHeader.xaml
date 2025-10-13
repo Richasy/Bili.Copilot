@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:AIControlBase
     x:Class="BiliCopilot.UI.Controls.AI.AIHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -75,10 +75,7 @@
                     IconVariant="Filled"
                     Symbol="ChevronCircleDown" />
                 <Button.Flyout>
-                    <Flyout
-                        x:Name="ServiceFlyout"
-                        Placement="Bottom"
-                        ShouldConstrainToRootBounds="False">
+                    <Flyout x:Name="ServiceFlyout" Placement="Bottom">
                         <Flyout.FlyoutPresenterStyle>
                             <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="8" />

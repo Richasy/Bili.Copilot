@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:UserSpacePageControlBase
     x:Class="BiliCopilot.UI.Controls.Moment.UserSpacePageHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -35,7 +35,7 @@
                     <Run Text="{ext:Locale Name=UserSpaceTitle}" />
                 </TextBlock>
                 <Button.Flyout>
-                    <Flyout Placement="Bottom" ShouldConstrainToRootBounds="False">
+                    <Flyout Placement="Bottom">
                         <Grid Width="320">
                             <StackPanel Spacing="12" Visibility="{x:Bind ViewModel.Card, Mode=OneWay, Converter={StaticResource ObjectToVisibilityConverter}}">
                                 <Grid ColumnSpacing="12">

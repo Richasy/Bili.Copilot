@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:PinnerBase
     x:Class="BiliCopilot.UI.Controls.Pinner"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -82,8 +82,7 @@
                 x:Name="ItemsFlyout"
                 Closed="OnFlyoutClosed"
                 Opened="OnFlyoutOpened"
-                Placement="Bottom"
-                ShouldConstrainToRootBounds="False">
+                Placement="Bottom">
                 <Flyout.FlyoutPresenterStyle>
                     <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                         <Setter Property="Padding" Value="8" />

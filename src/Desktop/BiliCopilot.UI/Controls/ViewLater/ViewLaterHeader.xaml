@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:ViewLaterPageControlBase
     x:Class="BiliCopilot.UI.Controls.ViewLater.ViewLaterHeader"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -85,7 +85,6 @@
             ActionButtonContent="{ext:Locale Name=Clean}"
             IsLightDismissEnabled="True"
             PreferredPlacement="BottomLeft"
-            ShouldConstrainToRootBounds="False"
             Subtitle="{ext:Locale Name=ClearViewLaterWarning}"
             Target="{x:Bind CleanButton}" />
     </Grid>
