@@ -245,8 +245,8 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
         if (ViewModel.GetCachedDanmakus().Count > 0)
         {
-            _danmakuMaster?.AddDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
-            _danmakuRenderer?.AddDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
+            _danmakuMaster?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
+            _danmakuRenderer?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
         }
 
         UpdateDanmakuTime(_lastProgress);
