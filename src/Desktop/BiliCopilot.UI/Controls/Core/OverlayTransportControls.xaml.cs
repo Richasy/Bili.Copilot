@@ -1,4 +1,4 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -244,11 +244,18 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
         {
             VisualStateManager.GoToState(this, nameof(WideState), false);
         }
+
+        BalanceLeftRightWidth();
     }
 
     private void BalanceLeftRightWidth()
     {
         var width = Math.Min(LeftHolderGrid.ActualWidth, RightPanel.ActualWidth);
+        if (width == 0 && RightPanel.ActualWidth > 0)
+        {
+            width = RightPanel.ActualWidth;
+        }
+
         if (width < 300 && LeftHolderGrid.ActualWidth > 300)
         {
             width = 300;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:PlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Core.OverlayTransportControls"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -52,7 +52,8 @@
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
-                Content="{x:Bind LeftElement, Mode=OneWay}" />
+                Content="{x:Bind LeftElement, Mode=OneWay}"
+                Visibility="Visible" />
 
             <!--  核心播放控制  -->
             <UserControl
