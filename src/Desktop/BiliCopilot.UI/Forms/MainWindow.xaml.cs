@@ -114,10 +114,20 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 
     private async void OnClosed(object sender, WindowEventArgs e)
     {
-        this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-        this.Get<AppViewModel>().IsClosed = true;
+        var appVM = this.Get<AppViewModel>();
+        var windows = appVM.Windows;
+        appVM.RestoreOriginalWheelScrollCommand.Execute(default);
+        var hasPlayer = appVM.Players.Count > 0;
+        if (hasPlayer)
+        {
+            e.Handled = true;
+            appVM.HideAllWindowsCommand.Execute(default);
+            return;
+        }
+
+        appVM.IsClosed = true;
         RootLayout.ViewModel.Back();
-        foreach (var item in this.Get<AppViewModel>().Windows)
+        foreach (var item in windows)
         {
             if (item is not MainWindow)
             {
@@ -125,7 +135,12 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
             }
         }
 
-        GlobalDependencies.Kernel.GetRequiredService<AppViewModel>().Windows.Remove(this);
+        foreach (var player in appVM.Players)
+        {
+            player.Close();
+        }
+
+        appVM.Windows.Remove(this);
         await this.Get<SettingsPageViewModel>().CheckSaveServicesAsync();
         UnregisterEventHandlers();
         SaveCurrentWindowStats();

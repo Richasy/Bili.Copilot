@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:PlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Core.PlayerInteractivePanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -64,5 +64,21 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Fill="Transparent" />
+
+        <Border Visibility="{x:Bind ViewModel.Player.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}">
+            <Border Visibility="{x:Bind ViewModel.IsControlsVisible, Mode=OneWay}">
+                <Button
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="{ext:Locale Name=ShowMenu}"
+                    Click="OnMenuButtonClick"
+                    Style="{StaticResource SidePlayerButtonStyle}"
+                    ToolTipService.ToolTip="{ext:Locale Name=ShowMenu}"
+                    Visibility="{x:Bind ViewModel.IsTouchControlsVisible, Mode=OneWay}">
+                    <ic:FluentIcon FontSize="14" Icon="HandPoint" />
+                </Button>
+            </Border>
+        </Border>
     </Grid>
 </local:PlayerControlBase>

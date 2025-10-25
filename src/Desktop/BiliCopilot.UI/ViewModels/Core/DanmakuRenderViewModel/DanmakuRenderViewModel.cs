@@ -126,7 +126,7 @@ public sealed partial class DanmakuRenderViewModel : ViewModelBase
         }
 
         var localFont = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.DanmakuFontFamily, "Segoe UI");
-        if (!Fonts.Contains(localFont))
+        if (!Fonts.Select(p => p.LocalName).Contains(localFont))
         {
             localFont = "Segoe UI";
         }

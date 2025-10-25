@@ -1,4 +1,4 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Toolkits;
 using Microsoft.UI.Dispatching;
@@ -21,8 +21,6 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
     private bool _isLeftButton;
     private bool _isRightButton;
     private bool _isHolding;
-    private readonly HashSet<uint> _activeTouchPointers = [];
-    private int _lastTouchPointerCount;
 
     public PlayerInteractivePanel()
     {
@@ -88,12 +86,6 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
         _startPoint = point.Position;
         var width = ActualWidth;
         var sideWidth = Math.Max(80, width / 5d);
-
-        if (point.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Touch)
-        {
-            _activeTouchPointers.Add(point.PointerId);
-            _lastTouchPointerCount = _activeTouchPointers.Count;
-        }
 
         if (point.Position.X > width - sideWidth)
         {
@@ -161,11 +153,6 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
     /// <inheritdoc/>
     protected override void OnPointerReleased(PointerRoutedEventArgs e)
     {
-        if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Touch)
-        {
-            _activeTouchPointers.Remove(e.Pointer.PointerId);
-        }
-
         if (PointerCaptures?.Any(p => p.PointerId == e.Pointer.PointerId) != true)
         {
             return;
@@ -210,14 +197,6 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
 
         ReleasePointerCapture(e.Pointer);
         e.Handled = true;
-    }
-
-    protected override void OnPointerCanceled(PointerRoutedEventArgs e)
-    {
-        if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Touch)
-        {
-            _activeTouchPointers.Remove(e.Pointer.PointerId);
-        }
     }
 
     private void OnTempControlTimerTick(DispatcherQueueTimer sender, object args)
@@ -282,17 +261,8 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
         {
             if (_isTouch)
             {
-                if (_lastTouchPointerCount == 2)
-                {
-                    FlyoutBase.GetAttachedFlyout(this).ShowAt(this, new FlyoutShowOptions
-                    {
-                        Position = _startPoint,
-                    });
-                }
-                else
-                {
-                    ViewModel.IsControlsVisible = !ViewModel.IsControlsVisible;
-                }
+                ViewModel.IsControlsVisible = !ViewModel.IsControlsVisible;
+                ViewModel.IsTouchControlsVisible = !ViewModel.IsTouchControlsVisible;
             }
             else if (_isLeftButton)
             {
@@ -432,5 +402,16 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
     private void OnFlyoutClosed(object sender, object e)
     {
         ViewModel.IsPopupVisible = false;
+    }
+
+    private void OnMenuButtonClick(object sender, RoutedEventArgs e)
+    {
+        var btn = sender as FrameworkElement;
+        var point = btn!.TransformToVisual(this).TransformPoint(new Point(0, 0));
+        FlyoutBase.GetAttachedFlyout(this).ShowAt(this, new FlyoutShowOptions
+        {
+            Position = point,
+            Placement = FlyoutPlacementMode.Right,
+        });
     }
 }

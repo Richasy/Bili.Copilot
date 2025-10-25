@@ -1,10 +1,11 @@
-// Copyright (c) Bili Copilot. All rights reserved.
+﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.ViewModels.Items;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Input;
 using Richasy.MpvKernel.Core.Enums;
 using Richasy.WinUIKernel.Share.Base;
+using Richasy.WinUIKernel.Share.Toolkits;
 using System.ComponentModel;
 
 namespace BiliCopilot.UI.Controls.Core;
@@ -276,13 +277,13 @@ public sealed partial class PlayerOverlay : PlayerControlBase
 
     private void OnSubtitleFontChanged(object sender, SelectionChangedEventArgs e)
     {
-        var item = e.AddedItems.FirstOrDefault() as string;
-        if (ViewModel?.Player == null || ViewModel.Player?.IsPlaybackInitialized != true || string.IsNullOrEmpty(item) || ViewModel.SubtitleFontFamily == item)
+        var item = e.AddedItems.FirstOrDefault() as SystemFont;
+        if (ViewModel?.Player == null || ViewModel.Player?.IsPlaybackInitialized != true || item == null || ViewModel.SubtitleFontFamily == item.LocalName)
         {
             return;
         }
 
-        ViewModel.ChangeSubtitleFontFamilyCommand.Execute(item);
+        ViewModel.ChangeSubtitleFontFamilyCommand.Execute(item.LocalName);
     }
 
     private void OnSubtitleDelayChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -321,5 +322,15 @@ public sealed partial class PlayerOverlay : PlayerControlBase
         var selectedSource = (sender as FrameworkElement)?.DataContext as SourceItemViewModel;
         selectedSource?.ActiveCommand.Execute(default);
         SourceFlyout?.Hide();
+    }
+
+    private void OnSubtitleFontComboLoaded(object sender, RoutedEventArgs e)
+    {
+        var font = ViewModel.SubtitleFontFamily;
+        var source = ViewModel.Fonts.FirstOrDefault(p => p.LocalName == font);
+        if (source != null)
+        {
+            SubtitleFontComboBox.SelectedItem = source;
+        }
     }
 }

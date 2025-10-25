@@ -680,7 +680,7 @@
                             HorizontalAlignment="Stretch"
                             IsEnabled="{x:Bind ViewModel.IsSubtitleEnabled, Mode=OneWay}"
                             ItemsSource="{x:Bind ViewModel.Fonts, Mode=OneWay}"
-                            SelectedItem="{x:Bind ViewModel.SubtitleFontFamily, Mode=OneWay}"
+                            Loaded="OnSubtitleFontComboLoaded"
                             SelectionChanged="OnSubtitleFontChanged"
                             SelectionChangedTrigger="Committed" />
                         <TextBlock

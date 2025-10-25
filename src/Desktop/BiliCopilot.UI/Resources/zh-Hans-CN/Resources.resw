@@ -3123,4 +3123,13 @@
   <data name="DanmakuRenderer" xml:space="preserve">
     <value>弹幕渲染引擎</value>
   </data>
+  <data name="ShowMenu" xml:space="preserve">
+    <value>显示菜单</value>
+  </data>
+  <data name="ScrollAccelerate" xml:space="preserve">
+    <value>滚动加速</value>
+  </data>
+  <data name="ScrollAccelerateDescription" xml:space="preserve">
+    <value>在应用内单次滚动行数增加到12以提高应用内滚动速度</value>
+  </data>
 </root>

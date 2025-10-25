@@ -1,4 +1,4 @@
-# 如果要从更高级别的目录继承 .editorconfig 设置，请删除以下行
+﻿# 如果要从更高级别的目录继承 .editorconfig 设置，请删除以下行
 root = true
 
 # c# 文件
@@ -483,6 +483,9 @@ dotnet_diagnostic.CA1030.severity = none
 
 # IL2067: Target parameter argument does not satisfy 'DynamicallyAccessedMembersAttribute' in call to target method. The parameter of method does not have matching annotations.
 dotnet_diagnostic.IL2067.severity = none
+
+# VSTHRD002: Avoid problematic synchronous waits
+dotnet_diagnostic.VSTHRD002.severity = none
 
 [*.{cs,vb}]
 dotnet_style_qualification_for_field = false:silent

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:SettingsPageBase
     x:Class="BiliCopilot.UI.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -63,6 +63,7 @@
                 <settings:LayoutSettingSection />
                 <settings:CacheSettingControl />
                 <settings:NavigationSettingControl />
+                <settings:ScrollSettingControl />
                 <settings:SearchRecommendSettingSection />
                 <!--<settings:CloseBehaviorSettingControl />-->
                 <settings:NotificationSettingControl />
