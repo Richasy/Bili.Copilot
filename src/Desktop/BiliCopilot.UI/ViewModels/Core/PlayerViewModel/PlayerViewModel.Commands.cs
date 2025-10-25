@@ -335,7 +335,7 @@ public sealed partial class PlayerViewModel
         }
 
         var localFont = SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.SubtitleFontFamily, "Segoe UI");
-        if (!Fonts.Contains(localFont))
+        if (!Fonts.Select(p => p.LocalName).Contains(localFont))
         {
             localFont = "Segoe UI";
         }

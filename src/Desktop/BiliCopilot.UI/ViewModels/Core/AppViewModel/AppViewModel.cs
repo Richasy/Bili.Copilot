@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.System;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WinUIEx;
 
 namespace BiliCopilot.UI.ViewModels.Core;
 
@@ -35,6 +36,17 @@ public sealed partial class AppViewModel : ViewModelBase
         _tokenResolver = tokenResolver;
     }
 
+    public bool IsMainWindowVisible()
+    {
+        var mainWindow = Windows.OfType<MainWindow>().FirstOrDefault();
+        if (mainWindow is null)
+        {
+            return false;
+        }
+
+        return mainWindow.Visible && PInvoke.IsIconic(new(mainWindow.GetWindowHandle())) == false && mainWindow.AppWindow.IsVisible;
+    }
+
     [RelayCommand]
     private static void Restart()
     {
@@ -52,6 +64,17 @@ public sealed partial class AppViewModel : ViewModelBase
 
         var ffmpegFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/ffmpeg/{identifier}/ffmpeg.exe")).AsTask();
         FFmpegPath = ffmpegFile.Path;
+
+        _ = await this.Get<IFontToolkit>().GetFontsAsync();
+    }
+
+    [RelayCommand]
+    private void HideAllWindows()
+    {
+        foreach (var wnd in Windows)
+        {
+            wnd.Hide();
+        }
     }
 
     [RelayCommand]
@@ -66,8 +89,6 @@ public sealed partial class AppViewModel : ViewModelBase
             IsInitialLoading = true;
             new MainWindow().Activate();
             InitializeExternalCommand.Execute(default);
-            // 提前加载字体.
-            _ = await this.Get<IFontToolkit>().GetFontsAsync();
         }
         else
         {

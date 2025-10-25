@@ -25,6 +25,7 @@ public sealed partial class PlayerWindow : IAsyncDisposable
     private bool _isFirstActivated = true;
     private bool _enteringFullScreen;
     private bool _enteringCompactOverlay;
+    private bool _isPresenterChanging;
     private Action<bool> _activeChangedAction;
 
     public PlayerWindow()
@@ -64,6 +65,11 @@ public sealed partial class PlayerWindow : IAsyncDisposable
     /// 窗口是否已关闭.
     /// </summary>
     public bool IsClosed { get; private set; }
+
+    /// <summary>
+    /// 窗口展示模式是否正在改变.
+    /// </summary>
+    public bool IsPresenterChanging => _isPresenterChanging;
 
     /// <summary>
     /// 窗口大小改变事件.
@@ -175,7 +181,13 @@ public sealed partial class PlayerWindow : IAsyncDisposable
 
             _enteringFullScreen = true;
             _enteringCompactOverlay = false;
+            _isPresenterChanging = true;
             _rootWindow.SetPresenter(AppWindowPresenterKind.FullScreen);
+            _ = Task.Run(() =>
+            {
+                Task.Delay(500).Wait();
+                _isPresenterChanging = false;
+            });
         }
     }
 
@@ -184,7 +196,13 @@ public sealed partial class PlayerWindow : IAsyncDisposable
         if (_rootWindow.Presenter.Kind == AppWindowPresenterKind.FullScreen)
         {
             _enteringFullScreen = false;
+            _isPresenterChanging = true;
             _rootWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+            _ = Task.Run(() =>
+            {
+                Task.Delay(500).Wait();
+                _isPresenterChanging = false;
+            });
         }
     }
 
@@ -199,7 +217,13 @@ public sealed partial class PlayerWindow : IAsyncDisposable
 
             _enteringCompactOverlay = true;
             _enteringFullScreen = false;
+            _isPresenterChanging = true;
             _rootWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
+            _ = Task.Run(() =>
+            {
+                Task.Delay(500).Wait();
+                _isPresenterChanging = false;
+            });
         }
     }
 
@@ -208,7 +232,13 @@ public sealed partial class PlayerWindow : IAsyncDisposable
         if (_rootWindow.Presenter.Kind == AppWindowPresenterKind.CompactOverlay)
         {
             _enteringCompactOverlay = false;
+            _isPresenterChanging = true;
             _rootWindow.SetPresenter(AppWindowPresenterKind.Overlapped);
+            _ = Task.Run(() =>
+            {
+                Task.Delay(500).Wait();
+                _isPresenterChanging = false;
+            });
         }
     }
 
@@ -282,6 +312,11 @@ public sealed partial class PlayerWindow : IAsyncDisposable
         }
 
         _activeChangedAction?.Invoke(sender.State == InputActivationState.Activated);
+
+        if (_rootWindow.Position.X < -10000 || _rootWindow.Position.Y < -10000)
+        {
+            MoveAndResize();
+        }
     }
 
     private void OnWindowChanged(AppWindow sender, AppWindowChangedEventArgs args)

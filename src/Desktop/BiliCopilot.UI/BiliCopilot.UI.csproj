@@ -225,6 +225,7 @@
     <None Remove="Controls\Settings\PlayerControlSettingControl.xaml" />
     <None Remove="Controls\Settings\PromptTemplateSettingControl.xaml" />
     <None Remove="Controls\Settings\ScreenshotSettingControl.xaml" />
+    <None Remove="Controls\Settings\ScrollSettingControl.xaml" />
     <None Remove="Controls\Settings\SearchRecommendSettingSection.xaml" />
     <None Remove="Controls\Settings\ThemeSettingControl.xaml" />
     <None Remove="Controls\Users\FansBody.xaml" />
@@ -1159,6 +1160,9 @@
     <None Update="Assets\basic-mpv.conf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\Settings\ScrollSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\Danmaku\DanmakuSendDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -532,7 +532,7 @@
                 RequestedTheme="Dark"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind GetTimeText(ViewModel.Player.Position), Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
             <TextBlock
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -541,7 +541,7 @@
                 RequestedTheme="Dark"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind GetTimeText(ViewModel.PreviewPosition), Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsProgressChanging, Mode=OneWay}" />
+                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay}" />
             <local:CacheBar
                 Grid.Column="1"
                 Height="4"

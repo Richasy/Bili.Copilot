@@ -9,6 +9,7 @@ using Microsoft.UI.Dispatching;
 using Richasy.MpvKernel.Core;
 using Richasy.MpvKernel.Core.Models;
 using Richasy.MpvKernel.Player;
+using Richasy.WinUIKernel.Share.Toolkits;
 using System.Collections.ObjectModel;
 using Windows.Media;
 
@@ -72,6 +73,9 @@ public sealed partial class PlayerViewModel
 
     [ObservableProperty]
     public partial bool IsControlsVisible { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsTouchControlsVisible { get; set; }
 
     [ObservableProperty]
     public partial double CurrentVolume { get; set; }
@@ -217,5 +221,5 @@ public sealed partial class PlayerViewModel
 
     public ObservableCollection<ChapterItemViewModel> Chapters { get; } = [];
 
-    public ObservableCollection<string> Fonts { get; } = [];
+    public ObservableCollection<SystemFont> Fonts { get; } = [];
 }

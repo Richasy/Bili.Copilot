@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:DanmakuControlBase
     x:Class="BiliCopilot.UI.Controls.Danmaku.DanmakuDisplayOptions"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -62,7 +62,7 @@
             HorizontalAlignment="Stretch"
             Header="{ext:Locale Name=DanmakuFont}"
             ItemsSource="{x:Bind ViewModel.Fonts, Mode=OneWay}"
-            SelectedItem="{x:Bind ViewModel.DanmakuFontFamily, Mode=TwoWay}" />
+            SelectionChanged="OnDanmakuFontChanged" />
         <StackPanel Spacing="8">
             <TextBlock HorizontalAlignment="Left" Text="{ext:Locale Name=EnabledDanmakuMode}" />
             <Grid
