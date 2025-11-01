@@ -395,5 +395,23 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
     {
         ViewModel.IsPopupVisible = true;
     }
+
+    private void OnDanmakuOptionsButtonClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.IsDanmakuOptionsVisible = !ViewModel.IsDanmakuOptionsVisible;
+    }
+
+    private void OnDanmakuOptionsClosed(TeachingTip sender, TeachingTipClosedEventArgs args)
+    {
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            if (ViewModel.Window?.IsClosed != false)
+            {
+                return;
+            }
+
+            ViewModel.Danmaku.ResetStyle();
+        });
+    }
 #pragma warning restore CA1822
 }

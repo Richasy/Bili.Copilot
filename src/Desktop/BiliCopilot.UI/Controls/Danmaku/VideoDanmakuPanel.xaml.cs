@@ -100,31 +100,48 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
         newValue.RequestRedrawDanmaku += OnRedrawDanmaku;
         newValue.RequestAddSingleDanmaku += OnRequestAddSingleDanmaku;
         newValue.PropertyChanged += OnViewModelPropertyChanged;
-        ResetDanmakuStyle();
+
+        // 延迟执行样式重置,避免在 Layout 期间触发重入
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            if (IsLoaded && ViewModel == newValue)
+            {
+                ResetDanmakuStyle();
+            }
+        });
     }
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ViewModel.Renderer))
         {
-            if (ViewModel.Renderer == DanmakuRendererType.DirectX && _danmakuMaster != null)
+            // 在 UI 线程上异步执行渲染器切换,避免重入问题
+            DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
             {
-                _danmakuMaster.Close();
-                _danmakuMaster = null;
-                RootGrid.Children.Clear();
-                ReloadRenderer();
-                ResetDanmakuStyle();
-                ViewModel.Redraw();
-            }
-            else if (ViewModel.Renderer == DanmakuRendererType.Win2D && _danmakuRenderer != null)
-            {
-                _danmakuRenderer.Dispose();
-                _danmakuRenderer = null;
-                RootGrid.Children.Clear();
-                ReloadRenderer();
-                ResetDanmakuStyle();
-                ViewModel.Redraw();
-            }
+                if (!IsLoaded || ViewModel is null)
+                {
+                    return;
+                }
+
+                if (ViewModel.Renderer == DanmakuRendererType.DirectX && _danmakuMaster != null)
+                {
+                    _danmakuMaster.Close();
+                    _danmakuMaster = null;
+                    RootGrid.Children.Clear();
+                    ReloadRenderer();
+                    ResetDanmakuStyle();
+                    ViewModel.Redraw();
+                }
+                else if (ViewModel.Renderer == DanmakuRendererType.Win2D && _danmakuRenderer != null)
+                {
+                    _danmakuRenderer.Dispose();
+                    _danmakuRenderer = null;
+                    RootGrid.Children.Clear();
+                    ReloadRenderer();
+                    ResetDanmakuStyle();
+                    ViewModel.Redraw();
+                }
+            });
         }
     }
 
@@ -238,25 +255,39 @@ public sealed partial class VideoDanmakuPanel : DanmakuControlBase
 
     private async void Redraw()
     {
+        if (!IsLoaded || ViewModel is null)
+        {
+            return;
+        }
+
         if (_danmakuRenderer == null || _danmakuMaster == null)
         {
             await Task.Delay(500);
         }
 
-        if (ViewModel.GetCachedDanmakus().Count > 0)
+        // 确保在 UI 线程空闲时执行弹幕绘制
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, async () =>
         {
-            _danmakuMaster?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
-            _danmakuRenderer?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
-        }
+            if (!IsLoaded || ViewModel is null)
+            {
+                return;
+            }
 
-        UpdateDanmakuTime(_lastProgress);
-        ResetDanmakuStyle();
+            if (ViewModel.GetCachedDanmakus().Count > 0)
+            {
+                _danmakuMaster?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
+                _danmakuRenderer?.SetDanmakuList(BilibiliDanmakuParser.GetDanmakuList(ViewModel.GetCachedDanmakus(), true));
+            }
 
-        if (!ViewModel.IsPaused)
-        {
-            _danmakuRenderer?.Resume();
-            _danmakuMaster?.Resume();
-        }
+            UpdateDanmakuTime(_lastProgress);
+            ResetDanmakuStyle();
+
+            if (!ViewModel.IsPaused)
+            {
+                _danmakuRenderer?.Resume();
+                _danmakuMaster?.Resume();
+            }
+        });
     }
 
     private void UpdateDanmakuTime(double pos)

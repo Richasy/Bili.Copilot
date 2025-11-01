@@ -160,8 +160,8 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     {
         var workArea = area.WorkArea;
         var scaleFactor = HwndExtensions.GetDpiForWindow(this.GetWindowHandle()) / 96d;
-        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowWidth, 1120d);
-        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowHeight, 740d);
+        var previousWidth = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowWidth, 1280d);
+        var previousHeight = SettingsToolkit.ReadLocalSetting(SettingNames.MainWindowHeight, 760d);
         var width = Convert.ToInt32(previousWidth * scaleFactor);
         var height = Convert.ToInt32(previousHeight * scaleFactor);
 

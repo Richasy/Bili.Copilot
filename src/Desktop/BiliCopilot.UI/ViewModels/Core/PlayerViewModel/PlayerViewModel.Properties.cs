@@ -203,6 +203,9 @@ public sealed partial class PlayerViewModel
     [ObservableProperty]
     public partial bool IsMute { get; set; }
 
+    [ObservableProperty]
+    public partial bool IsDanmakuOptionsVisible { get; set; }
+
     public bool IsPopupVisible { get; set; }
 
     public DateTimeOffset? LastVolumeChangingTime { get; set; }

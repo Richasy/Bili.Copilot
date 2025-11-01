@@ -10,10 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel
-        Width="240"
-        Padding="8,4"
-        Spacing="12">
+    <StackPanel Padding="8,4" Spacing="12">
         <ComboBox
             x:Name="RendererComboBox"
             HorizontalAlignment="Stretch"

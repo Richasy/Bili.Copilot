@@ -447,23 +447,11 @@
                         x:Name="DanmakuOptionButton"
                         Margin="0,0,8,0"
                         AutomationProperties.Name="{ext:Locale Name=DanmakuDisplaySettings}"
+                        Click="OnDanmakuOptionsButtonClick"
                         IsEnabled="{x:Bind ViewModel.IsDanmakuLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
                         Style="{StaticResource BasicPlayerIconButtonStyle}"
                         ToolTipService.ToolTip="{ext:Locale Name=DanmakuDisplaySettings}">
                         <ic:SymbolIcon FontSize="14" Symbol="ContentSettings" />
-                        <Button.Flyout>
-                            <Flyout
-                                Closed="OnDisplayFlyoutClosed"
-                                Opened="OnDisplayFlyoutOpened"
-                                ShouldConstrainToRootBounds="False">
-                                <Flyout.FlyoutPresenterStyle>
-                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                        <Setter Property="Padding" Value="12,10" />
-                                    </Style>
-                                </Flyout.FlyoutPresenterStyle>
-                                <danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
-                            </Flyout>
-                        </Button.Flyout>
                     </Button>
                 </StackPanel>
                 <Button
@@ -584,6 +572,16 @@
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind GetTimeText(ViewModel.Player.Duration), Mode=OneWay}" />
         </Grid>
+
+        <TeachingTip
+            Closed="OnDanmakuOptionsClosed"
+            IsLightDismissEnabled="True"
+            IsOpen="{x:Bind ViewModel.IsDanmakuOptionsVisible, Mode=TwoWay}"
+            PreferredPlacement="TopLeft"
+            Target="{x:Bind DanmakuOptionButton}">
+            <danmaku:DanmakuDisplayOptions ViewModel="{x:Bind ViewModel.Danmaku, Mode=OneWay}" />
+        </TeachingTip>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="WideState" />

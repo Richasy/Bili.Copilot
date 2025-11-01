@@ -15,10 +15,10 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
     <PackageVersion Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
     <PackageVersion Include="ComputeSharp.D2D1.WinUI" Version="3.2.0" />
-    <PackageVersion Include="Danmaku.Core" Version="0.0.1-preview3" />
-    <PackageVersion Include="Danmaku.Legacy" Version="0.0.1-preview3" />
-    <PackageVersion Include="Danmaku.Share" Version="0.0.1-preview3" />
-    <PackageVersion Include="FluentIcons.WinUI" Version="1.1.312" />
+    <PackageVersion Include="Danmaku.Core" Version="0.0.1-preview4" />
+    <PackageVersion Include="Danmaku.Legacy" Version="0.0.1-preview4" />
+    <PackageVersion Include="Danmaku.Share" Version="0.0.1-preview4" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.2.313" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
@@ -36,7 +36,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3590-prerelease" />
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.228" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.238" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.15" />
     <PackageVersion Include="Richasy.AgentKernel.Connectors.Ali" Version="0.0.8-preview5" />
@@ -74,11 +74,11 @@
     <PackageVersion Include="Richasy.BiliKernel.Services.Moment" Version="0.0.2-preview2" />
     <PackageVersion Include="Richasy.BiliKernel.Services.Search" Version="0.0.2-preview2" />
     <PackageVersion Include="Richasy.BiliKernel.Services.User" Version="0.0.2-preview2" />
-    <PackageVersion Include="Richasy.MpvKernel" Version="0.0.1-preview9" />
-    <PackageVersion Include="Richasy.MpvKernel.Core" Version="0.0.1-preview9" />
-    <PackageVersion Include="Richasy.MpvKernel.Player" Version="0.0.1-preview9" />
-    <PackageVersion Include="Richasy.MpvKernel.WinUI" Version="0.0.1-preview9" />
-    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.11-preview4" />
+    <PackageVersion Include="Richasy.MpvKernel" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.MpvKernel.Core" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.MpvKernel.Player" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.MpvKernel.WinUI" Version="0.0.2-preview1" />
+    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.11-preview7" />
     <PackageVersion Include="RichasyKernel.Core" Version="0.0.1" />
     <PackageVersion Include="Roman-Numerals" Version="2.0.1" />
     <PackageVersion Include="Serilog" Version="4.3.1-dev-02385" />
