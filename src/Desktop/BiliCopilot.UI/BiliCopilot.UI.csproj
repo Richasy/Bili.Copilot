@@ -33,6 +33,10 @@
     <Content Remove="Assets\ffmpeg\x64\ffmpeg.exe" />
     <Content Remove="Assets\libmpv\arm64\libmpv-2.dll" />
     <Content Remove="Assets\libmpv\x64\libmpv-2.dll" />
+	<Content Remove="Assets\Anime4K\*" />
+	<Content Remove="Assets\ArtCNN\*" />
+	<Content Remove="Assets\nnedi3\*" />
+	<Content Remove="Assets\igv\*" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\mpv.png" />
@@ -1015,6 +1019,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+  	<None Update="Assets\Anime4K\*">
+  		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
+  	<None Update="Assets\ArtCNN\*">
+  		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
+  	<None Update="Assets\nnedi3\*">
+  		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
+  	<None Update="Assets\igv\*">
+  		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  	</None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\Settings\ThemeSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1428,6 +1446,9 @@
     <Page Update="Controls\Settings\NotificationSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\nnedi3\gather\" />
   </ItemGroup>
     
   <!-- Publish Properties -->

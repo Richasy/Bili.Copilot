@@ -138,4 +138,6 @@ public enum SettingNames
     UseExternalMpv,
     FirstOpenMpvEditor,
     DanmakuRenderer,
+    D3D11AdapterName,
+    VulkanDeviceName,
 }

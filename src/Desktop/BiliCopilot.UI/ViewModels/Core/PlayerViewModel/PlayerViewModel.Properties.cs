@@ -2,6 +2,7 @@
 
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Resolvers;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -205,6 +206,21 @@ public sealed partial class PlayerViewModel
 
     [ObservableProperty]
     public partial bool IsDanmakuOptionsVisible { get; set; }
+
+    [ObservableProperty]
+    public partial Anime4KMode Anime4KMode { get; set; }
+
+    [ObservableProperty]
+    public partial ArtCNNMode ArtCNNMode { get; set; }
+
+    [ObservableProperty]
+    public partial Nnedi3Mode Nnedi3Mode { get; set; }
+
+    [ObservableProperty]
+    public partial VsrScale VsrScale { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasNvidiaGpu { get; set; }
 
     public bool IsPopupVisible { get; set; }
 

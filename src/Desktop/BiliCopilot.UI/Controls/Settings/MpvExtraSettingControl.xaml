@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:SettingsPageControlBase
     x:Class="BiliCopilot.UI.Controls.Settings.MpvExtraSettingControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -21,6 +21,24 @@
             <ImageIcon Source="ms-appx:///Assets/mpv.png" />
         </base:SettingsExpander.HeaderIcon>
         <base:SettingsExpander.Items>
+            <base:SettingsCard
+                x:Name="D3D11Adapter"
+                Description="--d3d11-adapter"
+                Header="{ext:Locale Name=D3D11Adapter}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.GpuDevices}"
+                    SelectedItem="{x:Bind ViewModel.D3D11AdapterName, Mode=TwoWay}" />
+            </base:SettingsCard>
+            <base:SettingsCard
+                x:Name="VulkanDevice"
+                Description="--vulkan-device"
+                Header="{ext:Locale Name=VulkanDevice}">
+                <ComboBox
+                    MinWidth="120"
+                    ItemsSource="{x:Bind ViewModel.GpuDevices}"
+                    SelectedItem="{x:Bind ViewModel.VulkanDeviceName, Mode=TwoWay}" />
+            </base:SettingsCard>
             <base:SettingsCard
                 x:Name="AudioExclusive"
                 Description="--audio-exclusive"

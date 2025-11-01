@@ -3132,4 +3132,52 @@
   <data name="ScrollAccelerateDescription" xml:space="preserve">
     <value>在应用内单次滚动行数增加到12以提高应用内滚动速度</value>
   </data>
+  <data name="D3D11Adapter" xml:space="preserve">
+    <value>适用于 D3D11 的视频输出显卡</value>
+  </data>
+  <data name="VulkanDevice" xml:space="preserve">
+    <value>适用于 Vulkan 的视频输出显卡</value>
+  </data>
+  <data name="Shaders" xml:space="preserve">
+    <value>着色器</value>
+  </data>
+  <data name="Anime4KAHigh" xml:space="preserve">
+    <value>A（高质量）</value>
+  </data>
+  <data name="Anime4KBHigh" xml:space="preserve">
+    <value>B（高质量）</value>
+  </data>
+  <data name="Anime4KCHigh" xml:space="preserve">
+    <value>C（高质量）</value>
+  </data>
+  <data name="Anime4KAAHigh" xml:space="preserve">
+    <value>A+A（高质量）</value>
+  </data>
+  <data name="Anime4KBBHigh" xml:space="preserve">
+    <value>B+B（高质量）</value>
+  </data>
+  <data name="Anime4KCAHigh" xml:space="preserve">
+    <value>C+A（高质量）</value>
+  </data>
+  <data name="Anime4KALow" xml:space="preserve">
+    <value>A（快速）</value>
+  </data>
+  <data name="Anime4KBLow" xml:space="preserve">
+    <value>B（快速）</value>
+  </data>
+  <data name="Anime4KCLow" xml:space="preserve">
+    <value>C（快速）</value>
+  </data>
+  <data name="Anime4KAALow" xml:space="preserve">
+    <value>A+A（快速）</value>
+  </data>
+  <data name="Anime4KBBLow" xml:space="preserve">
+    <value>B+B（快速）</value>
+  </data>
+  <data name="Anime4KCALow" xml:space="preserve">
+    <value>C+A（快速）</value>
+  </data>
+  <data name="NvidiaVsr" xml:space="preserve">
+    <value>NVIDIA 超分辨率</value>
+  </data>
 </root>

@@ -125,6 +125,21 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         CheckMpvConfigVisible();
         LoadCustomLibmpvSettings();
         await LoadCacheSizeAsync();
+
+        if (GpuDevices.Count == 0)
+        {
+            GpuDevices.Add("Auto");
+            foreach (var name in AppToolkit.GetGpuNames())
+            {
+                GpuDevices.Add(name);
+            }
+
+            var localD3D11Name = SettingsToolkit.ReadLocalSetting(SettingNames.D3D11AdapterName, "Auto");
+            D3D11AdapterName = GpuDevices.Contains(localD3D11Name) ? localD3D11Name : "Auto";
+            var localVulkanName = SettingsToolkit.ReadLocalSetting(SettingNames.VulkanDeviceName, "Auto");
+            VulkanDeviceName = GpuDevices.Contains(localVulkanName) ? localVulkanName : "Auto";
+        }
+
         _isInitialized = true;
     }
 
@@ -528,4 +543,10 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnTempPlaybackRateChanged(double value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.TempPlaybackRate, value);
+
+    partial void OnD3D11AdapterNameChanged(string value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.D3D11AdapterName, value);
+
+    partial void OnVulkanDeviceNameChanged(string value)
+        => SettingsToolkit.WriteLocalSetting(SettingNames.VulkanDeviceName, value);
 }

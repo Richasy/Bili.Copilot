@@ -25,6 +25,13 @@
             <Setter Property="MinWidth" Value="160" />
             <Setter Property="MinHeight" Value="40" />
         </Style>
+        <Style
+            x:Key="ContextMenuFlyoutRadioItemStyle"
+            BasedOn="{StaticResource DefaultRadioMenuFlyoutItemStyle}"
+            TargetType="RadioMenuFlyoutItem">
+            <Setter Property="MinWidth" Value="160" />
+            <Setter Property="MinHeight" Value="40" />
+        </Style>
     </local:PlayerControlBase.Resources>
 
     <FlyoutBase.AttachedFlyout>
@@ -56,6 +63,224 @@
                     <ic:SymbolIcon Symbol="TextBulletList" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutSubItem Style="{StaticResource ContextMenuFlyoutSubItemStyle}" Text="{ext:Locale Name=Shaders}">
+                <MenuFlyoutSubItem.Icon>
+                    <ic:SymbolIcon Symbol="VideoClipWand" />
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutSubItem
+                    x:Name="Anime4KItem"
+                    Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
+                    Text="Anime4K">
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="None"
+                        Text="{ext:Locale Name=Unset}" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighA"
+                        Text="{ext:Locale Name=Anime4KAHigh}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighB"
+                        Text="{ext:Locale Name=Anime4KBHigh}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighC"
+                        Text="{ext:Locale Name=Anime4KCHigh}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighAA"
+                        Text="{ext:Locale Name=Anime4KAAHigh}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighBB"
+                        Text="{ext:Locale Name=Anime4KBBHigh}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="HighCA"
+                        Text="{ext:Locale Name=Anime4KCAHigh}" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowA"
+                        Text="{ext:Locale Name=Anime4KALow}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowB"
+                        Text="{ext:Locale Name=Anime4KBLow}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowC"
+                        Text="{ext:Locale Name=Anime4KCLow}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowAA"
+                        Text="{ext:Locale Name=Anime4KAALow}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowBB"
+                        Text="{ext:Locale Name=Anime4KBBLow}" />
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LowCA"
+                        Text="{ext:Locale Name=Anime4KCALow}" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem
+                    x:Name="ArtCNNItem"
+                    Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
+                    Text="ArtCNN">
+                    <RadioMenuFlyoutItem
+                        Click="OnAnime4KItemClick"
+                        GroupName="Anime4KGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="None"
+                        Text="{ext:Locale Name=Unset}" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F32"
+                        Text="C4F32" />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F32DN"
+                        Text="C4F32 DN" />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F32DS"
+                        Text="C4F32 DS" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F16"
+                        Text="C4F16" />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F16DN"
+                        Text="C4F16 DN" />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F16DS"
+                        Text="C4F16 DS" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F32Ani4KI2"
+                        Text="Ani4K C4F32 i2" />
+                    <RadioMenuFlyoutItem
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="C4F32AniSDI4"
+                        Text="AniSD C4F32 i4" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem
+                    x:Name="NNEDI3Item"
+                    Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
+                    Text="nnedi3">
+                    <RadioMenuFlyoutItem
+                        Click="OnNNEDI3ItemClick"
+                        GroupName="NNEDI3Group"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="None"
+                        Text="{ext:Locale Name=Unset}" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnNNEDI3ItemClick"
+                        GroupName="NNEDI3Group"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="Basic"
+                        Text="Basic" />
+                    <RadioMenuFlyoutItem
+                        Click="OnNNEDI3ItemClick"
+                        GroupName="NNEDI3Group"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="Plus"
+                        Text="Plus" />
+                </MenuFlyoutSubItem>
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.HasNvidiaGpu, Mode=OneWay}" />
+            <MenuFlyoutSubItem
+                x:Name="NvidiaVsrItem"
+                Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
+                Text="{ext:Locale Name=NvidiaVsr}"
+                Visibility="{x:Bind ViewModel.HasNvidiaGpu, Mode=OneWay}">
+                <MenuFlyoutSubItem.Icon>
+                    <ImageIcon Source="ms-appx:///Assets/nvidia-logo.png" />
+                </MenuFlyoutSubItem.Icon>
+                <RadioMenuFlyoutItem
+                    Click="OnNvidiaVsrItemClick"
+                    GroupName="NvidiaVsrGroup"
+                    Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                    Tag="None"
+                    Text="{ext:Locale Name=Unset}" />
+                <MenuFlyoutSeparator />
+                <RadioMenuFlyoutItem
+                    Click="OnNvidiaVsrItemClick"
+                    GroupName="NvidiaVsrGroup"
+                    Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                    Tag="x1_5"
+                    Text="1.5x" />
+                <RadioMenuFlyoutItem
+                    Click="OnNvidiaVsrItemClick"
+                    GroupName="NvidiaVsrGroup"
+                    Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                    Tag="x2_0"
+                    Text="2.0x" />
+                <RadioMenuFlyoutItem
+                    Click="OnNvidiaVsrItemClick"
+                    GroupName="NvidiaVsrGroup"
+                    Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                    Tag="x3_0"
+                    Text="3.0x" />
+                <RadioMenuFlyoutItem
+                    Click="OnNvidiaVsrItemClick"
+                    GroupName="NvidiaVsrGroup"
+                    Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                    Tag="x4_0"
+                    Text="4.0x" />
+            </MenuFlyoutSubItem>
         </MenuFlyout>
     </FlyoutBase.AttachedFlyout>
 

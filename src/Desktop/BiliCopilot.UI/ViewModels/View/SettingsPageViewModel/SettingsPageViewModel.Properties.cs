@@ -4,6 +4,7 @@ using BiliCopilot.UI.Models.Constants;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Richasy.MpvKernel;
 using Richasy.MpvKernel.Core.Enums;
+using System.Collections.ObjectModel;
 
 namespace BiliCopilot.UI.ViewModels.View;
 
@@ -233,4 +234,15 @@ public sealed partial class SettingsPageViewModel
 
     [ObservableProperty]
     public partial bool HideMainWindowOnPlay { get; set; }
+
+    [ObservableProperty]
+    public partial string D3D11AdapterName { get; set; }
+
+    [ObservableProperty]
+    public partial string VulkanDeviceName { get; set; }
+
+    /// <summary>
+    /// GPU设备列表.
+    /// </summary>
+    public ObservableCollection<string> GpuDevices { get; } = [];
 }

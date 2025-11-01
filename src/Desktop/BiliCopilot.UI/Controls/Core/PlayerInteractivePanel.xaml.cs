@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Toolkits;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -391,7 +392,41 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
     private void OnFlyoutOpened(object sender, object e)
     {
         ViewModel.IsPopupVisible = true;
-        // RowBar?.UpdateStatus();
+        foreach (var item in Anime4KItem.Items.OfType<RadioMenuFlyoutItem>())
+        {
+            var tag = item.Tag.ToString();
+            if (Enum.TryParse<Anime4KMode>(tag, out var mode))
+            {
+                item.IsChecked = ViewModel.Anime4KMode == mode;
+            }
+        }
+
+        foreach (var item in ArtCNNItem.Items.OfType<RadioMenuFlyoutItem>())
+        {
+            var tag = item.Tag.ToString();
+            if (Enum.TryParse<ArtCNNMode>(tag, out var mode))
+            {
+                item.IsChecked = ViewModel.ArtCNNMode == mode;
+            }
+        }
+
+        foreach (var item in NNEDI3Item.Items.OfType<RadioMenuFlyoutItem>())
+        {
+            var tag = item.Tag.ToString();
+            if (Enum.TryParse<Nnedi3Mode>(tag, out var mode))
+            {
+                item.IsChecked = ViewModel.Nnedi3Mode == mode;
+            }
+        }
+
+        foreach (var item in NvidiaVsrItem.Items.OfType<RadioMenuFlyoutItem>())
+        {
+            var tag = item.Tag.ToString();
+            if (Enum.TryParse<VsrScale>(tag, out var mode))
+            {
+                item.IsChecked = ViewModel.VsrScale == mode;
+            }
+        }
     }
 
     private void OnRowBarButtonClick(object sender, EventArgs e)
@@ -413,5 +448,41 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
             Position = point,
             Placement = FlyoutPlacementMode.Right,
         });
+    }
+
+    private void OnAnime4KItemClick(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as FrameworkElement)!.Tag.ToString();
+        if (Enum.TryParse<Anime4KMode>(tag, out var mode))
+        {
+            ViewModel.ChangeAnime4KModeCommand.Execute(mode);
+        }
+    }
+
+    private void OnArtCNNItemClick(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as FrameworkElement)!.Tag.ToString();
+        if (Enum.TryParse<ArtCNNMode>(tag, out var mode))
+        {
+            ViewModel.ChangeArtCNNModeCommand.Execute(mode);
+        }
+    }
+
+    private void OnNvidiaVsrItemClick(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as FrameworkElement)!.Tag.ToString();
+        if (Enum.TryParse<VsrScale>(tag, out var mode))
+        {
+            ViewModel.ChangeNvidiaVsrModeCommand.Execute(mode);
+        }
+    }
+
+    private void OnNNEDI3ItemClick(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as FrameworkElement)!.Tag.ToString();
+        if (Enum.TryParse<Nnedi3Mode>(tag, out var mode))
+        {
+            ViewModel.ChangeNnedi3ModeCommand.Execute(mode);
+        }
     }
 }

@@ -609,4 +609,157 @@ public sealed partial class PlayerViewModel
         IsPopupVisible = false;
         await Client.ResumeAsync();
     }
+
+    [RelayCommand]
+    private async Task ChangeAnime4KModeAsync(Anime4KMode mode)
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Client!.SetShadersAsync(FindAnime4KShaders(mode));
+            Anime4KMode = mode;
+            if (ArtCNNMode != ArtCNNMode.None)
+            {
+                ArtCNNMode = ArtCNNMode.None;
+            }
+
+            if (Nnedi3Mode != Nnedi3Mode.None)
+            {
+                Nnedi3Mode = Nnedi3Mode.None;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Set Anime4K mode failed");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ChangeArtCNNModeAsync(ArtCNNMode mode)
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Client!.SetShadersAsync(FindArtCNNShaders(mode));
+            ArtCNNMode = mode;
+            if (Anime4KMode != Anime4KMode.None)
+            {
+                Anime4KMode = Anime4KMode.None;
+            }
+
+            if (Nnedi3Mode != Nnedi3Mode.None)
+            {
+                Nnedi3Mode = Nnedi3Mode.None;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Set ArtCNN mode failed");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ChangeNnedi3ModeAsync(Nnedi3Mode mode)
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Client!.SetShadersAsync(FindNnedi3Shaders(mode));
+            Nnedi3Mode = mode;
+            if (Anime4KMode != Anime4KMode.None)
+            {
+                Anime4KMode = Anime4KMode.None;
+            }
+
+            if (ArtCNNMode != ArtCNNMode.None)
+            {
+                ArtCNNMode = ArtCNNMode.None;
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Set NNEDI3 mode failed");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ChangeNvidiaVsrModeAsync(VsrScale scale)
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            VsrScale = scale;
+            if (scale == VsrScale.None)
+            {
+                await Client!.SetNvidiaVsrAsync(false);
+                // Restore the GPU context and hardware decode settings.
+                var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecodeType, PreferDecodeType.Auto);
+                if (decodeType == PreferDecodeType.Auto)
+                {
+                    await Client.SetGpuContextAsync(GpuContextType.Auto);
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.Auto);
+                }
+                else if (decodeType == PreferDecodeType.D3D11)
+                {
+                    await Client.SetGpuContextAsync(GpuContextType.D3D11);
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.D3D11va);
+                }
+                else if (decodeType == PreferDecodeType.D3D12)
+                {
+                    await Client.SetGpuContextAsync(GpuContextType.D3D11);
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.D3D12vaCopy);
+                }
+                else if (decodeType == PreferDecodeType.NVDEC)
+                {
+                    await Client.SetGpuContextAsync(GpuContextType.D3D11);
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.Nvdec);
+                }
+                else if (decodeType == PreferDecodeType.Vulkan)
+                {
+                    await Client.SetGpuContextAsync(GpuContextType.WindowsVulkan);
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.Vulkan);
+                }
+                else if (decodeType == PreferDecodeType.Software)
+                {
+                    await Client.SetHardwareDecodeAsync(HardwareDecodeType.None);
+                }
+            }
+            else
+            {
+                var scaleNumber = scale switch
+                {
+                    VsrScale.x1_5 => 1.5,
+                    VsrScale.x2_0 => 2.0,
+                    VsrScale.x3_0 => 3.0,
+                    VsrScale.x4_0 => 4.0,
+                    _ => 1.0,
+                };
+
+                // Ensure the GPU context and hardware decode are set correctly.
+                await Client!.SetGpuContextAsync(GpuContextType.D3D11);
+                await Client!.SetHardwareDecodeAsync(HardwareDecodeType.D3D11va);
+                await Client!.SetNvidiaVsrAsync(true, scaleNumber);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Set Nvidia VSR scale failed");
+        }
+    }
 }

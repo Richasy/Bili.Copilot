@@ -66,6 +66,8 @@ public sealed partial class PlayerViewModel
             _smtc.IsPlayEnabled = true;
             _smtc.IsPauseEnabled = true;
             _smtc.ButtonPressed += OnSmtcButtonPressed;
+            var gpuNames = AppToolkit.GetGpuNames();
+            HasNvidiaGpu = gpuNames.Any(p => p.Contains("NVIDIA", StringComparison.OrdinalIgnoreCase));
             var mpvPath = SettingsToolkit.ReadLocalSetting(SettingNames.CustomLibmpvPath, string.Empty);
             if (string.IsNullOrEmpty(mpvPath) || !File.Exists(mpvPath))
             {
@@ -557,6 +559,10 @@ public sealed partial class PlayerViewModel
                 _continuePosition = null;
             }
 
+            // 强制关闭可能开启的统计信息覆盖层.
+            await Client!.SendKeyPressAsync("ESC");
+            IsStatsOverlayShown = false;
+
             // Make sure playing.
             if (Player.PlaybackState != MpvPlayerState.Playing)
             {
@@ -685,6 +691,21 @@ public sealed partial class PlayerViewModel
         if (Player is null || Player.PlaybackState == MpvPlayerState.Idle || Player.PlaybackState == MpvPlayerState.End)
         {
             return;
+        }
+
+        if (IsStatsOverlayShown)
+        {
+            if (args.VirtualKey is Windows.System.VirtualKey.Up or
+                Windows.System.VirtualKey.Down or
+                Windows.System.VirtualKey.Number1 or
+                Windows.System.VirtualKey.Number2 or
+                Windows.System.VirtualKey.Number3 or
+                Windows.System.VirtualKey.Number4 or
+                Windows.System.VirtualKey.Number5)
+            {
+                await Client!.SendKeyPressAsync(args.VirtualKey.ToString().Replace("Number", string.Empty, StringComparison.Ordinal).ToLowerInvariant());
+                return;
+            }
         }
 
         if (args.VirtualKey == Windows.System.VirtualKey.Space)
@@ -933,5 +954,137 @@ public sealed partial class PlayerViewModel
         }
 
         await Client!.SetSubtitleTrackAsync(default);
+    }
+
+    private static string[] FindAnime4KShaders(Anime4KMode mode)
+    {
+        if (mode == Anime4KMode.None)
+        {
+            return [];
+        }
+
+        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "Anime4K");
+        if (mode == Anime4KMode.LowA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.LowB)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.LowC)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Upscale_Denoise_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.LowAA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl"), GetShaderPath("Anime4K_Restore_CNN_S.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.LowBB)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_S.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.LowCA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Upscale_Denoise_CNN_x2_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Restore_CNN_S.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_S.glsl")];
+        }
+        else if (mode == Anime4KMode.HighA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_VL.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+        else if (mode == Anime4KMode.HighB)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_VL.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+        else if (mode == Anime4KMode.HighC)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Upscale_Denoise_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+        else if (mode == Anime4KMode.HighAA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_VL.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_Restore_CNN_M.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+        else if (mode == Anime4KMode.HighBB)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_VL.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Restore_CNN_Soft_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+        else if (mode == Anime4KMode.HighCA)
+        {
+            return [GetShaderPath("Anime4K_Clamp_Highlights.glsl"), GetShaderPath("Anime4K_Upscale_Denoise_CNN_x2_VL.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x2.glsl"), GetShaderPath("Anime4K_AutoDownscalePre_x4.glsl"), GetShaderPath("Anime4K_Restore_CNN_M.glsl"), GetShaderPath("Anime4K_Upscale_CNN_x2_M.glsl")];
+        }
+
+        return [];
+
+        string GetShaderPath(string shaderName) => Path.Combine(assetsFolder, shaderName);
+    }
+
+    private static string[] FindArtCNNShaders(ArtCNNMode mode)
+    {
+        if (mode == ArtCNNMode.None)
+        {
+            return [];
+        }
+
+        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "ArtCNN");
+        if (mode == ArtCNNMode.C4F16)
+        {
+            return [GetShaderPath("ArtCNN_C4F16.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F16DN)
+        {
+            return [GetShaderPath("ArtCNN_C4F16_DN.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F16DS)
+        {
+            return [GetShaderPath("ArtCNN_C4F16_DS.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F32)
+        {
+            return [GetShaderPath("ArtCNN_C4F32.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F32DN)
+        {
+            return [GetShaderPath("ArtCNN_C4F32_DN.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F32DS)
+        {
+            return [GetShaderPath("ArtCNN_C4F32_DS.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F32Ani4KI2)
+        {
+            return [GetShaderPath("Ani4Kv2_ArtCNN_C4F32_i2.glsl")];
+        }
+        else if (mode == ArtCNNMode.C4F32AniSDI4)
+        {
+            return [GetShaderPath("AniSD_ArtCNN_C4F32_i4.glsl")];
+        }
+
+        return [];
+        string GetShaderPath(string shaderName) => Path.Combine(assetsFolder, shaderName);
+    }
+
+    private static string[] FindNnedi3Shaders(Nnedi3Mode mode)
+    {
+        if (mode == Nnedi3Mode.None)
+        {
+            return [];
+        }
+
+        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "nnedi3");
+        var igvFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "igv");
+
+        if (mode == Nnedi3Mode.Basic)
+        {
+            return [GetShaderPath("nnedi3-nns32-win8x4.glsl"), GetIgvShaderPath("adaptive-sharpen_luma.glsl")];
+        }
+        else if (mode == Nnedi3Mode.Plus)
+        {
+            return [GetShaderPath("nnedi3-nns64-win8x4.glsl"), GetIgvShaderPath("adaptive-sharpen_luma.glsl")];
+        }
+
+        return [];
+
+        string GetShaderPath(string shaderName) => Path.Combine(assetsFolder, shaderName);
+        string GetIgvShaderPath(string shaderName) => Path.Combine(igvFolder, shaderName);
     }
 }

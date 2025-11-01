@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Models.Constants;
+using Microsoft.Extensions.Logging;
 using Richasy.WinUIKernel.Share.Toolkits;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Vortice.DXGI;
 using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
@@ -18,6 +20,8 @@ internal sealed partial class AppToolkit : SharedAppToolkit
     private const int VK_RCONTROL = 0xA3; // 右Ctrl键
     private const int VK_SHIFT = 0x10; // Shift键
     private const int VK_MENU = 0x12; // Alt键
+
+    private static readonly List<string> _gpuNames = [];
 
     public AppToolkit(ISettingsToolkit settings) : base(settings)
     {
@@ -198,5 +202,67 @@ internal sealed partial class AppToolkit : SharedAppToolkit
         {
             await process.WaitForExitAsync();
         }
+    }
+
+    public static List<string> GetGpuNames()
+    {
+        if (_gpuNames.Count > 0)
+        {
+            return _gpuNames;
+        }
+
+        try
+        {
+            // Use DXGI API to enumerate adapters, which is AOT-compatible
+            var result = DXGI.CreateDXGIFactory1<IDXGIFactory1>(out var factory);
+            if (!result.Success)
+            {
+                return _gpuNames;
+            }
+
+            uint adapterIndex = 0;
+            while (true)
+            {
+                var enumResult = factory!.EnumAdapters1(adapterIndex, out var adapter);
+                if (enumResult.Failure)
+                {
+                    break;
+                }
+                var desc = adapter.Description1;
+                var name = desc.Description;
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    // Filter out software/virtual adapters
+                    if (name.Contains("Microsoft Basic", StringComparison.OrdinalIgnoreCase) ||
+                        name.Contains("Remote", StringComparison.OrdinalIgnoreCase) ||
+                        name.Contains("Virtual", StringComparison.OrdinalIgnoreCase))
+                    {
+                        adapter.Dispose();
+                        adapterIndex++;
+                        continue;
+                    }
+                    // Skip software adapters (WARP, etc.)
+                    if ((desc.Flags & AdapterFlags.Software) != 0)
+                    {
+                        adapter.Dispose();
+                        adapterIndex++;
+                        continue;
+                    }
+                    name = name.Trim();
+                    if (!_gpuNames.Contains(name))
+                    {
+                        _gpuNames.Add(name);
+                    }
+                }
+                adapter.Dispose();
+                adapterIndex++;
+            }
+        }
+        catch (Exception ex)
+        {
+            GlobalDependencies.Kernel.GetRequiredService<ILogger<App>>().LogError(ex, "Failed to enumerate GPU adapters.");
+        }
+
+        return _gpuNames;
     }
 }
