@@ -37,6 +37,7 @@
 	<Content Remove="Assets\ArtCNN\*" />
 	<Content Remove="Assets\nnedi3\*" />
 	<Content Remove="Assets\igv\*" />
+	<Content Remove="Assets\Ravu\*" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\mpv.png" />
@@ -1031,6 +1032,9 @@
   	<None Update="Assets\igv\*">
   		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   	</None>
+	<None Update="Assets\Ravu\*">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\ThemeSettingControl.xaml">
@@ -1446,9 +1450,6 @@
     <Page Update="Controls\Settings\NotificationSettingControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\nnedi3\gather\" />
   </ItemGroup>
     
   <!-- Publish Properties -->

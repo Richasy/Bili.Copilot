@@ -620,17 +620,9 @@ public sealed partial class PlayerViewModel
 
         try
         {
-            await Client!.SetShadersAsync(FindAnime4KShaders(mode));
             Anime4KMode = mode;
-            if (ArtCNNMode != ArtCNNMode.None)
-            {
-                ArtCNNMode = ArtCNNMode.None;
-            }
-
-            if (Nnedi3Mode != Nnedi3Mode.None)
-            {
-                Nnedi3Mode = Nnedi3Mode.None;
-            }
+            await Client!.SetShadersAsync(GetCombinedShaders());
+            CheckClearShaderEnabled();
         }
         catch (Exception ex)
         {
@@ -648,17 +640,9 @@ public sealed partial class PlayerViewModel
 
         try
         {
-            await Client!.SetShadersAsync(FindArtCNNShaders(mode));
             ArtCNNMode = mode;
-            if (Anime4KMode != Anime4KMode.None)
-            {
-                Anime4KMode = Anime4KMode.None;
-            }
-
-            if (Nnedi3Mode != Nnedi3Mode.None)
-            {
-                Nnedi3Mode = Nnedi3Mode.None;
-            }
+            await Client!.SetShadersAsync(GetCombinedShaders());
+            CheckClearShaderEnabled();
         }
         catch (Exception ex)
         {
@@ -676,21 +660,33 @@ public sealed partial class PlayerViewModel
 
         try
         {
-            await Client!.SetShadersAsync(FindNnedi3Shaders(mode));
             Nnedi3Mode = mode;
-            if (Anime4KMode != Anime4KMode.None)
-            {
-                Anime4KMode = Anime4KMode.None;
-            }
-
-            if (ArtCNNMode != ArtCNNMode.None)
-            {
-                ArtCNNMode = ArtCNNMode.None;
-            }
+            await Client!.SetShadersAsync(GetCombinedShaders());
+            CheckClearShaderEnabled();
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Set NNEDI3 mode failed");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ChangeRavuModeAsync(RavuMode mode)
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            RavuMode = mode;
+            await Client!.SetShadersAsync(GetCombinedShaders());
+            CheckClearShaderEnabled();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Set RAVU mode failed");
         }
     }
 
@@ -760,6 +756,29 @@ public sealed partial class PlayerViewModel
         catch (Exception ex)
         {
             logger.LogError(ex, "Set Nvidia VSR scale failed");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ClearShadersAsync()
+    {
+        if (Player is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await Client!.SetShadersAsync(Array.Empty<string>());
+            Anime4KMode = Anime4KMode.None;
+            ArtCNNMode = ArtCNNMode.None;
+            Nnedi3Mode = Nnedi3Mode.None;
+            RavuMode = RavuMode.None;
+            CheckClearShaderEnabled();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Clear shaders failed");
         }
     }
 }

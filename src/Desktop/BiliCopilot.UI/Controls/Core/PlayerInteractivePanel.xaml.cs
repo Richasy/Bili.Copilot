@@ -419,6 +419,15 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
             }
         }
 
+        foreach (var item in RavuItem.Items.OfType<RadioMenuFlyoutItem>())
+        {
+            var tag = item.Tag.ToString();
+            if (Enum.TryParse<RavuMode>(tag, out var mode))
+            {
+                item.IsChecked = ViewModel.RavuMode == mode;
+            }
+        }
+
         foreach (var item in NvidiaVsrItem.Items.OfType<RadioMenuFlyoutItem>())
         {
             var tag = item.Tag.ToString();
@@ -483,6 +492,15 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
         if (Enum.TryParse<Nnedi3Mode>(tag, out var mode))
         {
             ViewModel.ChangeNnedi3ModeCommand.Execute(mode);
+        }
+    }
+
+    private void OnRavuItemClick(object sender, RoutedEventArgs e)
+    {
+        var tag = (sender as FrameworkElement)!.Tag.ToString();
+        if (Enum.TryParse<RavuMode>(tag, out var mode))
+        {
+            ViewModel.ChangeRavuModeCommand.Execute(mode);
         }
     }
 }

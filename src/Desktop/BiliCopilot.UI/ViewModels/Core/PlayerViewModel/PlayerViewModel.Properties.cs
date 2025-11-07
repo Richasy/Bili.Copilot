@@ -217,10 +217,16 @@ public sealed partial class PlayerViewModel
     public partial Nnedi3Mode Nnedi3Mode { get; set; }
 
     [ObservableProperty]
+    public partial RavuMode RavuMode { get; set; }
+
+    [ObservableProperty]
     public partial VsrScale VsrScale { get; set; }
 
     [ObservableProperty]
     public partial bool HasNvidiaGpu { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsClearShaderEnabled { get; set; }
 
     public bool IsPopupVisible { get; set; }
 

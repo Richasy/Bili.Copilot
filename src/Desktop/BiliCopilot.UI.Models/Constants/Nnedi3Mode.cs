@@ -6,5 +6,7 @@ public enum Nnedi3Mode
 {
     None,
     Basic,
-    Plus
+    Plus,
+    Pro,
+    ProMax,
 }

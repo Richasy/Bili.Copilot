@@ -3180,4 +3180,7 @@
   <data name="NvidiaVsr" xml:space="preserve">
     <value>NVIDIA 超分辨率</value>
   </data>
+  <data name="ClearShaders" xml:space="preserve">
+    <value>清除着色器</value>
+  </data>
 </root>

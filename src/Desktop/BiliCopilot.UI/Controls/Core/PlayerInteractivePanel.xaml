@@ -68,6 +68,12 @@
                 <MenuFlyoutSubItem.Icon>
                     <ic:SymbolIcon Symbol="VideoClipWand" />
                 </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem
+                    Command="{x:Bind ViewModel.ClearShadersCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.IsClearShaderEnabled, Mode=OneWay}"
+                    Style="{StaticResource ContextMenuFlyoutItemStyle}"
+                    Text="{ext:Locale Name=ClearShaders}" />
+                <MenuFlyoutSeparator />
                 <MenuFlyoutSubItem
                     x:Name="Anime4KItem"
                     Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
@@ -231,13 +237,74 @@
                         GroupName="NNEDI3Group"
                         Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
                         Tag="Basic"
-                        Text="Basic" />
+                        Text="NNS 32" />
                     <RadioMenuFlyoutItem
                         Click="OnNNEDI3ItemClick"
                         GroupName="NNEDI3Group"
                         Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
                         Tag="Plus"
-                        Text="Plus" />
+                        Text="NNS 64" />
+                    <RadioMenuFlyoutItem
+                        Click="OnNNEDI3ItemClick"
+                        GroupName="NNEDI3Group"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="Pro"
+                        Text="NNS128" />
+                    <RadioMenuFlyoutItem
+                        Click="OnNNEDI3ItemClick"
+                        GroupName="NNEDI3Group"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="ProMax"
+                        Text="NNS 256" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSubItem
+                    x:Name="RavuItem"
+                    Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
+                    Text="ravu">
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="None"
+                        Text="{ext:Locale Name=Unset}" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteArR2"
+                        Text="Lite AR R2" />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteArR3"
+                        Text="Lite AR R3" />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteArR4"
+                        Text="Lite AR R4" />
+                    <MenuFlyoutSeparator />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteR2"
+                        Text="Lite R2" />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteR3"
+                        Text="Lite R3" />
+                    <RadioMenuFlyoutItem
+                        Click="OnRavuItemClick"
+                        GroupName="RavuGroup"
+                        Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
+                        Tag="LiteR4"
+                        Text="Lite R4" />
                 </MenuFlyoutSubItem>
             </MenuFlyoutSubItem>
             <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.HasNvidiaGpu, Mode=OneWay}" />

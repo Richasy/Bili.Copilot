@@ -1081,10 +1081,75 @@ public sealed partial class PlayerViewModel
         {
             return [GetShaderPath("nnedi3-nns64-win8x4.glsl"), GetIgvShaderPath("adaptive-sharpen_luma.glsl")];
         }
+        else if (mode == Nnedi3Mode.Pro)
+        {
+            return [GetShaderPath("nnedi3-nns128-win8x4.glsl"), GetIgvShaderPath("adaptive-sharpen_luma.glsl")];
+        }
+        else if (mode == Nnedi3Mode.ProMax)
+        {
+            return [GetShaderPath("nnedi3-nns256-win8x4.glsl"), GetIgvShaderPath("adaptive-sharpen_luma.glsl")];
+        }
 
         return [];
 
         string GetShaderPath(string shaderName) => Path.Combine(assetsFolder, shaderName);
         string GetIgvShaderPath(string shaderName) => Path.Combine(igvFolder, shaderName);
+    }
+
+    private static string[] FindRavuShaders(RavuMode mode)
+    {
+        if (mode == RavuMode.None)
+        {
+            return [];
+        }
+
+        var assetsFolder = Path.Combine(Package.Current.InstalledPath, "Assets", "Ravu");
+
+        if (mode == RavuMode.LiteArR2)
+        {
+            return [GetShaderPath("ravu-lite-ar-r2.hook")];
+        }
+        else if (mode == RavuMode.LiteArR3)
+        {
+            return [GetShaderPath("ravu-lite-ar-r2.hook")];
+        }
+        else if (mode == RavuMode.LiteArR4)
+        {
+            return [GetShaderPath("ravu-lite-ar-r4.hook")];
+        }
+        else if (mode == RavuMode.LiteR2)
+        {
+            return [GetShaderPath("ravu-lite-r2.hook")];
+        }
+        else if (mode == RavuMode.LiteR3)
+        {
+            return [GetShaderPath("ravu-lite-r3.hook")];
+        }
+        else if (mode == RavuMode.LiteR4)
+        {
+            return [GetShaderPath("ravu-lite-r4.hook")];
+        }
+
+        return [];
+
+        string GetShaderPath(string shaderName) => Path.Combine(assetsFolder, shaderName);
+    }
+
+    private string[] GetCombinedShaders()
+    {
+        var shaders = new List<string>();
+        shaders.AddRange(FindAnime4KShaders(Anime4KMode));
+        shaders.AddRange(FindArtCNNShaders(ArtCNNMode));
+        shaders.AddRange(FindRavuShaders(RavuMode));
+        shaders.AddRange(FindNnedi3Shaders(Nnedi3Mode));
+        return [.. shaders.Distinct()];
+    }
+
+    private void CheckClearShaderEnabled()
+    {
+        IsClearShaderEnabled = Anime4KMode != Anime4KMode.None ||
+                                 ArtCNNMode != ArtCNNMode.None ||
+                                 RavuMode != RavuMode.None ||
+                                 Nnedi3Mode != Nnedi3Mode.None;
     }
 }
