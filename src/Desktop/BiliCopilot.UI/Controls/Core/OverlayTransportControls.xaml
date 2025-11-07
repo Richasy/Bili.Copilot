@@ -512,24 +512,34 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="60" />
             </Grid.ColumnDefinitions>
+            <Grid
+                x:Name="CommonPositionContainer"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    IsTextScaleFactorEnabled="False"
+                    RequestedTheme="Dark"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind GetTimeText(ViewModel.Player.Position), Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    IsTextScaleFactorEnabled="False"
+                    RequestedTheme="Dark"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Text="{x:Bind GetTimeText(ViewModel.PreviewPosition), Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay}" />
+            </Grid>
             <TextBlock
+                x:Name="ChangingTimeBlock"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                 IsTextScaleFactorEnabled="False"
                 RequestedTheme="Dark"
                 Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind GetTimeText(ViewModel.Player.Position), Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-            <TextBlock
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                IsTextScaleFactorEnabled="False"
-                RequestedTheme="Dark"
-                Style="{StaticResource CaptionTextBlockStyle}"
-                Text="{x:Bind GetTimeText(ViewModel.PreviewPosition), Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay}" />
+                Visibility="Collapsed" />
             <local:CacheBar
                 Grid.Column="1"
                 Height="4"
@@ -540,6 +550,7 @@
                 Grid.Column="1"
                 Background="#55FFFFFF"
                 IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                IsThumbToolTipEnabled="False"
                 Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
                 Style="{StaticResource PlayerSliderStyle}"
                 ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"
@@ -557,6 +568,7 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
+                IsThumbToolTipEnabled="False"
                 Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
                 Style="{StaticResource PlayerSliderStyle}"
                 ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"

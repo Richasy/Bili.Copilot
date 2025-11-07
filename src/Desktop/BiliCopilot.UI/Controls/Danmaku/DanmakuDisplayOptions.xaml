@@ -37,8 +37,8 @@
             x:Name="AreaSlider"
             Header="{ext:Locale Name=DanmakuArea}"
             Maximum="1"
-            Minimum="0.1"
-            StepFrequency="0.1"
+            Minimum="0.05"
+            StepFrequency="0.05"
             Value="{x:Bind ViewModel.DanmakuArea, Mode=TwoWay}" />
         <Slider
             x:Name="SpeedSlider"

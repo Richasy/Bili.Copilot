@@ -174,6 +174,9 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
             return;
         }
 
+        ChangingTimeBlock.Text = GetTimeText(v);
+        ChangingTimeBlock.Visibility = Visibility.Visible;
+        CommonPositionContainer.Visibility = Visibility.Collapsed;
         _progressChangeList.Add(v);
         _progressChangeTimer.Stop();
         _progressChangeTimer.Start();
@@ -301,6 +304,9 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
 
         _progressChangeList.Clear();
         _progressChangeTimer.Stop();
+        ChangingTimeBlock.Text = string.Empty;
+        ChangingTimeBlock.Visibility = Visibility.Collapsed;
+        CommonPositionContainer.Visibility = Visibility.Visible;
     }
 
     private async void OnVolumeChangeTick(object? sender, object e)
