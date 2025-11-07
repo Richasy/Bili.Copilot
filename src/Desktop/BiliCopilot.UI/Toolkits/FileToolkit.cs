@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using Microsoft.Windows.Storage;
 using Richasy.WinUIKernel.Share.Toolkits;
-using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -13,7 +13,7 @@ internal sealed class FileToolkit : SharedFileToolkit
     /// <returns>结果.</returns>
     public static bool IsLocalDataExist(string fileName, string folderName = "")
     {
-        var folder = ApplicationData.Current.LocalFolder;
+        var folder = ApplicationData.GetDefault().LocalFolder;
         var path = string.IsNullOrEmpty(folderName)
             ? Path.Combine(folder.Path, fileName)
             : Path.Combine(folder.Path, folderName, fileName);

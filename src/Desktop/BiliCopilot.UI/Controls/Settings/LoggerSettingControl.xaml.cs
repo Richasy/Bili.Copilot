@@ -16,7 +16,7 @@ public sealed partial class LoggerSettingControl : SettingsPageControlBase
     /// </summary>
     public LoggerSettingControl() => InitializeComponent();
 
-    private static string LoggerFolder => Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logger");
+    private static string LoggerFolder => Path.Combine(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Logger");
 
     private async void OnOpenLoggerFolderButtonClick(object sender, RoutedEventArgs e)
     {

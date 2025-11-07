@@ -160,7 +160,7 @@ internal sealed partial class AppToolkit : SharedAppToolkit
 
     public static async Task<string> EnsureMpvConfigExistAsync()
     {
-        var localFolder = ApplicationData.Current.LocalFolder;
+        var localFolder = Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder;
         var destPath = Path.Combine(localFolder.Path, "mpv.conf");
         if (!File.Exists(destPath))
         {

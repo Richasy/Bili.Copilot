@@ -128,7 +128,7 @@ public sealed partial class GalleryPageViewModel : ViewModelBase
 
         var profileSettings = UserProfilePersonalizationSettings.Current;
         var fileName = Path.GetFileName(SelectedImage.SourceUri.ToString());
-        var folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("TempImages", CreationCollisionOption.OpenIfExists);
+        var folder = await Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.CreateFolderAsync("TempImages", CreationCollisionOption.OpenIfExists);
         var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
         using var stream = await file.OpenStreamForWriteAsync();
         using var client = new HttpClient();

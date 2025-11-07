@@ -13,7 +13,6 @@ using Microsoft.Windows.AppNotifications;
 using Richasy.BiliKernel.Models.Media;
 using Serilog;
 using System.Text.Json;
-using Windows.Storage;
 
 namespace BiliCopilot.UI;
 
@@ -56,7 +55,7 @@ public partial class App : Application
         var instance = Microsoft.Windows.AppLifecycle.AppInstance.FindOrRegisterForKey(Id);
         if (instance.IsCurrent)
         {
-            var rootFolder = ApplicationData.Current.LocalFolder;
+            var rootFolder = Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder;
             var fullPath = $"{rootFolder.Path}\\Logger";
             LoggerFolder = fullPath;
             if (!Directory.Exists(fullPath))

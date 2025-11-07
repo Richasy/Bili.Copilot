@@ -18,7 +18,6 @@ using Richasy.WinUIKernel.Share.ViewModels;
 using RichasyKernel;
 using Serilog;
 using System.Diagnostics.CodeAnalysis;
-using Windows.Storage;
 
 namespace BiliCopilot.UI;
 
@@ -187,7 +186,7 @@ internal static class GlobalDependencies
 
     public static RichasyKernel.IKernelBuilder AddSerilog(this RichasyKernel.IKernelBuilder builder)
     {
-        var loggerPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logger");
+        var loggerPath = Path.Combine(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Logger");
         if (!Directory.Exists(loggerPath))
         {
             Directory.CreateDirectory(loggerPath);

@@ -2,7 +2,6 @@
 
 using BiliCopilot.UI.Models.Constants;
 using Richasy.WinUIKernel.Share.Toolkits;
-using Windows.Storage;
 
 namespace BiliCopilot.UI.Toolkits;
 
@@ -11,6 +10,8 @@ namespace BiliCopilot.UI.Toolkits;
 /// </summary>
 internal sealed class SettingsToolkit : SharedSettingsToolkit
 {
+    private Microsoft.Windows.Storage.ApplicationDataContainer _settingContainer;
+
     /// <summary>
     /// Read local setting.
     /// </summary>
@@ -45,6 +46,14 @@ internal sealed class SettingsToolkit : SharedSettingsToolkit
     public static bool IsSettingKeyExist(SettingNames settingName)
         => GlobalDependencies.Kernel.GetRequiredService<ISettingsToolkit>().IsSettingKeyExist(settingName.ToString());
 
-    protected override ApplicationDataContainer GetSettingContainer()
-        => ApplicationData.Current.LocalSettings.CreateContainer("v1", ApplicationDataCreateDisposition.Always);
+    protected override Microsoft.Windows.Storage.ApplicationDataContainer GetSettingContainer()
+    {
+        if (_settingContainer != null)
+        {
+            return _settingContainer;
+        }
+
+        _settingContainer = Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalSettings.CreateContainer("v1", Microsoft.Windows.Storage.ApplicationDataCreateDisposition.Always);
+        return _settingContainer;
+    }
 }
