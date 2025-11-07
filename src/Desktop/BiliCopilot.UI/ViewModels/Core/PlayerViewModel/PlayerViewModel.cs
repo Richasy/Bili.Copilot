@@ -36,6 +36,13 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
             _rightKeyLongPressTimer = null;
         }
 
+        if (_tripleTimer != null)
+        {
+            _tripleTimer.Tick -= OnTripleTimerTick;
+            _tripleTimer.Stop();
+            _tripleTimer = null;
+        }
+
         if (_smtc != null)
         {
             _smtc.ButtonPressed -= OnSmtcButtonPressed;

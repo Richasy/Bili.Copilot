@@ -274,17 +274,19 @@ public sealed partial class PlayerViewModel
         await Client!.SetSpeedAsync(SettingsToolkit.ReadLocalSetting(Models.Constants.SettingNames.TempPlaybackRate, 3d));
         LastSpeedChangingTime = DateTimeOffset.Now;
         IsSpeedChanging = true;
+        _tripleTimer!.Start();
     }
 
     [RelayCommand]
     private async Task RestoreSpeedAsync()
     {
-        if (Player is null || !IsHoldingSpeedChanging)
+        if (Player is null)
         {
             return;
         }
 
         IsHoldingSpeedChanging = false;
+        _tripleTimer!.Stop();
         if (Math.Abs(_lastSpeed - Player.PlaybackRate) > 0.01)
         {
             await Client!.SetSpeedAsync(_lastSpeed);

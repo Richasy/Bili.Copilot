@@ -111,14 +111,7 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
         => _tempControlTimer.Start();
 
     protected override void OnControlUnloaded()
-    {
-        _holdTimer.Tick -= OnHoldTimerTick;
-        _holdTimer.Stop();
-        _tapTimer.Tick -= OnTapTimerTick;
-        _tapTimer.Stop();
-        _tempControlTimer.Tick -= OnTempControlTimerTick;
-        _tempControlTimer.Stop();
-    }
+        => CleanupInteractionState();
 
     /// <inheritdoc/>
     protected override void OnPointerMoved(PointerRoutedEventArgs e)
@@ -228,6 +221,7 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
     {
         _holdTimer.Stop();
         _isHolding = true;
+        ViewModel.IsTouching = _isTouch;
         ViewModel?.TripleSpeedCommand?.Execute(default);
     }
 
@@ -363,6 +357,40 @@ public sealed partial class PlayerInteractivePanel : PlayerControlBase
         }
 
         return default;
+    }
+
+    /// <summary>
+    /// 清理所有交互状态，防止状态残留
+    /// </summary>
+    private void CleanupInteractionState()
+    {
+        // 停止所有计时器
+        _holdTimer.Stop();
+        _tapTimer.Stop();
+
+        // 如果正在倍速播放，恢复正常速度
+        if (_isHolding)
+        {
+            ViewModel?.IsTouching = false;
+            ViewModel?.RestoreSpeedCommand?.Execute(default);
+            _isHolding = false;
+        }
+
+        // 如果正在预览进度，取消预览
+        if (ViewModel is not null && ViewModel.IsPreviewProgressChanging)
+        {
+            ViewModel.IsPreviewProgressChanging = false;
+        }
+
+        // 重置所有状态变量
+        _tapCount = 0;
+        _isManipulating = false;
+        _isLeftButton = false;
+        _isRightButton = false;
+        _isTouch = false;
+        _totalDeltaX = 0;
+        _startPoint = new(0, 0);
+        _interactiveArea = InteractiveArea.None;
     }
 
     private void CheckPointerType(PointerRoutedEventArgs e)

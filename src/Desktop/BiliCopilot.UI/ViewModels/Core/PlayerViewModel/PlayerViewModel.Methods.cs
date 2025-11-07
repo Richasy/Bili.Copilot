@@ -222,6 +222,13 @@ public sealed partial class PlayerViewModel
             _rightKeyLongPressTimer.Interval = TimeSpan.FromMilliseconds(RightKeyLongPressDelay);
             _rightKeyLongPressTimer.Tick += OnRightKeyLongPressTimerTick;
         }
+
+        if (_tripleTimer == null)
+        {
+            _tripleTimer = queue.CreateTimer();
+            _tripleTimer.Interval = TimeSpan.FromSeconds(0.2);
+            _tripleTimer.Tick += OnTripleTimerTick;
+        }
     }
 
     private void OnRightKeyLongPressTimerTick(DispatcherQueueTimer sender, object args)
@@ -233,6 +240,17 @@ public sealed partial class PlayerViewModel
         }
 
         _rightKeyLongPressTimer?.Stop();
+    }
+
+    private void OnTripleTimerTick(DispatcherQueueTimer sender, object args)
+    {
+        // 检查鼠标左键是否在按，同时检查键盘右方向键是否在按.
+        var isLeftMouseClick = (PInvoke.GetAsyncKeyState(0x01) & 0x8000) != 0;
+        var isRightArrowKeyPressed = (PInvoke.GetAsyncKeyState(0x27) & 0x8000) != 0;
+        if (IsHoldingSpeedChanging && !isLeftMouseClick && !isRightArrowKeyPressed && !IsTouching)
+        {
+            RestoreSpeedCommand.Execute(default);
+        }
     }
 
     private void OnConnectorPropertiesUpdated(object? sender, PlayerInformationUpdatedEventArgs e)

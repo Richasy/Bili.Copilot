@@ -34,6 +34,7 @@ public sealed partial class PlayerViewModel
     private double _horizontalSubtitlePosition = 100;
     private bool _isRightKeyTripleSpeed;
     private DispatcherQueueTimer? _rightKeyLongPressTimer;
+    private DispatcherQueueTimer? _tripleTimer;
     private DateTimeOffset _lastPlayNextOrPrevTime = DateTimeOffset.MinValue;
 
     private const int RightKeyLongPressDelay = 500;
@@ -227,6 +228,8 @@ public sealed partial class PlayerViewModel
 
     [ObservableProperty]
     public partial bool IsClearShaderEnabled { get; set; }
+
+    public bool IsTouching { get; set; }
 
     public bool IsPopupVisible { get; set; }
 
