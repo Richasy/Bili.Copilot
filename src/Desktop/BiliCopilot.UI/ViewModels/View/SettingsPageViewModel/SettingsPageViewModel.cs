@@ -70,6 +70,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         MpvBuiltInProfile = SettingsToolkit.ReadLocalSetting(SettingNames.MpvBuiltInProfile, MpvBuiltInProfile.HighQuality);
         UseIntegrationWhenSinglePlayWindow = SettingsToolkit.ReadLocalSetting(SettingNames.UseIntegrationWhenSinglePlayWindow, true);
         MaxCacheSize = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSize, 300d); // Default to 300 MB
+        MaxBackCacheSize = SettingsToolkit.ReadLocalSetting(SettingNames.MaxBackCacheSize, 0d); // Default to 0 MB
         MaxCacheSeconds = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSeconds, 300d); // Default to 300 seconds
         HrSeek = SettingsToolkit.ReadLocalSetting(SettingNames.HrSeek, HrSeekType.Default);
         MaxVolume = SettingsToolkit.ReadLocalSetting(SettingNames.MaxVolume, 100d);
@@ -524,6 +525,16 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnAudioExclusiveEnabledChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.AudioExclusiveEnabled, value);
+
+    partial void OnMaxBackCacheSizeChanged(double value)
+    {
+        if (!double.IsNaN(value))
+        {
+            return;
+        }
+
+        SettingsToolkit.WriteLocalSetting(SettingNames.MaxBackCacheSize, value);
+    }
 
     partial void OnCacheOnDiskChanged(bool value)
         => SettingsToolkit.WriteLocalSetting(SettingNames.CacheOnDisk, value);

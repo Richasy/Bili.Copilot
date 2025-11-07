@@ -206,6 +206,9 @@ public sealed partial class SettingsPageViewModel
     public partial double MaxCacheSize { get; set; }
 
     [ObservableProperty]
+    public partial double MaxBackCacheSize { get; set; }
+
+    [ObservableProperty]
     public partial double MaxCacheSeconds { get; set; }
 
     [ObservableProperty]

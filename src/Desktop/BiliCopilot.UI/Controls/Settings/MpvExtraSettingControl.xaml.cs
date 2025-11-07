@@ -25,6 +25,7 @@ public sealed partial class MpvExtraSettingControl : SettingsPageControlBase
         CacheSizeBox.Value = ViewModel.MaxCacheSize;
         CacheSecondsBox.Value = ViewModel.MaxCacheSeconds;
         MaxVolumeBox.Value = ViewModel.MaxVolume;
+        BackCacheSizeBox.Value = ViewModel.MaxBackCacheSize;
 
         _isLoaded = true;
     }
@@ -108,5 +109,15 @@ public sealed partial class MpvExtraSettingControl : SettingsPageControlBase
         SettingsToolkit.DeleteLocalSetting(SettingNames.CacheDir);
         ViewModel.CacheDirDescription = "--demuxer-cache-dir";
         ViewModel.HasCustomCacheDir = false;
+    }
+
+    private void OnBackCacheSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+    {
+        if (!_isLoaded)
+        {
+            return;
+        }
+
+        ViewModel.MaxBackCacheSize = (int)args.NewValue;
     }
 }

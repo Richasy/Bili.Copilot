@@ -92,6 +92,7 @@ public sealed partial class VideoConnectorViewModel : ViewModelBase, IPlayerConn
         if (next is VideoPart part)
         {
             _snapshot.PreferPart = part;
+            _snapshot.StartPosition = 0;
             Parent.InitializeCommand.Execute(_snapshot);
             return;
         }

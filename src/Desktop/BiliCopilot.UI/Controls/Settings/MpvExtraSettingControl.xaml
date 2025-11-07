@@ -98,6 +98,18 @@
                     ValueChanged="OnCacheSizeChanged" />
             </base:SettingsCard>
             <base:SettingsCard
+                x:Name="BackCacheSize"
+                Description="--demuxer-max-back-bytes"
+                Header="{ext:Locale Name=MaxBackCacheSize}">
+                <NumberBox
+                    x:Name="BackCacheSizeBox"
+                    MinWidth="120"
+                    Maximum="1024"
+                    Minimum="0"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="OnBackCacheSizeChanged" />
+            </base:SettingsCard>
+            <base:SettingsCard
                 x:Name="CacheSec"
                 Description="--demuxer-readahead-secs"
                 Header="{ext:Locale Name=MaxCacheSeconds}">

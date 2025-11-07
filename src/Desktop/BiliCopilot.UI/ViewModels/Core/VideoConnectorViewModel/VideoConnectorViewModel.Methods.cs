@@ -69,7 +69,12 @@ public sealed partial class VideoConnectorViewModel
 
         if (_view.Parts?.Count > 1)
         {
-            sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, default));
+            sections.Add(new VideoPlayerPartSectionDetailViewModel(_view.Parts, _part.Identifier.Id, p =>
+            {
+                _snapshot.PreferPart = p;
+                _snapshot.StartPosition = 0;
+                Parent.InitializeCommand.Execute(_snapshot);
+            }));
         }
 
         if (_snapshot.Playlist is not null)

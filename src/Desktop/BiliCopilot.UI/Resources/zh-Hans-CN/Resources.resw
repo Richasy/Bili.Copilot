@@ -3183,4 +3183,7 @@
   <data name="ClearShaders" xml:space="preserve">
     <value>清除着色器</value>
   </data>
+  <data name="MaxBackCacheSize" xml:space="preserve">
+    <value>最大后向缓冲大小（MB）</value>
+  </data>
 </root>

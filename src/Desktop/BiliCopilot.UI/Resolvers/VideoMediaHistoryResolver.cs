@@ -30,7 +30,7 @@ internal sealed partial class VideoMediaHistoryResolver(IPlayerService playerSer
             throw new InvalidOperationException("视频信息未初始化.");
         }
 
-        var progress = _view.Progress?.Progress ?? 0d;
+        var progress = _snapshot.StartPosition == null ? _view.Progress?.Progress ?? 0d : _snapshot.StartPosition.Value;
         return Task.FromResult(progress >= _view.Information.Duration - 5 ? 0d : progress);
     }
 

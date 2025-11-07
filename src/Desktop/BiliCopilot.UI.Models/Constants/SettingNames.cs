@@ -125,7 +125,6 @@ public enum SettingNames
     MaxCacheSeconds,
     MaxCacheSize,
     PreferAudioChannelLayout,
-    PreferDecodeType,
     CustomLibmpvPath,
     SubtitleFontSize,
     ScreenshotAction,
@@ -140,4 +139,5 @@ public enum SettingNames
     DanmakuRenderer,
     D3D11AdapterName,
     VulkanDeviceName,
+    MaxBackCacheSize,
 }

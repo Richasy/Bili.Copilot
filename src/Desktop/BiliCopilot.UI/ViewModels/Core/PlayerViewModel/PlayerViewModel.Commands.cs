@@ -707,7 +707,7 @@ public sealed partial class PlayerViewModel
             {
                 await Client!.SetNvidiaVsrAsync(false);
                 // Restore the GPU context and hardware decode settings.
-                var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecodeType, PreferDecodeType.Auto);
+                var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
                 if (decodeType == PreferDecodeType.Auto)
                 {
                     await Client.SetGpuContextAsync(GpuContextType.Auto);

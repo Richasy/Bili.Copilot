@@ -77,7 +77,7 @@ public sealed partial class PlayerViewModel
             }
 
             var configPath = string.Empty;
-            var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecodeType, PreferDecodeType.Auto);
+            var decodeType = SettingsToolkit.ReadLocalSetting(SettingNames.PreferDecode, PreferDecodeType.Auto);
             if (decodeType == PreferDecodeType.Custom)
             {
                 configPath = await AppToolkit.EnsureMpvConfigExistAsync();
@@ -172,8 +172,14 @@ public sealed partial class PlayerViewModel
 
                 var cacheSize = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSize, 300d);
                 var cacheSeconds = SettingsToolkit.ReadLocalSetting(SettingNames.MaxCacheSeconds, 360d);
+                var backCacheSize = SettingsToolkit.ReadLocalSetting(SettingNames.MaxBackCacheSize, 0d);
                 await Client.SetDemuxerMaxBytesAsync($"{Convert.ToInt32(cacheSize)}MiB");
                 await Client.SetDemuxerReadheadSecondsAsync(Convert.ToInt32(cacheSeconds));
+                if (Convert.ToInt32(backCacheSize) > 0)
+                {
+                    await Client.SetDemuxerMaxBackBytesAsync($"{Convert.ToInt32(backCacheSize)}MiB");
+                }
+
                 var useCacheOnDisk = SettingsToolkit.ReadLocalSetting(SettingNames.CacheOnDisk, false);
                 await Client.SetCacheOnDiskAsync(useCacheOnDisk);
                 if (useCacheOnDisk)
