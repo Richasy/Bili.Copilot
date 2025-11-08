@@ -1464,15 +1464,9 @@
 		<MSBuild Projects="..\..\Desktop\WheelScrollService\WheelScrollService.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=AnyCPU" />
 
 		<!-- Copy built files to Assets directory -->
-		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.exe"
-			  DestinationFolder="Assets\"
-			  SkipUnchangedFiles="true" />
-		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.dll"
-			  DestinationFolder="Assets\"
-			  SkipUnchangedFiles="true" />
-		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.runtimeconfig.json"
-			  DestinationFolder="Assets\"
-			  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.exe" DestinationFolder="Assets\" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.dll" DestinationFolder="Assets\" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.runtimeconfig.json" DestinationFolder="Assets\" SkipUnchangedFiles="true" />
 	</Target>
 
 	<!-- Include WheelScrollService files in Content -->

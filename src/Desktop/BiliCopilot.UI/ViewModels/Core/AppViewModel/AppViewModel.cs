@@ -235,14 +235,6 @@ public sealed partial class AppViewModel : ViewModelBase
                 return;
             }
 
-            // 检查服务是否已经在运行
-            var existingProcess = Process.GetProcessesByName("WheelScrollService").FirstOrDefault();
-            if (existingProcess != null)
-            {
-                this.Get<ILogger<AppViewModel>>().LogInformation("WheelScrollService is already running.");
-                return;
-            }
-
             // 获取当前滚动速度
             var originalWheelLines = GetCurrentWheelLines();
             if (originalWheelLines == null)

@@ -530,7 +530,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
 
     partial void OnMaxBackCacheSizeChanged(double value)
     {
-        if (!double.IsNaN(value))
+        if (double.IsNaN(value))
         {
             return;
         }

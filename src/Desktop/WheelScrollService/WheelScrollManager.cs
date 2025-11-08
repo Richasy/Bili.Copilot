@@ -28,7 +28,7 @@ public sealed class WheelScrollManager
         try
         {
             var rodelProcesses = Process.GetProcesses()
-                .Where(p => p.ProcessName.Contains("BiliCopilot", StringComparison.OrdinalIgnoreCase))
+                .Where(p => p.ProcessName.StartsWith("BiliCopilot", StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             if (rodelProcesses.Count == 0)
