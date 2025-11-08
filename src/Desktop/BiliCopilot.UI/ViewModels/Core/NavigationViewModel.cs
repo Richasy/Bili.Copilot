@@ -144,6 +144,7 @@ public sealed partial class NavigationViewModel : ViewModelBase, INavServiceView
     {
         if (_overFrame is not null && _overFrame.GetCurrentContent() is SearchPage page)
         {
+            IsOverlayOpen = true;
             page.ViewModel.SearchCommand.Execute(keyword);
             return;
         }
