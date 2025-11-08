@@ -33,6 +33,8 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
             return;
         }
 
+        _initScrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
+        ScrollAccelerate = _initScrollAccelerate;
         AppTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         CheckTheme();
         LogLevel = SettingsToolkit.ReadLocalSetting(SettingNames.MpvLogLevel, MpvLogLevel.Warn);
@@ -79,7 +81,6 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
         var cacheDir = SettingsToolkit.ReadLocalSetting(SettingNames.CacheDir, string.Empty);
         HasCustomCacheDir = !string.IsNullOrEmpty(cacheDir);
         CacheDirDescription = string.IsNullOrEmpty(cacheDir) ? "--demuxer-cache-dir" : cacheDir;
-        ScrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
         TempPlaybackRate = SettingsToolkit.ReadLocalSetting(SettingNames.TempPlaybackRate, 3.0);
         try
         {
@@ -232,7 +233,8 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     }
 
     private void CheckRestartTip()
-        => IsRestartTipShown = CustomLibMpvPath != _initialCustomLibMpvPath;
+        => IsRestartTipShown = CustomLibMpvPath != _initialCustomLibMpvPath
+        || ScrollAccelerate != _initScrollAccelerate;
 
     [RelayCommand]
     private async Task SelectLibMpvFileAsync()
@@ -542,14 +544,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnScrollAccelerateChanged(bool value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.ScrollAccelerate, value);
-        if (value)
-        {
-            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
-        }
-        else
-        {
-            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-        }
+        CheckRestartTip();
     }
 
     partial void OnTempPlaybackRateChanged(double value)

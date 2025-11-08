@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11128.255 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.Models", "src\Desktop\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj", "{E8FA9083-C203-42CA-9D28-1D1D045E770B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.ResourceGenerator", "src\Desktop\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj", "{31E36098-D978-48FF-AE52-AD37BDF4CB6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelScrollService", "src\Desktop\WheelScrollService\WheelScrollService.csproj", "{B7F1E658-B513-4E44-A580-3176D0931482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,30 @@ Global
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x64.Build.0 = Release|Any CPU
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x86.ActiveCfg = Release|Any CPU
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B}.Release|x86.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|x64.Build.0 = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Debug|x86.Build.0 = Debug|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|ARM64.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|ARM64.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|x64.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|x64.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|x86.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Publish|x86.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|ARM64.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|x64.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|x64.Build.0 = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|x86.ActiveCfg = Release|Any CPU
+		{B7F1E658-B513-4E44-A580-3176D0931482}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +145,7 @@ Global
 		{1E60B137-A0B8-4FC6-86AA-EFE98E5D8135} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
 		{E8FA9083-C203-42CA-9D28-1D1D045E770B} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
 		{31E36098-D978-48FF-AE52-AD37BDF4CB6B} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
+		{B7F1E658-B513-4E44-A580-3176D0931482} = {4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A195D36-BD13-472D-B17E-5070E06D82C8}

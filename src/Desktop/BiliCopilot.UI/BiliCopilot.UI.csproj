@@ -1454,10 +1454,37 @@
     
   <!-- Publish Properties -->
   <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">False</PublishReadyToRun>
-    <PublishAot Condition="'$(Configuration)' == 'Debug'">True</PublishAot>
-    <PublishAot Condition="'$(Configuration)' != 'Debug'">True</PublishAot>
+    <PublishReadyToRun>False</PublishReadyToRun>
+    <PublishAot>True</PublishAot>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
+
+	<!-- Build WheelScrollService and copy to Assets -->
+	<Target Name="BuildWheelScrollService" BeforeTargets="BeforeBuild">
+		<MSBuild Projects="..\..\Desktop\WheelScrollService\WheelScrollService.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=AnyCPU" />
+
+		<!-- Copy built files to Assets directory -->
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.exe"
+			  DestinationFolder="Assets\"
+			  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.dll"
+			  DestinationFolder="Assets\"
+			  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\..\Desktop\WheelScrollService\bin\$(Configuration)\net9.0\WheelScrollService.runtimeconfig.json"
+			  DestinationFolder="Assets\"
+			  SkipUnchangedFiles="true" />
+	</Target>
+
+	<!-- Include WheelScrollService files in Content -->
+	<ItemGroup>
+		<Content Include="Assets\WheelScrollService.exe">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\WheelScrollService.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\WheelScrollService.runtimeconfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>

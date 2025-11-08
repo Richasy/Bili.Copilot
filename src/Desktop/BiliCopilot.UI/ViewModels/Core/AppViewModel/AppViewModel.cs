@@ -80,8 +80,7 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private async Task LaunchAsync()
     {
-        await LoadOriginalWheelLinesAsync();
-
+        StartWheelScrollService();
         // 清除所有之前的badges.
         //BadgeNotificationManager.Current.ClearBadge();
         if (_tokenResolver.GetToken() is not null)
@@ -227,100 +226,103 @@ public sealed partial class AppViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
-    private async Task UseQuickWheelScrollAsync()
+    private void StartWheelScrollService()
     {
-        if (_isWheelLinesChanged || !SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true))
+        try
         {
-            return;
-        }
+            if (!SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true))
+            {
+                return;
+            }
 
-        _isWheelLinesChanged = true;
-        await SetWheelLinesAsync(12);
+            // 检查服务是否已经在运行
+            var existingProcess = Process.GetProcessesByName("WheelScrollService").FirstOrDefault();
+            if (existingProcess != null)
+            {
+                this.Get<ILogger<AppViewModel>>().LogInformation("WheelScrollService is already running.");
+                return;
+            }
+
+            // 获取当前滚动速度
+            var originalWheelLines = GetCurrentWheelLines();
+            if (originalWheelLines == null)
+            {
+                this.Get<ILogger<AppViewModel>>().LogWarning("Failed to get current wheel lines.");
+                return;
+            }
+
+            // 构建服务路径
+            var appPath = Path.Combine(Package.Current.InstalledPath, "Assets");
+            var servicePath = Path.Combine(appPath!, "WheelScrollService.exe");
+
+            if (!File.Exists(servicePath))
+            {
+                this.Get<ILogger<AppViewModel>>().LogWarning($"WheelScrollService not found at: {servicePath}");
+                return;
+            }
+
+            // 启动服务
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = servicePath,
+                Arguments = $"{originalWheelLines} 12",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+            };
+
+            var p = Process.Start(startInfo);
+            this.Get<ILogger<AppViewModel>>().LogInformation("WheelScrollService started successfully.");
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Failed to start WheelScrollService.");
+        }
     }
 
-    [RelayCommand]
-    private async Task RestoreOriginalWheelScrollAsync()
+    private int? GetCurrentWheelLines()
     {
-        if (_isWheelLinesChanged && _originalWheelLines != null)
+        try
         {
-            _isWheelLinesChanged = false;
-            await SetWheelLinesAsync(_originalWheelLines.Value);
+            unsafe
+            {
+                uint lines = 0;
+                var ok = PInvoke.SystemParametersInfo(
+                    SYSTEM_PARAMETERS_INFO_ACTION.SPI_GETWHEELSCROLLLINES,
+                    0u,
+                    &lines,
+                    0);
+
+                if (ok)
+                {
+#pragma warning disable CA1508 // 避免死条件代码
+                    return lines == 12 ? 3 : (int)lines;
+#pragma warning restore CA1508 // 避免死条件代码
+                }
+
+                this.Get<ILogger<AppViewModel>>().LogWarning("Get wheel lines via SPI failed, fallback to registry.");
+            }
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Get wheel lines via SPI exception.");
         }
 
-        _isWheelLinesChanged = false;
-    }
-
-    private async Task LoadOriginalWheelLinesAsync()
-    {
-        await Task.Run(() =>
+        try
         {
-            try
+            using var reg = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", false);
+            var value = reg?.GetValue("WheelScrollLines")?.ToString();
+            if (uint.TryParse(value, out var regLines))
             {
-                unsafe
-                {
-                    uint lines = 0;
-                    var ok = PInvoke.SystemParametersInfo(
-                        SYSTEM_PARAMETERS_INFO_ACTION.SPI_GETWHEELSCROLLLINES,
-                        0u,
-                        &lines,
-                        0);
-
-                    if (ok)
-                    {
-                        _originalWheelLines = lines == 12 ? 3 : (int)lines;
-                        return;
-                    }
-
-                    this.Get<ILogger<AppViewModel>>().LogWarning("Get wheel lines via SPI failed, fallback to registry.");
-                }
+                return regLines == 12 ? 3 : (int)regLines;
             }
-            catch (Exception ex)
-            {
-                this.Get<ILogger<AppViewModel>>().LogError(ex, "Get wheel lines via SPI exception.");
-            }
-
-            try
-            {
-                using var reg = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", false);
-                var value = reg?.GetValue("WheelScrollLines")?.ToString();
-                if (uint.TryParse(value, out var regLines))
-                {
-                    _originalWheelLines = regLines == 12 ? 3 : (int)regLines;
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Get<ILogger<AppViewModel>>().LogError(ex, "Read wheel lines from registry failed.");
-            }
-        });
-    }
-
-    private async Task SetWheelLinesAsync(int lines)
-    {
-        if (_originalWheelLines == null)
+        }
+        catch (Exception ex)
         {
-            return;
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Read wheel lines from registry failed.");
         }
 
-        await Task.Run(() =>
-        {
-            try
-            {
-                unsafe
-                {
-                    var result = PInvoke.SystemParametersInfo(SYSTEM_PARAMETERS_INFO_ACTION.SPI_SETWHEELSCROLLLINES, (uint)lines, null, SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_UPDATEINIFILE | SYSTEM_PARAMETERS_INFO_UPDATE_FLAGS.SPIF_SENDCHANGE);
-                    if (!result)
-                    {
-                        this.Get<ILogger<AppViewModel>>().LogWarning("Set wheel lines failed.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.Get<ILogger<AppViewModel>>().LogError(ex, "Set wheel lines exception.");
-            }
-        });
+        return null;
     }
 
     partial void OnIsInitialLoadingChanged(bool value)

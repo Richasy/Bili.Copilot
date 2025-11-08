@@ -5,7 +5,6 @@ using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
 using BiliCopilot.UI.ViewModels.View;
 using Microsoft.Extensions.Logging;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Input;
@@ -23,10 +22,7 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
 {
     private const int WindowMinWidth = 640;
     private const int WindowMinHeight = 480;
-    private readonly InputActivationListener _inputActivationListener;
     private bool _isFirstActivated = true;
-    private bool _isActivated;
-    private readonly Microsoft.UI.Dispatching.DispatcherQueueTimer _cursorTimer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -41,14 +37,8 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         MinWidth = WindowMinWidth;
         MinHeight = WindowMinHeight;
         this.Get<AppViewModel>().Windows.Add(this);
-        _inputActivationListener = InputActivationListener.GetForWindowId(AppWindow.Id);
-        _inputActivationListener.InputActivationChanged += OnInputActivationChanged;
         Activated += OnActivated;
         Closed += OnClosed;
-
-        _cursorTimer = DispatcherQueue.CreateTimer();
-        _cursorTimer.Interval = TimeSpan.FromMilliseconds(100);
-        _cursorTimer.Tick += OnCursorTimerTick;
     }
 
     /// <inheritdoc/>
@@ -69,21 +59,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         return new PointInt32(left, top);
     }
 
-    private void OnInputActivationChanged(InputActivationListener sender, InputActivationListenerActivationChangedEventArgs args)
-    {
-        var isDeactivated = sender.State == InputActivationState.Deactivated;
-        if (isDeactivated)
-        {
-            _isActivated = false;
-            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-        }
-        else
-        {
-            _isActivated = true;
-            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
-        }
-    }
-
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
         if (args.WindowActivationState != WindowActivationState.Deactivated)
@@ -97,7 +72,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         }
 
         MoveAndResize();
-        _cursorTimer.Start();
         this.Get<ILogger<App>>().LogInformation($"App version: {this.Get<IAppToolkit>().GetPackageVersion()}");
         var localTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         this.Get<AppViewModel>().ChangeThemeCommand.Execute(localTheme);
@@ -116,7 +90,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     {
         var appVM = this.Get<AppViewModel>();
         var windows = appVM.Windows;
-        appVM.RestoreOriginalWheelScrollCommand.Execute(default);
         var hasPlayer = appVM.Players.Count > 0;
         if (hasPlayer)
         {
@@ -239,11 +212,6 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
         {
             SaveCurrentWindowStats();
         }
-
-        if (args.DidVisibilityChange && !sender.IsVisible)
-        {
-            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-        }
     }
 
     private void OnPointerPressed(object sender, PointerRoutedEventArgs e)
@@ -306,17 +274,5 @@ public sealed partial class MainWindow : WindowBase, ITipWindow
     {
         var handle = PInvoke.GetForegroundWindow();
         return handle.Equals(new(this.GetWindowHandle()));
-    }
-
-    private void OnCursorTimerTick(DispatcherQueueTimer sender, object args)
-    {
-        if (!IsCursorInWindow() || !_isActivated || !IsForegroundWindow())
-        {
-            this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
-        }
-        else
-        {
-            this.Get<AppViewModel>().UseQuickWheelScrollCommand.Execute(default);
-        }
     }
 }

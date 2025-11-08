@@ -119,7 +119,6 @@ public partial class App : Application
 
     private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        this.Get<AppViewModel>().RestoreOriginalWheelScrollCommand.Execute(default);
         this.Get<ILogger<App>>().LogError(e.Exception, "Unhandled exception occurred.");
         e.Handled = true;
 

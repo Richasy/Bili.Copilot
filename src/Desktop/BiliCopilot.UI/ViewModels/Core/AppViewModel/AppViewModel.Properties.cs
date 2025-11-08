@@ -14,8 +14,6 @@ public sealed partial class AppViewModel : ViewModelBase
 {
     private readonly ILogger<AppViewModel> _logger;
     private readonly IBiliTokenResolver _tokenResolver;
-    internal static int? _originalWheelLines;
-    internal static bool _isWheelLinesChanged;
 
     [ObservableProperty]
     private Window _activatedWindow;
