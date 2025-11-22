@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Bili Copilot. All rights reserved.
 
+using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
@@ -80,7 +81,8 @@ public sealed partial class AppViewModel : ViewModelBase
     [RelayCommand]
     private async Task LaunchAsync()
     {
-        StartWheelScrollService();
+        StartVisorService();
+
         // 清除所有之前的badges.
         //BadgeNotificationManager.Current.ClearBadge();
         if (_tokenResolver.GetToken() is not null)
@@ -226,15 +228,60 @@ public sealed partial class AppViewModel : ViewModelBase
         }
     }
 
-    private void StartWheelScrollService()
+    private void StartVisorService()
     {
         try
         {
-            if (!SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true))
+            // 构建服务路径
+            var architecture = RuntimeInformation.ProcessArchitecture;
+            var identifier = architecture == Architecture.Arm64 ? "arm64" : "x64";
+            var servicePath = Path.Combine(Package.Current.InstalledPath, "Assets", "visor", identifier, "BiliCopilot.Visor.exe");
+
+            if (!File.Exists(servicePath))
             {
+                this.Get<ILogger<AppViewModel>>().LogWarning($"BiliCopilot.Visor not found at: {servicePath}");
                 return;
             }
 
+            // 检查是否已经运行
+            var existingProcess = Process.GetProcessesByName("BiliCopilot.Visor");
+            if (existingProcess.Length > 0)
+            {
+                this.Get<ILogger<AppViewModel>>().LogInformation("BiliCopilot.Visor is already running.");
+                // 已经运行，尝试初始化
+                _ = InitializeVisorAsync();
+                return;
+            }
+
+            // 启动服务（无参数启动，等待管道初始化）
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = servicePath,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+            };
+
+            var p = Process.Start(startInfo);
+            this.Get<ILogger<AppViewModel>>().LogInformation("BiliCopilot.Visor started successfully.");
+
+            // 等待一小段时间让管道服务器启动
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                await InitializeVisorAsync();
+            });
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Failed to start BiliCopilot.Visor.");
+        }
+    }
+
+    private async Task InitializeVisorAsync()
+    {
+        try
+        {
             // 获取当前滚动速度
             var originalWheelLines = GetCurrentWheelLines();
             if (originalWheelLines == null)
@@ -243,32 +290,49 @@ public sealed partial class AppViewModel : ViewModelBase
                 return;
             }
 
-            // 构建服务路径
-            var appPath = Path.Combine(Package.Current.InstalledPath, "Assets");
-            var servicePath = Path.Combine(appPath!, "WheelScrollService.exe");
+            // 检查是否启用滚动加速
+            var scrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
 
-            if (!File.Exists(servicePath))
+            // 发送初始化命令
+            var response = await VisorClient.InitializeAsync(originalWheelLines.Value, 12, scrollAccelerate);
+            if (response?.Success == true)
             {
-                this.Get<ILogger<AppViewModel>>().LogWarning($"WheelScrollService not found at: {servicePath}");
-                return;
+                this.Get<ILogger<AppViewModel>>().LogInformation("Visor initialized successfully.");
             }
-
-            // 启动服务
-            var startInfo = new ProcessStartInfo
+            else
             {
-                FileName = servicePath,
-                Arguments = $"{originalWheelLines} 12",
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-            };
-
-            var p = Process.Start(startInfo);
-            this.Get<ILogger<AppViewModel>>().LogInformation("WheelScrollService started successfully.");
+                this.Get<ILogger<AppViewModel>>().LogWarning($"Failed to initialize Visor: {response?.Message}");
+            }
         }
         catch (Exception ex)
         {
-            this.Get<ILogger<AppViewModel>>().LogError(ex, "Failed to start WheelScrollService.");
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Failed to initialize Visor.");
+        }
+    }
+
+    /// <summary>
+    /// 更新 Visor 滚动加速设置
+    /// </summary>
+    public async Task UpdateVisorScrollAccelerateAsync(bool enabled)
+    {
+        try
+        {
+            var response = enabled
+                ? await VisorClient.EnableScrollAccelerateAsync()
+                : await VisorClient.DisableScrollAccelerateAsync();
+
+            if (response?.Success == true)
+            {
+                this.Get<ILogger<AppViewModel>>().LogInformation($"Visor scroll accelerate {(enabled ? "enabled" : "disabled")}.");
+            }
+            else
+            {
+                this.Get<ILogger<AppViewModel>>().LogWarning($"Failed to update Visor scroll accelerate: {response?.Message}");
+            }
+        }
+        catch (Exception ex)
+        {
+            this.Get<ILogger<AppViewModel>>().LogError(ex, "Failed to update Visor scroll accelerate.");
         }
     }
 

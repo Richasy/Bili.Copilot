@@ -33,8 +33,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
             return;
         }
 
-        _initScrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
-        ScrollAccelerate = _initScrollAccelerate;
+        ScrollAccelerate = SettingsToolkit.ReadLocalSetting(SettingNames.ScrollAccelerate, true);
         AppTheme = SettingsToolkit.ReadLocalSetting(SettingNames.AppTheme, ElementTheme.Default);
         CheckTheme();
         LogLevel = SettingsToolkit.ReadLocalSetting(SettingNames.MpvLogLevel, MpvLogLevel.Warn);
@@ -233,8 +232,7 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     }
 
     private void CheckRestartTip()
-        => IsRestartTipShown = CustomLibMpvPath != _initialCustomLibMpvPath
-        || ScrollAccelerate != _initScrollAccelerate;
+        => IsRestartTipShown = CustomLibMpvPath != _initialCustomLibMpvPath;
 
     [RelayCommand]
     private async Task SelectLibMpvFileAsync()
@@ -544,7 +542,8 @@ public sealed partial class SettingsPageViewModel : AISettingsViewModelBase
     partial void OnScrollAccelerateChanged(bool value)
     {
         SettingsToolkit.WriteLocalSetting(SettingNames.ScrollAccelerate, value);
-        CheckRestartTip();
+        // 通知 Visor 更新滚动加速设置
+        _ = this.Get<AppViewModel>().UpdateVisorScrollAccelerateAsync(value);
     }
 
     partial void OnTempPlaybackRateChanged(double value)

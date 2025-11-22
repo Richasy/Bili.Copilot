@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<RootNamespace>BiliCopilot.Visor.Models</RootNamespace>
+	<AssemblyName>BiliCopilot.Visor.Models</AssemblyName>
+  </PropertyGroup>
+
+</Project>

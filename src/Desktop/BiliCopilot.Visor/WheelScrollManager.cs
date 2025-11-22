@@ -1,23 +1,49 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace WheelScrollService;
+namespace BiliCopilot.Visor;
 
 /// <summary>
 /// 鼠标滚轮速度管理器
 /// </summary>
-public sealed class WheelScrollManager
+public sealed class WheelScrollManager : IDisposable
 {
-    private readonly int _originalSpeed;
-    private readonly int _expectedSpeed;
+    private int _originalSpeed;
+    private int _expectedSpeed;
     private readonly Timer _timer;
     private int? _currentSpeed;
+    private bool _isInitialized;
+    private DateTime _lastProcessDetectionTime = DateTime.MinValue;
+    private readonly TimeSpan _autoExitTimeout = TimeSpan.FromMinutes(5);
 
-    public WheelScrollManager(int originalSpeed, int expectedSpeed)
+    /// <summary>
+    /// 是否启用滚动加速
+    /// </summary>
+    public bool IsEnabled { get; set; } = true;
+
+    public WheelScrollManager()
+    {
+        _timer = new Timer(CheckAndAdjust, null, Timeout.Infinite, Timeout.Infinite);
+    }
+
+    /// <summary>
+    /// 初始化管理器
+    /// </summary>
+    public void Initialize(int originalSpeed, int expectedSpeed)
     {
         _originalSpeed = originalSpeed;
         _expectedSpeed = expectedSpeed;
-        _timer = new Timer(CheckAndAdjust, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+        _isInitialized = true;
+        _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+    }
+
+    /// <summary>
+    /// 更新速度设置
+    /// </summary>
+    public void UpdateSpeed(int originalSpeed, int expectedSpeed)
+    {
+        _originalSpeed = originalSpeed;
+        _expectedSpeed = expectedSpeed;
     }
 
     /// <summary>
@@ -25,17 +51,59 @@ public sealed class WheelScrollManager
     /// </summary>
     private void CheckAndAdjust(object? state)
     {
+        if (!_isInitialized)
+        {
+            return;
+        }
+
         try
         {
             var rodelProcesses = Process.GetProcesses()
-                .Where(p => p.ProcessName.StartsWith("BiliCopilot", StringComparison.OrdinalIgnoreCase))
+                .Where(p => p.ProcessName.Equals("BiliCopilot.UI", StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             if (rodelProcesses.Count == 0)
             {
-                // 没有 BiliCopilot 进程，恢复到初始速度后退出
+                // 没有 BiliCopilot 进程
                 EnsureSpeed(_originalSpeed);
-                Environment.Exit(0);
+
+                // 检查是否需要自动退出
+                if (_lastProcessDetectionTime == DateTime.MinValue)
+                {
+                    // 首次检测到没有进程，开始计时
+                    _lastProcessDetectionTime = DateTime.Now;
+                    Console.WriteLine($"No BiliCopilot processes found. Will auto-exit in {_autoExitTimeout.TotalMinutes} minutes if not detected.");
+                }
+                else
+                {
+                    // 检查是否超过 5 分钟
+                    var elapsed = DateTime.Now - _lastProcessDetectionTime;
+                    if (elapsed >= _autoExitTimeout)
+                    {
+                        Console.WriteLine($"No BiliCopilot processes detected for {_autoExitTimeout.TotalMinutes} minutes. Exiting...");
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        var remaining = _autoExitTimeout - elapsed;
+                        Console.WriteLine($"No process. Time until auto-exit: {remaining.TotalSeconds:F0} seconds.");
+                    }
+                }
+
+                return;
+            }
+
+            // 检测到进程，重置计时器
+            if (_lastProcessDetectionTime != DateTime.MinValue)
+            {
+                Console.WriteLine("BiliCopilot process detected. Reset auto-exit timer.");
+                _lastProcessDetectionTime = DateTime.MinValue;
+            }
+
+            // 如果未启用，始终保持原始速度
+            if (!IsEnabled)
+            {
+                EnsureSpeed(_originalSpeed);
                 return;
             }
 

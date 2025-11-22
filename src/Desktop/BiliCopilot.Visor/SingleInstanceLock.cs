@@ -1,4 +1,4 @@
-namespace WheelScrollService;
+namespace BiliCopilot.Visor;
 
 /// <summary>
 /// 单例锁，确保只有一个服务实例运行

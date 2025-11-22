@@ -15,7 +15,6 @@ public sealed partial class SettingsPageViewModel
 {
     private bool _isInitialized;
     private string? _initialCustomLibMpvPath;
-    private bool _initScrollAccelerate;
 
     [ObservableProperty]
     public partial bool IsRestartTipShown { get; set; }
