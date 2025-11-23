@@ -17,10 +17,8 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
     public static readonly DependencyProperty IsSkipButtonsVisibleProperty =
         DependencyProperty.Register(nameof(IsSkipButtonsVisible), typeof(bool), typeof(OverlayTransportControls), new PropertyMetadata(true));
 
-    private readonly List<double> _volumeChangeList = [];
     private readonly List<double> _speedChangeList = [];
     private readonly List<double> _progressChangeList = [];
-    private readonly DispatcherTimer _volumeChangeTimer;
     private readonly DispatcherTimer _speedChangeTimer;
     private readonly DispatcherTimer _progressChangeTimer;
     private bool _isFirstChangeVolume = true;
@@ -28,10 +26,8 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
     public OverlayTransportControls()
     {
         InitializeComponent();
-        _volumeChangeTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
         _speedChangeTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
         _progressChangeTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
-        _volumeChangeTimer.Tick += OnVolumeChangeTick;
         _speedChangeTimer.Tick += OnSpeedChangeTick;
         _progressChangeTimer.Tick += OnProgressChangeTick;
     }
@@ -74,13 +70,8 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
 
     protected override void OnControlUnloaded()
     {
-        _volumeChangeTimer?.Stop();
         _speedChangeTimer?.Stop();
         _progressChangeTimer?.Stop();
-        if (_volumeChangeTimer != null)
-        {
-            _volumeChangeTimer.Tick -= OnVolumeChangeTick;
-        }
 
         if (_speedChangeTimer != null)
         {
@@ -203,9 +194,7 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
             return;
         }
 
-        _volumeChangeList.Add(newValue);
-        _volumeChangeTimer.Stop();
-        _volumeChangeTimer.Start();
+        await ViewModel.ChangeVolumeAsync(newValue);
     }
 
     private void OnSpeedValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -307,19 +296,6 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
         ChangingTimeBlock.Text = string.Empty;
         ChangingTimeBlock.Visibility = Visibility.Collapsed;
         CommonPositionContainer.Visibility = Visibility.Visible;
-    }
-
-    private async void OnVolumeChangeTick(object? sender, object e)
-    {
-        var lastVolume = _volumeChangeList.LastOrDefault();
-        _volumeChangeList.Clear();
-        if (Math.Abs(lastVolume - ViewModel.Player.Volume) > 1)
-        {
-            await ViewModel.Client!.SetVolumeAsync(lastVolume);
-        }
-
-        _volumeChangeList.Clear();
-        _volumeChangeTimer.Stop();
     }
 
     private void OnSubtitleFlyoutOpened(object sender, object e)

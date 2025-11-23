@@ -296,7 +296,7 @@
                 Background="{ThemeResource AcrylicInAppFillColorCustomBrush}"
                 CornerRadius="24"
                 RowSpacing="8"
-                Visibility="{x:Bind ViewModel.IsVolumeChanging, Mode=OneWay}">
+                Visibility="{x:Bind local:PlayerOverlay.IsVolumeIndicatorVisible(ViewModel.IsControlsVisible, ViewModel.IsVolumeChanging), Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />

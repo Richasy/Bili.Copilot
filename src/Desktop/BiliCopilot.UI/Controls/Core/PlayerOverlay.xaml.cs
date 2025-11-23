@@ -307,6 +307,11 @@ public sealed partial class PlayerOverlay : PlayerControlBase
         return (state is MpvPlayerState.Seeking or MpvPlayerState.Buffering) || isLoading;
     }
 
+    internal static Visibility IsVolumeIndicatorVisible(bool isControlVisible, bool isVolumeChanging)
+    {
+        return !isControlVisible && isVolumeChanging ? Visibility.Visible : Visibility.Collapsed;
+    }
+
     internal static Visibility IsBottomProgressShouldDisplay(bool isAot, bool isFullScreen, bool isLoading, MpvPlayerState state)
     {
         if ((isAot || isFullScreen) && !IsLoading(state, isLoading))

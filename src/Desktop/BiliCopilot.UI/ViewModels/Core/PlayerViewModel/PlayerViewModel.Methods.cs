@@ -556,6 +556,16 @@ public sealed partial class PlayerViewModel
         }
         else if (e.PropertyName == nameof(Player.Volume) && Player.IsPlaybackInitialized)
         {
+            if (IsVolumeChanging)
+            {
+                if (DateTimeOffset.Now - LastVolumeChangingTime < TimeSpan.FromMilliseconds(500))
+                {
+                    return;
+                } 
+
+                IsVolumeChanging = false;
+            }
+
             CurrentVolume = Player.Volume;
             SettingsToolkit.WriteLocalSetting(SettingNames.PlayerVolume, Player.Volume);
         }

@@ -43,10 +43,12 @@ public sealed partial class PlayerViewModel
         }
 
         var newVolume = Math.Min(MaxVolume, Player.Volume + 5);
-        if (Math.Abs(newVolume - Player.Volume) > 1)
+        IsVolumeChanging = true;
+        LastVolumeChangingTime = DateTimeOffset.Now;
+        CurrentVolume = newVolume;
+
+        if (Math.Abs(newVolume - Player.Volume) >= 1)
         {
-            IsVolumeChanging = true;
-            LastVolumeChangingTime = DateTimeOffset.Now;
             await Client!.SetVolumeAsync(newVolume);
         }
     }
@@ -60,10 +62,12 @@ public sealed partial class PlayerViewModel
         }
 
         var newVolume = Math.Max(0, Player.Volume - 5);
-        if (Math.Abs(newVolume - Player.Volume) > 1)
+        IsVolumeChanging = true;
+        LastVolumeChangingTime = DateTimeOffset.Now;
+        CurrentVolume = newVolume;
+
+        if (Math.Abs(newVolume - Player.Volume) >= 1)
         {
-            IsVolumeChanging = true;
-            LastVolumeChangingTime = DateTimeOffset.Now;
             await Client!.SetVolumeAsync(newVolume);
         }
     }
@@ -177,12 +181,19 @@ public sealed partial class PlayerViewModel
     /// <returns><see cref="Task"/>.</returns>
     public async Task ChangeVolumeAsync(double volume)
     {
-        if (Player is null || volume < 0 || Math.Abs(Player.Volume - volume) < 1)
+        if (Player is null || volume < 0)
         {
             return;
         }
 
-        await Client!.SetVolumeAsync(volume);
+        IsVolumeChanging = true;
+        LastVolumeChangingTime = DateTimeOffset.Now;
+        CurrentVolume = volume;
+
+        if (Math.Abs(Player.Volume - volume) >= 1)
+        {
+            await Client!.SetVolumeAsync(volume);
+        }
     }
 
     [RelayCommand]
