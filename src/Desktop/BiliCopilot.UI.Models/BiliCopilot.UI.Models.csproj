@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="$(SolutionDir)src\Desktop\BiliCopilot.UI\Resources\zh-Hans-CN\Resources.resw" />
+    <AdditionalFiles Include="$(SolutionDir)Desktop\BiliCopilot.UI\Resources\zh-Hans-CN\Resources.resw" />
   </ItemGroup>
 
   <ItemGroup>
