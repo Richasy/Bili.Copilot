@@ -1,0 +1,87 @@
+name: 'Build Application'
+description: 'Builds the WinUI 3 application'
+inputs:
+  project-path:
+    description: 'Project file path'
+    required: true
+  configuration:
+    description: 'Build configuration'
+    required: true
+  platform:
+    description: 'Target platform'
+    required: true
+  sideload:
+    description: 'Is sideload build'
+    required: false
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build and Package WinUI 3 App
+      shell: pwsh
+      run: |
+        $sideload = "${{ inputs.sideload }}"
+        
+        if ($sideload -eq "true") {
+            Write-Host "Building for Sideload..."
+            msbuild ${{ inputs.project-path }} `
+              /p:Configuration=${{ inputs.configuration }} `
+              /p:Platform=${{ inputs.platform }} `
+              /p:SolutionDir="${{ github.workspace }}\src\" `
+              /p:UapAppxPackageBuildMode=SideloadOnly `
+              /p:AppxBundle=Never `
+              /p:GenerateAppxPackageOnBuild=true `
+              /p:AppxPackageSigningEnabled=true `
+              /p:PackageCertificateKeyFile="BiliCopilot.UI_TemporaryKey.pfx" `
+              /p:AppxPackageDir="${{ github.workspace }}\AppPackages\\"
+        } else {
+            Write-Host "Building for Store Upload..."
+            msbuild ${{ inputs.project-path }} `
+              /p:Configuration=${{ inputs.configuration }} `
+              /p:Platform=${{ inputs.platform }} `
+              /p:SolutionDir="${{ github.workspace }}\src\" `
+              /p:UapAppxPackageBuildMode=StoreUpload `
+              /p:AppxBundle=Never `
+              /p:GenerateAppxPackageOnBuild=true `
+              /p:AppxPackageSigningEnabled=false `
+              /p:AppxPackageDir="${{ github.workspace }}\AppPackages\\"
+        }
+
+    - name: Locate and Copy Packages
+      shell: pwsh
+      run: |
+        $sideload = "${{ inputs.sideload }}"
+        $sourceDir = "${{ github.workspace }}\AppPackages"
+        $targetDir = "${{ github.workspace }}\FinalPackages"
+        
+        if (-not (Test-Path $targetDir)) {
+            New-Item -ItemType Directory -Path $targetDir -Force
+        }
+        
+        # Define what to look for based on mode
+        if ($sideload -eq "true") {
+            Write-Host "Sideload mode: Looking for .msix and .cer files..."
+            $includes = @("*.msix", "*.cer")
+        } else {
+            Write-Host "Store mode: Looking for .msixupload files..."
+            $includes = @("*.msixupload")
+        }
+        
+        # Search for generated packages
+        if (Test-Path $sourceDir) {
+            $files = Get-ChildItem -Path $sourceDir -Include $includes -Recurse
+            
+            if ($files) {
+                Write-Host "Found $($files.Count) files."
+                foreach ($file in $files) {
+                    Write-Host "Copying: $($file.Name)"
+                    Copy-Item $file.FullName -Destination $targetDir -Force
+                }
+            } else {
+                Write-Warning "No matching files found in $sourceDir"
+                Get-ChildItem -Path $sourceDir -Recurse | Select-Object FullName
+            }
+        } else {
+            Write-Warning "Source directory $sourceDir does not exist."
+        }

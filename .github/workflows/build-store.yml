@@ -1,0 +1,84 @@
+name: Build Store Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number (e.g. 1.0.0.0)"
+        required: true
+        default: "1.0.0.0"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Release]
+        platform: [x64, arm64]
+
+    env:
+      Solution_Name: Bili.Copilot.sln
+      Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
+      Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
+      Configuration: ${{ matrix.configuration }}
+      Platform: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+        with:
+          version: ${{ inputs.version }}
+          sideload: 'false'
+          platform: ${{ env.Platform }}
+          configuration: ${{ env.Configuration }}
+          solution-name: ${{ env.Solution_Name }}
+          manifest-path: ${{ env.Manifest_Path }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          package-id: ${{ secrets.PACKAGE_ID }}
+          publisher-id: ${{ secrets.PUBLISHER_ID }}
+          store-association: ${{ secrets.PACKAGE_STORE_ASSOCIATION }}
+
+      - name: Build Application
+        uses: ./.github/actions/build-app
+        with:
+          project-path: ${{ env.Project_Path }}
+          configuration: ${{ env.Configuration }}
+          platform: ${{ env.Platform }}
+          sideload: 'false'
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BiliCopilot.UI-Store-${{ inputs.version }}-${{ env.Platform }}-${{ env.Configuration }}
+          path: ${{ github.workspace }}\FinalPackages\*
+
+  notify:
+    needs: build
+    runs-on: windows-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.workspace }}\FinalPackages
+
+      - name: Notify Telegram
+        uses: ./.github/actions/notify-telegram
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          status: ${{ needs.build.result }}
+          version: ${{ inputs.version }}
+          platform: 'x64, arm64'
+          build-type: 'Store'

@@ -1,0 +1,93 @@
+name: 'Notify Telegram'
+description: 'Sends notification to Telegram'
+inputs:
+  token:
+    description: 'Telegram Bot Token'
+    required: true
+  chat-id:
+    description: 'Telegram Chat ID'
+    required: true
+  status:
+    description: 'Job Status'
+    required: true
+  version:
+    description: 'App Version'
+    required: true
+  platform:
+    description: 'Build Platform'
+    required: true
+  build-type:
+    description: 'Build Type (Store/Sideload)'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Notify Telegram
+      if: always()
+      shell: pwsh
+      env:
+        TELEGRAM_TOKEN: ${{ inputs.token }}
+        TELEGRAM_CHAT_ID: ${{ inputs.chat-id }}
+        JOB_STATUS: ${{ inputs.status }}
+      run: |
+        $token = $env:TELEGRAM_TOKEN
+        $chatId = $env:TELEGRAM_CHAT_ID
+        $status = $env:JOB_STATUS
+        $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        
+        if ([string]::IsNullOrEmpty($token) -or [string]::IsNullOrEmpty($chatId)) {
+            Write-Warning "Telegram secrets (TELEGRAM_TOKEN, TELEGRAM_CHAT_ID) not set. Skipping notification."
+            exit 0
+        }
+
+        $emoji = if ($status -eq "success") { "✅" } else { "❌" }
+        $title = if ($status -eq "success") { "BiliCopilot 构建成功" } else { "BiliCopilot 构建失败" }
+        
+        $message = "$emoji *$title*`n"
+        $message += "版本: BiliCopilot.UI ${{ inputs.version }} (${{ inputs.platform }})`n"
+        $message += "类型: ${{ inputs.build-type }}`n"
+        
+        if ($status -eq "success") {
+            $message += "`n📦 *构建产物:*`n"
+            $targetDir = "${{ github.workspace }}\FinalPackages"
+            if (Test-Path $targetDir) {
+                $files = Get-ChildItem -Path $targetDir -Recurse
+                foreach ($file in $files) {
+                    $sizeMb = [math]::Round($file.Length / 1MB, 2)
+                    $message += "• `$($file.Name)` (${sizeMb} MB)`n"
+                }
+            } else {
+                $message += "未找到构建产物。`n"
+            }
+        } else {
+            $message += "`n请查看日志以获取详细错误信息。`n"
+        }
+        
+        # Create payload with correct array structure for inline_keyboard
+        # Note: The comma before the inner array is crucial to prevent PowerShell from flattening the array
+        $payload = @{
+            chat_id = $chatId
+            text = $message
+            parse_mode = "Markdown"
+            disable_web_page_preview = $true
+            reply_markup = @{
+                inline_keyboard = @(
+                    , @(
+                        @{
+                            text = "🔗 查看运行日志"
+                            url = $runUrl
+                        }
+                    )
+                )
+            }
+        }
+
+        # Convert entire payload to JSON
+        $jsonPayload = $payload | ConvertTo-Json -Depth 10 -Compress
+
+        try {
+            Invoke-RestMethod -Uri "https://api.telegram.org/bot$token/sendMessage" -Method Post -ContentType "application/json" -Body $jsonPayload
+        } catch {
+            Write-Warning "Failed to send Telegram notification: $_"
+        }

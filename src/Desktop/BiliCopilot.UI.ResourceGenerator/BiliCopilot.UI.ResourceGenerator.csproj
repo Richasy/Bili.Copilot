@@ -5,6 +5,11 @@
     <LangVersion>latest</LangVersion>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <Configurations>Debug;Release;Publish</Configurations>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <!-- Force output to AnyCPU folder to avoid loading issues when building for ARM64 -->
+    <BuildOutDir>$([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', 'AnyCPU', '$(Configuration)'))</BuildOutDir>
+    <OutDir>$([MSBuild]::NormalizeDirectory('$(BuildOutDir)', '$(MSBuildProjectName)', 'bin'))</OutDir>
+    <IntDir>$([MSBuild]::NormalizeDirectory('$(BuildOutDir)', '$(MSBuildProjectName)', 'obj'))</IntDir>
   </PropertyGroup>
 
   <ItemGroup>

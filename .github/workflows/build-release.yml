@@ -1,0 +1,139 @@
+name: Build Release (All)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number (e.g. 1.0.0.0)"
+        required: true
+        default: "1.0.0.0"
+
+jobs:
+  build-store:
+    name: Build Store Package
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Release]
+        platform: [x64, arm64]
+    env:
+      Solution_Name: Bili.Copilot.sln
+      Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
+      Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
+      Configuration: ${{ matrix.configuration }}
+      Platform: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+        with:
+          version: ${{ inputs.version }}
+          sideload: 'false'
+          platform: ${{ env.Platform }}
+          configuration: ${{ env.Configuration }}
+          solution-name: ${{ env.Solution_Name }}
+          manifest-path: ${{ env.Manifest_Path }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          package-id: ${{ secrets.PACKAGE_ID }}
+          publisher-id: ${{ secrets.PUBLISHER_ID }}
+          store-association: ${{ secrets.PACKAGE_STORE_ASSOCIATION }}
+
+      - name: Build Application
+        uses: ./.github/actions/build-app
+        with:
+          project-path: ${{ env.Project_Path }}
+          configuration: ${{ env.Configuration }}
+          platform: ${{ env.Platform }}
+          sideload: 'false'
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BiliCopilot.UI-Store-${{ inputs.version }}-${{ env.Platform }}-${{ env.Configuration }}
+          path: ${{ github.workspace }}\FinalPackages\*
+
+  build-sideload:
+    name: Build Sideload Package
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Release]
+        platform: [x64, arm64]
+    env:
+      Solution_Name: Bili.Copilot.sln
+      Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
+      Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
+      Configuration: ${{ matrix.configuration }}
+      Platform: ${{ matrix.platform }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+        with:
+          version: ${{ inputs.version }}
+          sideload: 'true'
+          platform: ${{ env.Platform }}
+          configuration: ${{ env.Configuration }}
+          solution-name: ${{ env.Solution_Name }}
+          manifest-path: ${{ env.Manifest_Path }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Application
+        uses: ./.github/actions/build-app
+        with:
+          project-path: ${{ env.Project_Path }}
+          configuration: ${{ env.Configuration }}
+          platform: ${{ env.Platform }}
+          sideload: 'true'
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BiliCopilot.UI-Sideload-${{ inputs.version }}-${{ env.Platform }}-${{ env.Configuration }}
+          path: ${{ github.workspace }}\FinalPackages\*
+
+  notify:
+    needs:
+      - build-store
+      - build-sideload
+    runs-on: windows-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Store Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.workspace }}\FinalPackages\Store
+          pattern: BiliCopilot.UI-Store-${{ inputs.version }}-*
+          merge-multiple: true
+
+      - name: Download Sideload Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.workspace }}\FinalPackages\Sideload
+          pattern: BiliCopilot.UI-Sideload-${{ inputs.version }}-*
+          merge-multiple: true
+
+      - name: Notify Telegram
+        uses: ./.github/actions/notify-telegram
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          status: ${{ (needs.build-store.result == 'success' && needs.build-sideload.result == 'success') && 'success' || 'failure' }}
+          version: ${{ inputs.version }}
+          platform: 'x64, arm64'
+          build-type: 'Store & Sideload'
