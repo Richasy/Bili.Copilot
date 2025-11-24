@@ -48,6 +48,22 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
+                            <!-- AddViewLater button for Recommend style -->
+                            <Button
+                                x:Name="AddViewLaterButton"
+                                Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+                                Margin="8"
+                                Padding="4,4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="Collapsed">
+                                <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                        Symbol="Clock" />
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="16,12,16,16"
@@ -152,6 +168,21 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
+                            <Button
+                                x:Name="AddViewLaterButton"
+                                Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+                                Margin="8"
+                                Padding="4,4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="Collapsed">
+                                <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                        Symbol="Clock" />
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="16,12,16,16"
@@ -266,6 +297,22 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
+                            <!-- AddViewLater button for Rank style -->
+                            <Button
+                                x:Name="AddViewLaterButton"
+                                Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+                                Margin="8"
+                                Padding="4,4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="Collapsed">
+                                <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                        Symbol="Clock" />
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="16,12,16,16"
@@ -369,6 +416,21 @@
                                     Style="{StaticResource CaptionTextBlockStyle}"
                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                             </Border>
+                            <Button
+                                x:Name="AddViewLaterButton"
+                                Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+                                Margin="8"
+                                Padding="4,4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                CornerRadius="{StaticResource ControlCornerRadius}"
+                                Visibility="Collapsed">
+                                <ic:SymbolIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                        Symbol="Clock" />
+                            </Button>
                             <Grid
                                 Grid.Row="1"
                                 Padding="16,12,16,16"
@@ -586,6 +648,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:VideoCardControl">
                     <Grid
+                        x:Name="RootCard"
                         Height="120"
                         Padding="4"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -613,6 +676,21 @@
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ViewModel.Duration}" />
                         </Border>
+                        <Button
+                            x:Name="AddViewLaterButton"
+                            Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+                            Margin="8"
+                            Padding="4,4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            CornerRadius="{StaticResource ControlCornerRadius}"
+                            Visibility="Collapsed">
+                            <ic:SymbolIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                    Symbol="Clock" />
+                        </Button>
                         <Grid
                             Grid.Column="1"
                             Padding="0,8,12,8"
