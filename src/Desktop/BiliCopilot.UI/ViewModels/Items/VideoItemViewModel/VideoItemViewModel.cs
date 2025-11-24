@@ -62,7 +62,15 @@ public sealed partial class VideoItemViewModel : ViewModelBase<VideoInformation>
         var progress = info.GetExtensionIfNotNull<int?>(VideoExtensionDataId.Progress);
         if (progress is not null)
         {
-            ProgressText = AppToolkit.FormatDuration(TimeSpan.FromSeconds(progress.Value));
+            if (progress.Value == -1)
+            {
+                Duration = ResourceToolkit.GetLocalizedString(StringNames.Watched);
+            }
+            else if (progress.Value > 0)
+            {
+                ProgressText = AppToolkit.FormatDuration(TimeSpan.FromSeconds(progress.Value));
+                Duration = $"{ProgressText}/{Duration}";
+            }
         }
     }
 
