@@ -8,9 +8,14 @@ on:
         required: true
         default: "1.0.0.0"
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: self-hosted
+    if: github.actor == 'Richasy'
 
     strategy:
       fail-fast: false
@@ -19,7 +24,7 @@ jobs:
         platform: [x64, arm64]
 
     env:
-      Solution_Name: Bili.Copilot.sln
+      Solution_Name: src/Bili.Copilot.sln
       Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
       Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
       Configuration: ${{ matrix.configuration }}
@@ -36,15 +41,32 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           version: ${{ inputs.version }}
-          sideload: 'false'
+          sideload: "false"
           platform: ${{ env.Platform }}
           configuration: ${{ env.Configuration }}
           solution-name: ${{ env.Solution_Name }}
           manifest-path: ${{ env.Manifest_Path }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
-          package-id: ${{ secrets.PACKAGE_ID }}
-          publisher-id: ${{ secrets.PUBLISHER_ID }}
-          store-association: ${{ secrets.PACKAGE_STORE_ASSOCIATION }}
+
+      - name: Configure Store Package
+        shell: pwsh
+        run: |
+          $manifestPath = "${{ env.Manifest_Path }}"
+          $projectDir = Split-Path -Parent $manifestPath
+          $assocPath = Join-Path $projectDir "Package.StoreAssociation.xml"
+          
+          # Create Package.StoreAssociation.xml
+          $assocContent = '${{ secrets.PACKAGE_STORE_ASSOCIATION }}'
+          Set-Content -Path $assocPath -Value $assocContent
+          
+          # Update Package.appxmanifest
+          $packageId = "${{ secrets.PACKAGE_ID }}"
+          $publisherId = "${{ secrets.PUBLISHER_ID }}"
+          
+          Write-Host "Updating Identity Name to $packageId and Publisher to $publisherId"
+          
+          (Get-Content $manifestPath) -replace 'Name="[^"]+"', "Name=""$packageId""" `
+                                      -replace 'Publisher="[^"]+"', "Publisher=""$publisherId""" | Set-Content $manifestPath
 
       - name: Build Application
         uses: ./.github/actions/build-app
@@ -52,7 +74,7 @@ jobs:
           project-path: ${{ env.Project_Path }}
           configuration: ${{ env.Configuration }}
           platform: ${{ env.Platform }}
-          sideload: 'false'
+          sideload: "false"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -62,16 +84,11 @@ jobs:
 
   notify:
     needs: build
-    runs-on: windows-latest
-    if: always()
+    runs-on: self-hosted
+    if: always() && github.actor == 'Richasy'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ${{ github.workspace }}\FinalPackages
 
       - name: Notify Telegram
         uses: ./.github/actions/notify-telegram
@@ -80,5 +97,6 @@ jobs:
           chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
           status: ${{ needs.build.result }}
           version: ${{ inputs.version }}
-          platform: 'x64, arm64'
-          build-type: 'Store'
+          platform: "x64, arm64"
+          build-type: "Store"
+          github-token: ${{ secrets.GITHUB_TOKEN }}

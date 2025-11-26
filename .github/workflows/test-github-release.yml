@@ -1,4 +1,4 @@
-name: Build Sideload Package
+name: Test GitHub Release Path
 
 on:
   workflow_dispatch:
@@ -14,8 +14,8 @@ permissions:
 
 jobs:
   generate-notes:
-    if: github.actor == 'Richasy'
     runs-on: self-hosted
+    if: github.actor == 'Richasy'
     outputs:
       notes_zh: ${{ steps.gen_notes.outputs.release_notes_zh }}
       notes_en: ${{ steps.gen_notes.outputs.release_notes_en }}
@@ -36,24 +36,16 @@ jobs:
             -ApiKey "${{ secrets.OAI_KEY }}" `
             -Model "${{ secrets.OAI_MODEL }}"
 
-  build:
-    needs: generate-notes
+  build-sideload:
+    name: Build Sideload Package (x64)
     runs-on: self-hosted
     if: github.actor == 'Richasy'
-
-    strategy:
-      fail-fast: false
-      matrix:
-        configuration: [Release]
-        platform: [x64, arm64]
-
     env:
       Solution_Name: src/Bili.Copilot.sln
       Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
       Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
-      Configuration: ${{ matrix.configuration }}
-      Platform: ${{ matrix.platform }}
-
+      Configuration: Release
+      Platform: x64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -113,9 +105,8 @@ jobs:
           path: ${{ github.workspace }}\FinalPackages\*
 
   publish-github:
-    needs: [build, generate-notes]
+    needs: [build-sideload, generate-notes]
     runs-on: self-hosted
-    if: github.actor == 'Richasy'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -141,7 +132,7 @@ jobs:
 
   notify:
     needs:
-      - build
+      - build-sideload
       - publish-github
     runs-on: self-hosted
     if: always() && github.actor == 'Richasy'
@@ -154,8 +145,8 @@ jobs:
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
-          status: ${{ (needs.build.result == 'cancelled') && 'cancelled' || (needs.build.result == 'failure' || needs.publish-github.result == 'failure') && 'failure' || 'success' }}
+          status: ${{ (needs.build-sideload.result == 'cancelled') && 'cancelled' || (needs.build-sideload.result == 'failure' || needs.publish-github.result == 'failure') && 'failure' || 'success' }}
           version: ${{ inputs.version }}
-          platform: "x64, arm64"
-          build-type: "Sideload (Pre-release)"
+          platform: "x64"
+          build-type: "Test GitHub Release"
           github-token: ${{ secrets.GITHUB_TOKEN }}

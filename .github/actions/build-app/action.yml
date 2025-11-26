@@ -1,19 +1,19 @@
-name: 'Build Application'
-description: 'Builds the WinUI 3 application'
+name: "Build Application"
+description: "Builds the WinUI 3 application"
 inputs:
   project-path:
-    description: 'Project file path'
+    description: "Project file path"
     required: true
   configuration:
-    description: 'Build configuration'
+    description: "Build configuration"
     required: true
   platform:
-    description: 'Target platform'
+    description: "Target platform"
     required: true
   sideload:
-    description: 'Is sideload build'
+    description: "Is sideload build"
     required: false
-    default: 'false'
+    default: "false"
 
 runs:
   using: "composite"
@@ -22,7 +22,7 @@ runs:
       shell: pwsh
       run: |
         $sideload = "${{ inputs.sideload }}"
-        
+
         if ($sideload -eq "true") {
             Write-Host "Building for Sideload..."
             msbuild ${{ inputs.project-path }} `
@@ -33,7 +33,7 @@ runs:
               /p:AppxBundle=Never `
               /p:GenerateAppxPackageOnBuild=true `
               /p:AppxPackageSigningEnabled=true `
-              /p:PackageCertificateKeyFile="BiliCopilot.UI_TemporaryKey.pfx" `
+              /p:PackageCertificateKeyFile="RodelPlayer.UI_TemporaryKey.pfx" `
               /p:AppxPackageDir="${{ github.workspace }}\AppPackages\\"
         } else {
             Write-Host "Building for Store Upload..."
@@ -54,11 +54,11 @@ runs:
         $sideload = "${{ inputs.sideload }}"
         $sourceDir = "${{ github.workspace }}\AppPackages"
         $targetDir = "${{ github.workspace }}\FinalPackages"
-        
+
         if (-not (Test-Path $targetDir)) {
             New-Item -ItemType Directory -Path $targetDir -Force
         }
-        
+
         # Define what to look for based on mode
         if ($sideload -eq "true") {
             Write-Host "Sideload mode: Looking for .msix and .cer files..."
@@ -67,7 +67,7 @@ runs:
             Write-Host "Store mode: Looking for .msixupload files..."
             $includes = @("*.msixupload")
         }
-        
+
         # Search for generated packages
         if (Test-Path $sourceDir) {
             $files = Get-ChildItem -Path $sourceDir -Include $includes -Recurse

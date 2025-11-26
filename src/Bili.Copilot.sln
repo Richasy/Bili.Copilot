@@ -5,15 +5,15 @@ VisualStudioVersion = 18.0.11128.255
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{4CE20E49-7BD8-456B-AD2E-6B3D2F87EF20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI", "src\Desktop\BiliCopilot.UI\BiliCopilot.UI.csproj", "{1E60B137-A0B8-4FC6-86AA-EFE98E5D8135}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI", "Desktop\BiliCopilot.UI\BiliCopilot.UI.csproj", "{1E60B137-A0B8-4FC6-86AA-EFE98E5D8135}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.Models", "src\Desktop\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj", "{E8FA9083-C203-42CA-9D28-1D1D045E770B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.Models", "Desktop\BiliCopilot.UI.Models\BiliCopilot.UI.Models.csproj", "{E8FA9083-C203-42CA-9D28-1D1D045E770B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.ResourceGenerator", "src\Desktop\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj", "{31E36098-D978-48FF-AE52-AD37BDF4CB6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiliCopilot.UI.ResourceGenerator", "Desktop\BiliCopilot.UI.ResourceGenerator\BiliCopilot.UI.ResourceGenerator.csproj", "{31E36098-D978-48FF-AE52-AD37BDF4CB6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiliCopilot.Visor", "src\Desktop\BiliCopilot.Visor\BiliCopilot.Visor.csproj", "{7534E6D0-490B-4457-AA98-291B4F1F7C0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiliCopilot.Visor", "Desktop\BiliCopilot.Visor\BiliCopilot.Visor.csproj", "{7534E6D0-490B-4457-AA98-291B4F1F7C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiliCopilot.Visor.Models", "src\Desktop\BiliCopilot.Visor.Models\BiliCopilot.Visor.Models.csproj", "{A155D0A4-490D-4D65-BCF7-36582C15988C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiliCopilot.Visor.Models", "Desktop\BiliCopilot.Visor.Models\BiliCopilot.Visor.Models.csproj", "{A155D0A4-490D-4D65-BCF7-36582C15988C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

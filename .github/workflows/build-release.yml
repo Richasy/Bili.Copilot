@@ -8,17 +8,47 @@ on:
         required: true
         default: "1.0.0.0"
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
+  generate-notes:
+    if: github.actor == 'Richasy'
+    runs-on: self-hosted
+    outputs:
+      notes_zh: ${{ steps.gen_notes.outputs.release_notes_zh }}
+      notes_en: ${{ steps.gen_notes.outputs.release_notes_en }}
+      notes_combined: ${{ steps.gen_notes.outputs.release_notes_combined }}
+      success: ${{ steps.gen_notes.outcome == 'success' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Release Notes
+        id: gen_notes
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          ./.github/scripts/generate-release-notes.ps1 `
+            -Endpoint "${{ secrets.OAI_ENDPOINT }}" `
+            -ApiKey "${{ secrets.OAI_KEY }}" `
+            -Model "${{ secrets.OAI_MODEL }}"
+
   build-store:
+    needs: generate-notes
+    if: github.actor == 'Richasy'
     name: Build Store Package
-    runs-on: windows-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
         configuration: [Release]
         platform: [x64, arm64]
     env:
-      Solution_Name: Bili.Copilot.sln
+      Solution_Name: src/Bili.Copilot.sln
       Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
       Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
       Configuration: ${{ matrix.configuration }}
@@ -34,15 +64,32 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           version: ${{ inputs.version }}
-          sideload: 'false'
+          sideload: "false"
           platform: ${{ env.Platform }}
           configuration: ${{ env.Configuration }}
           solution-name: ${{ env.Solution_Name }}
           manifest-path: ${{ env.Manifest_Path }}
           gh-token: ${{ secrets.GITHUB_TOKEN }}
-          package-id: ${{ secrets.PACKAGE_ID }}
-          publisher-id: ${{ secrets.PUBLISHER_ID }}
-          store-association: ${{ secrets.PACKAGE_STORE_ASSOCIATION }}
+
+      - name: Configure Store Package
+        shell: pwsh
+        run: |
+          $manifestPath = "${{ env.Manifest_Path }}"
+          $projectDir = Split-Path -Parent $manifestPath
+          $assocPath = Join-Path $projectDir "Package.StoreAssociation.xml"
+          
+          # Create Package.StoreAssociation.xml
+          $assocContent = '${{ secrets.PACKAGE_STORE_ASSOCIATION }}'
+          Set-Content -Path $assocPath -Value $assocContent
+          
+          # Update Package.appxmanifest
+          $packageId = "${{ secrets.PACKAGE_ID }}"
+          $publisherId = "${{ secrets.PUBLISHER_ID }}"
+          
+          Write-Host "Updating Identity Name to $packageId and Publisher to $publisherId"
+          
+          (Get-Content $manifestPath) -replace 'Name="[^"]+"', "Name=""$packageId""" `
+                                      -replace 'Publisher="[^"]+"', "Publisher=""$publisherId""" | Set-Content $manifestPath
 
       - name: Build Application
         uses: ./.github/actions/build-app
@@ -50,7 +97,27 @@ jobs:
           project-path: ${{ env.Project_Path }}
           configuration: ${{ env.Configuration }}
           platform: ${{ env.Platform }}
-          sideload: 'false'
+          sideload: "false"
+
+      - name: Compress Artifacts
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}"
+          $platform = "${{ env.Platform }}"
+          $repoName = "BiliCopilot"
+          $sourceDir = "${{ github.workspace }}\FinalPackages"
+          $zipName = "${repoName}_${version}_${platform}.zip"
+          $zipPath = Join-Path $sourceDir $zipName
+
+          Write-Host "Compressing files in $sourceDir to $zipPath"
+          $files = Get-ChildItem $sourceDir -File
+          if ($files.Count -gt 0) {
+              Compress-Archive -Path $files.FullName -DestinationPath $zipPath
+              # 删除原始文件，只保留 zip
+              $files | Remove-Item
+          } else {
+              Write-Warning "No files found to compress."
+          }
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -60,14 +127,15 @@ jobs:
 
   build-sideload:
     name: Build Sideload Package
-    runs-on: windows-latest
+    if: github.actor == 'Richasy'
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
         configuration: [Release]
         platform: [x64, arm64]
     env:
-      Solution_Name: Bili.Copilot.sln
+      Solution_Name: src/Bili.Copilot.sln
       Project_Path: src/Desktop/BiliCopilot.UI/BiliCopilot.UI.csproj
       Manifest_Path: src/Desktop/BiliCopilot.UI/Package.appxmanifest
       Configuration: ${{ matrix.configuration }}
@@ -83,7 +151,7 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           version: ${{ inputs.version }}
-          sideload: 'true'
+          sideload: "true"
           platform: ${{ env.Platform }}
           configuration: ${{ env.Configuration }}
           solution-name: ${{ env.Solution_Name }}
@@ -96,7 +164,33 @@ jobs:
           project-path: ${{ env.Project_Path }}
           configuration: ${{ env.Configuration }}
           platform: ${{ env.Platform }}
-          sideload: 'true'
+          sideload: "true"
+
+      - name: Compress Artifacts
+        shell: pwsh
+        run: |
+          $version = "${{ inputs.version }}"
+          $platform = "${{ env.Platform }}"
+          $repoName = "BiliCopilot"
+          $sourceDir = "${{ github.workspace }}\FinalPackages"
+          $zipName = "${repoName}_${version}_${platform}.zip"
+          $zipPath = Join-Path $sourceDir $zipName
+
+          # Copy Guide
+          Copy-Item "docs/sideload-guide.txt" -Destination (Join-Path $sourceDir "安装说明.txt")
+          
+          # Copy Install Script
+          Copy-Item "scripts/Install.ps1" -Destination (Join-Path $sourceDir "Install.ps1")
+
+          Write-Host "Compressing files in $sourceDir to $zipPath"
+          $files = Get-ChildItem $sourceDir -File
+          if ($files.Count -gt 0) {
+              Compress-Archive -Path $files.FullName -DestinationPath $zipPath
+              # 删除原始文件，只保留 zip
+              $files | Remove-Item
+          } else {
+              Write-Warning "No files found to compress."
+          }
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -104,36 +198,76 @@ jobs:
           name: BiliCopilot.UI-Sideload-${{ inputs.version }}-${{ env.Platform }}-${{ env.Configuration }}
           path: ${{ github.workspace }}\FinalPackages\*
 
-  notify:
-    needs:
-      - build-store
-      - build-sideload
-    runs-on: windows-latest
-    if: always()
+  publish-github:
+    needs: [build-sideload, generate-notes]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download Store Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ${{ github.workspace }}\FinalPackages\Store
-          pattern: BiliCopilot.UI-Store-${{ inputs.version }}-*
-          merge-multiple: true
-
       - name: Download Sideload Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ${{ github.workspace }}\FinalPackages\Sideload
-          pattern: BiliCopilot.UI-Sideload-${{ inputs.version }}-*
+          pattern: BiliCopilot.UI-Sideload-*
+          path: ${{ github.workspace }}/FinalPackages/Sideload
           merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: ${{ inputs.version }}
+          body: ${{ needs.generate-notes.outputs.notes_zh }}
+          files: ${{ github.workspace }}/FinalPackages/Sideload/*
+          draft: ${{ needs.generate-notes.outputs.success != 'true' }}
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-store:
+    needs: [build-store, generate-notes]
+    runs-on: self-hosted
+    steps:
+      - name: Download Store Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: BiliCopilot.UI-Store-*
+          path: ${{ github.workspace }}\FinalPackages\Store
+          merge-multiple: true
+
+      - name: Publish to Microsoft Store
+        shell: pwsh
+        run: |
+          $skipCommit = "${{ needs.generate-notes.outputs.success }}" -ne "true"
+          ./.github/scripts/publish-store.ps1 `
+            -TenantId "${{ secrets.MS_TENANT_ID }}" `
+            -ClientId "${{ secrets.MS_CLIENT_ID }}" `
+            -ClientSecret "${{ secrets.MS_CLIENT_SECRET }}" `
+            -AppId "${{ secrets.MS_APP_ID }}" `
+            -PackagePath "${{ github.workspace }}\FinalPackages\Store" `
+            -NotesZh "${{ needs.generate-notes.outputs.notes_zh }}" `
+            -NotesEn "${{ needs.generate-notes.outputs.notes_en }}" `
+            -SkipCommit:$skipCommit
+
+  notify:
+    needs:
+      - build-store
+      - build-sideload
+      - publish-github
+      - publish-store
+    runs-on: self-hosted
+    if: always() && github.actor == 'Richasy'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Notify Telegram
         uses: ./.github/actions/notify-telegram
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
-          status: ${{ (needs.build-store.result == 'success' && needs.build-sideload.result == 'success') && 'success' || 'failure' }}
+          status: ${{ (needs.build-store.result == 'cancelled' || needs.build-sideload.result == 'cancelled') && 'cancelled' || (needs.build-store.result == 'failure' || needs.build-sideload.result == 'failure' || needs.publish-github.result == 'failure' || needs.publish-store.result == 'failure') && 'failure' || 'success' }}
           version: ${{ inputs.version }}
-          platform: 'x64, arm64'
-          build-type: 'Store & Sideload'
+          platform: "x64, arm64"
+          build-type: "Release (Store & Sideload)"
+          github-token: ${{ secrets.GITHUB_TOKEN }}

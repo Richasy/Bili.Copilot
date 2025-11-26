@@ -1,37 +1,28 @@
-name: 'Setup Environment'
-description: 'Sets up the build environment including .NET, libmpv, and dependencies'
+name: "Setup Environment"
+description: "Sets up the build environment including .NET, libmpv, and dependencies"
 inputs:
   version:
-    description: 'Version number'
+    description: "Version number"
     required: true
   sideload:
-    description: 'Is sideload build'
+    description: "Is sideload build"
     required: false
-    default: 'false'
+    default: "false"
   platform:
-    description: 'Target platform (x64/arm64)'
+    description: "Target platform (x64/arm64)"
     required: true
   configuration:
-    description: 'Build configuration'
+    description: "Build configuration"
     required: true
   solution-name:
-    description: 'Solution file path'
+    description: "Solution file path"
     required: true
   manifest-path:
-    description: 'Manifest file path'
+    description: "Manifest file path"
     required: true
   gh-token:
-    description: 'GitHub Token for downloading libmpv'
+    description: "GitHub Token for downloading libmpv"
     required: true
-  package-id:
-    description: 'Package ID for Store build'
-    required: false
-  publisher-id:
-    description: 'Publisher ID for Store build'
-    required: false
-  store-association:
-    description: 'Content of Package.StoreAssociation.xml'
-    required: false
 
 runs:
   using: "composite"
@@ -42,9 +33,6 @@ runs:
         $version = "${{ inputs.version }}"
         $sideload = "${{ inputs.sideload }}"
         $manifestPath = "${{ inputs.manifest-path }}"
-        $packageId = "${{ inputs.package-id }}"
-        $publisherId = "${{ inputs.publisher-id }}"
-        $storeAssociation = "${{ inputs.store-association }}"
 
         # Ensure version format x.x.x.x if user inputs x.x.x
         if ($version -match '^\d+\.\d+\.\d+$') {
@@ -52,55 +40,27 @@ runs:
         }
 
         Write-Host "Updating manifest version to: $version"
-        
-        # Read content
-        $content = Get-Content $manifestPath
-        $newContent = @()
 
-        foreach ($line in $content) {
-            if ($line -match '<Identity') {
-                Write-Host "Found Identity tag: $line"
-                # Update Version
-                $line = $line -replace 'Version="\d+\.\d+\.\d+\.\d+"', "Version=""$version"""
-                
-                if ($sideload -eq "true") {
-                    Write-Host "Sideload mode: Updating Publisher to CN=Richasy"
-                    $line = $line -replace 'Publisher="[^"]+"', 'Publisher="CN=Richasy"'
-                } else {
-                    Write-Host "Store mode: Checking for Identity updates..."
-                    if (-not [string]::IsNullOrEmpty($packageId)) {
-                        Write-Host "Updating Name to $packageId"
-                        $line = $line -replace 'Name="[^"]+"', "Name=""$packageId"""
-                    }
-                    if (-not [string]::IsNullOrEmpty($publisherId)) {
-                        Write-Host "Updating Publisher to $publisherId"
-                        $line = $line -replace 'Publisher="[^"]+"', "Publisher=""$publisherId"""
-                    }
-                }
-                Write-Host "Updated Identity tag: $line"
-            }
-            $newContent += $line
-        }
-        
-        $newContent | Set-Content $manifestPath
+        # Update Version
+        (Get-Content $manifestPath) -replace '(?<!Min)Version="\d+\.\d+\.\d+\.\d+"', "Version=""$version""" | Set-Content $manifestPath
 
-        # Handle Package.StoreAssociation.xml for Store builds
-        if ($sideload -ne "true" -and -not [string]::IsNullOrEmpty($storeAssociation)) {
-            $projectDir = Split-Path -Parent $manifestPath
-            $assocPath = Join-Path $projectDir "Package.StoreAssociation.xml"
-            Write-Host "Creating Package.StoreAssociation.xml at $assocPath"
-            Set-Content -Path $assocPath -Value $storeAssociation
+        # Update Publisher if Sideload
+        if ($sideload -eq "true") {
+            Write-Host "Sideload mode enabled. Updating Publisher to CN=Richasy"
+            # Replace Publisher in Identity tag
+            (Get-Content $manifestPath) -replace 'Publisher="CN=[A-F0-9-]+"', 'Publisher="CN=Richasy"' | Set-Content $manifestPath
         }
 
         # Verify change
-        Get-Content $manifestPath | Select-String "<Identity"
+        Get-Content $manifestPath | Select-String "Version="
+        Get-Content $manifestPath | Select-String "Publisher="
 
     - name: Install .NET 9
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
 
-    - name: Download and Setup libmpv and ffmpeg
+    - name: Download and Setup Dependencies
       shell: pwsh
       env:
         GH_TOKEN: ${{ inputs.gh-token }}
@@ -108,40 +68,39 @@ runs:
         $platform = "${{ inputs.platform }}"
         $mpvArch = if ($platform -eq "x64") { "x86_64" } else { "aarch64" }
         
-        # --- libmpv Setup ---
-        $pattern = "mpv-dev-$mpvArch-*-git-*.7z"
-        $targetDir = "src/Desktop/BiliCopilot.UI/Assets/libmpv/$platform"
+        # --- libmpv setup ---
+        $mpvPattern = "mpv-dev-$mpvArch-*-git-*.7z"
+        $mpvTargetDir = "src/Desktop/BiliCopilot.UI/Assets/libmpv/$platform"
 
         Write-Host "Mapping platform $platform to mpv arch $mpvArch"
 
         # Create target directory
-        New-Item -ItemType Directory -Force -Path $targetDir
+        New-Item -ItemType Directory -Force -Path $mpvTargetDir
 
         # Download latest release asset
         Write-Host "Downloading libmpv from shinchiro/mpv-winbuild-cmake..."
-        gh release download --repo shinchiro/mpv-winbuild-cmake --pattern $pattern --clobber
+        gh release download --repo shinchiro/mpv-winbuild-cmake --pattern $mpvPattern --clobber
 
         # Find the downloaded file
-        $archive = Get-ChildItem -Filter $pattern | Select-Object -First 1
+        $mpvArchive = Get-ChildItem -Filter $mpvPattern | Select-Object -First 1
 
-        if ($archive) {
-            Write-Host "Found archive: $($archive.Name)"
+        if ($mpvArchive) {
+            Write-Host "Found archive: $($mpvArchive.Name)"
             # Extract libmpv-2.dll
-            # 7z e <archive> -o<output_dir> <file_to_extract> -r (recursive)
-            7z e "$($archive.FullName)" -o"$targetDir" libmpv-2.dll -r -y
+            7z e "$($mpvArchive.FullName)" -o"$mpvTargetDir" libmpv-2.dll -r -y
             
-            if (Test-Path "$targetDir\libmpv-2.dll") {
-                Write-Host "Successfully extracted libmpv-2.dll to $targetDir"
+            if (Test-Path "$mpvTargetDir\libmpv-2.dll") {
+                Write-Host "Successfully extracted libmpv-2.dll to $mpvTargetDir"
             } else {
                 Write-Error "Failed to extract libmpv-2.dll"
                 exit 1
             }
         } else {
-            Write-Error "No archive found matching pattern $pattern"
+            Write-Error "No archive found matching pattern $mpvPattern"
             exit 1
         }
 
-        # --- FFmpeg Setup ---
+        # --- ffmpeg setup ---
         $ffmpegPattern = "ffmpeg-$mpvArch-git-*.7z"
         $ffmpegTargetDir = "src/Desktop/BiliCopilot.UI/Assets/ffmpeg/$platform"
         
@@ -156,7 +115,7 @@ runs:
         $ffmpegArchive = Get-ChildItem -Filter $ffmpegPattern | Select-Object -First 1
 
         if ($ffmpegArchive) {
-            Write-Host "Found ffmpeg archive: $($ffmpegArchive.Name)"
+            Write-Host "Found archive: $($ffmpegArchive.Name)"
             # Extract ffmpeg.exe
             7z e "$($ffmpegArchive.FullName)" -o"$ffmpegTargetDir" ffmpeg.exe -r -y
             

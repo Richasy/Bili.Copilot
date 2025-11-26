@@ -4,17 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       status:
-        description: 'Status to simulate (success/failure)'
+        description: "Status to simulate (success/failure)"
         required: true
-        default: 'success'
+        default: "success"
         type: choice
         options:
-        - success
-        - failure
+          - success
+          - failure
 
 jobs:
   test-notify:
-    runs-on: windows-latest
+    runs-on: self-hosted
+    if: github.actor == 'Richasy'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,8 +24,8 @@ jobs:
         if: inputs.status == 'success'
         run: |
           New-Item -Path "FinalPackages" -ItemType Directory -Force
-          New-Item -Path "FinalPackages\BiliCopilot.UI_1.0.0.0_x64.msix" -ItemType File -Value "Dummy Content"
-          New-Item -Path "FinalPackages\BiliCopilot.UI_1.0.0.0_x64.cer" -ItemType File -Value "Dummy Cert"
+          New-Item -Path "FinalPackages\TestApp_1.0.0.0_x64.msix" -ItemType File -Value "Dummy Content"
+          New-Item -Path "FinalPackages\TestApp_1.0.0.0_x64.cer" -ItemType File -Value "Dummy Cert"
         shell: pwsh
 
       - name: Test Notification
@@ -33,6 +34,6 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
           status: ${{ inputs.status }}
-          version: '1.0.0.0-test'
-          platform: 'x64'
-          build-type: 'Test'
+          version: "1.0.0.0-test"
+          platform: "x64"
+          build-type: "Test"

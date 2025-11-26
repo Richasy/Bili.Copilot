@@ -1,24 +1,27 @@
-name: 'Notify Telegram'
-description: 'Sends notification to Telegram'
+name: "Notify Telegram"
+description: "Sends notification to Telegram"
 inputs:
   token:
-    description: 'Telegram Bot Token'
+    description: "Telegram Bot Token"
     required: true
   chat-id:
-    description: 'Telegram Chat ID'
+    description: "Telegram Chat ID"
     required: true
   status:
-    description: 'Job Status'
+    description: "Job Status"
     required: true
   version:
-    description: 'App Version'
+    description: "App Version"
     required: true
   platform:
-    description: 'Build Platform'
+    description: "Build Platform"
     required: true
   build-type:
-    description: 'Build Type (Store/Sideload)'
+    description: "Build Type (Store/Sideload)"
     required: true
+  github-token:
+    description: "GitHub Token for fetching artifacts info"
+    required: false
 
 runs:
   using: "composite"
@@ -30,40 +33,67 @@ runs:
         TELEGRAM_TOKEN: ${{ inputs.token }}
         TELEGRAM_CHAT_ID: ${{ inputs.chat-id }}
         JOB_STATUS: ${{ inputs.status }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
         $token = $env:TELEGRAM_TOKEN
         $chatId = $env:TELEGRAM_CHAT_ID
         $status = $env:JOB_STATUS
+        $ghToken = $env:GITHUB_TOKEN
         $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        
+
         if ([string]::IsNullOrEmpty($token) -or [string]::IsNullOrEmpty($chatId)) {
             Write-Warning "Telegram secrets (TELEGRAM_TOKEN, TELEGRAM_CHAT_ID) not set. Skipping notification."
             exit 0
         }
 
-        $emoji = if ($status -eq "success") { "✅" } else { "❌" }
-        $title = if ($status -eq "success") { "BiliCopilot 构建成功" } else { "BiliCopilot 构建失败" }
-        
-        $message = "$emoji *$title*`n"
-        $message += "版本: BiliCopilot.UI ${{ inputs.version }} (${{ inputs.platform }})`n"
-        $message += "类型: ${{ inputs.build-type }}`n"
-        
         if ($status -eq "success") {
-            $message += "`n📦 *构建产物:*`n"
-            $targetDir = "${{ github.workspace }}\FinalPackages"
-            if (Test-Path $targetDir) {
-                $files = Get-ChildItem -Path $targetDir -Recurse
-                foreach ($file in $files) {
-                    $sizeMb = [math]::Round($file.Length / 1MB, 2)
-                    $message += "• `$($file.Name)` (${sizeMb} MB)`n"
+            $emoji = "✅"
+            $title = "小幻影视构建成功"
+        } elseif ($status -eq "cancelled") {
+            $emoji = "🚫"
+            $title = "小幻影视构建取消"
+        } else {
+            $emoji = "❌"
+            $title = "小幻影视构建失败"
+        }
+
+        $message = "$emoji *$title*`n"
+        $message += "版本: RodelPlayer.UI ${{ inputs.version }} (${{ inputs.platform }})`n"
+        $message += "类型: ${{ inputs.build-type }}`n"
+
+        if ($status -eq "success") {
+            if (-not [string]::IsNullOrEmpty($ghToken)) {
+                $message += "`n📦 *构建产物:*`n"
+                try {
+                    $apiUrl = "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
+                    $headers = @{
+                        "Authorization" = "Bearer $ghToken"
+                        "Accept"        = "application/vnd.github.v3+json"
+                    }
+                    $response = Invoke-RestMethod -Uri $apiUrl -Headers $headers -Method Get
+                    $artifacts = $response.artifacts
+                    
+                    if ($artifacts) {
+                        foreach ($art in $artifacts) {
+                            $sizeMb = [math]::Round($art.size_in_bytes / 1MB, 2)
+                            $message += "📦 $($art.name) (${sizeMb} MB)`n"
+                        }
+                    } else {
+                        $message += "未找到构建产物。`n"
+                    }
+                } catch {
+                    Write-Warning "Failed to fetch artifacts info: $_"
+                    $message += "获取构建产物信息失败。`n"
                 }
             } else {
-                $message += "未找到构建产物。`n"
+                $message += "`n(未提供 GitHub Token，无法获取产物列表)`n"
             }
+        } elseif ($status -eq "cancelled") {
+            $message += "`n任务已被取消。`n"
         } else {
             $message += "`n请查看日志以获取详细错误信息。`n"
         }
-        
+
         # Create payload with correct array structure for inline_keyboard
         # Note: The comma before the inner array is crucial to prevent PowerShell from flattening the array
         $payload = @{
