@@ -18,8 +18,6 @@ jobs:
     runs-on: self-hosted
     outputs:
       notes_zh: ${{ steps.gen_notes.outputs.release_notes_zh }}
-      notes_en: ${{ steps.gen_notes.outputs.release_notes_en }}
-      notes_combined: ${{ steps.gen_notes.outputs.release_notes_combined }}
       success: ${{ steps.gen_notes.outcome == 'success' }}
     steps:
       - name: Checkout
@@ -77,17 +75,17 @@ jobs:
           $manifestPath = "${{ env.Manifest_Path }}"
           $projectDir = Split-Path -Parent $manifestPath
           $assocPath = Join-Path $projectDir "Package.StoreAssociation.xml"
-          
+
           # Create Package.StoreAssociation.xml
           $assocContent = '${{ secrets.PACKAGE_STORE_ASSOCIATION }}'
           Set-Content -Path $assocPath -Value $assocContent
-          
+
           # Update Package.appxmanifest
           $packageId = "${{ secrets.PACKAGE_ID }}"
           $publisherId = "${{ secrets.PUBLISHER_ID }}"
-          
+
           Write-Host "Updating Identity Name to $packageId and Publisher to $publisherId"
-          
+
           (Get-Content $manifestPath) -replace 'Name="[^"]+"', "Name=""$packageId""" `
                                       -replace 'Publisher="[^"]+"', "Publisher=""$publisherId""" | Set-Content $manifestPath
 
@@ -178,7 +176,7 @@ jobs:
 
           # Copy Guide
           Copy-Item "docs/sideload-guide.txt" -Destination (Join-Path $sourceDir "安装说明.txt")
-          
+
           # Copy Install Script
           Copy-Item "scripts/Install.ps1" -Destination (Join-Path $sourceDir "Install.ps1")
 
@@ -246,7 +244,6 @@ jobs:
             -AppId "${{ secrets.MS_APP_ID }}" `
             -PackagePath "${{ github.workspace }}\FinalPackages\Store" `
             -NotesZh "${{ needs.generate-notes.outputs.notes_zh }}" `
-            -NotesEn "${{ needs.generate-notes.outputs.notes_en }}" `
             -SkipCommit:$skipCommit
 
   notify:

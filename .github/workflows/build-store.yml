@@ -54,17 +54,17 @@ jobs:
           $manifestPath = "${{ env.Manifest_Path }}"
           $projectDir = Split-Path -Parent $manifestPath
           $assocPath = Join-Path $projectDir "Package.StoreAssociation.xml"
-          
+
           # Create Package.StoreAssociation.xml
           $assocContent = '${{ secrets.PACKAGE_STORE_ASSOCIATION }}'
           Set-Content -Path $assocPath -Value $assocContent
-          
+
           # Update Package.appxmanifest
           $packageId = "${{ secrets.PACKAGE_ID }}"
           $publisherId = "${{ secrets.PUBLISHER_ID }}"
-          
+
           Write-Host "Updating Identity Name to $packageId and Publisher to $publisherId"
-          
+
           (Get-Content $manifestPath) -replace 'Name="[^"]+"', "Name=""$packageId""" `
                                       -replace 'Publisher="[^"]+"', "Publisher=""$publisherId""" | Set-Content $manifestPath
 

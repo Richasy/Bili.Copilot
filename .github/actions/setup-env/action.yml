@@ -67,7 +67,7 @@ runs:
       run: |
         $platform = "${{ inputs.platform }}"
         $mpvArch = if ($platform -eq "x64") { "x86_64" } else { "aarch64" }
-        
+
         # --- libmpv setup ---
         $mpvPattern = "mpv-dev-$mpvArch-*-git-*.7z"
         $mpvTargetDir = "src/Desktop/BiliCopilot.UI/Assets/libmpv/$platform"
@@ -103,7 +103,7 @@ runs:
         # --- ffmpeg setup ---
         $ffmpegPattern = "ffmpeg-$mpvArch-git-*.7z"
         $ffmpegTargetDir = "src/Desktop/BiliCopilot.UI/Assets/ffmpeg/$platform"
-        
+
         # Create target directory
         New-Item -ItemType Directory -Force -Path $ffmpegTargetDir
 

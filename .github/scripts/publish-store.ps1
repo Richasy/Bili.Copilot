@@ -5,7 +5,6 @@ param(
     [string]$AppId,
     [string]$PackagePath,
     [string]$NotesZh,
-    [string]$NotesEn,
     [switch]$SkipCommit
 )
 
@@ -136,10 +135,6 @@ if ($listings) {
         if ($lang -like "zh-*" -and $NotesZh) {
             Write-Host "Updating release notes for $lang"
             $prop.Value.baseListing.releaseNotes = $NotesZh
-        }
-        elseif ($lang -like "en-*" -and $NotesEn) {
-            Write-Host "Updating release notes for $lang"
-            $prop.Value.baseListing.releaseNotes = $NotesEn
         }
     }
 }

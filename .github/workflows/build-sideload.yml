@@ -18,7 +18,6 @@ jobs:
     runs-on: self-hosted
     outputs:
       notes_zh: ${{ steps.gen_notes.outputs.release_notes_zh }}
-      notes_en: ${{ steps.gen_notes.outputs.release_notes_en }}
       success: ${{ steps.gen_notes.outcome == 'success' }}
     steps:
       - name: Checkout
@@ -92,7 +91,7 @@ jobs:
 
           # Copy Guide
           Copy-Item "docs/sideload-guide.txt" -Destination (Join-Path $sourceDir "安装说明.txt")
-          
+
           # Copy Install Script
           Copy-Item "scripts/Install.ps1" -Destination (Join-Path $sourceDir "Install.ps1")
 
