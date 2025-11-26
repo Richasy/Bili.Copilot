@@ -33,7 +33,7 @@ runs:
               /p:AppxBundle=Never `
               /p:GenerateAppxPackageOnBuild=true `
               /p:AppxPackageSigningEnabled=true `
-              /p:PackageCertificateKeyFile="RodelPlayer.UI_TemporaryKey.pfx" `
+              /p:PackageCertificateKeyFile="BiliCopilot.UI_TemporaryKey.pfx" `
               /p:AppxPackageDir="${{ github.workspace }}\AppPackages\\"
         } else {
             Write-Host "Building for Store Upload..."

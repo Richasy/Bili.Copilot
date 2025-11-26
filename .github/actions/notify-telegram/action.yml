@@ -48,17 +48,17 @@ runs:
 
         if ($status -eq "success") {
             $emoji = "✅"
-            $title = "小幻影视构建成功"
+            $title = "哔哩助理构建成功"
         } elseif ($status -eq "cancelled") {
             $emoji = "🚫"
-            $title = "小幻影视构建取消"
+            $title = "哔哩助理构建取消"
         } else {
             $emoji = "❌"
-            $title = "小幻影视构建失败"
+            $title = "哔哩助理构建失败"
         }
 
         $message = "$emoji *$title*`n"
-        $message += "版本: RodelPlayer.UI ${{ inputs.version }} (${{ inputs.platform }})`n"
+        $message += "版本: BiliCopilot.UI ${{ inputs.version }} (${{ inputs.platform }})`n"
         $message += "类型: ${{ inputs.build-type }}`n"
 
         if ($status -eq "success") {

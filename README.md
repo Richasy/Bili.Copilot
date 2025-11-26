@@ -47,40 +47,28 @@
 在开发哔哩助理的过程中，抽离出了多个单独组件，可以被其它开发者集成到自己的项目中：
 
 - [bili-kernel](https://github.com/Richasy/bili-kernel)  
-  哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，完全的AOT支持，便于移植和二次开发。
+  哔哩助理与 BiliBili API 交互的核心代码，是一层 .NET 包装器，基于 .NET Standard 2.0，完全的 AOT 支持，便于移植和二次开发。
 - [agent-kernel](https://github.com/Richasy/agent-kernel)  
-  小幻助理 / 小幻阅读 / 哔哩助理 共享的 AI 基础库，支持20余种AI服务，并提供完全的 AOT 支持。
-- [mpv-winui](https://github.com/Richasy/mpv-winui)  
+  小幻助理 / 小幻阅读 / 哔哩助理 共享的 AI 基础库，支持 20 余种 AI 服务，并提供完全的 AOT 支持。
+- [mpv-kernel](https://github.com/Richasy/mpv-kernel)  
   哔哩助理的核心播放器之一，将 MPV 集成进 WinUI3 以实现良好的播放体验。
 - [winui-kernel](https://github.com/Richasy/winui-kernel)  
   我在多个 WinAppSDK 项目之间共用的一些基础样式及实现。
 
-除 mpv-winui 外，其它都以 nuget 形式集成在项目内
+它们都以 nuget 形式集成在项目内
 
 第一次克隆时可以运行下面的命令：
 
 ```shell
-git clone --recurse-submodules https://github.com/Richasy/Bili.Copilot.git
+git clone https://github.com/Richasy/Bili.Copilot.git
 ```
-
-如果你已经克隆了仓库，但是忘记克隆子仓库了，那么可以运行下面的命令：
-
-```shell
-git submodule update --init --recursive
-```
-
-在克隆之后，你需要在命令行中进入克隆的子模块的目录，切换 HEAD，这是对应的列表：
-
-|模块|路径|HEAD (分支)|
-|-|-|-|
-|mpv-winui|src\Libs\mpv-winui|main|
 
 切换分支完成后，还需要下载 mpv / ffmpeg 到对应的目录：
 
-|文件名|目录|说明|
-|-|-|-|
-|libmpv-2.dll|src\Desktop\BiliCopilot.UI\Assets\libmpv\x64(或者 arm64)|可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新的 dev 构建（x64 对应 x86_x64，arm64 对应 aarch64），把 libmpv-2.dll 放入对应文件夹中，用以 mpv 播放|
-|ffmpeg.exe|src\Desktop\BiliCopilot.UI\Assets\ffmpeg|可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新 ffmpeg x64 构建，将 ffmpeg.exe 放入对应文件夹中，用于视频下载后的混流|
+| 文件名       | 目录                                                     | 说明                                                                                                                                                                         |
+| ------------ | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| libmpv-2.dll | src\Desktop\BiliCopilot.UI\Assets\libmpv\x64(或者 arm64) | 可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新的 dev 构建（x64 对应 x86_x64，arm64 对应 aarch64），把 libmpv-2.dll 放入对应文件夹中，用以 mpv 播放 |
+| ffmpeg.exe   | src\Desktop\BiliCopilot.UI\Assets\ffmpeg                 | 可以在 [mpv-winbuild](https://github.com/zhongfly/mpv-winbuild) 下载最新 ffmpeg x64 构建，将 ffmpeg.exe 放入对应文件夹中，用于视频下载后的混流                               |
 
 ## 使用
 
@@ -104,17 +92,16 @@ git submodule update --init --recursive
 
 下面是几种播放方案的具体比较，请根据自己的情况选择合适的播放方案：
 
-|方案|优点|缺点|
-|-|-|-|
-|MPV|解码速度快，播放稳定|内存占用相对较高|
-|原生|内存占用低，兼容性好|对2K以上的清晰度支持较差，部分直播无法播放|
-|外部播放器|自定义程度高，可以获得最佳播放体验|需要额外安装配置，门槛较高|
-|网页|只要不是断网就能播放|和打开浏览器看网页没有太大差别|
+| 方案       | 优点                               | 缺点                                         |
+| ---------- | ---------------------------------- | -------------------------------------------- |
+| MPV        | 解码速度快，播放稳定               | 内存占用相对较高                             |
+| 原生       | 内存占用低，兼容性好               | 对 2K 以上的清晰度支持较差，部分直播无法播放 |
+| 外部播放器 | 自定义程度高，可以获得最佳播放体验 | 需要额外安装配置，门槛较高                   |
+| 网页       | 只要不是断网就能播放               | 和打开浏览器看网页没有太大差别               |
 
-> [!TIP]
-> **关于网页播放器**
+> [!TIP] > **关于网页播放器**
 >
-> Windows 硬件平台太多，开发者无法保证在各个平台都有着稳定的体验，如果你的设备在播放视频时出现各种奇奇怪怪的bug，网页播放器将是你最稳妥的选择。
+> Windows 硬件平台太多，开发者无法保证在各个平台都有着稳定的体验，如果你的设备在播放视频时出现各种奇奇怪怪的 bug，网页播放器将是你最稳妥的选择。
 >
 > 为了提高网页播放器的体验，哔哩助理引入了 [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) 作为默认插件，以便和应用主题同步，并提供美观的用户界面。
 >
@@ -128,7 +115,7 @@ git submodule update --init --recursive
 
 或许更进一步，你可以基于当前视频/文章的内容与模型对话，针对性地回答你的疑问。
 
-开发者会持续探索大语言模型和B站内容结合的边界，更进一步挖掘 AI 潜力，也欢迎你提出你的想法，真正让 AI 有用起来。
+开发者会持续探索大语言模型和 B 站内容结合的边界，更进一步挖掘 AI 潜力，也欢迎你提出你的想法，真正让 AI 有用起来。
 
 ## 视频下载
 
@@ -160,7 +147,7 @@ git submodule update --init --recursive
 - [Windows App SDK](https://github.com/microsoft/windowsappsdk)
 - [WinUI](https://github.com/microsoft/microsoft-ui-xaml)
 - [BiliBili](https://www.bilibili.com/)
-- [哔哩哔哩-API收集整理](https://github.com/SocialSisterYi/bilibili-API-collect)
+- [哔哩哔哩-API 收集整理](https://github.com/SocialSisterYi/bilibili-API-collect)
 - [BBDown](https://github.com/nilaoda/BBDown)
 - [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly)
 - [寒霜弹幕使](https://github.com/cotaku/DanmakuFrostMaster)
