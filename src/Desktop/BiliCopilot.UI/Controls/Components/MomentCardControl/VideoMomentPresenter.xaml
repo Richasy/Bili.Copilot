@@ -93,6 +93,23 @@
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{x:Bind ViewModel.VideoDuration, Mode=OneWay}" />
         </Border>
+        <Button
+            x:Name="AddViewLaterButton"
+            Grid.Row="1"
+            Margin="8"
+            Padding="4,4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Style="{StaticResource VideoCardAddViewLaterButtonStyle}"
+            Command="{x:Bind ViewModel.AddToViewLaterCommand, Mode=OneWay}"
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            Visibility="Collapsed">
+            <ic:SymbolIcon
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                    Symbol="Clock" />
+        </Button>
         <base:TrimTextBlock
             Grid.Row="2"
             HorizontalAlignment="Left"

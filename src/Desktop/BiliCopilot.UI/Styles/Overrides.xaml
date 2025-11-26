@@ -562,6 +562,17 @@
         </Setter>
     </Style>
 
+    <!-- Style for AddViewLater buttons used in VideoCardControl -->
+    <Style x:Key="VideoCardAddViewLaterButtonStyle" BasedOn="{StaticResource BasicPlayerIconButtonStyle}" TargetType="Button">
+        <!-- Slightly smaller than the basic player icon button to fit on video covers -->
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
+        <Setter Property="Background" Value="{ThemeResource BasicPlayerButtonBackground}" />
+        <Setter Property="Foreground" Value="{ThemeResource BasicPlayerButtonForeground}" />
+    </Style>
+
     <Style x:Key="TogglePlayerIconButtonStyle" TargetType="ToggleButton">
         <Setter Property="Background" Value="{ThemeResource BasicPlayerButtonBackground}" />
         <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
@@ -1103,6 +1114,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style x:Key="PlayerSliderStyle" TargetType="Slider">
         <Setter Property="Background" Value="{ThemeResource SliderTrackFill}" />
         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}" />
