@@ -18,7 +18,7 @@
     <PackageVersion Include="Danmaku.Core" Version="0.0.1-preview6" />
     <PackageVersion Include="Danmaku.Legacy" Version="0.0.1-preview6" />
     <PackageVersion Include="Danmaku.Share" Version="0.0.1-preview6" />
-    <PackageVersion Include="FluentIcons.WinUI" Version="1.2.313" />
+    <PackageVersion Include="FluentIcons.WinUI" Version="1.2.315" />
     <PackageVersion Include="Flurl.Http" Version="4.0.2" />
     <PackageVersion Include="Google.Protobuf" Version="3.27.2" />
     <PackageVersion Include="Grpc.Net.Client" Version="2.63.0" />
@@ -26,7 +26,7 @@
     <PackageVersion Include="H.NotifyIcon.WinUI" Version="2.3.2" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageVersion Include="Humanizer.Core.zh-Hans" Version="2.14.1" />
-    <PackageVersion Include="Markdig" Version="0.43.0" />
+    <PackageVersion Include="Markdig" Version="0.44.0" />
     <PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Bcl.Numerics" Version="9.0.0" />
@@ -36,7 +36,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.4.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Metrics" Version="3.3.4" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.242" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.257" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageVersion Include="NLog.Extensions.Logging" Version="5.3.15" />
     <PackageVersion Include="Richasy.AgentKernel.Connectors.Ali" Version="0.0.8-preview5" />
@@ -78,7 +78,7 @@
     <PackageVersion Include="Richasy.MpvKernel.Core" Version="0.0.2-preview2" />
     <PackageVersion Include="Richasy.MpvKernel.Player" Version="0.0.2-preview2" />
     <PackageVersion Include="Richasy.MpvKernel.WinUI" Version="0.0.2-preview2" />
-    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.12-preview2" />
+    <PackageVersion Include="Richasy.WinUIKernel.AI" Version="0.0.12-preview3" />
     <PackageVersion Include="RichasyKernel.Core" Version="0.0.1" />
     <PackageVersion Include="Roman-Numerals" Version="2.0.1" />
     <PackageVersion Include="Serilog" Version="4.3.1-dev-02385" />
@@ -88,12 +88,12 @@
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
     <PackageVersion Include="Polly" Version="8.4.1" />
     <PackageVersion Include="QRCoder" Version="1.4.1" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.0" />
     <PackageVersion Include="System.Linq.Async" Version="9.0.0" />
-    <PackageVersion Include="System.Management" Version="10.0.0-rc.2.25502.107" />
+    <PackageVersion Include="System.Management" Version="10.0.0" />
     <PackageVersion Include="System.Memory.Data" Version="9.0.0" />
     <PackageVersion Include="System.Numerics.Tensors" Version="9.0.0" />
     <PackageVersion Include="System.Private.Uri" Version="4.3.2" />
