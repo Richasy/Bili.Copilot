@@ -202,7 +202,7 @@ public sealed partial class VideoConnectorViewModel
         var isAutoPlayRecommendVideo = SettingsToolkit.ReadLocalSetting(SettingNames.AutoPlayNextRecommendVideo, false);
         if (isAutoPlayRecommendVideo && Sections.OfType<VideoPlayerRecommendSectionDetailViewModel>().FirstOrDefault() is VideoPlayerRecommendSectionDetailViewModel recommendSection)
         {
-            return recommendSection.Items[0].Data;
+            return recommendSection.Items.FirstOrDefault()?.Data;
         }
 
         return default;

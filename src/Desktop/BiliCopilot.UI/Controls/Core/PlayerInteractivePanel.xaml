@@ -164,8 +164,8 @@
                     Style="{StaticResource ContextMenuFlyoutSubItemStyle}"
                     Text="ArtCNN">
                     <RadioMenuFlyoutItem
-                        Click="OnAnime4KItemClick"
-                        GroupName="Anime4KGroup"
+                        Click="OnArtCNNItemClick"
+                        GroupName="ArtCNNGroup"
                         Style="{StaticResource ContextMenuFlyoutRadioItemStyle}"
                         Tag="None"
                         Text="{ext:Locale Name=Unset}" />

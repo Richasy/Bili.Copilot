@@ -42,7 +42,7 @@ public sealed partial class NextTip : PlayerControlBase
             var ts = Math.Max(0, (now - _visibleTime.Value).TotalSeconds);
             if (ts >= 8)
             {
-                RootPanel.Visibility = Visibility.Collapsed;
+                Hide();
                 ViewModel.PlayNextCommand.Execute(default);
                 return;
             }

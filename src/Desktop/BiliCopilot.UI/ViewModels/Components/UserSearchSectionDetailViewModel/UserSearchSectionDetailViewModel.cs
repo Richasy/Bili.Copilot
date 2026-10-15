@@ -39,6 +39,7 @@ public sealed partial class UserSearchSectionDetailViewModel : ViewModelBase, IS
     public void Clear()
     {
         _partition = default;
+        _offset = string.Empty;
         _keyword = string.Empty;
         IsEmpty = false;
         _canRequest = false;
