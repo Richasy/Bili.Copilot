@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1513,4 +1513,24 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--  分段播放进度条（ChapterSegmentBar）的画刷  -->
+    <SolidColorBrush x:Key="SegmentBarPlayedBrush" Color="{ThemeResource SystemAccentColorLight2}" />
+    <SolidColorBrush x:Key="SegmentBarTrackBrush" Color="#4DFFFFFF" />
+    <SolidColorBrush x:Key="SegmentBarCacheBrush" Color="#66FFFFFF" />
+
+    <!--  悬浮预览层：深色半透明，与播放器控件区一致的深色语境  -->
+    <SolidColorBrush x:Key="SegmentBarPopupBackgroundBrush" Color="#F0202020" />
+    <SolidColorBrush x:Key="SegmentBarPopupTimeBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SegmentBarPopupTitleBrush" Color="#CCFFFFFF" />
+
+    <!--
+        圆点沿用原生 Slider 的 Thumb 定义：
+        SliderThumbBackground = AccentFillColorDefaultBrush，
+        SliderOuterThumbBackground = ControlSolidFillColorDefaultBrush，
+        SliderThumbBorderBrush = ControlElevationBorderBrush.
+    -->
+    <StaticResource x:Key="SegmentBarThumbBrush" ResourceKey="SliderThumbBackground" />
+    <StaticResource x:Key="SegmentBarThumbOuterBrush" ResourceKey="SliderOuterThumbBackground" />
+    <StaticResource x:Key="SegmentBarThumbBorderBrush" ResourceKey="SliderThumbBorderBrush" />
 </ResourceDictionary>

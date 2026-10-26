@@ -1,9 +1,10 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
 using BiliCopilot.UI.Models.Constants;
 using BiliCopilot.UI.Resolvers;
+using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Items;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Dispatching;
@@ -26,6 +27,7 @@ public sealed partial class PlayerViewModel
     private IMpvMediaHistoryResolver? _historyResolver;
     private bool _uiElementSetted;
     private bool _isDanmakuInitialized;
+    private bool _isChapterInitialized;
     private double _lastSpeed;
     private double? _continuePosition;
     private Windows.Media.Playback.MediaPlayer? _nativeMp;
@@ -183,6 +185,17 @@ public sealed partial class PlayerViewModel
 
     [ObservableProperty]
     public partial bool IsChapterVisible { get; set; }
+
+    /// <summary>
+    /// 当前视频是否存在可展示的章节列表.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsChapterListAvailable { get; set; }
+
+    /// <summary>
+    /// 章节列表提示文本.
+    /// </summary>
+    public string ChapterListToolTip => ResourceToolkit.GetLocalizedString(StringNames.ChapterList);
 
     [ObservableProperty]
     public partial bool IsSubtitleEnabled { get; set; } = true;

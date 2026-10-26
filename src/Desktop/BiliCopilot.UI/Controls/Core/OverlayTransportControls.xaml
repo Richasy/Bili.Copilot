@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <local:PlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Core.OverlayTransportControls"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -142,6 +142,68 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 SizeChanged="OnRightPanelSizeChanged">
+                <Button
+                    x:Name="ChapterListButton"
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    AutomationProperties.AutomationId="ChapterListButton"
+                    AutomationProperties.Name="{ext:Locale Name=ChapterList}"
+                    Style="{StaticResource BasicPlayerIconButtonStyle}"
+                    ToolTipService.ToolTip="{x:Bind ViewModel.ChapterListToolTip, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsChapterListAvailable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ic:SymbolIcon
+                        FontSize="14"
+                        RequestedTheme="Dark"
+                        Symbol="List" />
+                    <Button.Flyout>
+                        <Flyout Placement="Top">
+                            <StackPanel MinWidth="260" Spacing="8">
+                                <TextBlock
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{ext:Locale Name=ChapterList}" />
+                                <ScrollViewer MaxHeight="344">
+                                    <ItemsControl ItemsSource="{x:Bind ViewModel.Chapters, Mode=OneWay}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="items:ChapterItemViewModel">
+                                                <Button
+                                                    Margin="0,0,0,4"
+                                                    Padding="12,8"
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+                                                    Command="{x:Bind SelectCommand, Mode=OneWay}"
+                                                    CornerRadius="{StaticResource ControlCornerRadius}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <!--  当前章节仅用字重与颜色强调，不加播放图标  -->
+                                                        <TextBlock
+                                                            VerticalAlignment="Center"
+                                                            FontWeight="{x:Bind IsPlaying, Mode=OneWay, Converter={StaticResource ChapterFontWeightConverter}}"
+                                                            Foreground="{x:Bind IsPlaying, Mode=OneWay, Converter={StaticResource ChapterForegroundConverter}}"
+                                                            Style="{StaticResource BodyTextBlockStyle}"
+                                                            Text="{x:Bind Title, Mode=OneWay}"
+                                                            TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            Margin="12,0,0,0"
+                                                            VerticalAlignment="Center"
+                                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{x:Bind Position, Mode=OneWay, Converter={StaticResource PlayerPositionConverter}}" />
+                                                    </Grid>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <StackPanel
                     x:Name="FullVolumeContainer"
                     Margin="0,0,8,0"
@@ -540,40 +602,19 @@
                 RequestedTheme="Dark"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Visibility="Collapsed" />
-            <local:CacheBar
-                Grid.Column="1"
-                Height="4"
-                HorizontalAlignment="Stretch"
-                ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-            <Slider
+            <!--
+                自绘分段进度条：内部依次叠放 轨道 / 缓存 / 已播放 三层，
+                缓冲进度按章节分段计算，不再像 Slider 那样整条覆盖.
+                Slider 与 CacheBar 均已移除，避免出现“两层进度条”.
+            -->
+            <local:ChapterSegmentBar
                 x:Name="ProgressSlider"
                 Grid.Column="1"
-                Background="#55FFFFFF"
-                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                IsThumbToolTipEnabled="False"
-                Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
-                Style="{StaticResource PlayerSliderStyle}"
-                ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"
-                ValueChanged="OnProgressValueChanged"
-                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay, Converter={StaticResource BoolToVisibilityReverseConverter}}" />
-            <local:ChapterPanel
-                x:Name="ChapterPanel"
-                Grid.Column="1"
                 Margin="0,0,4,0"
-                IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                ViewModel="{x:Bind ViewModel, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsChapterVisible, Mode=OneWay}" />
-            <Slider
-                x:Name="ProgressSliderFake"
-                Grid.Column="1"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 IsEnabled="{x:Bind ViewModel.Player.IsLoading, Mode=OneWay, Converter={StaticResource ObjectToBoolReverseConverter}}"
-                IsThumbToolTipEnabled="False"
-                Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
-                Style="{StaticResource PlayerSliderStyle}"
-                ThumbToolTipValueConverter="{StaticResource PlayerPositionConverter}"
-                Visibility="{x:Bind ViewModel.IsPreviewProgressChanging, Mode=OneWay}"
-                Value="{x:Bind ViewModel.PreviewPosition, Mode=OneWay}" />
+                ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
             <TextBlock
                 Grid.Column="2"
                 HorizontalAlignment="Left"
@@ -612,7 +653,6 @@
                 <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
                         <Setter Target="FullVolumeContainer.Visibility" Value="Collapsed" />
-                        <Setter Target="ChapterPanel.Visibility" Value="Collapsed" />
                         <Setter Target="SlimVolumeButton.Visibility" Value="Visible" />
                         <Setter Target="BackwardButton.Visibility" Value="Collapsed" />
                         <Setter Target="ForwardButton.Visibility" Value="Visible" />

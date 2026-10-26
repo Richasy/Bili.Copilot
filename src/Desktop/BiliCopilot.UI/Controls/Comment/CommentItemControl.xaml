@@ -105,6 +105,7 @@
                 <comp:EmoteTextBlock
                     x:Name="ReplyContentBlock"
                     HorizontalAlignment="Left"
+                    SeekCommand="{x:Bind ViewModel.SeekToTimestampCommand, Mode=OneWay}"
                     Text="{x:Bind ViewModel.Content, Mode=OneWay}" />
             </Grid>
             <Grid Grid.Row="2" ColumnSpacing="12">

@@ -9,12 +9,17 @@
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   IgnorableNamespaces="uap rescap desktop com">
 
+  <!--
+    本地维护分支的独立包身份.
+    Name 与 Publisher 共同决定 PackageFamilyName，因此与作者发布的
+    Richasy.BiliCopilot.Dev_2r5cjeccfggq0 并存，互不覆盖、各自保留本地数据.
+  -->
   <Identity
-    Name="Richasy.BiliCopilot.Dev"
-    Publisher="CN=Richasy"
-    Version="1.0.0.0" />
+    Name="Kokoro.BiliCopilot.ViewPoints"
+    Publisher="CN=Kokoro.BiliCopilot"
+    Version="2.2610.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="db73c7b4-f2cf-4fdc-96e5-a386308a42e9" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6f1b2a94-3c7d-4e58-9a06-1d2b8f0c4e73" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ms-resource:AppName</DisplayName>
@@ -48,7 +53,7 @@
             <uap:ShowOn Tile="square310x310Logo"/>
           </uap:ShowNameOnTiles>
         </uap:DefaultTile >
-        <uap:SplashScreen Image="Assets\Logo\SplashScreen.png"  BackgroundColor="#FFFFFF"/>
+        <uap:SplashScreen Image="Assets\Logo\SplashScreen.png"  BackgroundColor="#FF7EB1"/>
       </uap:VisualElements>
       <Extensions>
         <!--Specify which CLSID to activate when notification is clicked-->

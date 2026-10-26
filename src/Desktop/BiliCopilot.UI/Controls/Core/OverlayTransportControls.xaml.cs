@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Toolkits;
 using BiliCopilot.UI.ViewModels.Core;
@@ -118,22 +118,10 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
     private string GetFullScreenTip(bool isFullScreen)
         => isFullScreen ? ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.ExitFullScreen) : ResourceToolkit.GetLocalizedString(Models.Constants.StringNames.EnterFullScreen);
 
+    // 进度由自绘的 ChapterSegmentBar 通过 Player.Position 直接驱动，
+    // 此处不再需要同步 Slider，保留空实现以免改动订阅关系.
     private void OnViewModelProgressChanged(object? sender, double e)
     {
-        if (_progressChangeList.Count > 0)
-        {
-            return;
-        }
-
-        if (ProgressSlider.Maximum != ViewModel.Player.Duration)
-        {
-            ProgressSlider.Maximum = ViewModel.Player.Duration;
-        }
-
-        if (ProgressSlider.Value != e && !double.IsNaN(e) && !double.IsInfinity(e))
-        {
-            ProgressSlider.Value = e;
-        }
     }
 
     private async void OnPlayPauseButtonClick(object sender, RoutedEventArgs e)
@@ -150,27 +138,6 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
         {
             await ViewModel.Player.ReplayAsync();
         }
-    }
-
-    private void OnProgressValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-    {
-        var v = e.NewValue;
-        if (ProgressSlider.Maximum != ViewModel.Player.Duration || !ViewModel.Player.IsPlaybackInitialized)
-        {
-            return;
-        }
-
-        if (Math.Abs(v - ViewModel.Player.Position) < 1.5)
-        {
-            return;
-        }
-
-        ChangingTimeBlock.Text = GetTimeText(v);
-        ChangingTimeBlock.Visibility = Visibility.Visible;
-        CommonPositionContainer.Visibility = Visibility.Collapsed;
-        _progressChangeList.Add(v);
-        _progressChangeTimer.Stop();
-        _progressChangeTimer.Start();
     }
 
     private async void OnVolumeValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
@@ -293,9 +260,6 @@ public sealed partial class OverlayTransportControls : PlayerControlBase
 
         _progressChangeList.Clear();
         _progressChangeTimer.Stop();
-        ChangingTimeBlock.Text = string.Empty;
-        ChangingTimeBlock.Visibility = Visibility.Collapsed;
-        CommonPositionContainer.Visibility = Visibility.Visible;
     }
 
     private void OnSubtitleFlyoutOpened(object sender, object e)

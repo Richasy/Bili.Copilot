@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Pages.Overlay;
 using BiliCopilot.UI.ViewModels.Core;
@@ -59,6 +59,24 @@ public sealed partial class CommentItemViewModel : ViewModelBase<CommentInformat
     [RelayCommand]
     private void MarkReplyTarget()
         => _markReplyTargetAction?.Invoke(this);
+
+    /// <summary>
+    /// 跳转到评论中提到的时间点.
+    /// </summary>
+    /// <param name="seconds">目标秒数.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    [RelayCommand]
+    private async Task SeekToTimestampAsync(double seconds)
+    {
+        var players = this.Get<AppViewModel>().Players;
+        var player = players.LastOrDefault();
+        if (player is null || seconds <= 0)
+        {
+            return;
+        }
+
+        await player.ChangePositionAsync(seconds);
+    }
 
     [RelayCommand]
     private void ShowUserSpace()

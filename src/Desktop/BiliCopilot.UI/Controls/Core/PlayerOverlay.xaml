@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <local:PlayerControlBase
     x:Class="BiliCopilot.UI.Controls.Core.PlayerOverlay"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -345,14 +345,15 @@
                 Grid.Row="1"
                 VerticalAlignment="Bottom"
                 Visibility="{x:Bind local:PlayerOverlay.IsBottomProgressShouldDisplay(ViewModel.Player.IsCompactOverlay, ViewModel.Player.IsFullScreen, ViewModel.Player.IsLoading, ViewModel.Player.PlaybackState), Mode=OneWay}">
-                <ProgressBar
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent"
-                    IsIndeterminate="{x:Bind local:PlayerOverlay.IsLoading(ViewModel.Player.PlaybackState, ViewModel.Player.IsLoading), Mode=OneWay}"
-                    Maximum="{x:Bind ViewModel.Player.Duration, Mode=OneWay}"
-                    ShowPaused="{x:Bind local:PlayerOverlay.IsPaused(ViewModel.Player.PlaybackState), Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.IsBottomProgressBarVisible, Mode=OneWay}"
-                    Value="{x:Bind ViewModel.Player.Position, Mode=OneWay}" />
+                <!--  迷你进度条仅用于展示：关闭指针交互、悬浮层与圆点  -->
+                <local:ChapterSegmentBar
+                    VerticalAlignment="Bottom"
+                    Compact="True"
+                    IsHitTestVisible="False"
+                    IsInteractive="False"
+                    ShowThumb="False"
+                    ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsBottomProgressBarVisible, Mode=OneWay}" />
             </Grid>
             <Grid Height="60" Visibility="{x:Bind ViewModel.IsControlsVisible, Mode=OneWay}">
                 <Grid.Background>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
 using Microsoft.UI.Xaml.Documents;
@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Richasy.BiliKernel.Models.Appearance;
 using Richasy.WinUIKernel.Share.Base;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace BiliCopilot.UI.Controls.Components;
 
@@ -25,6 +26,17 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
     /// </summary>
     public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register(nameof(Text), typeof(EmoteText), typeof(EmoteTextBlock), new PropertyMetadata(default, new PropertyChangedCallback(OnTextChanged)));
+
+    /// <summary>
+    /// <see cref="SeekCommand"/> 的依赖属性.
+    /// </summary>
+    /// <remarks>
+    /// 用于把正文里的 <c>mm:ss</c> 时间戳渲染成可点击链接，参数为跳转秒数.
+    /// </remarks>
+    public static readonly DependencyProperty SeekCommandProperty =
+        DependencyProperty.Register(nameof(SeekCommand), typeof(ICommand), typeof(EmoteTextBlock), new PropertyMetadata(default));
+
+    private static readonly Regex TimeStampRegex = new(@"(?<!\d)(\d{1,2}):([0-5]\d)(?::([0-5]\d))?(?!\d)", RegexOptions.Compiled);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EmoteTextBlock"/> class.
@@ -47,6 +59,15 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
     {
         get => (EmoteText)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
+    }
+
+    /// <summary>
+    /// 时间戳点击后执行跳转的命令，参数为秒数.
+    /// </summary>
+    public ICommand? SeekCommand
+    {
+        get => (ICommand?)GetValue(SeekCommandProperty);
+        set => SetValue(SeekCommandProperty, value);
     }
 
     protected override void OnControlUnloaded()
@@ -135,21 +156,99 @@ public sealed partial class EmoteTextBlock : LayoutUserControlBase
                     }
                     else
                     {
-                        para.Inlines.Add(new Run { Text = content });
+                        AppendInlineText(para, content);
                     }
                 }
                 else
                 {
-                    para.Inlines.Add(new Run { Text = content });
+                    AppendInlineText(para, content);
                 }
             }
         }
         else
         {
-            para.Inlines.Add(new Run { Text = text });
+            AppendInlineText(para, text);
         }
 
         return para;
+    }
+
+    /// <summary>
+    /// 判断文本是否含有可跳转的时间戳.
+    /// </summary>
+    /// <param name="content">评论文本.</param>
+    /// <returns>是否包含时间戳.</returns>
+    internal static bool ContainsTimeStamp(string? content)
+        => !string.IsNullOrEmpty(content) && TimeStampRegex.IsMatch(content);
+
+    /// <summary>
+    /// 把形如 <c>01:23</c> / <c>1:02:03</c> 的时间戳解析为秒数.
+    /// </summary>
+    /// <param name="match">正则匹配结果.</param>
+    /// <returns>秒数，无法解析时返回 <see cref="double.NaN"/>.</returns>
+    private static double ParseTimeStamp(Match match)
+    {
+        if (!int.TryParse(match.Groups[1].Value, out var first)
+            || !int.TryParse(match.Groups[2].Value, out var second))
+        {
+            return double.NaN;
+        }
+
+        if (match.Groups[3].Success)
+        {
+            return int.TryParse(match.Groups[3].Value, out var third)
+                ? (first * 3600d) + (second * 60d) + third
+                : double.NaN;
+        }
+
+        return (first * 60d) + second;
+    }
+
+    /// <summary>
+    /// 把一段纯文本写入段落，其中的时间戳渲染为可点击链接.
+    /// </summary>
+    /// <param name="para">目标段落.</param>
+    /// <param name="content">文本内容.</param>
+    private void AppendInlineText(Paragraph para, string content)
+    {
+        if (SeekCommand is null || string.IsNullOrEmpty(content))
+        {
+            para.Inlines.Add(new Run { Text = content });
+            return;
+        }
+
+        var lastIndex = 0;
+        foreach (Match match in TimeStampRegex.Matches(content))
+        {
+            var seconds = ParseTimeStamp(match);
+            if (double.IsNaN(seconds) || seconds <= 0)
+            {
+                continue;
+            }
+
+            if (match.Index > lastIndex)
+            {
+                para.Inlines.Add(new Run { Text = content[lastIndex..match.Index] });
+            }
+
+            var link = new Hyperlink();
+            link.Inlines.Add(new Run { Text = match.Value });
+            link.Click += (_, _) =>
+            {
+                if (SeekCommand?.CanExecute(seconds) == true)
+                {
+                    SeekCommand.Execute(seconds);
+                }
+            };
+
+            para.Inlines.Add(link);
+            lastIndex = match.Index + match.Length;
+        }
+
+        if (lastIndex < content.Length)
+        {
+            para.Inlines.Add(new Run { Text = content[lastIndex..] });
+        }
     }
 
     private void CheckTextTrim()

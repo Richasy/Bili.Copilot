@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Forms;
 using BiliCopilot.UI.Models;
@@ -468,10 +468,17 @@ public sealed partial class PlayerViewModel
             PositionText = TimeSpan.FromSeconds(Player.Position).ToString(@"hh\:mm\:ss");
             ProgressChanged?.Invoke(this, Player.Position);
             Danmaku.UpdatePosition(Convert.ToInt32(Player.Position));
+            // 按“当前时间落在哪个章节区间”判定正在播放的章节.
+            // 旧实现用 |Position - 章节起点| < 2，只在经过起点前后两秒内为真，
+            // 因此播放推进到章节中段时高亮会消失.
+            var currentPosition = Player.Position;
             foreach (var chapter in Chapters)
             {
-                chapter.IsPlayed = chapter.Position <= Player.Position;
-                chapter.IsPlaying = Math.Abs(chapter.Position - Player.Position) < 2;
+                var chapterEnd = chapter.EndPosition > chapter.Position
+                    ? chapter.EndPosition
+                    : Player.Duration;
+                chapter.IsPlaying = currentPosition >= chapter.Position && currentPosition < chapterEnd;
+                chapter.IsPlayed = chapterEnd > chapter.Position && currentPosition >= chapterEnd;
             }
 
             if (Player.Duration > 5)
@@ -841,23 +848,49 @@ public sealed partial class PlayerViewModel
 
     private async Task VerifyChaptersAsync()
     {
-        if (Client is null || Player is null)
+        if (Player is null || _isChapterInitialized)
         {
             return;
         }
 
-        var chapters = await Client.GetChaptersAsync();
-        if (chapters.IsSuccess && Chapters.Count == 0 && chapters.Value.Count > 1)
+        if (_sourceResolver is not VideoMediaSourceResolver videoResolver)
         {
-            var index = 0;
-            foreach (var chapter in chapters.Value)
-            {
-                Chapters.Add(new ChapterItemViewModel(index, chapter.Title, chapter.Time));
-                index++;
-            }
-
-            ChapterInitialized?.Invoke(this, EventArgs.Empty);
+            return;
         }
+
+        // 章节数据来自 B 站播放接口的 view_points 字段，
+        // 而不是 mpv 的 chapter-list（B 站的 DASH 流不含内嵌章节，该属性恒为空）.
+        var chapters = await videoResolver.GetChaptersAsync();
+        _isChapterInitialized = true;
+        if (chapters.Count == 0)
+        {
+            return;
+        }
+
+        Chapters.Clear();
+        var index = 0;
+        foreach (var chapter in chapters)
+        {
+            Chapters.Add(new ChapterItemViewModel(index, chapter.Title, chapter.StartTime, chapter.EndTime, SelectChapterAsync));
+            index++;
+        }
+
+        IsChapterListAvailable = Chapters.Count > 0;
+        ChapterInitialized?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// 跳转到指定章节.
+    /// </summary>
+    /// <param name="chapter">章节条目.</param>
+    /// <returns><see cref="Task"/>.</returns>
+    private Task SelectChapterAsync(ChapterItemViewModel chapter)
+    {
+        // 第一个章节的 Position 就是 0，用 > 0 判断会把它当成“无效位置”而直接返回，
+        // 表现为点击第一个章节无法跳转.
+        return chapter.Position >= 0
+            ? ChangePositionAsync(chapter.Position)
+            : Task.CompletedTask;
     }
 
     private async Task LoadSourcesAsync()

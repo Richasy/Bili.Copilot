@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Controls.Core;
 using BiliCopilot.UI.Forms;
@@ -97,6 +97,8 @@ public sealed partial class PlayerViewModel(DispatcherQueue queue, ILogger<Playe
         _prevPosition = 0;
         IsSubtitleEmpty = true;
         _isDanmakuInitialized = false;
+        _isChapterInitialized = false;
+        IsChapterListAvailable = false;
         IsNextTipShownInThisMedia = false;
         Danmaku.ClearAll();
         Chapters.Clear();

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2816,6 +2816,9 @@
   </data>
   <data name="ChapterIndexTemplate" xml:space="preserve">
     <value>章节 {0}</value>
+  </data>
+  <data name="ChapterList" xml:space="preserve">
+    <value>章节列表</value>
   </data>
   <data name="BackwardTemplate" xml:space="preserve">
     <value>后退{0}秒</value>

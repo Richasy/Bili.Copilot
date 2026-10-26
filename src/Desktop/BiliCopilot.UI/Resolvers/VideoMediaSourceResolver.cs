@@ -1,4 +1,4 @@
-﻿// Copyright (c) Bili Copilot. All rights reserved.
+// Copyright (c) Bili Copilot. All rights reserved.
 
 using BiliCopilot.UI.Extensions;
 using BiliCopilot.UI.Models;
@@ -129,6 +129,35 @@ internal sealed partial class VideoMediaSourceResolver(IPlayerService playerServ
     {
         await LoadMediaInfoAsync();
         return [.. _playbackInfo?.Formats];
+    }
+
+    /// <summary>
+    /// 获取视频章节列表.
+    /// </summary>
+    /// <returns>章节列表，视频未标记章节时为空.</returns>
+    /// <remarks>
+    /// 数据来自播放接口的 view_points 字段（由 UP 主在 B 站上标记），
+    /// 与容器内嵌章节无关，因此 B 站的 DASH 流也能拿到.
+    /// </remarks>
+    internal async Task<List<VideoChapter>> GetChaptersAsync()
+    {
+        if (_snapshot is null || _part is null)
+        {
+            return [];
+        }
+
+        try
+        {
+            var chapters = await playerService.GetVideoChaptersAsync(
+                _snapshot.Video.Identifier,
+                Convert.ToInt64(_part.Identifier.Id));
+            return chapters is null ? [] : [.. chapters];
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "获取章节信息失败，将不展示分段进度.");
+            return [];
+        }
     }
 
     internal async Task LoadMediaInfoAsync()
